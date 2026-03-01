@@ -1,0 +1,30 @@
+[project]
+name = "corvia-demo"
+scope_id = "corvia"
+
+[workspace]
+repos_dir = "repos"
+
+[[workspace.repos]]
+name = "corvia"
+url = "https://github.com/anthropics/corvia"
+namespace = "kernel"
+
+[[workspace.repos]]
+name = "corvia-adapter-git"
+url = "https://github.com/anthropics/corvia-adapter-git"
+namespace = "adapter"
+
+[storage]
+store_type = "lite"
+data_dir = ".corvia"
+
+[embedding]
+provider = "ollama"
+model = "nomic-embed-text"
+url = "http://127.0.0.1:11434"
+dimensions = 768
+
+[server]
+host = "127.0.0.1"
+port = 8020
