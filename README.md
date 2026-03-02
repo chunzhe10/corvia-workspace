@@ -1,10 +1,14 @@
-# Corvia Demo Workspace
+<p align="center">
+  <img src="docs/assets/corvia-logo.png" alt="corvia" width="200">
+</p>
 
-Multi-repo workspace demonstrating [Corvia](https://github.com/anthropics/corvia) --- organizational reasoning memory for AI agents.
+# corvia demo workspace
 
-This workspace indexes Corvia's own codebase (kernel + git adapter) as two repos, showcasing cross-repo knowledge management.
+Multi-repo workspace demonstrating [corvia](https://github.com/corvia/corvia) — organizational memory for AI agents.
 
-## Quick Start
+This workspace indexes corvia's own codebase (kernel + git adapter) as two repos, showcasing cross-repo knowledge management.
+
+## Quick start
 
 ### Option 1: Devcontainer (recommended)
 
@@ -13,7 +17,7 @@ Open in GitHub Codespaces, VS Code Dev Containers, or DevPod.
 ### Option 2: Local
 
 ```bash
-git clone https://github.com/anthropics/corvia-workspace
+git clone https://github.com/corvia/corvia-workspace
 cd corvia-workspace
 corvia workspace init    # clones repos, provisions Ollama
 corvia workspace ingest  # indexes both repos
@@ -21,12 +25,12 @@ corvia serve --mcp &     # start server
 corvia search "how does chunking work"
 ```
 
-## What's Inside
+## What's inside
 
-- **corvia** (namespace: `kernel`) --- the core knowledge store, agent coordination, embedding pipeline
-- **corvia-adapter-git** (namespace: `adapter`) --- git repository ingestion with tree-sitter AST chunking
+- **corvia** (namespace: `kernel`) — the core knowledge store, agent coordination, embedding pipeline
+- **corvia-adapter-git** (namespace: `adapter`) — git repository ingestion with tree-sitter AST chunking
 
-## Try These Searches
+## Try these searches
 
 ```bash
 corvia search "IngestionAdapter"          # finds trait + implementation across repos
@@ -35,7 +39,7 @@ corvia search "tree-sitter chunking"      # finds adapter's AST parsing logic
 corvia workspace status                   # see workspace state
 ```
 
-## Fresh Ingest
+## Fresh ingest
 
 The workspace ships with pre-ingested knowledge. To rebuild from scratch:
 
