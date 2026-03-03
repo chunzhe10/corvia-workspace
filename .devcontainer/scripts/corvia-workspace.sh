@@ -177,6 +177,26 @@ show_status() {
     echo "  Config: provider=$provider model=$model store=$store_type"
 }
 
+# --- Rebuild ---
+
+rebuild_binaries() {
+    echo "Rebuilding Corvia binaries from local source..."
+
+    local corvia_src="$WORKSPACE_ROOT/repos/corvia"
+
+    if [ ! -d "$corvia_src" ]; then
+        echo "  Error: corvia source not found at $corvia_src"
+        exit 1
+    fi
+
+    cd "$corvia_src"
+    cargo install --path crates/corvia-cli
+    cargo install --path crates/corvia-inference
+    cd "$WORKSPACE_ROOT"
+
+    echo "  Binaries rebuilt from local source."
+}
+
 # --- Main ---
 
 case "${1:-}" in
@@ -197,6 +217,9 @@ case "${1:-}" in
     status)
         show_status
         ;;
+    rebuild)
+        rebuild_binaries
+        ;;
     *)
         echo "corvia-workspace — toggle optional devcontainer services"
         echo ""
@@ -204,6 +227,7 @@ case "${1:-}" in
         echo "  corvia-workspace enable {ollama|surrealdb}"
         echo "  corvia-workspace disable {ollama|surrealdb}"
         echo "  corvia-workspace status"
+        echo "  corvia-workspace rebuild"
         exit 1
         ;;
 esac
