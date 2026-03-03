@@ -4,7 +4,8 @@ set -e
 # corvia-workspace — toggle optional devcontainer services
 # Usage: corvia-workspace {enable|disable|status} [ollama|surrealdb]
 
-WORKSPACE_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "$(readlink -f "$0")")" && pwd)"
+WORKSPACE_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 FLAGS_FILE="$WORKSPACE_ROOT/.devcontainer/.corvia-workspace-flags"
 CORVIA_TOML="$WORKSPACE_ROOT/corvia.toml"
 
