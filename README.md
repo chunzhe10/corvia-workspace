@@ -8,7 +8,7 @@
 
 # corvia demo workspace
 
-Multi-repo workspace demonstrating [corvia](https://github.com/corvia/corvia) — organizational memory for AI agents.
+Multi-repo workspace demonstrating [corvia](https://github.com/chunzhe10/corvia) — organizational memory for AI agents.
 
 This workspace indexes corvia's own codebase (kernel + git adapter) as two repos, showcasing cross-repo knowledge management.
 
@@ -21,7 +21,7 @@ Open in GitHub Codespaces, VS Code Dev Containers, or DevPod.
 ### Option 2: Local
 
 ```bash
-git clone https://github.com/corvia/corvia-workspace
+git clone https://github.com/chunzhe10/corvia-workspace
 cd corvia-workspace
 corvia workspace init    # clones repos, provisions Ollama
 corvia workspace ingest  # indexes both repos

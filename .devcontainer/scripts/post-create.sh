@@ -10,7 +10,7 @@ WORKSPACE_ROOT="$(pwd)"
 echo "Initializing workspace..."
 corvia workspace init 2>/dev/null || {
     echo "Corvia not installed — building from source..."
-    git clone https://github.com/anthropics/corvia repos/corvia 2>/dev/null || true
+    git clone https://github.com/chunzhe10/corvia repos/corvia 2>/dev/null || true
     cd "$WORKSPACE_ROOT/repos/corvia"
     cargo install --path crates/corvia-cli
     cd "$WORKSPACE_ROOT"

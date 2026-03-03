@@ -7,12 +7,12 @@ repos_dir = "repos"
 
 [[workspace.repos]]
 name = "corvia"
-url = "https://github.com/anthropics/corvia"
+url = "https://github.com/chunzhe10/corvia"
 namespace = "kernel"
 
 [[workspace.repos]]
 name = "corvia-adapter-git"
-url = "https://github.com/anthropics/corvia-adapter-git"
+url = "https://github.com/chunzhe10/corvia-adapter-git"
 namespace = "adapter"
 
 [storage]
