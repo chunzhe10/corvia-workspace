@@ -1,7 +1,7 @@
-FROM rust:1.85-bookworm
+FROM rust:1.88-bookworm
 
 RUN apt-get update && apt-get install -y \
-    curl git build-essential pkg-config libssl-dev cmake \
+    curl git build-essential pkg-config libssl-dev cmake protobuf-compiler \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Ollama
