@@ -7,3 +7,6 @@ repos/corvia-adapter-git/
 .corvia/coordination.redb
 .corvia/coordination.redb.lock
 .corvia/staging/
+
+# Optional service state (per-user, not shared)
+.devcontainer/.corvia-workspace-flags
