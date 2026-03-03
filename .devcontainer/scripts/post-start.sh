@@ -19,6 +19,9 @@ if [ -f "$FLAGS_FILE" ]; then
             curl -sf http://localhost:11434/api/tags >/dev/null 2>&1 && break
             sleep 1
         done
+        if ! curl -sf http://localhost:11434/api/tags >/dev/null 2>&1; then
+            echo "  Warning: Ollama failed to start within 30 seconds"
+        fi
     fi
     if grep -q "surrealdb=enabled" "$FLAGS_FILE"; then
         echo "Starting SurrealDB (previously enabled)..."

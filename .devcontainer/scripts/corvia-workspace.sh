@@ -51,6 +51,10 @@ enable_ollama() {
             curl -sf http://localhost:11434/api/tags >/dev/null 2>&1 && break
             sleep 1
         done
+        if ! curl -sf http://localhost:11434/api/tags >/dev/null 2>&1; then
+            echo "  Error: Ollama failed to start within 30 seconds"
+            exit 1
+        fi
     fi
 
     # Pull model if needed
@@ -103,6 +107,10 @@ enable_surrealdb() {
         curl -sf http://localhost:8000/health >/dev/null 2>&1 && break
         sleep 1
     done
+    if ! curl -sf http://localhost:8000/health >/dev/null 2>&1; then
+        echo "  Error: SurrealDB failed to start within 30 seconds"
+        exit 1
+    fi
 
     # Update corvia.toml
     sed -i 's/^store_type = "lite"/store_type = "surrealdb"/' "$CORVIA_TOML"
