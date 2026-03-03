@@ -20,9 +20,9 @@ store_type = "lite"
 data_dir = ".corvia"
 
 [embedding]
-provider = "ollama"
-model = "nomic-embed-text"
-url = "http://127.0.0.1:11434"
+provider = "corvia"
+model = "nomic-embed-text-v1.5"
+url = "http://127.0.0.1:8030"
 dimensions = 768
 
 [server]
