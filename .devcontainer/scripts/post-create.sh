@@ -13,16 +13,16 @@ corvia workspace init 2>/dev/null || {
     git clone https://github.com/chunzhe10/corvia repos/corvia 2>/dev/null || true
     cd "$WORKSPACE_ROOT/repos/corvia"
     cargo install --path crates/corvia-cli
+    cargo install --path crates/corvia-inference
     cd "$WORKSPACE_ROOT"
     corvia workspace init
 }
 
-# Pull Ollama model
-echo "Pulling embedding model..."
-ollama serve &
-OLLAMA_PID=$!
-sleep 3
-ollama pull nomic-embed-text
-kill $OLLAMA_PID 2>/dev/null || true
+# Install corvia-workspace toggle command
+chmod +x .devcontainer/scripts/corvia-workspace.sh
+ln -sf "$WORKSPACE_ROOT/.devcontainer/scripts/corvia-workspace.sh" /usr/local/bin/corvia-workspace
 
 echo "=== Post-Create Complete ==="
+echo "Run 'corvia-workspace status' to see available services."
+echo "Run 'corvia-workspace enable ollama' for Ollama embeddings."
+echo "Run 'corvia-workspace enable surrealdb' for SurrealDB FullStore."
