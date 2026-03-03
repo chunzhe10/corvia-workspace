@@ -1,4 +1,4 @@
-FROM rust:1.88-bookworm
+FROM rust:1.88-trixie
 
 RUN apt-get update && apt-get install -y \
     curl git build-essential pkg-config libssl-dev cmake protobuf-compiler \
