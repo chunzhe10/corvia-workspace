@@ -11,3 +11,6 @@ repos/corvia-adapter-git/
 # Local working files (per-user, not shared)
 .local/
 .devcontainer/.corvia-workspace-flags
+
+# Claude Code local settings (session-specific permissions)
+.claude/settings.local.json

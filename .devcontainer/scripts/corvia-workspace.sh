@@ -1,11 +1,13 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
 # corvia-workspace — toggle optional devcontainer services
-# Usage: corvia-workspace {enable|disable|status} [ollama|surrealdb]
+# Usage: corvia-workspace {enable|disable|status|rebuild} [ollama|surrealdb]
+
+err() { echo "Error: $*" >&2; }
 
 SCRIPT_DIR="$(cd "$(dirname "$(readlink -f "$0")")" && pwd)"
-WORKSPACE_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+WORKSPACE_ROOT="${CORVIA_WORKSPACE:-$(cd "$SCRIPT_DIR/../.." && pwd)}"
 FLAGS_FILE="$WORKSPACE_ROOT/.devcontainer/.corvia-workspace-flags"
 CORVIA_TOML="$WORKSPACE_ROOT/corvia.toml"
 
@@ -53,7 +55,7 @@ enable_ollama() {
             sleep 1
         done
         if ! curl -sf http://localhost:11434/api/tags >/dev/null 2>&1; then
-            echo "  Error: Ollama failed to start within 30 seconds"
+            err "Ollama failed to start within 30 seconds"
             exit 1
         fi
     fi
@@ -96,7 +98,7 @@ enable_surrealdb() {
     local compose_file="$WORKSPACE_ROOT/repos/corvia/docker/docker-compose.yml"
 
     if [ ! -f "$compose_file" ]; then
-        echo "  Error: docker-compose.yml not found at $compose_file"
+        err "docker-compose.yml not found at $compose_file"
         exit 1
     fi
 
@@ -109,7 +111,7 @@ enable_surrealdb() {
         sleep 1
     done
     if ! curl -sf http://localhost:8000/health >/dev/null 2>&1; then
-        echo "  Error: SurrealDB failed to start within 30 seconds"
+        err "SurrealDB failed to start within 30 seconds"
         exit 1
     fi
 
@@ -186,16 +188,31 @@ rebuild_binaries() {
     local corvia_src="$WORKSPACE_ROOT/repos/corvia"
 
     if [ ! -d "$corvia_src" ]; then
-        echo "  Error: corvia source not found at $corvia_src"
+        err "corvia source not found at $corvia_src"
         exit 1
     fi
 
     cd "$corvia_src"
-    cargo install --path crates/corvia-cli
-    cargo install --path crates/corvia-inference
+    cargo build --release -p corvia-cli -p corvia-inference
+    cp target/release/corvia /usr/local/bin/corvia
+    cp target/release/corvia-inference /usr/local/bin/corvia-inference
+    chmod +x /usr/local/bin/corvia /usr/local/bin/corvia-inference
     cd "$WORKSPACE_ROOT"
 
-    echo "  Binaries rebuilt from local source."
+    echo "  Binaries rebuilt and installed to /usr/local/bin."
+
+    # Restart corvia server if running
+    if pkill -f "corvia serve" 2>/dev/null; then
+        echo "  Restarting Corvia server..."
+        /usr/local/bin/corvia serve --mcp &
+        local pid=$!
+        sleep 1
+        if ! kill -0 "$pid" 2>/dev/null; then
+            err "Corvia server failed to restart after rebuild."
+            exit 1
+        fi
+        echo "  Corvia server restarted (pid $pid)."
+    fi
 }
 
 # --- Main ---

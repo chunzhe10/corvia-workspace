@@ -6,17 +6,23 @@
     "postCreateCommand": ".devcontainer/scripts/post-create.sh",
     "postStartCommand": ".devcontainer/scripts/post-start.sh",
     "forwardPorts": [8020],
+    "mounts": [
+        "source=corvia-cargo-registry,target=/usr/local/cargo/registry,type=volume",
+        "source=corvia-cargo-git,target=/usr/local/cargo/git,type=volume",
+        "source=corvia-target,target=${containerWorkspaceFolder}/repos/corvia/target,type=volume"
+    ],
+    "containerEnv": {
+        "CORVIA_WORKSPACE": "${containerWorkspaceFolder}"
+    },
     "customizations": {
         "vscode": {
             "extensions": [
-                "rust-lang.rust-analyzer"
+                "rust-lang.rust-analyzer",
+                "tamasfe.even-better-toml"
             ],
             "settings": {
                 "corvia.serverUrl": "http://localhost:8020"
             }
         }
-    },
-    "features": {
-        "ghcr.io/devcontainers/features/git:1": {}
     }
 }
