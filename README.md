@@ -10,7 +10,7 @@
 
 Multi-repo workspace demonstrating [corvia](https://github.com/chunzhe10/corvia) — organizational memory for AI agents.
 
-This workspace indexes corvia's own codebase (kernel + git adapter) as two repos, showcasing cross-repo knowledge management.
+This workspace indexes corvia's own codebase, showcasing the knowledge management system on its own source code.
 
 ## Quick start
 
@@ -31,8 +31,7 @@ corvia search "how does chunking work"
 
 ## What's inside
 
-- **corvia** (namespace: `kernel`) — the core knowledge store, agent coordination, embedding pipeline
-- **corvia-adapter-git** (namespace: `adapter`) — git repository ingestion with tree-sitter AST chunking
+- **corvia** (namespace: `kernel`) — the core knowledge store, agent coordination, embedding pipeline, and adapters (including the git/tree-sitter ingestion adapter)
 
 ## Try these searches
 

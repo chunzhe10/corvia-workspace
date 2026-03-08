@@ -1,6 +1,5 @@
 # Cloned repos (created by corvia workspace init)
 repos/corvia/
-repos/corvia-adapter-git/
 
 # Ephemeral indexes (rebuilt from knowledge files)
 .corvia/hnsw_index/

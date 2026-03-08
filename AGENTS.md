@@ -10,8 +10,7 @@ This file follows the [AGENTS.md standard](https://agents.md/).
 corvia-workspace/
 ├── corvia.toml              # Workspace config (repos, embedding, server)
 ├── repos/
-│   ├── corvia/              # Core: kernel, server, CLI (Rust, AGPL-3.0)
-│   └── corvia-adapter-git/  # Git ingestion adapter (tree-sitter)
+│   └── corvia/              # Core: kernel, server, CLI, adapters (Rust, AGPL-3.0)
 ├── .corvia/                 # Local knowledge store (LiteStore)
 └── .claude/settings.json    # MCP server config for Claude Code
 ```
@@ -44,9 +43,8 @@ Available MCP tools:
 
 ## Repo-Specific Instructions
 
-For detailed build/test/architecture guidance for each repo, see:
-- [repos/corvia/AGENTS.md](repos/corvia/AGENTS.md) — kernel, server, CLI
-- repos/corvia-adapter-git/AGENTS.md — git ingestion adapter
+For detailed build/test/architecture guidance, see:
+- [repos/corvia/AGENTS.md](repos/corvia/AGENTS.md) — kernel, server, CLI, adapters
 
 ## Development
 
