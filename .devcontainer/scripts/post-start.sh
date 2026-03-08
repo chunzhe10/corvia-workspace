@@ -14,15 +14,20 @@ if [ ! -x "$CORVIA_BIN" ]; then
     exit 1
 fi
 
-# Start Corvia server (always — uses corvia-inference automatically when provider=corvia)
-"$CORVIA_BIN" serve --mcp &
-CORVIA_PID=$!
-sleep 1
-if ! kill -0 "$CORVIA_PID" 2>/dev/null; then
-    err "Corvia server failed to start."
-    exit 1
+# Start Corvia server via supervisor (auto-restarts on crash)
+SUPERVISOR="$WORKSPACE_ROOT/.devcontainer/scripts/corvia-supervisor.sh"
+if [ -f /tmp/corvia-supervisor.pid ] && kill -0 "$(cat /tmp/corvia-supervisor.pid)" 2>/dev/null; then
+    echo "Corvia supervisor already running (pid $(cat /tmp/corvia-supervisor.pid))"
+else
+    "$SUPERVISOR" serve --mcp &
+    sleep 1
+    if [ -f /tmp/corvia-server.pid ] && kill -0 "$(cat /tmp/corvia-server.pid)" 2>/dev/null; then
+        echo "Corvia server running on http://localhost:8020 (supervised, pid $(cat /tmp/corvia-server.pid))"
+    else
+        err "Corvia server failed to start."
+        exit 1
+    fi
 fi
-echo "Corvia server running on http://localhost:8020 (pid $CORVIA_PID)"
 
 # Register MCP server with Claude Code (user-level, persists across sessions)
 if command -v claude >/dev/null 2>&1; then

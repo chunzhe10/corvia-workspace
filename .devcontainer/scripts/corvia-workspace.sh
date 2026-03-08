@@ -163,12 +163,62 @@ show_status() {
     fi
     printf "  %-12s enabled=%-8s running=%s\n" "surrealdb" "$surreal_flag" "$surreal_running"
 
-    # Corvia server
+    # Corvia server (auto-heal if supervisor is dead)
     local corvia_running="no"
-    if curl -sf http://localhost:8020/health >/dev/null 2>&1; then
-        corvia_running="yes"
+    local corvia_healthy="no"
+    local supervisor_running="no"
+    local server_pid="—"
+    local supervisor_pid="—"
+    local inference_running="no"
+
+    if [ -f /tmp/corvia-supervisor.pid ] && kill -0 "$(cat /tmp/corvia-supervisor.pid)" 2>/dev/null; then
+        supervisor_running="yes"
+        supervisor_pid=$(cat /tmp/corvia-supervisor.pid)
     fi
-    printf "  %-12s enabled=%-8s running=%s\n" "corvia" "always" "$corvia_running"
+    if [ -f /tmp/corvia-server.pid ] && kill -0 "$(cat /tmp/corvia-server.pid)" 2>/dev/null; then
+        corvia_running="yes"
+        server_pid=$(cat /tmp/corvia-server.pid)
+    fi
+    if curl -sf http://localhost:8020/health >/dev/null 2>&1; then
+        corvia_healthy="yes"
+    fi
+    if curl -sf http://localhost:8030/health >/dev/null 2>&1; then
+        inference_running="yes"
+    fi
+
+    echo "  corvia-server:"
+    echo "    process:    ${corvia_running} (pid ${server_pid})"
+    echo "    health:     ${corvia_healthy} (http://localhost:8020/health)"
+    echo "    supervised: ${supervisor_running} (pid ${supervisor_pid})"
+    echo "  corvia-inference:"
+    echo "    health:     ${inference_running} (http://localhost:8030/health)"
+
+    # Summary health
+    echo ""
+    if [ "$corvia_healthy" = "yes" ] && [ "$supervisor_running" = "yes" ]; then
+        echo "  ✓ Corvia server healthy and supervised"
+    elif [ "$corvia_healthy" = "yes" ] && [ "$supervisor_running" = "no" ]; then
+        echo "  ⚠ Corvia server healthy but NOT supervised (no auto-restart on crash)"
+    else
+        echo "  ✗ Corvia server NOT healthy"
+    fi
+
+    # Auto-heal: restart supervisor if it's not running
+    if [ "$supervisor_running" = "no" ]; then
+        echo ""
+        echo "  Auto-healing: restarting corvia supervisor..."
+        # Kill any orphaned corvia serve processes
+        pkill -f "corvia serve" 2>/dev/null || true
+        sleep 0.5
+        "$WORKSPACE_ROOT/.devcontainer/scripts/corvia-supervisor.sh" serve --mcp &
+        sleep 2
+        if [ -f /tmp/corvia-server.pid ] && kill -0 "$(cat /tmp/corvia-server.pid)" 2>/dev/null; then
+            echo "  ✓ Supervisor started (server pid $(cat /tmp/corvia-server.pid))"
+            echo "    Note: server may take ~30s to become healthy (loading index)"
+        else
+            echo "  ✗ Failed to start. Check /tmp/corvia-supervisor.log"
+        fi
+    fi
 
     echo ""
 
@@ -201,17 +251,21 @@ rebuild_binaries() {
 
     echo "  Binaries rebuilt and installed to /usr/local/bin."
 
-    # Restart corvia server if running
-    if pkill -f "corvia serve" 2>/dev/null; then
-        echo "  Restarting Corvia server..."
-        /usr/local/bin/corvia serve --mcp &
-        local pid=$!
-        sleep 1
-        if ! kill -0 "$pid" 2>/dev/null; then
-            err "Corvia server failed to restart after rebuild."
-            exit 1
-        fi
-        echo "  Corvia server restarted (pid $pid)."
+    # Restart corvia via supervisor
+    echo "  Restarting Corvia server..."
+    # Stop existing supervisor + server
+    if [ -f /tmp/corvia-supervisor.pid ]; then
+        kill "$(cat /tmp/corvia-supervisor.pid)" 2>/dev/null || true
+    fi
+    pkill -f "corvia serve" 2>/dev/null || true
+    sleep 1
+    "$WORKSPACE_ROOT/.devcontainer/scripts/corvia-supervisor.sh" serve --mcp &
+    sleep 2
+    if curl -sf http://localhost:8020/health >/dev/null 2>&1; then
+        echo "  Corvia server restarted (pid $(cat /tmp/corvia-server.pid 2>/dev/null || echo '?'))."
+    else
+        err "Corvia server failed to restart after rebuild. Check /tmp/corvia-supervisor.log"
+        exit 1
     fi
 }
 
