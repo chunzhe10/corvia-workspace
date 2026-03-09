@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import shutil
+import stat
 from pathlib import Path
 
 BINARY_NAMES = ["corvia", "corvia-inference"]
@@ -30,3 +32,23 @@ def check_staleness(
         if target.stat().st_mtime > installed.stat().st_mtime:
             stale.append(name)
     return stale
+
+
+def install_binaries(
+    target_dir: Path,
+    install_dir: Path = DEFAULT_INSTALL_DIR,
+) -> list[str]:
+    """Copy built binaries from target_dir to install_dir.
+
+    Returns list of binary names that were installed.
+    """
+    installed: list[str] = []
+    for name in BINARY_NAMES:
+        src = target_dir / name
+        if not src.exists():
+            continue
+        dst = install_dir / name
+        shutil.copy2(src, dst)
+        dst.chmod(dst.stat().st_mode | stat.S_IEXEC)
+        installed.append(name)
+    return installed

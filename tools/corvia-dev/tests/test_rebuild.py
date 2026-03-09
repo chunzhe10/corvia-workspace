@@ -5,7 +5,7 @@ from __future__ import annotations
 import os
 from pathlib import Path
 
-from corvia_dev.rebuild import check_staleness
+from corvia_dev.rebuild import check_staleness, install_binaries
 
 
 def test_no_target_binary_not_stale(tmp_path: Path) -> None:
@@ -68,3 +68,33 @@ def test_installed_newer_than_target_not_stale(tmp_path: Path) -> None:
         install_dir=install_dir,
     )
     assert result == []
+
+
+def test_install_copies_binaries(tmp_path: Path) -> None:
+    """install_binaries copies from target to install dir."""
+    target_dir = tmp_path / "target" / "debug"
+    target_dir.mkdir(parents=True)
+    install_dir = tmp_path / "installed"
+    install_dir.mkdir()
+
+    for name in ("corvia", "corvia-inference"):
+        (target_dir / name).write_bytes(b"binary-content-" + name.encode())
+
+    installed = install_binaries(target_dir=target_dir, install_dir=install_dir)
+    assert sorted(installed) == ["corvia", "corvia-inference"]
+    for name in ("corvia", "corvia-inference"):
+        assert (install_dir / name).read_bytes() == b"binary-content-" + name.encode()
+
+
+def test_install_skips_missing_target(tmp_path: Path) -> None:
+    """install_binaries skips binaries that don't exist in target."""
+    target_dir = tmp_path / "target" / "debug"
+    target_dir.mkdir(parents=True)
+    install_dir = tmp_path / "installed"
+    install_dir.mkdir()
+
+    # Only create corvia, not corvia-inference
+    (target_dir / "corvia").write_bytes(b"binary")
+
+    installed = install_binaries(target_dir=target_dir, install_dir=install_dir)
+    assert installed == ["corvia"]
