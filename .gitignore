@@ -15,3 +15,10 @@ repos/corvia/
 
 # Claude Code local settings (session-specific permissions)
 .claude/settings.local.json
+
+# Editor / IDE state (per-user)
+.vscode/
+.continue/
+
+# Model caches (large, downloaded on demand)
+.fastembed_cache/
