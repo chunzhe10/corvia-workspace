@@ -26,6 +26,35 @@ MAX_BACKOFF = 60.0
 BACKOFF_RESET_AFTER = 300.0  # reset after 5 min stable
 HEALTH_CHECK_INTERVAL = 5.0
 DEFAULT_STATE_PATH = Path("/tmp/corvia-dev-state.json")
+LOG_DIR = Path("/tmp/corvia-dev-logs")
+
+
+def _tail_log(service_name: str, lines: int = 30) -> list[str]:
+    """Read the last N lines of a service's log file."""
+    log_file = LOG_DIR / f"{service_name}.log"
+    if not log_file.exists():
+        return []
+    try:
+        text = log_file.read_text(errors="replace")
+        return text.strip().splitlines()[-lines:]
+    except OSError:
+        return []
+
+
+def tail_service_log(service_name: str, lines: int = 50) -> list[str]:
+    """Public API: read recent log lines for a service."""
+    return _tail_log(service_name, lines)
+
+
+def tail_any_log(path: Path, lines: int = 50) -> list[str]:
+    """Read the last N lines of any log file."""
+    if not path.exists():
+        return []
+    try:
+        text = path.read_text(errors="replace")
+        return text.strip().splitlines()[-lines:]
+    except OSError:
+        return []
 
 
 class ManagedProcess:
@@ -113,18 +142,23 @@ class ProcessManager:
         mp.state = ServiceState.STARTING
         self._log(f"{name}: starting ({' '.join(mp.service.start_cmd)})")
 
+        # Write stdout/stderr to per-service log files
+        LOG_DIR.mkdir(parents=True, exist_ok=True)
+        log_file = LOG_DIR / f"{name}.log"
         try:
+            fh = open(log_file, "a")  # noqa: SIM115
             proc = await asyncio.create_subprocess_exec(
                 *mp.service.start_cmd,
                 cwd=str(self.workspace_root),
-                stdout=asyncio.subprocess.PIPE,
-                stderr=asyncio.subprocess.PIPE,
+                stdout=fh,
+                stderr=fh,
             )
             mp.process = proc
             mp.pid = proc.pid
             mp.started_at = time.time()
             mp.state = ServiceState.STARTING
-            self._log(f"{name}: started (pid {proc.pid})")
+            mp._log_fh = fh  # keep reference so GC doesn't close it
+            self._log(f"{name}: started (pid {proc.pid}), logs -> {log_file}")
         except FileNotFoundError:
             mp.state = ServiceState.CRASHED
             self._log(f"{name}: binary not found")
@@ -153,6 +187,9 @@ class ProcessManager:
         mp.pid = None
         mp.process = None
         mp.started_at = None
+        if hasattr(mp, '_log_fh') and mp._log_fh:
+            mp._log_fh.close()
+            mp._log_fh = None
         self._log(f"{name}: stopped")
 
     async def health_check_all(self) -> None:
@@ -209,6 +246,7 @@ class ProcessManager:
             config=self.config_summary,
             enabled_services=self.enabled_services,
             logs=self._log_lines[-20:],
+            service_logs={name: _tail_log(name) for name in self.processes},
         )
         self.state_path.write_text(resp.model_dump_json(indent=2))
 

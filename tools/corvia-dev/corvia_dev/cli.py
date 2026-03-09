@@ -19,7 +19,7 @@ from corvia_dev.config import (
     use_provider,
 )
 from corvia_dev.health import check_service
-from corvia_dev.manager import DEFAULT_STATE_PATH, ProcessManager
+from corvia_dev.manager import DEFAULT_STATE_PATH, LOG_DIR, ProcessManager, tail_any_log, tail_service_log
 from corvia_dev.models import ConfigSummary, ServiceState, ServiceStatus, StatusResponse
 from corvia_dev.services import get_service, resolve_startup_order
 
@@ -92,6 +92,19 @@ def status(as_json: bool) -> None:
             port=svc.port,
         ))
 
+    # Collect per-service logs from log files (available even without manager)
+    svc_logs: dict[str, list[str]] = {}
+    for svc in services:
+        lines = tail_service_log(svc.name, 30)
+        if lines:
+            svc_logs[svc.name] = lines
+
+    # Also check legacy supervisor log
+    supervisor_log = Path("/tmp/corvia-supervisor.log")
+    sup_lines = tail_any_log(supervisor_log, 30)
+    if sup_lines:
+        svc_logs["supervisor"] = sup_lines
+
     resp = StatusResponse(
         manager=None,
         services=service_statuses,
@@ -103,6 +116,7 @@ def status(as_json: bool) -> None:
         ),
         enabled_services=enabled,
         logs=[],
+        service_logs=svc_logs,
     )
 
     if as_json:
@@ -291,20 +305,40 @@ def show_config() -> None:
 
 @main.command()
 @click.argument("service", required=False)
-@click.option("--tail", "-n", default=20, help="Number of log lines")
+@click.option("--tail", "-n", default=50, help="Number of log lines")
 def logs(service: str | None, tail: int) -> None:
-    """Show recent logs."""
-    if not DEFAULT_STATE_PATH.exists():
-        click.echo("No state file found. Manager may not be running.")
-        return
-
-    try:
-        data = json.loads(DEFAULT_STATE_PATH.read_text())
-        resp = StatusResponse.model_validate(data)
-        for line in resp.logs[-tail:]:
+    """Show recent service logs."""
+    if service:
+        # Show logs for a specific service
+        lines = tail_service_log(service, tail)
+        if not lines:
+            click.echo(f"No logs for {service}")
+            click.echo(f"  (checked {LOG_DIR / f'{service}.log'})")
+            return
+        click.echo(f"=== {service} (last {len(lines)} lines) ===")
+        for line in lines:
             click.echo(line)
-    except (json.JSONDecodeError, ValueError) as e:
-        click.echo(f"Failed to read logs: {e}")
+    else:
+        # Show all service logs
+        found = False
+        if LOG_DIR.exists():
+            for lf in sorted(LOG_DIR.glob("*.log")):
+                svc_name = lf.stem
+                lines = tail_service_log(svc_name, tail)
+                if lines:
+                    found = True
+                    click.echo(f"\n=== {svc_name} (last {len(lines)} lines) ===")
+                    for line in lines:
+                        click.echo(line)
+        # Also check legacy supervisor log
+        sup = tail_any_log(Path("/tmp/corvia-supervisor.log"), tail)
+        if sup:
+            found = True
+            click.echo(f"\n=== supervisor (last {len(sup)} lines) ===")
+            for line in sup:
+                click.echo(line)
+        if not found:
+            click.echo("No log files found.")
 
 
 if __name__ == "__main__":
