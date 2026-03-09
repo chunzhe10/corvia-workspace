@@ -14,19 +14,13 @@ if [ ! -x "$CORVIA_BIN" ]; then
     exit 1
 fi
 
-# Start Corvia server via supervisor (auto-restarts on crash)
-SUPERVISOR="$WORKSPACE_ROOT/.devcontainer/scripts/corvia-supervisor.sh"
-if [ -f /tmp/corvia-supervisor.pid ] && kill -0 "$(cat /tmp/corvia-supervisor.pid)" 2>/dev/null; then
-    echo "Corvia supervisor already running (pid $(cat /tmp/corvia-supervisor.pid))"
+# Start corvia-dev manager (replaces corvia-supervisor.sh)
+if corvia-dev status --json 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); exit(0 if d.get('manager',{}).get('state')=='running' else 1)" 2>/dev/null; then
+    echo "corvia-dev manager already running"
 else
-    "$SUPERVISOR" serve &
-    sleep 1
-    if [ -f /tmp/corvia-server.pid ] && kill -0 "$(cat /tmp/corvia-server.pid)" 2>/dev/null; then
-        echo "Corvia server running on http://127.0.0.1:8020 (supervised, pid $(cat /tmp/corvia-server.pid))"
-    else
-        err "Corvia server failed to start."
-        exit 1
-    fi
+    corvia-dev up --no-foreground
+    sleep 2
+    echo "corvia-dev manager started"
 fi
 
 # Register MCP server with Claude Code (user-level, persists across sessions)
@@ -66,4 +60,4 @@ if [ -d "$EXTENSIONS_DIR" ] && command -v code >/dev/null 2>&1; then
     done
 fi
 
-echo "Run 'corvia-workspace status' to check services."
+echo "Run 'corvia-dev status' to check services."

@@ -100,14 +100,13 @@ fi
 
 spin "Initializing workspace..." corvia workspace init
 
-# Install corvia-workspace toggle command
-chmod +x "$WORKSPACE_ROOT/.devcontainer/scripts/corvia-workspace.sh"
-ln -sf "$WORKSPACE_ROOT/.devcontainer/scripts/corvia-workspace.sh" "$INSTALL_DIR/corvia-workspace"
+# Install corvia-dev CLI
+python3 -m pip install -e "$WORKSPACE_ROOT/tools/corvia-dev" --quiet
 
 spin "Installing Claude Code CLI..." npm install -g --silent @anthropic-ai/claude-code
 
 echo "=== Post-Create Complete ==="
-echo "Run 'corvia-workspace status' to see available services."
-echo "Run 'corvia-workspace enable ollama' for Ollama embeddings."
-echo "Run 'corvia-workspace enable surrealdb' for SurrealDB FullStore."
-echo "Run 'corvia-workspace rebuild' to recompile from local source."
+echo "Run 'corvia-dev status' to see available services."
+echo "Run 'corvia-dev use ollama' to switch to Ollama embeddings."
+echo "Run 'corvia-dev enable coding-llm' to enable local coding LLM."
+echo "Run 'corvia-dev enable surrealdb' to enable SurrealDB FullStore."
