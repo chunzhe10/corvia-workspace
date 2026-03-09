@@ -395,6 +395,20 @@ def rebuild(no_build: bool, release: bool) -> None:
         click.echo(f"Target directory not found: {target_dir}", err=True)
         raise SystemExit(1)
 
+    # Stop services BEFORE installing (can't overwrite running binaries on Linux)
+    manager_was_running = False
+    if DEFAULT_STATE_PATH.exists():
+        try:
+            data = json.loads(DEFAULT_STATE_PATH.read_text())
+            resp = StatusResponse.model_validate(data)
+            if resp.manager and resp.manager.pid:
+                click.echo("Stopping services...")
+                os.kill(resp.manager.pid, signal.SIGTERM)
+                time.sleep(2)
+                manager_was_running = True
+        except (json.JSONDecodeError, ValueError, ProcessLookupError):
+            pass
+
     click.echo("Installing binaries...")
     installed = install_binaries(target_dir=target_dir)
     if not installed:
@@ -403,19 +417,11 @@ def rebuild(no_build: bool, release: bool) -> None:
     for name in installed:
         click.echo(f"  {name} -> {DEFAULT_INSTALL_DIR / name}")
 
-    # Restart services if manager is running
-    if DEFAULT_STATE_PATH.exists():
+    # Restart services if they were running before
+    if manager_was_running:
         click.echo("Restarting services...")
-        try:
-            data = json.loads(DEFAULT_STATE_PATH.read_text())
-            resp = StatusResponse.model_validate(data)
-            if resp.manager and resp.manager.pid:
-                os.kill(resp.manager.pid, signal.SIGTERM)
-                time.sleep(2)
-                ctx = click.get_current_context()
-                ctx.invoke(up, no_foreground=True)
-        except (json.JSONDecodeError, ValueError, ProcessLookupError) as e:
-            click.echo(f"Failed to restart: {e}", err=True)
+        ctx = click.get_current_context()
+        ctx.invoke(up, no_foreground=True)
     else:
         click.echo("No running manager. Run 'corvia-dev up' to start services.")
 
