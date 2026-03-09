@@ -4,11 +4,9 @@ scope_id = "corvia"
 
 [workspace]
 repos_dir = "repos"
-
-[[workspace.repos]]
-name = "corvia"
-url = "https://github.com/chunzhe10/corvia"
-namespace = "kernel"
+repos = [
+    { name = "corvia", url = "https://github.com/chunzhe10/corvia", namespace = "kernel" },
+]
 
 [storage]
 store_type = "lite"
@@ -23,3 +21,7 @@ dimensions = 768
 [server]
 host = "127.0.0.1"
 port = 8020
+
+[merge]
+provider = "corvia"
+url = "http://127.0.0.1:8030"
