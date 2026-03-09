@@ -12,6 +12,7 @@ SERVICES: list[ServiceDefinition] = [
         tier=0,
         port=8030,
         health_path="/health",
+        health_proto="grpc",
         start_cmd=["corvia-inference", "serve", "--port", "8030"],
         depends_on=[],
         exclusive_group="embedding",

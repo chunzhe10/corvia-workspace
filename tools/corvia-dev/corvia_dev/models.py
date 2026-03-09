@@ -24,6 +24,7 @@ class ServiceDefinition(BaseModel):
     tier: int  # 0=core, 1=provider, 2=additive
     port: int | None = None
     health_path: str = "/health"
+    health_proto: str = "http"  # "http", "grpc", "tcp", or "none"
     start_cmd: list[str] = []
     stop_signal: str = "SIGTERM"
     depends_on: list[str] = []
@@ -66,3 +67,4 @@ class StatusResponse(BaseModel):
     config: ConfigSummary
     enabled_services: list[str] = []
     logs: list[str] = []
+    service_logs: dict[str, list[str]] = {}
