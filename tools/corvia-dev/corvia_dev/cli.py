@@ -177,6 +177,30 @@ def up(no_foreground: bool) -> None:
     enabled = read_enabled_services(_flags_path())
     services = resolve_startup_order(cfg.embedding_provider, cfg.storage, enabled)
 
+    # Check for stale binaries
+    stale = check_staleness(workspace_root=_workspace_root())
+    if stale:
+        names = ", ".join(stale)
+        if sys.stdin.isatty() and not no_foreground:
+            if click.confirm(
+                f"Newer build detected for {names}. Install and restart?",
+                default=True,
+            ):
+                installed = install_binaries(
+                    target_dir=_workspace_root() / "repos" / "corvia" / "target" / "debug",
+                )
+                for name in installed:
+                    click.echo(f"  Installed {name}")
+        else:
+            click.echo(
+                f"Warning: installed binaries are older than local build: {names}",
+                err=True,
+            )
+            click.echo(
+                "  Run 'corvia-dev rebuild' to update.",
+                err=True,
+            )
+
     config_summary = ConfigSummary(
         embedding_provider=cfg.embedding_provider,
         merge_provider=cfg.merge_provider,
