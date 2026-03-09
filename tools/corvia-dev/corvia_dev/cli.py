@@ -21,6 +21,7 @@ from corvia_dev.config import (
 from corvia_dev.health import check_service
 from corvia_dev.manager import DEFAULT_STATE_PATH, LOG_DIR, ProcessManager, tail_any_log, tail_service_log
 from corvia_dev.models import ConfigSummary, ServiceState, ServiceStatus, StatusResponse
+from corvia_dev.rebuild import cargo_build, check_staleness, install_binaries, DEFAULT_INSTALL_DIR
 from corvia_dev.services import get_service, resolve_startup_order
 
 
@@ -339,6 +340,51 @@ def logs(service: str | None, tail: int) -> None:
                 click.echo(line)
         if not found:
             click.echo("No log files found.")
+
+
+@main.command()
+@click.option("--no-build", is_flag=True, help="Skip cargo build, only install and restart")
+@click.option("--release", is_flag=True, help="Build with --release")
+def rebuild(no_build: bool, release: bool) -> None:
+    """Build from source, install binaries, and restart services."""
+    workspace = _workspace_root()
+    profile = "release" if release else "debug"
+    target_dir = workspace / "repos" / "corvia" / "target" / profile
+
+    if not no_build:
+        click.echo(f"Building corvia binaries ({profile})...")
+        if not cargo_build(workspace_root=workspace, release=release):
+            click.echo("Build failed.", err=True)
+            raise SystemExit(1)
+        click.echo("Build succeeded.")
+
+    if not target_dir.exists():
+        click.echo(f"Target directory not found: {target_dir}", err=True)
+        raise SystemExit(1)
+
+    click.echo("Installing binaries...")
+    installed = install_binaries(target_dir=target_dir)
+    if not installed:
+        click.echo("No binaries found to install.", err=True)
+        raise SystemExit(1)
+    for name in installed:
+        click.echo(f"  {name} -> {DEFAULT_INSTALL_DIR / name}")
+
+    # Restart services if manager is running
+    if DEFAULT_STATE_PATH.exists():
+        click.echo("Restarting services...")
+        try:
+            data = json.loads(DEFAULT_STATE_PATH.read_text())
+            resp = StatusResponse.model_validate(data)
+            if resp.manager and resp.manager.pid:
+                os.kill(resp.manager.pid, signal.SIGTERM)
+                time.sleep(2)
+                ctx = click.get_current_context()
+                ctx.invoke(up, no_foreground=True)
+        except (json.JSONDecodeError, ValueError, ProcessLookupError) as e:
+            click.echo(f"Failed to restart: {e}", err=True)
+    else:
+        click.echo("No running manager. Run 'corvia-dev up' to start services.")
 
 
 if __name__ == "__main__":
