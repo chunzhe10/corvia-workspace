@@ -227,3 +227,72 @@ corvia-workspace/
 ### Installation
 
 `pip install -e tools/corvia-dev` in post-create, gives `corvia-dev` on PATH.
+
+---
+
+## Implementation Decisions (post-design)
+
+Decisions made during and after initial implementation that refine the design above.
+
+### Health Check Protocols (2026-03-09)
+
+**Problem**: corvia-inference serves gRPC (HTTP/2 only), not HTTP/1.1. A plain `GET /health` always fails because the server rejects HTTP/1.1 requests.
+
+**Decision**: Add a `health_proto` field to `ServiceDefinition` with values `"http"` (default), `"grpc"`, `"tcp"`, or `"none"`.
+
+**gRPC check implementation**: TCP connect → send HTTP/2 connection preface (`PRI * HTTP/2.0\r\n\r\nSM\r\n\r\n`) → read response → validate that byte[3] == 0x04 (HTTP/2 SETTINGS frame). This confirms the server is alive and speaking HTTP/2 without needing a gRPC client library.
+
+| Service | health_proto | Check Method |
+|---------|-------------|--------------|
+| corvia-server | http | GET /health |
+| corvia-inference | grpc | HTTP/2 preface handshake |
+| ollama | http | GET /api/tags |
+| postgres | tcp | TCP connect (port 5432) |
+| coding-llm | none | Virtual service, no check |
+
+### Dashboard UX: Contextual Actions Over Command Palettes (2026-03-09)
+
+**Problem**: The initial extension dashboard had a "Quick Actions" grid — six CLI commands dumped as buttons (Status, Restart, Use Ollama, Use CI, Config, Logs). No hierarchy, no context. "Use Ollama" has nothing to do with "Restart" but they sit side by side.
+
+**Decision**: Kill the Quick Actions section entirely. Every action belongs inline where it's contextually meaningful:
+
+| Action | Where It Lives | Why |
+|--------|---------------|-----|
+| Restart service | Button on each health card | You restart *this* service, not "services in general" |
+| Restart all | Header toolbar (danger-styled) | Global action, lives at the top |
+| Switch provider | Pill buttons in Configuration card, next to the Embedding row | Provider switching is a config action |
+| Enable/disable | Toggle switch on each service row | Per-service control |
+| View full logs | Icon button on log panel header | Contextual to the log panel |
+| Start services | Offline banner CTA | Only shown when services are down |
+
+**Layout**: Two-column middle section (Services | Configuration) instead of stacked. Health banner at top. Collapsible log panel pinned at bottom.
+
+### Service Log Capture (2026-03-09)
+
+**Problem**: The ProcessManager piped subprocess stdout/stderr to `asyncio.subprocess.PIPE` but never read from them. This meant: (1) no logs visible anywhere, (2) potential deadlock if pipe buffer fills up.
+
+**Decision**: Write subprocess output to per-service log files at `/tmp/corvia-dev-logs/<service>.log` in append mode.
+
+**JSON contract extension**: Added `service_logs` field to `StatusResponse`:
+
+```json
+{
+  "service_logs": {
+    "corvia-server": ["line1", "line2", "...last 30 lines"],
+    "corvia-inference": ["..."],
+    "supervisor": ["...legacy supervisor log if present"]
+  }
+}
+```
+
+The existing `logs` field continues to carry manager lifecycle events ("corvia-server started pid 123", "now healthy", etc.). `service_logs` carries actual service output.
+
+**Dashboard**: Tabbed log viewer at the bottom of the dashboard. One tab per service with log output. Tabs show line count badges. Active tab persists across poll refreshes. Auto-scrolls to bottom. Collapsible (open by default, state survives re-renders since the log panel is outside the `#content` div that gets replaced on each poll).
+
+**CLI**: `corvia-dev logs` shows all service logs. `corvia-dev logs corvia-server` shows one. Reads directly from log files (works even without a running manager).
+
+**Legacy fallback**: When running without the manager (services started by old supervisor), the status command also checks `/tmp/corvia-supervisor.log` and includes it as a "supervisor" tab.
+
+### TOML Serialization Side Effect (2026-03-09)
+
+`tomli_w` normalizes TOML syntax when round-tripping. Specifically, `[[workspace.repos]]` (array of tables) becomes inline `repos = [{...}]`. This is semantically identical but looks different in the file. Accepted as a trade-off for reliable parse-modify-serialize over fragile `sed`.
