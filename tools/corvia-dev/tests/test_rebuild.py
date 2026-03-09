@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import stat
 from pathlib import Path
 
 from unittest.mock import MagicMock, patch
@@ -86,6 +87,7 @@ def test_install_copies_binaries(tmp_path: Path) -> None:
     assert sorted(installed) == ["corvia", "corvia-inference"]
     for name in ("corvia", "corvia-inference"):
         assert (install_dir / name).read_bytes() == b"binary-content-" + name.encode()
+        assert (install_dir / name).stat().st_mode & stat.S_IEXEC
 
 
 def test_install_skips_missing_target(tmp_path: Path) -> None:
