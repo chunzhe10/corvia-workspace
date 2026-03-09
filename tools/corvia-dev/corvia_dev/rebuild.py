@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import shutil
+import subprocess
 import stat
 from pathlib import Path
 
@@ -52,3 +53,19 @@ def install_binaries(
         dst.chmod(dst.stat().st_mode | stat.S_IEXEC)
         installed.append(name)
     return installed
+
+
+def cargo_build(workspace_root: Path, release: bool = False) -> bool:
+    """Run cargo build for corvia binaries.
+
+    Returns True on success, False on failure.
+    """
+    cmd = ["cargo", "build", "-p", "corvia-cli", "-p", "corvia-inference"]
+    if release:
+        cmd.append("--release")
+
+    result = subprocess.run(
+        cmd,
+        cwd=workspace_root / "repos" / "corvia",
+    )
+    return result.returncode == 0

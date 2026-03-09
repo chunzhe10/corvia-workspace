@@ -5,7 +5,9 @@ from __future__ import annotations
 import os
 from pathlib import Path
 
-from corvia_dev.rebuild import check_staleness, install_binaries
+from unittest.mock import MagicMock, patch
+
+from corvia_dev.rebuild import cargo_build, check_staleness, install_binaries
 
 
 def test_no_target_binary_not_stale(tmp_path: Path) -> None:
@@ -98,3 +100,32 @@ def test_install_skips_missing_target(tmp_path: Path) -> None:
 
     installed = install_binaries(target_dir=target_dir, install_dir=install_dir)
     assert installed == ["corvia"]
+
+
+def test_cargo_build_runs_debug(tmp_path: Path) -> None:
+    """cargo_build calls cargo build in the corvia repo."""
+    with patch("corvia_dev.rebuild.subprocess.run") as mock_run:
+        mock_run.return_value = MagicMock(returncode=0)
+        result = cargo_build(workspace_root=tmp_path, release=False)
+        assert result is True
+        mock_run.assert_called_once()
+        args = mock_run.call_args
+        assert args[0][0] == ["cargo", "build", "-p", "corvia-cli", "-p", "corvia-inference"]
+        assert args[1]["cwd"] == tmp_path / "repos" / "corvia"
+
+
+def test_cargo_build_release_flag(tmp_path: Path) -> None:
+    """cargo_build passes --release when requested."""
+    with patch("corvia_dev.rebuild.subprocess.run") as mock_run:
+        mock_run.return_value = MagicMock(returncode=0)
+        cargo_build(workspace_root=tmp_path, release=True)
+        cmd = mock_run.call_args[0][0]
+        assert "--release" in cmd
+
+
+def test_cargo_build_returns_false_on_failure(tmp_path: Path) -> None:
+    """cargo_build returns False when cargo fails."""
+    with patch("corvia_dev.rebuild.subprocess.run") as mock_run:
+        mock_run.return_value = MagicMock(returncode=1)
+        result = cargo_build(workspace_root=tmp_path, release=False)
+        assert result is False
