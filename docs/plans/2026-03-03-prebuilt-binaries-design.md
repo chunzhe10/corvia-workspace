@@ -1,7 +1,7 @@
 # Prebuilt Binaries via GitHub Releases
 
 **Date**: 2026-03-03
-**Decision**: D71 (in `repos/corvia/docs/plans/2026-02-27-corvia-v0.2.0-brainstorm.md`)
+**Decision**: D71 (in `repos/corvia/docs/rfcs/2026-02-27-corvia-v0.2.0-brainstorm.md`)
 **Extends**: D70 (Optional Devcontainer Services)
 
 ## Problem
