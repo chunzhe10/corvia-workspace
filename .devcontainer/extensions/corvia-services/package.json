@@ -1,0 +1,23 @@
+{
+    "name": "corvia-services",
+    "displayName": "Corvia Services",
+    "description": "Corvia workspace dashboard and service management",
+    "version": "0.2.0",
+    "publisher": "corvia",
+    "engines": { "vscode": "^1.80.0" },
+    "categories": ["Other"],
+    "activationEvents": ["onStartupFinished"],
+    "main": "./extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "corvia.toggleServices",
+                "title": "Corvia: Toggle Services"
+            },
+            {
+                "command": "corvia.openDashboard",
+                "title": "Corvia: Open Dashboard"
+            }
+        ]
+    }
+}

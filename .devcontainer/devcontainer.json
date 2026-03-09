@@ -3,6 +3,7 @@
     "build": {
         "dockerfile": "Dockerfile"
     },
+    "runArgs": ["--gpus", "all"],
     "postCreateCommand": ".devcontainer/scripts/post-create.sh",
     "postStartCommand": ".devcontainer/scripts/post-start.sh",
     "forwardPorts": [8020],
@@ -18,7 +19,8 @@
         "vscode": {
             "extensions": [
                 "rust-lang.rust-analyzer",
-                "tamasfe.even-better-toml"
+                "tamasfe.even-better-toml",
+                "Continue.continue"
             ],
             "settings": {
                 "corvia.serverUrl": "http://localhost:8020"
