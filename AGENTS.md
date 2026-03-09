@@ -22,7 +22,7 @@ corvia workspace status          # Check workspace + service health
 corvia search "query"            # Search ingested knowledge
 corvia workspace ingest          # Index all repos
 corvia workspace ingest --fresh  # Re-index from scratch
-corvia serve --mcp &             # Start server (auto-started by devcontainer)
+corvia serve &                   # Start server (auto-started by devcontainer)
 ```
 
 ## MCP Server (Dogfooding)

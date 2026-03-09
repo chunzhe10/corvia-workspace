@@ -25,7 +25,7 @@ git clone https://github.com/chunzhe10/corvia-workspace
 cd corvia-workspace
 corvia workspace init    # clones repos, provisions Ollama
 corvia workspace ingest  # indexes both repos
-corvia serve --mcp &     # start server
+corvia serve &           # start server (MCP always enabled)
 corvia search "how does chunking work"
 ```
 

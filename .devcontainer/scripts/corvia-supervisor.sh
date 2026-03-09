@@ -1,7 +1,7 @@
 #!/bin/bash
 # corvia-supervisor.sh — restarts corvia serve on crash with exponential backoff
 # Usage: corvia-supervisor.sh [corvia-args...]
-#   e.g. corvia-supervisor.sh serve --mcp
+#   e.g. corvia-supervisor.sh serve
 
 set -uo pipefail
 

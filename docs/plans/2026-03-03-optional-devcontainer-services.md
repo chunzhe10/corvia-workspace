@@ -9,7 +9,7 @@
 **Tech Stack:** Bash (toggle script), Docker (Dockerfile), corvia-inference (fastembed/ONNX gRPC server on port 8030)
 
 **Design doc:** `docs/plans/2026-03-03-optional-devcontainer-services-design.md`
-**Decision:** D70 in `repos/corvia/docs/plans/2026-02-27-corvia-v0.2.0-brainstorm.md`
+**Decision:** D70 in `repos/corvia/docs/rfcs/2026-02-27-corvia-v0.2.0-brainstorm.md`
 
 ---
 
@@ -158,8 +158,8 @@ WORKSPACE_ROOT="$(pwd)"
 FLAGS_FILE="$WORKSPACE_ROOT/.devcontainer/.corvia-workspace-flags"
 
 # Start Corvia server (always — uses corvia-inference automatically when provider=corvia)
-corvia serve --mcp &
-echo "Corvia server running on http://localhost:8020"
+corvia serve &
+echo "Corvia server running on http://127.0.0.1:8020"
 
 # Re-start any previously enabled optional services
 if [ -f "$FLAGS_FILE" ]; then
@@ -182,7 +182,7 @@ echo "Run 'corvia-workspace status' to check services."
 
 Key changes:
 - Removed unconditional `ollama serve &` and `sleep 2`
-- `corvia serve --mcp` stays — it auto-provisions corvia-inference when `provider = "corvia"`
+- `corvia serve` stays — it auto-provisions corvia-inference when `provider = "corvia"` (MCP always enabled)
 - Added flags-file-driven restart for previously enabled optional services
 - Uses readiness polling instead of `sleep` for Ollama (from devcontainer-improvements.md item 4)
 

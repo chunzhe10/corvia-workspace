@@ -47,14 +47,14 @@ enable_ollama() {
     fi
 
     # Start server if not running
-    if ! curl -sf http://localhost:11434/api/tags >/dev/null 2>&1; then
+    if ! curl -sf http://127.0.0.1:11434/api/tags >/dev/null 2>&1; then
         echo "  Starting Ollama server..."
         ollama serve &
         for i in $(seq 1 30); do
-            curl -sf http://localhost:11434/api/tags >/dev/null 2>&1 && break
+            curl -sf http://127.0.0.1:11434/api/tags >/dev/null 2>&1 && break
             sleep 1
         done
-        if ! curl -sf http://localhost:11434/api/tags >/dev/null 2>&1; then
+        if ! curl -sf http://127.0.0.1:11434/api/tags >/dev/null 2>&1; then
             err "Ollama failed to start within 30 seconds"
             exit 1
         fi
@@ -107,10 +107,10 @@ enable_surrealdb() {
     # Wait for readiness
     echo "  Waiting for SurrealDB..."
     for i in $(seq 1 30); do
-        curl -sf http://localhost:8000/health >/dev/null 2>&1 && break
+        curl -sf http://127.0.0.1:8000/health >/dev/null 2>&1 && break
         sleep 1
     done
-    if ! curl -sf http://localhost:8000/health >/dev/null 2>&1; then
+    if ! curl -sf http://127.0.0.1:8000/health >/dev/null 2>&1; then
         err "SurrealDB failed to start within 30 seconds"
         exit 1
     fi
@@ -138,6 +138,84 @@ disable_surrealdb() {
     echo "  SurrealDB disabled. Storage switched to LiteStore."
 }
 
+# --- Coding LLM (Ollama + coding models + Continue config) ---
+
+CONTINUE_CONFIG="$WORKSPACE_ROOT/.continue/config.yaml"
+
+CODING_CHAT_MODEL="${CORVIA_CODING_CHAT_MODEL:-qwen2.5-coder:7b}"
+CODING_AUTOCOMPLETE_MODEL="${CORVIA_CODING_AUTOCOMPLETE_MODEL:-qwen2.5-coder:1.5b}"
+
+enable_coding_llm() {
+    echo "Setting up local coding LLM..."
+
+    # Step 1: Enable Ollama (install + start + embedding model)
+    enable_ollama
+
+    # Step 2: Pull coding models
+    echo "  Pulling coding models..."
+    if ! ollama list 2>/dev/null | grep -q "$CODING_CHAT_MODEL"; then
+        echo "  Pulling $CODING_CHAT_MODEL (chat)..."
+        ollama pull "$CODING_CHAT_MODEL"
+    else
+        echo "  $CODING_CHAT_MODEL already available"
+    fi
+
+    if ! ollama list 2>/dev/null | grep -q "$CODING_AUTOCOMPLETE_MODEL"; then
+        echo "  Pulling $CODING_AUTOCOMPLETE_MODEL (autocomplete)..."
+        ollama pull "$CODING_AUTOCOMPLETE_MODEL"
+    else
+        echo "  $CODING_AUTOCOMPLETE_MODEL already available"
+    fi
+
+    # Step 3: Write Continue extension config
+    echo "  Configuring Continue extension..."
+    mkdir -p "$(dirname "$CONTINUE_CONFIG")"
+    cat > "$CONTINUE_CONFIG" <<EOF
+models:
+  - name: $(echo "$CODING_CHAT_MODEL" | sed 's/:/ /' | awk '{print toupper(substr($1,1,1)) substr($1,2) " " $2}')
+    provider: ollama
+    model: $CODING_CHAT_MODEL
+    apiBase: http://localhost:11434
+
+tabAutocompleteModel:
+  name: $(echo "$CODING_AUTOCOMPLETE_MODEL" | sed 's/:/ /' | awk '{print toupper(substr($1,1,1)) substr($1,2) " " $2}')
+  provider: ollama
+  model: $CODING_AUTOCOMPLETE_MODEL
+  apiBase: http://localhost:11434
+EOF
+
+    set_flag coding-llm enabled
+    echo ""
+    echo "  Local coding LLM ready!"
+    echo "    Chat model:         $CODING_CHAT_MODEL"
+    echo "    Autocomplete model: $CODING_AUTOCOMPLETE_MODEL"
+    echo "    Continue config:    $CONTINUE_CONFIG"
+    echo ""
+    echo "  Override models with env vars:"
+    echo "    CORVIA_CODING_CHAT_MODEL=deepseek-coder-v2:16b"
+    echo "    CORVIA_CODING_AUTOCOMPLETE_MODEL=qwen2.5-coder:3b"
+}
+
+disable_coding_llm() {
+    echo "Disabling local coding LLM..."
+
+    # Remove Continue config
+    if [ -f "$CONTINUE_CONFIG" ]; then
+        rm "$CONTINUE_CONFIG"
+        echo "  Removed Continue config"
+    fi
+
+    # Remove coding models (keep embedding model for corvia)
+    if command -v ollama &>/dev/null && curl -sf http://127.0.0.1:11434/api/tags >/dev/null 2>&1; then
+        echo "  Removing coding models..."
+        ollama rm "$CODING_CHAT_MODEL" 2>/dev/null || true
+        ollama rm "$CODING_AUTOCOMPLETE_MODEL" 2>/dev/null || true
+    fi
+
+    set_flag coding-llm disabled
+    echo "  Coding LLM disabled. Ollama left running for embeddings (disable separately with 'corvia-workspace disable ollama')."
+}
+
 # --- Status ---
 
 show_status() {
@@ -149,7 +227,7 @@ show_status() {
     local ollama_flag
     ollama_flag=$(get_flag ollama)
     local ollama_running="no"
-    if curl -sf http://localhost:11434/api/tags >/dev/null 2>&1; then
+    if curl -sf http://127.0.0.1:11434/api/tags >/dev/null 2>&1; then
         ollama_running="yes"
     fi
     printf "  %-12s enabled=%-8s running=%s\n" "ollama" "$ollama_flag" "$ollama_running"
@@ -158,10 +236,15 @@ show_status() {
     local surreal_flag
     surreal_flag=$(get_flag surrealdb)
     local surreal_running="no"
-    if curl -sf http://localhost:8000/health >/dev/null 2>&1; then
+    if curl -sf http://127.0.0.1:8000/health >/dev/null 2>&1; then
         surreal_running="yes"
     fi
     printf "  %-12s enabled=%-8s running=%s\n" "surrealdb" "$surreal_flag" "$surreal_running"
+
+    # Coding LLM
+    local coding_flag
+    coding_flag=$(get_flag coding-llm)
+    printf "  %-12s enabled=%-8s\n" "coding-llm" "${coding_flag:-disabled}"
 
     # Corvia server (auto-heal if supervisor is dead)
     local corvia_running="no"
@@ -179,19 +262,19 @@ show_status() {
         corvia_running="yes"
         server_pid=$(cat /tmp/corvia-server.pid)
     fi
-    if curl -sf http://localhost:8020/health >/dev/null 2>&1; then
+    if curl -sf http://127.0.0.1:8020/health >/dev/null 2>&1; then
         corvia_healthy="yes"
     fi
-    if curl -sf http://localhost:8030/health >/dev/null 2>&1; then
+    if curl -sf http://127.0.0.1:8030/health >/dev/null 2>&1; then
         inference_running="yes"
     fi
 
     echo "  corvia-server:"
     echo "    process:    ${corvia_running} (pid ${server_pid})"
-    echo "    health:     ${corvia_healthy} (http://localhost:8020/health)"
+    echo "    health:     ${corvia_healthy} (http://127.0.0.1:8020/health)"
     echo "    supervised: ${supervisor_running} (pid ${supervisor_pid})"
     echo "  corvia-inference:"
-    echo "    health:     ${inference_running} (http://localhost:8030/health)"
+    echo "    health:     ${inference_running} (http://127.0.0.1:8030/health)"
 
     # Summary health
     echo ""
@@ -210,7 +293,7 @@ show_status() {
         # Kill any orphaned corvia serve processes
         pkill -f "corvia serve" 2>/dev/null || true
         sleep 0.5
-        "$WORKSPACE_ROOT/.devcontainer/scripts/corvia-supervisor.sh" serve --mcp &
+        "$WORKSPACE_ROOT/.devcontainer/scripts/corvia-supervisor.sh" serve &
         sleep 2
         if [ -f /tmp/corvia-server.pid ] && kill -0 "$(cat /tmp/corvia-server.pid)" 2>/dev/null; then
             echo "  ✓ Supervisor started (server pid $(cat /tmp/corvia-server.pid))"
@@ -259,9 +342,9 @@ rebuild_binaries() {
     fi
     pkill -f "corvia serve" 2>/dev/null || true
     sleep 1
-    "$WORKSPACE_ROOT/.devcontainer/scripts/corvia-supervisor.sh" serve --mcp &
+    "$WORKSPACE_ROOT/.devcontainer/scripts/corvia-supervisor.sh" serve &
     sleep 2
-    if curl -sf http://localhost:8020/health >/dev/null 2>&1; then
+    if curl -sf http://127.0.0.1:8020/health >/dev/null 2>&1; then
         echo "  Corvia server restarted (pid $(cat /tmp/corvia-server.pid 2>/dev/null || echo '?'))."
     else
         err "Corvia server failed to restart after rebuild. Check /tmp/corvia-supervisor.log"
@@ -274,16 +357,18 @@ rebuild_binaries() {
 case "${1:-}" in
     enable)
         case "${2:-}" in
-            ollama)    enable_ollama ;;
-            surrealdb) enable_surrealdb ;;
-            *)         echo "Usage: corvia-workspace enable {ollama|surrealdb}"; exit 1 ;;
+            ollama)      enable_ollama ;;
+            surrealdb)   enable_surrealdb ;;
+            coding-llm)  enable_coding_llm ;;
+            *)           echo "Usage: corvia-workspace enable {ollama|surrealdb|coding-llm}"; exit 1 ;;
         esac
         ;;
     disable)
         case "${2:-}" in
-            ollama)    disable_ollama ;;
-            surrealdb) disable_surrealdb ;;
-            *)         echo "Usage: corvia-workspace disable {ollama|surrealdb}"; exit 1 ;;
+            ollama)      disable_ollama ;;
+            surrealdb)   disable_surrealdb ;;
+            coding-llm)  disable_coding_llm ;;
+            *)           echo "Usage: corvia-workspace disable {ollama|surrealdb|coding-llm}"; exit 1 ;;
         esac
         ;;
     status)
@@ -296,8 +381,8 @@ case "${1:-}" in
         echo "corvia-workspace — toggle optional devcontainer services"
         echo ""
         echo "Usage:"
-        echo "  corvia-workspace enable {ollama|surrealdb}"
-        echo "  corvia-workspace disable {ollama|surrealdb}"
+        echo "  corvia-workspace enable {ollama|surrealdb|coding-llm}"
+        echo "  corvia-workspace disable {ollama|surrealdb|coding-llm}"
         echo "  corvia-workspace status"
         echo "  corvia-workspace rebuild"
         exit 1
