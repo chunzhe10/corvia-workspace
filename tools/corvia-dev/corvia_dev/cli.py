@@ -59,6 +59,8 @@ def status(as_json: bool) -> None:
                 except OSError:
                     resp.manager.state = "dead"
 
+            resp.stale_binaries = check_staleness(workspace_root=_workspace_root())
+
             if as_json:
                 click.echo(resp.model_dump_json(indent=2))
                 return
@@ -120,6 +122,8 @@ def status(as_json: bool) -> None:
         service_logs=svc_logs,
     )
 
+    resp.stale_binaries = check_staleness(workspace_root=_workspace_root())
+
     if as_json:
         click.echo(resp.model_dump_json(indent=2))
     else:
@@ -157,6 +161,11 @@ def _print_status_human(resp: StatusResponse) -> None:
 
     if resp.enabled_services:
         click.echo(f"\nEnabled: {', '.join(resp.enabled_services)}")
+
+    if resp.stale_binaries:
+        names = ", ".join(resp.stale_binaries)
+        click.echo(f"\n  Warning: stale binaries: {names}")
+        click.echo(f"  Run 'corvia-dev rebuild' to update.")
 
     if resp.logs:
         click.echo(f"\nRecent logs:")

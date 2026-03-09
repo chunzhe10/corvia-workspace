@@ -68,3 +68,4 @@ class StatusResponse(BaseModel):
     enabled_services: list[str] = []
     logs: list[str] = []
     service_logs: dict[str, list[str]] = {}
+    stale_binaries: list[str] = []
