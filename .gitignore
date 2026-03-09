@@ -20,5 +20,9 @@ repos/corvia/
 .vscode/
 .continue/
 
+# Python build artifacts
+__pycache__/
+*.egg-info/
+
 # Model caches (large, downloaded on demand)
 .fastembed_cache/
