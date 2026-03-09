@@ -5,7 +5,7 @@ let statusBarItem;
 let panel;
 let pollTimer;
 
-const POLL_INTERVAL = 10000;
+const POLL_INTERVAL = 3000;
 
 function activate(context) {
     statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 50);
