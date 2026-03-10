@@ -29,3 +29,4 @@ __pycache__/
 
 # Model caches (large, downloaded on demand)
 .fastembed_cache/
+.worktrees/
