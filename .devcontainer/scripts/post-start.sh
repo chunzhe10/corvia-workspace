@@ -5,108 +5,134 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=lib.sh
 source "$SCRIPT_DIR/lib.sh"
 
-# Prevent duplicate runs when multiple VS Code clients connect simultaneously.
+# Prevent duplicate/concurrent runs.
+# The lock dir prevents concurrent execution; the done marker prevents re-runs
+# after a successful completion (VS Code fires postStartCommand on each connect).
 LOCK_FILE="/tmp/corvia-post-start.lock"
+# Use boot ID so the done marker is invalidated on container restart
+BOOT_ID=$(cat /proc/sys/kernel/random/boot_id 2>/dev/null || echo "unknown")
+DONE_MARKER="/tmp/corvia-post-start.done"
+
+if [ -f "$DONE_MARKER" ] && [ "$(cat "$DONE_MARKER" 2>/dev/null)" = "$BOOT_ID" ]; then
+    echo "post-start.sh already completed this boot. Skipping."
+    exit 0
+fi
 if ! mkdir "$LOCK_FILE" 2>/dev/null; then
     echo "post-start.sh is already running (lock: $LOCK_FILE). Skipping."
     exit 0
 fi
 trap 'rmdir "$LOCK_FILE" 2>/dev/null' EXIT
 
-echo "=== Corvia Workspace: Starting Services ==="
+step() { printf " => %s\n" "$*"; }
+done_msg() { printf "    ... done\n"; }
+skip_msg() { printf "    ... skipped (%s)\n" "$*"; }
+fail_msg() { printf "    ... FAILED (%s)\n" "$*" >&2; }
 
 FLAGS_FILE="$WORKSPACE_ROOT/.devcontainer/.corvia-workspace-flags"
 
-# Forward authentication from host bind mounts
+echo "=== Corvia Workspace: post-start ==="
+
+# ── 1/4 ───────────────────────────────────────────────────────────────
+step "Forwarding host authentication"
 forward_host_auth
 
-# Build and install VS Code extensions
-if command -v code >/dev/null 2>&1; then
-    EXT_DIR="$WORKSPACE_ROOT/.devcontainer/extensions/corvia-services"
-    VSIX="$EXT_DIR/corvia-services-$(node -p "require('$EXT_DIR/package.json').version").vsix"
-    if [ ! -f "$VSIX" ] && [ -f "$EXT_DIR/package.json" ]; then
-        echo "Building corvia-services extension..."
-        if ! command -v vsce >/dev/null 2>&1; then
-            echo "  Installing vsce..."
-            npm install -g @vscode/vsce --silent 2>&1 || err "Failed to install vsce"
-        fi
-        if command -v vsce >/dev/null 2>&1; then
-            (cd "$EXT_DIR" && vsce package --no-dependencies) || err "Failed to package extension"
-        else
-            err "vsce not available — skipping extension build"
-        fi
+# ── 2/4 ───────────────────────────────────────────────────────────────
+step "Starting corvia-dev services"
+if ! command -v corvia-dev >/dev/null 2>&1; then
+    echo "    corvia-dev not found — running ensure_tooling"
+    ensure_tooling
+fi
+if command -v corvia-dev >/dev/null 2>&1; then
+    if corvia-dev status --json 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); exit(0 if d.get('manager',{}).get('state')=='running' else 1)" 2>/dev/null; then
+        echo "    manager already running"
+    else
+        corvia-dev up --no-foreground
+        echo "    manager started"
     fi
-    for vsix in "$EXT_DIR"/*.vsix; do
-        [ -f "$vsix" ] || continue
-        echo "Installing extension: $(basename "$vsix")"
-        code --install-extension "$vsix" --force 2>/dev/null || true
-    done
-fi
-
-# Ensure all tooling is installed (catches up if post-create was incomplete)
-ensure_tooling
-
-# Start corvia-dev manager
-if corvia-dev status --json 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); exit(0 if d.get('manager',{}).get('state')=='running' else 1)" 2>/dev/null; then
-    echo "corvia-dev manager already running"
 else
-    corvia-dev up --no-foreground
-    echo "corvia-dev manager started"
+    fail_msg "corvia-dev not available — run ensure_tooling manually"
 fi
 
-# Wait for MCP server to be ready before registering with Claude Code
-printf "  Waiting for MCP server "
+printf "    waiting for MCP server (port 8020)"
+mcp_ready=false
 for _attempt in $(seq 1 30); do
     if curl -sf --max-time 2 -o /dev/null http://127.0.0.1:8020/mcp 2>/dev/null; then
-        echo " ready"
+        done_msg
+        mcp_ready=true
         break
     fi
     printf "."
     sleep 2
 done
-if ! curl -sf --max-time 2 -o /dev/null http://127.0.0.1:8020/mcp 2>/dev/null; then
-    err "MCP server not ready after 60s — Claude Code may need '/mcp' to reconnect"
+if [ "$mcp_ready" = false ]; then
+    fail_msg "not ready after 60s — check 'corvia-dev logs corvia-server'"
 fi
 
-# Register MCP server and install plugins with Claude Code
-if command -v claude >/dev/null 2>&1; then
-    # Register corvia MCP server if not already registered
-    if claude mcp list 2>/dev/null | grep -q "corvia"; then
-        echo "corvia MCP server already registered with Claude Code"
-    else
-        claude mcp add --transport http corvia http://127.0.0.1:8020/mcp 2>/dev/null \
-            && echo "Registered corvia MCP server with Claude Code" \
-            || err "Failed to register corvia MCP server — run 'claude mcp add --transport http corvia http://127.0.0.1:8020/mcp' manually"
-    fi
-
-    # Install superpowers plugin if not already installed
-    if claude plugin list --json 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); exit(0 if 'superpowers@claude-plugins-official' in d.get('plugins',{}) else 1)" 2>/dev/null; then
-        echo "superpowers plugin already installed"
-    else
-        claude plugin install superpowers@claude-plugins-official 2>/dev/null \
-            && echo "Installed superpowers plugin for Claude Code" \
-            || err "Failed to install superpowers plugin — run 'claude plugin install superpowers@claude-plugins-official' manually"
-    fi
+# ── 3/4 ───────────────────────────────────────────────────────────────
+step "Claude Code integration"
+# MCP server is configured via .mcp.json in the workspace root (checked into git).
+# No need to call 'claude mcp add' — Claude Code reads .mcp.json directly.
+MCP_JSON="$WORKSPACE_ROOT/.mcp.json"
+if [ -f "$MCP_JSON" ] && python3 -c "import json; d=json.load(open('$MCP_JSON')); assert 'corvia' in d.get('mcpServers',{})" 2>/dev/null; then
+    echo "    MCP server configured via .mcp.json"
+else
+    echo "    writing .mcp.json"
+    python3 -c "
+import json, os
+p = '$MCP_JSON'
+d = json.load(open(p)) if os.path.exists(p) else {}
+d.setdefault('mcpServers', {})['corvia'] = {'type': 'http', 'url': 'http://127.0.0.1:8020/mcp'}
+json.dump(d, open(p, 'w'), indent=2)
+print('    MCP server added to .mcp.json')
+"
 fi
 
-# Re-start any previously enabled optional services
+# Install superpowers plugin via direct git clone (no claude CLI dependency)
+printf "    superpowers plugin: "
+install_claude_plugin "https://github.com/obra/superpowers.git" superpowers claude-plugins-official \
+    || fail_msg "git clone failed — check network connectivity"
+
+# ── 4/4 ───────────────────────────────────────────────────────────────
+step "Optional services"
 if [ -f "$FLAGS_FILE" ]; then
     if grep -q "ollama=enabled" "$FLAGS_FILE"; then
-        echo "Starting Ollama (previously enabled)..."
-        ollama serve &
-        for i in $(seq 1 30); do
-            curl -sf http://127.0.0.1:11434/api/tags >/dev/null 2>&1 && break
-            sleep 1
-        done
-        if ! curl -sf http://127.0.0.1:11434/api/tags >/dev/null 2>&1; then
-            err "Ollama failed to start within 30 seconds"
-            exit 1
+        if command -v ollama >/dev/null 2>&1; then
+            printf "    starting Ollama"
+            ollama serve &
+            ollama_ready=false
+            for i in $(seq 1 30); do
+                if curl -sf http://127.0.0.1:11434/api/tags >/dev/null 2>&1; then
+                    done_msg
+                    ollama_ready=true
+                    break
+                fi
+                printf "."
+                sleep 1
+            done
+            if [ "$ollama_ready" = false ]; then
+                fail_msg "not ready after 30s"
+            fi
+        else
+            fail_msg "ollama not installed — run 'curl -fsSL https://ollama.com/install.sh | sh'"
         fi
     fi
     if grep -q "surrealdb=enabled" "$FLAGS_FILE"; then
-        echo "Starting SurrealDB (previously enabled)..."
-        docker compose -f "$WORKSPACE_ROOT/repos/corvia/docker/docker-compose.yml" up -d
+        if command -v docker >/dev/null 2>&1; then
+            printf "    starting SurrealDB"
+            docker compose -f "$WORKSPACE_ROOT/repos/corvia/docker/docker-compose.yml" up -d >/dev/null 2>&1 \
+                && done_msg || fail_msg "docker compose up"
+        else
+            fail_msg "docker not available — SurrealDB requires Docker"
+        fi
     fi
+    if ! grep -qE "(ollama|surrealdb)=enabled" "$FLAGS_FILE"; then
+        echo "    none enabled"
+    fi
+else
+    echo "    none enabled"
 fi
 
-echo "Run 'corvia-dev status' to check services."
+echo "$BOOT_ID" > "$DONE_MARKER"
+
+echo ""
+echo "Ready. Run 'corvia-dev status' to check services."

@@ -56,6 +56,11 @@ spin() {
 WORKSPACE_ROOT="${CORVIA_WORKSPACE:-$(pwd)}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# Ensure uv/uvx are on PATH even if the Dockerfile mv to /usr/local/bin failed.
+if [ -d "/root/.local/bin" ] && ! echo "$PATH" | grep -q "/root/.local/bin"; then
+    export PATH="/root/.local/bin:$PATH"
+fi
+
 # Detect architecture suffix for binary downloads.
 detect_arch() {
     local arch
@@ -85,18 +90,44 @@ wait_for_network() {
 }
 
 # Download and install corvia + corvia-inference binaries.
+# Caches the installed release tag in /usr/local/share/corvia-release-tag.
+# Skips download if the cached tag matches the latest release.
 install_binaries() {
     local arch_suffix
     arch_suffix="$(detect_arch)" || return 1
     local gh_repo="chunzhe10/corvia"
     local install_dir="/usr/local/bin"
-    local tmpdir
-    tmpdir=$(mktemp -d)
+    local tag_file="/usr/local/share/corvia-release-tag"
     local cli_asset="corvia-cli-linux-${arch_suffix}"
     local inf_asset="corvia-inference-linux-${arch_suffix}"
 
+    # Check latest release tag
+    local latest_tag=""
     if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
-        spin "Downloading binaries (gh)..." \
+        latest_tag=$(gh release view --repo "$gh_repo" --json tagName -q .tagName 2>/dev/null || true)
+    else
+        latest_tag=$(curl -fsL --max-time 5 "https://api.github.com/repos/$gh_repo/releases/latest" 2>/dev/null \
+            | python3 -c "import sys,json; print(json.load(sys.stdin).get('tag_name',''))" 2>/dev/null || true)
+    fi
+
+    # Skip if already on latest
+    if [ -n "$latest_tag" ] && [ -f "$tag_file" ] && [ "$(cat "$tag_file")" = "$latest_tag" ] \
+        && [ -x "$install_dir/corvia" ] && [ -x "$install_dir/corvia-inference" ]; then
+        echo "    binaries up to date ($latest_tag)"
+        return 0
+    fi
+
+    if [ -n "$latest_tag" ]; then
+        echo "    downloading $latest_tag"
+    else
+        echo "    downloading latest release"
+    fi
+
+    local tmpdir
+    tmpdir=$(mktemp -d)
+
+    if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
+        spin "    fetching (gh)..." \
             gh release download --repo "$gh_repo" --pattern "$cli_asset" --pattern "$inf_asset" --dir "$tmpdir"
     else
         local url="https://github.com/$gh_repo/releases/latest/download"
@@ -104,7 +135,7 @@ install_binaries() {
         local pid_cli=$!
         curl -fsL --retry 3 --retry-delay 2 -o "$tmpdir/$inf_asset" "$url/$inf_asset" 2>/dev/null &
         local pid_inf=$!
-        printf "  Downloading binaries (curl)... "
+        printf "    fetching (curl)..."
         while kill -0 "$pid_cli" 2>/dev/null || kill -0 "$pid_inf" 2>/dev/null; do
             printf "."
             sleep 1
@@ -125,6 +156,11 @@ install_binaries() {
     sudo cp "$tmpdir/$inf_asset" "$install_dir/corvia-inference"
     sudo chmod +x "$install_dir/corvia" "$install_dir/corvia-inference"
     rm -rf "$tmpdir"
+
+    # Cache the installed tag
+    if [ -n "$latest_tag" ]; then
+        echo "$latest_tag" | sudo tee "$tag_file" >/dev/null
+    fi
 }
 
 # Download the latest VS Code extension VSIX from workspace releases.
@@ -161,6 +197,66 @@ install_extension() {
     rm -rf "$tmpdir"
 }
 
+# Install a local VS Code extension by extracting a .vsix into the extensions dir.
+# This bypasses the code CLI entirely — works before VS Code's IPC socket is ready.
+# Usage: install_vsix_direct <vsix_path>
+install_vsix_direct() {
+    local vsix_path="$1"
+    if [ ! -f "$vsix_path" ]; then
+        err "VSIX not found: $vsix_path"
+        return 1
+    fi
+
+    # Read publisher and name/version from package.json inside the .vsix (it's a zip)
+    local pkg_json
+    pkg_json=$(python3 -c "
+import zipfile, json, sys
+with zipfile.ZipFile('$vsix_path') as z:
+    with z.open('extension/package.json') as f:
+        d = json.load(f)
+        print(json.dumps({'publisher': d['publisher'], 'name': d['name'], 'version': d['version']}))
+" 2>/dev/null) || { err "Failed to read package.json from VSIX"; return 1; }
+
+    local publisher name version
+    publisher=$(echo "$pkg_json" | python3 -c "import sys,json; print(json.load(sys.stdin)['publisher'])")
+    name=$(echo "$pkg_json" | python3 -c "import sys,json; print(json.load(sys.stdin)['name'])")
+    version=$(echo "$pkg_json" | python3 -c "import sys,json; print(json.load(sys.stdin)['version'])")
+
+    local ext_id="${publisher}.${name}-${version}"
+    local ext_dir="/root/.vscode-server/extensions/${ext_id}"
+
+    if [ -d "$ext_dir" ] && [ -f "$ext_dir/package.json" ]; then
+        echo "    $ext_id already installed"
+        return 0
+    fi
+
+    # Extract extension/ contents from the .vsix into the target directory
+    local tmpdir
+    tmpdir=$(mktemp -d)
+    python3 -c "
+import zipfile, os
+with zipfile.ZipFile('$vsix_path') as z:
+    for info in z.infolist():
+        if info.filename.startswith('extension/'):
+            # Strip 'extension/' prefix
+            rel = info.filename[len('extension/'):]
+            if not rel:
+                continue
+            target = os.path.join('$tmpdir', rel)
+            if info.is_dir():
+                os.makedirs(target, exist_ok=True)
+            else:
+                os.makedirs(os.path.dirname(target), exist_ok=True)
+                with z.open(info) as src, open(target, 'wb') as dst:
+                    dst.write(src.read())
+" 2>/dev/null || { rm -rf "$tmpdir"; err "Failed to extract VSIX"; return 1; }
+
+    mkdir -p "$(dirname "$ext_dir")"
+    rm -rf "$ext_dir"
+    mv "$tmpdir" "$ext_dir"
+    echo "    installed $ext_id"
+}
+
 # Ensure corvia binary is available, installing if needed.
 ensure_corvia() {
     if [ -x "/usr/local/bin/corvia" ]; then
@@ -191,50 +287,17 @@ init_workspace() {
     spin "Initializing workspace..." corvia workspace init
 }
 
-# Install a Python package in editable mode using uv (preferred) or pip.
+# Install a Python package in editable mode using uv.
 # Uses sudo because /usr/local/lib/python3.x/ is root-owned.
 install_python_editable() {
     local pkg_path="$1"
-    if command -v uv >/dev/null 2>&1; then
-        sudo uv pip install --system --break-system-packages -e "$pkg_path" --quiet
-    elif command -v pip3 >/dev/null 2>&1 || python3 -m pip --version >/dev/null 2>&1; then
-        sudo python3 -m pip install -e "$pkg_path" --quiet --break-system-packages
-    else
-        err "Neither uv nor pip available. Install uv: curl -LsSf https://astral.sh/uv/install.sh | sh"
+    if ! command -v uv >/dev/null 2>&1; then
+        err "uv not found. Install uv: curl -LsSf https://astral.sh/uv/install.sh | sh"
         return 1
     fi
+    sudo uv pip install --system --break-system-packages -e "$pkg_path" --quiet
 }
 
-# Ensure uv is installed and available to sudo.
-ensure_uv() {
-    # Need uv in /usr/local/bin so sudo can find it
-    if [ -x /usr/local/bin/uv ]; then
-        return 0
-    fi
-    echo "uv not found in /usr/local/bin — installing..."
-    curl -LsSf --retry 5 --retry-delay 3 https://astral.sh/uv/install.sh | sh
-    # uv installer puts it in ~/.local/bin; copy to global path
-    local src="${HOME}/.local/bin/uv"
-    if [ -f "$src" ]; then
-        sudo cp "$src" /usr/local/bin/uv
-        sudo cp "${HOME}/.local/bin/uvx" /usr/local/bin/uvx 2>/dev/null || true
-    fi
-    [ -x /usr/local/bin/uv ]
-}
-
-# Ensure gh CLI is installed.
-ensure_gh() {
-    if command -v gh >/dev/null 2>&1; then
-        return 0
-    fi
-    echo "gh CLI not found — installing..."
-    local keyring="/usr/share/keyrings/githubcli-archive-keyring.gpg"
-    sudo curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg -o "$keyring"
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=$keyring] https://cli.github.com/packages stable main" \
-        | sudo tee /etc/apt/sources.list.d/github-cli.list >/dev/null
-    retry 3 sudo apt-get update
-    retry 3 sudo apt-get install -y --no-install-recommends gh
-}
 
 # Forward GitHub CLI credentials from host mount.
 # Copies host config into the container's ~/.config/gh if the host has valid auth
@@ -268,8 +331,21 @@ forward_gh_auth() {
         echo "  gh: credentials already up to date"
     fi
 
-    # Verify auth works
-    if gh auth status >/dev/null 2>&1; then
+    # Verify auth works (retry up to 3 times — token refresh can race)
+    local auth_ok=false
+    for _gh_attempt in 1 2 3; do
+        if gh auth status >/dev/null 2>&1; then
+            auth_ok=true
+            break
+        fi
+        if [ "$_gh_attempt" -lt 3 ]; then
+            echo "  gh: auth check failed, retrying (${_gh_attempt}/3)..."
+            sleep 2
+            # Re-copy in case host refreshed the token
+            cp "$host_hosts" "$local_hosts"
+        fi
+    done
+    if [ "$auth_ok" = true ]; then
         local gh_user
         gh_user=$(gh api user --jq .login 2>/dev/null || echo "unknown")
         echo "  gh: authenticated as $gh_user"
@@ -328,19 +404,84 @@ forward_host_auth() {
     forward_claude_auth
 }
 
+# Install a Claude Code plugin directly via git clone, bypassing the claude CLI.
+# Usage: install_claude_plugin <git_repo_url> <plugin_name> <marketplace_name>
+# Example: install_claude_plugin https://github.com/obra/superpowers.git superpowers claude-plugins-official
+install_claude_plugin() {
+    local repo_url="$1"
+    local plugin_name="$2"
+    local marketplace="${3:-claude-plugins-official}"
+    local plugin_key="${plugin_name}@${marketplace}"
+
+    local plugins_json="/root/.claude/plugins/installed_plugins.json"
+    local cache_base="/root/.claude/plugins/cache/${marketplace}/${plugin_name}"
+
+    # Check if already installed by looking at installed_plugins.json
+    if [ -f "$plugins_json" ] && python3 -c "
+import json, sys
+d = json.load(open('$plugins_json'))
+entries = d.get('plugins', {}).get('$plugin_key', [])
+if entries and entries[0].get('installPath'):
+    import os
+    sys.exit(0 if os.path.isdir(entries[0]['installPath']) else 1)
+sys.exit(1)
+" 2>/dev/null; then
+        echo "already installed"
+        return 0
+    fi
+
+    # Clone the repo
+    local tmpdir
+    tmpdir=$(mktemp -d)
+    if ! git clone --depth 1 "$repo_url" "$tmpdir" 2>/dev/null; then
+        rm -rf "$tmpdir"
+        return 1
+    fi
+
+    # Detect version: check git tags, then default to "1.0.0"
+    local version sha
+    sha=$(git -C "$tmpdir" rev-parse HEAD 2>/dev/null || echo "unknown")
+    version=$(git -C "$tmpdir" describe --tags --exact-match HEAD 2>/dev/null || true)
+    # Strip leading 'v' from version tags
+    version="${version#v}"
+    if [ -z "$version" ]; then
+        version="1.0.0"
+    fi
+
+    local install_path="${cache_base}/${version}"
+    mkdir -p "$(dirname "$install_path")"
+
+    # Move the clone into the cache (preserves .git for future updates)
+    rm -rf "$install_path"
+    mv "$tmpdir" "$install_path"
+
+    # Register in installed_plugins.json
+    local now
+    now=$(python3 -c "from datetime import datetime,timezone; print(datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%S.000Z'))")
+    mkdir -p "$(dirname "$plugins_json")"
+    python3 -c "
+import json, os
+path = '$plugins_json'
+d = json.load(open(path)) if os.path.exists(path) else {'version': 2, 'plugins': {}}
+d['plugins']['$plugin_key'] = [{
+    'scope': 'user',
+    'installPath': '$install_path',
+    'version': '$version',
+    'installedAt': '$now',
+    'lastUpdated': '$now',
+    'gitCommitSha': '$sha'
+}]
+json.dump(d, open(path, 'w'), indent=2)
+"
+    echo "installed v${version}"
+}
+
 # Ensure all tooling is installed (catches up if post-create was incomplete).
 ensure_tooling() {
     ensure_corvia
-    ensure_uv
-    ensure_gh
 
     if ! command -v corvia-dev >/dev/null 2>&1; then
         echo "corvia-dev not found — installing..."
         retry 3 install_python_editable "$WORKSPACE_ROOT/tools/corvia-dev"
-    fi
-
-    if ! command -v claude >/dev/null 2>&1; then
-        echo "Claude Code not found — installing..."
-        retry 3 spin "Installing Claude Code CLI..." sudo npm install -g --silent @anthropic-ai/claude-code
     fi
 }
