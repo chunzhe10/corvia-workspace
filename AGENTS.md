@@ -48,13 +48,16 @@ Available MCP tools:
 
 ## Hybrid Tool Usage (corvia MCP + native tools)
 
-Use **both** corvia MCP tools and your native tools (file read/write, search, terminal).
-They serve different purposes and are strongest together.
+**IMPORTANT: Always call corvia MCP tools FIRST before using native tools for any
+development task or question.** corvia is the project's knowledge base — skipping it
+means you risk re-discovering decisions that were already made or contradicting
+established patterns. This applies to ALL agents (Claude Code, Codex, etc.).
 
-### When to use corvia MCP tools
+### When to use corvia MCP tools (ALWAYS do this first)
 
-- **Starting a task**: Call `corvia_search` or `corvia_ask` first to find prior decisions,
-  design context, or patterns relevant to the work.
+- **Starting ANY task**: Call `corvia_search` or `corvia_ask` first to find prior decisions,
+  design context, or patterns relevant to the work. **This is mandatory, not optional.**
+- **Answering ANY question about the project**: Call `corvia_ask` before searching code.
 - **Understanding "why"**: Use `corvia_ask` for questions about architecture, rationale,
   or past discussions (e.g., "why does LiteStore use JSON files?").
 - **Exploring relationships**: Use `corvia_graph` to understand how concepts, components,
@@ -84,8 +87,9 @@ They serve different purposes and are strongest together.
 ### Rule of thumb
 
 > **corvia = project knowledge & context. Native tools = source code & execution.**
-> When in doubt, check corvia first — it's fast and may save you from re-discovering
-> something that was already decided.
+> **Always check corvia first** — it's fast and prevents re-discovering things that
+> were already decided. Do NOT jump straight to file reads or code search without
+> checking corvia for relevant context first.
 
 ## AI Development Learnings
 
