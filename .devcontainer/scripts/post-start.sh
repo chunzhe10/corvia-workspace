@@ -48,15 +48,33 @@ if corvia-dev status --json 2>/dev/null | python3 -c "import sys,json; d=json.lo
     echo "corvia-dev manager already running"
 else
     corvia-dev up --no-foreground
-    sleep 2
     echo "corvia-dev manager started"
 fi
 
-# Register MCP server with Claude Code (user-level, persists across sessions)
+# Wait for MCP server to be ready before registering with Claude Code
+printf "  Waiting for MCP server "
+for _attempt in $(seq 1 30); do
+    if curl -sf --max-time 2 -o /dev/null http://127.0.0.1:8020/mcp 2>/dev/null; then
+        echo " ready"
+        break
+    fi
+    printf "."
+    sleep 2
+done
+if ! curl -sf --max-time 2 -o /dev/null http://127.0.0.1:8020/mcp 2>/dev/null; then
+    err "MCP server not ready after 60s — Claude Code may need '/mcp' to reconnect"
+fi
+
+# Register MCP server and install plugins with Claude Code
 if command -v claude >/dev/null 2>&1; then
     claude mcp add --transport http corvia http://127.0.0.1:8020/mcp 2>/dev/null \
         && echo "Registered corvia MCP server with Claude Code" \
         || echo "  (claude mcp add failed — MCP may already be registered)"
+
+    # Install superpowers plugin (idempotent — skips if already installed)
+    claude plugin install superpowers@claude-plugins-official 2>/dev/null \
+        && echo "Installed superpowers plugin for Claude Code" \
+        || echo "  (superpowers plugin already installed or install skipped)"
 fi
 
 # Re-start any previously enabled optional services
