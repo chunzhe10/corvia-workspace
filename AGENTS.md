@@ -36,7 +36,7 @@ This workspace uses corvia's own MCP server at `http://localhost:8020/mcp`.
 Any MCP-compatible AI tool can connect to it. The server is started automatically
 by the devcontainer's `post-start.sh`.
 
-Available MCP tools:
+Available MCP tools (use `scope_id: "corvia"` for all calls):
 - `corvia_search` — semantic search across ingested knowledge
 - `corvia_write` — write knowledge entries (requires agent identity)
 - `corvia_history` — entry supersession history
@@ -45,6 +45,9 @@ Available MCP tools:
 - `corvia_agent_status` — agent contribution summary
 - `corvia_context` — retrieve assembled context (RAG retrieval only)
 - `corvia_ask` — full RAG: question → AI-generated answer from knowledge
+
+**IMPORTANT:** The `scope_id` for this workspace is `"corvia"` (defined in `corvia.toml`).
+Do NOT use `"corvia-workspace"`, `"corvia-demo"`, or any other variant.
 
 ## Hybrid Tool Usage (corvia MCP + native tools)
 
