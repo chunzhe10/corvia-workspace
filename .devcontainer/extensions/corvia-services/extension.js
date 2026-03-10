@@ -155,10 +155,14 @@ function getDashboardHtml() {
   --amber-soft: rgba(252, 211, 77, 0.10);
   --amber-medium: rgba(252, 211, 77, 0.16);
 
-  --text-bright: #f2f0ed;
-  --text-primary: #c5c0b8;
-  --text-muted: #918b82;
-  --text-dim: #615c55;
+  --sky: #7dd3fc;
+  --sky-soft: rgba(125, 211, 252, 0.10);
+  --sky-medium: rgba(125, 211, 252, 0.16);
+
+  --text-bright: #ffffff;
+  --text-primary: #e0ddd8;
+  --text-muted: #b0a99f;
+  --text-dim: #8a8279;
 
   --border: rgba(80, 75, 68, 0.4);
   --border-bright: rgba(100, 94, 86, 0.45);
@@ -170,9 +174,9 @@ function getDashboardHtml() {
   --radius-sm: 8px;
   --radius-xs: 6px;
 
-  --shadow-card: 0 4px 20px rgba(0,0,0,0.2), 0 0 1px rgba(255,255,255,0.03) inset;
-  --shadow-hover: 0 8px 32px rgba(0,0,0,0.3);
-  --shadow-gold: 0 4px 20px rgba(240,201,76,0.10);
+  --shadow-card: 0 2px 8px rgba(0,0,0,0.18);
+  --shadow-hover: 0 4px 12px rgba(0,0,0,0.25);
+  --shadow-gold: 0 2px 8px rgba(240,201,76,0.08);
 
   --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
   --font-mono: 'Cascadia Code', 'JetBrains Mono', 'Fira Code', monospace;
@@ -183,16 +187,13 @@ body {
   font-family: var(--font-ui); background: var(--bg-primary);
   color: var(--text-primary); font-size: 13px; line-height: 1.5;
   -webkit-font-smoothing: antialiased; min-height: 100vh;
-  background-image:
-    radial-gradient(ellipse 600px 400px at 8% 0%, rgba(240,201,76,0.04) 0%, transparent 70%),
-    radial-gradient(ellipse 500px 400px at 92% 0%, rgba(94,234,212,0.025) 0%, transparent 70%);
 }
 
 /* ===== Header ===== */
 .header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 14px 28px; background: rgba(18,20,26,0.8);
-  backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
   position: sticky; top: 0; z-index: 10;
 }
 .header-left { display: flex; align-items: center; gap: 20px; }
@@ -202,7 +203,6 @@ body {
   background: linear-gradient(135deg, var(--gold), #d4a820);
   display: flex; align-items: center; justify-content: center;
   font-weight: 800; font-size: 14px; color: var(--bg-primary);
-  box-shadow: 0 2px 12px rgba(240,201,76,0.35);
 }
 .brand-name { font-size: 17px; font-weight: 700; color: var(--text-bright); letter-spacing: -0.02em; }
 
@@ -219,16 +219,10 @@ body {
 .pill-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 .pill-dot.ok {
   background: var(--mint);
-  box-shadow: 0 0 10px rgba(94,234,212,0.6), 0 0 3px rgba(94,234,212,0.8);
-  animation: glow-pulse 2.5s ease-in-out infinite;
+  box-shadow: 0 0 4px rgba(94,234,212,0.5);
 }
-.pill-dot.down { background: var(--coral); box-shadow: 0 0 10px rgba(255,138,128,0.6); }
-.pill-dot.warn { background: var(--amber); box-shadow: 0 0 8px rgba(252,211,77,0.5); }
-
-@keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 10px rgba(94,234,212,0.5), 0 0 3px rgba(94,234,212,0.7); }
-  50% { box-shadow: 0 0 16px rgba(94,234,212,0.7), 0 0 6px rgba(94,234,212,1); }
-}
+.pill-dot.down { background: var(--coral); box-shadow: 0 0 4px rgba(255,138,128,0.4); }
+.pill-dot.warn { background: var(--amber); box-shadow: 0 0 4px rgba(252,211,77,0.4); }
 
 .pill-label { text-transform: uppercase; letter-spacing: 0.05em; font-size: 10px; font-weight: 600; }
 .pill-restart {
@@ -256,11 +250,11 @@ body {
   content: ''; position: absolute; top: 0; left: 16px; right: 16px;
   height: 3px; border-radius: 0 0 3px 3px;
 }
-.metric-card.gold::after { background: linear-gradient(90deg, var(--gold), var(--gold-bright)); box-shadow: 0 2px 12px rgba(240,201,76,0.25); }
-.metric-card.mint::after { background: linear-gradient(90deg, var(--mint), #7df4e1); box-shadow: 0 2px 12px rgba(94,234,212,0.25); }
-.metric-card.peach::after { background: linear-gradient(90deg, var(--peach), #ffc99e); box-shadow: 0 2px 12px rgba(255,176,124,0.25); }
-.metric-card.lavender::after { background: linear-gradient(90deg, var(--lavender), #d4c5fe); box-shadow: 0 2px 12px rgba(196,181,253,0.25); }
-.metric-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); border-color: var(--border-bright); }
+.metric-card.gold::after { background: linear-gradient(90deg, var(--gold), var(--gold-bright)); }
+.metric-card.mint::after { background: linear-gradient(90deg, var(--mint), #7df4e1); }
+.metric-card.peach::after { background: linear-gradient(90deg, var(--peach), #ffc99e); }
+.metric-card.lavender::after { background: linear-gradient(90deg, var(--lavender), #d4c5fe); }
+.metric-card:hover { border-color: var(--border-bright); }
 
 .metric-icon {
   width: 38px; height: 38px; border-radius: var(--radius-sm);
@@ -342,7 +336,7 @@ body {
   font-size: 11px; width: 200px; outline: none; transition: all var(--transition);
 }
 .log-search::placeholder { color: var(--text-dim); }
-.log-search:focus { border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-soft); }
+.log-search:focus { border-color: var(--gold); }
 
 .log-btn {
   background: var(--bg-input); border: none; color: var(--text-dim);
@@ -430,7 +424,6 @@ body {
 .toggle-opt:hover { color: var(--text-muted); }
 .toggle-opt.active {
   background: var(--gold-medium); color: var(--gold-bright); font-weight: 700;
-  box-shadow: 0 2px 8px rgba(240,201,76,0.12);
 }
 
 .cfg-row {
@@ -464,7 +457,7 @@ body {
 }
 .ghost-btn:hover {
   border-color: var(--gold); color: var(--gold);
-  background: var(--gold-soft); box-shadow: var(--shadow-gold);
+  background: var(--gold-soft);
 }
 
 .svc-item {
@@ -473,7 +466,7 @@ body {
 }
 .svc-item:last-child { border-bottom: none; }
 .svc-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-.svc-dot.ok { background: var(--mint); box-shadow: 0 0 6px rgba(94,234,212,0.3); }
+.svc-dot.ok { background: var(--mint); }
 .svc-dot.down { background: var(--coral); }
 .svc-dot.stopped { background: var(--text-dim); }
 .svc-name { flex: 1; font-size: 12px; color: var(--text-primary); font-weight: 500; }
@@ -523,15 +516,13 @@ body {
   padding: 8px 24px; font-size: 12px; font-weight: 600;
   font-family: var(--font-ui); cursor: pointer; transition: all var(--transition);
 }
-.offline-btn:hover { background: var(--gold-medium); box-shadow: var(--shadow-gold); }
+.offline-btn:hover { background: var(--gold-medium); }
 
 /* ===== Skeleton ===== */
 .skeleton {
-  background: linear-gradient(90deg, var(--bg-input) 25%, var(--bg-surface) 50%, var(--bg-input) 75%);
-  background-size: 200% 100%; animation: shimmer 1.5s infinite;
+  background: var(--bg-surface);
   border-radius: var(--radius-xs); height: 14px;
 }
-@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
 /* ===== Scrollbar ===== */
 ::-webkit-scrollbar { width: 6px; }
@@ -544,6 +535,145 @@ body {
   .workspace { grid-template-columns: 1fr; height: auto; }
   .metrics { grid-template-columns: repeat(2, 1fr); }
   .log-panel { min-height: 50vh; }
+}
+
+/* ===== Traces ===== */
+.traces-workspace {
+  display: grid; grid-template-columns: 1fr 280px;
+  gap: 16px; padding: 0 28px 28px;
+  height: calc(100vh - 260px); min-height: 400px;
+  margin-top: 16px;
+}
+.graph-panel {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-xl); box-shadow: var(--shadow-card);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.graph-toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 20px; border-bottom: 1px solid var(--border-subtle);
+}
+.mode-switcher {
+  display: flex; gap: 3px; background: var(--bg-input);
+  border-radius: var(--radius-xs); padding: 3px;
+}
+.mode-btn {
+  padding: 6px 16px; font-size: 11px; font-weight: 500;
+  color: var(--text-dim); background: transparent; border: none;
+  border-radius: var(--radius-xs); cursor: pointer;
+  font-family: var(--font-ui); transition: all var(--transition);
+}
+.mode-btn:hover { color: var(--text-muted); }
+.mode-btn.active { color: var(--gold); background: var(--gold-soft); font-weight: 600; }
+.graph-hint { font-size: 10px; color: var(--text-dim); }
+
+.graph-canvas {
+  flex: 1; position: relative; overflow: hidden; padding: 24px;
+}
+
+/* Nodes */
+.tnode {
+  position: absolute; background: var(--bg-card);
+  border: 1.5px solid var(--border); border-radius: var(--radius-md);
+  padding: 16px 20px; cursor: pointer; transition: all var(--transition);
+  min-width: 120px; text-align: center; z-index: 2;
+}
+.tnode:hover { border-color: var(--border-bright); background: var(--bg-card-hover); }
+.tnode.selected { box-shadow: 0 0 0 3px var(--gold-soft); }
+
+.tnode-icon {
+  width: 32px; height: 32px; border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 10px; font-size: 14px;
+}
+.tnode-label {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.05em; margin-bottom: 4px;
+}
+.tnode-stat { font-size: 10px; color: var(--text-dim); }
+.tnode-bar {
+  margin-top: 8px; height: 3px; border-radius: 2px;
+  background: var(--bg-input); overflow: hidden;
+}
+.tnode-bar-fill { height: 100%; border-radius: 2px; transition: width 0.5s ease; }
+
+/* SVG edges */
+.edge-layer { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+.edge-path { stroke: var(--border); stroke-width: 1.5; fill: none; }
+
+/* Heat mode glow */
+@keyframes heat-pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+.tnode.heat-cool { box-shadow: 0 0 12px rgba(94,234,212,0.4); animation: heat-pulse 2s ease-in-out infinite; }
+.tnode.heat-warm { box-shadow: 0 0 16px rgba(240,201,76,0.5); animation: heat-pulse 2s ease-in-out infinite; }
+.tnode.heat-hot { box-shadow: 0 0 20px rgba(255,138,128,0.6); animation: heat-pulse 2s ease-in-out infinite; }
+
+/* Detail panel */
+.trace-detail { display: flex; flex-direction: column; gap: 16px; overflow-y: auto; }
+.trace-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow-card); overflow: hidden;
+}
+.trace-card-hdr { padding: 18px 20px 0; }
+.trace-card-body { padding: 0 20px 18px; }
+.trace-label {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.07em;
+  color: var(--text-dim); font-weight: 700; margin-bottom: 14px;
+}
+
+.module-hdr {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 20px; border-bottom: 1px solid var(--border-subtle);
+}
+.module-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.module-name { font-size: 13px; font-weight: 700; color: var(--text-bright); }
+.module-desc { font-size: 10px; color: var(--text-dim); margin-top: 2px; }
+
+.mini-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 16px 20px; }
+.mini-stat {
+  background: var(--bg-input); border-radius: var(--radius-sm);
+  padding: 12px; text-align: center;
+}
+.mini-stat-val { font-size: 18px; font-weight: 800; color: var(--text-bright); }
+.mini-stat-lbl {
+  font-size: 9px; color: var(--text-dim); text-transform: uppercase;
+  letter-spacing: 0.06em; margin-top: 4px; font-weight: 600;
+}
+
+.span-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 0; border-bottom: 1px solid var(--border-subtle); font-size: 12px;
+}
+.span-row:last-child { border-bottom: none; }
+.span-name { font-family: var(--font-mono); font-size: 11px; color: var(--text-primary); }
+.span-fields { font-size: 10px; color: var(--text-dim); margin-top: 2px; }
+.span-pill {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  padding: 2px 8px; border-radius: 99px; flex-shrink: 0;
+}
+.span-fast { color: var(--mint); background: var(--mint-soft); }
+.span-medium { color: var(--peach); background: var(--peach-soft); }
+.span-slow { color: var(--coral); background: var(--coral-soft); }
+
+.evt-row { display: flex; align-items: center; gap: 8px; padding: 6px 0; font-size: 11px; }
+.evt-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.evt-dot.info { background: var(--mint); }
+.evt-dot.warn { background: var(--amber); }
+.evt-dot.error { background: var(--coral); }
+.evt-msg { color: var(--text-muted); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.evt-time { color: var(--text-dim); font-family: var(--font-mono); font-size: 10px; flex-shrink: 0; }
+
+.trace-empty {
+  display: flex; align-items: center; justify-content: center;
+  height: 100%; font-size: 12px; color: var(--text-dim); padding: 40px;
+  text-align: center;
+}
+
+@media (max-width: 700px) {
+  .traces-workspace { grid-template-columns: 1fr; height: auto; }
+  .graph-panel { min-height: 50vh; }
 }
 </style>
 </head>
@@ -620,6 +750,70 @@ const PROVIDERS = {
   ],
 };
 
+// --- Traces: module topology ---
+const MODULES = {
+  agent:     { label: 'Agent',     color: 'peach',    desc: 'Agent registration & session lifecycle',
+               icon: '\u{1F916}', pos: [8, 10] },
+  entry:     { label: 'Entry',     color: 'gold',     desc: 'Write, embed, insert pipeline',
+               icon: '\u{1F4DD}', pos: [40, 8] },
+  merge:     { label: 'Merge',     color: 'mint',     desc: 'Conflict detection & resolution',
+               icon: '\u{1F500}', pos: [40, 48] },
+  storage:   { label: 'Storage',   color: 'lavender', desc: 'LiteStore / Postgres persistence',
+               icon: '\u{1F4BE}', pos: [72, 8] },
+  rag:       { label: 'RAG',       color: 'sky',      desc: 'Retrieval-augmented generation',
+               icon: '\u{1F50E}', pos: [72, 48] },
+  inference: { label: 'Inference', color: 'coral',    desc: 'ONNX embedding via gRPC',
+               icon: '\u26A1',    pos: [8, 50] },
+  gc:        { label: 'GC',        color: 'amber',    desc: 'Garbage collection sweeps',
+               icon: '\u{1F9F9}', pos: [8, 82] },
+};
+
+const EDGES = [
+  ['agent', 'entry'], ['agent', 'gc'],
+  ['entry', 'storage'], ['entry', 'merge'], ['entry', 'inference'],
+  ['merge', 'storage'],
+  ['storage', 'rag'],
+  ['gc', 'storage'],
+];
+
+const SPAN_MODULE_SPECIFIC = { 'corvia.entry.embed': 'inference' };
+const SPAN_MODULE_PREFIX = [
+  ['corvia.agent.', 'agent'], ['corvia.session.', 'agent'],
+  ['corvia.entry.', 'entry'], ['corvia.merge.', 'merge'],
+  ['corvia.store.', 'storage'], ['corvia.rag.', 'rag'],
+  ['corvia.gc.', 'gc'],
+];
+
+const SPAN_FIELDS = {
+  'corvia.agent.register': 'display_name',
+  'corvia.session.create': 'agent_id, with_staging',
+  'corvia.session.commit': 'session_id',
+  'corvia.entry.write': 'session_id',
+  'corvia.entry.embed': 'gRPC / Ollama',
+  'corvia.entry.insert': 'entry_id, scope_id',
+  'corvia.merge.process': '',
+  'corvia.merge.process_entry': 'entry_id',
+  'corvia.merge.conflict': 'entry_id, scope_id',
+  'corvia.merge.llm_resolve': 'new_id, existing_id',
+  'corvia.store.insert': 'entry_id, scope_id',
+  'corvia.store.search': 'scope_id',
+  'corvia.store.get': '',
+  'corvia.rag.context': 'scope_id',
+  'corvia.rag.ask': 'scope_id',
+  'corvia.gc.run': '',
+};
+
+function spanToModule(name) {
+  if (SPAN_MODULE_SPECIFIC[name]) return SPAN_MODULE_SPECIFIC[name];
+  for (var i = 0; i < SPAN_MODULE_PREFIX.length; i++) {
+    if (name.startsWith(SPAN_MODULE_PREFIX[i][0])) return SPAN_MODULE_PREFIX[i][1];
+  }
+  return 'unknown';
+}
+
+let traceMode = 'map';
+let selectedModule = null;
+
 // --- Helpers ---
 function esc(str) {
   const d = document.createElement('div');
@@ -652,10 +846,17 @@ window.addEventListener('message', (e) => {
 });
 
 // --- Main render ---
+let lastRenderedJson = '';
+
 function render(data) {
   const el = document.getElementById('content');
 
   document.getElementById('headerTime').textContent = new Date().toLocaleTimeString();
+
+  // Skip full re-render if data and view state haven't changed
+  const dataJson = JSON.stringify(data) + '|' + activeView + '|' + activeFilter + '|' + activeLogTab + '|' + traceMode + '|' + selectedModule;
+  if (dataJson === lastRenderedJson) return;
+  lastRenderedJson = dataJson;
 
   if (!data) {
     document.getElementById('scopeBadge').textContent = 'offline';
@@ -771,11 +972,20 @@ function render(data) {
       }
     }
     html += '</div>';
+  } else if (activeView === 'traces') {
+    html += '</div>'; // close log-panel
+    html += renderTraces(data);
+    html += '</div>'; // close workspace
+    el.innerHTML = html;
+    bindAll();
+    bindTraces();
+    drawEdges();
+    return;
   } else {
-    // Placeholder for Graph / Traces
+    // Placeholder for Graph
     html += '<div class="view-placeholder">' +
       '<svg width="48" height="48" viewBox="0 0 16 16" fill="currentColor"><path d="M1 1v14h14V1H1zm13 13H2V2h12v12zM3 13V8h2v5H3zm3 0V5h2v8H6zm3 0V9h2v4H9zm3 0V3h1v10h-1z"/></svg>' +
-      '<p>' + esc(activeView.charAt(0).toUpperCase() + activeView.slice(1)) + ' view coming soon</p>' +
+      '<p>Graph view coming soon</p>' +
     '</div>';
   }
 
@@ -1014,6 +1224,213 @@ function applyLogFilters() {
     var searchMatch = !q || line.textContent.toLowerCase().indexOf(q) !== -1;
     line.classList.toggle('hidden', !levelMatch || !searchMatch);
   });
+}
+
+// --- Traces rendering ---
+function renderTraces(data) {
+  var traces = (data && data.traces) || { spans: {}, recent_events: [] };
+  var spans = traces.spans || {};
+
+  // Aggregate per-module stats
+  var modStats = {};
+  for (var mod in MODULES) { modStats[mod] = { count: 0, count_1h: 0, avg_ms: 0, errors: 0, spanCount: 0 }; }
+  var maxCount = 1;
+  for (var sname in spans) {
+    var m = spanToModule(sname);
+    if (!modStats[m]) continue;
+    var s = spans[sname];
+    modStats[m].count += s.count;
+    modStats[m].count_1h += (s.count_1h || 0);
+    modStats[m].avg_ms += s.avg_ms * s.count;
+    modStats[m].errors += s.errors;
+    modStats[m].spanCount++;
+  }
+  for (var mod in modStats) {
+    var ms = modStats[mod];
+    ms.avg_ms = ms.count > 0 ? Math.round(ms.avg_ms / ms.count) : 0;
+    if (ms.count > maxCount) maxCount = ms.count;
+  }
+
+  var html = '<div class="traces-workspace">';
+
+  // Graph panel
+  html += '<div class="graph-panel">';
+  html += '<div class="graph-toolbar">';
+  html += '<div class="mode-switcher">';
+  for (var mi = 0; mi < 3; mi++) {
+    var modes = ['map', 'dataflow', 'heat'];
+    var labels = ['Map', 'Data Flow', 'Heat'];
+    html += '<button class="mode-btn' + (traceMode === modes[mi] ? ' active' : '') + '" data-trace-mode="' + modes[mi] + '">' + labels[mi] + '</button>';
+  }
+  html += '</div>';
+  html += '<span class="graph-hint">Click a module to inspect</span>';
+  html += '</div>';
+
+  // Canvas
+  html += '<div class="graph-canvas" id="graphCanvas">';
+  html += '<svg class="edge-layer" id="edgeLayer" style="width:100%;height:100%;position:absolute;top:0;left:0;"></svg>';
+
+  // Nodes
+  for (var id in MODULES) {
+    var mod = MODULES[id];
+    var st = modStats[id] || {};
+    var barW = maxCount > 0 ? Math.max(5, Math.round((st.count / maxCount) * 100)) : 5;
+    var sel = selectedModule === id ? ' selected' : '';
+
+    var heatCls = '';
+    if (traceMode === 'heat') {
+      var heatScore = (st.count / maxCount) * 0.6 + (st.errors > 0 ? 0.4 : 0);
+      if (heatScore > 0.7) heatCls = ' heat-hot';
+      else if (heatScore > 0.3) heatCls = ' heat-warm';
+      else heatCls = ' heat-cool';
+    }
+
+    var selStyle = selectedModule === id ? 'border-color:var(--' + mod.color + ');' : '';
+
+    html += '<div class="tnode' + sel + heatCls + '" style="left:' + mod.pos[0] + '%;top:' + mod.pos[1] + '%;' + selStyle + '" data-tnode="' + id + '">';
+    html += '<div class="tnode-icon" style="background:var(--' + mod.color + '-soft);color:var(--' + mod.color + ');">' + mod.icon + '</div>';
+    html += '<div class="tnode-label" style="color:var(--' + mod.color + ');">' + esc(mod.label) + '</div>';
+    html += '<div class="tnode-stat">' + formatNum(st.count) + ' ops &middot; ' + st.spanCount + ' spans</div>';
+    html += '<div class="tnode-bar"><div class="tnode-bar-fill" style="width:' + barW + '%;background:var(--' + mod.color + ');"></div></div>';
+    html += '</div>';
+  }
+
+  html += '</div>'; // close graph-canvas
+  html += '</div>'; // close graph-panel
+
+  // Detail panel
+  html += '<div class="trace-detail">';
+  if (!selectedModule) {
+    html += '<div class="trace-card"><div class="trace-empty">Select a module to inspect its telemetry</div></div>';
+  } else {
+    var sm = MODULES[selectedModule];
+    var ss = modStats[selectedModule] || {};
+    var modColor = sm.color;
+
+    // Module summary card
+    html += '<div class="trace-card">';
+    html += '<div class="module-hdr">';
+    html += '<div class="module-dot" style="background:var(--' + modColor + ');box-shadow:0 0 6px var(--' + modColor + '-soft);"></div>';
+    html += '<div><div class="module-name">' + esc(sm.label) + '</div>';
+    html += '<div class="module-desc">' + esc(sm.desc) + '</div></div>';
+    html += '</div>';
+    html += '<div class="mini-stats">';
+    html += miniStat(formatNum(ss.count), 'Total');
+    html += miniStat(formatNum(ss.count_1h), 'Last hour');
+    var avgColor = ss.avg_ms < 50 ? 'var(--mint)' : ss.avg_ms < 150 ? 'var(--peach)' : 'var(--coral)';
+    html += miniStat('<span style="color:' + avgColor + '">' + ss.avg_ms + '<span style="font-size:11px;font-weight:500">ms</span></span>', 'Avg latency');
+    var errColor = ss.errors === 0 ? 'var(--mint)' : 'var(--coral)';
+    html += miniStat('<span style="color:' + errColor + '">' + ss.errors + '</span>', 'Errors');
+    html += '</div></div>';
+
+    // Spans card
+    var moduleSpans = [];
+    for (var sn in spans) {
+      if (spanToModule(sn) === selectedModule) {
+        moduleSpans.push({ name: sn, stats: spans[sn] });
+      }
+    }
+
+    html += '<div class="trace-card"><div class="trace-card-hdr"><div class="trace-label">Instrumented Spans</div></div>';
+    html += '<div class="trace-card-body">';
+    if (moduleSpans.length === 0) {
+      html += '<div style="font-size:12px;color:var(--text-dim);padding:8px 0;">No span data available</div>';
+    } else {
+      for (var si = 0; si < moduleSpans.length; si++) {
+        var sp = moduleSpans[si];
+        var shortName = sp.name.replace('corvia.', '');
+        var fields = SPAN_FIELDS[sp.name] || '';
+        var spMs = sp.stats.avg_ms;
+        var pillCls = spMs < 50 ? 'span-fast' : spMs < 150 ? 'span-medium' : 'span-slow';
+        html += '<div class="span-row"><div>';
+        html += '<div class="span-name">' + esc(shortName) + '</div>';
+        if (fields) html += '<div class="span-fields">' + esc(fields) + '</div>';
+        html += '</div><span class="span-pill ' + pillCls + '">' + Math.round(spMs) + 'ms</span></div>';
+      }
+    }
+    html += '</div></div>';
+
+    // Events card
+    var modEvents = (traces.recent_events || []).filter(function(ev) { return ev.module === selectedModule; }).slice(0, 10);
+    html += '<div class="trace-card"><div class="trace-card-hdr"><div class="trace-label">Recent Events</div></div>';
+    html += '<div class="trace-card-body">';
+    if (modEvents.length === 0) {
+      html += '<div style="font-size:12px;color:var(--text-dim);padding:8px 0;">No recent events</div>';
+    } else {
+      for (var ei = 0; ei < modEvents.length; ei++) {
+        var ev = modEvents[ei];
+        html += '<div class="evt-row">';
+        html += '<div class="evt-dot ' + ev.level + '"></div>';
+        html += '<span class="evt-msg">' + esc(ev.msg) + '</span>';
+        html += '<span class="evt-time">' + esc(ev.ts) + '</span>';
+        html += '</div>';
+      }
+    }
+    html += '</div></div>';
+  }
+  html += '</div>'; // close trace-detail
+  html += '</div>'; // close traces-workspace
+
+  return html;
+}
+
+function miniStat(valueHtml, label) {
+  return '<div class="mini-stat"><div class="mini-stat-val">' + valueHtml + '</div>' +
+    '<div class="mini-stat-lbl">' + esc(label) + '</div></div>';
+}
+
+function bindTraces() {
+  document.querySelectorAll('[data-tnode]').forEach(function(n) {
+    n.onclick = function() {
+      selectedModule = n.dataset.tnode;
+      vscode.postMessage({ type: 'refresh' });
+    };
+  });
+
+  document.querySelectorAll('[data-trace-mode]').forEach(function(b) {
+    b.onclick = function() {
+      traceMode = b.dataset.traceMode;
+      vscode.postMessage({ type: 'refresh' });
+    };
+  });
+}
+
+function drawEdges() {
+  var svg = document.getElementById('edgeLayer');
+  var canvas = document.getElementById('graphCanvas');
+  if (!svg || !canvas) return;
+
+  var cw = canvas.offsetWidth;
+  var ch = canvas.offsetHeight;
+  svg.setAttribute('viewBox', '0 0 ' + cw + ' ' + ch);
+
+  var paths = '';
+  var animations = '';
+  for (var i = 0; i < EDGES.length; i++) {
+    var e = EDGES[i];
+    var fromMod = MODULES[e[0]];
+    var toMod = MODULES[e[1]];
+    if (!fromMod || !toMod) continue;
+
+    var x1 = (fromMod.pos[0] / 100) * cw + 60;
+    var y1 = (fromMod.pos[1] / 100) * ch + 40;
+    var x2 = (toMod.pos[0] / 100) * cw + 60;
+    var y2 = (toMod.pos[1] / 100) * ch + 40;
+    var mx = (x1 + x2) / 2;
+
+    var pathId = 'edge-' + e[0] + '-' + e[1];
+    var d = 'M' + x1 + ',' + y1 + ' C' + mx + ',' + y1 + ' ' + mx + ',' + y2 + ' ' + x2 + ',' + y2;
+    paths += '<path id="' + pathId + '" class="edge-path" d="' + d + '"/>';
+
+    if (traceMode === 'dataflow') {
+      var color = 'var(--' + fromMod.color + ')';
+      animations += '<circle r="3" fill="' + color + '" style="filter:drop-shadow(0 0 3px ' + color + ')">' +
+        '<animateMotion dur="3s" repeatCount="indefinite"><mpath href="#' + pathId + '"/></animateMotion>' +
+        '</circle>';
+    }
+  }
+
+  svg.innerHTML = paths + animations;
 }
 
 // Initial binding
