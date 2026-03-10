@@ -12,10 +12,9 @@
         "source=corvia-cargo-git,target=/usr/local/cargo/git,type=volume",
         "source=corvia-target,target=${containerWorkspaceFolder}/repos/corvia/target,type=volume"
     ],
-    "remoteUser": "vscode",
+    "remoteUser": "root",
     "containerEnv": {
-        "CORVIA_WORKSPACE": "${containerWorkspaceFolder}",
-        "CLAUDE_DANGEROUSLY_SKIP_PERMISSIONS": "true"
+        "CORVIA_WORKSPACE": "${containerWorkspaceFolder}"
     },
     "customizations": {
         "vscode": {
