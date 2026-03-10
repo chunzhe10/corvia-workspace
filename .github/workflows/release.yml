@@ -1,0 +1,28 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepare release assets
+        run: |
+          # VS Code extension VSIX
+          cp .devcontainer/extensions/corvia-services/corvia-services-*.vsix .
+          ls -la *.vsix
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            corvia-services-*.vsix
+          generate_release_notes: true

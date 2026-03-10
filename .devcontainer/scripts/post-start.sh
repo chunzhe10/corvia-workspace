@@ -1,20 +1,28 @@
 #!/bin/bash
 set -euo pipefail
 
-err() { echo "Error: $*" >&2; }
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=lib.sh
+source "$SCRIPT_DIR/lib.sh"
 
 echo "=== Corvia Workspace: Starting Services ==="
 
-WORKSPACE_ROOT="${CORVIA_WORKSPACE:-$(pwd)}"
 FLAGS_FILE="$WORKSPACE_ROOT/.devcontainer/.corvia-workspace-flags"
 
-CORVIA_BIN="/usr/local/bin/corvia"
-if [ ! -x "$CORVIA_BIN" ]; then
-    err "corvia binary not found at $CORVIA_BIN. Run post-create.sh or 'corvia-workspace rebuild' first."
-    exit 1
+# Install local VS Code extensions first (local, no network needed)
+EXTENSIONS_DIR="$WORKSPACE_ROOT/.devcontainer/extensions"
+if [ -d "$EXTENSIONS_DIR" ] && command -v code >/dev/null 2>&1; then
+    for vsix in "$EXTENSIONS_DIR"/*/*.vsix; do
+        [ -f "$vsix" ] || continue
+        echo "Installing local extension: $(basename "$vsix")"
+        code --install-extension "$vsix" --force 2>/dev/null || true
+    done
 fi
 
-# Start corvia-dev manager (replaces corvia-supervisor.sh)
+# Ensure all tooling is installed (catches up if post-create was incomplete)
+ensure_tooling
+
+# Start corvia-dev manager
 if corvia-dev status --json 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); exit(0 if d.get('manager',{}).get('state')=='running' else 1)" 2>/dev/null; then
     echo "corvia-dev manager already running"
 else
@@ -25,7 +33,7 @@ fi
 
 # Register MCP server with Claude Code (user-level, persists across sessions)
 if command -v claude >/dev/null 2>&1; then
-    claude mcp add corvia -t http -u http://127.0.0.1:8020/mcp 2>/dev/null \
+    claude mcp add --transport http corvia http://127.0.0.1:8020/mcp 2>/dev/null \
         && echo "Registered corvia MCP server with Claude Code" \
         || echo "  (claude mcp add failed — MCP may already be registered)"
 fi
@@ -48,16 +56,6 @@ if [ -f "$FLAGS_FILE" ]; then
         echo "Starting SurrealDB (previously enabled)..."
         docker compose -f "$WORKSPACE_ROOT/repos/corvia/docker/docker-compose.yml" up -d
     fi
-fi
-
-# Install local VS Code extensions (pre-packaged .vsix files)
-EXTENSIONS_DIR="$WORKSPACE_ROOT/.devcontainer/extensions"
-if [ -d "$EXTENSIONS_DIR" ] && command -v code >/dev/null 2>&1; then
-    for vsix in "$EXTENSIONS_DIR"/*/*.vsix; do
-        [ -f "$vsix" ] || continue
-        echo "Installing local extension: $(basename "$vsix")"
-        code --install-extension "$vsix" --force 2>/dev/null || true
-    done
 fi
 
 echo "Run 'corvia-dev status' to check services."
