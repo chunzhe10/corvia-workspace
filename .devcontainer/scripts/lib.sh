@@ -222,10 +222,25 @@ ensure_uv() {
     [ -x /usr/local/bin/uv ]
 }
 
+# Ensure gh CLI is installed.
+ensure_gh() {
+    if command -v gh >/dev/null 2>&1; then
+        return 0
+    fi
+    echo "gh CLI not found — installing..."
+    local keyring="/usr/share/keyrings/githubcli-archive-keyring.gpg"
+    sudo curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg -o "$keyring"
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=$keyring] https://cli.github.com/packages stable main" \
+        | sudo tee /etc/apt/sources.list.d/github-cli.list >/dev/null
+    retry 3 sudo apt-get update
+    retry 3 sudo apt-get install -y --no-install-recommends gh
+}
+
 # Ensure all tooling is installed (catches up if post-create was incomplete).
 ensure_tooling() {
     ensure_corvia
     ensure_uv
+    ensure_gh
 
     if ! command -v corvia-dev >/dev/null 2>&1; then
         echo "corvia-dev not found — installing..."
