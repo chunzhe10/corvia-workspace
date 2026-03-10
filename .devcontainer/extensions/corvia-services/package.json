@@ -2,7 +2,7 @@
     "name": "corvia-services",
     "displayName": "Corvia Services",
     "description": "Corvia workspace dashboard and service management",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "license": "MIT",
     "publisher": "corvia",
     "repository": {
