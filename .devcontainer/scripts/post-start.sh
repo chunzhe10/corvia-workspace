@@ -17,6 +17,9 @@ echo "=== Corvia Workspace: Starting Services ==="
 
 FLAGS_FILE="$WORKSPACE_ROOT/.devcontainer/.corvia-workspace-flags"
 
+# Forward authentication from host bind mounts
+forward_host_auth
+
 # Build and install VS Code extensions
 if command -v code >/dev/null 2>&1; then
     EXT_DIR="$WORKSPACE_ROOT/.devcontainer/extensions/corvia-services"
@@ -67,14 +70,23 @@ fi
 
 # Register MCP server and install plugins with Claude Code
 if command -v claude >/dev/null 2>&1; then
-    claude mcp add --transport http corvia http://127.0.0.1:8020/mcp 2>/dev/null \
-        && echo "Registered corvia MCP server with Claude Code" \
-        || echo "  (claude mcp add failed — MCP may already be registered)"
+    # Register corvia MCP server if not already registered
+    if claude mcp list 2>/dev/null | grep -q "corvia"; then
+        echo "corvia MCP server already registered with Claude Code"
+    else
+        claude mcp add --transport http corvia http://127.0.0.1:8020/mcp 2>/dev/null \
+            && echo "Registered corvia MCP server with Claude Code" \
+            || err "Failed to register corvia MCP server — run 'claude mcp add --transport http corvia http://127.0.0.1:8020/mcp' manually"
+    fi
 
-    # Install superpowers plugin (idempotent — skips if already installed)
-    claude plugin install superpowers@claude-plugins-official 2>/dev/null \
-        && echo "Installed superpowers plugin for Claude Code" \
-        || echo "  (superpowers plugin already installed or install skipped)"
+    # Install superpowers plugin if not already installed
+    if claude plugin list --json 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); exit(0 if 'superpowers@claude-plugins-official' in d.get('plugins',{}) else 1)" 2>/dev/null; then
+        echo "superpowers plugin already installed"
+    else
+        claude plugin install superpowers@claude-plugins-official 2>/dev/null \
+            && echo "Installed superpowers plugin for Claude Code" \
+            || err "Failed to install superpowers plugin — run 'claude plugin install superpowers@claude-plugins-official' manually"
+    fi
 fi
 
 # Re-start any previously enabled optional services

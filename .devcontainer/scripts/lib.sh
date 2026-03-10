@@ -236,6 +236,98 @@ ensure_gh() {
     retry 3 sudo apt-get install -y --no-install-recommends gh
 }
 
+# Forward GitHub CLI credentials from host mount.
+# Copies host config into the container's ~/.config/gh if the host has valid auth
+# and the container doesn't, or if the host config is newer.
+forward_gh_auth() {
+    local host_dir="/root/.config/gh-host"
+    local local_dir="/root/.config/gh"
+    local host_hosts="$host_dir/hosts.yml"
+    local local_hosts="$local_dir/hosts.yml"
+
+    # No host mount or empty — nothing to forward
+    if [ ! -d "$host_dir" ] || [ ! -f "$host_hosts" ]; then
+        echo "  gh: no host credentials found (run 'gh auth login' on your host machine)"
+        return 0
+    fi
+
+    # Validate host config has actual content (not just an empty file)
+    if [ ! -s "$host_hosts" ]; then
+        echo "  gh: host credentials file is empty — skipping"
+        return 0
+    fi
+
+    # Copy if container has no auth, or host is newer
+    if [ ! -f "$local_hosts" ] || [ "$host_hosts" -nt "$local_hosts" ]; then
+        mkdir -p "$local_dir"
+        cp "$host_hosts" "$local_hosts"
+        # Also copy config.yml if present (protocol preferences, etc.)
+        [ -f "$host_dir/config.yml" ] && cp "$host_dir/config.yml" "$local_dir/config.yml"
+        echo "  gh: forwarded credentials from host"
+    else
+        echo "  gh: credentials already up to date"
+    fi
+
+    # Verify auth works
+    if gh auth status >/dev/null 2>&1; then
+        local gh_user
+        gh_user=$(gh api user --jq .login 2>/dev/null || echo "unknown")
+        echo "  gh: authenticated as $gh_user"
+    else
+        err "gh: forwarded credentials are invalid — run 'gh auth login' to re-authenticate"
+    fi
+}
+
+# Forward Claude Code credentials from host mount.
+# Copies .credentials.json from the read-only host mount into the container's
+# ~/.claude/ if the host has valid credentials and the container doesn't, or if
+# the host credentials are newer (e.g. after an OAuth token refresh).
+forward_claude_auth() {
+    local host_creds="/root/.claude-host/.credentials.json"
+    local local_creds="/root/.claude/.credentials.json"
+
+    # No host mount or no credentials file — nothing to forward
+    if [ ! -d "/root/.claude-host" ] || [ ! -f "$host_creds" ]; then
+        echo "  claude: no host credentials found (run 'claude' on your host machine to authenticate)"
+        return 0
+    fi
+
+    # Validate host credentials file has actual JSON content
+    if [ ! -s "$host_creds" ]; then
+        echo "  claude: host credentials file is empty — skipping"
+        return 0
+    fi
+    if ! python3 -c "import json; json.load(open('$host_creds'))" 2>/dev/null; then
+        echo "  claude: host credentials file is not valid JSON — skipping"
+        return 0
+    fi
+
+    # Copy if container has no credentials, or host file is newer (token refresh)
+    if [ ! -f "$local_creds" ] || [ "$host_creds" -nt "$local_creds" ]; then
+        mkdir -p /root/.claude
+        cp "$host_creds" "$local_creds"
+        echo "  claude: forwarded credentials from host"
+    else
+        echo "  claude: credentials already up to date"
+    fi
+
+    # Also forward settings.json if it exists and local one doesn't
+    local host_settings="/root/.claude-host/settings.json"
+    local local_settings="/root/.claude/settings.json"
+    if [ -f "$host_settings" ] && [ -s "$host_settings" ] && [ ! -f "$local_settings" ]; then
+        cp "$host_settings" "$local_settings"
+        echo "  claude: forwarded settings from host"
+    fi
+}
+
+# Forward all host authentication into the container.
+# Safe to call multiple times — only copies when host is newer or local is missing.
+forward_host_auth() {
+    echo "Forwarding host authentication..."
+    forward_gh_auth
+    forward_claude_auth
+}
+
 # Ensure all tooling is installed (catches up if post-create was incomplete).
 ensure_tooling() {
     ensure_corvia
