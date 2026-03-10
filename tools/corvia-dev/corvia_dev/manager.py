@@ -11,6 +11,7 @@ import time
 from pathlib import Path
 
 from corvia_dev.health import check_service
+from corvia_dev.traces import collect_traces
 from corvia_dev.models import (
     ConfigSummary,
     ManagerStatus,
@@ -247,6 +248,7 @@ class ProcessManager:
             enabled_services=self.enabled_services,
             logs=self._log_lines[-20:],
             service_logs={name: _tail_log(name) for name in self.processes},
+            traces=collect_traces(LOG_DIR),
         )
         self.state_path.write_text(resp.model_dump_json(indent=2))
 

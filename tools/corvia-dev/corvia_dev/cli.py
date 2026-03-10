@@ -23,6 +23,7 @@ from corvia_dev.manager import DEFAULT_STATE_PATH, LOG_DIR, ProcessManager, tail
 from corvia_dev.models import ConfigSummary, ServiceState, ServiceStatus, StatusResponse
 from corvia_dev.rebuild import cargo_build, check_staleness, install_binaries, DEFAULT_INSTALL_DIR
 from corvia_dev.services import get_service, resolve_startup_order
+from corvia_dev.traces import collect_traces
 
 
 def _workspace_root() -> Path:
@@ -120,6 +121,7 @@ def status(as_json: bool) -> None:
         enabled_services=enabled,
         logs=[],
         service_logs=svc_logs,
+        traces=collect_traces(LOG_DIR),
     )
 
     resp.stale_binaries = check_staleness(workspace_root=_workspace_root())

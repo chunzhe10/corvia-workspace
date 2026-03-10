@@ -69,3 +69,30 @@ class StatusResponse(BaseModel):
     logs: list[str] = []
     service_logs: dict[str, list[str]] = {}
     stale_binaries: list[str] = []
+    traces: TracesData | None = None
+
+
+class SpanStats(BaseModel):
+    """Aggregated stats for a single tracing span."""
+
+    count: int = 0
+    count_1h: int = 0
+    avg_ms: float = 0.0
+    last_ms: float = 0.0
+    errors: int = 0
+
+
+class TraceEvent(BaseModel):
+    """A single structured log event."""
+
+    ts: str
+    level: str
+    module: str
+    msg: str
+
+
+class TracesData(BaseModel):
+    """Aggregated tracing data for the dashboard."""
+
+    spans: dict[str, SpanStats] = {}
+    recent_events: list[TraceEvent] = []
