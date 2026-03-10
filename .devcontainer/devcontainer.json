@@ -13,7 +13,7 @@
         "source=corvia-cargo-git,target=/usr/local/cargo/git,type=volume",
         "source=corvia-target,target=${containerWorkspaceFolder}/repos/corvia/target,type=volume",
         "source=${localEnv:HOME}${localEnv:USERPROFILE}/.config/gh,target=/root/.config/gh-host,type=bind,consistency=cached,readonly",
-        "source=${localEnv:HOME}${localEnv:USERPROFILE}/.claude,target=/root/.claude-host,type=bind,consistency=cached,readonly"
+        "source=${localEnv:HOME}${localEnv:USERPROFILE}/.claude,target=/root/.claude,type=bind,consistency=cached"
     ],
     "remoteUser": "root",
     "containerEnv": {

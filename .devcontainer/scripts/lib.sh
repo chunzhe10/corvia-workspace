@@ -354,46 +354,31 @@ forward_gh_auth() {
     fi
 }
 
-# Forward Claude Code credentials from host mount.
-# Copies .credentials.json from the read-only host mount into the container's
-# ~/.claude/ if the host has valid credentials and the container doesn't, or if
-# the host credentials are newer (e.g. after an OAuth token refresh).
+# Ensure Claude Code credentials are available.
+# Primary: direct bind mount of ~/.claude (read-write, tokens can refresh).
+# Fallback: copy from read-only .claude-host mount if direct mount failed.
+# Last resort: prompt user to authenticate manually.
 forward_claude_auth() {
+    local creds="/root/.claude/.credentials.json"
+
+    # Check if direct bind mount is working (has valid credentials)
+    if [ -f "$creds" ] && python3 -c "import json; json.load(open('$creds'))" 2>/dev/null; then
+        echo "  claude: credentials available (bind mount)"
+        return 0
+    fi
+
+    # Fallback: copy from read-only host mount if available
     local host_creds="/root/.claude-host/.credentials.json"
-    local local_creds="/root/.claude/.credentials.json"
-
-    # No host mount or no credentials file — nothing to forward
-    if [ ! -d "/root/.claude-host" ] || [ ! -f "$host_creds" ]; then
-        echo "  claude: no host credentials found (run 'claude' on your host machine to authenticate)"
-        return 0
-    fi
-
-    # Validate host credentials file has actual JSON content
-    if [ ! -s "$host_creds" ]; then
-        echo "  claude: host credentials file is empty — skipping"
-        return 0
-    fi
-    if ! python3 -c "import json; json.load(open('$host_creds'))" 2>/dev/null; then
-        echo "  claude: host credentials file is not valid JSON — skipping"
-        return 0
-    fi
-
-    # Copy if container has no credentials, or host file is newer (token refresh)
-    if [ ! -f "$local_creds" ] || [ "$host_creds" -nt "$local_creds" ]; then
+    if [ -f "$host_creds" ] && python3 -c "import json; json.load(open('$host_creds'))" 2>/dev/null; then
         mkdir -p /root/.claude
-        cp "$host_creds" "$local_creds"
-        echo "  claude: forwarded credentials from host"
-    else
-        echo "  claude: credentials already up to date"
+        cp "$host_creds" /root/.claude/.credentials.json
+        # Also copy settings if present
+        [ -f "/root/.claude-host/settings.json" ] && cp "/root/.claude-host/settings.json" /root/.claude/settings.json
+        echo "  claude: forwarded credentials from host (fallback copy)"
+        return 0
     fi
 
-    # Also forward settings.json if it exists and local one doesn't
-    local host_settings="/root/.claude-host/settings.json"
-    local local_settings="/root/.claude/settings.json"
-    if [ -f "$host_settings" ] && [ -s "$host_settings" ] && [ ! -f "$local_settings" ]; then
-        cp "$host_settings" "$local_settings"
-        echo "  claude: forwarded settings from host"
-    fi
+    echo "  claude: no credentials found — run 'claude' inside the container to authenticate"
 }
 
 # Forward all host authentication into the container.
