@@ -5,6 +5,14 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=lib.sh
 source "$SCRIPT_DIR/lib.sh"
 
+# Prevent duplicate runs when multiple VS Code clients connect simultaneously.
+LOCK_FILE="/tmp/corvia-post-start.lock"
+if ! mkdir "$LOCK_FILE" 2>/dev/null; then
+    echo "post-start.sh is already running (lock: $LOCK_FILE). Skipping."
+    exit 0
+fi
+trap 'rmdir "$LOCK_FILE" 2>/dev/null' EXIT
+
 echo "=== Corvia Workspace: Starting Services ==="
 
 FLAGS_FILE="$WORKSPACE_ROOT/.devcontainer/.corvia-workspace-flags"
@@ -15,11 +23,14 @@ if command -v code >/dev/null 2>&1; then
     VSIX="$EXT_DIR/corvia-services-$(node -p "require('$EXT_DIR/package.json').version").vsix"
     if [ ! -f "$VSIX" ] && [ -f "$EXT_DIR/package.json" ]; then
         echo "Building corvia-services extension..."
-        if command -v vsce >/dev/null 2>&1 || npm list -g @vscode/vsce >/dev/null 2>&1; then
-            (cd "$EXT_DIR" && vsce package --no-dependencies) 2>/dev/null || true
+        if ! command -v vsce >/dev/null 2>&1; then
+            echo "  Installing vsce..."
+            npm install -g @vscode/vsce --silent 2>&1 || err "Failed to install vsce"
+        fi
+        if command -v vsce >/dev/null 2>&1; then
+            (cd "$EXT_DIR" && vsce package --no-dependencies) || err "Failed to package extension"
         else
-            npm install -g @vscode/vsce --silent 2>/dev/null \
-                && (cd "$EXT_DIR" && vsce package --no-dependencies) 2>/dev/null || true
+            err "vsce not available — skipping extension build"
         fi
     fi
     for vsix in "$EXT_DIR"/*.vsix; do

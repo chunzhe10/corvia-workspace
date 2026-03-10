@@ -5,6 +5,14 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=lib.sh
 source "$SCRIPT_DIR/lib.sh"
 
+# Prevent duplicate runs when multiple VS Code clients connect simultaneously.
+LOCK_FILE="/tmp/corvia-post-create.lock"
+if ! mkdir "$LOCK_FILE" 2>/dev/null; then
+    echo "post-create.sh is already running (lock: $LOCK_FILE). Skipping."
+    exit 0
+fi
+trap 'rmdir "$LOCK_FILE" 2>/dev/null' EXIT
+
 echo "=== Corvia Workspace: Post-Create Setup ==="
 
 wait_for_network || exit 1
