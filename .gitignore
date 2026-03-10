@@ -20,6 +20,9 @@ repos/corvia/
 .vscode/
 .continue/
 
+# Built VS Code extension artifacts (built from source by post-start.sh or CI)
+*.vsix
+
 # Python build artifacts
 __pycache__/
 *.egg-info/

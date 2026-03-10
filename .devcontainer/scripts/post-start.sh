@@ -9,12 +9,22 @@ echo "=== Corvia Workspace: Starting Services ==="
 
 FLAGS_FILE="$WORKSPACE_ROOT/.devcontainer/.corvia-workspace-flags"
 
-# Install local VS Code extensions first (local, no network needed)
-EXTENSIONS_DIR="$WORKSPACE_ROOT/.devcontainer/extensions"
-if [ -d "$EXTENSIONS_DIR" ] && command -v code >/dev/null 2>&1; then
-    for vsix in "$EXTENSIONS_DIR"/*/*.vsix; do
+# Build and install VS Code extensions
+if command -v code >/dev/null 2>&1; then
+    EXT_DIR="$WORKSPACE_ROOT/.devcontainer/extensions/corvia-services"
+    VSIX="$EXT_DIR/corvia-services-$(node -p "require('$EXT_DIR/package.json').version").vsix"
+    if [ ! -f "$VSIX" ] && [ -f "$EXT_DIR/package.json" ]; then
+        echo "Building corvia-services extension..."
+        if command -v vsce >/dev/null 2>&1 || npm list -g @vscode/vsce >/dev/null 2>&1; then
+            (cd "$EXT_DIR" && vsce package --no-dependencies) 2>/dev/null || true
+        else
+            npm install -g @vscode/vsce --silent 2>/dev/null \
+                && (cd "$EXT_DIR" && vsce package --no-dependencies) 2>/dev/null || true
+        fi
+    fi
+    for vsix in "$EXT_DIR"/*.vsix; do
         [ -f "$vsix" ] || continue
-        echo "Installing local extension: $(basename "$vsix")"
+        echo "Installing extension: $(basename "$vsix")"
         code --install-extension "$vsix" --force 2>/dev/null || true
     done
 fi

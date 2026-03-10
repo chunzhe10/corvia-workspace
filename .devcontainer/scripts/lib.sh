@@ -128,6 +128,7 @@ install_binaries() {
 }
 
 # Download the latest VS Code extension VSIX from workspace releases.
+# Fallback for when vsce is unavailable to build from source.
 install_extension() {
     local gh_repo="chunzhe10/corvia-workspace"
     local ext_dir="$WORKSPACE_ROOT/.devcontainer/extensions/corvia-services"
@@ -135,17 +136,23 @@ install_extension() {
     tmpdir=$(mktemp -d)
 
     if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
-        gh release download --repo "$gh_repo" --pattern "corvia-services-*.vsix" --dir "$tmpdir" 2>/dev/null || return 1
+        gh release download --repo "$gh_repo" --pattern "corvia-services-*.vsix" --dir "$tmpdir" 2>/dev/null || { rm -rf "$tmpdir"; return 1; }
     else
-        local url="https://github.com/$gh_repo/releases/latest/download"
-        # Try to fetch the asset list; fall back to known name
-        curl -fsL --retry 3 --retry-delay 2 -o "$tmpdir/corvia-services.vsix" \
-            "$url/corvia-services-0.2.0.vsix" 2>/dev/null || return 1
+        # List release assets via GitHub API, download the first VSIX match
+        local url="https://api.github.com/repos/$gh_repo/releases/latest"
+        local asset_url
+        asset_url=$(curl -fsL "$url" 2>/dev/null \
+            | python3 -c "import sys,json; assets=json.load(sys.stdin).get('assets',[]); vsix=[a for a in assets if a['name'].endswith('.vsix')]; print(vsix[0]['browser_download_url'] if vsix else '')" 2>/dev/null)
+        if [ -z "$asset_url" ]; then
+            rm -rf "$tmpdir"
+            return 1
+        fi
+        curl -fsL --retry 3 --retry-delay 2 -o "$tmpdir/corvia-services.vsix" "$asset_url" 2>/dev/null \
+            || { rm -rf "$tmpdir"; return 1; }
     fi
 
-    # Install the newest VSIX found
     local vsix
-    vsix=$(ls -t "$tmpdir"/corvia-services-*.vsix "$tmpdir"/corvia-services.vsix 2>/dev/null | head -1)
+    vsix=$(ls -t "$tmpdir"/*.vsix 2>/dev/null | head -1)
     if [ -n "$vsix" ] && [ -f "$vsix" ]; then
         mkdir -p "$ext_dir"
         cp "$vsix" "$ext_dir/"

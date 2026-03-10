@@ -14,11 +14,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Prepare release assets
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build VS Code extension
         run: |
-          # VS Code extension VSIX
-          cp .devcontainer/extensions/corvia-services/corvia-services-*.vsix .
-          ls -la *.vsix
+          npm install -g @vscode/vsce
+          cd .devcontainer/extensions/corvia-services
+          vsce package --no-dependencies
+          cp *.vsix "$GITHUB_WORKSPACE/"
+          ls -la "$GITHUB_WORKSPACE"/*.vsix
 
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
