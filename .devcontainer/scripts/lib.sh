@@ -291,9 +291,56 @@ fix_workspace_perms() {
     fi
 }
 
+# Clone a repo into a directory that may already contain subdirectories
+# (e.g. from Docker volume mounts). Falls back to git init + pull when
+# the target directory is non-empty.
+# Usage: clone_into_nonempty <url> <dest>
+clone_into_nonempty() {
+    local url="$1" dest="$2"
+    if [ -d "$dest/.git" ]; then
+        return 0  # already cloned
+    fi
+    if [ ! -d "$dest" ] || [ -z "$(ls -A "$dest" 2>/dev/null)" ]; then
+        git clone "$url" "$dest"
+    else
+        # Directory exists and is non-empty (e.g. Docker volume mount created it).
+        # Clone to temp, then move .git in and checkout.
+        local tmpdir
+        tmpdir=$(mktemp -d)
+        git clone "$url" "$tmpdir"
+        mv "$tmpdir/.git" "$dest/.git"
+        rm -rf "$tmpdir"
+        git -C "$dest" checkout -- .
+    fi
+}
+
+# Pre-clone repos listed in corvia.toml before `corvia workspace init`,
+# which fails if the target directory is non-empty.
+pre_clone_repos() {
+    local repos_dir="$WORKSPACE_ROOT/repos"
+    # Parse repos from corvia.toml
+    python3 -c "
+import tomllib, json, sys
+with open('$WORKSPACE_ROOT/corvia.toml', 'rb') as f:
+    cfg = tomllib.load(f)
+for r in cfg.get('workspace', {}).get('repos', []):
+    print(json.dumps({'name': r['name'], 'url': r['url']}))
+" 2>/dev/null | while IFS= read -r line; do
+        local name url dest
+        name=$(echo "$line" | python3 -c "import sys,json; print(json.load(sys.stdin)['name'])")
+        url=$(echo "$line" | python3 -c "import sys,json; print(json.load(sys.stdin)['url'])")
+        dest="$repos_dir/$name"
+        if [ ! -d "$dest/.git" ]; then
+            echo "  Cloning $name..."
+            clone_into_nonempty "$url" "$dest" || err "Failed to clone $name"
+        fi
+    done
+}
+
 # Initialize the corvia workspace.
 init_workspace() {
     fix_workspace_perms
+    pre_clone_repos
     spin "Initializing workspace..." corvia workspace init
 }
 
