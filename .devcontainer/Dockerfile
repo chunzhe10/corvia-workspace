@@ -38,6 +38,11 @@ RUN npm install -g --silent @anthropic-ai/claude-code \
 RUN npm install -g --silent @vscode/vsce \
     || echo "WARNING: vsce install failed — will retry at runtime"
 
+# Playwright MCP: install Chromium + system deps for visual QA in AI dev loop (D-visual-qa)
+RUN npx -y playwright@latest install-deps chromium \
+    && npx -y playwright@latest install chromium \
+    || echo "WARNING: playwright chromium install failed — visual QA unavailable"
+
 # Pre-create cargo registry cache so volume mounts work cleanly
 ENV CARGO_HOME="/usr/local/cargo"
 

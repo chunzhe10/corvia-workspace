@@ -3,6 +3,10 @@
     "corvia": {
       "type": "http",
       "url": "http://127.0.0.1:8020/mcp"
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest", "--headless", "--no-sandbox", "--isolated"]
     }
   }
 }
