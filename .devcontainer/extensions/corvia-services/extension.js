@@ -538,16 +538,22 @@ body {
 }
 
 /* ===== Traces ===== */
+.traces-tab-bar {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-xl); margin: 0 28px;
+  box-shadow: var(--shadow-card); overflow: hidden;
+}
 .traces-workspace {
-  display: grid; grid-template-columns: 1fr 280px;
+  display: grid; grid-template-columns: 1fr 300px;
   gap: 16px; padding: 0 28px 28px;
-  height: calc(100vh - 260px); min-height: 400px;
+  height: calc(100vh - 310px); min-height: 400px;
   margin-top: 16px;
 }
 .graph-panel {
   background: var(--bg-card); border: 1px solid var(--border);
   border-radius: var(--radius-xl); box-shadow: var(--shadow-card);
   display: flex; flex-direction: column; overflow: hidden;
+  position: relative;
 }
 .graph-toolbar {
   display: flex; align-items: center; justify-content: space-between;
@@ -568,15 +574,16 @@ body {
 .graph-hint { font-size: 10px; color: var(--text-dim); }
 
 .graph-canvas {
-  flex: 1; position: relative; overflow: hidden; padding: 24px;
+  flex: 1; position: relative; overflow: hidden; padding: 20px 80px 20px 10px;
 }
 
 /* Nodes */
 .tnode {
   position: absolute; background: var(--bg-card);
   border: 1.5px solid var(--border); border-radius: var(--radius-md);
-  padding: 16px 20px; cursor: pointer; transition: all var(--transition);
-  min-width: 120px; text-align: center; z-index: 2;
+  padding: 14px 18px; cursor: pointer; transition: all var(--transition);
+  width: 130px; text-align: center; z-index: 2;
+  transform: translate(-50%, 0);
 }
 .tnode:hover { border-color: var(--border-bright); background: var(--bg-card-hover); }
 .tnode.selected { box-shadow: 0 0 0 3px var(--gold-soft); }
@@ -751,29 +758,31 @@ const PROVIDERS = {
 };
 
 // --- Traces: module topology ---
+// pos: [x%, y%] — x centers node horizontally (transform: -50%), y is top offset
 const MODULES = {
   agent:     { label: 'Agent',     color: 'peach',    desc: 'Agent registration & session lifecycle',
-               icon: '\u{1F916}', pos: [8, 10] },
+               icon: '\u{1F916}', pos: [18, 6] },
   entry:     { label: 'Entry',     color: 'gold',     desc: 'Write, embed, insert pipeline',
-               icon: '\u{1F4DD}', pos: [40, 8] },
+               icon: '\u{1F4DD}', pos: [50, 4] },
   merge:     { label: 'Merge',     color: 'mint',     desc: 'Conflict detection & resolution',
-               icon: '\u{1F500}', pos: [40, 48] },
+               icon: '\u{1F500}', pos: [50, 50] },
   storage:   { label: 'Storage',   color: 'lavender', desc: 'LiteStore / Postgres persistence',
-               icon: '\u{1F4BE}', pos: [72, 8] },
+               icon: '\u{1F4BE}', pos: [82, 4] },
   rag:       { label: 'RAG',       color: 'sky',      desc: 'Retrieval-augmented generation',
-               icon: '\u{1F50E}', pos: [72, 48] },
+               icon: '\u{1F50E}', pos: [82, 50] },
   inference: { label: 'Inference', color: 'coral',    desc: 'ONNX embedding via gRPC',
-               icon: '\u26A1',    pos: [8, 50] },
+               icon: '\u26A1',    pos: [18, 50] },
   gc:        { label: 'GC',        color: 'amber',    desc: 'Garbage collection sweeps',
-               icon: '\u{1F9F9}', pos: [8, 82] },
+               icon: '\u{1F9F9}', pos: [50, 72] },
 };
 
+// Edges: [from, to] — data flow direction
 const EDGES = [
-  ['agent', 'entry'], ['agent', 'gc'],
-  ['entry', 'storage'], ['entry', 'merge'], ['entry', 'inference'],
+  ['agent', 'entry'],
+  ['entry', 'inference'], ['entry', 'storage'], ['entry', 'merge'],
   ['merge', 'storage'],
   ['storage', 'rag'],
-  ['gc', 'storage'],
+  ['agent', 'gc'], ['gc', 'storage'],
 ];
 
 const SPAN_MODULE_SPECIFIC = { 'corvia.entry.embed': 'inference' };
@@ -910,6 +919,22 @@ function render(data) {
   html += metricCard('lavender', METRIC_ICONS.sessions, 'Sessions', formatNum(sessions), tSessions, '');
   html += '</div>';
 
+  // Traces view uses a different layout (no sidebar, full-width graph)
+  if (activeView === 'traces') {
+    html += '<div class="traces-tab-bar">';
+    html += '<div class="view-tabs">';
+    html += viewTab('logs', SVG_LOGS, 'Logs');
+    html += viewTab('graph', SVG_GRAPH, 'Graph');
+    html += viewTab('traces', SVG_TRACES, 'Traces');
+    html += '</div></div>';
+    html += renderTraces(data);
+    el.innerHTML = html;
+    bindAll();
+    bindTraces();
+    drawEdges();
+    return;
+  }
+
   // Workspace
   html += '<div class="workspace">';
 
@@ -972,15 +997,6 @@ function render(data) {
       }
     }
     html += '</div>';
-  } else if (activeView === 'traces') {
-    html += '</div>'; // close log-panel
-    html += renderTraces(data);
-    html += '</div>'; // close workspace
-    el.innerHTML = html;
-    bindAll();
-    bindTraces();
-    drawEdges();
-    return;
   } else {
     // Placeholder for Graph
     html += '<div class="view-placeholder">' +
@@ -1404,6 +1420,9 @@ function drawEdges() {
   var ch = canvas.offsetHeight;
   svg.setAttribute('viewBox', '0 0 ' + cw + ' ' + ch);
 
+  // Node center: x is at pos[0]% of canvas (node is centered via CSS transform),
+  // y is at pos[1]% + ~55px (half estimated node height)
+  var nodeH = 55;
   var paths = '';
   var animations = '';
   for (var i = 0; i < EDGES.length; i++) {
@@ -1412,10 +1431,10 @@ function drawEdges() {
     var toMod = MODULES[e[1]];
     if (!fromMod || !toMod) continue;
 
-    var x1 = (fromMod.pos[0] / 100) * cw + 60;
-    var y1 = (fromMod.pos[1] / 100) * ch + 40;
-    var x2 = (toMod.pos[0] / 100) * cw + 60;
-    var y2 = (toMod.pos[1] / 100) * ch + 40;
+    var x1 = (fromMod.pos[0] / 100) * cw;
+    var y1 = (fromMod.pos[1] / 100) * ch + nodeH;
+    var x2 = (toMod.pos[0] / 100) * cw;
+    var y2 = (toMod.pos[1] / 100) * ch + nodeH;
     var mx = (x1 + x2) / 2;
 
     var pathId = 'edge-' + e[0] + '-' + e[1];
