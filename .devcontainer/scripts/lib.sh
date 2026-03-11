@@ -110,6 +110,8 @@ install_binaries() {
     local tag_file="/usr/local/share/corvia-release-tag"
     local cli_asset="corvia-cli-linux-${arch_suffix}"
     local inf_asset="corvia-inference-linux-${arch_suffix}"
+    local adp_basic_asset="corvia-adapter-basic-linux-${arch_suffix}"
+    local adp_git_asset="corvia-adapter-git-linux-${arch_suffix}"
 
     # Check latest release tag
     local latest_tag=""
@@ -122,7 +124,8 @@ install_binaries() {
 
     # Skip if already on latest
     if [ -n "$latest_tag" ] && [ -f "$tag_file" ] && [ "$(cat "$tag_file")" = "$latest_tag" ] \
-        && [ -x "$install_dir/corvia" ] && [ -x "$install_dir/corvia-inference" ]; then
+        && [ -x "$install_dir/corvia" ] && [ -x "$install_dir/corvia-inference" ] \
+        && [ -x "$install_dir/corvia-adapter-basic" ] && [ -x "$install_dir/corvia-adapter-git" ]; then
         echo "    binaries up to date ($latest_tag)"
         return 0
     fi
@@ -138,21 +141,24 @@ install_binaries() {
 
     if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
         spin "    fetching (gh)..." \
-            gh release download --repo "$gh_repo" --pattern "$cli_asset" --pattern "$inf_asset" --dir "$tmpdir"
+            gh release download --repo "$gh_repo" --pattern "$cli_asset" --pattern "$inf_asset" \
+                --pattern "$adp_basic_asset" --pattern "$adp_git_asset" --dir "$tmpdir"
     else
         local url="https://github.com/$gh_repo/releases/latest/download"
-        curl -fsL --retry 3 --retry-delay 2 -o "$tmpdir/$cli_asset" "$url/$cli_asset" 2>/dev/null &
-        local pid_cli=$!
-        curl -fsL --retry 3 --retry-delay 2 -o "$tmpdir/$inf_asset" "$url/$inf_asset" 2>/dev/null &
-        local pid_inf=$!
+        local pids=()
+        for asset in "$cli_asset" "$inf_asset" "$adp_basic_asset" "$adp_git_asset"; do
+            curl -fsL --retry 3 --retry-delay 2 -o "$tmpdir/$asset" "$url/$asset" 2>/dev/null &
+            pids+=($!)
+        done
         printf "    fetching (curl)..."
-        while kill -0 "$pid_cli" 2>/dev/null || kill -0 "$pid_inf" 2>/dev/null; do
+        while kill -0 "${pids[@]}" 2>/dev/null; do
             printf "."
             sleep 1
         done
         local ok=true
-        wait "$pid_cli" || ok=false
-        wait "$pid_inf" || ok=false
+        for pid in "${pids[@]}"; do
+            wait "$pid" || ok=false
+        done
         if [ "$ok" = true ]; then
             echo " done"
         else
@@ -164,7 +170,10 @@ install_binaries() {
 
     sudo cp "$tmpdir/$cli_asset" "$install_dir/corvia"
     sudo cp "$tmpdir/$inf_asset" "$install_dir/corvia-inference"
-    sudo chmod +x "$install_dir/corvia" "$install_dir/corvia-inference"
+    sudo cp "$tmpdir/$adp_basic_asset" "$install_dir/corvia-adapter-basic"
+    sudo cp "$tmpdir/$adp_git_asset" "$install_dir/corvia-adapter-git"
+    sudo chmod +x "$install_dir/corvia" "$install_dir/corvia-inference" \
+        "$install_dir/corvia-adapter-basic" "$install_dir/corvia-adapter-git"
     rm -rf "$tmpdir"
 
     # Cache the installed tag
