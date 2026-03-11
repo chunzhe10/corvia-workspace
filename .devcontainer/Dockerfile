@@ -1,3 +1,4 @@
+FROM mcr.microsoft.com/playwright:latest AS playwright
 FROM ghcr.io/astral-sh/uv:latest AS uv
 
 FROM rust:1.88-trixie
@@ -38,10 +39,11 @@ RUN npm install -g --silent @anthropic-ai/claude-code \
 RUN npm install -g --silent @vscode/vsce \
     || echo "WARNING: vsce install failed — will retry at runtime"
 
-# Playwright MCP: install Chromium + system deps for visual QA in AI dev loop (D-visual-qa)
+# Playwright MCP: pre-built Chromium from official image (fast, no download)
+COPY --from=playwright /ms-playwright /ms-playwright
+ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
 RUN npx -y playwright@latest install-deps chromium \
-    && npx -y playwright@latest install chromium \
-    || echo "WARNING: playwright chromium install failed — visual QA unavailable"
+    || echo "WARNING: playwright system deps install failed — visual QA unavailable"
 
 # Pre-create cargo registry cache so volume mounts work cleanly
 ENV CARGO_HOME="/usr/local/cargo"

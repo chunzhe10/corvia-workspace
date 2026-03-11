@@ -1,2 +1,26 @@
 {
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Grep|Glob",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'REMINDER: Have you called corvia_search or corvia_ask first? Per CLAUDE.md, you MUST query corvia MCP tools before using Grep/Glob for any new task or question. If you already called corvia this session, proceed.'"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "_comment": "WORKAROUND: Claude Code leaks memory via orphaned node processes in WSL. Kills orphans on session exit. Remove when upstream fix lands: https://github.com/anthropics/claude-code/issues",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CORVIA_WORKSPACE/.devcontainer/scripts/cleanup-orphans.sh\" --quiet 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
+  }
 }

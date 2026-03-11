@@ -14,14 +14,10 @@ data_dir = ".corvia"
 
 [embedding]
 provider = "corvia"
-model = "nomic-embed-text-v1.5"
+model = "all-MiniLM-L6-v2"
 url = "http://127.0.0.1:8030"
-dimensions = 768
+dimensions = 384
 
 [server]
 host = "127.0.0.1"
 port = 8020
-
-[merge]
-provider = "corvia"
-url = "http://127.0.0.1:8030"

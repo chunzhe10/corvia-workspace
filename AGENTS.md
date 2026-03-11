@@ -45,6 +45,16 @@ Available MCP tools (use `scope_id: "corvia"` for all calls):
 - `corvia_agent_status` — agent contribution summary
 - `corvia_context` — retrieve assembled context (RAG retrieval only)
 - `corvia_ask` — full RAG: question → AI-generated answer from knowledge
+- `corvia_system_status` — system status (entry counts, agents, sessions, queue)
+- `corvia_config_get` — read config section as JSON
+- `corvia_config_set` — update hot-reloadable config value (requires confirmation)
+- `corvia_adapters_list` — discovered adapter binaries
+- `corvia_agents_list` — all registered agents
+- `corvia_gc_run` — trigger garbage collection (requires confirmation)
+- `corvia_rebuild_index` — rebuild HNSW vector index (requires confirmation)
+- `corvia_agent_suspend` — suspend an agent (requires confirmation)
+- `corvia_merge_retry` — retry failed merge entries (requires confirmation)
+- `corvia_merge_queue` — inspect merge queue status
 
 **IMPORTANT:** The `scope_id` for this workspace is `"corvia"` (defined in `corvia.toml`).
 Do NOT use `"corvia-workspace"`, `"corvia-demo"`, or any other variant.
