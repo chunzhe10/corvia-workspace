@@ -47,15 +47,18 @@ while IFS= read -r pid; do
     kill "$pid" 2>/dev/null && killed=$((killed + 1)) || true
 done < <(pgrep -f 'node.*claude' 2>/dev/null || true)
 
-# ── 2. Drop filesystem caches under memory pressure (WSL-specific) ──
-mem_available=$(awk '/MemAvailable/ {print $2}' /proc/meminfo 2>/dev/null || echo 0)
-mem_total=$(awk '/MemTotal/ {print $2}' /proc/meminfo 2>/dev/null || echo 1)
-if [ "$mem_total" -gt 0 ]; then
-    pct_available=$((mem_available * 100 / mem_total))
-    if [ "$pct_available" -lt 15 ]; then
-        log "  memory pressure detected (${pct_available}% available) — dropping caches"
-        sync
-        echo 1 > /proc/sys/vm/drop_caches 2>/dev/null || true
+# ── 2. Drop filesystem caches under memory pressure (WSL only) ──
+# WSL's memory management benefits from explicit cache drops; native Linux does not.
+if grep -qi "microsoft\|wsl" /proc/version 2>/dev/null; then
+    mem_available=$(awk '/MemAvailable/ {print $2}' /proc/meminfo 2>/dev/null || echo 0)
+    mem_total=$(awk '/MemTotal/ {print $2}' /proc/meminfo 2>/dev/null || echo 1)
+    if [ "$mem_total" -gt 0 ]; then
+        pct_available=$((mem_available * 100 / mem_total))
+        if [ "$pct_available" -lt 15 ]; then
+            log "  memory pressure detected (${pct_available}% available) — dropping caches"
+            sync
+            echo 1 > /proc/sys/vm/drop_caches 2>/dev/null || true
+        fi
     fi
 fi
 

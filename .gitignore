@@ -1,13 +1,16 @@
 # Cloned repos (created by corvia workspace init)
 repos/corvia/
 
-# Derived data (rebuilt by `corvia workspace ingest`)
-.corvia/knowledge/
+# Derived data (rebuilt at runtime)
+.corvia/hnsw/
 .corvia/hnsw_index/
 .corvia/lite_store.redb
 .corvia/coordination.redb
 .corvia/coordination.redb.lock
 .corvia/staging/
+
+# Knowledge files are tracked — no source to re-ingest from
+# .corvia/knowledge/ is NOT ignored
 
 # Local working files (per-user, not shared)
 .local/

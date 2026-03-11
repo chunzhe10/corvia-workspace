@@ -3,7 +3,8 @@
     "build": {
         "dockerfile": "Dockerfile"
     },
-    "runArgs": ["--gpus", "all"],
+    // GPU passthrough: uncomment the next line if you have NVIDIA GPU + nvidia-container-toolkit.
+    // "runArgs": ["--gpus", "all"],
     "initializeCommand": ".devcontainer/scripts/init-host.sh",
     "postCreateCommand": ".devcontainer/scripts/post-create.sh",
     "postStartCommand": ".devcontainer/scripts/post-start.sh",

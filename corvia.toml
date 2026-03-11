@@ -14,9 +14,13 @@ data_dir = ".corvia"
 
 [embedding]
 provider = "corvia"
-model = "all-MiniLM-L6-v2"
+# Supported models (via corvia-inference + fastembed):
+#   "nomic-embed-text-v1.5"  — 768d, 8192 context, recommended default
+#   "all-MiniLM-L6-v2"      — 384d, 256 context, lightweight/fast
+# IMPORTANT: changing the model requires re-indexing: corvia workspace ingest --fresh
+model = "nomic-embed-text-v1.5"
 url = "http://127.0.0.1:8030"
-dimensions = 384
+dimensions = 768
 
 [server]
 host = "127.0.0.1"

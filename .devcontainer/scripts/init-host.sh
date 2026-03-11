@@ -14,4 +14,20 @@ fi
 mkdir -p "$HOME_DIR/.config/gh"
 mkdir -p "$HOME_DIR/.claude"
 
-echo "Host auth directories verified."
+# Detect platform for informational purposes.
+if grep -qi "microsoft\|wsl" /proc/version 2>/dev/null; then
+    echo "Platform: WSL"
+elif [ "$(uname -s)" = "Linux" ]; then
+    echo "Platform: native Linux"
+else
+    echo "Platform: $(uname -s)"
+fi
+
+# Check GPU availability and advise on --gpus flag.
+if command -v nvidia-smi >/dev/null 2>&1 && nvidia-smi >/dev/null 2>&1; then
+    echo "GPU: detected — add '\"runArgs\": [\"--gpus\", \"all\"]' to devcontainer.json for GPU passthrough"
+else
+    echo "GPU: not detected (ok — GPU is optional)"
+fi
+
+echo "Host init complete."

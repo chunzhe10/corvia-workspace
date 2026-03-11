@@ -7,7 +7,7 @@ COPY --from=uv /uv /usr/local/bin/uv
 COPY --from=uv /uvx /usr/local/bin/uvx
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl git build-essential pkg-config libssl-dev cmake protobuf-compiler \
+    curl git build-essential pkg-config libssl-dev libclang-dev cmake protobuf-compiler \
     nodejs npm jq python3 sudo \
     && rm -rf /var/lib/apt/lists/*
 

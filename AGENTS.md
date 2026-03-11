@@ -179,6 +179,6 @@ For detailed build/test/architecture guidance, see:
 
 - **Language**: Rust workspace (cargo)
 - **Storage**: LiteStore (default, zero-Docker) — data in `.corvia/`
-- **Embedding**: corvia-inference server at `http://127.0.0.1:8030` (nomic-embed-text-v1.5, 768d)
+- **Embedding**: corvia-inference server at `http://127.0.0.1:8030` (default: nomic-embed-text-v1.5 768d; also supports all-MiniLM-L6-v2 384d)
 - **API server**: `http://127.0.0.1:8020` (REST + MCP)
 - **Config**: `corvia.toml` at workspace root

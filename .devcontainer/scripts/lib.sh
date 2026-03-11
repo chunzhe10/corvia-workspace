@@ -53,6 +53,16 @@ spin() {
     rm -f "$logfile"
 }
 
+# Detect if running inside WSL.
+is_wsl() {
+    grep -qi "microsoft\|wsl" /proc/version 2>/dev/null
+}
+
+# Detect if GPU (NVIDIA) is available inside the container.
+has_gpu() {
+    command -v nvidia-smi >/dev/null 2>&1 && nvidia-smi >/dev/null 2>&1
+}
+
 WORKSPACE_ROOT="${CORVIA_WORKSPACE:-$(pwd)}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
