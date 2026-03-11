@@ -242,17 +242,34 @@ with zipfile.ZipFile('$vsix_path') as z:
     version=$(echo "$pkg_json" | python3 -c "import sys,json; print(json.load(sys.stdin)['version'])")
 
     local ext_id="${publisher}.${name}-${version}"
-    local ext_dir="/root/.vscode-server/extensions/${ext_id}"
 
-    if [ -d "$ext_dir" ] && [ -f "$ext_dir/package.json" ]; then
-        echo "    $ext_id already installed"
-        return 0
+    # Detect VS Code server variant: insiders vs stable
+    local server_dirs=()
+    if [ -d "/root/.vscode-server-insiders" ]; then
+        server_dirs+=("/root/.vscode-server-insiders/extensions")
+    fi
+    if [ -d "/root/.vscode-server" ]; then
+        server_dirs+=("/root/.vscode-server/extensions")
+    fi
+    # Fallback if neither exists yet (pre-first-connection)
+    if [ ${#server_dirs[@]} -eq 0 ]; then
+        server_dirs=("/root/.vscode-server/extensions")
     fi
 
-    # Extract extension/ contents from the .vsix into the target directory
-    local tmpdir
-    tmpdir=$(mktemp -d)
-    python3 -c "
+    local installed=0
+    for ext_parent in "${server_dirs[@]}"; do
+        local ext_dir="${ext_parent}/${ext_id}"
+
+        if [ -d "$ext_dir" ] && [ -f "$ext_dir/package.json" ]; then
+            echo "    $ext_id already installed in $ext_parent"
+            installed=1
+            continue
+        fi
+
+        # Extract extension/ contents from the .vsix into the target directory
+        local tmpdir
+        tmpdir=$(mktemp -d)
+        python3 -c "
 import zipfile, os
 with zipfile.ZipFile('$vsix_path') as z:
     for info in z.infolist():
@@ -270,10 +287,14 @@ with zipfile.ZipFile('$vsix_path') as z:
                     dst.write(src.read())
 " 2>/dev/null || { rm -rf "$tmpdir"; err "Failed to extract VSIX"; return 1; }
 
-    mkdir -p "$(dirname "$ext_dir")"
-    rm -rf "$ext_dir"
-    mv "$tmpdir" "$ext_dir"
-    echo "    installed $ext_id"
+        mkdir -p "$ext_parent"
+        rm -rf "$ext_dir"
+        mv "$tmpdir" "$ext_dir"
+        echo "    installed $ext_id in $ext_parent"
+        installed=1
+    done
+
+    [ "$installed" -eq 1 ] || { err "No VS Code server directory found"; return 1; }
 }
 
 # Ensure corvia binary is available, installing if needed.
