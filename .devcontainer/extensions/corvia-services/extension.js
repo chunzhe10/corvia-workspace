@@ -544,10 +544,14 @@ body {
   box-shadow: var(--shadow-card); overflow: hidden;
 }
 .traces-workspace {
-  display: grid; grid-template-columns: 1fr 300px;
+  display: grid; grid-template-columns: 1fr 280px;
   gap: 16px; padding: 0 28px 28px;
   height: calc(100vh - 310px); min-height: 400px;
   margin-top: 16px;
+}
+@media (max-width: 700px) {
+  .traces-workspace { grid-template-columns: 1fr; height: auto; }
+  .graph-panel { min-height: 50vh; }
 }
 .graph-panel {
   background: var(--bg-card); border: 1px solid var(--border);
@@ -616,6 +620,9 @@ body {
 .tnode.heat-cool { box-shadow: 0 0 12px rgba(94,234,212,0.4); animation: heat-pulse 2s ease-in-out infinite; }
 .tnode.heat-warm { box-shadow: 0 0 16px rgba(240,201,76,0.5); animation: heat-pulse 2s ease-in-out infinite; }
 .tnode.heat-hot { box-shadow: 0 0 20px rgba(255,138,128,0.6); animation: heat-pulse 2s ease-in-out infinite; }
+.tnode.selected.heat-cool { box-shadow: 0 0 0 3px var(--gold-soft), 0 0 12px rgba(94,234,212,0.4); }
+.tnode.selected.heat-warm { box-shadow: 0 0 0 3px var(--gold-soft), 0 0 16px rgba(240,201,76,0.5); }
+.tnode.selected.heat-hot { box-shadow: 0 0 0 3px var(--gold-soft), 0 0 20px rgba(255,138,128,0.6); }
 
 /* Detail panel */
 .trace-detail { display: flex; flex-direction: column; gap: 16px; overflow-y: auto; }
@@ -669,6 +676,7 @@ body {
 .evt-dot.info { background: var(--mint); }
 .evt-dot.warn { background: var(--amber); }
 .evt-dot.error { background: var(--coral); }
+.evt-dot.debug { background: var(--text-dim); }
 .evt-msg { color: var(--text-muted); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .evt-time { color: var(--text-dim); font-family: var(--font-mono); font-size: 10px; flex-shrink: 0; }
 
@@ -676,11 +684,6 @@ body {
   display: flex; align-items: center; justify-content: center;
   height: 100%; font-size: 12px; color: var(--text-dim); padding: 40px;
   text-align: center;
-}
-
-@media (max-width: 700px) {
-  .traces-workspace { grid-template-columns: 1fr; height: auto; }
-  .graph-panel { min-height: 50vh; }
 }
 </style>
 </head>
@@ -822,6 +825,7 @@ function spanToModule(name) {
 
 let traceMode = 'map';
 let selectedModule = null;
+let lastTraceModStats = {};
 
 // --- Helpers ---
 function esc(str) {
@@ -1266,6 +1270,8 @@ function renderTraces(data) {
     ms.avg_ms = ms.count > 0 ? Math.round(ms.avg_ms / ms.count) : 0;
     if (ms.count > maxCount) maxCount = ms.count;
   }
+  lastTraceModStats = modStats;
+  lastTraceModStats._maxCount = maxCount;
 
   var html = '<div class="traces-workspace">';
 
@@ -1443,8 +1449,13 @@ function drawEdges() {
 
     if (traceMode === 'dataflow') {
       var color = 'var(--' + fromMod.color + ')';
+      // Dynamic duration: busier edges animate faster (1s-6s range)
+      var srcStats = lastTraceModStats[e[0]] || {};
+      var maxC = lastTraceModStats._maxCount || 1;
+      var ratio = (srcStats.count || 0) / maxC;
+      var dur = Math.max(1, Math.round(6 - ratio * 5));
       animations += '<circle r="3" fill="' + color + '" style="filter:drop-shadow(0 0 3px ' + color + ')">' +
-        '<animateMotion dur="3s" repeatCount="indefinite"><mpath href="#' + pathId + '"/></animateMotion>' +
+        '<animateMotion dur="' + dur + 's" repeatCount="indefinite"><mpath href="#' + pathId + '"/></animateMotion>' +
         '</circle>';
     }
   }

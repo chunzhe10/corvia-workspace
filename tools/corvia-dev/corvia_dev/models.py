@@ -59,19 +59,6 @@ class ConfigSummary(BaseModel):
     workspace: str
 
 
-class StatusResponse(BaseModel):
-    """Full status response -- the JSON contract for the VS Code extension."""
-
-    manager: ManagerStatus | None = None
-    services: list[ServiceStatus] = []
-    config: ConfigSummary
-    enabled_services: list[str] = []
-    logs: list[str] = []
-    service_logs: dict[str, list[str]] = {}
-    stale_binaries: list[str] = []
-    traces: TracesData | None = None
-
-
 class SpanStats(BaseModel):
     """Aggregated stats for a single tracing span."""
 
@@ -96,3 +83,16 @@ class TracesData(BaseModel):
 
     spans: dict[str, SpanStats] = {}
     recent_events: list[TraceEvent] = []
+
+
+class StatusResponse(BaseModel):
+    """Full status response -- the JSON contract for the VS Code extension."""
+
+    manager: ManagerStatus | None = None
+    services: list[ServiceStatus] = []
+    config: ConfigSummary
+    enabled_services: list[str] = []
+    logs: list[str] = []
+    service_logs: dict[str, list[str]] = {}
+    stale_binaries: list[str] = []
+    traces: TracesData | None = None

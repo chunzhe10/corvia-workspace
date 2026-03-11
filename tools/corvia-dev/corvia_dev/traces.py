@@ -98,10 +98,25 @@ def parse_trace_line(line: str) -> dict | None:
     return None
 
 
+def _parse_ts_epoch(ts_str: str) -> float | None:
+    """Parse an ISO timestamp string to epoch seconds, or None."""
+    if not ts_str:
+        return None
+    try:
+        dt = datetime.fromisoformat(ts_str.replace("Z", "+00:00"))
+        return dt.timestamp()
+    except (ValueError, OSError):
+        return None
+
+
 def collect_traces_from_lines(lines: list[str]) -> TracesData:
     """Aggregate span stats and collect recent events from log lines."""
-    span_totals: dict[str, list[float]] = {}
+    span_all: dict[str, list[float]] = {}
+    span_1h: dict[str, list[float]] = {}
+    span_errors: dict[str, int] = {}
     events: list[TraceEvent] = []
+    now = time.time()
+    one_hour_ago = now - 3600
 
     for line in lines:
         parsed = parse_trace_line(line)
@@ -110,44 +125,50 @@ def collect_traces_from_lines(lines: list[str]) -> TracesData:
 
         ts_str = parsed.get("timestamp", "")
         ts_short = ""
+        ts_epoch = _parse_ts_epoch(ts_str)
         if ts_str:
             ts_short = ts_str.split("T")[1][:8] if "T" in ts_str else ts_str[:8]
+
+        level = parsed.get("level", "INFO").upper()
 
         if "span" in parsed:
             span_name = parsed["span"]
             elapsed = parsed["elapsed_ms"]
-            if span_name not in span_totals:
-                span_totals[span_name] = []
-            span_totals[span_name].append(elapsed)
+            span_all.setdefault(span_name, []).append(elapsed)
+            if ts_epoch is None or ts_epoch >= one_hour_ago:
+                span_1h.setdefault(span_name, []).append(elapsed)
+            if level in ("ERROR", "ERR"):
+                span_errors[span_name] = span_errors.get(span_name, 0) + 1
         elif "msg" in parsed and parsed["msg"]:
-            level = parsed["level"].lower()
-            if level in ("warn", "warning"):
-                level = "warn"
-            elif level in ("error", "err"):
-                level = "error"
-            elif level == "debug":
-                level = "debug"
+            norm_level = level.lower()
+            if norm_level in ("warn", "warning"):
+                norm_level = "warn"
+            elif norm_level in ("error", "err"):
+                norm_level = "error"
+            elif norm_level == "debug":
+                norm_level = "debug"
             else:
-                level = "info"
+                norm_level = "info"
             module = parsed.get("module", "unknown")
             events.append(TraceEvent(
                 ts=ts_short,
-                level=level,
+                level=norm_level,
                 module=module,
                 msg=parsed["msg"],
             ))
 
     # Build SpanStats
     spans: dict[str, SpanStats] = {}
-    for name, timings in span_totals.items():
+    for name, timings in span_all.items():
         count = len(timings)
+        timings_1h = span_1h.get(name, [])
         avg = sum(timings) / count if count else 0
         spans[name] = SpanStats(
             count=count,
-            count_1h=count,  # all lines are within the rolling window
+            count_1h=len(timings_1h),
             avg_ms=round(avg, 1),
             last_ms=round(timings[-1], 1) if timings else 0,
-            errors=0,
+            errors=span_errors.get(name, 0),
         )
 
     # Keep last 50 events
