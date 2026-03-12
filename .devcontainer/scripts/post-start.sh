@@ -136,6 +136,13 @@ if [ -f "$FLAGS_FILE" ]; then
             if [ "$ollama_ready" = false ]; then
                 fail_msg "not ready after 30s"
             fi
+            # Pull default model for Continue if not already present
+            if [ "$ollama_ready" = true ]; then
+                if ! ollama list 2>/dev/null | grep -q "qwen2.5-coder:7b"; then
+                    printf "    pulling qwen2.5-coder:7b (first run only)"
+                    ollama pull qwen2.5-coder:7b >/dev/null 2>&1 && done_msg || fail_msg "pull failed"
+                fi
+            fi
         else
             fail_msg "ollama not installed — run 'curl -fsSL https://ollama.com/install.sh | sh'"
         fi

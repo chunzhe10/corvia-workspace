@@ -15,6 +15,7 @@ repos/corvia/
 # Local working files (per-user, not shared)
 .local/
 .devcontainer/.corvia-workspace-flags
+.devcontainer/docker-compose.override.yml
 
 # Claude Code local settings (session-specific permissions)
 .claude/settings.local.json

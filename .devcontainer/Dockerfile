@@ -11,11 +11,22 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     nodejs npm jq python3 sudo \
     && rm -rf /var/lib/apt/lists/*
 
-# Intel GPU runtime (OpenVINO EP for ONNX Runtime).
-# Uncomment if Intel iGPU/dGPU is available and passed through via devcontainer.json.
-# RUN apt-get update && apt-get install -y --no-install-recommends \
-#     intel-opencl-icd intel-level-zero-gpu level-zero \
-#     && rm -rf /var/lib/apt/lists/*
+# Intel GPU compute runtime (needed by Ollama for iGPU inference).
+# Packages aren't in Debian trixie repos — install from Intel's GitHub releases.
+RUN apt-get update && apt-get install -y --no-install-recommends ocl-icd-libopencl1 \
+    && rm -rf /var/lib/apt/lists/* \
+    && mkdir -p /tmp/intel-gpu && cd /tmp/intel-gpu \
+    && curl -LO https://github.com/intel/compute-runtime/releases/download/26.05.37020.3/libigdgmm12_22.9.0_amd64.deb \
+    && curl -LO https://github.com/intel/intel-graphics-compiler/releases/download/v2.28.4/intel-igc-core-2_2.28.4%2B20760_amd64.deb \
+    && curl -LO https://github.com/intel/intel-graphics-compiler/releases/download/v2.28.4/intel-igc-opencl-2_2.28.4%2B20760_amd64.deb \
+    && curl -LO https://github.com/intel/compute-runtime/releases/download/26.05.37020.3/intel-opencl-icd_26.05.37020.3-0_amd64.deb \
+    && curl -LO https://github.com/intel/compute-runtime/releases/download/26.05.37020.3/libze-intel-gpu1_26.05.37020.3-0_amd64.deb \
+    && dpkg -i libigdgmm12_*.deb intel-igc-core-2_*.deb intel-igc-opencl-2_*.deb \
+              intel-opencl-icd_*.deb libze-intel-gpu1_*.deb \
+    && rm -rf /tmp/intel-gpu
+
+# Ollama (uses iGPU when /dev/dri is available, falls back to CPU)
+RUN curl -fsSL https://ollama.com/install.sh | sh
 
 # Create non-root user for devcontainer
 ARG USERNAME=vscode

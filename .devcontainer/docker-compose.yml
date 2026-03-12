@@ -1,0 +1,13 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ..:/workspaces/corvia-workspace:cached
+      - corvia-cargo-registry:/usr/local/cargo/registry
+      - corvia-cargo-git:/usr/local/cargo/git
+
+volumes:
+  corvia-cargo-registry:
+  corvia-cargo-git:

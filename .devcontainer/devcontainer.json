@@ -1,30 +1,17 @@
 {
     "name": "Corvia Demo Workspace",
-    "build": {
-        "dockerfile": "Dockerfile"
-    },
-    // GPU passthrough: uncomment the next line if you have NVIDIA GPU + nvidia-container-toolkit.
-    // "runArgs": ["--gpus", "all"],
-    //
-    // Intel GPU passthrough (iGPU): uncomment the lines below if Intel GPU is available.
-    // Required for OpenVINO execution provider on Intel integrated/discrete GPUs.
-    // "runArgs": [
-    //     "--device=/dev/dri",
-    //     "--device=/dev/dxg",
-    //     "--group-add", "video",
-    //     "--group-add", "render"
-    // ],
+    "dockerComposeFile": ["docker-compose.yml", "docker-compose.override.yml"],
+    "service": "app",
+    "workspaceFolder": "/workspaces/corvia-workspace",
+    // GPU passthrough is auto-detected by init-host.sh which generates
+    // docker-compose.override.yml with the right device mappings.
     "initializeCommand": ".devcontainer/scripts/init-host.sh",
     "postCreateCommand": ".devcontainer/scripts/post-create.sh",
     "postStartCommand": ".devcontainer/scripts/post-start.sh",
-    "forwardPorts": [8020, 8021],
+    "forwardPorts": [8020, 8021, 11434],
     "mounts": [
-        "source=corvia-cargo-registry,target=/usr/local/cargo/registry,type=volume",
-        "source=corvia-cargo-git,target=/usr/local/cargo/git,type=volume",
         "source=${localEnv:HOME}${localEnv:USERPROFILE}/.config/gh,target=/root/.config/gh-host,type=bind,consistency=cached,readonly",
         "source=${localEnv:HOME}${localEnv:USERPROFILE}/.claude,target=/root/.claude,type=bind,consistency=cached"
-        // Uncomment for WSL2 GPU driver passthrough (Intel + NVIDIA):
-        // "source=/usr/lib/wsl,target=/usr/lib/wsl,type=bind,readonly"
     ],
     "remoteUser": "root",
     "containerEnv": {
