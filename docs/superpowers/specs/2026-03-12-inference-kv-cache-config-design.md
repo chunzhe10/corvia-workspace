@@ -28,7 +28,7 @@ flash_attention = true   # enable flash attention (requires compatible hardware)
 
 **Rationale**: Embedding and chat are both inference workloads. A single `[inference]` section avoids the false separation between "embedding hardware config" and "chat hardware config" when both share the same GPU.
 
-**Breaking change**: Remove `device` and `backend` from `[embedding]`. Acceptable in prerelease (v0.x). Existing configs with `[embedding].device` will fail to parse — users must move the fields to `[inference]`.
+**Breaking change**: Remove `device` and `backend` from `EmbeddingConfig` struct. Acceptable in prerelease (v0.x). Note: the `toml` crate silently ignores unknown fields, so existing `corvia.toml` files with `[embedding].device` will still parse — the fields are simply ignored. Users should move them to `[inference]` to take effect. The `default_device()` function is retained since `InferenceConfig` reuses it.
 
 **Implementation** (`corvia-common/src/config.rs`):
 
@@ -66,7 +66,9 @@ CLI: corvia inference reload --device gpu --no-persist
   2. Report result
 ```
 
-**Why**: Prevents config drift where the running state diverges from the config file. After a restart, the server always comes up with the last-applied settings.
+**Why**: Prevents config drift where the running state diverges from the config file. After a restart, the kernel reads `[inference]` from `corvia.toml` and passes the values via `load_models()` gRPC calls, so the server comes up with the last-applied settings.
+
+**Note**: The inference server itself does not read `corvia.toml`. All config values flow through the kernel → provisioner → gRPC path. The config file is authoritative for the kernel side; the inference server is stateless and receives settings per-load/reload.
 
 **Implementation** (`corvia-cli/src/main.rs`):
 - `cmd_inference_reload` reads `corvia.toml`, updates the `[inference]` section, saves, then calls `reload_models()` on the provisioner.
@@ -103,35 +105,78 @@ These fields are additive (new field numbers), so existing clients sending empty
 
 **KV quant value normalization** (`corvia-inference/src/backend.rs`):
 
-Add a `resolve_kv_quant()` function:
+Add a `resolve_kv_quant()` function that maps config strings to `llama_cpp_2::context::params::KvCacheType`:
 ```rust
-pub fn resolve_kv_quant(raw: &str) -> Result<KvQuantType, String> {
+use llama_cpp_2::context::params::KvCacheType;
+
+pub fn resolve_kv_quant(raw: &str) -> Result<KvCacheType, String> {
     match raw.to_lowercase().as_str() {
-        "q8" | "q8_0" => Ok(KvQuantType::Q8_0),
-        "q4" | "q4_0" => Ok(KvQuantType::Q4_0),
-        "none" | "f16" | "" => Ok(KvQuantType::None),
+        "q8" | "q8_0" => Ok(KvCacheType::Q8_0),
+        "q4" | "q4_0" => Ok(KvCacheType::Q4_0),
+        "none" | "f16" | "" => Ok(KvCacheType::F16),
         other => Err(format!("Unknown kv_quant: '{other}'. Expected 'q8', 'q4', or 'none'.")),
     }
 }
 ```
 
-Default is `"q8"` — near-lossless quality with ~50% VRAM reduction and actually faster inference due to reduced memory bandwidth.
+This uses `KvCacheType` directly from llama-cpp-2 — no custom enum needed. Default is `"q8"` — near-lossless quality with ~50% VRAM reduction and actually faster inference due to reduced memory bandwidth.
 
 **LlamaContextParams update** (`corvia-inference/src/chat_service.rs`):
 
-Update context creation to apply KV quant and flash attention:
+Context creation happens per-request in both `generate_blocking()` (line 211) and `generate_streaming_blocking()` (line 318). Both sites must be updated identically:
 ```rust
+use llama_cpp_2::context::params::LlamaFlashAttentionPolicy;
+
+let flash_policy = if flash_attention {
+    LlamaFlashAttentionPolicy::Enabled
+} else {
+    LlamaFlashAttentionPolicy::Disabled
+};
+
 let ctx_params = LlamaContextParams::default()
     .with_n_ctx(NonZeroU32::new(ctx_size.max(512)))
     .with_n_batch(512)
-    .with_type_k(resolved_kv_quant.to_ggml_type())  // Q8_0, Q4_0, or F16
-    .with_type_v(resolved_kv_quant.to_ggml_type())
-    .with_flash_attention(flash_attention);
+    .with_type_k(kv_cache_type)   // KvCacheType::Q8_0, Q4_0, or F16
+    .with_type_v(kv_cache_type)
+    .with_flash_attention_policy(flash_policy);
 ```
+
+Note: the llama-cpp-2 API uses `with_flash_attention_policy()` (not `with_flash_attention()`), which takes a `LlamaFlashAttentionPolicy` enum. The `bool` config field maps to `Enabled`/`Disabled`.
 
 Both `type_k` and `type_v` use the same quantization level. Asymmetric K/V quantization is not exposed — it's a niche optimization with limited benefit for single-user inference.
 
-**ChatModelEntry** must store the resolved KV quant and flash attention settings so they're available during context creation (not just during model load).
+**ChatModelEntry struct update** (`corvia-inference/src/chat_service.rs`):
+
+`ChatModelEntry` must store the resolved settings so they're available at context-creation time (every request):
+```rust
+struct ChatModelEntry {
+    model: Arc<LlamaModel>,
+    backend: ResolvedBackend,
+    kv_cache_type: KvCacheType,       // resolved from config string
+    flash_attention: bool,
+}
+```
+
+**ModelEntry struct update** (`corvia-inference/src/model_manager.rs`):
+
+`ModelEntry` must also track these fields for `list_models()` reporting:
+```rust
+pub struct ModelEntry {
+    pub name: String,
+    pub model_type: String,
+    pub loaded: bool,
+    pub device: String,
+    pub backend: String,
+    pub kv_quant: String,
+    pub flash_attention: bool,
+}
+```
+
+**Flash attention + Q4 incompatibility**: When `flash_attention = true` and `kv_quant = "q4"`, the inference server (in `chat_service.rs` context creation) silently disables flash attention and logs at WARN level. This is server-side validation — the CLI does not need to validate this combination.
+
+**InferenceProvisioner updates** (`corvia-kernel/src/inference_provisioner.rs`):
+
+`load_models()` and `ensure_ready()` must accept and pass `kv_quant` and `flash_attention` parameters alongside `device` and `backend`. These are added to `LoadModelRequest` fields sent via gRPC.
 
 ### 5. Hot-Reloadable Config
 
