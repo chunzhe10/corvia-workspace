@@ -30,6 +30,12 @@ repos/corvia/
 __pycache__/
 *.egg-info/
 
+# Node dependencies (install via package.json)
+node_modules/
+
+# Playwright MCP runtime logs
+.playwright-mcp/
+
 # Model caches (large, downloaded on demand)
 .fastembed_cache/
 .worktrees/
