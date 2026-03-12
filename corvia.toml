@@ -22,6 +22,11 @@ model = "nomic-embed-text-v1.5"
 url = "http://127.0.0.1:8030"
 dimensions = 768
 
+[inference]
+device = "auto"
+kv_quant = "q8"
+flash_attention = true
+
 [server]
 host = "127.0.0.1"
 port = 8020
