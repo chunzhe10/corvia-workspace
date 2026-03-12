@@ -11,6 +11,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     nodejs npm jq python3 sudo \
     && rm -rf /var/lib/apt/lists/*
 
+# Intel GPU runtime (OpenVINO EP for ONNX Runtime).
+# Uncomment if Intel iGPU/dGPU is available and passed through via devcontainer.json.
+# RUN apt-get update && apt-get install -y --no-install-recommends \
+#     intel-opencl-icd intel-level-zero-gpu level-zero \
+#     && rm -rf /var/lib/apt/lists/*
+
 # Create non-root user for devcontainer
 ARG USERNAME=vscode
 ARG USER_UID=1000
