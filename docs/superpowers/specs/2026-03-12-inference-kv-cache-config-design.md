@@ -97,7 +97,9 @@ string kv_quant = 7;          // current KV quant setting
 bool flash_attention = 8;     // current flash attention setting
 ```
 
-These fields are additive (new field numbers), so existing clients sending empty values get server defaults. No backward compatibility issues.
+These fields are additive (new field numbers). No backward compatibility issues.
+
+**Proto default for `flash_attention`**: Protobuf `bool` defaults to `false`, but the config default is `true`. The kernel/provisioner must always explicitly set this field from `[inference].flash_attention` when constructing gRPC requests — never rely on proto defaults. This is consistent with how `device` and `backend` are already handled (always populated from config, never left empty).
 
 **KV quant applies to chat models only**. For embedding models, the fields are accepted but ignored (ONNX Runtime manages its own memory). The model manager logs a debug-level message if KV quant is set for an embedding model.
 
@@ -187,7 +189,7 @@ const HOT_RELOADABLE_SECTIONS: &[&str] = &[
 ];
 ```
 
-Remove `"embedding"` from `RESTART_REQUIRED_SECTIONS` — embedding hardware config now lives in `[inference]` which is hot-reloadable. The remaining `[embedding]` fields (`provider`, `model`, `url`, `dimensions`) still require restart.
+Keep `"embedding"` in `RESTART_REQUIRED_SECTIONS` — the remaining `[embedding]` fields (`provider`, `model`, `url`, `dimensions`) still require restart. The device/backend field removal from `EmbeddingConfig` is orthogonal to section reload classification.
 
 ### 6. Telemetry
 
