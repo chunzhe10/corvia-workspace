@@ -67,13 +67,15 @@ function openDashboard(context) {
     );
 
     panel.webview.html = getWebviewContent();
-    panel.onDidDispose(() => { panel = undefined; });
+    panel.onDidDispose(() => { panel = undefined; }, null, context.subscriptions);
 }
 
 function getWebviewContent() {
     return `<!DOCTYPE html>
 <html>
 <head>
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none'; frame-src ${DASHBOARD_URL}; style-src 'unsafe-inline';" />
   <style>
     body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
     iframe { width: 100%; height: 100%; border: none; }

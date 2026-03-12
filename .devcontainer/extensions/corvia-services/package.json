@@ -17,10 +17,6 @@
     "contributes": {
         "commands": [
             {
-                "command": "corvia.toggleServices",
-                "title": "Corvia: Toggle Services"
-            },
-            {
                 "command": "corvia.openDashboard",
                 "title": "Corvia: Open Dashboard"
             }
