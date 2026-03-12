@@ -68,7 +68,7 @@ SERVICES: list[ServiceDefinition] = [
         health_path="/",
         start_cmd=[
             "bash", "-c",
-            "cd tools/corvia-dashboard && npx vite --port 8021 --host",
+            "cd tools/corvia-dashboard && npx vite --port 8021 --host 0.0.0.0",
         ],
         depends_on=["corvia-server"],
     ),

@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [preact()],
   server: {
     port: 8021,
-    host: true,
+    host: "0.0.0.0",
     proxy: {
       "/api": {
         target: "http://localhost:8020",
@@ -15,7 +15,7 @@ export default defineConfig({
   },
   preview: {
     port: 8021,
-    host: true,
+    host: "0.0.0.0",
     proxy: {
       "/api": {
         target: "http://localhost:8020",

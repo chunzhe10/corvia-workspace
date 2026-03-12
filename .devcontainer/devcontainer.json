@@ -17,7 +17,7 @@
     "initializeCommand": ".devcontainer/scripts/init-host.sh",
     "postCreateCommand": ".devcontainer/scripts/post-create.sh",
     "postStartCommand": ".devcontainer/scripts/post-start.sh",
-    "forwardPorts": [8020],
+    "forwardPorts": [8020, 8021],
     "mounts": [
         "source=corvia-cargo-registry,target=/usr/local/cargo/registry,type=volume",
         "source=corvia-cargo-git,target=/usr/local/cargo/git,type=volume",
