@@ -252,6 +252,40 @@ class ProcessManager:
         )
         self.state_path.write_text(resp.model_dump_json(indent=2))
 
+    def _cleanup_stale_processes(self) -> None:
+        """Kill leftover processes from a previous manager that didn't shut down cleanly."""
+        if not self.state_path.exists():
+            return
+        try:
+            old_state = json.loads(self.state_path.read_text())
+        except (json.JSONDecodeError, OSError):
+            return
+
+        old_mgr_pid = old_state.get("manager", {}).get("pid")
+        if old_mgr_pid and old_mgr_pid != os.getpid():
+            # Check if old manager is still alive — if so, don't touch its children
+            try:
+                os.kill(old_mgr_pid, 0)
+                self._log(f"previous manager (pid {old_mgr_pid}) still alive, skipping cleanup")
+                return
+            except OSError:
+                pass  # old manager is dead, clean up its orphans
+
+        for svc in old_state.get("services", []):
+            pid = svc.get("pid")
+            name = svc.get("name", "unknown")
+            if pid is None:
+                continue
+            try:
+                os.kill(pid, 0)  # check if alive
+            except OSError:
+                continue
+            self._log(f"killing stale {name} process (pid {pid}) from previous manager")
+            try:
+                os.kill(pid, signal.SIGTERM)
+            except OSError:
+                pass
+
     async def run(self) -> None:
         """Main supervision loop. Runs until cancelled or SIGTERM."""
         self._running = True
@@ -265,6 +299,9 @@ class ProcessManager:
 
         for sig in (signal.SIGTERM, signal.SIGINT):
             loop.add_signal_handler(sig, _signal_handler)
+
+        # Clean up orphaned processes from previous manager crash
+        self._cleanup_stale_processes()
 
         # Start services in order
         for name in self.processes:

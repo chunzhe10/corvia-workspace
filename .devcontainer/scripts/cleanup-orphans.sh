@@ -30,22 +30,41 @@ date +%s > "$THROTTLE_FILE"
 
 killed=0
 
+# Helper: kill a process if it's orphaned (PPID=1) and old enough
+kill_orphan() {
+    local pid="$1" min_age="${2:-600}" label="${3:-process}"
+    local ppid etimes cmdline
+    ppid=$(ps -o ppid= -p "$pid" 2>/dev/null | tr -d ' ')
+    [ "$ppid" = "1" ] || return 1
+    etimes=$(ps -o etimes= -p "$pid" 2>/dev/null | tr -d ' ')
+    [ -n "$etimes" ] && [ "$etimes" -ge "$min_age" ] || return 1
+    cmdline=$(ps -o args= -p "$pid" 2>/dev/null || true)
+    log "  killing orphaned $label: pid=$pid (uptime=${etimes}s)"
+    log "    cmd: ${cmdline:0:120}"
+    kill "$pid" 2>/dev/null && killed=$((killed + 1)) || true
+}
+
 # ── 1. Orphaned node processes from Claude Code (reparented to init) ──
 # Only targets node processes whose parent is PID 1 (parent died = orphaned)
 # and whose command line contains "claude". Skips anything under 10 minutes
 # to avoid killing active subagents.
 while IFS= read -r pid; do
-    ppid=$(ps -o ppid= -p "$pid" 2>/dev/null | tr -d ' ')
-    [ "$ppid" = "1" ] || continue
-
-    etimes=$(ps -o etimes= -p "$pid" 2>/dev/null | tr -d ' ')
-    [ -n "$etimes" ] && [ "$etimes" -ge 600 ] || continue
-
-    cmdline=$(ps -o args= -p "$pid" 2>/dev/null || true)
-    log "  killing orphaned node process: pid=$pid (uptime=${etimes}s)"
-    log "    cmd: ${cmdline:0:120}"
-    kill "$pid" 2>/dev/null && killed=$((killed + 1)) || true
+    kill_orphan "$pid" 600 "claude node"
 done < <(pgrep -f 'node.*claude' 2>/dev/null || true)
+
+# ── 1b. Orphaned Vite dev servers ──
+# corvia-dev restarts can leave stale vite processes that hold file watchers
+# and memory. Only kill if orphaned (PPID=1) and older than 5 minutes.
+while IFS= read -r pid; do
+    kill_orphan "$pid" 300 "vite dev server"
+done < <(pgrep -f 'node.*vite' 2>/dev/null || true)
+
+# ── 1c. Stale debug inference processes ──
+# Debug builds of corvia-inference can linger after test runs. Kill if
+# orphaned and older than 10 minutes.
+while IFS= read -r pid; do
+    kill_orphan "$pid" 600 "debug inference"
+done < <(pgrep -f 'target/debug/corvia-inference' 2>/dev/null || true)
 
 # ── 2. Drop filesystem caches under memory pressure (WSL only) ──
 # WSL's memory management benefits from explicit cache drops; native Linux does not.
