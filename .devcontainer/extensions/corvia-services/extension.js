@@ -1,10 +1,11 @@
 const vscode = require("vscode");
 
 let statusBarItem;
+let browserBarItem;
 let panel;
 let pollTimer;
 
-const POLL_INTERVAL = 3000;
+const POLL_INTERVAL = 5000;
 const API_BASE = "http://localhost:8020";
 const DASHBOARD_URL = "http://localhost:8021";
 
@@ -15,8 +16,18 @@ function activate(context) {
     statusBarItem.show();
     context.subscriptions.push(statusBarItem);
 
+    browserBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 49);
+    browserBarItem.command = "corvia.openInBrowser";
+    browserBarItem.text = "$(link-external)";
+    browserBarItem.tooltip = "Open Corvia Dashboard in browser";
+    browserBarItem.show();
+    context.subscriptions.push(browserBarItem);
+
     context.subscriptions.push(
-        vscode.commands.registerCommand("corvia.openDashboard", () => openDashboard(context))
+        vscode.commands.registerCommand("corvia.openDashboard", () => openDashboard(context)),
+        vscode.commands.registerCommand("corvia.openInBrowser", () => {
+            vscode.env.openExternal(vscode.Uri.parse(DASHBOARD_URL));
+        })
     );
 
     pollStatus();
@@ -26,7 +37,10 @@ function activate(context) {
 
 async function pollStatus() {
     try {
-        const resp = await fetch(`${API_BASE}/api/dashboard/status`);
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 3000);
+        const resp = await fetch(`${API_BASE}/api/dashboard/status`, { signal: controller.signal });
+        clearTimeout(timeout);
         const data = await resp.json();
         const allHealthy = (data.services || []).every(s => s.state === "healthy");
         const anyDown = (data.services || []).some(s => s.state !== "healthy");
@@ -67,6 +81,19 @@ function openDashboard(context) {
     );
 
     panel.webview.html = getWebviewContent();
+
+    // Relay visibility state to the dashboard iframe so it can pause/resume polling.
+    // document.visibilitychange is unreliable in Electron webviews (electron#28677),
+    // so we use the VS Code API instead.
+    panel.onDidChangeViewState(e => {
+        try {
+            panel.webview.postMessage({
+                type: "visibility",
+                visible: e.webviewPanel.visible,
+            });
+        } catch { /* panel may be disposed */ }
+    });
+
     panel.onDidDispose(() => { panel = undefined; }, null, context.subscriptions);
 }
 
@@ -75,14 +102,22 @@ function getWebviewContent() {
 <html>
 <head>
   <meta http-equiv="Content-Security-Policy"
-        content="default-src 'none'; frame-src ${DASHBOARD_URL}; style-src 'unsafe-inline';" />
+        content="default-src 'none'; frame-src ${DASHBOARD_URL}; style-src 'unsafe-inline'; script-src 'unsafe-inline';" />
   <style>
     body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
     iframe { width: 100%; height: 100%; border: none; }
   </style>
 </head>
 <body>
-  <iframe src="${DASHBOARD_URL}" />
+  <iframe id="dash" src="${DASHBOARD_URL}" />
+  <script>
+    // Relay VS Code visibility events to the dashboard iframe
+    window.addEventListener("message", (e) => {
+      if (e.data && e.data.type === "visibility") {
+        document.getElementById("dash").contentWindow.postMessage(e.data, "*");
+      }
+    });
+  </script>
 </body>
 </html>`;
 }

@@ -19,6 +19,10 @@
             {
                 "command": "corvia.openDashboard",
                 "title": "Corvia: Open Dashboard"
+            },
+            {
+                "command": "corvia.openInBrowser",
+                "title": "Corvia: Open Dashboard in Browser"
             }
         ]
     }

@@ -50,6 +50,13 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+/*
+ * Performance: CSS containment limits layout/paint recalculation to subtrees.
+ * content-visibility: auto skips rendering of off-screen content entirely.
+ * will-change: transform promotes animated elements to GPU compositor layers.
+ * These reduce the webview's impact on the VS Code editor renderer process.
+ */
+
 html, body, #app {
   height: 100%;
   width: 100%;
@@ -201,6 +208,7 @@ a:hover { text-decoration: underline; }
   overflow-y: auto;
   border-left: 1px solid var(--border);
   background: var(--bg-elevated);
+  contain: layout style;
 }
 
 /* Metric cards (colored) */
@@ -209,6 +217,7 @@ a:hover { text-decoration: underline; }
   grid-template-columns: repeat(4, 1fr);
   gap: 14px;
   margin-bottom: 20px;
+  contain: content;
 }
 
 .metric-card {
@@ -220,6 +229,7 @@ a:hover { text-decoration: underline; }
   overflow: hidden;
   transition: var(--transition);
   box-shadow: var(--shadow-card);
+  contain: content;
 }
 
 .metric-card::after {
@@ -292,6 +302,7 @@ a:hover { text-decoration: underline; }
   padding: 18px;
   margin-bottom: 16px;
   box-shadow: var(--shadow-card);
+  contain: content;
 }
 
 .card h2 {
@@ -318,6 +329,7 @@ a:hover { text-decoration: underline; }
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  contain: layout style;
 }
 
 .graph-toolbar {
@@ -364,6 +376,7 @@ a:hover { text-decoration: underline; }
   width: 100%;
   height: 100%;
   pointer-events: none;
+  will-change: transform;
 }
 
 .edge-path {
@@ -439,6 +452,7 @@ a:hover { text-decoration: underline; }
   flex-direction: column;
   gap: 12px;
   overflow-y: auto;
+  contain: layout style;
 }
 
 .trace-card {
@@ -446,6 +460,7 @@ a:hover { text-decoration: underline; }
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   padding: 16px;
+  contain: content;
 }
 
 .trace-empty {
@@ -583,6 +598,13 @@ table {
   width: 100%;
   border-collapse: collapse;
   font-size: 13px;
+  contain: content;
+}
+
+/* Skip rendering off-screen table rows */
+tbody tr {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 32px;
 }
 
 th {
@@ -792,6 +814,7 @@ tr:hover { background: var(--bg-card-hover); }
   display: flex;
   flex-direction: column;
   gap: 8px;
+  contain: content;
 }
 
 .health-finding {
@@ -801,6 +824,8 @@ tr:hover { background: var(--bg-card-hover); }
   padding: 10px;
   cursor: pointer;
   transition: var(--transition);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 80px;
 }
 
 .health-finding:hover { border-color: var(--border-bright); }
@@ -892,6 +917,7 @@ tr:hover { background: var(--bg-card-hover); }
   overflow: hidden;
   transition: var(--transition);
   box-shadow: var(--shadow-card);
+  contain: content;
 }
 
 .agent-card:hover { border-color: var(--border-bright); }
@@ -1269,6 +1295,7 @@ tr:hover { background: var(--bg-card-hover); }
   display: flex;
   flex-direction: column;
   gap: 6px;
+  contain: content;
 }
 
 .rag-source {
@@ -1277,6 +1304,8 @@ tr:hover { background: var(--bg-card-hover); }
   background: var(--bg-elevated);
   cursor: pointer;
   transition: var(--transition);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 40px;
 }
 
 .rag-source:hover { background: var(--bg-card-hover); }

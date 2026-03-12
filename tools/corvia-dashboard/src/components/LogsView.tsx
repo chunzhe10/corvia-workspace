@@ -10,7 +10,7 @@ export function LogsView() {
     () => fetchLogs({ module: module || undefined, level: level || undefined, limit: 200 }),
     [module, level],
   );
-  const { data, error, loading } = usePoll(fetcher, 3000);
+  const { data, error, loading } = usePoll(fetcher, 5000);
 
   return (
     <div class="card">

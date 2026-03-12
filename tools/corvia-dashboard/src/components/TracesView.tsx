@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect, useRef } from "preact/hooks";
 import { usePoll } from "../hooks/use-poll";
 import { fetchTraces, fetchMergeQueue, retryMergeEntries } from "../api";
-import type { SpanStats, TracesResponse, TraceEvent, MergeQueueStatus } from "../types";
+import type { SpanStats, TracesResponse, TraceEvent, MergeQueueStatus, ModuleStats } from "../types";
 
 // --- Architecture topology ---
 interface ModuleDef {
@@ -68,34 +68,12 @@ function spanToModule(name: string): string {
 
 type TraceMode = "map" | "dataflow" | "heat";
 
-interface ModStats {
-  count: number;
-  count_1h: number;
-  avg_ms: number;
-  errors: number;
-  spanCount: number;
-}
-
-function aggregateModuleStats(spans: Record<string, SpanStats>): { stats: Record<string, ModStats>; maxCount: number } {
-  const stats: Record<string, ModStats> = {};
-  for (const mod of Object.keys(MODULES)) {
-    stats[mod] = { count: 0, count_1h: 0, avg_ms: 0, errors: 0, spanCount: 0 };
+function getMaxCount(modules: Record<string, ModuleStats>): number {
+  let max = 1;
+  for (const ms of Object.values(modules)) {
+    if (ms.count > max) max = ms.count;
   }
-  let maxCount = 1;
-  for (const [sname, s] of Object.entries(spans)) {
-    const m = spanToModule(sname);
-    if (!stats[m]) continue;
-    stats[m].count += s.count;
-    stats[m].count_1h += s.count_1h;
-    stats[m].avg_ms += s.avg_ms * s.count;
-    stats[m].errors += s.errors;
-    stats[m].spanCount++;
-  }
-  for (const ms of Object.values(stats)) {
-    ms.avg_ms = ms.count > 0 ? Math.round(ms.avg_ms / ms.count) : 0;
-    if (ms.count > maxCount) maxCount = ms.count;
-  }
-  return { stats, maxCount };
+  return max;
 }
 
 // --- SVG edge drawing ---
@@ -148,7 +126,7 @@ function ModuleNode({
 }: {
   id: string;
   mod: ModuleDef;
-  modStats: ModStats;
+  modStats: ModuleStats;
   maxCount: number;
   mode: TraceMode;
   selected: boolean;
@@ -174,7 +152,7 @@ function ModuleNode({
         {mod.icon}
       </div>
       <div class="tnode-label" style={{ color: `var(--${mod.color})` }}>{mod.label}</div>
-      <div class="tnode-stat">{modStats.count.toLocaleString()} ops &middot; {modStats.spanCount} spans</div>
+      <div class="tnode-stat">{modStats.count.toLocaleString()} ops &middot; {modStats.span_count} spans</div>
       <div class="tnode-bar">
         <div class="tnode-bar-fill" style={{ width: `${barW}%`, background: `var(--${mod.color})` }} />
       </div>
@@ -245,7 +223,7 @@ function DetailPanel({
 }: {
   moduleId: string;
   modDef: ModuleDef;
-  modStats: ModStats;
+  modStats: ModuleStats;
   spans: Record<string, SpanStats>;
   events: TraceEvent[];
   onNavigate?: (tab: string) => void;
@@ -364,13 +342,17 @@ export function TracesView({ onNavigate }: { onNavigate?: (tab: string) => void 
   const canvasRef = useRef<HTMLDivElement>(null);
 
   const fetcher = useCallback(() => fetchTraces(), []);
-  const { data, error, loading } = usePoll(fetcher, 3000);
+  const { data, error, loading } = usePoll(fetcher, 5000);
 
   if (loading) return <div class="loading">Loading traces...</div>;
   if (error) return <div class="error-banner">{error}</div>;
   if (!data) return null;
 
-  const { stats: modStats, maxCount } = aggregateModuleStats(data.spans);
+  // Use pre-aggregated module stats from server (no client-side computation)
+  const defaultMs: ModuleStats = { count: 0, count_1h: 0, avg_ms: 0, errors: 0, span_count: 0 };
+  const modStats = data.modules;
+  const maxCount = getMaxCount(modStats);
+  const ms = (id: string) => modStats[id] ?? defaultMs;
 
   return (
     <div class="traces-workspace">
@@ -398,7 +380,7 @@ export function TracesView({ onNavigate }: { onNavigate?: (tab: string) => void 
               key={id}
               id={id}
               mod={mod}
-              modStats={modStats[id]}
+              modStats={ms(id)}
               maxCount={maxCount}
               mode={mode}
               selected={selectedModule === id}
@@ -418,7 +400,7 @@ export function TracesView({ onNavigate }: { onNavigate?: (tab: string) => void 
           <DetailPanel
             moduleId={selectedModule}
             modDef={MODULES[selectedModule]}
-            modStats={modStats[selectedModule]}
+            modStats={ms(selectedModule)}
             spans={data.spans}
             events={data.recent_events}
             onNavigate={onNavigate}

@@ -35,7 +35,7 @@ export function Layout() {
   const [healthLoading, setHealthLoading] = useState(false);
 
   const fetcher = useCallback(() => fetchStatus(), []);
-  const { data, error, loading } = usePoll(fetcher, 3000);
+  const { data, error, loading } = usePoll(fetcher, 5000);
 
   const navigateToTab = useCallback((t: string) => setTab(t as Tab), []);
 

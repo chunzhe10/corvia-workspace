@@ -58,9 +58,18 @@ export interface LogsResponse {
   total: number;
 }
 
+export interface ModuleStats {
+  count: number;
+  count_1h: number;
+  avg_ms: number;
+  errors: number;
+  span_count: number;
+}
+
 export interface TracesResponse {
   spans: Record<string, SpanStats>;
   recent_events: TraceEvent[];
+  modules: Record<string, ModuleStats>;
 }
 
 export interface GraphEdge {
