@@ -30,6 +30,8 @@ fail_msg() { printf "    ... FAILED (%s)\n" "$*" >&2; }
 
 FLAGS_FILE="$WORKSPACE_ROOT/.devcontainer/.corvia-workspace-flags"
 
+export TZ=Asia/Kuala_Lumpur
+
 echo "=== Corvia Workspace: post-start ==="
 
 # ── 1/4 ───────────────────────────────────────────────────────────────
@@ -66,6 +68,28 @@ for _attempt in $(seq 1 30); do
 done
 if [ "$mcp_ready" = false ]; then
     fail_msg "not ready after 60s — check 'corvia-dev logs corvia-server'"
+fi
+
+# Ensure dashboard dependencies are installed
+DASHBOARD_DIR="$WORKSPACE_ROOT/tools/corvia-dashboard"
+if [ -f "$DASHBOARD_DIR/package.json" ] && [ ! -d "$DASHBOARD_DIR/node_modules" ]; then
+    printf "    installing dashboard dependencies"
+    (cd "$DASHBOARD_DIR" && npm install --no-fund --no-audit) >/dev/null 2>&1 && done_msg || fail_msg "npm install"
+fi
+
+printf "    waiting for dashboard (port 8021)"
+dash_ready=false
+for _attempt in $(seq 1 15); do
+    if curl -sf --max-time 2 -o /dev/null http://127.0.0.1:8021/ 2>/dev/null; then
+        done_msg
+        dash_ready=true
+        break
+    fi
+    printf "."
+    sleep 2
+done
+if [ "$dash_ready" = false ]; then
+    fail_msg "not ready after 30s — check 'corvia-dev logs corvia-dashboard'"
 fi
 
 # ── 3/4 ───────────────────────────────────────────────────────────────

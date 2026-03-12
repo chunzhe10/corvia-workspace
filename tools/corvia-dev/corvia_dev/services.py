@@ -62,6 +62,17 @@ SERVICES: list[ServiceDefinition] = [
         exclusive_group="storage",
     ),
     ServiceDefinition(
+        name="corvia-dashboard",
+        tier=0,
+        port=8021,
+        health_path="/",
+        start_cmd=[
+            "bash", "-c",
+            "cd tools/corvia-dashboard && npx vite --port 8021 --host",
+        ],
+        depends_on=["corvia-server"],
+    ),
+    ServiceDefinition(
         name="coding-llm",
         tier=2,
         port=None,
@@ -132,7 +143,10 @@ def resolve_startup_order(
     # 3. corvia-server
     _add("corvia-server")
 
-    # 4. Additive enabled services
+    # 4. corvia-dashboard (always starts after server)
+    _add("corvia-dashboard")
+
+    # 5. Additive enabled services
     for svc_name in enabled_services:
         svc = get_service(svc_name)
         if svc is None:
