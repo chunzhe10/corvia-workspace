@@ -42,3 +42,19 @@ sessions close. A `SessionEnd` hook in `.claude/settings.json` auto-runs
 - **Manual run**: `bash .devcontainer/scripts/cleanup-orphans.sh`
 - **Upstream**: https://github.com/anthropics/claude-code/issues
 - **Remove when**: upstream fix lands in Claude Code
+
+## Documentation Save Locations
+
+When using superpowers brainstorming or writing-plans skills:
+- Product-specific designs → relevant repo's `docs/` directory
+- Workspace-level decisions → `docs/decisions/`
+- Implementation plans → alongside their design doc in the repo
+- Learnings → `docs/learnings/`
+
+Do NOT save to `docs/superpowers/specs/` or `docs/superpowers/plans/`.
+
+## Recording Decisions
+
+Use `corvia_write` with `content_role` and `source_origin` params:
+- corvia product decisions: `source_origin = "repo:corvia"`
+- Workspace decisions: `source_origin = "workspace"`
