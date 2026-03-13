@@ -122,6 +122,15 @@ export interface ClusterGraphNode {
 export type AgentStatus = "Active" | "Suspended";
 export type IdentityType = "Registered" | "McpClient";
 
+export interface ActivitySummary {
+  entry_count: number;
+  topic_tags: string[];
+  last_topics: string[];
+  last_active: string;
+  session_count: number;
+  drifted: boolean;
+}
+
 export interface AgentRecord {
   agent_id: string;
   display_name: string;
@@ -130,6 +139,8 @@ export interface AgentRecord {
   permissions: AgentPermission;
   last_seen: string;
   status: AgentStatus;
+  description?: string;
+  activity_summary?: ActivitySummary;
 }
 
 export type AgentPermission =

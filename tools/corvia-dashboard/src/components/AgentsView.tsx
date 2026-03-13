@@ -1,7 +1,7 @@
 import { useState, useCallback } from "preact/hooks";
 import { usePoll } from "../hooks/use-poll";
 import { fetchAgents, fetchAgentSessions } from "../api";
-import type { AgentRecord, SessionRecord, SessionState } from "../types";
+import type { AgentRecord, SessionRecord, SessionState, ActivitySummary } from "../types";
 
 const STATE_COLORS: Record<SessionState, string> = {
   Created: "var(--text-dim)",
@@ -104,12 +104,36 @@ function AgentCard({
         <div class="agent-card-info">
           <div class="agent-name">{agent.display_name}</div>
           <div class="agent-id">{agent.agent_id}</div>
+          {agent.description && (
+            <div class="agent-description">{agent.description}</div>
+          )}
+          {agent.activity_summary && agent.activity_summary.topic_tags.length > 0 && (
+            <div class="agent-topics">
+              {agent.activity_summary.topic_tags.map((tag) => (
+                <span class="topic-pill" key={tag}>{tag}</span>
+              ))}
+              {agent.activity_summary.drifted && (
+                <span
+                  class="drift-indicator"
+                  title={`Last session: ${agent.activity_summary.last_topics.join(", ")}`}
+                >
+                  drifted
+                </span>
+              )}
+            </div>
+          )}
         </div>
         <div class="agent-card-stats">
           <span class="agent-stat">
             <span class="agent-stat-label">type</span>
             <span class="agent-stat-val">{agent.identity_type}</span>
           </span>
+          {agent.activity_summary && (
+            <span class="agent-stat">
+              <span class="agent-stat-label">entries</span>
+              <span class="agent-stat-val">{agent.activity_summary.entry_count}</span>
+            </span>
+          )}
           {sessions !== null && (
             <span class="agent-stat">
               <span class="agent-stat-label">sessions</span>
@@ -140,6 +164,48 @@ function AgentCard({
               {agent.status}
             </span>
           </div>
+          {agent.description && (
+            <div class="agent-detail-row">
+              <span class="agent-detail-label">Purpose</span>
+              <span class="agent-detail-val">{agent.description}</span>
+            </div>
+          )}
+
+          {agent.activity_summary && (
+            <>
+              <h3 class="agent-section-title">Activity Summary</h3>
+              <div class="agent-detail-row">
+                <span class="agent-detail-label">Entries</span>
+                <span class="agent-detail-val">{agent.activity_summary.entry_count}</span>
+              </div>
+              <div class="agent-detail-row">
+                <span class="agent-detail-label">Sessions</span>
+                <span class="agent-detail-val">{agent.activity_summary.session_count}</span>
+              </div>
+              {agent.activity_summary.topic_tags.length > 0 && (
+                <div class="agent-detail-row">
+                  <span class="agent-detail-label">Topics</span>
+                  <span class="agent-detail-val">
+                    {agent.activity_summary.topic_tags.map((tag) => (
+                      <span class="topic-pill" key={tag}>{tag}</span>
+                    ))}
+                  </span>
+                </div>
+              )}
+              {agent.activity_summary.drifted && agent.activity_summary.last_topics.length > 0 && (
+                <div class="agent-detail-row">
+                  <span class="agent-detail-label">Drift</span>
+                  <span class="agent-detail-val drift-indicator">
+                    Last session topics: {agent.activity_summary.last_topics.join(", ")}
+                  </span>
+                </div>
+              )}
+              <div class="agent-detail-row">
+                <span class="agent-detail-label">Last active</span>
+                <span class="agent-detail-val">{relativeTime(agent.activity_summary.last_active)}</span>
+              </div>
+            </>
+          )}
 
           <h3 class="agent-section-title">Sessions</h3>
           {sessLoading && <div class="agent-empty">Loading sessions...</div>}

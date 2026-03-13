@@ -1061,6 +1061,40 @@ tr:hover { background: var(--bg-card-hover); }
   font-family: var(--font-mono);
 }
 
+/* Agent description & topic pills */
+.agent-description {
+  color: var(--text-dim);
+  font-size: 11px;
+  margin-top: 2px;
+  font-style: italic;
+}
+
+.agent-topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+  align-items: center;
+}
+
+.topic-pill {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 10px;
+  background: rgba(147, 130, 220, 0.15);
+  color: #9382dc;
+  font-size: 10px;
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+
+.drift-indicator {
+  color: var(--amber);
+  font-size: 10px;
+  margin-left: 4px;
+  font-weight: 600;
+}
+
 .agent-card-stats {
   display: flex;
   gap: 16px;
