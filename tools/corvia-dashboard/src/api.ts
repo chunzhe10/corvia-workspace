@@ -9,6 +9,8 @@ import type {
   MergeQueueStatus,
   RagResponse,
   HealthResponse,
+  EntryDetail,
+  HistoryResponse,
 } from "./types";
 
 const BASE = "/api/dashboard";
@@ -84,6 +86,16 @@ export function retryMergeEntries(entryIds: string[]): Promise<{ retried: number
 
 export function ragAsk(query: string, scopeId: string): Promise<RagResponse> {
   return post("/rag/ask", { query, scope_id: scopeId });
+}
+
+// --- Entry / History ---
+
+export function fetchEntryDetail(entryId: string): Promise<EntryDetail> {
+  return get(`/entries/${encodeURIComponent(entryId)}`);
+}
+
+export function fetchEntryHistory(entryId: string): Promise<HistoryResponse> {
+  return get(`/entries/${encodeURIComponent(entryId)}/history`);
 }
 
 // --- Health ---
