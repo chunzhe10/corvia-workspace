@@ -1,10 +1,18 @@
 import { useCallback, useEffect, useRef, useState } from "preact/hooks";
 import { usePoll } from "../hooks/use-poll";
-import { fetchGraphScope } from "../api";
+import { fetchGraphScope, fetchClusteredGraph } from "../api";
 import { DocumentReader } from "./DocumentReader";
 import { GraphControls } from "./GraphControls";
 import type { GraphNode, GraphScopeEdge, GraphScopeResponse } from "../types";
 import "../styles/graph-reader.css";
+
+// --- Breadcrumb type ---
+
+interface Breadcrumb {
+  level: number;
+  id?: string;
+  label: string;
+}
 
 // --- Cluster types ---
 
@@ -40,6 +48,39 @@ interface EntryNode {
   vx: number;
   vy: number;
   pinned: boolean;
+}
+
+// --- LOD level names ---
+
+const LOD_LABELS = ["Super-clusters", "Sub-clusters", "File groups", "Entries"];
+
+// --- Zoom-to-LOD level with hysteresis ---
+
+function zoomToLevel(zoom: number, lastZoom: number): number {
+  const HYSTERESIS = 0.05;
+  if (zoom < 0.8 - (lastZoom >= 0.8 ? HYSTERESIS : 0)) return 0;
+  if (zoom < 1.5 - (lastZoom >= 1.5 ? HYSTERESIS : 0)) return 1;
+  if (zoom < 3.0 - (lastZoom >= 3.0 ? HYSTERESIS : 0)) return 2;
+  return 3;
+}
+
+// --- Viewport culling for L3 ---
+
+function cullToViewport(
+  nodes: EntryNode[],
+  pan: { x: number; y: number },
+  zoom: number,
+  canvasW: number,
+  canvasH: number,
+): EntryNode[] {
+  const margin = 0.2;
+  const left = -pan.x / zoom - (canvasW * margin) / zoom;
+  const right = (canvasW - pan.x) / zoom + (canvasW * margin) / zoom;
+  const top = -pan.y / zoom - (canvasH * margin) / zoom;
+  const bottom = (canvasH - pan.y) / zoom + (canvasH * margin) / zoom;
+  return nodes.filter(
+    (n) => n.x >= left && n.x <= right && n.y >= top && n.y <= bottom,
+  );
 }
 
 // --- Relation color palette (matches theme) ---
@@ -617,14 +658,49 @@ export function GraphView() {
     depth: number;
   }>({ contentRole: null, sourceOrigin: null, depth: 2 });
 
-  const fetcher = useCallback(() => fetchGraphScope(
-    filters.contentRole || filters.sourceOrigin
-      ? {
-          content_role: filters.contentRole ?? undefined,
-          source_origin: filters.sourceOrigin ?? undefined,
-        }
-      : undefined
-  ), [filters.contentRole, filters.sourceOrigin]);
+  // --- LOD state ---
+  const [lodLevel, setLodLevel] = useState(0);
+  const [breadcrumbs, setBreadcrumbs] = useState<Breadcrumb[]>([
+    { level: 0, label: "All" },
+  ]);
+  const lastZoomRef = useRef(1.0);
+  const [isDegraded, setIsDegraded] = useState(false);
+
+  // Derive parent ID from breadcrumbs (the last breadcrumb with an id)
+  const parentId = breadcrumbs.length > 1
+    ? breadcrumbs[breadcrumbs.length - 1].id
+    : undefined;
+
+  // Level-aware fetcher: try clustered endpoint first, fall back on degraded
+  const fetcher = useCallback(() => {
+    if (isDegraded) {
+      // Degraded mode: use the original path-based fetch
+      return fetchGraphScope(
+        filters.contentRole || filters.sourceOrigin
+          ? {
+              content_role: filters.contentRole ?? undefined,
+              source_origin: filters.sourceOrigin ?? undefined,
+            }
+          : undefined,
+      );
+    }
+    return fetchClusteredGraph(lodLevel, parentId).then((resp) => {
+      if (resp.degraded) {
+        // Mark degraded and fall back to path-based fetch
+        setIsDegraded(true);
+        return fetchGraphScope(
+          filters.contentRole || filters.sourceOrigin
+            ? {
+                content_role: filters.contentRole ?? undefined,
+                source_origin: filters.sourceOrigin ?? undefined,
+              }
+            : undefined,
+        );
+      }
+      return resp;
+    });
+  }, [lodLevel, parentId, isDegraded, filters.contentRole, filters.sourceOrigin]);
+
   const { data, error, loading } = usePoll(fetcher, 10000);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -632,6 +708,7 @@ export function GraphView() {
   const clusterEdgesRef = useRef<ClusterEdge[]>([]);
   const entryNodesRef = useRef<EntryNode[]>([]);
   const entryEdgesRef = useRef<GraphScopeEdge[]>([]);
+  const allEntryNodesRef = useRef<EntryNode[]>([]);
   const animRef = useRef<number>(0);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [selectedEntryId, setSelectedEntryId] = useState<string | null>(null);
@@ -653,7 +730,7 @@ export function GraphView() {
     const resp = data as GraphScopeResponse;
     if (!resp.nodes || !resp.edges) return;
 
-    const dataId = resp.nodes.length + ":" + resp.edges.length;
+    const dataId = resp.nodes.length + ":" + resp.edges.length + ":" + lodLevel;
     if (dataId === dataIdRef.current) return;
     dataIdRef.current = dataId;
 
@@ -670,23 +747,85 @@ export function GraphView() {
     canvas.style.width = `${w}px`;
     canvas.style.height = `${h}px`;
 
-    initClusters(clusters, w, h);
-    clustersRef.current = clusters;
-    clusterEdgesRef.current = clusterEdges;
+    // For L3 (individual entries), switch to entry mode
+    if (lodLevel === 3 && !isDegraded) {
+      const entryNodes: EntryNode[] = resp.nodes.map((n) => ({
+        id: n.id,
+        label: n.label,
+        content_role: n.content_role,
+        source_origin: n.source_origin,
+        source_file: n.source_file,
+        x: 0,
+        y: 0,
+        vx: 0,
+        vy: 0,
+        pinned: false,
+      }));
+      initEntryNodes(entryNodes, w, h);
+      allEntryNodesRef.current = entryNodes;
+      entryNodesRef.current = entryNodes;
+      entryEdgesRef.current = resp.edges;
+      setViewMode("entry");
+    } else {
+      initClusters(clusters, w, h);
+      clustersRef.current = clusters;
+      clusterEdgesRef.current = clusterEdges;
 
-    // Assign colors
-    const cm = new Map<string, string>();
-    clusters.forEach((c, i) => cm.set(c.id, clusterColor(i)));
-    colorMapRef.current = cm;
+      // Assign colors
+      const cm = new Map<string, string>();
+      clusters.forEach((c, i) => cm.set(c.id, clusterColor(i)));
+      colorMapRef.current = cm;
+
+      setViewMode("cluster");
+    }
 
     zoomRef.current = 1;
     panRef.current = { x: 0, y: 0 };
     setSelectedId(null);
-    setViewMode("cluster");
-    setFocusCluster(null);
-  }, [data]);
+  }, [data, lodLevel, isDegraded]);
 
-  // Switch to entry-level view when a cluster is double-clicked
+  // Navigate to a specific breadcrumb level
+  const navigateToLevel = useCallback((level: number, id?: string) => {
+    // Trim breadcrumbs to the target level
+    setBreadcrumbs((prev) => {
+      const idx = prev.findIndex((bc) => bc.level === level && bc.id === id);
+      if (idx >= 0) return prev.slice(0, idx + 1);
+      return [{ level: 0, label: "All" }];
+    });
+    setLodLevel(level);
+    setSelectedId(null);
+    setSelectedEntryId(null);
+    setHoveredNodeId(null);
+    setFocusCluster(null);
+    zoomRef.current = 1;
+    panRef.current = { x: 0, y: 0 };
+  }, []);
+
+  // Drill into next level (double-click on cluster)
+  const drillIntoCluster = useCallback(
+    (clusterId: string, clusterLabel: string) => {
+      if (isDegraded) {
+        // In degraded mode, use the existing entry-mode expansion
+        switchToEntryMode(clusterId);
+        return;
+      }
+      const nextLevel = Math.min(lodLevel + 1, 3);
+      setBreadcrumbs((prev) => [
+        ...prev,
+        { level: nextLevel, id: clusterId, label: clusterLabel.replace("corvia-", "") },
+      ]);
+      setLodLevel(nextLevel);
+      setSelectedId(null);
+      setSelectedEntryId(null);
+      setHoveredNodeId(null);
+      setFocusCluster(null);
+      zoomRef.current = 1;
+      panRef.current = { x: 0, y: 0 };
+    },
+    [lodLevel, isDegraded],
+  );
+
+  // Switch to entry-level view when a cluster is double-clicked (degraded mode)
   const switchToEntryMode = useCallback((clusterId: string) => {
     if (!data) return;
     const resp = data as GraphScopeResponse;
@@ -714,6 +853,7 @@ export function GraphView() {
 
     const { w, h } = sizeRef.current;
     initEntryNodes(entryNodes, w, h);
+    allEntryNodesRef.current = entryNodes;
     entryNodesRef.current = entryNodes;
     entryEdgesRef.current = clusterEntryEdges;
 
@@ -732,7 +872,22 @@ export function GraphView() {
     setHoveredNodeId(null);
     zoomRef.current = 1;
     panRef.current = { x: 0, y: 0 };
-  }, []);
+    // In LOD mode, navigate back to parent level
+    if (!isDegraded && breadcrumbs.length > 1) {
+      const parent = breadcrumbs[breadcrumbs.length - 2];
+      navigateToLevel(parent.level, parent.id);
+    }
+  }, [isDegraded, breadcrumbs, navigateToLevel]);
+
+  // Viewport culling for L3 entry-level nodes
+  useEffect(() => {
+    if (viewMode !== "entry" || lodLevel !== 3 || isDegraded) return;
+    const all = allEntryNodesRef.current;
+    if (all.length === 0) return;
+    const { w, h } = sizeRef.current;
+    const culled = cullToViewport(all, panRef.current, zoomRef.current, w, h);
+    entryNodesRef.current = culled;
+  }, [viewMode, lodLevel, isDegraded]);
 
   // Animation loop
   useEffect(() => {
@@ -767,11 +922,22 @@ export function GraphView() {
         );
         ctx.restore();
       } else {
-        const nodes = entryNodesRef.current;
+        // At L3 with LOD, apply viewport culling each frame
+        let renderNodes = entryNodesRef.current;
+        if (lodLevel === 3 && !isDegraded) {
+          renderNodes = cullToViewport(
+            allEntryNodesRef.current,
+            panRef.current,
+            zoomRef.current,
+            w,
+            h,
+          );
+          entryNodesRef.current = renderNodes;
+        }
         const edges = entryEdgesRef.current;
 
-        if (nodes.length > 0) {
-          const moving = stepEntryNodes(nodes, edges, w / 2, h / 2);
+        if (renderNodes.length > 0) {
+          const moving = stepEntryNodes(renderNodes, edges, w / 2, h / 2);
           if (moving) settled = 0; else settled++;
         }
 
@@ -779,7 +945,7 @@ export function GraphView() {
         ctx.save();
         ctx.scale(dpr, dpr);
         drawEntryNodes(
-          ctx, nodes, edges, selectedEntryId, hoveredNodeId,
+          ctx, renderNodes, edges, selectedEntryId, hoveredNodeId,
           zoomRef.current, panRef.current.x, panRef.current.y,
           w, h,
         );
@@ -797,7 +963,7 @@ export function GraphView() {
 
     animRef.current = requestAnimationFrame(tick);
     return () => { running = false; cancelAnimationFrame(animRef.current); };
-  }, [selectedId, selectedEntryId, hoveredNodeId, viewMode]);
+  }, [selectedId, selectedEntryId, hoveredNodeId, viewMode, lodLevel, isDegraded]);
 
   // Mouse handlers
   const onMouseDown = useCallback((e: MouseEvent) => {
@@ -890,17 +1056,20 @@ export function GraphView() {
   }, [viewMode]);
 
   const onDoubleClick = useCallback((e: MouseEvent) => {
-    if (viewMode !== "cluster") return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
     const cx = e.clientX - rect.left;
     const cy = e.clientY - rect.top;
-    const hit = hitTestCluster(clustersRef.current, cx, cy, zoomRef.current, panRef.current.x, panRef.current.y);
-    if (hit) {
-      switchToEntryMode(hit.id);
+
+    if (viewMode === "cluster") {
+      const hit = hitTestCluster(clustersRef.current, cx, cy, zoomRef.current, panRef.current.x, panRef.current.y);
+      if (hit) {
+        drillIntoCluster(hit.id, hit.label);
+      }
     }
-  }, [viewMode, switchToEntryMode]);
+    // No drill-down from entry mode — entries are the leaf level
+  }, [viewMode, drillIntoCluster]);
 
   const onWheel = useCallback((e: WheelEvent) => {
     e.preventDefault();
@@ -917,8 +1086,23 @@ export function GraphView() {
       y: cy - (cy - panRef.current.y) * (newZoom / oldZoom),
     };
     zoomRef.current = newZoom;
+
+    // LOD switching based on zoom level (only in non-degraded mode)
+    if (!isDegraded) {
+      const newLevel = zoomToLevel(newZoom, lastZoomRef.current);
+      lastZoomRef.current = newZoom;
+      if (newLevel !== lodLevel) {
+        // Reset breadcrumbs when zoom-driven LOD changes (keep only root)
+        setBreadcrumbs([{ level: 0, label: "All" }]);
+        setLodLevel(newLevel);
+        setSelectedId(null);
+        setSelectedEntryId(null);
+        setHoveredNodeId(null);
+      }
+    }
+
     forceRender((n) => n + 1);
-  }, []);
+  }, [lodLevel, isDegraded]);
 
   // Resize observer
   useEffect(() => {
@@ -947,7 +1131,7 @@ export function GraphView() {
   const edges = resp.edges ?? [];
   const nodes = resp.nodes ?? [];
 
-  if (edges.length === 0) {
+  if (edges.length === 0 && nodes.length === 0) {
     return <EdgeTable edges={edges} nodes={nodes} />;
   }
 
@@ -979,7 +1163,7 @@ export function GraphView() {
           {/* Toolbar */}
           <div class="graph-toolbar">
             <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-              {viewMode === "entry" && (
+              {viewMode === "entry" && isDegraded && (
                 <button
                   class="graph-back-btn"
                   onClick={switchToClusterMode}
@@ -989,7 +1173,10 @@ export function GraphView() {
                 </button>
               )}
               <span style={{ fontSize: "12px", fontWeight: 600, color: "var(--text-dim)", textTransform: "uppercase", letterSpacing: "0.5px" }}>
-                {viewMode === "cluster" ? "Knowledge Graph" : `Cluster: ${focusCluster?.replace("corvia-", "")}`}
+                {isDegraded
+                  ? (viewMode === "cluster" ? "Knowledge Graph" : `Cluster: ${focusCluster?.replace("corvia-", "")}`)
+                  : `Knowledge Graph \u00b7 ${LOD_LABELS[lodLevel] ?? "L" + lodLevel}`
+                }
               </span>
               <span style={{ fontSize: "11px", color: "var(--text-dim)", fontFamily: "var(--font-mono)" }}>
                 {viewMode === "cluster"
@@ -997,6 +1184,15 @@ export function GraphView() {
                   : `${entryNodesRef.current.length} entries \u00b7 ${entryEdgesRef.current.length} edges`
                 }
               </span>
+              {isDegraded && (
+                <span style={{
+                  fontSize: "10px", fontWeight: 600, color: "var(--gold)",
+                  background: "var(--gold-soft)", padding: "2px 8px",
+                  borderRadius: "4px",
+                }}>
+                  Path-based fallback
+                </span>
+              )}
             </div>
             <span class="graph-hint">
               {viewMode === "cluster"
@@ -1005,6 +1201,23 @@ export function GraphView() {
               }
             </span>
           </div>
+
+          {/* Breadcrumb bar (LOD mode only, when navigated past root) */}
+          {!isDegraded && breadcrumbs.length > 1 && (
+            <div class="graph-breadcrumbs">
+              {breadcrumbs.map((bc, i) => (
+                <span key={`${bc.level}-${bc.id ?? "root"}`}>
+                  {i > 0 && <span class="graph-breadcrumb-sep">{" \u2192 "}</span>}
+                  <button
+                    class={`graph-breadcrumb-btn${i === breadcrumbs.length - 1 ? " graph-breadcrumb-btn--active" : ""}`}
+                    onClick={() => navigateToLevel(bc.level, bc.id)}
+                  >
+                    {bc.label}
+                  </button>
+                </span>
+              ))}
+            </div>
+          )}
 
           {/* Controls */}
           <GraphControls
@@ -1029,6 +1242,19 @@ export function GraphView() {
               onWheel={onWheel}
               style={{ cursor: dragRef.current ? "grabbing" : "grab", display: "block" }}
             />
+
+            {/* Zoom / LOD indicator overlay */}
+            {!isDegraded && (
+              <div style={{
+                position: "absolute", bottom: "8px", left: "8px",
+                fontSize: "10px", fontFamily: "var(--font-mono)",
+                color: "var(--text-dim)", background: "rgba(30,34,48,0.85)",
+                padding: "4px 8px", borderRadius: "4px",
+                pointerEvents: "none",
+              }}>
+                {zoomRef.current.toFixed(1)}x \u00b7 L{lodLevel}
+              </div>
+            )}
           </div>
         </div>
 
@@ -1078,7 +1304,7 @@ export function GraphView() {
             {/* Expand cluster button */}
             <button
               class="graph-expand-btn"
-              onClick={() => switchToEntryMode(selectedId!)}
+              onClick={() => drillIntoCluster(selectedId!, selectedCluster.label)}
             >
               Expand entries &rarr;
             </button>

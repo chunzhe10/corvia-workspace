@@ -102,6 +102,19 @@ export interface GraphScopeEdge {
 export interface GraphScopeResponse {
   nodes: GraphNode[];
   edges: GraphScopeEdge[];
+  degraded?: boolean;
+}
+
+export interface ClusterGraphNode {
+  id: string;
+  label: string;
+  level: number;
+  entry_count?: number;
+  preview?: string;
+  source_file?: string;
+  group?: string;
+  content_role?: string;
+  source_origin?: string;
 }
 
 // --- Agent types ---

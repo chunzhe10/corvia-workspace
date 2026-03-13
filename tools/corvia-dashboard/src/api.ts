@@ -76,6 +76,15 @@ export function fetchGraphScope(filters?: {
   return get(`/graph/scope${qs ? `?${qs}` : ""}`);
 }
 
+// --- Clustered graph (LOD) ---
+
+export async function fetchClusteredGraph(level: number, parent?: string): Promise<GraphScopeResponse> {
+  const q = new URLSearchParams();
+  q.set("level", String(level));
+  if (parent) q.set("parent", parent);
+  return get(`/graph/scope?${q.toString()}`);
+}
+
 // --- Agents ---
 
 export function fetchAgents(): Promise<AgentRecord[]> {

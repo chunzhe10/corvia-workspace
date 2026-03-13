@@ -273,3 +273,48 @@
 .graph-expand-btn:hover {
   background: var(--gold-medium);
 }
+
+/* Breadcrumb bar */
+.graph-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-top: none;
+  font-size: 11px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.graph-breadcrumb-sep {
+  color: var(--text-dim);
+  padding: 0 2px;
+}
+
+.graph-breadcrumb-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-family: var(--font-ui);
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: var(--radius-xs);
+}
+
+.graph-breadcrumb-btn:hover {
+  color: var(--text-bright);
+  background: var(--bg-elevated);
+}
+
+.graph-breadcrumb-btn--active {
+  color: var(--text-bright);
+  font-weight: 600;
+  cursor: default;
+}
+
+.graph-breadcrumb-btn--active:hover {
+  background: none;
+}
