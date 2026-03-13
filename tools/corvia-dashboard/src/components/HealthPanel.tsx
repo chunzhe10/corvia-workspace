@@ -7,6 +7,9 @@ const CHECK_LABELS: Record<string, { label: string; icon: string }> = {
   orphan: { label: "Orphaned Entries", icon: "\u{1F47B}" },
   dangling: { label: "Dangling Edges", icon: "\u{1F517}" },
   cycle: { label: "Cycles", icon: "\u{1F504}" },
+  misplaced_doc: { label: "Misplaced Doc", icon: "\u{1F4C1}" },
+  temporal_contradiction: { label: "Temporal Contradiction", icon: "\u26A1" },
+  coverage_gap: { label: "Coverage Gap", icon: "\u{1F4DD}" },
 };
 
 function severityColor(confidence: number): string {
@@ -71,7 +74,7 @@ export function HealthPanel({ data, loading, onRefresh }: Props) {
   }
 
   // All check types (show green for missing ones)
-  const allChecks = ["stale", "broken", "orphan", "dangling", "cycle"];
+  const allChecks = ["stale", "broken", "orphan", "dangling", "cycle", "misplaced_doc", "temporal_contradiction", "coverage_gap"];
   const hasFindings = (type: string) => grouped.has(type);
 
   return (
