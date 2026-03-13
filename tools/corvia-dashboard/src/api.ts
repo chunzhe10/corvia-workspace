@@ -12,6 +12,7 @@ import type {
   HealthResponse,
   EntryDetail,
   HistoryResponse,
+  NeighborsResponse,
 } from "./types";
 
 const BASE = "/api/dashboard";
@@ -64,8 +65,15 @@ export function fetchGraph(entryId?: string): Promise<GraphEdge[]> {
 
 // --- Graph (scope-level) ---
 
-export function fetchGraphScope(): Promise<GraphScopeResponse> {
-  return get("/graph/scope");
+export function fetchGraphScope(filters?: {
+  content_role?: string;
+  source_origin?: string;
+}): Promise<GraphScopeResponse> {
+  const q = new URLSearchParams();
+  if (filters?.content_role) q.set("content_role", filters.content_role);
+  if (filters?.source_origin) q.set("source_origin", filters.source_origin);
+  const qs = q.toString();
+  return get(`/graph/scope${qs ? `?${qs}` : ""}`);
 }
 
 // --- Agents ---
@@ -103,6 +111,18 @@ export function fetchEntryDetail(entryId: string): Promise<EntryDetail> {
 
 export function fetchEntryHistory(entryId: string): Promise<HistoryResponse> {
   return get(`/entries/${encodeURIComponent(entryId)}/history`);
+}
+
+// --- Neighbors ---
+
+export function fetchEntryNeighbors(
+  entryId: string,
+  depth?: number,
+): Promise<NeighborsResponse> {
+  const q = new URLSearchParams();
+  if (depth) q.set("depth", String(depth));
+  const qs = q.toString();
+  return get(`/entries/${encodeURIComponent(entryId)}/neighbors${qs ? `?${qs}` : ""}`);
 }
 
 // --- Health ---
