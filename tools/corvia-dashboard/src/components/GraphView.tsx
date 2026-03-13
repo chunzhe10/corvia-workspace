@@ -191,11 +191,11 @@ function drawGraph(
     ctx.textBaseline = "middle";
     ctx.fillText(label, n.x, n.y + NODE_RADIUS / zoom + 12 / zoom);
 
-    // Short ID inside circle
-    const shortId = n.id.slice(0, 6);
+    // Filename or short ID inside circle
+    const innerLabel = n.label.length > 10 ? n.label.slice(0, 8) + "\u2026" : n.label;
     ctx.font = `${9 / zoom}px 'Cascadia Code', monospace`;
     ctx.fillStyle = "#b0a99f"; // text-muted
-    ctx.fillText(shortId, n.x, n.y);
+    ctx.fillText(innerLabel, n.x, n.y);
   }
 
   ctx.restore();
@@ -449,7 +449,7 @@ export function GraphView() {
 
   // Fallback to table for empty or oversized graphs
   if (edges.length === 0 || edges.length > MAX_EDGES_FOR_GRAPH) {
-    return <EdgeTable edges={edges} />;
+    return <EdgeTable edges={edges} nodes={nodes} />;
   }
 
   // Selected node details
@@ -540,34 +540,49 @@ export function GraphView() {
           <div class="trace-card">
             <div style={{ marginBottom: "10px" }}>
               <div style={{ fontSize: "13px", fontWeight: 700, color: "var(--text-bright)", marginBottom: "4px" }}>
-                Selected Node
+                {selectedNode.source_file ?? selectedNode.label}
               </div>
+              {selectedNode.language && (
+                <span style={{
+                  fontSize: "10px",
+                  padding: "1px 6px",
+                  borderRadius: "4px",
+                  background: "var(--gold-soft)",
+                  color: "var(--gold)",
+                  fontFamily: "var(--font-mono)",
+                  marginBottom: "6px",
+                  display: "inline-block",
+                }}>
+                  {selectedNode.language}
+                </span>
+              )}
               <div
                 style={{
-                  fontSize: "11px",
+                  fontSize: "10px",
                   fontFamily: "var(--font-mono)",
-                  color: "var(--gold)",
+                  color: "var(--text-dim)",
                   marginBottom: "8px",
                   wordBreak: "break-all",
                 }}
               >
-                {selectedNode.id}
+                {shortId(selectedNode.id)}
               </div>
               <div
                 style={{
-                  fontSize: "12px",
+                  fontSize: "11px",
                   color: "var(--text-muted)",
                   lineHeight: "1.5",
                   padding: "10px",
                   background: "var(--bg-primary)",
                   borderRadius: "var(--radius-xs)",
-                  maxHeight: "120px",
+                  maxHeight: "160px",
                   overflowY: "auto",
                   whiteSpace: "pre-wrap",
                   wordBreak: "break-word",
+                  fontFamily: "var(--font-mono)",
                 }}
               >
-                {selectedNode.label}
+                {selectedNode.preview ?? selectedNode.label}
               </div>
             </div>
           </div>
@@ -650,7 +665,17 @@ export function GraphView() {
 
 // --- Fallback table ---
 
-function EdgeTable({ edges }: { edges: GraphScopeEdge[] }) {
+function EdgeTable({ edges, nodes }: { edges: GraphScopeEdge[]; nodes: GraphNode[] }) {
+  const nodeMap = new Map<string, GraphNode>();
+  for (const n of nodes) nodeMap.set(n.id, n);
+
+  function nodeLabel(id: string): string {
+    const n = nodeMap.get(id);
+    if (n?.source_file) return n.source_file;
+    if (n?.label) return n.label.length > 40 ? n.label.slice(0, 38) + "\u2026" : n.label;
+    return shortId(id);
+  }
+
   return (
     <div class="card graph-edges">
       <h2>
@@ -678,9 +703,9 @@ function EdgeTable({ edges }: { edges: GraphScopeEdge[] }) {
           <tbody>
             {edges.map((e, i) => (
               <tr key={i}>
-                <td title={e.from}>{shortId(e.from)}</td>
+                <td title={e.from}>{nodeLabel(e.from)}</td>
                 <td class="relation">{e.relation}</td>
-                <td title={e.to}>{shortId(e.to)}</td>
+                <td title={e.to}>{nodeLabel(e.to)}</td>
                 <td>{e.weight?.toFixed(2) ?? "\u2014"}</td>
               </tr>
             ))}

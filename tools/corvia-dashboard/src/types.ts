@@ -84,6 +84,9 @@ export interface GraphEdge {
 export interface GraphNode {
   id: string;
   label: string;
+  preview?: string;
+  source_file?: string;
+  language?: string;
 }
 
 export interface GraphScopeEdge {
