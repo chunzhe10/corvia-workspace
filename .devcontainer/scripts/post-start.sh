@@ -119,32 +119,18 @@ install_claude_plugin "https://github.com/obra/superpowers.git" superpowers clau
 # ── 4/4 ───────────────────────────────────────────────────────────────
 step "Optional services"
 if [ -f "$FLAGS_FILE" ]; then
-    if grep -q "ollama=enabled" "$FLAGS_FILE"; then
-        if command -v ollama >/dev/null 2>&1; then
-            printf "    starting Ollama"
-            ollama serve &
-            ollama_ready=false
-            for i in $(seq 1 30); do
-                if curl -sf http://127.0.0.1:11434/api/tags >/dev/null 2>&1; then
-                    done_msg
-                    ollama_ready=true
-                    break
-                fi
-                printf "."
-                sleep 1
-            done
-            if [ "$ollama_ready" = false ]; then
-                fail_msg "not ready after 30s"
-            fi
-            # Pull default model for Continue if not already present
-            if [ "$ollama_ready" = true ]; then
-                if ! ollama list 2>/dev/null | grep -q "qwen2.5-coder:7b"; then
-                    printf "    pulling qwen2.5-coder:7b (first run only)"
-                    ollama pull qwen2.5-coder:7b >/dev/null 2>&1 && done_msg || fail_msg "pull failed"
-                fi
+    if grep -q "coding-llm=enabled" "$FLAGS_FILE"; then
+        # coding-llm depends on ollama (corvia-dev starts it via dependency chain).
+        # Here we only pull the coding model that corvia-dev doesn't handle.
+        if curl -sf http://127.0.0.1:11434/api/tags >/dev/null 2>&1; then
+            if ! ollama list 2>/dev/null | grep -q "qwen2.5-coder:7b"; then
+                printf "    pulling qwen2.5-coder:7b (first run only)"
+                ollama pull qwen2.5-coder:7b >/dev/null 2>&1 && done_msg || fail_msg "pull failed"
+            else
+                echo "    ollama: qwen2.5-coder:7b already present"
             fi
         else
-            fail_msg "ollama not installed — run 'curl -fsSL https://ollama.com/install.sh | sh'"
+            fail_msg "ollama not reachable on :11434 — check 'corvia-dev logs ollama'"
         fi
     fi
     if grep -q "surrealdb=enabled" "$FLAGS_FILE"; then
@@ -156,7 +142,7 @@ if [ -f "$FLAGS_FILE" ]; then
             fail_msg "docker not available — SurrealDB requires Docker"
         fi
     fi
-    if ! grep -qE "(ollama|surrealdb)=enabled" "$FLAGS_FILE"; then
+    if ! grep -qE "(coding-llm|surrealdb)=enabled" "$FLAGS_FILE"; then
         echo "    none enabled"
     fi
 else
