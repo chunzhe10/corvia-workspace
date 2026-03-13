@@ -9,7 +9,7 @@ import { TracesView } from "./TracesView";
 import { GraphView } from "./GraphView";
 import { AgentsView } from "./AgentsView";
 import { RagView } from "./RagView";
-import { HistoryView } from "./HistoryView";
+import { HistoryView, SidebarEntryDetail } from "./HistoryView";
 import { ConfigPanel } from "./ConfigPanel";
 import { HealthPanel } from "./HealthPanel";
 import type { HealthResponse } from "../types";
@@ -80,10 +80,19 @@ export function Layout() {
   const [sidebarState, setSidebarState] = useState<SidebarState>("collapsed");
   const [sidebarContent, setSidebarContent] = useState<SidebarContent | null>(null);
 
+  // Cross-tab deeplink state
+  const [deeplinkEntryId, setDeeplinkEntryId] = useState<string | null>(null);
+
   const fetcher = useCallback(() => fetchStatus(), []);
   const { data, error, loading } = usePoll(fetcher, 5000);
 
   const navigateToTab = useCallback((t: string) => setTab(t as Tab), []);
+
+  /** Navigate to History tab with a specific entry pre-loaded. */
+  const navigateToHistory = useCallback((entryId: string) => {
+    setDeeplinkEntryId(entryId);
+    setTab("history");
+  }, []);
 
   // --- Sidebar API ---
 
@@ -98,10 +107,13 @@ export function Layout() {
     setTimeout(() => setSidebarContent(null), 220);
   }, []);
 
-  // Auto-collapse on tab switch
+  // Auto-collapse on tab switch and clear deeplink when leaving history
   useEffect(() => {
     setSidebarState("collapsed");
     setSidebarContent(null);
+    if (tab !== "history") {
+      setDeeplinkEntryId(null);
+    }
   }, [tab]);
 
   // --- Health ---
@@ -224,11 +236,11 @@ export function Layout() {
             {data && <StatusBar data={data} />}
 
             {tab === "traces" && <TracesView onNavigate={navigateToTab} />}
-            {tab === "agents" && <AgentsView />}
-            {tab === "rag" && <RagView />}
-            {tab === "logs" && <LogsView />}
-            {tab === "graph" && <GraphView />}
-            {tab === "history" && <HistoryView />}
+            {tab === "agents" && <AgentsView navigateToHistory={navigateToHistory} />}
+            {tab === "rag" && <RagView navigateToHistory={navigateToHistory} />}
+            {tab === "logs" && <LogsView navigateToHistory={navigateToHistory} />}
+            {tab === "graph" && <GraphView navigateToHistory={navigateToHistory} />}
+            {tab === "history" && <HistoryView deeplinkEntryId={deeplinkEntryId} />}
           </div>
 
           {/* Chevron toggle — always visible at sidebar edge */}
@@ -288,10 +300,12 @@ export function Layout() {
                     data={healthData}
                     loading={healthLoading}
                     onRefresh={refreshHealth}
+                    navigateToHistory={navigateToHistory}
                   />
                 )}
-                {/* Other content kinds are rendered by child components
-                    that push their own content into the sidebar via context */}
+                {sidebarContent.kind === "history" && (
+                  <SidebarEntryDetail entryId={sidebarContent.entryId} />
+                )}
               </div>
             )}
           </aside>

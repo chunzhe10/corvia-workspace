@@ -13,6 +13,7 @@ import type {
   EntryDetail,
   HistoryResponse,
   NeighborsResponse,
+  ActivityFeedResponse,
 } from "./types";
 
 const BASE = "/api/dashboard";
@@ -139,4 +140,21 @@ export function fetchEntryNeighbors(
 export function fetchHealth(check?: string): Promise<HealthResponse> {
   const qs = check ? `?check=${check}` : "";
   return get(`/health${qs}`);
+}
+
+// --- Activity feed ---
+
+export function fetchActivityFeed(params?: {
+  limit?: number;
+  offset?: number;
+  agent?: string;
+  topic?: string;
+}): Promise<ActivityFeedResponse> {
+  const q = new URLSearchParams();
+  if (params?.limit) q.set("limit", String(params.limit));
+  if (params?.offset) q.set("offset", String(params.offset));
+  if (params?.agent) q.set("agent", params.agent);
+  if (params?.topic) q.set("topic", params.topic);
+  const qs = q.toString();
+  return get(`/activity${qs ? `?${qs}` : ""}`);
 }

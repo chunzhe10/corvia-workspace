@@ -309,3 +309,25 @@ export interface HealthResponse {
   findings: HealthFinding[];
   count: number;
 }
+
+// --- Activity feed types ---
+
+export interface ActivityItem {
+  entry_id: string;
+  action: string;
+  title: string;
+  agent_id?: string;
+  agent_name?: string;
+  topic_tags: string[];
+  delta_bytes?: number;
+  recorded_at: string;
+  superseded_id?: string;
+  group_id?: string;
+  group_count?: number;
+}
+
+export interface ActivityFeedResponse {
+  items: ActivityItem[];
+  total: number;
+  topics: string[];
+}
