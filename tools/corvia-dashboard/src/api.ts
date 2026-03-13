@@ -3,6 +3,7 @@ import type {
   LogsResponse,
   TracesResponse,
   GraphEdge,
+  GraphScopeResponse,
   DashboardConfig,
   AgentRecord,
   SessionRecord,
@@ -57,6 +58,12 @@ export function fetchConfig(): Promise<DashboardConfig> {
 export function fetchGraph(entryId?: string): Promise<GraphEdge[]> {
   const qs = entryId ? `?entry_id=${entryId}` : "";
   return get(`/graph${qs}`);
+}
+
+// --- Graph (scope-level) ---
+
+export function fetchGraphScope(): Promise<GraphScopeResponse> {
+  return get("/graph/scope");
 }
 
 // --- Agents ---
