@@ -88,6 +88,8 @@ export interface GraphNode {
   source_file?: string;
   language?: string;
   group?: string;
+  content_role?: string;
+  source_origin?: string;
 }
 
 export interface GraphScopeEdge {
@@ -201,6 +203,8 @@ export interface RagSource {
   score: number;
   source_file: string | null;
   language: string | null;
+  content_role: string | null;
+  source_origin: string | null;
 }
 
 export interface RagResponse {
@@ -222,6 +226,8 @@ export interface EntryDetail {
   metadata: {
     source_file: string | null;
     language: string | null;
+    content_role: string | null;
+    source_origin: string | null;
   };
 }
 
@@ -236,12 +242,32 @@ export interface HistoryEntry {
   metadata: {
     source_file: string | null;
     language: string | null;
+    content_role: string | null;
+    source_origin: string | null;
   };
 }
 
 export interface HistoryResponse {
   entry_id: string;
   chain: HistoryEntry[];
+  count: number;
+}
+
+// --- Neighbor types ---
+
+export interface NeighborEntry {
+  id: string;
+  content: string;
+  relation: string;
+  direction: "outgoing" | "incoming";
+  score: number | null;
+  source_file: string | null;
+  content_role: string | null;
+  source_origin: string | null;
+}
+
+export interface NeighborsResponse {
+  neighbors: NeighborEntry[];
   count: number;
 }
 
