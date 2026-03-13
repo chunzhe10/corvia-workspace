@@ -79,6 +79,25 @@ export interface GraphEdge {
   weight: number;
 }
 
+// --- Graph scope types ---
+
+export interface GraphNode {
+  id: string;
+  label: string;
+}
+
+export interface GraphScopeEdge {
+  from: string;
+  relation: string;
+  to: string;
+  weight?: number;
+}
+
+export interface GraphScopeResponse {
+  nodes: GraphNode[];
+  edges: GraphScopeEdge[];
+}
+
 // --- Agent types ---
 
 export type AgentStatus = "Active" | "Suspended";
