@@ -651,7 +651,7 @@ function hitTestEntry(
 
 type ViewMode = "cluster" | "entry";
 
-export function GraphView() {
+export function GraphView({ navigateToHistory }: { navigateToHistory?: (entryId: string) => void }) {
   const [filters, setFilters] = useState<{
     contentRole: string | null;
     sourceOrigin: string | null;
@@ -1384,6 +1384,7 @@ export function GraphView() {
             entryId={selectedEntryId}
             onNavigate={(id) => setSelectedEntryId(id)}
             onClose={() => setSelectedEntryId(null)}
+            navigateToHistory={navigateToHistory}
           />
         </div>
       )}

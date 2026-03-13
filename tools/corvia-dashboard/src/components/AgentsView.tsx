@@ -216,7 +216,7 @@ function AgentCard({
   );
 }
 
-export function AgentsView() {
+export function AgentsView({ navigateToHistory }: { navigateToHistory?: (entryId: string) => void }) {
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
   const fetcher = useCallback(() => fetchAgents(), []);

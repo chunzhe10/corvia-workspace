@@ -129,7 +129,7 @@ function SourcePanel({ response }: { response: RagResponse }) {
   );
 }
 
-export function RagView() {
+export function RagView({ navigateToHistory }: { navigateToHistory?: (entryId: string) => void }) {
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

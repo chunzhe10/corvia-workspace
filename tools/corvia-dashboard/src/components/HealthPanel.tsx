@@ -18,7 +18,13 @@ function severityColor(confidence: number): string {
   return "var(--mint)";
 }
 
-function FindingRow({ finding }: { finding: HealthFinding }) {
+function FindingRow({
+  finding,
+  navigateToHistory,
+}: {
+  finding: HealthFinding;
+  navigateToHistory?: (entryId: string) => void;
+}) {
   const [expanded, setExpanded] = useState(false);
   const meta = CHECK_LABELS[finding.check_type] ?? { label: finding.check_type, icon: "\u2753" };
   const color = severityColor(finding.confidence);
@@ -36,7 +42,19 @@ function FindingRow({ finding }: { finding: HealthFinding }) {
       {expanded && finding.target_ids.length > 0 && (
         <div class="health-finding-ids">
           {finding.target_ids.map((id) => (
-            <code key={id} class="health-entry-id">{id.slice(0, 8)}</code>
+            <code
+              key={id}
+              class={`health-entry-id${navigateToHistory ? " entry-link" : ""}`}
+              onClick={(e) => {
+                if (navigateToHistory) {
+                  e.stopPropagation();
+                  navigateToHistory(id);
+                }
+              }}
+              title={navigateToHistory ? `View history for ${id}` : id}
+            >
+              {id.slice(0, 8)}
+            </code>
           ))}
         </div>
       )}
@@ -48,9 +66,10 @@ interface Props {
   data: HealthResponse | null;
   loading: boolean;
   onRefresh: () => void;
+  navigateToHistory?: (entryId: string) => void;
 }
 
-export function HealthPanel({ data, loading, onRefresh }: Props) {
+export function HealthPanel({ data, loading, onRefresh, navigateToHistory }: Props) {
   if (loading && !data) {
     return <div class="health-panel"><div class="loading">Running health checks...</div></div>;
   }
@@ -75,7 +94,6 @@ export function HealthPanel({ data, loading, onRefresh }: Props) {
 
   // All check types (show green for missing ones)
   const allChecks = ["stale", "broken", "orphan", "dangling", "cycle", "misplaced_doc", "temporal_contradiction", "coverage_gap"];
-  const hasFindings = (type: string) => grouped.has(type);
 
   return (
     <div class="health-panel">
@@ -116,7 +134,7 @@ export function HealthPanel({ data, loading, onRefresh }: Props) {
       ) : (
         <div class="health-findings">
           {data.findings.map((f, i) => (
-            <FindingRow key={i} finding={f} />
+            <FindingRow key={i} finding={f} navigateToHistory={navigateToHistory} />
           ))}
         </div>
       )}

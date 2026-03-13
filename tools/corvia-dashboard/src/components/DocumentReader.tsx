@@ -7,9 +7,10 @@ interface DocumentReaderProps {
   entryId: string | null;
   onNavigate: (entryId: string) => void;
   onClose: () => void;
+  navigateToHistory?: (entryId: string) => void;
 }
 
-export function DocumentReader({ entryId, onNavigate, onClose }: DocumentReaderProps) {
+export function DocumentReader({ entryId, onNavigate, onClose, navigateToHistory }: DocumentReaderProps) {
   const [entry, setEntry] = useState<EntryDetail | null>(null);
   const [neighbors, setNeighbors] = useState<NeighborEntry[]>([]);
   const [loading, setLoading] = useState(false);
@@ -63,6 +64,24 @@ export function DocumentReader({ entryId, onNavigate, onClose }: DocumentReaderP
         <span class="reader-date">
           {new Date(entry.recorded_at).toLocaleDateString()}
         </span>
+        {navigateToHistory && (
+          <button
+            class="history-link"
+            onClick={() => navigateToHistory(entry.id)}
+            style={{
+              background: "none",
+              border: "none",
+              color: "var(--lavender)",
+              cursor: "pointer",
+              fontSize: "12px",
+              fontWeight: 600,
+              padding: "2px 0",
+              marginLeft: "auto",
+            }}
+          >
+            View history &rarr;
+          </button>
+        )}
       </div>
 
       <div class="reader-content">

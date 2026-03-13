@@ -56,6 +56,7 @@ export interface SidebarAPI {
   closeSidebar: () => void;
   sidebarState: SidebarState;
   sidebarContent: SidebarContent | null;
+  navigateToHistory: (entryId: string) => void;
 }
 
 export const SidebarContext = createContext<SidebarAPI>({
@@ -63,6 +64,7 @@ export const SidebarContext = createContext<SidebarAPI>({
   closeSidebar: () => {},
   sidebarState: "collapsed",
   sidebarContent: null,
+  navigateToHistory: () => {},
 });
 
 export function useSidebar(): SidebarAPI {
@@ -152,6 +154,7 @@ export function Layout() {
     closeSidebar,
     sidebarState,
     sidebarContent,
+    navigateToHistory,
   };
 
   const sidebarWidth = SIDEBAR_WIDTHS[sidebarState];
