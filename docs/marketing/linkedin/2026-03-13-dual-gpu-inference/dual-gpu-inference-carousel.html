@@ -184,7 +184,7 @@
     </div>
     <div class="slide-subtitle" style="font-size: 22px;">
       How I split LLM chat and embedding workloads<br>
-      across NVIDIA + Intel iGPU for <span class="corvia-wm">corvia</span> — local<br>
+      across NVIDIA + Intel iGPU for <span class="corvia-wm">corvia</span>, local<br>
       organizational memory for AI agents.
     </div>
     <div class="cover-tags">
@@ -238,7 +238,7 @@
   <!-- RTX 3060 — bottleneck -->
   <div style="background: rgba(239, 68, 68, 0.08); border: 3px solid var(--accent-red); border-radius: 20px; padding: 28px; text-align: center; margin-bottom: 20px; position: relative;">
     <div style="font-size: 32px; font-weight: 900; color: var(--accent-red); margin-bottom: 4px;">RTX 3060</div>
-    <div style="font-size: 18px; color: var(--text-secondary);">6 GB VRAM &mdash; constantly swapping</div>
+    <div style="font-size: 18px; color: var(--text-secondary);">6 GB VRAM, constantly swapping</div>
     <div style="position: absolute; top: -14px; right: 32px; background: var(--accent-red); color: white; font-size: 13px; font-weight: 800; padding: 4px 14px; border-radius: 8px; letter-spacing: 1px;">BOTTLENECK</div>
   </div>
 
@@ -342,7 +342,7 @@
     <div class="flow-node">
       <div class="flow-circle" style="background: rgba(245, 158, 11, 0.15); color: var(--accent-amber);">&#128737;</div>
       <div class="flow-label highlight-amber">Fallback</div>
-      <div class="flow-desc">GPU missing?<br>Use CPU — but<br>log it. No silence.</div>
+      <div class="flow-desc">GPU missing?<br>Use CPU, but<br>log it. No silence.</div>
     </div>
   </div>
 
@@ -363,7 +363,7 @@
   </div>
 
   <div class="insight-box">
-    <p>fallback_used: true &mdash; no silent degradation.</p>
+    <p>fallback_used: true. No silent degradation.</p>
   </div>
 
   <div class="flex-grow"></div>
@@ -395,7 +395,7 @@
       <div style="font-size: 80px; font-weight: 900; color: var(--accent-amber); line-height: 1; min-width: 100px; text-align: center;">02</div>
       <div style="flex: 1;">
         <div style="font-size: 24px; font-weight: 800; margin-bottom: 8px;">Missing dependency chain</div>
-        <div style="font-size: 17px; color: var(--text-secondary);">libtbb12 not in Debian Trixie &mdash; pulled 4 .deb files from Ubuntu Noble</div>
+        <div style="font-size: 17px; color: var(--text-secondary);">libtbb12 not in Debian Trixie. Pulled 4 .deb files from Ubuntu Noble</div>
       </div>
     </div>
 
@@ -405,7 +405,7 @@
       <div style="font-size: 80px; font-weight: 900; color: var(--accent-purple); line-height: 1; min-width: 100px; text-align: center;">03</div>
       <div style="flex: 1;">
         <div style="font-size: 24px; font-weight: 800; margin-bottom: 8px;">Wrong library path</div>
-        <div style="font-size: 17px; color: var(--text-secondary);">APT installs to /usr/lib/ &mdash; probe checked /usr/lib/x86_64-linux-gnu/</div>
+        <div style="font-size: 17px; color: var(--text-secondary);">APT installs to /usr/lib/. Probe checked /usr/lib/x86_64-linux-gnu/</div>
       </div>
     </div>
   </div>
@@ -479,7 +479,7 @@
   </div>
 
   <div class="insight-box">
-    <p><span class="corvia-wm">corvia</span> is organizational memory for AI agents — and the devcontainer dogfoods it. The AI assistant that helps build <span class="corvia-wm">corvia</span> uses <span class="corvia-wm">corvia</span>'s own knowledge base.</p>
+    <p><span class="corvia-wm">corvia</span> is organizational memory for AI agents, and the devcontainer dogfoods it. The AI assistant that helps build <span class="corvia-wm">corvia</span> uses <span class="corvia-wm">corvia</span>'s own knowledge base.</p>
   </div>
 
   <div class="flex-grow"></div>
@@ -569,7 +569,7 @@
       <div style="width: 80px; height: 80px; border-radius: 50%; background: rgba(16, 185, 129, 0.15); display: flex; align-items: center; justify-content: center; font-size: 40px; flex-shrink: 0;">&#128268;</div>
       <div>
         <div style="font-size: 24px; font-weight: 800; margin-bottom: 6px;">ONNX sessions are independent.</div>
-        <div style="font-size: 17px; color: var(--text-secondary);">One on CUDA, one on OpenVINO, one on CPU &mdash; all parallel.</div>
+        <div style="font-size: 17px; color: var(--text-secondary);">One on CUDA, one on OpenVINO, one on CPU. All parallel.</div>
       </div>
     </div>
 
