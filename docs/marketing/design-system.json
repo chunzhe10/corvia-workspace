@@ -286,6 +286,43 @@
         "Alternate between text-heavy and visual slides for rhythm.",
         "The 'discovery journey' tone: honest about failures, specific about what you tried, generous with what you learned."
       ]
+    },
+
+    "contentStrategy": {
+      "_description": "How slides and post description work together. Slides are the primary content vehicle; the post guides readers through the arc.",
+
+      "slides": {
+        "role": "primary",
+        "principles": [
+          "Slides MUST tell the complete story standalone. Many readers never read the post description.",
+          "Each slide must have enough context to be understood without the previous slide or the post text.",
+          "Include 'what is this project?' context on the cover slide — don't assume the reader knows.",
+          "Use subtitles and insight boxes to add the context that would otherwise be in the post.",
+          "Jargon must be explained on the slide where it first appears (e.g., 'OpenVINO EP' → 'hardware backend').",
+          "Diagrams and visuals carry better than paragraphs. Prefer flow charts, split layouts, and stat boxes over blocks of text.",
+          "Slides should have a visual:text ratio that favors visual. If a slide looks like a wall of text, redesign it."
+        ]
+      },
+
+      "postDescription": {
+        "role": "guide",
+        "principles": [
+          "The post description is a SHORT narrative arc that guides people through the slides, not a standalone essay.",
+          "Target 6-8 short paragraphs. Each paragraph maps roughly to 1-2 slides.",
+          "Hook → Problem → Solution → Key insight → Messy part (1 sentence, 'slide N has the breakdown') → Proud moment → Dogfooding/meta → CTA.",
+          "Reference specific slides when detail lives there: '(Slide 5 has the full breakdown.)'",
+          "Keep technical detail light — enough to intrigue, not enough to explain. The slides do the explaining.",
+          "Tone: down to earth, developer journey, honest. Not a press release, not a tutorial."
+        ],
+        "maxParagraphs": 8,
+        "targetWordCount": "250-350"
+      },
+
+      "tone": {
+        "voice": "Developer journal — first person, honest, specific",
+        "do": ["Share failures and messes", "Be specific about what went wrong", "Credit tools and approaches fairly", "Acknowledge what's still early/incomplete"],
+        "dont": ["Sound like a press release", "Overclaim ('game-changer', 'revolutionary')", "Hide behind jargon", "Present everything as polished/easy"]
+      }
     }
   }
 }

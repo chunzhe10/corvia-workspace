@@ -2,6 +2,26 @@
 
 Guidelines for AI agents producing visual content (LinkedIn carousels, dashboards, brand guides) using HTML/CSS + Playwright MCP for rendering and verification.
 
+## Content Strategy: Slides Carry the Story
+
+**The #1 rule:** Slides must tell the complete story standalone. Many LinkedIn readers never read the post description — they just swipe.
+
+### Slides (primary content)
+- Each slide must be self-contained — understandable without reading the post or even the previous slide.
+- Include "what is this project?" context on the cover (don't assume the reader knows).
+- Use subtitles and insight boxes to carry context that would otherwise be in the post.
+- Explain jargon on the slide where it first appears.
+- Prefer diagrams, flow charts, and stat boxes over paragraphs. If a slide looks like a wall of text, redesign it.
+
+### Post description (guide, not essay)
+- Short narrative arc (6-8 paragraphs, 250-350 words) that walks readers through the slides.
+- Each paragraph maps to ~1-2 slides. Reference slides when detail lives there: "(Slide 5 has the breakdown.)"
+- Hook → Problem → Solution → Key insight → Mess (brief) → Proud moment → Meta/dogfooding → CTA.
+- Keep technical detail light — enough to intrigue, not enough to explain. Slides do the explaining.
+- Tone: down to earth, developer journey, honest. Not a press release.
+
+See `docs/marketing/design-system.json` → `shared.contentStrategy` for the full spec.
+
 ## Brand Context
 
 Two design brands exist in this workspace — same structural patterns, different palettes:
@@ -157,6 +177,12 @@ Instead of generating arbitrary HTML, compose slides from canonical templates de
 7. `takeaway` — lessons + CTA
 
 6-8 slides is the sweet spot. Read the full template specs in the design system JSON before generating HTML.
+
+**Self-sufficiency checklist (every slide):**
+- Does this slide make sense if the reader hasn't read the post description? If not, add context.
+- Is there a subtitle or insight box explaining "why this matters"? If not, add one.
+- Would a first-time viewer know what the project is? Cover slide must name the project and what it does.
+- Is jargon explained in-slide? (e.g., "OpenVINO EP" should be accompanied by "hardware backend" or similar)
 
 ## Anti-patterns
 

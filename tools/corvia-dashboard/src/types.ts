@@ -87,6 +87,7 @@ export interface GraphNode {
   preview?: string;
   source_file?: string;
   language?: string;
+  group?: string;
 }
 
 export interface GraphScopeEdge {
