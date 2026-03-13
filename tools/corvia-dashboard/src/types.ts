@@ -205,6 +205,42 @@ export interface RagResponse {
   trace: PipelineTrace;
 }
 
+// --- Entry / History types ---
+
+export interface EntryDetail {
+  id: string;
+  content: string;
+  scope_id: string;
+  recorded_at: string;
+  valid_from: string;
+  valid_to: string | null;
+  superseded_by: string | null;
+  metadata: {
+    source_file: string | null;
+    language: string | null;
+  };
+}
+
+export interface HistoryEntry {
+  id: string;
+  content: string;
+  recorded_at: string;
+  valid_from: string;
+  valid_to: string | null;
+  superseded_by: string | null;
+  is_current: boolean;
+  metadata: {
+    source_file: string | null;
+    language: string | null;
+  };
+}
+
+export interface HistoryResponse {
+  entry_id: string;
+  chain: HistoryEntry[];
+  count: number;
+}
+
 // --- Health types ---
 
 export interface HealthFinding {

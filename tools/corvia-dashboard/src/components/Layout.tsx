@@ -7,11 +7,12 @@ import { TracesView } from "./TracesView";
 import { GraphView } from "./GraphView";
 import { AgentsView } from "./AgentsView";
 import { RagView } from "./RagView";
+import { HistoryView } from "./HistoryView";
 import { ConfigPanel } from "./ConfigPanel";
 import { HealthPanel } from "./HealthPanel";
 import type { HealthResponse } from "../types";
 
-type Tab = "traces" | "agents" | "rag" | "logs" | "graph";
+type Tab = "traces" | "agents" | "rag" | "logs" | "graph" | "history";
 
 const TABS: { id: Tab; label: string }[] = [
   { id: "traces", label: "Traces" },
@@ -19,6 +20,7 @@ const TABS: { id: Tab; label: string }[] = [
   { id: "rag", label: "RAG" },
   { id: "logs", label: "Logs" },
   { id: "graph", label: "Graph" },
+  { id: "history", label: "History" },
 ];
 
 const FRIENDLY_NAMES: Record<string, string> = {
@@ -134,6 +136,7 @@ export function Layout() {
           {tab === "rag" && <RagView />}
           {tab === "logs" && <LogsView />}
           {tab === "graph" && <GraphView />}
+          {tab === "history" && <HistoryView />}
         </div>
 
         <aside class="sidebar">
