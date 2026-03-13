@@ -66,6 +66,13 @@ while IFS= read -r pid; do
     kill_orphan "$pid" 600 "debug inference"
 done < <(pgrep -f 'target/debug/corvia-inference' 2>/dev/null || true)
 
+# ── 1d. Orphaned Ollama processes ──
+# corvia-dev restarts or post-start re-runs can leave stale ollama serve
+# processes. Kill if orphaned (PPID=1) and older than 10 minutes.
+while IFS= read -r pid; do
+    kill_orphan "$pid" 600 "ollama serve"
+done < <(pgrep -f 'ollama serve' 2>/dev/null || true)
+
 # ── 2. Drop filesystem caches under memory pressure (WSL only) ──
 # WSL's memory management benefits from explicit cache drops; native Linux does not.
 if grep -qi "microsoft\|wsl" /proc/version 2>/dev/null; then

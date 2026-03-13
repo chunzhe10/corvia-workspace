@@ -7,6 +7,15 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DC_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 OVERRIDE="$DC_DIR/docker-compose.override.yml"
 
+# If the .devcontainer dir or override file aren't writable (e.g. owned by
+# root from a previous Docker rebuild), fix ownership so we can write to them.
+if [ ! -w "$DC_DIR" ]; then
+    sudo chown -R "$(id -u):$(id -g)" "$DC_DIR"
+fi
+if [ -e "$OVERRIDE" ] && [ ! -w "$OVERRIDE" ]; then
+    rm -f "$OVERRIDE" 2>/dev/null || sudo rm -f "$OVERRIDE"
+fi
+
 HOME_DIR="${HOME:-${USERPROFILE:-}}"
 if [ -z "$HOME_DIR" ]; then
     echo "Warning: Cannot determine home directory — auth forwarding may not work"
@@ -14,6 +23,20 @@ fi
 
 # Create directories if they don't exist so Docker bind mounts succeed.
 [ -n "$HOME_DIR" ] && mkdir -p "$HOME_DIR/.config/gh" "$HOME_DIR/.claude"
+
+# ── Remove stale containers ─────────────────────────────────────────
+# VS Code uses `docker compose up --no-recreate` which reuses existing
+# containers even when the compose config has changed (e.g. tty, mounts).
+# Remove any exited containers for this workspace so they get recreated
+# with the current config.
+WORKSPACE_DIR="$(cd "$DC_DIR/.." && pwd)"
+STALE_IDS=$(docker ps -q -a \
+    --filter "label=devcontainer.local_folder=$WORKSPACE_DIR" \
+    --filter "status=exited" 2>/dev/null || true)
+if [ -n "$STALE_IDS" ]; then
+    echo "Removing exited devcontainer(s) to ensure fresh config..."
+    echo "$STALE_IDS" | xargs docker rm 2>/dev/null || true
+fi
 
 # ── Platform detection ───────────────────────────────────────────────
 IS_WSL=false
@@ -72,7 +95,11 @@ fi
 
         if [ "$HAS_DRI" = true ]; then
             DEVICES+=("/dev/dri:/dev/dri")
-            GROUP_ADD+=("video" "render")
+            # Use numeric GIDs — group names may not exist inside the container.
+            VIDEO_GID=$(getent group video 2>/dev/null | cut -d: -f3 || true)
+            RENDER_GID=$(getent group render 2>/dev/null | cut -d: -f3 || true)
+            [ -n "$VIDEO_GID" ] && GROUP_ADD+=("$VIDEO_GID")
+            [ -n "$RENDER_GID" ] && GROUP_ADD+=("$RENDER_GID")
         fi
 
         if [ "$HAS_DXG" = true ]; then

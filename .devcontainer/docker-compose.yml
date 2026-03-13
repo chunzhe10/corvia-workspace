@@ -3,6 +3,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    stdin_open: true  # keep container alive (docker run -i)
+    tty: true         # allocate pseudo-TTY (docker run -t)
     volumes:
       - ..:/workspaces/corvia-workspace:cached
       - corvia-cargo-registry:/usr/local/cargo/registry

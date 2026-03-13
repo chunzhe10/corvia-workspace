@@ -151,7 +151,15 @@ install_binaries() {
             pids+=($!)
         done
         printf "    fetching (curl)..."
-        while kill -0 "${pids[@]}" 2>/dev/null; do
+        while :; do
+            alive=false
+            for pid in "${pids[@]}"; do
+                if kill -0 "$pid" 2>/dev/null; then
+                    alive=true
+                    break
+                fi
+            done
+            [ "$alive" = true ] || break
             printf "."
             sleep 1
         done
@@ -228,9 +236,9 @@ install_vsix_direct() {
 
     # Read publisher and name/version from package.json inside the .vsix (it's a zip)
     local pkg_json
-    pkg_json=$(python3 -c "
-import zipfile, json, sys
-with zipfile.ZipFile('$vsix_path') as z:
+    pkg_json=$(VSIX_PATH="$vsix_path" python3 -c "
+import zipfile, json, sys, os
+with zipfile.ZipFile(os.environ['VSIX_PATH']) as z:
     with z.open('extension/package.json') as f:
         d = json.load(f)
         print(json.dumps({'publisher': d['publisher'], 'name': d['name'], 'version': d['version']}))
@@ -269,16 +277,16 @@ with zipfile.ZipFile('$vsix_path') as z:
         # Extract extension/ contents from the .vsix into the target directory
         local tmpdir
         tmpdir=$(mktemp -d)
-        python3 -c "
+        VSIX_PATH="$vsix_path" EXTRACT_DIR="$tmpdir" python3 -c "
 import zipfile, os
-with zipfile.ZipFile('$vsix_path') as z:
+with zipfile.ZipFile(os.environ['VSIX_PATH']) as z:
     for info in z.infolist():
         if info.filename.startswith('extension/'):
             # Strip 'extension/' prefix
             rel = info.filename[len('extension/'):]
             if not rel:
                 continue
-            target = os.path.join('$tmpdir', rel)
+            target = os.path.join(os.environ['EXTRACT_DIR'], rel)
             if info.is_dir():
                 os.makedirs(target, exist_ok=True)
             else:
