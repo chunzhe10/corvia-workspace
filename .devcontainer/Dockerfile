@@ -30,6 +30,35 @@ RUN if [ "$(dpkg --print-architecture)" = "amd64" ]; then \
         echo "Skipping Intel GPU packages (not amd64)"; \
     fi
 
+# OpenVINO 2025.3.0 runtime (needed by corvia-inference ONNX Runtime OpenVINO EP).
+# Matches ort 2.0.0-rc.11 → ONNX Runtime 1.23.2 → OpenVINO 2025.3.0.
+# libtbb12 not in Debian trixie — pull from Ubuntu Noble; libhwloc15 is in trixie.
+# Only available for amd64; skip on other architectures.
+RUN if [ "$(dpkg --print-architecture)" = "amd64" ]; then \
+        apt-get update && apt-get install -y --no-install-recommends libhwloc15 \
+        && rm -rf /var/lib/apt/lists/* \
+        && mkdir -p /tmp/tbb && cd /tmp/tbb \
+        && curl -LO http://mirrors.kernel.org/ubuntu/pool/universe/o/onetbb/libtbbmalloc2_2021.11.0-2ubuntu2_amd64.deb \
+        && curl -LO http://mirrors.kernel.org/ubuntu/pool/universe/o/onetbb/libtbbbind-2-5_2021.11.0-2ubuntu2_amd64.deb \
+        && curl -LO http://mirrors.kernel.org/ubuntu/pool/universe/o/onetbb/libtbb12_2021.11.0-2ubuntu2_amd64.deb \
+        && dpkg -i libtbbmalloc2_*.deb libtbbbind-2-5_*.deb libtbb12_*.deb \
+        && rm -rf /tmp/tbb \
+        && wget -qO- https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB \
+            | gpg --dearmor -o /usr/share/keyrings/openvino-archive-keyring.gpg \
+        && echo "deb [signed-by=/usr/share/keyrings/openvino-archive-keyring.gpg] https://apt.repos.intel.com/openvino/2025 ubuntu24 main" \
+            > /etc/apt/sources.list.d/intel-openvino.list \
+        && apt-get update && apt-get install -y --no-install-recommends \
+            libopenvino-2025.3.0 \
+            libopenvino-intel-gpu-plugin-2025.3.0 \
+            libopenvino-onnx-frontend-2025.3.0 \
+        && rm -rf /var/lib/apt/lists/* \
+        && ln -sf /usr/lib/libopenvino.so.2530 /usr/lib/libopenvino.so \
+        && ln -sf /usr/lib/libopenvino_c.so.2530 /usr/lib/libopenvino_c.so \
+        && ldconfig; \
+    else \
+        echo "Skipping OpenVINO packages (not amd64)"; \
+    fi
+
 # Ollama (uses iGPU when /dev/dri is available, falls back to CPU)
 RUN curl -fsSL https://ollama.com/install.sh | sh
 
