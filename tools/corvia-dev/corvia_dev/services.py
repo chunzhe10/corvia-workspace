@@ -73,6 +73,22 @@ SERVICES: list[ServiceDefinition] = [
         depends_on=["corvia-server"],
     ),
     ServiceDefinition(
+        name="playwright-mcp",
+        tier=0,
+        port=8050,
+        health_proto="tcp",
+        start_cmd=[
+            "npx", "@playwright/mcp@latest",
+            "--port", "8050",
+            "--host", "0.0.0.0",
+            "--allowed-hosts", "*",
+            "--headless",
+            "--no-sandbox",
+            "--isolated",
+        ],
+        depends_on=[],
+    ),
+    ServiceDefinition(
         name="coding-llm",
         tier=2,
         port=None,
@@ -146,7 +162,10 @@ def resolve_startup_order(
     # 4. corvia-dashboard (always starts after server)
     _add("corvia-dashboard")
 
-    # 5. Additive enabled services
+    # 5. Shared MCP servers
+    _add("playwright-mcp")
+
+    # 6. Additive enabled services
     for svc_name in enabled_services:
         svc = get_service(svc_name)
         if svc is None:
