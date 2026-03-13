@@ -198,6 +198,11 @@ a:hover { text-decoration: underline; }
   overflow: hidden;
 }
 
+.main--sidebar-collapsible {
+  grid-template-columns: 1fr auto;
+  position: relative;
+}
+
 .content {
   padding: 20px;
   overflow-y: auto;
@@ -209,6 +214,111 @@ a:hover { text-decoration: underline; }
   border-left: 1px solid var(--border);
   background: var(--bg-elevated);
   contain: layout style;
+}
+
+.sidebar--collapsible {
+  padding: 0;
+  transition: width 200ms ease, min-width 200ms ease;
+  overflow: hidden;
+  border-left: none;
+}
+
+.sidebar--collapsible .sidebar-inner {
+  padding: 16px 20px;
+  overflow-y: auto;
+  height: 100%;
+  box-sizing: border-box;
+  border-left: 1px solid var(--border);
+  /* Width is inherited from the sidebar parent */
+}
+
+/* Sidebar header with title and close button */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sidebar-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xs);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 12px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.sidebar-close:hover {
+  color: var(--text-bright);
+  background: var(--bg-card-hover);
+  border-color: var(--border-bright);
+}
+
+/* Chevron toggle button — positioned at the right edge of the content area */
+.sidebar-toggle {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 20px;
+  height: 48px;
+  border: 1px solid var(--border);
+  border-right: none;
+  border-radius: var(--radius-xs) 0 0 var(--radius-xs);
+  background: var(--bg-elevated);
+  color: var(--text-dim);
+  font-size: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: right 200ms ease, color 0.25s, background 0.25s;
+}
+.sidebar-toggle:hover {
+  color: var(--text-primary);
+  background: var(--bg-card-hover);
+  border-color: var(--border-bright);
+}
+
+/* Header config gear button */
+.header-config-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: var(--transition);
+}
+.header-config-btn:hover {
+  color: var(--text-primary);
+  background: var(--bg-card);
+  border-color: var(--border-bright);
+}
+.header-config-btn.active {
+  color: var(--gold);
+  background: var(--gold-soft);
+  border-color: var(--gold-medium);
 }
 
 /* Metric cards (colored) */
