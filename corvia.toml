@@ -23,9 +23,26 @@ url = "http://127.0.0.1:8030"
 dimensions = 768
 
 [inference]
-device = "auto"
+device = "gpu"
+backend = "cuda"
 kv_quant = "q8"
 flash_attention = true
+
+[inference.chat_models.qwen3]
+repo = "bartowski/Qwen_Qwen3-8B-GGUF"
+filename = "Qwen3-8B-Q4_K_M.gguf"
+
+[inference.chat_models."llama3.2"]
+repo = "bartowski/Llama-3.2-3B-Instruct-GGUF"
+filename = "Llama-3.2-3B-Instruct-Q4_K_M.gguf"
+
+[inference.chat_models."llama3.2:1b"]
+repo = "bartowski/Llama-3.2-1B-Instruct-GGUF"
+filename = "Llama-3.2-1B-Instruct-Q4_K_M.gguf"
+
+[merge]
+provider = "corvia"
+model = "qwen3"
 
 [server]
 host = "127.0.0.1"
