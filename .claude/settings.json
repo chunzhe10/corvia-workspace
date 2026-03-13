@@ -1,5 +1,17 @@
 {
   "hooks": {
+    "SessionStart": [
+      {
+        "_comment": "Display-only reminder for agent identity selection. Does not block or require input.",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/agent-check.sh",
+            "timeout": 5000
+          }
+        ]
+      }
+    ],
     "PreToolUse": [
       {
         "matcher": "Grep|Glob",
