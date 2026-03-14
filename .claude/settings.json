@@ -23,6 +23,18 @@
         ]
       }
     ],
+    "PostToolUse": [
+      {
+        "_comment": "After git commits, remind to persist decisions/learnings to corvia knowledge base.",
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/corvia-write-reminder.sh"
+          }
+        ]
+      }
+    ],
     "SessionEnd": [
       {
         "_comment": "WORKAROUND: Claude Code leaks memory via orphaned node processes in WSL. Kills orphans on session exit. Remove when upstream fix lands: https://github.com/anthropics/claude-code/issues",
