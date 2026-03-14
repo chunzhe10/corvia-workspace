@@ -14,6 +14,10 @@ import type {
   HistoryResponse,
   NeighborsResponse,
   ActivityFeedResponse,
+  GcStatusResponse,
+  GcReportDto,
+  LiveSessionsResponse,
+  RecentTracesResponse,
 } from "./types";
 
 const BASE = "/api/dashboard";
@@ -157,4 +161,27 @@ export function fetchActivityFeed(params?: {
   if (params?.topic) q.set("topic", params.topic);
   const qs = q.toString();
   return get(`/activity${qs ? `?${qs}` : ""}`);
+}
+
+// --- GC ---
+
+export function fetchGcStatus(): Promise<GcStatusResponse> {
+  return get("/gc");
+}
+
+export function triggerGcRun(): Promise<GcReportDto> {
+  return post("/gc/run", {});
+}
+
+// --- Live sessions ---
+
+export function fetchLiveSessions(): Promise<LiveSessionsResponse> {
+  return get("/sessions/live");
+}
+
+// --- Recent traces ---
+
+export function fetchRecentTraces(limit?: number): Promise<RecentTracesResponse> {
+  const qs = limit ? `?limit=${limit}` : "";
+  return get(`/traces/recent${qs}`);
 }
