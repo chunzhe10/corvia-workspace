@@ -15,6 +15,9 @@ export interface SpanStats {
   avg_ms: number;
   last_ms: number;
   errors: number;
+  p50_ms?: number;
+  p95_ms?: number;
+  p99_ms?: number;
 }
 
 export interface TraceEvent {
@@ -330,4 +333,77 @@ export interface ActivityFeedResponse {
   items: ActivityItem[];
   total: number;
   topics: string[];
+}
+
+// --- GC types ---
+
+export interface GcReportDto {
+  orphans_rolled_back: number;
+  duration_ms: number;
+  stale_transitioned: number;
+  closed_sessions_cleaned: number;
+  agents_suspended: number;
+  entries_deduplicated: number;
+  started_at: string;
+}
+
+export interface GcStatusResponse {
+  last_run: GcReportDto | null;
+  history: GcReportDto[];
+  scheduled: boolean;
+}
+
+// --- Live session types ---
+
+export interface LiveSession {
+  session_id: string;
+  agent_id: string;
+  agent_name: string;
+  state: string;
+  started_at: string;
+  duration_secs: number;
+  entries_written: number;
+  entries_merged: number;
+  pending_entries: number;
+  git_branch: string | null;
+  has_staging_dir: boolean;
+}
+
+export interface LiveSessionsSummary {
+  total_active: number;
+  total_stale: number;
+  total_entries_pending: number;
+}
+
+export interface LiveSessionsResponse {
+  sessions: LiveSession[];
+  summary: LiveSessionsSummary;
+}
+
+// --- Trace tree types ---
+
+export interface SpanNode {
+  span_id: string;
+  parent_span_id: string;
+  trace_id: string;
+  span_name: string;
+  elapsed_ms: number;
+  start_offset_ms: number;
+  depth: number;
+  module: string;
+  fields: Record<string, unknown>;
+  children: SpanNode[];
+}
+
+export interface TraceTree {
+  trace_id: string;
+  root_span: string;
+  total_ms: number;
+  span_count: number;
+  started_at: string;
+  spans: SpanNode[];
+}
+
+export interface RecentTracesResponse {
+  traces: TraceTree[];
 }
