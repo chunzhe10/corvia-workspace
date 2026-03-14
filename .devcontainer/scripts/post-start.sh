@@ -111,6 +111,22 @@ print('    MCP server added to .mcp.json')
 "
 fi
 
+# Ensure Claude Code workspace settings enable MCP servers from .mcp.json.
+# settings.local.json is gitignored — recreate it if missing or incomplete.
+SETTINGS_LOCAL="$WORKSPACE_ROOT/.claude/settings.local.json"
+if [ ! -f "$SETTINGS_LOCAL" ] || ! python3 -c "import json; d=json.load(open('$SETTINGS_LOCAL')); assert 'enabledMcpjsonServers' in d" 2>/dev/null; then
+    echo "    writing .claude/settings.local.json"
+    python3 -c "
+import json, os
+p = '$SETTINGS_LOCAL'
+d = json.load(open(p)) if os.path.exists(p) else {}
+d['enabledMcpjsonServers'] = ['corvia', 'playwright']
+json.dump(d, open(p, 'w'), indent=2)
+"
+else
+    echo "    settings.local.json already configured"
+fi
+
 # Install superpowers plugin via direct git clone (no claude CLI dependency)
 printf "    superpowers plugin: "
 install_claude_plugin "https://github.com/obra/superpowers.git" superpowers claude-plugins-official \

@@ -93,11 +93,18 @@ RUN npm install -g --silent @anthropic-ai/claude-code \
 RUN npm install -g --silent @vscode/vsce \
     || echo "WARNING: vsce install failed — will retry at runtime"
 
-# Playwright MCP: pre-built Chromium from official image (fast, no download)
+# Playwright MCP: install Chrome (amd64) or Chromium (arm64) for the playwright-mcp server.
+# Chrome is installed to /opt/google/chrome (fixed system path, not PLAYWRIGHT_BROWSERS_PATH).
+# Chromium falls back to /ms-playwright via PLAYWRIGHT_BROWSERS_PATH on arm64.
 COPY --from=playwright /ms-playwright /ms-playwright
 ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
-RUN npx -y playwright@latest install-deps chromium \
-    || echo "WARNING: playwright system deps install failed — visual QA unavailable"
+RUN if [ "$(dpkg --print-architecture)" = "amd64" ]; then \
+        npx -y playwright@latest install chrome --with-deps \
+        || echo "WARNING: playwright chrome install failed — visual QA unavailable"; \
+    else \
+        npx -y playwright@latest install chromium --with-deps \
+        || echo "WARNING: playwright chromium install failed — visual QA unavailable"; \
+    fi
 
 # Pre-create cargo registry cache so volume mounts work cleanly
 ENV CARGO_HOME="/usr/local/cargo"
