@@ -2,6 +2,7 @@ import { useState, useCallback } from "preact/hooks";
 import { usePoll } from "../hooks/use-poll";
 import { fetchAgents, fetchAgentSessions } from "../api";
 import type { AgentRecord, SessionRecord, SessionState, ActivitySummary } from "../types";
+import { LiveSessionsBar } from "./LiveSessionsBar";
 
 const STATE_COLORS: Record<SessionState, string> = {
   Created: "var(--text-dim)",
@@ -228,6 +229,7 @@ export function AgentsView({ navigateToHistory }: { navigateToHistory?: (entryId
 
   return (
     <div class="agents-view">
+      <LiveSessionsBar onSessionClick={(agentId) => setExpandedId(agentId)} />
       <div class="agents-header">
         <h2>Registered Agents</h2>
         <span class="agents-count">{data.length} agents</span>

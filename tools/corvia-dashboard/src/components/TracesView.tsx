@@ -2,6 +2,8 @@ import { useState, useCallback, useEffect, useRef } from "preact/hooks";
 import { usePoll } from "../hooks/use-poll";
 import { fetchTraces, fetchMergeQueue, retryMergeEntries } from "../api";
 import type { SpanStats, TracesResponse, TraceEvent, MergeQueueStatus, ModuleStats } from "../types";
+import { GcPanel } from "./GcPanel";
+import { WaterfallView } from "./WaterfallView";
 
 // --- Architecture topology ---
 interface ModuleDef {
@@ -301,6 +303,11 @@ function DetailPanel({
                 <div>
                   <div class="span-name">{shortName}</div>
                   {fields && <div class="span-fields">{fields}</div>}
+                  {(stats.p50_ms ?? 0) > 0 && (
+                    <div class="span-percentiles">
+                      p50: {stats.p50_ms?.toFixed(0)}ms &middot; p95: {stats.p95_ms?.toFixed(0)}ms &middot; p99: {stats.p99_ms?.toFixed(0)}ms
+                    </div>
+                  )}
                 </div>
                 <span class={`span-pill ${pillCls}`}>{Math.round(ms)}ms</span>
               </div>
@@ -396,6 +403,8 @@ export function TracesView({ onNavigate }: { onNavigate?: (tab: string) => void 
           <div class="trace-card">
             <div class="trace-empty">Select a module to inspect its telemetry</div>
           </div>
+        ) : selectedModule === "gc" ? (
+          <GcPanel />
         ) : (
           <DetailPanel
             moduleId={selectedModule}
@@ -406,6 +415,11 @@ export function TracesView({ onNavigate }: { onNavigate?: (tab: string) => void 
             onNavigate={onNavigate}
           />
         )}
+      </div>
+
+      {/* Waterfall drill-down */}
+      <div class="trace-waterfall-section">
+        <WaterfallView />
       </div>
     </div>
   );
