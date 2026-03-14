@@ -9,7 +9,7 @@ exec 2>/dev/null
 eval "$(jq -r '
   @sh "COMMAND=\(.tool_input.command // "")",
   @sh "EXIT_CODE=\(.tool_response.exitCode // .tool_response.exit_code // 0)"
-' 2>/dev/null)" || exit 0
+')" || exit 0
 
 # Only trigger on successful git commit commands
 case "$COMMAND" in

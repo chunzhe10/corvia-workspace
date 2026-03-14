@@ -30,7 +30,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash .claude/hooks/corvia-write-reminder.sh"
+            "command": "bash .claude/hooks/corvia-write-reminder.sh",
+            "timeout": 10000
           }
         ]
       }
