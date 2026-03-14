@@ -71,20 +71,27 @@ function LastRunCard({ report }: { report: GcReportDto }) {
 
 export function GcPanel() {
   const [running, setRunning] = useState(false);
-  const [lastTriggerResult, setLastTriggerResult] = useState<GcReportDto | null>(null);
+  const [triggerResult, setTriggerResult] = useState<GcReportDto | null>(null);
+  const [triggerError, setTriggerError] = useState<string | null>(null);
   const fetcher = useCallback(() => fetchGcStatus(), []);
   const { data } = usePoll(fetcher, 10000);
 
   const handleRun = useCallback(async () => {
     setRunning(true);
+    setTriggerError(null);
     try {
       const result = await triggerGcRun();
-      setLastTriggerResult(result);
-    } catch { /* ignore */ }
+      setTriggerResult(result);
+    } catch (e) {
+      setTriggerError(e instanceof Error ? e.message : "GC trigger failed");
+    }
     setRunning(false);
   }, []);
 
   if (!data) return null;
+
+  // Show immediate trigger result until next poll refreshes data
+  const displayReport = triggerResult ?? data.last_run;
 
   return (
     <>
@@ -96,11 +103,17 @@ export function GcPanel() {
           <span style={{ fontSize: "11px", color: "var(--text-dim)" }}>Manual trigger only</span>
         </div>
 
-        {data.last_run ? (
-          <LastRunCard report={data.last_run} />
+        {displayReport ? (
+          <LastRunCard report={displayReport} />
         ) : (
           <div style={{ fontSize: "12px", color: "var(--text-dim)", padding: "16px 0", textAlign: "center" }}>
             No GC runs yet
+          </div>
+        )}
+
+        {triggerError && (
+          <div class="error-banner" style={{ fontSize: "11px", color: "var(--coral)", marginTop: "6px" }}>
+            {triggerError}
           </div>
         )}
 
