@@ -128,6 +128,12 @@ fi
             echo "      - PERFMON"
         fi
 
+        # Intel GPU compute firmware (required for OpenCL/Level Zero)
+        if [ -d /lib/firmware/i915 ]; then
+            echo "    volumes:"
+            echo "      - /lib/firmware/i915:/lib/firmware/i915:ro"
+        fi
+
         # WSL2 driver libs
         if [ "$IS_WSL" = true ] && [ -d /usr/lib/wsl/lib ]; then
             echo "    volumes:"
