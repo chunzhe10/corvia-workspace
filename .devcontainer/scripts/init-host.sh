@@ -122,6 +122,12 @@ fi
             done
         fi
 
+        # CAP_PERFMON for intel_gpu_top GPU monitoring (i915 PMU)
+        if [ "$HAS_DRI" = true ]; then
+            echo "    cap_add:"
+            echo "      - PERFMON"
+        fi
+
         # WSL2 driver libs
         if [ "$IS_WSL" = true ] && [ -d /usr/lib/wsl/lib ]; then
             echo "    volumes:"
