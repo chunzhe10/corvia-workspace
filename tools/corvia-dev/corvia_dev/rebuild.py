@@ -60,7 +60,10 @@ def cargo_build(workspace_root: Path, release: bool = False) -> bool:
 
     Returns True on success, False on failure.
     """
-    cmd = ["cargo", "build", "-p", "corvia-cli", "-p", "corvia-inference"]
+    # --features corvia-inference/cuda enables llama-cpp CUDA inference for chat.
+    # Requires CUDA toolkit (nvcc) at build time; the runtime GPU is provided via docker passthrough.
+    cmd = ["cargo", "build", "-p", "corvia-cli", "-p", "corvia-inference",
+           "--features", "corvia-inference/cuda"]
     if release:
         cmd.append("--release")
 

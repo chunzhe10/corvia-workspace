@@ -25,6 +25,9 @@ dimensions = 768
 [inference]
 device = "gpu"
 backend = "cuda"
+# Embedding runs on Intel iGPU via ONNX Runtime OpenVINO EP (separate from NVIDIA CUDA for chat).
+# /dev/dri and libopenvino are present in the devcontainer — both GPUs used simultaneously.
+embedding_backend = "openvino"
 kv_quant = "q8"
 flash_attention = true
 
