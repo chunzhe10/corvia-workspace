@@ -59,6 +59,26 @@ if command -v nvidia-smi >/dev/null 2>&1 && nvidia-smi >/dev/null 2>&1; then
     if command -v nvidia-container-cli >/dev/null 2>&1 || \
        [ -f /usr/bin/nvidia-container-runtime ]; then
         HAS_NVIDIA=true
+        # Ensure CDI spec exists and matches the running driver version.
+        # Docker uses CDI to discover GPUs; a missing or stale spec causes
+        # "could not select device driver nvidia" even when the driver works.
+        if command -v nvidia-ctk >/dev/null 2>&1; then
+            RUNNING_DRIVER=$(nvidia-smi --query-gpu=driver_version --format=csv,noheader 2>/dev/null | head -1 || true)
+            # If grep pattern fails (CDI format change), CDI_DRIVER will be empty
+            # and we'll regenerate — safe, since generation is idempotent.
+            CDI_DRIVER=$(grep -oP 'host-driver-version=\K[0-9.]+' /etc/cdi/nvidia.yaml 2>/dev/null | head -1 || true)
+            if [ -z "$RUNNING_DRIVER" ]; then
+                echo "GPU: Warning — could not determine driver version, skipping CDI check"
+            elif [ ! -f /etc/cdi/nvidia.yaml ] || [ "$RUNNING_DRIVER" != "$CDI_DRIVER" ]; then
+                echo "GPU: Regenerating NVIDIA CDI spec (driver: $RUNNING_DRIVER)..."
+                if ! sudo nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml >/dev/null 2>&1; then
+                    echo "GPU: Warning — CDI spec regeneration failed (non-fatal)"
+                fi
+            fi
+        else
+            echo "GPU: nvidia-ctk not found — CDI spec may be stale after driver changes"
+            echo "     Install nvidia-container-toolkit for automatic CDI management"
+        fi
     else
         echo "GPU: NVIDIA GPU found but nvidia-container-toolkit not installed"
         echo "     Install it for GPU passthrough: https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/"
