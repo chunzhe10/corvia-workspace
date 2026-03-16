@@ -34,6 +34,44 @@ export TZ=Asia/Kuala_Lumpur
 
 echo "=== Corvia Workspace: post-start ==="
 
+# ── 0/4 ───────────────────────────────────────────────────────────────
+# Intel iGPU: ensure /dev/dri/by-path symlinks exist.
+# The NEO compute runtime discovers GPUs by scanning by-path.
+# Docker device passthrough creates /dev/dri but may not populate by-path
+# for integrated GPUs. Without this, OpenCL/OpenVINO see 0 platforms.
+if [ -d /dev/dri ] && [ -d /dev/dri/by-path ]; then
+    for card_dir in /sys/class/drm/card*/device; do
+        card_name="$(basename "$(dirname "$card_dir")")"
+        vendor="$(cat "$card_dir/vendor" 2>/dev/null || true)"
+        [ "$vendor" = "0x8086" ] || continue  # Intel only
+
+        pci_slot="$(cat "$card_dir/uevent" 2>/dev/null | grep PCI_SLOT_NAME | cut -d= -f2 || true)"
+        [ -n "$pci_slot" ] || continue
+
+        # Find the renderD node for this card
+        render_node=""
+        for rd in /sys/class/drm/renderD*/device; do
+            rd_vendor="$(cat "$rd/vendor" 2>/dev/null || true)"
+            rd_device="$(cat "$rd/device" 2>/dev/null || true)"
+            card_device="$(cat "$card_dir/device" 2>/dev/null || true)"
+            if [ "$rd_vendor" = "$vendor" ] && [ "$rd_device" = "$card_device" ]; then
+                render_node="$(basename "$(dirname "$rd")")"
+                break
+            fi
+        done
+
+        # Create by-path symlinks if missing
+        card_link="/dev/dri/by-path/pci-${pci_slot}-card"
+        render_link="/dev/dri/by-path/pci-${pci_slot}-render"
+        if [ ! -L "$card_link" ] && [ -e "/dev/dri/$card_name" ]; then
+            ln -sf "../$card_name" "$card_link"
+        fi
+        if [ -n "$render_node" ] && [ ! -L "$render_link" ] && [ -e "/dev/dri/$render_node" ]; then
+            ln -sf "../$render_node" "$render_link"
+        fi
+    done
+fi
+
 # ── 1/4 ───────────────────────────────────────────────────────────────
 step "Forwarding host authentication"
 forward_host_auth

@@ -10,6 +10,14 @@ from pathlib import Path
 BINARY_NAMES = ["corvia", "corvia-inference"]
 DEFAULT_INSTALL_DIR = Path("/usr/local/bin")
 
+# ORT execution provider shared libraries required for GPU inference.
+# libonnxruntime_providers_shared.so is the EP plugin loader — needed by ALL EPs.
+# libonnxruntime_providers_openvino.so enables Intel iGPU via OpenVINO.
+ORT_PROVIDER_LIBS = [
+    "libonnxruntime_providers_shared.so",
+    "libonnxruntime_providers_openvino.so",
+]
+
 
 def check_staleness(
     workspace_root: Path,
@@ -41,6 +49,9 @@ def install_binaries(
 ) -> list[str]:
     """Copy built binaries from target_dir to install_dir.
 
+    Also installs ORT provider shared libraries required for GPU execution
+    providers (CUDA, OpenVINO). Without these, ORT silently falls back to CPU.
+
     Returns list of binary names that were installed.
     """
     installed: list[str] = []
@@ -52,6 +63,22 @@ def install_binaries(
         shutil.copy2(src, dst)
         dst.chmod(dst.stat().st_mode | stat.S_IEXEC)
         installed.append(name)
+
+    # Install ORT provider shared libraries to system lib path.
+    # These are downloaded by the ort crate during cargo build and symlinked
+    # into target/release/. They're required for non-CPU execution providers.
+    ort_lib_dir = Path("/usr/lib/x86_64-linux-gnu")
+    for lib_name in ORT_PROVIDER_LIBS:
+        src = target_dir / lib_name
+        if not src.exists():
+            continue
+        # Resolve symlinks (target/release/*.so → pyke.io cache)
+        real_src = src.resolve()
+        if not real_src.exists():
+            continue
+        dst = ort_lib_dir / lib_name
+        shutil.copy2(real_src, dst)
+
     return installed
 
 
