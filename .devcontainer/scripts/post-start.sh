@@ -76,6 +76,13 @@ fi
 step "Forwarding host authentication"
 forward_host_auth
 
+# ── 1.5/4 ─────────────────────────────────────────────────────────────
+# Ensure ORT CUDA provider .so files are in the system lib path.
+# These can be lost when the ORT cache is evicted (e.g., after a
+# driver update or Docker layer rebuild). Without them, CUDA embedding
+# silently falls back to CPU.
+ensure_ort_provider_libs
+
 # ── 2/4 ───────────────────────────────────────────────────────────────
 step "Starting corvia-dev services"
 if ! command -v corvia-dev >/dev/null 2>&1; then

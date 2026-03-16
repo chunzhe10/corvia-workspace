@@ -59,6 +59,30 @@ RUN if [ "$(dpkg --print-architecture)" = "amd64" ]; then \
         echo "Skipping OpenVINO packages (not amd64)"; \
     fi
 
+# CUDA 12 runtime libraries (needed by ONNX Runtime CUDAExecutionProvider).
+# ORT's CUDA EP dynamically loads libcublas, libcurand, libcufft, libcudart, and libcudnn.
+# NVIDIA's apt repo uses SHA1-signed GPG keys which Debian trixie rejects (since 2026-02),
+# so we install via pip packages and symlink into the system lib path.
+# Only needed on amd64 (no NVIDIA GPU on arm64 in our setup).
+RUN if [ "$(dpkg --print-architecture)" = "amd64" ]; then \
+        uv pip install --system --break-system-packages \
+            nvidia-cublas-cu12 nvidia-cuda-runtime-cu12 nvidia-curand-cu12 \
+            nvidia-cufft-cu12 nvidia-cudnn-cu12 \
+        && NVIDIA_PKGS=$(python3 -c "import nvidia.cublas; print(nvidia.cublas.__path__[0])")/.. \
+        && for lib in \
+            cublas/lib/libcublasLt.so.12 cublas/lib/libcublas.so.12 \
+            curand/lib/libcurand.so.10 cufft/lib/libcufft.so.11 \
+            cuda_runtime/lib/libcudart.so.12; do \
+            ln -sf "$NVIDIA_PKGS/$lib" "/usr/lib/x86_64-linux-gnu/$(basename $lib)"; \
+        done \
+        && for lib in "$NVIDIA_PKGS"/cudnn/lib/libcudnn*.so.9; do \
+            ln -sf "$lib" "/usr/lib/x86_64-linux-gnu/$(basename $lib)"; \
+        done \
+        && ldconfig; \
+    else \
+        echo "Skipping CUDA runtime packages (not amd64)"; \
+    fi
+
 # Ollama (uses iGPU when /dev/dri is available, falls back to CPU)
 RUN curl -fsSL https://ollama.com/install.sh | sh
 

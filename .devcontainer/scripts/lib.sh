@@ -588,6 +588,49 @@ json.dump(d, open(path, 'w'), indent=2)
     echo "installed v${version}"
 }
 
+# Ensure ORT CUDA provider .so files are installed in the system lib path.
+# These can be lost when the ORT pyke.io cache is evicted (e.g., layer rebuild,
+# driver update). When missing, corvia-inference silently falls back to CPU.
+# Copies from the most recent cargo build if available.
+ensure_ort_provider_libs() {
+    local ort_lib_dir="/usr/lib/x86_64-linux-gnu"
+    local target_dir="$WORKSPACE_ROOT/repos/corvia/target/release"
+    local libs_needed=false
+
+    for lib in libonnxruntime_providers_shared libonnxruntime_providers_cuda libonnxruntime_providers_openvino; do
+        if [ ! -f "$ort_lib_dir/${lib}.so" ]; then
+            libs_needed=true
+            break
+        fi
+    done
+
+    if [ "$libs_needed" = false ]; then
+        return 0
+    fi
+
+    echo "    ORT provider libs missing — reinstalling from build..."
+    local any_installed=false
+    for lib in libonnxruntime_providers_shared libonnxruntime_providers_cuda libonnxruntime_providers_openvino; do
+        local src="$target_dir/${lib}.so"
+        if [ -L "$src" ] || [ -f "$src" ]; then
+            # Resolve symlinks (target/release/*.so → pyke.io cache); skip dangling
+            local real_src
+            real_src=$(readlink -f "$src" 2>/dev/null || true)
+            if [ -n "$real_src" ] && [ -f "$real_src" ]; then
+                sudo cp -L "$real_src" "$ort_lib_dir/${lib}.so"
+                any_installed=true
+            fi
+        fi
+    done
+
+    if [ "$any_installed" = true ]; then
+        sudo ldconfig
+        echo "    ORT provider libs restored"
+    else
+        echo "    ORT provider libs not found in build — run 'corvia-dev rebuild' to generate"
+    fi
+}
+
 # Ensure all tooling is installed (catches up if post-create was incomplete).
 ensure_tooling() {
     ensure_corvia
