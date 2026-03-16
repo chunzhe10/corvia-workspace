@@ -142,12 +142,21 @@ install_binaries() {
     if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
         spin "    fetching (gh)..." \
             gh release download --repo "$gh_repo" --pattern "$cli_asset" --pattern "$inf_asset" \
-                --pattern "$adp_basic_asset" --pattern "$adp_git_asset" --dir "$tmpdir"
+                --pattern "$adp_basic_asset" --pattern "$adp_git_asset" \
+                --pattern "libonnxruntime_providers_*-linux-${arch_suffix}.so" --dir "$tmpdir"
     else
         local url="https://github.com/$gh_repo/releases/latest/download"
+        # Required binary downloads (must succeed)
         local pids=()
         for asset in "$cli_asset" "$inf_asset" "$adp_basic_asset" "$adp_git_asset"; do
             curl -fsL --retry 3 --retry-delay 2 -o "$tmpdir/$asset" "$url/$asset" 2>/dev/null &
+            pids+=($!)
+        done
+        # Best-effort ORT provider .so downloads (may not exist in older releases)
+        for asset in "libonnxruntime_providers_shared-linux-${arch_suffix}.so" \
+            "libonnxruntime_providers_cuda-linux-${arch_suffix}.so" \
+            "libonnxruntime_providers_openvino-linux-${arch_suffix}.so"; do
+            curl -fsL --retry 1 -o "$tmpdir/$asset" "$url/$asset" 2>/dev/null &
             pids+=($!)
         done
         printf "    fetching (curl)..."
@@ -163,9 +172,16 @@ install_binaries() {
             printf "."
             sleep 1
         done
+        # Only check required binaries (first 4 pids)
         local ok=true
+        local i=0
         for pid in "${pids[@]}"; do
-            wait "$pid" || ok=false
+            if [ "$i" -lt 4 ]; then
+                wait "$pid" || ok=false
+            else
+                wait "$pid" 2>/dev/null || true  # ORT libs are best-effort
+            fi
+            i=$((i + 1))
         done
         if [ "$ok" = true ]; then
             echo " done"
@@ -182,6 +198,22 @@ install_binaries() {
     sudo cp "$tmpdir/$adp_git_asset" "$install_dir/corvia-adapter-git"
     sudo chmod +x "$install_dir/corvia" "$install_dir/corvia-inference" \
         "$install_dir/corvia-adapter-basic" "$install_dir/corvia-adapter-git"
+
+    # Install ORT provider shared libraries (best-effort: skip if not in release)
+    local ort_lib_dir="/usr/lib/x86_64-linux-gnu"
+    local ort_libs_installed=false
+    for lib in libonnxruntime_providers_shared libonnxruntime_providers_cuda libonnxruntime_providers_openvino; do
+        local lib_asset="${lib}-linux-${arch_suffix}.so"
+        local lib_file="$tmpdir/$lib_asset"
+        if [ -f "$lib_file" ]; then
+            sudo cp "$lib_file" "$ort_lib_dir/${lib}.so"
+            ort_libs_installed=true
+        fi
+    done
+    if [ "$ort_libs_installed" = true ]; then
+        sudo ldconfig
+    fi
+
     rm -rf "$tmpdir"
 
     # Cache the installed tag

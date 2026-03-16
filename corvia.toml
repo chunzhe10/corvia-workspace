@@ -78,8 +78,6 @@ metrics_enabled = true
 
 [inference]
 device = "gpu"
-backend = "cuda"
-embedding_backend = "openvino"
 kv_quant = "q8"
 flash_attention = true
 

@@ -15,6 +15,7 @@ DEFAULT_INSTALL_DIR = Path("/usr/local/bin")
 # libonnxruntime_providers_openvino.so enables Intel iGPU via OpenVINO.
 ORT_PROVIDER_LIBS = [
     "libonnxruntime_providers_shared.so",
+    "libonnxruntime_providers_cuda.so",
     "libonnxruntime_providers_openvino.so",
 ]
 
@@ -78,6 +79,10 @@ def install_binaries(
             continue
         dst = ort_lib_dir / lib_name
         shutil.copy2(real_src, dst)
+
+    # Refresh the dynamic linker cache so dlopen finds the new .so files
+    # without requiring a container restart.
+    subprocess.run(["ldconfig"], check=False)
 
     return installed
 
