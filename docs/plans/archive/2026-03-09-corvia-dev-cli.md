@@ -1,6 +1,6 @@
 # corvia-dev CLI Implementation Plan
 
-> **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
+> **Status:** Superseded — Python CLI abandoned in favor of Rust CLI (`corvia workspace`)
 
 **Goal:** Replace bash scripts and VS Code extension with a Python CLI that manages dev services, config mutation, and process supervision with structured JSON output.
 
@@ -8,7 +8,7 @@
 
 **Tech Stack:** Python 3.13, click, pydantic, tomli_w (write), tomllib (read, stdlib), asyncio (subprocess management)
 
-**Design doc:** `docs/plans/2026-03-09-corvia-dev-cli-design.md`
+**Design doc:** `docs/plans/archive/2026-03-09-corvia-dev-cli-design.md`
 
 ---
 

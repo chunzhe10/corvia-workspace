@@ -1,39 +1,36 @@
 {
   "hooks": {
-    "SessionStart": [
+    "PostToolUse": [
       {
-        "_comment": "Display-only reminder for agent identity selection. Does not block or require input.",
+        "_comment": "After git commits, remind to persist decisions/learnings to corvia knowledge base.",
         "hooks": [
           {
-            "type": "command",
-            "command": "bash .claude/hooks/agent-check.sh",
-            "timeout": 5000
+            "command": "bash .claude/hooks/corvia-write-reminder.sh",
+            "timeout": 10000,
+            "type": "command"
           }
-        ]
+        ],
+        "matcher": "Bash"
       }
     ],
     "PreToolUse": [
       {
-        "matcher": "Grep|Glob",
         "hooks": [
           {
-            "type": "command",
-            "command": "echo 'REMINDER: Have you called corvia_search or corvia_ask first? Per CLAUDE.md, you MUST query corvia MCP tools before using Grep/Glob for any new task or question. If you already called corvia this session, proceed.'"
+            "command": "echo 'REMINDER: Have you called corvia_search or corvia_ask first? Per CLAUDE.md, you MUST query corvia MCP tools before using Grep/Glob for any new task or question. If you already called corvia this session, proceed.'",
+            "type": "command"
           }
-        ]
-      }
-    ],
-    "PostToolUse": [
+        ],
+        "matcher": "Grep|Glob"
+      },
       {
-        "_comment": "After git commits, remind to persist decisions/learnings to corvia knowledge base.",
-        "matcher": "Bash",
         "hooks": [
           {
-            "type": "command",
-            "command": "bash .claude/hooks/corvia-write-reminder.sh",
-            "timeout": 10000
+            "command": "bash .corvia/hooks/doc-placement-check.sh",
+            "type": "command"
           }
-        ]
+        ],
+        "matcher": "Write|Edit"
       }
     ],
     "SessionEnd": [
@@ -41,8 +38,20 @@
         "_comment": "WORKAROUND: Claude Code leaks memory via orphaned node processes in WSL. Kills orphans on session exit. Remove when upstream fix lands: https://github.com/anthropics/claude-code/issues",
         "hooks": [
           {
-            "type": "command",
-            "command": "bash \"$CORVIA_WORKSPACE/.devcontainer/scripts/cleanup-orphans.sh\" --quiet 2>/dev/null || true"
+            "command": "bash \"$CORVIA_WORKSPACE/.devcontainer/scripts/cleanup-orphans.sh\" --quiet 2>/dev/null || true",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "_comment": "Display-only reminder for agent identity selection. Does not block or require input.",
+        "hooks": [
+          {
+            "command": "bash .claude/hooks/agent-check.sh",
+            "timeout": 5000,
+            "type": "command"
           }
         ]
       }

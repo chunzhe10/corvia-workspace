@@ -1,5 +1,7 @@
 # Prebuilt Binaries via GitHub Releases
 
+> **Status:** Shipped (v0.3.3)
+
 **Date**: 2026-03-03
 **Decision**: D71 (in `repos/corvia/docs/rfcs/2026-02-27-corvia-v0.2.0-brainstorm.md`)
 **Extends**: D70 (Optional Devcontainer Services)

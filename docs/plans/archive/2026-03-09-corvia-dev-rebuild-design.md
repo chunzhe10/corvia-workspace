@@ -1,7 +1,7 @@
 # corvia-dev rebuild + Staleness Detection
 
+> **Status:** Superseded — rebuild functionality moved to Rust CLI
 > **Date**: 2026-03-09
-> **Status**: Approved
 > **Scope**: corvia-dev CLI (Python, `tools/corvia-dev/`)
 
 ## Problem

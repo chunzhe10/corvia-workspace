@@ -1,6 +1,6 @@
 # RAG Modes: search vs context vs ask
 
-> Captured 2026-03-10. Decision on disabling ask/generation TBD.
+> Captured 2026-03-10. Updated 2026-03-16.
 
 ## Overview
 
@@ -28,10 +28,12 @@ increasing cost and capability:
 - The GenerationEngine is optional in `RagPipeline::new()` — passing `None` disables
   `ask()` gracefully (returns config error) while `context()` and search still work
 
-## Open question
+## Resolution
 
-Can we add a config toggle (e.g., `generation_enabled = false` in `corvia.toml`) to
-skip loading the chat model entirely, saving RAM while keeping search and context
-functional? Currently there is no single config flag for this — disabling requires
-either not providing a GenerationEngine in code or not running the inference server
-(which also disables embeddings).
+The `generation_enabled` config flag was not added as a separate toggle. Instead,
+the inference architecture naturally supports this: corvia-inference loads embedding
+and chat models independently. If no chat model is configured in `[inference.chat_models]`,
+the server starts with embedding-only capability. The `ask()` pipeline returns a config
+error when no GenerationEngine is available, while `search()` and `context()` work
+normally. This makes the single-flag approach unnecessary — the model configuration
+itself is the toggle.

@@ -1,6 +1,6 @@
 # Prebuilt Binaries Implementation Plan
 
-> **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
+> **Status:** Shipped (v0.3.3)
 
 **Goal:** Speed up devcontainer creation by downloading prebuilt corvia-cli and corvia-inference binaries from GitHub releases (~5s vs ~5min), with source fallback and local rebuild.
 
@@ -8,7 +8,7 @@
 
 **Tech Stack:** GitHub Actions, bash, curl
 
-**Design doc:** `docs/plans/2026-03-03-prebuilt-binaries-design.md`
+**Design doc:** `docs/decisions/2026-03-03-prebuilt-binaries-design.md`
 **Decision:** D71 in `repos/corvia/docs/rfcs/2026-02-27-corvia-v0.2.0-brainstorm.md`
 
 ---

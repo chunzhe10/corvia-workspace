@@ -6,45 +6,62 @@
   </picture>
 </p>
 
-# corvia demo workspace
+# corvia development workspace
 
-Multi-repo workspace demonstrating [corvia](https://github.com/chunzhe10/corvia) — organizational memory for AI agents.
+Multi-repo workspace for developing [corvia](repos/corvia) — organizational memory
+for AI agents. This workspace dogfoods corvia's own MCP server and knowledge store
+on its own source code.
 
-This workspace indexes corvia's own codebase, showcasing the knowledge management system on its own source code.
+## Services
+
+| Service | URL | Description |
+|---------|-----|-------------|
+| **API server** | `http://localhost:8020` | REST + MCP protocol server |
+| **Dashboard** | `http://localhost:8021` | Knowledge browser and system health |
+| **Inference** | `http://localhost:8030` | gRPC embedding + chat (ONNX Runtime) |
+
+All services start automatically in the devcontainer via `post-start.sh`.
 
 ## Quick start
 
 ### Option 1: Devcontainer (recommended)
 
-Open in GitHub Codespaces, VS Code Dev Containers, or DevPod.
+Open in GitHub Codespaces, VS Code Dev Containers, or DevPod. Everything is
+pre-configured — services start automatically.
 
 ### Option 2: Local
 
 ```bash
 git clone https://github.com/chunzhe10/corvia-workspace
 cd corvia-workspace
-corvia workspace init    # clones repos, provisions Ollama
-corvia workspace ingest  # indexes both repos
-corvia serve &           # start server (MCP always enabled)
+corvia workspace init          # clones repos, sets up config
+corvia workspace ingest        # indexes all repos
+corvia serve &                 # start API + MCP server
 corvia search "how does chunking work"
 ```
 
 ## What's inside
 
-- **corvia** (namespace: `kernel`) — the core knowledge store, agent coordination, embedding pipeline, and adapters (including the git/tree-sitter ingestion adapter)
+- **[corvia](repos/corvia)** (namespace: `kernel`) — core knowledge store, agent
+  coordination, embedding pipeline, inference server, adapters, dashboard, and CLI
+
+## MCP server
+
+The workspace MCP server at `http://localhost:8020/mcp` provides 18 tools for
+knowledge operations. Any MCP-compatible AI tool (Claude Code, Codex CLI, etc.)
+can connect. Default embedding uses `corvia-inference` with ONNX Runtime —
+no Ollama required.
 
 ## Try these searches
 
 ```bash
-corvia search "IngestionAdapter"          # finds trait + implementation across repos
+corvia search "IngestionAdapter"          # finds trait + implementation
 corvia search "how does embedding work"   # surfaces pipeline from kernel
-corvia search "tree-sitter chunking"      # finds adapter's AST parsing logic
-corvia workspace status                   # see workspace state
+corvia search "tree-sitter chunking"      # finds adapter's AST parsing
+corvia workspace status                   # see workspace + service health
 ```
 
 ## Fresh ingest
-
-The workspace ships with pre-ingested knowledge. To rebuild from scratch:
 
 ```bash
 corvia workspace ingest --fresh

@@ -1,5 +1,7 @@
 # Interactive Graph + Document Browsing UX Research
 
+> **Status:** Reference
+
 Research date: 2026-03-13
 
 Comparative analysis of products that combine document reading with graph navigation,

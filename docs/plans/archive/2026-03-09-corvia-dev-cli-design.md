@@ -1,5 +1,7 @@
 # corvia-dev CLI — Redesigning Workspace Management
 
+> **Status:** Superseded — Python CLI abandoned in favor of Rust CLI (`corvia workspace`)
+
 **Date**: 2026-03-09
 **Replaces**: `corvia-workspace.sh` (390-line bash script), `corvia-supervisor.sh` (79-line bash daemon), `extension.js` (818-line VS Code extension)
 

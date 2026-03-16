@@ -1,6 +1,6 @@
 # Optional Devcontainer Services Implementation Plan
 
-> **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
+> **Status:** Shipped (v0.3.3)
 
 **Goal:** Make the devcontainer default to a light mode (LiteStore + corvia-inference/ONNX) with Ollama and SurrealDB as independent opt-in toggles via `corvia-workspace enable/disable`.
 
@@ -8,7 +8,7 @@
 
 **Tech Stack:** Bash (toggle script), Docker (Dockerfile), corvia-inference (fastembed/ONNX gRPC server on port 8030)
 
-**Design doc:** `docs/plans/2026-03-03-optional-devcontainer-services-design.md`
+**Design doc:** `docs/decisions/2026-03-03-optional-devcontainer-services-design.md`
 **Decision:** D70 in `repos/corvia/docs/rfcs/2026-02-27-corvia-v0.2.0-brainstorm.md`
 
 ---

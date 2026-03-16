@@ -1,6 +1,6 @@
 # corvia-dev rebuild Implementation Plan
 
-> **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
+> **Status:** Superseded — rebuild functionality moved to Rust CLI
 
 **Goal:** Add a `corvia-dev rebuild` command that builds Rust binaries from source, installs them, and restarts services — plus staleness detection that prompts on `corvia-dev up` and warns on `corvia-dev status`.
 

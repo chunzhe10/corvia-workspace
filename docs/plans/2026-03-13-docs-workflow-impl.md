@@ -1,6 +1,6 @@
 # Docs Workflow & Interactive Knowledge Dashboard — Implementation Plan
 
-> **For agentic workers:** REQUIRED: Use superpowers:subagent-driven-development (if subagents available) or superpowers:executing-plans to implement this plan. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **Status:** Active
 
 **Goal:** Implement the Docs Workflow design spec (Approach B — Full Loop) across 4 phases: metadata extensions, dashboard graphed document reader, intelligence checks, and hook enforcement.
 

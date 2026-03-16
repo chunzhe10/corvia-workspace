@@ -82,7 +82,7 @@ Periodic health    → corvia docs check (Aggregator findings in dashboard)
 
 Based on research across 12 knowledge management tools (Obsidian, Roam, Logseq, Neo4j Bloom,
 Heptabase, Scrintal, TheBrain, Kumu, Graphistry, GitHub, Dendron, Foam). Full research at
-`docs/plans/graph-document-ux-research.md`.
+`docs/decisions/graph-document-ux-research.md`.
 
 **Target zone:** Heptabase pattern (graph as first-class navigation with seamless content
 access via side panel), enhanced with Neo4j Bloom's inspector pattern (navigable neighbor
@@ -514,7 +514,7 @@ One command generates all enforcement from `corvia.toml` config.
 
 ## References
 
-- UX research: `docs/plans/graph-document-ux-research.md`
+- UX research: `docs/decisions/graph-document-ux-research.md`
 - Original brainstorm: `repos/corvia/docs/rfcs/2026-02-25-corvia-brainstorm.md` (Flow 2: Living Docs)
 - Existing Reasoner: `crates/corvia-kernel/src/reasoner.rs`
 - Adapter protocol: `crates/corvia-kernel/src/adapter_protocol.rs`

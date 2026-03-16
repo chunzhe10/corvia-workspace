@@ -10,14 +10,18 @@ This file follows the [AGENTS.md standard](https://agents.md/).
 corvia-workspace/
 ├── AGENTS.md                # Cross-platform AI agent instructions (this file)
 ├── CLAUDE.md                # Claude Code wrapper (imports AGENTS.md)
-├── corvia.toml              # Workspace config (repos, embedding, server)
+├── corvia.toml              # Workspace config (repos, embedding, server, docs)
 ├── .agents/                 # Agent-agnostic skills & reference docs
 │   └── skills/              # Reusable patterns for any AI assistant
 ├── .mcp.json                # MCP server config (Claude Code, Codex, etc.)
 ├── repos/
 │   └── corvia/              # Core: kernel, server, CLI, adapters (Rust, AGPL-3.0)
 ├── .corvia/                 # Local knowledge store (LiteStore)
-└── docs/plans/              # Design documents
+└── docs/
+    ├── decisions/           # Workspace-level architectural decisions
+    ├── learnings/           # Captured knowledge and patterns
+    ├── marketing/           # LinkedIn carousels, brand assets
+    └── plans/               # Active implementation plans
 ```
 
 ## Quick Reference
@@ -28,7 +32,16 @@ corvia search "query"            # Search ingested knowledge
 corvia workspace ingest          # Index all repos
 corvia workspace ingest --fresh  # Re-index from scratch
 corvia serve &                   # Start server (auto-started by devcontainer)
+corvia workspace init-hooks      # Generate doc-placement hooks from config
 ```
+
+## Service Ports
+
+| Port | Service | Description |
+|------|---------|-------------|
+| 8020 | API server | REST + MCP protocol |
+| 8021 | Dashboard | Knowledge browser, system health |
+| 8030 | Inference | gRPC embedding + chat (ONNX Runtime) |
 
 ## MCP Server (Dogfooding)
 

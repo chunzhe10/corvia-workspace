@@ -1,14 +1,12 @@
 # DaVinci Resolve Linux Carousel Implementation Plan
 
-> **For agentic workers:** REQUIRED: Use superpowers:subagent-driven-development (if subagents available) or superpowers:executing-plans to implement this plan. Steps use checkbox (`- [ ]`) syntax for tracking.
-
 **Goal:** Build an 8-slide LinkedIn carousel telling the story of installing DaVinci Resolve on Linux with Claude as copilot, using a wall-breaker visual narrative with richer CSS illustrations.
 
 **Architecture:** Single HTML file with all 8 slides, CSS-only illustrations (brick walls, chat bubbles, underwater scene), rendered via Playwright to PNG + PDF. Follows established carousel patterns from `dual-gpu-inference-carousel.html`.
 
 **Tech Stack:** HTML, CSS (no JS), Playwright (render), Node.js (render script)
 
-**Spec:** `docs/superpowers/specs/2026-03-14-resolve-linux-carousel-design.md`
+**Spec:** `docs/marketing/2026-03-14-resolve-linux-carousel-design.md`
 **Reference carousel:** `docs/marketing/linkedin/2026-03-13-dual-gpu-inference/dual-gpu-inference-carousel.html`
 **Design system:** `docs/marketing/design-system.json`
 

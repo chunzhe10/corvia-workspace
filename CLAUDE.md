@@ -45,13 +45,13 @@ sessions close. A `SessionEnd` hook in `.claude/settings.json` auto-runs
 
 ## Documentation Save Locations
 
-When using superpowers brainstorming or writing-plans skills:
-- Product-specific designs → relevant repo's `docs/` directory
+- Product-specific designs and RFCs → `repos/corvia/docs/rfcs/`
 - Workspace-level decisions → `docs/decisions/`
 - Implementation plans → alongside their design doc in the repo
 - Learnings → `docs/learnings/`
+- Marketing content → `docs/marketing/`
 
-Do NOT save to `docs/superpowers/specs/` or `docs/superpowers/plans/`.
+Do NOT create `docs/superpowers/` — that path is blocked by enforcement hooks.
 
 ## Recording Decisions
 

@@ -53,6 +53,15 @@ max_skills = 3
 skill_threshold = 0.30000001192092896
 reserve_for_skills = 0.15000000596046448
 
+[workspace.docs]
+memory_dir = ".memory"
+workspace_docs = "docs"
+allowed_workspace_subdirs = ["decisions", "learnings", "marketing", "plans"]
+
+[workspace.docs.rules]
+blocked_paths = ["docs/superpowers/*"]
+repo_docs_pattern = "docs/"
+
 [chunking]
 max_tokens = 512
 min_tokens = 32
