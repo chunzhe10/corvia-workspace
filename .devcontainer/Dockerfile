@@ -73,10 +73,10 @@ RUN if [ "$(dpkg --print-architecture)" = "amd64" ]; then \
             cublas/lib/libcublasLt.so.12 cublas/lib/libcublas.so.12 \
             curand/lib/libcurand.so.10 cufft/lib/libcufft.so.11 \
             cuda_runtime/lib/libcudart.so.12; do \
-            ln -sf "$NVIDIA_PKGS/$lib" "/usr/lib/x86_64-linux-gnu/$(basename $lib)"; \
+            ln -sf "$NVIDIA_PKGS/$lib" "/usr/lib/x86_64-linux-gnu/$(basename "$lib")"; \
         done \
         && for lib in "$NVIDIA_PKGS"/cudnn/lib/libcudnn*.so.9; do \
-            ln -sf "$lib" "/usr/lib/x86_64-linux-gnu/$(basename $lib)"; \
+            ln -sf "$lib" "/usr/lib/x86_64-linux-gnu/$(basename "$lib")"; \
         done \
         && ldconfig; \
     else \

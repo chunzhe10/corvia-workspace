@@ -593,11 +593,16 @@ json.dump(d, open(path, 'w'), indent=2)
 # driver update). When missing, corvia-inference silently falls back to CPU.
 # Copies from the most recent cargo build if available.
 ensure_ort_provider_libs() {
+    # Only relevant on amd64 (CUDA/OpenVINO GPUs)
+    if [ "$(dpkg --print-architecture)" != "amd64" ]; then
+        return 0
+    fi
+
     local ort_lib_dir="/usr/lib/x86_64-linux-gnu"
-    local target_dir="$WORKSPACE_ROOT/repos/corvia/target/release"
+    local ort_libs="libonnxruntime_providers_shared libonnxruntime_providers_cuda libonnxruntime_providers_openvino"
     local libs_needed=false
 
-    for lib in libonnxruntime_providers_shared libonnxruntime_providers_cuda libonnxruntime_providers_openvino; do
+    for lib in $ort_libs; do
         if [ ! -f "$ort_lib_dir/${lib}.so" ]; then
             libs_needed=true
             break
@@ -608,9 +613,17 @@ ensure_ort_provider_libs() {
         return 0
     fi
 
+    # Try release first, fall back to debug
+    local target_dir="$WORKSPACE_ROOT/repos/corvia/target/release"
+    if [ ! -d "$target_dir" ]; then
+        target_dir="$WORKSPACE_ROOT/repos/corvia/target/debug"
+    fi
+
     echo "    ORT provider libs missing — reinstalling from build..."
     local any_installed=false
-    for lib in libonnxruntime_providers_shared libonnxruntime_providers_cuda libonnxruntime_providers_openvino; do
+    for lib in $ort_libs; do
+        # Skip libs already present in destination
+        [ -f "$ort_lib_dir/${lib}.so" ] && continue
         local src="$target_dir/${lib}.so"
         if [ -L "$src" ] || [ -f "$src" ]; then
             # Resolve symlinks (target/release/*.so → pyke.io cache); skip dangling

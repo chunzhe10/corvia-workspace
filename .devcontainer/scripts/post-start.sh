@@ -34,7 +34,7 @@ export TZ=Asia/Kuala_Lumpur
 
 echo "=== Corvia Workspace: post-start ==="
 
-# ── 0/4 ───────────────────────────────────────────────────────────────
+# ── 0/5 ───────────────────────────────────────────────────────────────
 # Intel iGPU: ensure /dev/dri/by-path symlinks exist.
 # The NEO compute runtime discovers GPUs by scanning by-path.
 # Docker device passthrough creates /dev/dri but may not populate by-path
@@ -72,18 +72,15 @@ if [ -d /dev/dri ] && [ -d /dev/dri/by-path ]; then
     done
 fi
 
-# ── 1/4 ───────────────────────────────────────────────────────────────
+# ── 1/5 ───────────────────────────────────────────────────────────────
 step "Forwarding host authentication"
 forward_host_auth
 
-# ── 1.5/4 ─────────────────────────────────────────────────────────────
-# Ensure ORT CUDA provider .so files are in the system lib path.
-# These can be lost when the ORT cache is evicted (e.g., after a
-# driver update or Docker layer rebuild). Without them, CUDA embedding
-# silently falls back to CPU.
+# ── 2/5 ───────────────────────────────────────────────────────────────
+step "Ensuring GPU provider libraries"
 ensure_ort_provider_libs
 
-# ── 2/4 ───────────────────────────────────────────────────────────────
+# ── 3/5 ───────────────────────────────────────────────────────────────
 step "Starting corvia-dev services"
 if ! command -v corvia-dev >/dev/null 2>&1; then
     echo "    corvia-dev not found — running ensure_tooling"
@@ -137,7 +134,7 @@ if [ "$dash_ready" = false ]; then
     fail_msg "not ready after 30s — check 'corvia-dev logs corvia-dashboard'"
 fi
 
-# ── 3/4 ───────────────────────────────────────────────────────────────
+# ── 4/5 ───────────────────────────────────────────────────────────────
 step "Claude Code integration"
 # MCP server is configured via .mcp.json in the workspace root (checked into git).
 # No need to call 'claude mcp add' — Claude Code reads .mcp.json directly.
@@ -177,7 +174,7 @@ printf "    superpowers plugin: "
 install_claude_plugin "https://github.com/obra/superpowers.git" superpowers claude-plugins-official \
     || fail_msg "git clone failed — check network connectivity"
 
-# ── 4/4 ───────────────────────────────────────────────────────────────
+# ── 5/5 ───────────────────────────────────────────────────────────────
 step "Optional services"
 if [ -f "$FLAGS_FILE" ]; then
     if grep -q "coding-llm=enabled" "$FLAGS_FILE"; then
