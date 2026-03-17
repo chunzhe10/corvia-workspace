@@ -3,11 +3,7 @@
 # Reads JSON from stdin (Claude Code hook protocol).
 # Does NOT block — exits 0 immediately after append.
 
-# Telemetry: inline capture of exit code + stderr (remove when diagnosed)
-_TEL_LOG="/tmp/claude-hook-telemetry.jsonl"
-_TEL_ERR=$(mktemp /tmp/_hk.XXXXXX 2>/dev/null || echo /tmp/_hk_$$)
-exec 2>"$_TEL_ERR"
-trap '_RC=$?; printf "{\"ts\":\"%s\",\"hook\":\"record-tool-start\",\"rc\":%d,\"err\":\"%s\"}\n" "$(date -u +%H:%M:%S)" "$_RC" "$(tr "\n" " " < "$_TEL_ERR" 2>/dev/null)" >> "$_TEL_LOG" 2>/dev/null; rm -f "$_TEL_ERR"; exit $_RC' EXIT
+exec 2>/dev/null
 
 SESSIONS_DIR="$HOME/.claude/sessions"
 
