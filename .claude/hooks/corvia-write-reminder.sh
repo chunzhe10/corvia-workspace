@@ -5,10 +5,11 @@
 # Suppress all stderr — Claude Code treats any stderr as a hook error
 exec 2>/dev/null
 
-# Use jq to extract both fields in a single stdin read (avoids echo of large JSON)
+# Extract fields from JSON. tool_response may be a string or object,
+# so we guard the nested access with `objects //` to avoid jq errors.
 eval "$(jq -r '
   @sh "COMMAND=\(.tool_input.command // "")",
-  @sh "EXIT_CODE=\(.tool_response.exitCode // .tool_response.exit_code // 0)"
+  @sh "EXIT_CODE=\((.tool_response | objects | .exitCode // .exit_code) // 0)"
 ')" || exit 0
 
 # Only trigger on successful git commit commands
