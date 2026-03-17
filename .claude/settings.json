@@ -11,6 +11,16 @@
           }
         ],
         "matcher": "Bash"
+      },
+      {
+        "_comment": "Record tool completion for session history.",
+        "hooks": [
+          {
+            "command": "bash .claude/hooks/record-tool-end.sh",
+            "timeout": 5000,
+            "type": "command"
+          }
+        ]
       }
     ],
     "PreToolUse": [
@@ -31,6 +41,28 @@
           }
         ],
         "matcher": "Write|Edit"
+      },
+      {
+        "_comment": "Record tool invocation start for session history.",
+        "hooks": [
+          {
+            "command": "bash .claude/hooks/record-tool-start.sh",
+            "timeout": 5000,
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "_comment": "Record user prompts for session history.",
+        "hooks": [
+          {
+            "command": "bash .claude/hooks/record-prompt.sh",
+            "timeout": 5000,
+            "type": "command"
+          }
+        ]
       }
     ],
     "SessionEnd": [
@@ -42,6 +74,16 @@
             "type": "command"
           }
         ]
+      },
+      {
+        "_comment": "Finalize session log: write session_end, gzip, trigger ingest.",
+        "hooks": [
+          {
+            "command": "bash .claude/hooks/record-session-end.sh",
+            "timeout": 30000,
+            "type": "command"
+          }
+        ]
       }
     ],
     "SessionStart": [
@@ -50,6 +92,16 @@
         "hooks": [
           {
             "command": "bash .claude/hooks/agent-check.sh",
+            "timeout": 5000,
+            "type": "command"
+          }
+        ]
+      },
+      {
+        "_comment": "Initialize session recording: create JSONL log with session_start event.",
+        "hooks": [
+          {
+            "command": "bash .claude/hooks/record-session-start.sh",
             "timeout": 5000,
             "type": "command"
           }

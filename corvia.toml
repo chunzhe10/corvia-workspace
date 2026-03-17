@@ -76,6 +76,11 @@ service_name = "corvia"
 log_format = "json"
 metrics_enabled = true
 
+[[scope]]
+id = "user-history"
+description = "Personal Claude Code session history — independent of product knowledge"
+ttl_days = 180
+
 [inference]
 device = "gpu"
 kv_quant = "q8"
