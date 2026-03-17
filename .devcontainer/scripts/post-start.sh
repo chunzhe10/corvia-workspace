@@ -191,16 +191,7 @@ if [ -f "$FLAGS_FILE" ]; then
             fail_msg "ollama not reachable on :11434 — check 'corvia-dev logs ollama'"
         fi
     fi
-    if grep -q "surrealdb=enabled" "$FLAGS_FILE"; then
-        if command -v docker >/dev/null 2>&1; then
-            printf "    starting SurrealDB"
-            docker compose -f "$WORKSPACE_ROOT/repos/corvia/docker/docker-compose.yml" up -d >/dev/null 2>&1 \
-                && done_msg || fail_msg "docker compose up"
-        else
-            fail_msg "docker not available — SurrealDB requires Docker"
-        fi
-    fi
-    if ! grep -qE "(coding-llm|surrealdb)=enabled" "$FLAGS_FILE"; then
+    if ! grep -qE "(coding-llm)=enabled" "$FLAGS_FILE"; then
         echo "    none enabled"
     fi
 else

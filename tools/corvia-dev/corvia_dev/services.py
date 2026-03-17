@@ -44,15 +44,6 @@ SERVICES: list[ServiceDefinition] = [
         exclusive_group="embedding",
     ),
     ServiceDefinition(
-        name="surrealdb",
-        tier=1,
-        port=8000,
-        health_path="/health",
-        start_cmd=["docker", "compose", "-f", "repos/corvia/docker/docker-compose.yml", "up", "-d"],
-        depends_on=[],
-        exclusive_group="storage",
-    ),
-    ServiceDefinition(
         name="postgres",
         tier=1,
         port=5432,
@@ -109,7 +100,6 @@ EMBEDDING_PROVIDERS: dict[str, str] = {
 
 STORAGE_BACKENDS: dict[str, str | None] = {
     "lite": None,  # in-process, no service to start
-    "surrealdb": "surrealdb",
     "postgres": "postgres",
 }
 

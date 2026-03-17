@@ -13,7 +13,7 @@ def test_registry_tiers() -> None:
     for svc in SERVICES:
         if svc.name in ("corvia-inference", "corvia-server"):
             assert svc.tier == 0, f"{svc.name} should be tier 0"
-        elif svc.name in ("ollama", "vllm", "surrealdb", "postgres"):
+        elif svc.name in ("ollama", "vllm", "postgres"):
             assert svc.tier == 1, f"{svc.name} should be tier 1"
         elif svc.name == "coding-llm":
             assert svc.tier == 2, f"{svc.name} should be tier 2"
@@ -49,17 +49,6 @@ def test_resolve_startup_order_ollama() -> None:
     names = [s.name for s in order]
     assert names == ["ollama", "corvia-server"]
     assert "corvia-inference" not in names
-
-
-def test_resolve_startup_order_surrealdb() -> None:
-    order = resolve_startup_order(
-        embedding_provider="corvia",
-        storage="surrealdb",
-        enabled_services=["surrealdb"],
-    )
-    names = [s.name for s in order]
-    assert "surrealdb" in names
-    assert names.index("surrealdb") < names.index("corvia-server")
 
 
 def test_resolve_startup_order_coding_llm() -> None:
