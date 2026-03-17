@@ -2,11 +2,11 @@ import { useState } from "preact/hooks";
 import type { HealthResponse, HealthFinding } from "../types";
 
 const CHECK_LABELS: Record<string, { label: string; icon: string }> = {
-  stale: { label: "Stale Entries", icon: "\u23F0" },
-  broken: { label: "Broken Chains", icon: "\u26D3" },
-  orphan: { label: "Orphaned Entries", icon: "\u{1F47B}" },
-  dangling: { label: "Dangling Edges", icon: "\u{1F517}" },
-  cycle: { label: "Cycles", icon: "\u{1F504}" },
+  stale_entry: { label: "Stale Entries", icon: "\u23F0" },
+  broken_chain: { label: "Broken Chains", icon: "\u26D3" },
+  orphaned_node: { label: "Orphaned Entries", icon: "\u{1F47B}" },
+  dangling_import: { label: "Dangling Edges", icon: "\u{1F517}" },
+  dependency_cycle: { label: "Cycles", icon: "\u{1F504}" },
   misplaced_doc: { label: "Misplaced Doc", icon: "\u{1F4C1}" },
   temporal_contradiction: { label: "Temporal Contradiction", icon: "\u26A1" },
   coverage_gap: { label: "Coverage Gap", icon: "\u{1F4DD}" },
@@ -41,7 +41,7 @@ function FindingRow({
       <div class="health-finding-rationale">{finding.rationale}</div>
       {expanded && finding.target_ids.length > 0 && (
         <div class="health-finding-ids">
-          {finding.target_ids.map((id) => (
+          {finding.target_ids.slice(0, 5).map((id) => (
             <code
               key={id}
               class={`health-entry-id${navigateToHistory ? " entry-link" : ""}`}
@@ -56,6 +56,11 @@ function FindingRow({
               {id.slice(0, 8)}
             </code>
           ))}
+          {finding.target_ids.length > 5 && (
+            <span style={{ fontSize: "10px", color: "var(--text-dim)" }}>
+              +{finding.target_ids.length - 5} more
+            </span>
+          )}
         </div>
       )}
     </div>
@@ -93,7 +98,7 @@ export function HealthPanel({ data, loading, onRefresh, navigateToHistory }: Pro
   }
 
   // All check types (show green for missing ones)
-  const allChecks = ["stale", "broken", "orphan", "dangling", "cycle", "misplaced_doc", "temporal_contradiction", "coverage_gap"];
+  const allChecks = ["stale_entry", "broken_chain", "orphaned_node", "dangling_import", "dependency_cycle", "misplaced_doc", "temporal_contradiction", "coverage_gap"];
 
   return (
     <div class="health-panel">
