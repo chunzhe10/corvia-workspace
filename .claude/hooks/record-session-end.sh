@@ -55,9 +55,14 @@ gzip -f "$LOGFILE" 2>/dev/null
 # Cleanup turn counter
 rm -f "$TURN_FILE"
 
-# Trigger corvia ingest (best-effort, non-blocking)
-# The adapter will process ~/.claude/sessions/*.jsonl.gz
-if command -v corvia >/dev/null 2>&1; then
+# Trigger session ingest via REST API (avoids Redb lock conflict with running server).
+# Uses --max-time to avoid blocking session exit. Falls back to CLI if server is down.
+if command -v curl >/dev/null 2>&1 && \
+   curl -sf --max-time 5 -X POST http://127.0.0.1:8020/v1/ingest/sessions \
+        -H "Content-Type: application/json" -d '{}' >/dev/null 2>&1; then
+    : # Server handled ingest
+elif command -v corvia >/dev/null 2>&1; then
+    # Fallback: direct CLI ingest (only works if server is not running)
     corvia workspace ingest --quiet 2>/dev/null &
 fi
 
