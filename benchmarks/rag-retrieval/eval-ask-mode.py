@@ -74,11 +74,11 @@ def rag_ask(server: str, query: str) -> dict:
         "limit": 10,
     }).encode()
 
-    req = Request(f"{server}/v1/context", data=payload,
+    req = Request(f"{server}/v1/ask", data=payload,
                   headers={"Content-Type": "application/json"})
     start = time.monotonic()
     try:
-        with urlopen(req, timeout=30) as resp:
+        with urlopen(req, timeout=120) as resp:
             data = json.loads(resp.read())
             latency_ms = (time.monotonic() - start) * 1000
     except (URLError, TimeoutError) as e:
