@@ -77,32 +77,63 @@ Maintain `docs/session-logs/<date>-<task>.md` with:
 
 ### 3. Commit Cadence
 
+- **MANDATORY**: Run 3-persona review (SWE/PM/QA) BEFORE every `git commit`
+- If the fix is large, review AGAIN after the fix is complete
+- Format the review inline in the session log or conversation:
+  ```
+  ## Review Gate
+  **Senior SWE:** [assessment]
+  **Product Manager:** [assessment]
+  **QA:** [assessment]
+  **Verdict:** APPROVE / NEEDS CHANGES
+  ```
+- Only commit if verdict is APPROVE. If NEEDS CHANGES, fix first, then review again
 - Commit after every logical unit of work (not at the end)
 - Use conventional commits: `feat(scope):`, `fix(scope):`, `chore:`, `test:`
 - Both repos: `repos/corvia/` and workspace root
 - Push promptly — don't accumulate unpushed commits
 
-### 4. Multi-Persona Review Gate
+### 4. Multi-Persona Review Gate (Comprehensive Subagent Reviews)
 
-Before merging any non-trivial change, review through three lenses:
+Every non-trivial change MUST be reviewed by three dedicated subagents BEFORE committing.
+Each persona runs as a separate Agent with its own context and focus. The reviews must
+be comprehensive — not one-liner approvals.
 
-**Senior SWE Review:**
-- Is the code correct, safe, and idiomatic Rust?
-- Are there edge cases, panics (unwrap in non-test code), or race conditions?
-- Does it follow existing patterns or introduce unnecessary divergence?
-- Are there security implications (OWASP top 10)?
+**Launch three parallel subagents:**
 
-**Product Manager Review:**
-- Does this serve the project's goals (organizational memory for AI agents)?
-- Is the UX coherent? Does the feature make sense in the product narrative?
-- Does this advance a milestone or is it scope creep?
-- Would this be a compelling LinkedIn post?
+```
+Agent: "Senior SWE Review"
+- Read all changed files (git diff)
+- Check code correctness, safety, idiomatic Rust patterns
+- Look for edge cases, panics (unwrap in non-test code), race conditions
+- Verify it follows existing patterns or justify divergence
+- Check security implications (OWASP top 10)
+- Check for backwards compatibility issues
+- Grade: APPROVE / NEEDS CHANGES with specific line references
 
-**QA Review:**
-- Is there test coverage? Are edge cases tested?
-- Does it work end-to-end (not just unit tests)?
-- Are error messages helpful? Are failure modes graceful?
-- Has it been tested with real data (corvia's own knowledge base)?
+Agent: "Product Manager Review"
+- Read the design/spec that motivated the change
+- Assess: does this serve the product vision (organizational memory for AI agents)?
+- Check UX coherence — does the feature make sense in the product narrative?
+- Verify milestone alignment — does this advance a milestone or is it scope creep?
+- Research: how do comparable OSS products (Grafana, PostHog, Linear) handle this?
+- Grade: APPROVE / NEEDS CHANGES with rationale
+
+Agent: "QA Review"
+- Read all changed files and test files
+- Verify test coverage — are edge cases tested?
+- Run tests if possible (cargo test for the affected crate)
+- Check end-to-end functionality (not just unit tests)
+- Verify error messages are helpful, failure modes are graceful
+- Test with real data (corvia's own knowledge base) if applicable
+- Grade: APPROVE / NEEDS CHANGES with specific test gaps identified
+```
+
+**Rules:**
+- All three must APPROVE before commit
+- If any persona says NEEDS CHANGES, fix and re-review
+- For large fixes, run review AGAIN after the fix
+- Record the review outcome in the session log
 
 ### 5. Record Everything to corvia
 
