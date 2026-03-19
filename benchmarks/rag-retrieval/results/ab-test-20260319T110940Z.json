@@ -1,0 +1,333 @@
+{
+  "timestamp": "20260319T110940Z",
+  "graph_expand": {
+    "name": "graph_expand",
+    "expand_graph": true,
+    "queries": 15,
+    "successful": 15,
+    "errors": 0,
+    "avg_recall_5": 0.7666666666666667,
+    "avg_recall_10": 0.8,
+    "avg_kw_recall": 0.6333333333333333,
+    "avg_mrr": 0.7688888888888888,
+    "avg_relevance": 0.7337777777777778,
+    "avg_latency": 1958.2933333333335,
+    "details": [
+      {
+        "id": "arch-litestore",
+        "latency_ms": 5070.9,
+        "result_count": 9,
+        "source_recall_5": 1.0,
+        "source_recall_10": 1.0,
+        "mrr": 1.0,
+        "keyword_recall": 1.0,
+        "relevance": 1.0
+      },
+      {
+        "id": "arch-graph",
+        "latency_ms": 5321.3,
+        "result_count": 9,
+        "source_recall_5": 1.0,
+        "source_recall_10": 1.0,
+        "mrr": 0.3333333333333333,
+        "keyword_recall": 1.0,
+        "relevance": 0.8666666666666667
+      },
+      {
+        "id": "feat-merge",
+        "latency_ms": 2821.9,
+        "result_count": 8,
+        "source_recall_5": 0.5,
+        "source_recall_10": 0.5,
+        "mrr": 0.3333333333333333,
+        "keyword_recall": 0.5,
+        "relevance": 0.4666666666666667
+      },
+      {
+        "id": "feat-crash-recovery",
+        "latency_ms": 1834.5,
+        "result_count": 6,
+        "source_recall_5": 0.3333333333333333,
+        "source_recall_10": 0.3333333333333333,
+        "mrr": 1.0,
+        "keyword_recall": 0.0,
+        "relevance": 0.3666666666666667
+      },
+      {
+        "id": "feat-temporal",
+        "latency_ms": 1021.4,
+        "result_count": 10,
+        "source_recall_5": 1.0,
+        "source_recall_10": 1.0,
+        "mrr": 1.0,
+        "keyword_recall": 0.5,
+        "relevance": 0.8500000000000001
+      },
+      {
+        "id": "config-embedding",
+        "latency_ms": 981.7,
+        "result_count": 10,
+        "source_recall_5": 0.6666666666666666,
+        "source_recall_10": 0.6666666666666666,
+        "mrr": 1.0,
+        "keyword_recall": 0.4,
+        "relevance": 0.6533333333333333
+      },
+      {
+        "id": "api-mcp",
+        "latency_ms": 85.2,
+        "result_count": 10,
+        "source_recall_5": 0.5,
+        "source_recall_10": 0.5,
+        "mrr": 1.0,
+        "keyword_recall": 1.0,
+        "relevance": 0.75
+      },
+      {
+        "id": "decision-agpl",
+        "latency_ms": 467.8,
+        "result_count": 10,
+        "source_recall_5": 1.0,
+        "source_recall_10": 1.0,
+        "mrr": 0.3333333333333333,
+        "keyword_recall": 1.0,
+        "relevance": 0.8666666666666667
+      },
+      {
+        "id": "perf-gpu",
+        "latency_ms": 193.7,
+        "result_count": 9,
+        "source_recall_5": 0.6666666666666666,
+        "source_recall_10": 0.6666666666666666,
+        "mrr": 1.0,
+        "keyword_recall": 1.0,
+        "relevance": 0.8333333333333333
+      },
+      {
+        "id": "feat-chunking",
+        "latency_ms": 1652.8,
+        "result_count": 8,
+        "source_recall_5": 0.5,
+        "source_recall_10": 1.0,
+        "mrr": 1.0,
+        "keyword_recall": 0.0,
+        "relevance": 0.55
+      },
+      {
+        "id": "feat-reasoner",
+        "latency_ms": 2330.6,
+        "result_count": 9,
+        "source_recall_5": 1.0,
+        "source_recall_10": 1.0,
+        "mrr": 1.0,
+        "keyword_recall": 0.8,
+        "relevance": 0.94
+      },
+      {
+        "id": "arch-two-tier",
+        "latency_ms": 4329.0,
+        "result_count": 8,
+        "source_recall_5": 1.0,
+        "source_recall_10": 1.0,
+        "mrr": 0.3333333333333333,
+        "keyword_recall": 0.8,
+        "relevance": 0.8066666666666666
+      },
+      {
+        "id": "feat-dashboard",
+        "latency_ms": 363.2,
+        "result_count": 9,
+        "source_recall_5": 1.0,
+        "source_recall_10": 1.0,
+        "mrr": 1.0,
+        "keyword_recall": 0.8,
+        "relevance": 0.94
+      },
+      {
+        "id": "feat-staging",
+        "latency_ms": 1658.4,
+        "result_count": 7,
+        "source_recall_5": 0.3333333333333333,
+        "source_recall_10": 0.3333333333333333,
+        "mrr": 0.2,
+        "keyword_recall": 0.5,
+        "relevance": 0.3566666666666667
+      },
+      {
+        "id": "perf-latency",
+        "latency_ms": 1242.0,
+        "result_count": 8,
+        "source_recall_5": 1.0,
+        "source_recall_10": 1.0,
+        "mrr": 1.0,
+        "keyword_recall": 0.2,
+        "relevance": 0.76
+      }
+    ]
+  },
+  "vector": {
+    "name": "vector",
+    "expand_graph": false,
+    "queries": 15,
+    "successful": 15,
+    "errors": 0,
+    "avg_recall_5": 0.7555555555555556,
+    "avg_recall_10": 0.8222222222222223,
+    "avg_kw_recall": 0.6866666666666668,
+    "avg_mrr": 0.8777777777777778,
+    "avg_relevance": 0.7726666666666666,
+    "avg_latency": 56.54666666666667,
+    "details": [
+      {
+        "id": "arch-litestore",
+        "latency_ms": 48.2,
+        "result_count": 10,
+        "source_recall_5": 0.5,
+        "source_recall_10": 1.0,
+        "mrr": 0.5,
+        "keyword_recall": 1.0,
+        "relevance": 0.7499999999999999
+      },
+      {
+        "id": "arch-graph",
+        "latency_ms": 56.9,
+        "result_count": 10,
+        "source_recall_5": 0.5,
+        "source_recall_10": 1.0,
+        "mrr": 0.3333333333333333,
+        "keyword_recall": 1.0,
+        "relevance": 0.7166666666666666
+      },
+      {
+        "id": "feat-merge",
+        "latency_ms": 47.1,
+        "result_count": 10,
+        "source_recall_5": 0.5,
+        "source_recall_10": 0.5,
+        "mrr": 1.0,
+        "keyword_recall": 0.5,
+        "relevance": 0.6000000000000001
+      },
+      {
+        "id": "feat-crash-recovery",
+        "latency_ms": 46.4,
+        "result_count": 8,
+        "source_recall_5": 1.0,
+        "source_recall_10": 1.0,
+        "mrr": 1.0,
+        "keyword_recall": 1.0,
+        "relevance": 1.0
+      },
+      {
+        "id": "feat-temporal",
+        "latency_ms": 76.4,
+        "result_count": 10,
+        "source_recall_5": 0.5,
+        "source_recall_10": 0.5,
+        "mrr": 1.0,
+        "keyword_recall": 0.0,
+        "relevance": 0.45
+      },
+      {
+        "id": "config-embedding",
+        "latency_ms": 44.1,
+        "result_count": 10,
+        "source_recall_5": 0.6666666666666666,
+        "source_recall_10": 0.6666666666666666,
+        "mrr": 1.0,
+        "keyword_recall": 0.4,
+        "relevance": 0.6533333333333333
+      },
+      {
+        "id": "api-mcp",
+        "latency_ms": 70.8,
+        "result_count": 10,
+        "source_recall_5": 0.5,
+        "source_recall_10": 0.5,
+        "mrr": 1.0,
+        "keyword_recall": 1.0,
+        "relevance": 0.75
+      },
+      {
+        "id": "decision-agpl",
+        "latency_ms": 46.6,
+        "result_count": 10,
+        "source_recall_5": 1.0,
+        "source_recall_10": 1.0,
+        "mrr": 0.3333333333333333,
+        "keyword_recall": 1.0,
+        "relevance": 0.8666666666666667
+      },
+      {
+        "id": "perf-gpu",
+        "latency_ms": 46.5,
+        "result_count": 7,
+        "source_recall_5": 0.6666666666666666,
+        "source_recall_10": 0.6666666666666666,
+        "mrr": 1.0,
+        "keyword_recall": 0.75,
+        "relevance": 0.7583333333333333
+      },
+      {
+        "id": "feat-chunking",
+        "latency_ms": 66.1,
+        "result_count": 10,
+        "source_recall_5": 0.5,
+        "source_recall_10": 0.5,
+        "mrr": 1.0,
+        "keyword_recall": 0.25,
+        "relevance": 0.525
+      },
+      {
+        "id": "feat-reasoner",
+        "latency_ms": 50.9,
+        "result_count": 10,
+        "source_recall_5": 1.0,
+        "source_recall_10": 1.0,
+        "mrr": 1.0,
+        "keyword_recall": 0.8,
+        "relevance": 0.94
+      },
+      {
+        "id": "arch-two-tier",
+        "latency_ms": 84.6,
+        "result_count": 10,
+        "source_recall_5": 1.0,
+        "source_recall_10": 1.0,
+        "mrr": 1.0,
+        "keyword_recall": 1.0,
+        "relevance": 1.0
+      },
+      {
+        "id": "feat-dashboard",
+        "latency_ms": 49.8,
+        "result_count": 10,
+        "source_recall_5": 1.0,
+        "source_recall_10": 1.0,
+        "mrr": 1.0,
+        "keyword_recall": 0.4,
+        "relevance": 0.8200000000000001
+      },
+      {
+        "id": "feat-staging",
+        "latency_ms": 55.4,
+        "result_count": 7,
+        "source_recall_5": 1.0,
+        "source_recall_10": 1.0,
+        "mrr": 1.0,
+        "keyword_recall": 1.0,
+        "relevance": 1.0
+      },
+      {
+        "id": "perf-latency",
+        "latency_ms": 58.4,
+        "result_count": 8,
+        "source_recall_5": 1.0,
+        "source_recall_10": 1.0,
+        "mrr": 1.0,
+        "keyword_recall": 0.2,
+        "relevance": 0.76
+      }
+    ]
+  }
+}
