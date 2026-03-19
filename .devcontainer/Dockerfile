@@ -63,6 +63,9 @@ RUN if [ "$(dpkg --print-architecture)" = "amd64" ]; then \
 # ORT's CUDA EP dynamically loads libcublas, libcurand, libcufft, libcudart, and libcudnn.
 # NVIDIA's apt repo uses SHA1-signed GPG keys which Debian trixie rejects (since 2026-02),
 # so we install via pip packages and symlink into the system lib path.
+# NOTE: CUDA build toolkit (nvcc) NOT included — CUDA 12.8 nvcc is incompatible with
+# Debian trixie glibc 2.40+ headers. GPU chat via llama-cpp-2 requires Ubuntu base image
+# or CUDA 12.9+ when available. Chat currently runs on CPU.
 # Only needed on amd64 (no NVIDIA GPU on arm64 in our setup).
 RUN if [ "$(dpkg --print-architecture)" = "amd64" ]; then \
         uv pip install --system --break-system-packages \
