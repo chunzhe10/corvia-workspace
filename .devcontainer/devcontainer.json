@@ -8,7 +8,8 @@
     "initializeCommand": ".devcontainer/scripts/init-host.sh",
     "postCreateCommand": ".devcontainer/scripts/post-create.sh",
     "postStartCommand": ".devcontainer/scripts/post-start.sh",
-    // 8020: corvia REST+MCP, 8021: dashboard, 8030: inference gRPC, 11434: ollama
+    // 8020: corvia REST+MCP+dashboard (embedded), 8030: inference gRPC, 11434: ollama
+    // 8021: Vite dev server — only used during dashboard frontend development
     // 8050 (playwright-mcp) is container-internal only — not forwarded.
     "forwardPorts": [8020, 8021, 8030, 11434],
     "mounts": [

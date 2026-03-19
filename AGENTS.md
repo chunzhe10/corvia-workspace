@@ -39,8 +39,8 @@ corvia workspace init-hooks      # Generate doc-placement hooks from config
 
 | Port | Service | Description |
 |------|---------|-------------|
-| 8020 | API server | REST + MCP protocol |
-| 8021 | Dashboard | Knowledge browser, system health |
+| 8020 | API server + Dashboard | REST + MCP protocol + embedded dashboard |
+| 8021 | Vite dev server (dev only) | Dashboard hot-reload for frontend development |
 | 8030 | Inference | gRPC embedding + chat (ONNX Runtime) |
 
 ## MCP Server (Dogfooding)

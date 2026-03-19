@@ -146,7 +146,7 @@ These files are being modified by Agent A — do not touch them to avoid merge c
 - Use `corvia_write` to record any design decisions you make
 - Use `corvia_search` to check if Agent A has recorded anything relevant
 - The shared corvia server is at `http://localhost:8020`
-- Your dev server should run on port **8024** (not 8021 which is the main dashboard)
+- Your dev server should run on port **8024** (not 8021 which is the Vite dev server, or 8020 which is the production dashboard)
 
 ## Commit convention
 

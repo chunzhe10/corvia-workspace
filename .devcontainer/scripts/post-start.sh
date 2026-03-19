@@ -119,10 +119,12 @@ if [ -f "$DASHBOARD_DIR/package.json" ] && [ ! -d "$DASHBOARD_DIR/node_modules" 
     (cd "$DASHBOARD_DIR" && npm install --no-fund --no-audit) >/dev/null 2>&1 && done_msg || fail_msg "npm install"
 fi
 
-printf "    waiting for dashboard (port 8021)"
+# Dashboard is embedded in the corvia binary and served from port 8020.
+# The Vite dev server (port 8021) is only used during frontend development.
+printf "    waiting for embedded dashboard (port 8020)"
 dash_ready=false
 for _attempt in $(seq 1 15); do
-    if curl -sf --max-time 2 -o /dev/null http://127.0.0.1:8021/ 2>/dev/null; then
+    if curl -sf --max-time 2 -o /dev/null http://127.0.0.1:8020/ 2>/dev/null; then
         done_msg
         dash_ready=true
         break
@@ -131,7 +133,7 @@ for _attempt in $(seq 1 15); do
     sleep 2
 done
 if [ "$dash_ready" = false ]; then
-    fail_msg "not ready after 30s — check 'corvia-dev logs corvia-dashboard'"
+    fail_msg "not ready after 30s — dashboard should be embedded in corvia-server on port 8020"
 fi
 
 # ── 4/5 ───────────────────────────────────────────────────────────────

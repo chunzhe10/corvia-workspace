@@ -7,7 +7,9 @@ let pollTimer;
 
 const POLL_INTERVAL = 5000;
 const API_BASE = "http://localhost:8020";
-const DASHBOARD_URL = "http://localhost:8021";
+// Dashboard is embedded in the corvia binary, served from port 8020.
+// Port 8021 (Vite dev server) is only used during frontend development.
+const DASHBOARD_URL = "http://localhost:8020";
 
 function activate(context) {
     statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 50);

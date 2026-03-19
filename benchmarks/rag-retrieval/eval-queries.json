@@ -118,5 +118,437 @@
     "expected_sources": ["trace", "retriever", "benchmark"],
     "category": "performance",
     "difficulty": "hard"
+  },
+  {
+    "id": "arch-layered",
+    "query": "What is corvia's layered dependency model?",
+    "expected_keywords": ["kernel", "adapter", "frontend", "integration surface", "storage"],
+    "expected_sources": ["ARCHITECTURE.md"],
+    "category": "architecture",
+    "difficulty": "easy"
+  },
+  {
+    "id": "arch-crate-map",
+    "query": "What crates exist in the corvia workspace and what do they do?",
+    "expected_keywords": ["corvia-common", "corvia-kernel", "corvia-server", "corvia-inference"],
+    "expected_sources": ["ARCHITECTURE.md", "AGENTS.md"],
+    "category": "architecture",
+    "difficulty": "easy"
+  },
+  {
+    "id": "feat-rag-modes",
+    "query": "What are the two modes of the RAG pipeline?",
+    "expected_keywords": ["context", "ask", "retriever", "augmenter", "generation"],
+    "expected_sources": ["rag_pipeline", "m3.2-rag"],
+    "category": "feature",
+    "difficulty": "medium"
+  },
+  {
+    "id": "feat-rag-stages",
+    "query": "What are the three stages of the RAG pipeline?",
+    "expected_keywords": ["retriever", "augmenter", "generation engine", "trait"],
+    "expected_sources": ["rag_pipeline", "m3.2-rag"],
+    "category": "feature",
+    "difficulty": "medium"
+  },
+  {
+    "id": "decision-petgraph",
+    "query": "Why was petgraph chosen for graph traversal instead of an external database?",
+    "expected_keywords": ["litestore", "bfs", "shortest path", "cycle", "embedded"],
+    "expected_sources": ["ARCHITECTURE.md", "graph_store"],
+    "category": "decision",
+    "difficulty": "medium"
+  },
+  {
+    "id": "decision-redb-temporal",
+    "query": "Why was Redb chosen for temporal queries instead of a time-series database?",
+    "expected_keywords": ["compound key", "embedded", "coordination", "range scan", "O(log n)"],
+    "expected_sources": ["ARCHITECTURE.md", "m3-temporal"],
+    "category": "decision",
+    "difficulty": "medium"
+  },
+  {
+    "id": "decision-llm-merge",
+    "query": "Why does corvia use LLM-assisted merge instead of last-write-wins?",
+    "expected_keywords": ["semantic", "conflict", "knowledge", "accuracy", "silently"],
+    "expected_sources": ["ARCHITECTURE.md", "merge_worker"],
+    "category": "decision",
+    "difficulty": "medium"
+  },
+  {
+    "id": "decision-git-json",
+    "query": "Why does corvia store knowledge as Git-tracked JSON files?",
+    "expected_keywords": ["auditability", "diffability", "rebuild", "truth", "cache"],
+    "expected_sources": ["ARCHITECTURE.md", "m1.2-litestore"],
+    "category": "decision",
+    "difficulty": "easy"
+  },
+  {
+    "id": "decision-staging-hybrid",
+    "query": "Why does staging use a hybrid approach with shared HNSW?",
+    "expected_keywords": ["cross-agent", "search", "isolation", "branch", "D43"],
+    "expected_sources": ["ARCHITECTURE.md", "milestone-revision", "staging"],
+    "category": "decision",
+    "difficulty": "hard"
+  },
+  {
+    "id": "decision-multi-layer-identity",
+    "query": "Why does corvia have three tiers of agent identity?",
+    "expected_keywords": ["registered", "mcp client", "anonymous", "write permissions", "framework"],
+    "expected_sources": ["ARCHITECTURE.md", "agent_coordinator"],
+    "category": "decision",
+    "difficulty": "medium"
+  },
+  {
+    "id": "decision-mcp-safety",
+    "query": "How does the three-tier MCP safety model work?",
+    "expected_keywords": ["tier 1", "tier 2", "confirmation", "dry_run", "read-only"],
+    "expected_sources": ["ARCHITECTURE.md", "mcp"],
+    "category": "decision",
+    "difficulty": "medium"
+  },
+  {
+    "id": "feat-adapter-protocol",
+    "query": "How does the adapter plugin JSONL protocol work?",
+    "expected_keywords": ["jsonl", "stdin", "stdout", "metadata", "binary"],
+    "expected_sources": ["adapter_protocol", "adapter-plugin"],
+    "category": "feature",
+    "difficulty": "medium"
+  },
+  {
+    "id": "feat-adapter-discovery",
+    "query": "How are adapters discovered at runtime?",
+    "expected_keywords": ["path", "binary", "corvia-adapter", "runtime", "discovery"],
+    "expected_sources": ["adapter_discovery", "adapter-plugin"],
+    "category": "feature",
+    "difficulty": "medium"
+  },
+  {
+    "id": "config-inference",
+    "query": "How is the inference section configured in corvia.toml?",
+    "expected_keywords": ["device", "backend", "kv cache", "inference", "toml"],
+    "expected_sources": ["config", "inference-kv-cache"],
+    "category": "config",
+    "difficulty": "medium"
+  },
+  {
+    "id": "config-store-type",
+    "query": "How do you switch between LiteStore and PostgresStore?",
+    "expected_keywords": ["init", "lite", "postgres", "configuration", "feature flag"],
+    "expected_sources": ["ARCHITECTURE.md", "config"],
+    "category": "config",
+    "difficulty": "easy"
+  },
+  {
+    "id": "config-cuda",
+    "query": "How do you enable CUDA GPU support in corvia?",
+    "expected_keywords": ["enable", "cuda", "toggle", "gpu", "binary"],
+    "expected_sources": ["cuda-toggle", "inference"],
+    "category": "config",
+    "difficulty": "medium"
+  },
+  {
+    "id": "api-rest-agents",
+    "query": "What REST endpoints handle agent coordination?",
+    "expected_keywords": ["agents", "sessions", "heartbeat", "commit", "rollback"],
+    "expected_sources": ["ARCHITECTURE.md", "server"],
+    "category": "api",
+    "difficulty": "easy"
+  },
+  {
+    "id": "api-rest-temporal",
+    "query": "What REST endpoints support temporal and graph queries?",
+    "expected_keywords": ["history", "edges", "evolution", "reason"],
+    "expected_sources": ["ARCHITECTURE.md", "server"],
+    "category": "api",
+    "difficulty": "easy"
+  },
+  {
+    "id": "api-mcp-tiers",
+    "query": "Which MCP tools require confirmation before execution?",
+    "expected_keywords": ["config_set", "gc_run", "rebuild_index", "agent_suspend", "merge_retry"],
+    "expected_sources": ["ARCHITECTURE.md", "mcp"],
+    "category": "api",
+    "difficulty": "medium"
+  },
+  {
+    "id": "feat-session-lifecycle",
+    "query": "What are the states in the agent session state machine?",
+    "expected_keywords": ["created", "active", "committing", "merging", "closed"],
+    "expected_sources": ["ARCHITECTURE.md", "session_manager"],
+    "category": "feature",
+    "difficulty": "medium"
+  },
+  {
+    "id": "feat-knowledge-entry",
+    "query": "What fields does a KnowledgeEntry contain?",
+    "expected_keywords": ["uuid", "content", "embedding", "scope_id", "metadata"],
+    "expected_sources": ["ARCHITECTURE.md", "types"],
+    "category": "feature",
+    "difficulty": "easy"
+  },
+  {
+    "id": "feat-supersession",
+    "query": "How does knowledge supersession work?",
+    "expected_keywords": ["superseded_by", "valid_to", "chain", "history", "linked"],
+    "expected_sources": ["ARCHITECTURE.md", "lite_store"],
+    "category": "feature",
+    "difficulty": "medium"
+  },
+  {
+    "id": "feat-graph-edge-types",
+    "query": "What types of graph edge relations does corvia support?",
+    "expected_keywords": ["imports", "depends_on", "tests", "documents", "relation"],
+    "expected_sources": ["ARCHITECTURE.md", "graph_store"],
+    "category": "feature",
+    "difficulty": "easy"
+  },
+  {
+    "id": "feat-chat-inference",
+    "query": "How does corvia-inference handle chat and text generation?",
+    "expected_keywords": ["llama.cpp", "gguf", "chat", "generation", "dual runtime"],
+    "expected_sources": ["chat-inference", "inference"],
+    "category": "feature",
+    "difficulty": "medium"
+  },
+  {
+    "id": "feat-context-builder",
+    "query": "What does the context builder do for scope-aware retrieval?",
+    "expected_keywords": ["scope", "visibility", "pending", "committed", "merged"],
+    "expected_sources": ["context_builder", "ARCHITECTURE.md"],
+    "category": "feature",
+    "difficulty": "medium"
+  },
+  {
+    "id": "arch-telemetry",
+    "query": "How is telemetry structured in corvia?",
+    "expected_keywords": ["tracing", "span", "exporter", "otlp", "corvia-telemetry"],
+    "expected_sources": ["telemetry", "ARCHITECTURE.md"],
+    "category": "architecture",
+    "difficulty": "medium"
+  },
+  {
+    "id": "arch-kernel-subsystems",
+    "query": "How many subsystems does the corvia kernel have?",
+    "expected_keywords": ["eleven", "knowledge store", "agent coordinator", "rag", "reasoner"],
+    "expected_sources": ["ARCHITECTURE.md"],
+    "category": "architecture",
+    "difficulty": "easy"
+  },
+  {
+    "id": "feat-dashboard-standalone",
+    "query": "Why was the dashboard moved from VS Code to standalone?",
+    "expected_keywords": ["browser", "neovim", "playwright", "testable", "embedded"],
+    "expected_sources": ["standalone-dashboard", "dashboard"],
+    "category": "feature",
+    "difficulty": "medium"
+  },
+  {
+    "id": "perf-embedding-dims",
+    "query": "What are the embedding dimensions for supported models?",
+    "expected_keywords": ["768", "384", "nomic", "minilm", "cosine"],
+    "expected_sources": ["embedding", "ARCHITECTURE.md", "benchmark"],
+    "category": "performance",
+    "difficulty": "easy"
+  },
+  {
+    "id": "perf-hnsw-capacity",
+    "query": "How many entries can the HNSW index handle?",
+    "expected_keywords": ["100k", "approximate", "cosine", "hnsw_rs", "rebuild"],
+    "expected_sources": ["ARCHITECTURE.md", "lite_store"],
+    "category": "performance",
+    "difficulty": "medium"
+  },
+  {
+    "id": "perf-kv-cache",
+    "query": "How does KV cache quantization reduce VRAM usage?",
+    "expected_keywords": ["q8", "q4", "flash attention", "vram", "quantization"],
+    "expected_sources": ["inference-kv-cache", "inference"],
+    "category": "performance",
+    "difficulty": "hard"
+  },
+  {
+    "id": "config-workspace",
+    "query": "What does corvia.toml configure at the workspace level?",
+    "expected_keywords": ["repos", "embedding", "server", "scope", "docs"],
+    "expected_sources": ["corvia.toml", "AGENTS.md"],
+    "category": "config",
+    "difficulty": "easy"
+  },
+  {
+    "id": "config-hot-reload",
+    "query": "Which configuration values can be hot-reloaded at runtime?",
+    "expected_keywords": ["config_set", "runtime", "reload", "mcp", "key"],
+    "expected_sources": ["ops", "config"],
+    "category": "config",
+    "difficulty": "hard"
+  },
+  {
+    "id": "api-grpc-inference",
+    "query": "What gRPC services does corvia-inference expose?",
+    "expected_keywords": ["embedding", "chat", "grpc", "8030", "onnx"],
+    "expected_sources": ["inference", "proto", "grpc_engine"],
+    "category": "api",
+    "difficulty": "medium"
+  },
+  {
+    "id": "api-dashboard-endpoints",
+    "query": "What REST endpoints does the dashboard API provide?",
+    "expected_keywords": ["dashboard", "cluster", "activity", "traces", "entries"],
+    "expected_sources": ["dashboard", "server"],
+    "category": "api",
+    "difficulty": "medium"
+  },
+  {
+    "id": "rel-graph-rag",
+    "query": "How does the knowledge graph enhance RAG retrieval results?",
+    "expected_keywords": ["graph expansion", "oversample", "scoring", "traversal", "vector"],
+    "expected_sources": ["retriever", "rag_pipeline", "graph_store"],
+    "category": "relationship",
+    "difficulty": "hard"
+  },
+  {
+    "id": "rel-adapter-chunking",
+    "query": "How do adapters interact with the chunking pipeline?",
+    "expected_keywords": ["format registry", "chunking strategy", "register", "domain", "adapter"],
+    "expected_sources": ["chunking_pipeline", "adapter", "process_adapter"],
+    "category": "relationship",
+    "difficulty": "hard"
+  },
+  {
+    "id": "rel-staging-merge",
+    "query": "How does staging feed into the merge worker?",
+    "expected_keywords": ["commit", "staging", "merge queue", "conflict", "redb"],
+    "expected_sources": ["staging", "merge_worker", "commit_pipeline"],
+    "category": "relationship",
+    "difficulty": "hard"
+  },
+  {
+    "id": "rel-temporal-graph",
+    "query": "How do temporal queries and graph traversal complement each other?",
+    "expected_keywords": ["valid_from", "edges", "evolution", "traverse", "history"],
+    "expected_sources": ["m3-temporal", "ARCHITECTURE.md"],
+    "category": "relationship",
+    "difficulty": "hard"
+  },
+  {
+    "id": "rel-mcp-kernel",
+    "query": "How do MCP tool calls flow through to kernel operations?",
+    "expected_keywords": ["mcp", "ops", "kernel", "server", "json-rpc"],
+    "expected_sources": ["mcp", "ops", "server"],
+    "category": "relationship",
+    "difficulty": "hard"
+  },
+  {
+    "id": "rel-embedding-search",
+    "query": "How does the embedding pipeline connect to vector search?",
+    "expected_keywords": ["embed", "vector", "hnsw", "cosine", "insert"],
+    "expected_sources": ["embedding_pipeline", "lite_store", "ARCHITECTURE.md"],
+    "category": "relationship",
+    "difficulty": "medium"
+  },
+  {
+    "id": "rel-agent-session",
+    "query": "How do agent identities relate to sessions and writes?",
+    "expected_keywords": ["agent_id", "session_id", "registered", "staging", "writer"],
+    "expected_sources": ["agent_coordinator", "agent_writer", "session_manager"],
+    "category": "relationship",
+    "difficulty": "medium"
+  },
+  {
+    "id": "feat-graph-edge-fix",
+    "query": "What was the root cause of broken cross-file graph edges?",
+    "expected_keywords": ["import resolution", "self-loop", "crate::", "treesitter", "intra-file"],
+    "expected_sources": ["m3.4-graph-edge", "treesitter"],
+    "category": "feature",
+    "difficulty": "hard"
+  },
+  {
+    "id": "decision-dual-runtime",
+    "query": "Why does corvia-inference use separate runtimes for embeddings and chat?",
+    "expected_keywords": ["fastembed", "llama.cpp", "onnx", "gguf", "ergonomics"],
+    "expected_sources": ["chat-inference", "inference"],
+    "category": "decision",
+    "difficulty": "medium"
+  },
+  {
+    "id": "decision-store-client",
+    "query": "Why was the StoreClient trait abstraction proposed?",
+    "expected_keywords": ["write lock", "redb", "concurrent", "remote", "cli"],
+    "expected_sources": ["store-client-abstraction"],
+    "category": "decision",
+    "difficulty": "hard"
+  },
+  {
+    "id": "feat-session-history",
+    "query": "How does the Claude session history recording system work?",
+    "expected_keywords": ["user-history", "scope", "hooks", "adapter", "promote"],
+    "expected_sources": ["claude-session-history", "hooks"],
+    "category": "feature",
+    "difficulty": "hard"
+  },
+  {
+    "id": "arch-mcp-protocol",
+    "query": "What version of the MCP protocol does corvia implement?",
+    "expected_keywords": ["2024-11-05", "json-rpc", "initialize", "tools/list", "tools/call"],
+    "expected_sources": ["ARCHITECTURE.md", "mcp"],
+    "category": "architecture",
+    "difficulty": "easy"
+  },
+  {
+    "id": "feat-gc",
+    "query": "How does garbage collection work in corvia?",
+    "expected_keywords": ["gc", "stale", "orphaned", "cleanup", "coordination"],
+    "expected_sources": ["ops", "agent_coordinator"],
+    "category": "feature",
+    "difficulty": "medium"
+  },
+  {
+    "id": "config-postgres",
+    "query": "How do you configure PostgresStore with pgvector?",
+    "expected_keywords": ["pgvector", "pg17", "feature flag", "postgres", "sqlx"],
+    "expected_sources": ["postgres_store", "AGENTS.md"],
+    "category": "config",
+    "difficulty": "medium"
+  },
+  {
+    "id": "arch-data-model",
+    "query": "What is the difference between recorded_at and valid_from timestamps?",
+    "expected_keywords": ["transaction time", "valid time", "bi-temporal", "recorded_at", "valid_from"],
+    "expected_sources": ["ARCHITECTURE.md", "temporal"],
+    "category": "architecture",
+    "difficulty": "medium"
+  },
+  {
+    "id": "perf-conflict-threshold",
+    "query": "What cosine similarity threshold triggers a merge conflict?",
+    "expected_keywords": ["0.85", "cosine", "similarity", "conflict", "detection"],
+    "expected_sources": ["m2-agent-coordination", "merge_worker"],
+    "category": "performance",
+    "difficulty": "hard"
+  },
+  {
+    "id": "decision-mcp-control-plane",
+    "query": "Why was MCP chosen as the control plane protocol over REST or CLI?",
+    "expected_keywords": ["llm", "tool discovery", "config management", "admin", "control"],
+    "expected_sources": ["m4-control-plane", "ARCHITECTURE.md"],
+    "category": "decision",
+    "difficulty": "hard"
+  },
+  {
+    "id": "feat-rebuild",
+    "query": "How does corvia rebuild reconstruct indexes from JSON files?",
+    "expected_keywords": ["rebuild", "json", "hnsw", "redb", "source of truth"],
+    "expected_sources": ["lite_store", "ARCHITECTURE.md"],
+    "category": "feature",
+    "difficulty": "medium"
+  },
+  {
+    "id": "rel-reasoner-graph",
+    "query": "How does the reasoner use graph structure for its checks?",
+    "expected_keywords": ["dangling import", "dependency cycle", "graph", "deterministic", "edge"],
+    "expected_sources": ["reasoner", "ARCHITECTURE.md"],
+    "category": "relationship",
+    "difficulty": "hard"
   }
 ]

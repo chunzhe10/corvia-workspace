@@ -16,8 +16,8 @@ on its own source code.
 
 | Service | URL | Description |
 |---------|-----|-------------|
-| **API server** | `http://localhost:8020` | REST + MCP protocol server |
-| **Dashboard** | `http://localhost:8021` | Knowledge browser and system health |
+| **API server + Dashboard** | `http://localhost:8020` | REST + MCP protocol server + embedded dashboard |
+| **Vite dev server** | `http://localhost:8021` | Dashboard hot-reload (dev only) |
 | **Inference** | `http://localhost:8030` | gRPC embedding + chat (ONNX Runtime) |
 
 All services start automatically in the devcontainer via `post-start.sh`.
