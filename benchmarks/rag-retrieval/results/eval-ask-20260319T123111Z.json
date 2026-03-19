@@ -1,0 +1,68 @@
+{
+  "timestamp": "20260319T123111Z",
+  "server": "http://localhost:8020",
+  "mode": "ask",
+  "evals": [
+    "context_relevance",
+    "faithfulness",
+    "answer_relevance"
+  ],
+  "summary": {
+    "avg_context_relevance": 0.79,
+    "avg_faithfulness": 0,
+    "avg_answer_relevance": 0,
+    "queries_with_generation": 0
+  },
+  "details": [
+    {
+      "id": "ask-litestore",
+      "category": "architecture",
+      "context_relevance": 1.0,
+      "faithfulness": null,
+      "answer_relevance": null,
+      "source_count": 8,
+      "has_answer": false,
+      "latency_ms": 5466.6
+    },
+    {
+      "id": "ask-agpl",
+      "category": "decision",
+      "context_relevance": 1.0,
+      "faithfulness": null,
+      "answer_relevance": null,
+      "source_count": 10,
+      "has_answer": false,
+      "latency_ms": 463.3
+    },
+    {
+      "id": "ask-graph-expand",
+      "category": "feature",
+      "context_relevance": 1.0,
+      "faithfulness": null,
+      "answer_relevance": null,
+      "source_count": 8,
+      "has_answer": false,
+      "latency_ms": 1486.4
+    },
+    {
+      "id": "ask-merge",
+      "category": "feature",
+      "context_relevance": 0.75,
+      "faithfulness": null,
+      "answer_relevance": null,
+      "source_count": 9,
+      "has_answer": false,
+      "latency_ms": 3885.5
+    },
+    {
+      "id": "ask-embedding-models",
+      "category": "config",
+      "context_relevance": 0.2,
+      "faithfulness": null,
+      "answer_relevance": null,
+      "source_count": 10,
+      "has_answer": false,
+      "latency_ms": 965.1
+    }
+  ]
+}
