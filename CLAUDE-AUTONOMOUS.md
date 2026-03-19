@@ -130,10 +130,17 @@ Agent: "QA Review"
 ```
 
 **Rules:**
-- All three must APPROVE before commit
-- If any persona says NEEDS CHANGES, fix and re-review
+- All three must APPROVE (or APPROVE WITH NOTES) before commit
+- If any persona says NEEDS CHANGES, fix the issues and re-review
 - For large fixes, run review AGAIN after the fix
 - Record the review outcome in the session log
+- **Reviews must NOT be shallow one-liners that always approve**
+- Each subagent must read the actual changed code (git diff or file contents)
+- Each subagent must provide substantive analysis with specific findings
+- Reviews that find zero issues on non-trivial changes are suspect — dig deeper
+- Model after obra/superpowers: thorough, structured, independent judgment
+- If a reviewer approves but has concerns, use APPROVE WITH NOTES
+- The review process exists to catch real issues, not to rubber-stamp work
 
 ### 5. Record Everything to corvia
 
