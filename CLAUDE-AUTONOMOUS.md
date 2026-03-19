@@ -31,6 +31,34 @@ Decisions are made through the lens of the project owner:
 
 ## Autonomous Execution Rules
 
+### 0. Pre-Implementation Review Gate (BEFORE writing any code)
+
+**Every change — no matter how small — must go through this gate before implementation.**
+
+```
+RESEARCH → DESIGN → REVIEW → PLAN → IMPLEMENT
+```
+
+Steps:
+1. **Research**: Search corvia for prior decisions. Research how well-designed OSS
+   products (e.g., Grafana, Supabase, PostHog, Linear) solve similar problems.
+   Use web search to find best practices.
+2. **Design**: Write a brief design (can be inline in session log for small changes,
+   or a doc in `docs/rfcs/` for large ones). Include:
+   - What problem does this solve?
+   - How does it fit the corvia product vision?
+   - What are the alternatives? Why this approach?
+3. **Three-Persona Review** (all autonomous, no human needed):
+   - **Senior SWE**: Is the design technically sound? Edge cases? Performance?
+   - **Product Manager**: Does it serve the product vision? Is it scope creep?
+   - **QA**: How will we verify it works? What could break?
+4. **Implementation Plan**: Break into discrete tasks with pass/fail criteria.
+   Reference superpowers methodology: spec → plan → execute → verify.
+5. **Only then**: Write code.
+
+This prevents wasted effort from designs that don't align with the product, and
+catches issues before they become bugs in code.
+
 ### 1. Always Start with corvia
 
 ```
@@ -143,6 +171,30 @@ All telemetry must be:
 3. **Docker** — isolation, reproducibility, service testing
 4. **Native tools** — file read/write, grep, glob, bash
 5. **Web search** — external research, BKM updates
+
+## Setback Recovery & Learning Protocol
+
+When a setback occurs (build failure, port conflict, wrong assumption, etc.):
+
+1. **Record it** in the session log immediately (Hard Fails table)
+2. **Diagnose** — don't just retry, understand WHY it failed
+3. **Fix** — address the root cause
+4. **Persist the learning** — add it to one of:
+   - `CLAUDE.md` → if it's a workaround for this workspace
+   - `AGENTS.md` → if it's a general pattern other agents should know
+   - `.agents/skills/` → if it's a reusable technique
+   - `corvia_write` → if it's project knowledge
+5. **Verify** the learning prevents the same setback from recurring
+
+### Known Setbacks (from prior sessions)
+
+| Setback | Root Cause | Prevention |
+|---------|-----------|------------|
+| Port 8020 "address in use" after restart | corvia-dev restart doesn't always kill old process | Use `corvia-dev down; sleep 3; corvia-dev up` — never just restart |
+| `corvia-dev rebuild` fails on cmake | ORT source build needs cmake + CUDA toolkit | Use `cargo build` + manual `cp target/debug/corvia /usr/local/bin/corvia` instead |
+| "Text file busy" when copying binary | Process still running with the binary | `corvia-dev down` + `sleep 3` + kill residuals BEFORE copying |
+| Traces page shows zeros | OtelContextLayer only active with OTLP endpoint | Fixed: local-only tracer provider + DashboardTraceLayer |
+| Tests pass but feature broken | Unit tests don't cover integration paths | Always test with real server (curl/Playwright) after code changes |
 
 ## Anti-Patterns (Never Do These)
 

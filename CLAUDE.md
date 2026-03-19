@@ -43,6 +43,38 @@ sessions close. A `SessionEnd` hook in `.claude/settings.json` auto-runs
 - **Upstream**: https://github.com/anthropics/claude-code/issues
 - **Remove when**: upstream fix lands in Claude Code
 
+### Server restart procedure (corvia-dev)
+
+`corvia-dev restart` can leave orphaned processes holding ports. Always use:
+```bash
+corvia-dev down
+sleep 3
+# If needed: pkill -9 -f "corvia serve" to kill lingering processes
+corvia-dev up --no-foreground
+```
+
+Never use `corvia-dev restart` for binary updates. Instead:
+```bash
+cargo build
+corvia-dev down && sleep 3
+cp target/debug/corvia /usr/local/bin/corvia
+corvia-dev up --no-foreground
+```
+
+### `corvia-dev rebuild` cmake failure
+
+`corvia-dev rebuild` does a release build that triggers ORT source compilation
+requiring cmake + CUDA toolkit. Use manual `cargo build` (debug) + binary copy
+instead for iterative development.
+
+## Autonomous Development Protocol
+
+For autonomous sessions (owner away), import `@CLAUDE-AUTONOMOUS.md` which provides:
+- Pre-implementation review gate (Research → Design → 3-Persona Review → Plan → Implement)
+- Session logging, commit cadence, error recovery
+- Setback recording and learning persistence
+- Benchmark and milestone evaluation protocols
+
 ## Documentation Save Locations
 
 - Product-specific designs and RFCs → `repos/corvia/docs/rfcs/`
