@@ -1,20 +1,22 @@
 #!/usr/bin/env bash
-# Display-only reminder for agent identity selection.
-# Runs on Claude Code SessionStart -- does NOT require interaction.
-# See: docs/plans/2026-03-13-dashboard-ux-overhaul-design.md Section 2.2
+# Auto-register agent identity on SessionStart.
+# Calls the REST API to connect as claude-code agent.
+# Falls back to display-only message if server is down.
 
 CORVIA_API="${CORVIA_API:-http://localhost:8020}"
+AGENT_ID="${CORVIA_AGENT_ID:-claude-code}"
 
-if [ -n "$CORVIA_AGENT_ID" ]; then
-    echo "Connected as: $CORVIA_AGENT_ID"
+# Try to auto-register via REST API (non-interactive)
+RESPONSE=$(curl -sf --max-time 3 \
+    -X POST "$CORVIA_API/api/dashboard/agents/$AGENT_ID/connect" \
+    -H "Content-Type: application/json" \
+    -d '{}' 2>/dev/null)
+
+if [ $? -eq 0 ] && [ -n "$RESPONSE" ]; then
+    SESSIONS=$(echo "$RESPONSE" | jq -r '.active_sessions // 0' 2>/dev/null)
+    echo "Connected as: $AGENT_ID (active sessions: ${SESSIONS:-0})"
     exit 0
 fi
 
-# Check for reconnectable agents (fail silently if server is down)
-COUNT=$(curl -s --max-time 2 "$CORVIA_API/api/dashboard/agents/reconnectable" 2>/dev/null | jq 'length' 2>/dev/null)
-
-if [ "$COUNT" -gt "0" ] 2>/dev/null; then
-    echo "Run 'corvia agent connect' to select an identity ($COUNT agents available)"
-else
-    echo "No agent identity set. Run 'corvia agent connect' to register."
-fi
+# Server not available — display fallback message
+echo "Agent auto-registration deferred (server not ready). Will register on first MCP write."
