@@ -129,6 +129,79 @@ Key principles applied here:
 - **Guard context** — delegate research to subagents, compact proactively, fresh sessions per task
 - **Record decisions** — use `corvia_write` to persist learnings (dogfood the product)
 
+## Self-Running Agent BKMs
+
+Best Known Methods for autonomous, long-running Claude Code sessions. Adapted from
+[Anthropic engineering](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents),
+[self-improving agents](https://addyosmani.com/blog/self-improving-agents/), and
+[obra/superpowers](https://github.com/obra/superpowers).
+
+### Session Continuity & Progress Tracking
+
+- **Progress file**: Maintain a session log (`docs/session-logs/<date>-<task>.md`)
+  with hard fails, decisions, and checkpoints. Enables context recovery across sessions.
+- **Git-based state**: Commit after every logical unit of work with descriptive messages.
+  Git history becomes the primary memory mechanism between sessions.
+- **JSON for critical state**: Use JSON over markdown for state files that agents
+  modify — models are less likely to corrupt structured data.
+- **Single-feature focus**: Work on one feature/fix at a time. Complete it fully
+  (implement → test → verify → commit) before moving to the next.
+
+### Autonomous Execution Loop
+
+```
+1. Health check (build + tests pass?)
+2. Read session log / progress file
+3. corvia_search for relevant context
+4. Pick next task (smallest unblocked item)
+5. Implement with verification criteria defined upfront
+6. Run tests + manual verification
+7. Multi-persona review (SWE / PM / QA)
+8. Commit + update session log
+9. Record findings to corvia (corvia_write)
+10. Repeat or hand off
+```
+
+### Multi-Persona Review Gate
+
+Every non-trivial change is reviewed through three lenses before commit:
+- **Senior SWE**: Correctness, safety, idiomatic patterns, edge cases
+- **Product Manager**: Goal alignment, UX coherence, milestone advancement
+- **QA**: Test coverage, end-to-end verification, graceful failure modes
+
+### Error Recovery
+
+- **Never retry blindly** — diagnose root cause first
+- **Log every failure** in the session log with full context
+- **Fix forward** — address the underlying issue, not just the symptom
+- **Verify the fix** with a test that would have caught the original bug
+- **Record in corvia** so future sessions don't hit the same issue
+
+### Parallelization
+
+- **Subagents for research** — delegate broad exploration to background agents
+- **Worktrees for isolation** — use git worktrees for parallel implementation work
+- **Max 3-4 concurrent** — quality over quantity
+- **Sequential phases produce files** — Research → Plan → Implement → Review → Verify
+
+### Context Guard
+
+- Delegate research to subagents (separate context windows)
+- Keep files modular (hundreds of lines, not thousands)
+- Compact proactively at ~70% context usage
+- Fresh sessions per unrelated task
+- Include only task-relevant context, not entire codebase docs
+
+### Safety Boundaries
+
+- Work on feature branches, never master directly
+- Auto-approve reads; confirm destructive writes
+- Run tests before AND after changes
+- Never force-push, never skip hooks
+- Use Docker for isolation when testing risky operations
+
+For the full autonomous protocol, see [CLAUDE-AUTONOMOUS.md](CLAUDE-AUTONOMOUS.md).
+
 ## Production Agent BKMs
 
 Best Known Methods for building production-grade AI agents, adapted from
