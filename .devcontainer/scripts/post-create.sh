@@ -37,6 +37,11 @@ retry 3 install_binaries
 step "Initializing workspace"
 init_workspace
 
+step "Setting up hooks (git + doc-placement)"
+if command -v corvia >/dev/null 2>&1; then
+    corvia workspace init-hooks 2>/dev/null && echo "    hooks initialized" || echo "    hook init deferred (server not ready)"
+fi
+
 step "Ensuring tooling"
 ensure_tooling
 
