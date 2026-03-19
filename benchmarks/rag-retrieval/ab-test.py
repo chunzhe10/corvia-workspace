@@ -6,9 +6,10 @@ Runs the eval suite twice — once with graph expansion, once without — and
 compares results. Uses corvia's REST API with different query parameters.
 
 Usage:
-    python3 benchmarks/rag-retrieval/ab-test.py
+    python3 benchmarks/rag-retrieval/ab-test.py [--server http://localhost:8020] [--limit 10]
 """
 
+import argparse
 import json
 import time
 import sys
@@ -19,6 +20,7 @@ from urllib.error import URLError
 EVAL_QUERIES_PATH = Path(__file__).parent / "eval-queries.json"
 RESULTS_DIR = Path(__file__).parent / "results"
 SERVER = "http://localhost:8020"
+LIMIT = 10
 
 
 def search(query: str, limit: int = 10, expand_graph: bool = True) -> dict:
@@ -94,7 +96,7 @@ def run_variant(name: str, expand_graph: bool) -> dict:
     results = []
     errors = 0
     for q in queries:
-        sr = search(q["query"], limit=10, expand_graph=expand_graph)
+        sr = search(q["query"], limit=LIMIT, expand_graph=expand_graph)
         if sr["error"]:
             errors += 1
             continue
@@ -119,8 +121,19 @@ def run_variant(name: str, expand_graph: bool) -> dict:
 
 
 def main():
+    global SERVER, LIMIT
+
+    parser = argparse.ArgumentParser(description="A/B Test: Vector-only vs Graph-Expanded Retrieval")
+    parser.add_argument("--server", default=SERVER, help="Server URL (default: %(default)s)")
+    parser.add_argument("--limit", type=int, default=LIMIT, help="Results per query (default: %(default)s)")
+    args = parser.parse_args()
+
+    SERVER = args.server
+    LIMIT = args.limit
+
     print("=" * 70)
     print("A/B Test: Vector-only vs Graph-Expanded Retrieval")
+    print(f"Server: {SERVER}  Limit: {LIMIT}")
     print("=" * 70)
 
     # Variant A: graph_expand (default)

@@ -1,0 +1,24 @@
+{
+  "id": "019d0613-b2e2-7e10-8876-8275c45272f3",
+  "content": "# M7 Demoted — Not Ready for OSS Launch (2026-03-19)\n\nUser decision: M7 is demoted from \"OSS Launch\" to a smaller scope. The product is not ready for public launch yet.\n\nReasons:\n- Eval numbers show room for improvement (NDCG 0.656, Precision@5 49.6%)\n- 3,697 orphaned_node findings in knowledge health — needs investigation\n- Ask mode (generation) completely unevaluated\n- Graph expansion A/B test shows marginal quality improvement at 34x latency cost\n- License decision (AGPL vs Apache-2.0) not made\n- No proven multi-repo, multi-team usage yet (only dogfooding)\n\nWhat M7 becomes: internal quality milestone, not public launch. Focus on hardening, eval improvement, and proving the product works reliably before going public.",
+  "source_version": "mcp",
+  "scope_id": "corvia",
+  "workstream": "main",
+  "recorded_at": "2026-03-19T12:30:47.522007572Z",
+  "valid_from": "2026-03-19T12:30:47.522007572Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "embedding": null,
+  "metadata": {
+    "source_file": null,
+    "language": null,
+    "chunk_type": null,
+    "start_line": null,
+    "end_line": null,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": "claude-code",
+  "session_id": "claude-code/sess-6ebecd64",
+  "entry_status": "Pending"
+}
