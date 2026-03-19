@@ -338,8 +338,15 @@ function DetailPanel({
 }
 
 function shortTs(ts: string): string {
-  try { return new Date(ts).toLocaleTimeString([], { hour12: false }); }
-  catch { return ts; }
+  // The API already returns short timestamps like "14:31:52" via short_timestamp().
+  // Passing these to new Date() produces "Invalid Date", so return as-is.
+  // Only attempt Date parsing for full ISO timestamps.
+  if (/^\d{2}:\d{2}:\d{2}/.test(ts)) return ts;
+  try {
+    const d = new Date(ts);
+    if (isNaN(d.getTime())) return ts;
+    return d.toLocaleTimeString([], { hour12: false });
+  } catch { return ts; }
 }
 
 // --- Main component ---
