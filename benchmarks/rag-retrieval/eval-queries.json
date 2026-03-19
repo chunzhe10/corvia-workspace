@@ -1,0 +1,122 @@
+[
+  {
+    "id": "arch-litestore",
+    "query": "What storage format does LiteStore use?",
+    "expected_keywords": ["json", "redb", "hnsw", "git"],
+    "expected_sources": ["ARCHITECTURE.md", "lite_store"],
+    "category": "architecture",
+    "difficulty": "easy"
+  },
+  {
+    "id": "arch-graph",
+    "query": "How does the knowledge graph store edges?",
+    "expected_keywords": ["petgraph", "redb", "directed", "bfs"],
+    "expected_sources": ["graph_store", "ARCHITECTURE.md"],
+    "category": "architecture",
+    "difficulty": "easy"
+  },
+  {
+    "id": "feat-merge",
+    "query": "How does corvia resolve merge conflicts between agents?",
+    "expected_keywords": ["llm", "semantic", "conflict", "merge worker"],
+    "expected_sources": ["merge_worker", "milestone-revision"],
+    "category": "feature",
+    "difficulty": "medium"
+  },
+  {
+    "id": "feat-crash-recovery",
+    "query": "What happens when an agent crashes mid-session?",
+    "expected_keywords": ["orphaned", "stale", "recovery", "resume", "rollback"],
+    "expected_sources": ["agent_coordinator", "session_manager", "milestone-revision"],
+    "category": "feature",
+    "difficulty": "medium"
+  },
+  {
+    "id": "feat-temporal",
+    "query": "How does bi-temporal querying work in corvia?",
+    "expected_keywords": ["valid_from", "recorded_at", "as_of", "compound key"],
+    "expected_sources": ["temporal", "lite_store"],
+    "category": "feature",
+    "difficulty": "medium"
+  },
+  {
+    "id": "config-embedding",
+    "query": "What embedding models does corvia support?",
+    "expected_keywords": ["nomic", "minilm", "768", "384", "onnx"],
+    "expected_sources": ["embedding", "inference", "benchmark"],
+    "category": "config",
+    "difficulty": "easy"
+  },
+  {
+    "id": "api-mcp",
+    "query": "What MCP tools does corvia expose?",
+    "expected_keywords": ["corvia_search", "corvia_write", "corvia_ask", "scope_id"],
+    "expected_sources": ["AGENTS.md", "mcp"],
+    "category": "api",
+    "difficulty": "easy"
+  },
+  {
+    "id": "decision-agpl",
+    "query": "Why did corvia choose AGPL-3.0 licensing?",
+    "expected_keywords": ["saas", "protection", "dual", "grafana"],
+    "expected_sources": ["design", "ARCHITECTURE.md"],
+    "category": "decision",
+    "difficulty": "medium"
+  },
+  {
+    "id": "perf-gpu",
+    "query": "What GPU backends are supported for embedding inference?",
+    "expected_keywords": ["cuda", "openvino", "igpu", "onnx runtime"],
+    "expected_sources": ["backend", "benchmark", "inference"],
+    "category": "performance",
+    "difficulty": "easy"
+  },
+  {
+    "id": "feat-chunking",
+    "query": "How does format-aware chunking work?",
+    "expected_keywords": ["ast", "tree-sitter", "markdown", "format registry"],
+    "expected_sources": ["chunking", "adapter"],
+    "category": "feature",
+    "difficulty": "medium"
+  },
+  {
+    "id": "feat-reasoner",
+    "query": "What health checks does the reasoner perform?",
+    "expected_keywords": ["stale", "broken chain", "orphaned", "contradiction", "coverage gap"],
+    "expected_sources": ["reasoner"],
+    "category": "feature",
+    "difficulty": "hard"
+  },
+  {
+    "id": "arch-two-tier",
+    "query": "Why does corvia have both LiteStore and PostgresStore?",
+    "expected_keywords": ["docker", "adoption", "zero", "production", "pgvector"],
+    "expected_sources": ["ARCHITECTURE.md", "design"],
+    "category": "architecture",
+    "difficulty": "easy"
+  },
+  {
+    "id": "feat-dashboard",
+    "query": "What features does the standalone dashboard provide?",
+    "expected_keywords": ["graph", "traces", "agents", "merge queue", "activity"],
+    "expected_sources": ["dashboard", "standalone"],
+    "category": "feature",
+    "difficulty": "medium"
+  },
+  {
+    "id": "feat-staging",
+    "query": "How does agent write isolation work?",
+    "expected_keywords": ["staging", "branch", "shared hnsw", "pending"],
+    "expected_sources": ["staging", "milestone-revision", "D43"],
+    "category": "feature",
+    "difficulty": "hard"
+  },
+  {
+    "id": "perf-latency",
+    "query": "What is the RAG pipeline retrieval latency?",
+    "expected_keywords": ["35ms", "22ms", "embed", "hnsw", "graph"],
+    "expected_sources": ["trace", "retriever", "benchmark"],
+    "category": "performance",
+    "difficulty": "hard"
+  }
+]

@@ -1,0 +1,2028 @@
+{
+    "traces": [
+        {
+            "trace_id": "6606a46039e3161e775ab3d9cfa074e3",
+            "root_span": "corvia.rag.context",
+            "total_ms": 103.078015,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:23.475999Z",
+            "spans": [
+                {
+                    "span_id": "36fbaba5daa75076",
+                    "parent_span_id": "",
+                    "trace_id": "6606a46039e3161e775ab3d9cfa074e3",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 103.078015,
+                    "start_offset_ms": 17.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "aaa5d4303f29a8f8",
+                            "parent_span_id": "36fbaba5daa75076",
+                            "trace_id": "6606a46039e3161e775ab3d9cfa074e3",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 84.98868900000001,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "14bf26fbe5f153fb",
+                            "parent_span_id": "36fbaba5daa75076",
+                            "trace_id": "6606a46039e3161e775ab3d9cfa074e3",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 17.392965,
+                            "start_offset_ms": 17.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "4ba767b775019f6daf0544825c023098",
+            "root_span": "corvia.rag.context",
+            "total_ms": 116.136607,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:23.368045Z",
+            "spans": [
+                {
+                    "span_id": "6b0ea36ba5ebfe49",
+                    "parent_span_id": "",
+                    "trace_id": "4ba767b775019f6daf0544825c023098",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 116.136607,
+                    "start_offset_ms": 14.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "d74d6763eef33d9d",
+                            "parent_span_id": "6b0ea36ba5ebfe49",
+                            "trace_id": "4ba767b775019f6daf0544825c023098",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 101.41209,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "706b6b9696465454",
+                            "parent_span_id": "6b0ea36ba5ebfe49",
+                            "trace_id": "4ba767b775019f6daf0544825c023098",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 14.00206,
+                            "start_offset_ms": 14.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "f5b4f3dd2ad648caed1ca4ae053fd684",
+            "root_span": "corvia.rag.context",
+            "total_ms": 108.722891,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:23.243983Z",
+            "spans": [
+                {
+                    "span_id": "b1c9b2bbbedf26b8",
+                    "parent_span_id": "",
+                    "trace_id": "f5b4f3dd2ad648caed1ca4ae053fd684",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 108.722891,
+                    "start_offset_ms": 13.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "699d555533e7a6d0",
+                            "parent_span_id": "b1c9b2bbbedf26b8",
+                            "trace_id": "f5b4f3dd2ad648caed1ca4ae053fd684",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 95.530978,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "4b332c329ec7e2d8",
+                            "parent_span_id": "b1c9b2bbbedf26b8",
+                            "trace_id": "f5b4f3dd2ad648caed1ca4ae053fd684",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 12.637997,
+                            "start_offset_ms": 12.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "793e3e09ed7d79614d02279ef95ffda5",
+            "root_span": "corvia.rag.context",
+            "total_ms": 104.202114,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:23.125365Z",
+            "spans": [
+                {
+                    "span_id": "debfe2ef10350d8d",
+                    "parent_span_id": "",
+                    "trace_id": "793e3e09ed7d79614d02279ef95ffda5",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 104.202114,
+                    "start_offset_ms": 12.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "852352235ef35bf2",
+                            "parent_span_id": "debfe2ef10350d8d",
+                            "trace_id": "793e3e09ed7d79614d02279ef95ffda5",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 91.125509,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "7c4dc9b906c9049f",
+                            "parent_span_id": "debfe2ef10350d8d",
+                            "trace_id": "793e3e09ed7d79614d02279ef95ffda5",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 12.443895,
+                            "start_offset_ms": 12.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "f99de84cead1d1827917e0539883dc02",
+            "root_span": "corvia.rag.context",
+            "total_ms": 108.891439,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:23.004691Z",
+            "spans": [
+                {
+                    "span_id": "91a7599c9bda1d1c",
+                    "parent_span_id": "",
+                    "trace_id": "f99de84cead1d1827917e0539883dc02",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 108.891439,
+                    "start_offset_ms": 17.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "5b66b5abf87aa7fb",
+                            "parent_span_id": "91a7599c9bda1d1c",
+                            "trace_id": "f99de84cead1d1827917e0539883dc02",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 91.541389,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "99998fd40052a381",
+                            "parent_span_id": "91a7599c9bda1d1c",
+                            "trace_id": "f99de84cead1d1827917e0539883dc02",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 16.441104000000003,
+                            "start_offset_ms": 16.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "a2a1909888e3e92ae6839bff367d713e",
+            "root_span": "corvia.rag.context",
+            "total_ms": 91.982853,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:22.885525Z",
+            "spans": [
+                {
+                    "span_id": "3d7a0328c8d56e31",
+                    "parent_span_id": "",
+                    "trace_id": "a2a1909888e3e92ae6839bff367d713e",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 91.982853,
+                    "start_offset_ms": 16.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "46316e87cbd54283",
+                            "parent_span_id": "3d7a0328c8d56e31",
+                            "trace_id": "a2a1909888e3e92ae6839bff367d713e",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 75.08993099999999,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "efddc9c11a80548c",
+                            "parent_span_id": "3d7a0328c8d56e31",
+                            "trace_id": "a2a1909888e3e92ae6839bff367d713e",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 16.018366999999998,
+                            "start_offset_ms": 16.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "6335025b79503d0462df54c18ffa7096",
+            "root_span": "corvia.rag.context",
+            "total_ms": 111.096948,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:22.780469Z",
+            "spans": [
+                {
+                    "span_id": "c5f96a2c435dd1b2",
+                    "parent_span_id": "",
+                    "trace_id": "6335025b79503d0462df54c18ffa7096",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 111.096948,
+                    "start_offset_ms": 19.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "6c446779405ce91d",
+                            "parent_span_id": "c5f96a2c435dd1b2",
+                            "trace_id": "6335025b79503d0462df54c18ffa7096",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 91.203326,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "1f95ab6b37023310",
+                            "parent_span_id": "c5f96a2c435dd1b2",
+                            "trace_id": "6335025b79503d0462df54c18ffa7096",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 19.044996,
+                            "start_offset_ms": 19.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "8eb04890042565828a5f4b91e4ffd81b",
+            "root_span": "corvia.rag.context",
+            "total_ms": 92.097325,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:22.663947Z",
+            "spans": [
+                {
+                    "span_id": "b36c2129f7a4ef31",
+                    "parent_span_id": "",
+                    "trace_id": "8eb04890042565828a5f4b91e4ffd81b",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 92.097325,
+                    "start_offset_ms": 14.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "73888a38ad6ee57c",
+                            "parent_span_id": "b36c2129f7a4ef31",
+                            "trace_id": "8eb04890042565828a5f4b91e4ffd81b",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 77.18879100000001,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "01bfe6476895694a",
+                            "parent_span_id": "b36c2129f7a4ef31",
+                            "trace_id": "8eb04890042565828a5f4b91e4ffd81b",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 14.289323,
+                            "start_offset_ms": 14.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "dfaa3ea4c74eec27ecf884c4a7051c30",
+            "root_span": "corvia.rag.context",
+            "total_ms": 93.409916,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:22.557632Z",
+            "spans": [
+                {
+                    "span_id": "658782188d19bc49",
+                    "parent_span_id": "",
+                    "trace_id": "dfaa3ea4c74eec27ecf884c4a7051c30",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 93.409916,
+                    "start_offset_ms": 18.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "dfe67f3ec4d1b8a5",
+                            "parent_span_id": "658782188d19bc49",
+                            "trace_id": "dfaa3ea4c74eec27ecf884c4a7051c30",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 74.638109,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "c11670617c1c1215",
+                            "parent_span_id": "658782188d19bc49",
+                            "trace_id": "dfaa3ea4c74eec27ecf884c4a7051c30",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 18.014381999999998,
+                            "start_offset_ms": 18.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "53a48cbf5a7da561e90e013764b7b95a",
+            "root_span": "corvia.rag.context",
+            "total_ms": 89.694411,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:22.454482Z",
+            "spans": [
+                {
+                    "span_id": "cdabe628fd2f5da0",
+                    "parent_span_id": "",
+                    "trace_id": "53a48cbf5a7da561e90e013764b7b95a",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 89.694411,
+                    "start_offset_ms": 18.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "ab9fa41db8fde441",
+                            "parent_span_id": "cdabe628fd2f5da0",
+                            "trace_id": "53a48cbf5a7da561e90e013764b7b95a",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 70.81624000000001,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "530b4c843be0ebf1",
+                            "parent_span_id": "cdabe628fd2f5da0",
+                            "trace_id": "53a48cbf5a7da561e90e013764b7b95a",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 18.096683,
+                            "start_offset_ms": 18.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "9c89a006a521b345a461847131fcda9d",
+            "root_span": "corvia.rag.context",
+            "total_ms": 97.475811,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:22.359491Z",
+            "spans": [
+                {
+                    "span_id": "f79ba33c2ae4bdd0",
+                    "parent_span_id": "",
+                    "trace_id": "9c89a006a521b345a461847131fcda9d",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 97.475811,
+                    "start_offset_ms": 13.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "dec927faa907ac2f",
+                            "parent_span_id": "f79ba33c2ae4bdd0",
+                            "trace_id": "9c89a006a521b345a461847131fcda9d",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 83.636454,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "7d5204e728e48be5",
+                            "parent_span_id": "f79ba33c2ae4bdd0",
+                            "trace_id": "9c89a006a521b345a461847131fcda9d",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 13.19202,
+                            "start_offset_ms": 13.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "bc6d5f575695fe63c5e0990ef0bad7d2",
+            "root_span": "corvia.rag.context",
+            "total_ms": 46.336516,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:22.247831Z",
+            "spans": [
+                {
+                    "span_id": "83d7902f39fed7a6",
+                    "parent_span_id": "",
+                    "trace_id": "bc6d5f575695fe63c5e0990ef0bad7d2",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 46.336516,
+                    "start_offset_ms": 16.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "4f4be5c0dcc19794",
+                            "parent_span_id": "83d7902f39fed7a6",
+                            "trace_id": "bc6d5f575695fe63c5e0990ef0bad7d2",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 29.7625,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "475333ad9fe9e421",
+                            "parent_span_id": "83d7902f39fed7a6",
+                            "trace_id": "bc6d5f575695fe63c5e0990ef0bad7d2",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 15.808887,
+                            "start_offset_ms": 15.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "8eb0a7539c51d4c6294c2c5990411db2",
+            "root_span": "corvia.rag.context",
+            "total_ms": 70.344325,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:22.191144Z",
+            "spans": [
+                {
+                    "span_id": "b0236eba08e36613",
+                    "parent_span_id": "",
+                    "trace_id": "8eb0a7539c51d4c6294c2c5990411db2",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 70.344325,
+                    "start_offset_ms": 18.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "cec682590870b183",
+                            "parent_span_id": "b0236eba08e36613",
+                            "trace_id": "8eb0a7539c51d4c6294c2c5990411db2",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 51.704635,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "5ebcb59f20a6617d",
+                            "parent_span_id": "b0236eba08e36613",
+                            "trace_id": "8eb0a7539c51d4c6294c2c5990411db2",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 17.900473,
+                            "start_offset_ms": 18.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "75266853a6c0353d890f8aafcda56030",
+            "root_span": "corvia.rag.context",
+            "total_ms": 70.625639,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:22.119340Z",
+            "spans": [
+                {
+                    "span_id": "b8a8d4f19f82b0e4",
+                    "parent_span_id": "",
+                    "trace_id": "75266853a6c0353d890f8aafcda56030",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 70.625639,
+                    "start_offset_ms": 13.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "50a282e5c50f2a40",
+                            "parent_span_id": "b8a8d4f19f82b0e4",
+                            "trace_id": "75266853a6c0353d890f8aafcda56030",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 57.319399,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "be87c2518fd10db4",
+                            "parent_span_id": "b8a8d4f19f82b0e4",
+                            "trace_id": "75266853a6c0353d890f8aafcda56030",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 12.715932,
+                            "start_offset_ms": 12.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "b0db0b65d9dd826b43d23f47a55c85d8",
+            "root_span": "corvia.rag.context",
+            "total_ms": 44.583647,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:22.037468Z",
+            "spans": [
+                {
+                    "span_id": "52c5769713df9c9f",
+                    "parent_span_id": "",
+                    "trace_id": "b0db0b65d9dd826b43d23f47a55c85d8",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 44.583647,
+                    "start_offset_ms": 14.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "b5bc58f6d6cdd7da",
+                            "parent_span_id": "52c5769713df9c9f",
+                            "trace_id": "b0db0b65d9dd826b43d23f47a55c85d8",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 29.803607,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "8a4992c1024c7144",
+                            "parent_span_id": "52c5769713df9c9f",
+                            "trace_id": "b0db0b65d9dd826b43d23f47a55c85d8",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 14.192919,
+                            "start_offset_ms": 14.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "c8077cbf395bde22e7d51ae7504627bc",
+            "root_span": "corvia.rag.context",
+            "total_ms": 64.812573,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:21.985918Z",
+            "spans": [
+                {
+                    "span_id": "8c448d1311b2a6ae",
+                    "parent_span_id": "",
+                    "trace_id": "c8077cbf395bde22e7d51ae7504627bc",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 64.812573,
+                    "start_offset_ms": 14.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "639e19f4693bd583",
+                            "parent_span_id": "8c448d1311b2a6ae",
+                            "trace_id": "c8077cbf395bde22e7d51ae7504627bc",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 50.366306,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "cecf156ba5a93a2b",
+                            "parent_span_id": "8c448d1311b2a6ae",
+                            "trace_id": "c8077cbf395bde22e7d51ae7504627bc",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 13.845019,
+                            "start_offset_ms": 13.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "003ce01ab08732cf550e046d2415b338",
+            "root_span": "corvia.rag.context",
+            "total_ms": 47.049257,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:21.912079Z",
+            "spans": [
+                {
+                    "span_id": "cac878c26fb7e164",
+                    "parent_span_id": "",
+                    "trace_id": "003ce01ab08732cf550e046d2415b338",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 47.049257,
+                    "start_offset_ms": 14.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "6c4f36300c3fc9fd",
+                            "parent_span_id": "cac878c26fb7e164",
+                            "trace_id": "003ce01ab08732cf550e046d2415b338",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 32.009313,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "8cd696c7ae004611",
+                            "parent_span_id": "cac878c26fb7e164",
+                            "trace_id": "003ce01ab08732cf550e046d2415b338",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 14.374743,
+                            "start_offset_ms": 14.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "19ec6b5d4df967babaedc018c66dcf93",
+            "root_span": "corvia.rag.context",
+            "total_ms": 57.707237,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:21.875971Z",
+            "spans": [
+                {
+                    "span_id": "bcd4f0da88927326",
+                    "parent_span_id": "",
+                    "trace_id": "19ec6b5d4df967babaedc018c66dcf93",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 57.707237,
+                    "start_offset_ms": 19.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "2fe361aaaddc3fec",
+                            "parent_span_id": "bcd4f0da88927326",
+                            "trace_id": "19ec6b5d4df967babaedc018c66dcf93",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 38.160782,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "53b6caaac6b88502",
+                            "parent_span_id": "bcd4f0da88927326",
+                            "trace_id": "19ec6b5d4df967babaedc018c66dcf93",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 18.432771,
+                            "start_offset_ms": 18.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "01ff4aba3d62557c09f6b1d501658728",
+            "root_span": "corvia.rag.context",
+            "total_ms": 89.602216,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:21.851305Z",
+            "spans": [
+                {
+                    "span_id": "5cc9759e66ca984c",
+                    "parent_span_id": "",
+                    "trace_id": "01ff4aba3d62557c09f6b1d501658728",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 89.602216,
+                    "start_offset_ms": 18.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "ab9ca44775f8d4b3",
+                            "parent_span_id": "5cc9759e66ca984c",
+                            "trace_id": "01ff4aba3d62557c09f6b1d501658728",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 70.499358,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "70d8e40675e2c01b",
+                            "parent_span_id": "5cc9759e66ca984c",
+                            "trace_id": "01ff4aba3d62557c09f6b1d501658728",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 17.870868,
+                            "start_offset_ms": 18.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "245665e23d9b992bd278573ea8f3e02b",
+            "root_span": "corvia.rag.context",
+            "total_ms": 73.48339600000001,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:21.773595Z",
+            "spans": [
+                {
+                    "span_id": "5d16987dee7c4815",
+                    "parent_span_id": "",
+                    "trace_id": "245665e23d9b992bd278573ea8f3e02b",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 73.48339600000001,
+                    "start_offset_ms": 20.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "5d4f416b12e0e51c",
+                            "parent_span_id": "5d16987dee7c4815",
+                            "trace_id": "245665e23d9b992bd278573ea8f3e02b",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 52.987171,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "4a446fb7db833a47",
+                            "parent_span_id": "5d16987dee7c4815",
+                            "trace_id": "245665e23d9b992bd278573ea8f3e02b",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 19.568981,
+                            "start_offset_ms": 19.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "c43ee2cb3ffc6c625a4cdc86b87a2bd4",
+            "root_span": "corvia.rag.context",
+            "total_ms": 67.432616,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:21.752804Z",
+            "spans": [
+                {
+                    "span_id": "e460337db63b2ceb",
+                    "parent_span_id": "",
+                    "trace_id": "c43ee2cb3ffc6c625a4cdc86b87a2bd4",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 67.432616,
+                    "start_offset_ms": 18.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "e472842742e7a9d3",
+                            "parent_span_id": "e460337db63b2ceb",
+                            "trace_id": "c43ee2cb3ffc6c625a4cdc86b87a2bd4",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 48.462703000000005,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "e1ff0b1f2dbbc038",
+                            "parent_span_id": "e460337db63b2ceb",
+                            "trace_id": "c43ee2cb3ffc6c625a4cdc86b87a2bd4",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 18.101754,
+                            "start_offset_ms": 18.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "be910e1ed9b66d778e4786eac392eca9",
+            "root_span": "corvia.rag.context",
+            "total_ms": 56.223481,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:21.668292Z",
+            "spans": [
+                {
+                    "span_id": "165a54561c26d44c",
+                    "parent_span_id": "",
+                    "trace_id": "be910e1ed9b66d778e4786eac392eca9",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 56.223481,
+                    "start_offset_ms": 18.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "358722b8b5d8f469",
+                            "parent_span_id": "165a54561c26d44c",
+                            "trace_id": "be910e1ed9b66d778e4786eac392eca9",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 37.745765,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "25eb96c687822176",
+                            "parent_span_id": "165a54561c26d44c",
+                            "trace_id": "be910e1ed9b66d778e4786eac392eca9",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 17.495986000000002,
+                            "start_offset_ms": 17.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "c541c0a997c3d975efe15e5e3273b686",
+            "root_span": "corvia.rag.context",
+            "total_ms": 57.204711,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:21.629507Z",
+            "spans": [
+                {
+                    "span_id": "9ec29844dc83cca6",
+                    "parent_span_id": "",
+                    "trace_id": "c541c0a997c3d975efe15e5e3273b686",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 57.204711,
+                    "start_offset_ms": 30.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "6b52593e8c2bb1d1",
+                            "parent_span_id": "9ec29844dc83cca6",
+                            "trace_id": "c541c0a997c3d975efe15e5e3273b686",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 26.076877,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "553cbdc35d51d50d",
+                            "parent_span_id": "9ec29844dc83cca6",
+                            "trace_id": "c541c0a997c3d975efe15e5e3273b686",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 30.064579,
+                            "start_offset_ms": 30.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "521758655a85833b06d93ee9c0ca49a6",
+            "root_span": "corvia.rag.context",
+            "total_ms": 97.24069,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:21.595901Z",
+            "spans": [
+                {
+                    "span_id": "e8fd4b11a1b3b98a",
+                    "parent_span_id": "",
+                    "trace_id": "521758655a85833b06d93ee9c0ca49a6",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 97.24069,
+                    "start_offset_ms": 20.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "a1551e050c57629a",
+                            "parent_span_id": "e8fd4b11a1b3b98a",
+                            "trace_id": "521758655a85833b06d93ee9c0ca49a6",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 76.954314,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "cf500897ba183c2d",
+                            "parent_span_id": "e8fd4b11a1b3b98a",
+                            "trace_id": "521758655a85833b06d93ee9c0ca49a6",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 19.256512,
+                            "start_offset_ms": 19.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "9c716031ae1cba0a7b0a05b10924ef75",
+            "root_span": "corvia.rag.context",
+            "total_ms": 99.382031,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:21.508506Z",
+            "spans": [
+                {
+                    "span_id": "a60e09b41ee88e0a",
+                    "parent_span_id": "",
+                    "trace_id": "9c716031ae1cba0a7b0a05b10924ef75",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 99.382031,
+                    "start_offset_ms": 35.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "e464dd47ad9a177f",
+                            "parent_span_id": "a60e09b41ee88e0a",
+                            "trace_id": "9c716031ae1cba0a7b0a05b10924ef75",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 63.61857799999999,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "3aefbe9e4767b029",
+                            "parent_span_id": "a60e09b41ee88e0a",
+                            "trace_id": "9c716031ae1cba0a7b0a05b10924ef75",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 34.710738,
+                            "start_offset_ms": 34.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "60a1b47aaeb202082de951b08d109c9c",
+            "root_span": "corvia.rag.context",
+            "total_ms": 77.924038,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:21.485252Z",
+            "spans": [
+                {
+                    "span_id": "a7f52a650d00e564",
+                    "parent_span_id": "",
+                    "trace_id": "60a1b47aaeb202082de951b08d109c9c",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 77.924038,
+                    "start_offset_ms": 20.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "0f8e8a5048b35f8a",
+                            "parent_span_id": "a7f52a650d00e564",
+                            "trace_id": "60a1b47aaeb202082de951b08d109c9c",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 57.427707,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "d09f9c4c3453f919",
+                            "parent_span_id": "a7f52a650d00e564",
+                            "trace_id": "60a1b47aaeb202082de951b08d109c9c",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 19.208081,
+                            "start_offset_ms": 19.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "3845b53b348d37c18184d39d394726d8",
+            "root_span": "corvia.rag.context",
+            "total_ms": 44.429716,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:21.391393Z",
+            "spans": [
+                {
+                    "span_id": "21c04314f444041d",
+                    "parent_span_id": "",
+                    "trace_id": "3845b53b348d37c18184d39d394726d8",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 44.429716,
+                    "start_offset_ms": 19.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "05ffc53dc6f1500b",
+                            "parent_span_id": "21c04314f444041d",
+                            "trace_id": "3845b53b348d37c18184d39d394726d8",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 24.316989,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "918e44f3285db564",
+                            "parent_span_id": "21c04314f444041d",
+                            "trace_id": "3845b53b348d37c18184d39d394726d8",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 19.253236,
+                            "start_offset_ms": 19.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "92fb61763d09ae0a1a3decb4ab45d1df",
+            "root_span": "corvia.rag.context",
+            "total_ms": 108.217178,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:21.358072Z",
+            "spans": [
+                {
+                    "span_id": "79ab440719320bde",
+                    "parent_span_id": "",
+                    "trace_id": "92fb61763d09ae0a1a3decb4ab45d1df",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 108.217178,
+                    "start_offset_ms": 37.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "067038a4be9a4ec4",
+                            "parent_span_id": "79ab440719320bde",
+                            "trace_id": "92fb61763d09ae0a1a3decb4ab45d1df",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 70.55339500000001,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "186ebd01328136fe",
+                            "parent_span_id": "79ab440719320bde",
+                            "trace_id": "92fb61763d09ae0a1a3decb4ab45d1df",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 36.880225,
+                            "start_offset_ms": 37.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "9925d6550d80d63c9bccb24c2d2e897f",
+            "root_span": "corvia.rag.context",
+            "total_ms": 81.46766699999999,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:21.325553Z",
+            "spans": [
+                {
+                    "span_id": "f2a3d8735c275dce",
+                    "parent_span_id": "",
+                    "trace_id": "9925d6550d80d63c9bccb24c2d2e897f",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 81.46766699999999,
+                    "start_offset_ms": 31.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "2cbf26c6f18372c8",
+                            "parent_span_id": "f2a3d8735c275dce",
+                            "trace_id": "9925d6550d80d63c9bccb24c2d2e897f",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 49.274556999999994,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "d68518173ea76f10",
+                            "parent_span_id": "f2a3d8735c275dce",
+                            "trace_id": "9925d6550d80d63c9bccb24c2d2e897f",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 31.185558,
+                            "start_offset_ms": 31.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "a0a0c8778be16a4d562ce138b50d5e7e",
+            "root_span": "corvia.rag.context",
+            "total_ms": 46.24449,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:21.242603Z",
+            "spans": [
+                {
+                    "span_id": "97515e267f7399f0",
+                    "parent_span_id": "",
+                    "trace_id": "a0a0c8778be16a4d562ce138b50d5e7e",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 46.24449,
+                    "start_offset_ms": 21.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "8e8ca197d0f58e52",
+                            "parent_span_id": "97515e267f7399f0",
+                            "trace_id": "a0a0c8778be16a4d562ce138b50d5e7e",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 24.547486,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "0697bfed114ec8dd",
+                            "parent_span_id": "97515e267f7399f0",
+                            "trace_id": "a0a0c8778be16a4d562ce138b50d5e7e",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 20.811676,
+                            "start_offset_ms": 20.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "8800d209cdc97236022e51f136a00201",
+            "root_span": "corvia.rag.context",
+            "total_ms": 54.08763,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:21.209187Z",
+            "spans": [
+                {
+                    "span_id": "dbef49981ee40b93",
+                    "parent_span_id": "",
+                    "trace_id": "8800d209cdc97236022e51f136a00201",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 54.08763,
+                    "start_offset_ms": 31.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "0dc49d591a2453b6",
+                            "parent_span_id": "dbef49981ee40b93",
+                            "trace_id": "8800d209cdc97236022e51f136a00201",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 22.033107,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "02721e3cf998a595",
+                            "parent_span_id": "dbef49981ee40b93",
+                            "trace_id": "8800d209cdc97236022e51f136a00201",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 31.005761,
+                            "start_offset_ms": 31.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "1c0f45671c12bce3f3ead1b09a4f3a85",
+            "root_span": "corvia.rag.context",
+            "total_ms": 39.644942,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:21.188910Z",
+            "spans": [
+                {
+                    "span_id": "7b54399f18e22ea2",
+                    "parent_span_id": "",
+                    "trace_id": "1c0f45671c12bce3f3ead1b09a4f3a85",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 39.644942,
+                    "start_offset_ms": 18.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "a7c86ca32e995d71",
+                            "parent_span_id": "7b54399f18e22ea2",
+                            "trace_id": "1c0f45671c12bce3f3ead1b09a4f3a85",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 20.929678,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "7d124238bc100ba3",
+                            "parent_span_id": "7b54399f18e22ea2",
+                            "trace_id": "1c0f45671c12bce3f3ead1b09a4f3a85",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 18.103607,
+                            "start_offset_ms": 18.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "9e1076e11130d9995058e235c19c0957",
+            "root_span": "corvia.rag.context",
+            "total_ms": 42.875588,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:21.141700Z",
+            "spans": [
+                {
+                    "span_id": "1c1c5030c9fe8bba",
+                    "parent_span_id": "",
+                    "trace_id": "9e1076e11130d9995058e235c19c0957",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 42.875588,
+                    "start_offset_ms": 18.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "54e9d55cc740f33b",
+                            "parent_span_id": "1c1c5030c9fe8bba",
+                            "trace_id": "9e1076e11130d9995058e235c19c0957",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 24.483938,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "24079d92e5392546",
+                            "parent_span_id": "1c1c5030c9fe8bba",
+                            "trace_id": "9e1076e11130d9995058e235c19c0957",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 17.702967,
+                            "start_offset_ms": 17.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "6a52354c2d4acc19496720856afe9625",
+            "root_span": "corvia.rag.context",
+            "total_ms": 70.749072,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:21.104075Z",
+            "spans": [
+                {
+                    "span_id": "309d59ab2ec6d21e",
+                    "parent_span_id": "",
+                    "trace_id": "6a52354c2d4acc19496720856afe9625",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 70.749072,
+                    "start_offset_ms": 27.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "e0cdc60ff554333c",
+                            "parent_span_id": "309d59ab2ec6d21e",
+                            "trace_id": "6a52354c2d4acc19496720856afe9625",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 43.451913000000005,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "ee38e364b7a20e27",
+                            "parent_span_id": "309d59ab2ec6d21e",
+                            "trace_id": "6a52354c2d4acc19496720856afe9625",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 26.038995,
+                            "start_offset_ms": 26.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "4f3eb0c6e4ea49185007d9c4a7461dd1",
+            "root_span": "corvia.rag.context",
+            "total_ms": 50.748578,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:21.086282Z",
+            "spans": [
+                {
+                    "span_id": "833431e6292ac0a3",
+                    "parent_span_id": "",
+                    "trace_id": "4f3eb0c6e4ea49185007d9c4a7461dd1",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 50.748578,
+                    "start_offset_ms": 22.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "7a5d9e7f0e397611",
+                            "parent_span_id": "833431e6292ac0a3",
+                            "trace_id": "4f3eb0c6e4ea49185007d9c4a7461dd1",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 28.102766000000003,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "2fc7b833d5be7179",
+                            "parent_span_id": "833431e6292ac0a3",
+                            "trace_id": "4f3eb0c6e4ea49185007d9c4a7461dd1",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 21.876175,
+                            "start_offset_ms": 22.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "acd163133e30c590ebc1824069fdc57e",
+            "root_span": "corvia.rag.context",
+            "total_ms": 57.456277,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:21.028088Z",
+            "spans": [
+                {
+                    "span_id": "9364b686cafcf4ec",
+                    "parent_span_id": "",
+                    "trace_id": "acd163133e30c590ebc1824069fdc57e",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 57.456277,
+                    "start_offset_ms": 19.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "32c1b652fef72ee1",
+                            "parent_span_id": "9364b686cafcf4ec",
+                            "trace_id": "acd163133e30c590ebc1824069fdc57e",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 37.378422,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "4a4d566038007914",
+                            "parent_span_id": "9364b686cafcf4ec",
+                            "trace_id": "acd163133e30c590ebc1824069fdc57e",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 19.207314,
+                            "start_offset_ms": 19.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "a74d0e340c4afbd8030410235a268048",
+            "root_span": "corvia.rag.context",
+            "total_ms": 95.952425,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:20.979239Z",
+            "spans": [
+                {
+                    "span_id": "e106b42fa3f45332",
+                    "parent_span_id": "",
+                    "trace_id": "a74d0e340c4afbd8030410235a268048",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 95.952425,
+                    "start_offset_ms": 35.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "a0adb30766d5deea",
+                            "parent_span_id": "e106b42fa3f45332",
+                            "trace_id": "a74d0e340c4afbd8030410235a268048",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 60.187639,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "9f449ad3c90512cc",
+                            "parent_span_id": "e106b42fa3f45332",
+                            "trace_id": "a74d0e340c4afbd8030410235a268048",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 34.621963,
+                            "start_offset_ms": 34.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "ea6d3a5f079ccaf1cf139be829a4f735",
+            "root_span": "corvia.rag.context",
+            "total_ms": 63.962932,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:20.943660Z",
+            "spans": [
+                {
+                    "span_id": "ea3d96fd93d57ec4",
+                    "parent_span_id": "",
+                    "trace_id": "ea6d3a5f079ccaf1cf139be829a4f735",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 63.962932,
+                    "start_offset_ms": 34.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "a4cf30de599adedb",
+                            "parent_span_id": "ea3d96fd93d57ec4",
+                            "trace_id": "ea6d3a5f079ccaf1cf139be829a4f735",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 29.675078,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "be7cb3e1df917ea7",
+                            "parent_span_id": "ea3d96fd93d57ec4",
+                            "trace_id": "ea6d3a5f079ccaf1cf139be829a4f735",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 33.371603,
+                            "start_offset_ms": 33.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "3d524f487ec76baf1fcc6c6d1351270c",
+            "root_span": "corvia.rag.context",
+            "total_ms": 56.650052,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:20.887154Z",
+            "spans": [
+                {
+                    "span_id": "6fe7d60e8673f85c",
+                    "parent_span_id": "",
+                    "trace_id": "3d524f487ec76baf1fcc6c6d1351270c",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 56.650052,
+                    "start_offset_ms": 18.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "6b7ae178615d1039",
+                            "parent_span_id": "6fe7d60e8673f85c",
+                            "trace_id": "3d524f487ec76baf1fcc6c6d1351270c",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 38.095631999999995,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "14a815358beaf972",
+                            "parent_span_id": "6fe7d60e8673f85c",
+                            "trace_id": "3d524f487ec76baf1fcc6c6d1351270c",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 17.686042,
+                            "start_offset_ms": 17.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "bf32cb8b5abb05e248bbefeba991513f",
+            "root_span": "corvia.rag.context",
+            "total_ms": 62.344069000000005,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:20.847543Z",
+            "spans": [
+                {
+                    "span_id": "949eaccc4b10c02a",
+                    "parent_span_id": "",
+                    "trace_id": "bf32cb8b5abb05e248bbefeba991513f",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 62.344069000000005,
+                    "start_offset_ms": 27.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "b240794d2a7584c2",
+                            "parent_span_id": "949eaccc4b10c02a",
+                            "trace_id": "bf32cb8b5abb05e248bbefeba991513f",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 33.747583,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "85c441765edf5234",
+                            "parent_span_id": "949eaccc4b10c02a",
+                            "trace_id": "bf32cb8b5abb05e248bbefeba991513f",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 26.704042,
+                            "start_offset_ms": 26.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "894de27b1332f12b703336a9dd8c76da",
+            "root_span": "corvia.rag.context",
+            "total_ms": 87.074918,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:20.786874Z",
+            "spans": [
+                {
+                    "span_id": "2fddc6c6d1d450fd",
+                    "parent_span_id": "",
+                    "trace_id": "894de27b1332f12b703336a9dd8c76da",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 87.074918,
+                    "start_offset_ms": 50.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "209daa7b26bdf0cf",
+                            "parent_span_id": "2fddc6c6d1d450fd",
+                            "trace_id": "894de27b1332f12b703336a9dd8c76da",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 36.575085,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "97048815950ffd75",
+                            "parent_span_id": "2fddc6c6d1d450fd",
+                            "trace_id": "894de27b1332f12b703336a9dd8c76da",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 49.540489,
+                            "start_offset_ms": 49.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "8862400ce34564beebbeee1d9183ad26",
+            "root_span": "corvia.rag.context",
+            "total_ms": 62.043365,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:20.727238Z",
+            "spans": [
+                {
+                    "span_id": "ed38aca047f3b953",
+                    "parent_span_id": "",
+                    "trace_id": "8862400ce34564beebbeee1d9183ad26",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 62.043365,
+                    "start_offset_ms": 24.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "a767d070b2c183d1",
+                            "parent_span_id": "ed38aca047f3b953",
+                            "trace_id": "8862400ce34564beebbeee1d9183ad26",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 37.3404,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "90b1ce80b6e63efd",
+                            "parent_span_id": "ed38aca047f3b953",
+                            "trace_id": "8862400ce34564beebbeee1d9183ad26",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 23.632934,
+                            "start_offset_ms": 23.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "53dabbee7702259eac1ea39082886f91",
+            "root_span": "corvia.rag.context",
+            "total_ms": 52.057965,
+            "span_count": 3,
+            "started_at": "2026-03-19T09:06:20.686061Z",
+            "spans": [
+                {
+                    "span_id": "94728644dfaa0055",
+                    "parent_span_id": "",
+                    "trace_id": "53dabbee7702259eac1ea39082886f91",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 52.057965,
+                    "start_offset_ms": 18.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "5455d5a28b876048",
+                            "parent_span_id": "94728644dfaa0055",
+                            "trace_id": "53dabbee7702259eac1ea39082886f91",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 32.970254,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "d8257352f92e933c",
+                            "parent_span_id": "94728644dfaa0055",
+                            "trace_id": "53dabbee7702259eac1ea39082886f91",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 18.36932,
+                            "start_offset_ms": 18.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "trace_id": "423c41c9c223fe858c14e58ee594d5a8",
+            "root_span": "corvia.rag.context",
+            "total_ms": 35.487495,
+            "span_count": 3,
+            "started_at": "2026-03-19T08:38:12.919438Z",
+            "spans": [
+                {
+                    "span_id": "18596938724a40ef",
+                    "parent_span_id": "",
+                    "trace_id": "423c41c9c223fe858c14e58ee594d5a8",
+                    "span_name": "corvia.rag.context",
+                    "elapsed_ms": 35.487495,
+                    "start_offset_ms": 12.0,
+                    "depth": 0,
+                    "module": "rag",
+                    "fields": null,
+                    "children": [
+                        {
+                            "span_id": "2506d5b078bc828f",
+                            "parent_span_id": "18596938724a40ef",
+                            "trace_id": "423c41c9c223fe858c14e58ee594d5a8",
+                            "span_name": "corvia.entry.embed",
+                            "elapsed_ms": 22.371481,
+                            "start_offset_ms": 0.0,
+                            "depth": 1,
+                            "module": "inference",
+                            "fields": null,
+                            "children": []
+                        },
+                        {
+                            "span_id": "adbee3d3bb04e357",
+                            "parent_span_id": "18596938724a40ef",
+                            "trace_id": "423c41c9c223fe858c14e58ee594d5a8",
+                            "span_name": "corvia.store.search",
+                            "elapsed_ms": 12.401212,
+                            "start_offset_ms": 12.0,
+                            "depth": 1,
+                            "module": "storage",
+                            "fields": null,
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
