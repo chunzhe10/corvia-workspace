@@ -149,4 +149,8 @@ ENV CARGO_HOME="/usr/local/cargo"
 
 RUN rustup component add rust-analyzer
 
+# Task runner (go-task.github.io/task) — used by devcontainer lifecycle scripts
+# for declarative, idempotent setup orchestration with status: checks.
+RUN sh -c "$(curl -fsSL https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
+
 WORKDIR /workspaces

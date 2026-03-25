@@ -6,8 +6,8 @@
     // GPU passthrough is auto-detected by init-host.sh which generates
     // docker-compose.override.yml with the right device mappings.
     "initializeCommand": ".devcontainer/scripts/init-host.sh",
-    "postCreateCommand": ".devcontainer/scripts/post-create.sh",
-    "postStartCommand": ".devcontainer/scripts/post-start.sh",
+    "postCreateCommand": "python3 .devcontainer/scripts/setup_wrapper.py post-create",
+    "postStartCommand": "python3 .devcontainer/scripts/setup_wrapper.py post-start",
     // 8020: corvia REST+MCP+dashboard (embedded), 8030: inference gRPC, 11434: ollama
     // 8021: Vite dev server — only used during dashboard frontend development
     // 8050 (playwright-mcp) is container-internal only — not forwarded.

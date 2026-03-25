@@ -1,24 +1,13 @@
 #!/bin/bash
+# LEGACY FALLBACK — this script is used only when the `task` binary is unavailable.
+# The primary setup orchestration is in .devcontainer/Taskfile.yml, invoked by
+# .devcontainer/scripts/setup_wrapper.py. Locking and done-marker are handled
+# by setup_wrapper.py (fcntl.flock + boot-id).
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=lib.sh
 source "$SCRIPT_DIR/lib.sh"
-
-# Prevent duplicate runs when multiple VS Code clients connect simultaneously.
-LOCK_FILE="/tmp/corvia-post-create.lock"
-BOOT_ID=$(cat /proc/sys/kernel/random/boot_id 2>/dev/null || echo "unknown")
-DONE_MARKER="/tmp/corvia-post-create.done"
-
-if [ -f "$DONE_MARKER" ] && [ "$(cat "$DONE_MARKER" 2>/dev/null)" = "$BOOT_ID" ]; then
-    echo "post-create.sh already completed this boot. Skipping."
-    exit 0
-fi
-if ! mkdir "$LOCK_FILE" 2>/dev/null; then
-    echo "post-create.sh is already running (lock: $LOCK_FILE). Skipping."
-    exit 0
-fi
-trap 'rmdir "$LOCK_FILE" 2>/dev/null' EXIT
 
 step() { printf " => %s\n" "$*"; }
 
@@ -62,8 +51,6 @@ elif [ -f "$EXT_DIR/package.json" ] && command -v vsce >/dev/null 2>&1; then
 else
     echo "    no .vsix found — build with: cd $EXT_DIR && vsce package --no-dependencies"
 fi
-
-echo "$BOOT_ID" > "$DONE_MARKER"
 
 echo ""
 echo "=== post-create complete ==="

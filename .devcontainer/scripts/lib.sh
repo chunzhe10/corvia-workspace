@@ -644,6 +644,50 @@ ensure_ort_provider_libs() {
     fi
 }
 
+# Create /dev/dri/by-path symlinks for Intel iGPU.
+# The NEO compute runtime discovers GPUs by scanning by-path.
+# Docker device passthrough creates /dev/dri but may not populate by-path
+# for integrated GPUs. Without this, OpenCL/OpenVINO see 0 platforms.
+create_gpu_symlinks() {
+    if [ ! -d /dev/dri ] || [ ! -d /dev/dri/by-path ]; then
+        return 0
+    fi
+    for card_dir in /sys/class/drm/card*/device; do
+        local card_name
+        card_name="$(basename "$(dirname "$card_dir")")"
+        local vendor
+        vendor="$(cat "$card_dir/vendor" 2>/dev/null || true)"
+        [ "$vendor" = "0x8086" ] || continue  # Intel only
+
+        local pci_slot
+        pci_slot="$(cat "$card_dir/uevent" 2>/dev/null | grep PCI_SLOT_NAME | cut -d= -f2 || true)"
+        [ -n "$pci_slot" ] || continue
+
+        # Find the renderD node for this card
+        local render_node=""
+        for rd in /sys/class/drm/renderD*/device; do
+            local rd_vendor rd_device card_device
+            rd_vendor="$(cat "$rd/vendor" 2>/dev/null || true)"
+            rd_device="$(cat "$rd/device" 2>/dev/null || true)"
+            card_device="$(cat "$card_dir/device" 2>/dev/null || true)"
+            if [ "$rd_vendor" = "$vendor" ] && [ "$rd_device" = "$card_device" ]; then
+                render_node="$(basename "$(dirname "$rd")")"
+                break
+            fi
+        done
+
+        # Create by-path symlinks if missing
+        local card_link="/dev/dri/by-path/pci-${pci_slot}-card"
+        local render_link="/dev/dri/by-path/pci-${pci_slot}-render"
+        if [ ! -L "$card_link" ] && [ -e "/dev/dri/$card_name" ]; then
+            ln -sf "../$card_name" "$card_link"
+        fi
+        if [ -n "$render_node" ] && [ ! -L "$render_link" ] && [ -e "/dev/dri/$render_node" ]; then
+            ln -sf "../$render_node" "$render_link"
+        fi
+    done
+}
+
 # Ensure all tooling is installed (catches up if post-create was incomplete).
 ensure_tooling() {
     ensure_corvia
