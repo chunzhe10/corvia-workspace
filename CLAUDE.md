@@ -36,6 +36,41 @@ and debugging. See AGENTS.md "Superpowers Plugin (Required)" for details.
 
 ## Known workarounds (Claude Code specific)
 
+### Emergency hook bypass (CORVIA_HOOKS_DISABLED)
+
+If `corvia hooks run` fails (e.g., binary mismatch after rebuild, missing subcommand),
+**all Claude Code operations are blocked**. The hooks have two safety mechanisms:
+
+1. **Automatic fallback**: Hook commands detect "unrecognized subcommand" errors and
+   exit 0 (allow) instead of blocking. This handles binary version mismatches.
+2. **Manual bypass**: Set `CORVIA_HOOKS_DISABLED=1` to skip all hooks entirely.
+
+**To fix a bricked Claude Code session:**
+```bash
+# Option 1: Set env var (disables hooks for this session)
+export CORVIA_HOOKS_DISABLED=1
+
+# Option 2: Download the latest release binary
+gh release download --repo chunzhe10/corvia -p "corvia-cli-linux-amd64" -D /tmp
+cp /tmp/corvia-cli-linux-amd64 /usr/local/bin/corvia && chmod +x /usr/local/bin/corvia
+
+# Option 3: Remove hooks from settings.json entirely
+python3 -c "
+import json, pathlib
+p = pathlib.Path.home() / '.claude/settings.json'
+d = json.loads(p.read_text())
+d.pop('hooks', None)
+p.write_text(json.dumps(d, indent=2))
+print('hooks removed')
+"
+```
+
+After fixing, regenerate hooks with the working binary: `corvia hooks init`
+
+- **Root cause**: Building from a commit before the hooks migration (pre-v0.4.5)
+  produces a binary without `corvia hooks`, but settings.json still references it.
+- **Prevention**: Always build from the latest commit, or download release binaries.
+
 ### WSL memory leak from orphaned processes
 
 Claude Code leaks memory in WSL via orphaned node processes that persist after
