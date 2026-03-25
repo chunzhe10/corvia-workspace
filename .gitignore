@@ -18,6 +18,7 @@ repos/corvia/
 .devcontainer/.task/
 .devcontainer/.task-telemetry/
 .devcontainer/docker-compose.override.yml
+.devcontainer/.port-manifest.json
 
 # Claude Code local settings (session-specific permissions)
 .claude/settings.local.json
