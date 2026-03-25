@@ -117,6 +117,42 @@ established patterns. This applies to ALL agents (Claude Code, Codex, etc.).
 > were already decided. Do NOT jump straight to file reads or code search without
 > checking corvia for relevant context first.
 
+## Auto-Save Research Findings
+
+When you discover something non-obvious during a task — a workaround, an architectural
+insight, a gotcha, or a decision rationale — **proactively call `corvia_write` to
+persist it** without waiting for the user to ask. This includes:
+
+- **Debugging insights**: Root cause of a bug, workaround, or environment-specific behavior
+- **Architectural patterns**: How components interact, why a design was chosen
+- **Configuration gotchas**: Non-obvious settings, version incompatibilities, ordering constraints
+- **Performance observations**: Benchmark results, resource consumption patterns
+
+Use `content_role: "learning"` and `source_origin: "workspace"` for workspace-level
+findings, or `source_origin: "repo:corvia"` for product-specific knowledge.
+
+**Do NOT auto-save**: trivial facts easily found in code comments, temporary debugging
+state, or user-specific preferences. The bar is: "Would a future agent session benefit
+from knowing this?"
+
+## Superpowers Plugin (Required)
+
+This workspace uses the [obra/superpowers](https://github.com/obra/superpowers) plugin
+for structured development workflows. For non-trivial work (3+ files, new architecture,
+or when the user explicitly asks), use these skills instead of ad-hoc alternatives.
+For quick questions, small renames, or single-file fixes, use your judgment.
+
+- **Brainstorming**: When asked to brainstorm, design, or plan a feature, use the
+  superpowers `brainstorming` skill. This enforces the structured flow: explore context
+  → clarifying questions → 2-3 approaches → design → spec doc → review loop.
+- **Code review**: Use `requesting-code-review` / `receiving-code-review` skills
+  for non-trivial changes before committing.
+- **Plan execution**: Use `executing-plans` skill when implementing from a spec.
+- **Debugging**: Use `systematic-debugging` skill for non-obvious bugs.
+
+Skills are in the plugin's `skills/` subdirectory. When in doubt, read the relevant
+`SKILL.md` before proceeding.
+
 ## AI Development Learnings
 
 This workspace incorporates proven patterns from community best practices.

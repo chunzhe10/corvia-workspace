@@ -23,11 +23,16 @@ go straight to code search, you are violating this project's workflow.
 - Before answering any question about the project: `corvia_ask` first
 - Before designing a feature: `corvia_search` + `corvia_context` for existing context
 - After making a design decision: `corvia_write` to record it for future sessions
+- After discovering non-obvious insights during a task: `corvia_write` immediately —
+  do not wait to be asked. See AGENTS.md "Auto-Save Research Findings" for criteria.
 - When exploring unfamiliar areas: `corvia_ask` before diving into code
 
 **Do NOT skip corvia lookups to save time.** The knowledge base exists to prevent
 re-discovering things that were already decided. Always check corvia first, then
 use native tools (file read, grep, bash) for code-level details.
+
+**Superpowers skills are mandatory** for brainstorming, code review, plan execution,
+and debugging. See AGENTS.md "Superpowers Plugin (Required)" for details.
 
 ## Known workarounds (Claude Code specific)
 

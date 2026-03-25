@@ -142,7 +142,12 @@ Agent: "QA Review"
 - If a reviewer approves but has concerns, use APPROVE WITH NOTES
 - The review process exists to catch real issues, not to rubber-stamp work
 
-### 5. Record Everything to corvia
+### 5. Record Everything to corvia (MANDATORY)
+
+**This is not optional.** Every non-trivial discovery MUST be persisted via
+`corvia_write` — debugging insights, workarounds, architectural patterns,
+performance observations. Do not wait to be asked. The bar: "Would a future
+agent session benefit from knowing this?"
 
 Use `corvia_write` to persist:
 - Design decisions (`content_role: "decision"`)
