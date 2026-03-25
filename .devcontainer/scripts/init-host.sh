@@ -25,6 +25,72 @@ fi
 # Create directories if they don't exist so Docker bind mounts succeed.
 [ -n "$HOME_DIR" ] && mkdir -p "$HOME_DIR/.config/gh" "$HOME_DIR/.claude"
 
+# ── Ensure gh token is in hosts.yml ──────────────────────────────────
+# On many systems (WSL, Linux with libsecret/gnome-keyring), gh stores the
+# OAuth token in the system keyring rather than in hosts.yml. The container
+# bind-mounts ~/.config/gh but can't access the host keyring. Fix: extract
+# the token via `gh auth token` and write it into hosts.yml so the container
+# gets a complete config.
+if command -v gh >/dev/null 2>&1 && [ -n "$HOME_DIR" ]; then
+    GH_HOSTS="$HOME_DIR/.config/gh/hosts.yml"
+    if [ -f "$GH_HOSTS" ]; then
+        # Check if hosts.yml is missing the oauth_token field
+        if ! grep -q "oauth_token:" "$GH_HOSTS" 2>/dev/null; then
+            GH_TOKEN_VAL=$(gh auth token 2>/dev/null || true)
+            if [ -n "$GH_TOKEN_VAL" ]; then
+                # Inject token under the github.com user block
+                # Pass token via env to avoid shell/string escaping issues
+                GH_TOKEN_VAL="$GH_TOKEN_VAL" GH_HOSTS_FILE="$GH_HOSTS" python3 -c "
+import os, sys
+token = os.environ['GH_TOKEN_VAL']
+hosts_file = os.environ['GH_HOSTS_FILE']
+try:
+    import yaml
+    with open(hosts_file) as f:
+        data = yaml.safe_load(f) or {}
+    for host in data:
+        if isinstance(data[host], dict) and 'user' in data[host]:
+            user = data[host]['user']
+            if 'users' in data[host] and user in data[host]['users']:
+                if data[host]['users'][user] is None:
+                    data[host]['users'][user] = {}
+                data[host]['users'][user]['oauth_token'] = token
+            data[host]['oauth_token'] = token
+    with open(hosts_file, 'w') as f:
+        yaml.dump(data, f, default_flow_style=False)
+    print('  gh: wrote token from keyring into hosts.yml')
+except ImportError:
+    # No PyYAML — use simple line insertion
+    # Insert oauth_token under the username key in users: block
+    # and at the top level for legacy compatibility
+    with open(hosts_file) as f:
+        content = f.read()
+    with open(hosts_file) as f:
+        lines = f.readlines()
+    # Find the username line under users: and add token there
+    in_users = False
+    with open(hosts_file, 'w') as f:
+        for line in lines:
+            f.write(line)
+            stripped = line.strip()
+            if stripped == 'users:':
+                in_users = True
+            elif in_users and stripped.endswith(':') and not stripped.startswith('users'):
+                # This is the username line (e.g. 'chunzhe10:')
+                indent = len(line) - len(line.lstrip()) + 4
+                f.write(' ' * indent + 'oauth_token: ' + token + '\n')
+                in_users = False
+            elif stripped.startswith('user:'):
+                # Top-level user: line — add oauth_token after it (legacy)
+                indent = len(line) - len(line.lstrip())
+                f.write(' ' * indent + 'oauth_token: ' + token + '\n')
+    print('  gh: wrote token from keyring into hosts.yml (fallback)')
+" 2>/dev/null || echo "  gh: warning — could not write token to hosts.yml"
+            fi
+        fi
+    fi
+fi
+
 # ── Remove stale containers ─────────────────────────────────────────
 # VS Code uses `docker compose up --no-recreate` which reuses existing
 # containers even when the compose config has changed (e.g. tty, mounts).

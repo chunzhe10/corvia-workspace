@@ -64,7 +64,7 @@ has_gpu() {
 }
 
 WORKSPACE_ROOT="${CORVIA_WORKSPACE:-$(pwd)}"
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
 
 # Ensure uv/uvx are on PATH even if the Dockerfile mv to /usr/local/bin failed.
 if [ -d "/root/.local/bin" ] && ! echo "$PATH" | grep -q "/root/.local/bin"; then
@@ -411,7 +411,7 @@ for r in cfg.get('workspace', {}).get('repos', []):
 init_workspace() {
     fix_workspace_perms
     pre_clone_repos
-    spin "Initializing workspace..." corvia workspace init
+    (cd "$WORKSPACE_ROOT" && spin "Initializing workspace..." corvia workspace init)
 }
 
 # Install a Python package in editable mode using uv.
@@ -444,6 +444,13 @@ forward_gh_auth() {
     # Validate host config has actual content (not just an empty file)
     if [ ! -s "$host_hosts" ]; then
         echo "  gh: host credentials file is empty — skipping"
+        return 0
+    fi
+
+    # Check if hosts.yml has an oauth_token (keyring-only configs won't)
+    if ! grep -q "oauth_token:" "$host_hosts" 2>/dev/null; then
+        echo "  gh: host hosts.yml has no oauth_token (token is in system keyring)"
+        echo "  gh: init-host.sh should inject it — rebuild the container or run 'gh auth login' inside"
         return 0
     fi
 

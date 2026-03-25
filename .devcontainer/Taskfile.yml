@@ -14,7 +14,7 @@
 version: '3'
 
 vars:
-  WORKSPACE_ROOT: '{{.WORKSPACE_ROOT | default "/workspaces/corvia-workspace-2"}}'
+  WORKSPACE_ROOT: '{{.WORKSPACE_ROOT | default "/workspaces/corvia-workspace"}}'
   SCRIPT_DIR: '{{.WORKSPACE_ROOT}}/.devcontainer/scripts'
   FLAGS_FILE: '{{.WORKSPACE_ROOT}}/.devcontainer/.corvia-workspace-flags'
   # Port is read from corvia.toml at runtime to support dynamic port mapping
@@ -37,16 +37,16 @@ tasks:
   post-start:
     desc: "Full post-start sequence (devcontainer lifecycle)"
     cmds:
-      - python3 {{.SCRIPT_DIR}}/setup_telemetry.py init --trigger post-start
-      - echo "=== Corvia Workspace: post-start ==="
+      - cmd: python3 {{.SCRIPT_DIR}}/setup_telemetry.py init --trigger post-start
+      - cmd: 'echo "=== Corvia Workspace: post-start ==="'
       - task: post-start:parallel-setup
       - task: post-start:services
       - task: post-start:claude-integration
       - task: post-start:optional-services
       - task: post-start:ingest-telemetry
-      - python3 {{.SCRIPT_DIR}}/setup_telemetry.py finalize
-      - echo ""
-      - echo "Ready. Run 'corvia-dev status' to check services."
+      - cmd: python3 {{.SCRIPT_DIR}}/setup_telemetry.py finalize
+      - cmd: echo ""
+      - cmd: 'echo "Ready. Run ''corvia-dev status'' to check services."'
 
   # ── Parallel setup (independent tasks) ──────────────────────────────
 
@@ -92,7 +92,7 @@ tasks:
     status:
       - curl -sf --max-time 2 http://127.0.0.1:{{.API_PORT}}/mcp >/dev/null 2>&1
     cmds:
-      - echo " => Starting corvia-dev services"
+      - cmd: 'echo " => Starting corvia-dev services"'
       - task: post-start:ensure-tooling
       - task: post-start:start-manager
       - task: post-start:wait-mcp
@@ -145,21 +145,25 @@ tasks:
         npm install --no-fund --no-audit >/dev/null 2>&1 && printf "    ... done\n" || printf "    ... FAILED\n"
 
   post-start:wait-dashboard:
-    desc: "Wait for embedded dashboard on port {{.API_PORT}}"
+    desc: "Wait for dashboard (embedded on {{.API_PORT}} or Vite dev on 8021)"
     status:
-      - curl -sf --max-time 2 http://127.0.0.1:{{.API_PORT}}/ >/dev/null 2>&1
+      - 'curl -sf --max-time 2 http://127.0.0.1:{{.API_PORT}}/ >/dev/null 2>&1 || curl -sf --max-time 2 http://127.0.0.1:8021/ >/dev/null 2>&1'
     cmds:
       - |
-        printf "    waiting for embedded dashboard (port {{.API_PORT}})"
+        printf "    waiting for dashboard"
         for _attempt in $(seq 1 15); do
           if curl -sf --max-time 2 -o /dev/null http://127.0.0.1:{{.API_PORT}}/ 2>/dev/null; then
-            printf "    ... done\n"
+            printf "    ... done (embedded on port {{.API_PORT}})\n"
+            exit 0
+          fi
+          if curl -sf --max-time 2 -o /dev/null http://127.0.0.1:8021/ 2>/dev/null; then
+            printf "    ... done (Vite dev on port 8021)\n"
             exit 0
           fi
           printf "."
           sleep 2
         done
-        printf "    ... FAILED (not ready after 30s — dashboard should be embedded in corvia-server on port {{.API_PORT}})\n" >&2
+        printf "    ... FAILED (not ready after 30s)\n" >&2
         exit 1
 
   # ── Claude Code integration ─────────────────────────────────────────
@@ -250,15 +254,15 @@ tasks:
   post-create:
     desc: "Full post-create sequence (devcontainer lifecycle)"
     cmds:
-      - python3 {{.SCRIPT_DIR}}/setup_telemetry.py init --trigger post-create
-      - echo "=== Corvia Workspace: post-create ==="
+      - cmd: python3 {{.SCRIPT_DIR}}/setup_telemetry.py init --trigger post-create
+      - cmd: 'echo "=== Corvia Workspace: post-create ==="'
       - task: post-create:network
       - task: post-create:parallel-setup
       - task: post-create:sequential-setup
-      - python3 {{.SCRIPT_DIR}}/setup_telemetry.py finalize
-      - echo ""
-      - echo "=== post-create complete ==="
-      - echo "Run 'corvia-dev status' to see available services."
+      - cmd: python3 {{.SCRIPT_DIR}}/setup_telemetry.py finalize
+      - cmd: echo ""
+      - cmd: 'echo "=== post-create complete ==="'
+      - cmd: 'echo "Run ''corvia-dev status'' to see available services."'
 
   post-create:network:
     desc: "Wait for network connectivity"
