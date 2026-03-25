@@ -153,6 +153,7 @@ class ProcessManager:
                 cwd=str(self.workspace_root),
                 stdout=fh,
                 stderr=fh,
+                start_new_session=True,  # own process group so we can kill children
             )
             mp.process = proc
             mp.pid = proc.pid
@@ -175,14 +176,21 @@ class ProcessManager:
 
         self._log(f"{name}: stopping (pid {mp.pid})")
         try:
-            mp.process.terminate()
+            # Kill the entire process group (npx + child node, etc.)
+            pgid = os.getpgid(mp.pid)
+            os.killpg(pgid, signal.SIGTERM)
             try:
                 await asyncio.wait_for(mp.process.wait(), timeout=10.0)
             except asyncio.TimeoutError:
+                os.killpg(pgid, signal.SIGKILL)
+                await mp.process.wait()
+        except (ProcessLookupError, OSError):
+            # Fallback: process already dead or pgid lookup failed
+            try:
                 mp.process.kill()
                 await mp.process.wait()
-        except ProcessLookupError:
-            pass
+            except ProcessLookupError:
+                pass
 
         mp.state = ServiceState.STOPPED
         mp.pid = None
@@ -282,9 +290,13 @@ class ProcessManager:
                 continue
             self._log(f"killing stale {name} process (pid {pid}) from previous manager")
             try:
-                os.kill(pid, signal.SIGTERM)
+                pgid = os.getpgid(pid)
+                os.killpg(pgid, signal.SIGTERM)
             except OSError:
-                pass
+                try:
+                    os.kill(pid, signal.SIGTERM)
+                except OSError:
+                    pass
 
     async def run(self) -> None:
         """Main supervision loop. Runs until cancelled or SIGTERM."""
