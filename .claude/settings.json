@@ -2,84 +2,61 @@
   "hooks": {
     "PostToolUse": [
       {
-        "_comment": "After git commits, remind to persist decisions/learnings to corvia knowledge base.",
         "hooks": [
           {
-            "command": "bash .claude/hooks/corvia-write-reminder.sh",
-            "timeout": 10000,
-            "type": "command"
-          }
-        ],
-        "matcher": "Bash"
-      },
-      {
-        "_comment": "Record tool completion for session history.",
-        "hooks": [
-          {
-            "command": "bash .claude/hooks/record-tool-end.sh",
+            "command": "corvia hooks run --event PostToolUse",
             "timeout": 5000,
             "type": "command"
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "command": "corvia hooks run --event PostToolUse --handler write-reminder",
+            "timeout": 5000,
+            "type": "command"
+          }
+        ],
+        "matcher": "Bash"
       }
     ],
     "PreToolUse": [
       {
         "hooks": [
           {
-            "command": "echo 'REMINDER: Have you called corvia_search or corvia_ask first? Per CLAUDE.md, you MUST query corvia MCP tools before using Grep/Glob for any new task or question. If you already called corvia this session, proceed.'",
+            "command": "corvia hooks run --event PreToolUse",
+            "timeout": 5000,
             "type": "command"
           }
-        ],
-        "matcher": "Grep|Glob"
+        ]
       },
       {
         "hooks": [
           {
-            "command": "bash .corvia/hooks/doc-placement-check.sh",
+            "command": "corvia hooks run --event PreToolUse --handler doc-placement",
+            "timeout": 5000,
             "type": "command"
           }
         ],
         "matcher": "Write|Edit"
       },
       {
-        "_comment": "Record tool invocation start for session history.",
         "hooks": [
           {
-            "command": "bash .claude/hooks/record-tool-start.sh",
+            "command": "corvia hooks run --event PreToolUse --handler corvia-first-reminder",
             "timeout": 5000,
             "type": "command"
           }
-        ]
-      }
-    ],
-    "UserPromptSubmit": [
-      {
-        "_comment": "Record user prompts for session history.",
-        "hooks": [
-          {
-            "command": "bash .claude/hooks/record-prompt.sh",
-            "timeout": 5000,
-            "type": "command"
-          }
-        ]
+        ],
+        "matcher": "Grep|Glob"
       }
     ],
     "SessionEnd": [
       {
-        "_comment": "WORKAROUND: Claude Code leaks memory via orphaned node processes in WSL. Kills orphans on session exit. Remove when upstream fix lands: https://github.com/anthropics/claude-code/issues",
         "hooks": [
           {
-            "command": "bash \"$CORVIA_WORKSPACE/.devcontainer/scripts/cleanup-orphans.sh\" --quiet 2>/dev/null || true",
-            "type": "command"
-          }
-        ]
-      },
-      {
-        "_comment": "Finalize session log: write session_end, gzip, trigger ingest.",
-        "hooks": [
-          {
-            "command": "bash .claude/hooks/record-session-end.sh",
+            "command": "corvia hooks run --event SessionEnd",
             "timeout": 30000,
             "type": "command"
           }
@@ -88,20 +65,20 @@
     ],
     "SessionStart": [
       {
-        "_comment": "Display-only reminder for agent identity selection. Does not block or require input.",
         "hooks": [
           {
-            "command": "bash .claude/hooks/agent-check.sh",
+            "command": "corvia hooks run --event SessionStart",
             "timeout": 5000,
             "type": "command"
           }
         ]
-      },
+      }
+    ],
+    "UserPromptSubmit": [
       {
-        "_comment": "Initialize session recording: create JSONL log with session_start event.",
         "hooks": [
           {
-            "command": "bash .claude/hooks/record-session-start.sh",
+            "command": "corvia hooks run --event UserPromptSubmit",
             "timeout": 5000,
             "type": "command"
           }

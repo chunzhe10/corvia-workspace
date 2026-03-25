@@ -122,6 +122,11 @@ if [ "$dash_ready" = false ]; then
     fail_msg "not ready after 30s — dashboard should be embedded in corvia-server on port 8020"
 fi
 
+# Sweep stale sessions (sessions that never received SessionEnd)
+if command -v corvia >/dev/null 2>&1; then
+    corvia hooks sweep --max-age-hours 4 2>/dev/null || true
+fi
+
 # ── 4/5 ───────────────────────────────────────────────────────────────
 step "Claude Code integration"
 # MCP server is configured via .mcp.json in the workspace root (checked into git).

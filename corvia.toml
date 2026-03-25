@@ -76,6 +76,14 @@ service_name = "corvia"
 log_format = "json"
 metrics_enabled = true
 
+[hooks]
+session_recording = true
+doc_placement = true
+agent_check = true
+write_reminder = true
+orphan_cleanup = true
+corvia_first_reminder = true
+
 [[scope]]
 id = "user-history"
 description = "Personal Claude Code session history — independent of product knowledge"

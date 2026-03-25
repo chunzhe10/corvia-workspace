@@ -39,12 +39,11 @@ and debugging. See AGENTS.md "Superpowers Plugin (Required)" for details.
 ### WSL memory leak from orphaned processes
 
 Claude Code leaks memory in WSL via orphaned node processes that persist after
-sessions close. A `SessionEnd` hook in `.claude/settings.json` auto-runs
-`.devcontainer/scripts/cleanup-orphans.sh` to kill these orphans on exit.
+sessions close. The `corvia hooks run --event SessionEnd` handler includes an
+orphan cleanup module (`cleanup.rs`) that kills these orphans on exit.
 
 - **Scope**: Claude Code on WSL only — not a corvia product concern
-- **Script**: `.devcontainer/scripts/cleanup-orphans.sh` (throttled to once per 10min)
-- **Manual run**: `bash .devcontainer/scripts/cleanup-orphans.sh`
+- **Handler**: `crates/corvia-cli/src/hooks/cleanup.rs` (throttled to once per 10min)
 - **Upstream**: https://github.com/anthropics/claude-code/issues
 - **Remove when**: upstream fix lands in Claude Code
 
