@@ -275,7 +275,7 @@ def use(provider: str) -> None:
 
 
 @main.command()
-@click.argument("service", type=click.Choice(["coding-llm", "postgres"]))
+@click.argument("service", type=click.Choice(["postgres"]))
 def enable(service: str) -> None:
     """Enable and start an optional service."""
     set_enabled_service(service, True, _flags_path())
@@ -294,7 +294,7 @@ def enable(service: str) -> None:
 
 
 @main.command()
-@click.argument("service", type=click.Choice(["coding-llm", "postgres"]))
+@click.argument("service", type=click.Choice(["postgres"]))
 def disable(service: str) -> None:
     """Disable an optional service."""
     set_enabled_service(service, False, _flags_path())

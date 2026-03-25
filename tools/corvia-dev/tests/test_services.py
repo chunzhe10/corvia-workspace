@@ -15,8 +15,6 @@ def test_registry_tiers() -> None:
             assert svc.tier == 0, f"{svc.name} should be tier 0"
         elif svc.name in ("ollama", "vllm", "postgres"):
             assert svc.tier == 1, f"{svc.name} should be tier 1"
-        elif svc.name == "coding-llm":
-            assert svc.tier == 2, f"{svc.name} should be tier 2"
 
 
 def test_get_service_found() -> None:
@@ -37,7 +35,7 @@ def test_resolve_startup_order_default() -> None:
         enabled_services=[],
     )
     names = [s.name for s in order]
-    assert names == ["corvia-inference", "corvia-server"]
+    assert names == ["corvia-inference", "corvia-server", "corvia-dashboard", "playwright-mcp"]
 
 
 def test_resolve_startup_order_ollama() -> None:
@@ -47,28 +45,7 @@ def test_resolve_startup_order_ollama() -> None:
         enabled_services=[],
     )
     names = [s.name for s in order]
-    assert names == ["ollama", "corvia-server"]
+    assert names == ["ollama", "corvia-server", "corvia-dashboard", "playwright-mcp"]
     assert "corvia-inference" not in names
 
 
-def test_resolve_startup_order_coding_llm() -> None:
-    order = resolve_startup_order(
-        embedding_provider="corvia",
-        storage="lite",
-        enabled_services=["coding-llm"],
-    )
-    names = [s.name for s in order]
-    assert "corvia-inference" in names
-    assert "ollama" in names
-    assert names.index("corvia-server") < names.index("ollama")
-
-
-def test_resolve_startup_order_ollama_plus_coding_llm() -> None:
-    order = resolve_startup_order(
-        embedding_provider="ollama",
-        storage="lite",
-        enabled_services=["coding-llm"],
-    )
-    names = [s.name for s in order]
-    assert names.count("ollama") == 1
-    assert names.index("ollama") < names.index("corvia-server")

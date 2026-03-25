@@ -39,7 +39,7 @@ def test_check_http_healthy() -> None:
 
 
 def test_check_service_no_port() -> None:
-    """Virtual services (like coding-llm) with no port are always 'unknown'."""
-    svc = ServiceDefinition(name="coding-llm", tier=2, port=None, depends_on=["ollama"])
+    """Services with no port are always 'unknown'."""
+    svc = ServiceDefinition(name="vllm", tier=1, port=None, depends_on=[])
     result = check_service(svc, timeout=1.0)
     assert result.healthy is None

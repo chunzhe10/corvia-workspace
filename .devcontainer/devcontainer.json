@@ -25,7 +25,6 @@
             "extensions": [
                 "rust-lang.rust-analyzer",
                 "tamasfe.even-better-toml",
-                "Continue.continue",
                 "ms-vscode.live-server"
             ],
             "settings": {

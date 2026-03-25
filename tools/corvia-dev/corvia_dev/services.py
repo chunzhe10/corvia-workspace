@@ -69,7 +69,7 @@ SERVICES: list[ServiceDefinition] = [
         port=8050,
         health_proto="tcp",
         start_cmd=[
-            "npx", "@playwright/mcp@latest",
+            "npx", "@playwright/mcp@0.0.68",
             "--port", "8050",
             "--host", "0.0.0.0",
             "--allowed-hosts", "*",
@@ -78,14 +78,6 @@ SERVICES: list[ServiceDefinition] = [
             "--isolated",
         ],
         depends_on=[],
-    ),
-    ServiceDefinition(
-        name="coding-llm",
-        tier=2,
-        port=None,
-        health_path="",
-        start_cmd=[],  # virtual — depends on ollama, configures Continue
-        depends_on=["ollama"],
     ),
 ]
 

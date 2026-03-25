@@ -112,7 +112,7 @@ def test_cargo_build_runs_debug(tmp_path: Path) -> None:
         assert result is True
         mock_run.assert_called_once()
         args = mock_run.call_args
-        assert args[0][0] == ["cargo", "build", "-p", "corvia-cli", "-p", "corvia-inference"]
+        assert args[0][0] == ["cargo", "build", "-p", "corvia-cli", "-p", "corvia-inference", "--features", "corvia-inference/cuda"]
         assert args[1]["cwd"] == tmp_path / "repos" / "corvia"
 
 

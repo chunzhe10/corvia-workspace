@@ -94,11 +94,10 @@ def test_enabled_services_empty(tmp_path: Path) -> None:
 
 def test_enabled_services_roundtrip(tmp_path: Path) -> None:
     flags_path = tmp_path / ".corvia-workspace-flags"
-    set_enabled_service("coding-llm", True, flags_path)
     set_enabled_service("postgres", True, flags_path)
     services = read_enabled_services(flags_path)
-    assert sorted(services) == ["coding-llm", "postgres"]
+    assert services == ["postgres"]
 
     set_enabled_service("postgres", False, flags_path)
     services = read_enabled_services(flags_path)
-    assert services == ["coding-llm"]
+    assert services == []

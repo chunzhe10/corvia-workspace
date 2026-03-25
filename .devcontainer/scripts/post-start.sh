@@ -178,27 +178,7 @@ install_claude_plugin "https://github.com/obra/superpowers.git" superpowers clau
 
 # ── 5/5 ───────────────────────────────────────────────────────────────
 step "Optional services"
-if [ -f "$FLAGS_FILE" ]; then
-    if grep -q "coding-llm=enabled" "$FLAGS_FILE"; then
-        # coding-llm depends on ollama (corvia-dev starts it via dependency chain).
-        # Here we only pull the coding model that corvia-dev doesn't handle.
-        if curl -sf http://127.0.0.1:11434/api/tags >/dev/null 2>&1; then
-            if ! ollama list 2>/dev/null | grep -q "qwen2.5-coder:7b"; then
-                printf "    pulling qwen2.5-coder:7b (first run only)"
-                ollama pull qwen2.5-coder:7b >/dev/null 2>&1 && done_msg || fail_msg "pull failed"
-            else
-                echo "    ollama: qwen2.5-coder:7b already present"
-            fi
-        else
-            fail_msg "ollama not reachable on :11434 — check 'corvia-dev logs ollama'"
-        fi
-    fi
-    if ! grep -qE "(coding-llm)=enabled" "$FLAGS_FILE"; then
-        echo "    none enabled"
-    fi
-else
-    echo "    none enabled"
-fi
+echo "    none enabled"
 
 echo "$BOOT_ID" > "$DONE_MARKER"
 
