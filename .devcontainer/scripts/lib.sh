@@ -226,7 +226,7 @@ with zipfile.ZipFile(os.environ['VSIX_PATH']) as z:
         local ext_dir="${ext_parent}/${ext_id}"
 
         if [ -d "$ext_dir" ] && [ -f "$ext_dir/package.json" ]; then
-            echo "    $ext_id already installed in $ext_parent"
+            logm vscode "extension: $ext_id already installed"
             installed=1
             continue
         fi
@@ -255,7 +255,7 @@ with zipfile.ZipFile(os.environ['VSIX_PATH']) as z:
         mkdir -p "$ext_parent"
         rm -rf "$ext_dir"
         mv "$tmpdir" "$ext_dir"
-        echo "    installed $ext_id in $ext_parent"
+        logm vscode "extension: installed $ext_id"
         installed=1
     done
 
@@ -379,37 +379,28 @@ forward_gh_auth() {
     local host_hosts="$host_dir/hosts.yml"
     local local_hosts="$local_dir/hosts.yml"
 
-    # No host mount or empty — nothing to forward
     if [ ! -d "$host_dir" ] || [ ! -f "$host_hosts" ]; then
-        echo "  gh: no host credentials found (run 'gh auth login' on your host machine)"
+        logw auth "gh: no host credentials (run 'gh auth login' on host)"
         return 0
     fi
-
-    # Validate host config has actual content (not just an empty file)
     if [ ! -s "$host_hosts" ]; then
-        echo "  gh: host credentials file is empty — skipping"
+        logw auth "gh: host credentials empty"
         return 0
     fi
-
-    # Check if hosts.yml has an oauth_token (keyring-only configs won't)
     if ! grep -q "oauth_token:" "$host_hosts" 2>/dev/null; then
-        echo "  gh: host hosts.yml has no oauth_token (token is in system keyring)"
-        echo "  gh: init-host.sh should inject it — rebuild the container or run 'gh auth login' inside"
+        logw auth "gh: token in system keyring — rebuild container or 'gh auth login' inside"
         return 0
     fi
 
-    # Copy if container has no auth, or host is newer
     if [ ! -f "$local_hosts" ] || [ "$host_hosts" -nt "$local_hosts" ]; then
         mkdir -p "$local_dir"
         cp "$host_hosts" "$local_hosts"
-        # Also copy config.yml if present (protocol preferences, etc.)
         [ -f "$host_dir/config.yml" ] && cp "$host_dir/config.yml" "$local_dir/config.yml"
-        echo "  gh: forwarded credentials from host"
+        log auth "gh: forwarded from host"
     else
-        echo "  gh: credentials already up to date"
+        log auth "gh: up to date"
     fi
 
-    # Verify auth works (retry up to 3 times — token refresh can race)
     local auth_ok=false
     for _gh_attempt in 1 2 3; do
         if gh auth status >/dev/null 2>&1; then
@@ -417,18 +408,17 @@ forward_gh_auth() {
             break
         fi
         if [ "$_gh_attempt" -lt 3 ]; then
-            echo "  gh: auth check failed, retrying (${_gh_attempt}/3)..."
+            logw auth "gh: auth check failed, retrying (${_gh_attempt}/3)..."
             sleep 2
-            # Re-copy in case host refreshed the token
             cp "$host_hosts" "$local_hosts"
         fi
     done
     if [ "$auth_ok" = true ]; then
         local gh_user
         gh_user=$(gh api user --jq .login 2>/dev/null || echo "unknown")
-        echo "  gh: authenticated as $gh_user"
+        log auth "gh: authenticated as $gh_user"
     else
-        err "gh: forwarded credentials are invalid — run 'gh auth login' to re-authenticate"
+        err "gh: forwarded credentials invalid — run 'gh auth login'"
     fi
 }
 
@@ -439,30 +429,26 @@ forward_gh_auth() {
 forward_claude_auth() {
     local creds="/root/.claude/.credentials.json"
 
-    # Check if direct bind mount is working (has valid credentials)
     if [ -f "$creds" ] && python3 -c "import json; json.load(open('$creds'))" 2>/dev/null; then
-        echo "  claude: credentials available (bind mount)"
+        log auth "claude: credentials available"
         return 0
     fi
 
-    # Fallback: copy from read-only host mount if available
     local host_creds="/root/.claude-host/.credentials.json"
     if [ -f "$host_creds" ] && python3 -c "import json; json.load(open('$host_creds'))" 2>/dev/null; then
         mkdir -p /root/.claude
         cp "$host_creds" /root/.claude/.credentials.json
-        # Also copy settings if present
         [ -f "/root/.claude-host/settings.json" ] && cp "/root/.claude-host/settings.json" /root/.claude/settings.json
-        echo "  claude: forwarded credentials from host (fallback copy)"
+        log auth "claude: forwarded from host"
         return 0
     fi
 
-    echo "  claude: no credentials found — run 'claude' inside the container to authenticate"
+    logw auth "claude: no credentials — run 'claude' to authenticate"
 }
 
 # Forward all host authentication into the container.
 # Safe to call multiple times — only copies when host is newer or local is missing.
 forward_host_auth() {
-    echo "Forwarding host authentication..."
     forward_gh_auth
     forward_claude_auth
 }
@@ -489,7 +475,7 @@ if entries and entries[0].get('installPath'):
     sys.exit(0 if os.path.isdir(entries[0]['installPath']) else 1)
 sys.exit(1)
 " 2>/dev/null; then
-        echo "already installed"
+        logm claude "superpowers: already installed"
         return 0
     fi
 
@@ -536,7 +522,7 @@ d['plugins']['$plugin_key'] = [{
 }]
 json.dump(d, open(path, 'w'), indent=2)
 "
-    echo "installed v${version}"
+    logm claude "superpowers: installed v${version}"
 }
 
 # Ensure ORT CUDA/OpenVINO provider .so files are installed.
