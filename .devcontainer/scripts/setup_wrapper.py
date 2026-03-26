@@ -39,6 +39,19 @@ def boot_id() -> str:
         return f"host-{socket.gethostname()}"
 
 
+def _workspace_version() -> str:
+    """Get workspace git HEAD so post-start re-runs after git pull."""
+    try:
+        result = subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            capture_output=True, text=True, timeout=5,
+            cwd=os.environ.get("CORVIA_WORKSPACE", "/workspaces/corvia-workspace"),
+        )
+        return result.stdout.strip()[:12] if result.returncode == 0 else ""
+    except (FileNotFoundError, subprocess.TimeoutExpired):
+        return ""
+
+
 def _check_done(bid: str) -> bool:
     """Check if this phase already completed for this boot."""
     if os.path.isfile(DONE):
@@ -65,6 +78,12 @@ def main() -> None:
 
     os.makedirs(TASK_DIR, exist_ok=True)
     bid = boot_id()
+    # post-start should re-run after git pull (new code = new binaries/config).
+    # post-create only needs to run once per boot (heavy installs).
+    if PHASE == "post-start":
+        ws_ver = _workspace_version()
+        if ws_ver:
+            bid = f"{bid}:{ws_ver}"
 
     # [SWE-C2] Double-checked locking: check BEFORE lock to avoid blocking
     # when setup already completed (common case on VS Code reconnect).
