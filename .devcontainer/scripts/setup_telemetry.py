@@ -22,7 +22,7 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-WORKSPACE = os.environ.get("CORVIA_WORKSPACE", "/workspaces/corvia-workspace-2")
+WORKSPACE = os.environ.get("CORVIA_WORKSPACE", "/workspaces/corvia-workspace")
 TELEMETRY_DIR = os.path.join(WORKSPACE, ".devcontainer/.task-telemetry")
 MAX_FILES = 20  # Retention: keep this many telemetry files
 
@@ -317,7 +317,7 @@ def _mcp_write(content: str) -> bool:
             "name": "corvia_write",
             "arguments": {
                 "content": content,
-                "scope_id": "corvia",
+                "scope_id": "devcontainer-telemetry",
                 "agent_id": "devcontainer-setup",
                 "content_role": "finding",
                 "source_origin": "workspace",
