@@ -10,7 +10,8 @@ repos/corvia/
 .corvia/staging/
 
 # Knowledge files are tracked — no source to re-ingest from
-# .corvia/knowledge/ is NOT ignored
+# .corvia/knowledge/ is NOT ignored (except ephemeral scopes below)
+.corvia/knowledge/devcontainer-telemetry/
 
 # Local working files (per-user, not shared)
 .local/
