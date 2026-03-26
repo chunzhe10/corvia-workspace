@@ -53,11 +53,11 @@ def test_use_ollama(tmp_path: Path) -> None:
 
     raw = tomllib.loads(toml_path.read_text())
     assert raw["embedding"]["provider"] == "ollama"
-    assert raw["embedding"]["url"] == "http://127.0.0.1:11434"
+    assert raw["embedding"]["url"] == "http://ollama:11434"
     assert raw["embedding"]["model"] == "nomic-embed-text-v1.5"
     assert raw["embedding"]["dimensions"] == 768
     assert raw["merge"]["provider"] == "ollama"
-    assert raw["merge"]["url"] == "http://127.0.0.1:11434"
+    assert raw["merge"]["url"] == "http://ollama:11434"
     assert raw["project"]["name"] == "test"
     assert raw["server"]["port"] == 8020
     assert len(raw["workspace"]["repos"]) == 1

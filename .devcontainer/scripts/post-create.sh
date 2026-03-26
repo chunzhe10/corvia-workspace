@@ -55,4 +55,4 @@ fi
 echo ""
 echo "=== post-create complete ==="
 echo "Run 'corvia-dev status' to see available services."
-echo "Run 'corvia-dev use ollama' to switch to Ollama embeddings."
+echo "Run 'corvia-dev use ollama' to switch to Ollama embeddings (starts sidecar container)."

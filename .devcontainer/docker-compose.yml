@@ -13,6 +13,16 @@ services:
       # Image builds go into the host's registry. The host socket path must exist.
       - /var/run/docker.sock:/var/run/docker.sock
 
+  ollama:
+    image: ollama/ollama:latest
+    profiles: [ollama]  # only starts when explicitly activated
+    environment:
+      - OLLAMA_HOST=0.0.0.0:11434
+    volumes:
+      - corvia-ollama-models:/root/.ollama
+    # GPU passthrough and ports injected by docker-compose.override.yml
+
 volumes:
   corvia-cargo-registry:
   corvia-cargo-git:
+  corvia-ollama-models:

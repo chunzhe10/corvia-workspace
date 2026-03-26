@@ -12,7 +12,7 @@ import tomli_w
 PROVIDER_MAP: dict[str, dict[str, str]] = {
     "ollama": {
         "provider": "ollama",
-        "url": "http://127.0.0.1:11434",
+        "url": "http://ollama:11434",  # Docker Compose service name
     },
     "corvia-inference": {
         "provider": "corvia",

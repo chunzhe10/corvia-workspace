@@ -155,12 +155,25 @@ class ProcessManager:
                 stderr=fh,
                 start_new_session=True,  # own process group so we can kill children
             )
-            mp.process = proc
-            mp.pid = proc.pid
-            mp.started_at = time.time()
-            mp.state = ServiceState.STARTING
-            mp._log_fh = fh  # keep reference so GC doesn't close it
-            self._log(f"{name}: started (pid {proc.pid}), logs -> {log_file}")
+
+            # Docker-managed services (stop_cmd set) run detached: the process
+            # exits immediately after `docker compose up -d`. Don't track the
+            # process — health checks will promote to HEALTHY.
+            if mp.service.stop_cmd:
+                await proc.wait()
+                fh.close()
+                mp.process = None
+                mp.pid = None
+                mp.started_at = time.time()
+                mp.state = ServiceState.STARTING
+                self._log(f"{name}: docker-managed service launched, waiting for health")
+            else:
+                mp.process = proc
+                mp.pid = proc.pid
+                mp.started_at = time.time()
+                mp.state = ServiceState.STARTING
+                mp._log_fh = fh  # keep reference so GC doesn't close it
+                self._log(f"{name}: started (pid {proc.pid}), logs -> {log_file}")
         except FileNotFoundError:
             mp.state = ServiceState.CRASHED
             self._log(f"{name}: binary not found")
@@ -171,7 +184,28 @@ class ProcessManager:
     async def stop_service(self, name: str) -> None:
         """Stop a single service process."""
         mp = self.processes.get(name)
-        if mp is None or mp.process is None:
+        if mp is None:
+            return
+
+        # Docker-managed services: run stop_cmd instead of kill-by-PID
+        if mp.service.stop_cmd:
+            self._log(f"{name}: stopping (docker-managed)")
+            try:
+                proc = await asyncio.create_subprocess_exec(
+                    *mp.service.stop_cmd,
+                    cwd=str(self.workspace_root),
+                )
+                await asyncio.wait_for(proc.wait(), timeout=30.0)
+            except (asyncio.TimeoutError, OSError) as e:
+                self._log(f"{name}: stop command failed: {e}")
+            mp.state = ServiceState.STOPPED
+            mp.pid = None
+            mp.process = None
+            mp.started_at = None
+            self._log(f"{name}: stopped")
+            return
+
+        if mp.process is None:
             return
 
         self._log(f"{name}: stopping (pid {mp.pid})")
@@ -207,12 +241,16 @@ class ProcessManager:
             if mp.state in (ServiceState.STOPPED,):
                 continue
 
+            # Process-managed services: check if the child died
             if mp.process is not None and mp.process.returncode is not None:
                 mp.state = ServiceState.CRASHED
                 mp.pid = None
                 self._log(f"{name}: crashed (exit code {mp.process.returncode})")
                 mp.process = None
                 continue
+
+            # Docker-managed services have no local process — skip crash detection
+            # and rely purely on health checks below
 
             result = check_service(mp.service)
             if result.healthy is True:
