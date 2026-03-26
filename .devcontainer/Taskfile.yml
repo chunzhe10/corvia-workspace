@@ -42,6 +42,7 @@ tasks:
       - task: post-start:parallel-setup
       - task: post-start:services
       - task: post-start:claude-integration
+      - task: post-start:ensure-extensions
       - task: post-start:optional-services
       - task: post-start:ingest-telemetry
       - cmd: python3 {{.SCRIPT_DIR}}/setup_telemetry.py finalize
@@ -211,6 +212,26 @@ tasks:
         printf "    superpowers plugin: "
         source {{.SCRIPT_DIR}}/lib.sh && install_claude_plugin "https://github.com/obra/superpowers.git" superpowers claude-plugins-official \
           || echo "FAILED — git clone failed (check network)"
+
+  post-start:ensure-extensions:
+    desc: "Ensure VS Code extensions installed (catch-up from post-create)"
+    status:
+      - |
+        EXT_DIR="{{.WORKSPACE_ROOT}}/.devcontainer/extensions/corvia-services"
+        VERSION=$(python3 -c "import json; print(json.load(open('$EXT_DIR/package.json'))['version'])" 2>/dev/null || echo "0.0.0")
+        EXT_ID="corvia.corvia-services-$VERSION"
+        test -d "/root/.vscode-server/extensions/$EXT_ID" -o -d "/root/.vscode-server-insiders/extensions/$EXT_ID"
+    cmds:
+      - echo " => Ensuring VS Code extensions"
+      - |
+        source {{.SCRIPT_DIR}}/lib.sh
+        EXT_DIR="{{.WORKSPACE_ROOT}}/.devcontainer/extensions/corvia-services"
+        VSIX=$(ls -t "$EXT_DIR"/*.vsix 2>/dev/null | head -1)
+        if [ -n "$VSIX" ]; then
+          install_vsix_direct "$VSIX"
+        else
+          echo "    no .vsix found — skipping"
+        fi
 
   # ── Optional services ───────────────────────────────────────────────
 
