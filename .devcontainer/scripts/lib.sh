@@ -285,8 +285,11 @@ ensure_corvia() {
             if [ -x "/usr/local/bin/corvia" ]; then
                 logw tooling "binaries: using existing (update check unavailable)"
             else
-                err "binaries missing and update check failed"
-                return 1
+                logw tooling "binaries: update check failed, attempting download..."
+                install_binaries || {
+                    err "binaries missing and install failed"
+                    return 1
+                }
             fi
             ;;
     esac
