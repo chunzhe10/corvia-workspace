@@ -44,6 +44,9 @@ def check_staleness(
     return stale
 
 
+RELEASE_TAG_FILE = Path("/usr/local/share/corvia-release-tag")
+
+
 def install_binaries(
     target_dir: Path,
     install_dir: Path = DEFAULT_INSTALL_DIR,
@@ -52,6 +55,9 @@ def install_binaries(
 
     Also installs ORT provider shared libraries required for GPU execution
     providers (CUDA, OpenVINO). Without these, ORT silently falls back to CPU.
+
+    Invalidates the release tag cache so ensure_corvia() knows the installed
+    binaries are local builds, not release downloads.
 
     Returns list of binary names that were installed.
     """
@@ -64,6 +70,12 @@ def install_binaries(
         shutil.copy2(src, dst)
         dst.chmod(dst.stat().st_mode | stat.S_IEXEC)
         installed.append(name)
+
+    # Invalidate release tag cache — local builds are not release binaries.
+    # This ensures ensure_corvia() will re-download on next container start
+    # if a newer release is available.
+    if installed and RELEASE_TAG_FILE.exists():
+        RELEASE_TAG_FILE.write_text("local-build\n")
 
     # Install ORT provider shared libraries to system lib path.
     # These are downloaded by the ort crate during cargo build and symlinked
