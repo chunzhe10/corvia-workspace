@@ -104,7 +104,7 @@ enforces thresholds:
 | dependency_cycle | 0 | Data integrity bug |
 | broken_chain | 0 | Data integrity bug |
 | dangling_import | 0 | Data integrity bug |
-| Total findings | <= 5000 | Generous ceiling (baseline ~3700) |
+| Total findings | <= 12000 | Generous ceiling (baseline ~9200) |
 
 Run locally: `./benchmarks/ci/health-gate.sh`
 

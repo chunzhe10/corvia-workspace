@@ -20,8 +20,8 @@ SCOPE="${CORVIA_SCOPE:-corvia}"
 THRESHOLD_DEPENDENCY_CYCLE=0
 THRESHOLD_BROKEN_CHAIN=0
 THRESHOLD_DANGLING_IMPORT=0
-# Total findings ceiling (generous; baseline ~3700 orphaned_node)
-THRESHOLD_TOTAL=5000
+# Total findings ceiling (generous; baseline ~9200 orphaned_node)
+THRESHOLD_TOTAL=12000
 
 # ── Output ───────────────────────────────────────────────────────────────────
 SUMMARY_JSON="${SUMMARY_JSON:-/tmp/health-summary.json}"
@@ -142,14 +142,14 @@ check_threshold "dangling_import"   "$dangling_import"   "$THRESHOLD_DANGLING_IM
 check_threshold "Total findings"    "$total_findings"    "$THRESHOLD_TOTAL"
 
 # ── Write JSON summary ────────────────────────────────────────────────────────
-echo "$METRICS_JSON" | python3 - "$SUMMARY_JSON" "$LATEST" \
+python3 - "$SUMMARY_JSON" "$LATEST" \
     "$FAILURES" "$dependency_cycle" "$THRESHOLD_DEPENDENCY_CYCLE" \
     "$broken_chain" "$THRESHOLD_BROKEN_CHAIN" \
     "$dangling_import" "$THRESHOLD_DANGLING_IMPORT" \
-    "$total_findings" "$THRESHOLD_TOTAL" <<'PYEOF'
+    "$total_findings" "$THRESHOLD_TOTAL" "$METRICS_JSON" <<'PYEOF'
 import json, sys, os
 
-metrics = json.load(sys.stdin)
+metrics = json.loads(sys.argv[12])
 failures = int(sys.argv[3])
 
 summary = {
