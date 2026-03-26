@@ -45,3 +45,6 @@ node_modules/
 .fastembed_cache/
 .worktrees/
 .superpowers/
+
+# Plugin skill symlinks (created by install_claude_plugin, env-specific)
+.agents/skills/superpowers
