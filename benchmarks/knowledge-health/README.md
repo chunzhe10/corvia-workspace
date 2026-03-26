@@ -10,7 +10,7 @@ reasoning engine (`/v1/reason`) and comparing results across runs.
    - **orphaned_node** — entries with zero graph edges (no relations to other knowledge)
    - **stale_knowledge** — entries not updated within the expected freshness window
    - **broken_chain** — supersession chains with missing links
-   - **dangling_edge** — graph edges pointing to non-existent entries
+   - **dangling_import** — graph edges pointing to non-existent entries
    - **dependency_cycle** — circular dependency chains in the knowledge graph
 
 2. **Group findings by `check_type`** and count occurrences. Each finding includes
@@ -80,6 +80,33 @@ Each run produces:
 - A spike in **dangling_edge** or **broken_chain** findings after a GC or rebuild
   may indicate a bug in the cleanup logic.
 - **dependency_cycle** findings should always be zero in a healthy knowledge base.
+
+## Dogfooding (`--persist`)
+
+Pass `--persist` to write each health snapshot as a corvia knowledge entry:
+
+```bash
+python3 benchmarks/knowledge-health/eval.py --persist
+```
+
+This persists the report to corvia with `content_role: "finding"` and
+`source_origin: "workspace"`, creating a time-series of health data
+inside corvia itself. Query historical snapshots via `corvia_search`
+or `corvia_history`.
+
+## CI Integration
+
+The CI quality gate (`benchmarks/ci/health-gate.sh`) runs this eval and
+enforces thresholds:
+
+| Check Type | Threshold | Rationale |
+|------------|-----------|-----------|
+| dependency_cycle | 0 | Data integrity bug |
+| broken_chain | 0 | Data integrity bug |
+| dangling_import | 0 | Data integrity bug |
+| Total findings | <= 12000 | Generous ceiling (baseline ~9200) |
+
+Run locally: `./benchmarks/ci/health-gate.sh`
 
 ## Integration with `corvia bench`
 

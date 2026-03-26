@@ -1,4 +1,4 @@
-name: RAG Quality Gate
+name: Quality Gates
 
 on:
   pull_request:
@@ -11,7 +11,7 @@ on:
 
 # Cancel in-progress runs for the same PR
 concurrency:
-  group: eval-gate-${{ github.event.pull_request.number }}
+  group: quality-gates-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 permissions:
@@ -97,7 +97,6 @@ jobs:
         run: |
           repos/corvia/target/release/corvia workspace ingest
           echo "Ingestion complete"
-          # Verify ingestion produced entries
           ENTRY_COUNT=$(curl -sf http://127.0.0.1:8020/v1/status | python3 -c "import json,sys; print(json.load(sys.stdin).get('entry_count', 0))" 2>/dev/null || echo "0")
           echo "Entries ingested: $ENTRY_COUNT"
           if [ "$ENTRY_COUNT" -eq 0 ]; then
@@ -105,7 +104,7 @@ jobs:
             exit 1
           fi
 
-      - name: Run eval gate
+      - name: Run RAG eval gate
         id: eval
         env:
           CORVIA_SERVER: http://127.0.0.1:8020
@@ -113,36 +112,63 @@ jobs:
         run: |
           set +e
           ./benchmarks/ci/eval-gate.sh
-          EXIT_CODE=$?
-          echo "exit_code=$EXIT_CODE" >> "$GITHUB_OUTPUT"
-          # Don't fail yet — post comment first
+          echo "exit_code=$?" >> "$GITHUB_OUTPUT"
           exit 0
 
-      - name: Format PR comment
+      - name: Run knowledge health gate
+        id: health
+        env:
+          CORVIA_SERVER: http://127.0.0.1:8020
+          SUMMARY_JSON: /tmp/health-summary.json
+        run: |
+          set +e
+          ./benchmarks/ci/health-gate.sh
+          echo "exit_code=$?" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Format RAG eval PR comment
         if: always() && github.event_name == 'pull_request'
         run: |
           if [ -f /tmp/eval-summary.json ]; then
             python3 benchmarks/ci/format-pr-comment.py \
               --summary /tmp/eval-summary.json \
-              --output /tmp/pr-comment.md
+              --output /tmp/eval-comment.md
           else
-            cat > /tmp/pr-comment.md <<'EOF'
-          <!-- eval-gate-comment -->
-          ## :x: RAG Quality Gate — ERROR
+            cat > /tmp/eval-comment.md <<'EOF'
+<!-- eval-gate-comment -->
+## :x: RAG Quality Gate — ERROR
 
-          The eval gate script failed before producing results.
-          Check the workflow logs for details.
+The eval gate script failed before producing results.
+Check the workflow logs for details.
 
-          Run locally: `./benchmarks/ci/eval-gate.sh`
-          EOF
+Run locally: `./benchmarks/ci/eval-gate.sh`
+EOF
           fi
 
-      - name: Post PR comment
+      - name: Format health PR comment
+        if: always() && github.event_name == 'pull_request'
+        run: |
+          if [ -f /tmp/health-summary.json ]; then
+            python3 benchmarks/ci/format-health-comment.py \
+              --summary /tmp/health-summary.json \
+              --output /tmp/health-comment.md
+          else
+            cat > /tmp/health-comment.md <<'EOF'
+<!-- health-gate-comment -->
+## :x: Knowledge Health Gate — ERROR
+
+The health gate script failed before producing results.
+Check the workflow logs for details.
+
+Run locally: `./benchmarks/ci/health-gate.sh`
+EOF
+          fi
+
+      - name: Post RAG eval PR comment
         if: always() && github.event_name == 'pull_request'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Delete previous eval-gate comment if it exists (use marker for reliable matching)
           COMMENT_ID=$(gh api --paginate \
             "repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments" \
             --jq '.[] | select(.body | startswith("<!-- eval-gate-comment -->")) | .id' \
@@ -150,22 +176,44 @@ jobs:
           if [ -n "$COMMENT_ID" ]; then
             gh api -X DELETE "repos/${{ github.repository }}/issues/comments/$COMMENT_ID" || true
           fi
-
           gh pr comment "${{ github.event.pull_request.number }}" \
-            --body-file /tmp/pr-comment.md
+            --body-file /tmp/eval-comment.md
 
-      - name: Upload eval results
+      - name: Post health PR comment
+        if: always() && github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          COMMENT_ID=$(gh api --paginate \
+            "repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments" \
+            --jq '.[] | select(.body | startswith("<!-- health-gate-comment -->")) | .id' \
+            | head -1) || true
+          if [ -n "$COMMENT_ID" ]; then
+            gh api -X DELETE "repos/${{ github.repository }}/issues/comments/$COMMENT_ID" || true
+          fi
+          gh pr comment "${{ github.event.pull_request.number }}" \
+            --body-file /tmp/health-comment.md
+
+      - name: Upload results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: eval-results
+          name: quality-gate-results
           path: |
             /tmp/eval-summary.json
+            /tmp/health-summary.json
             benchmarks/rag-retrieval/results/eval-*.json
+            benchmarks/knowledge-health/results/health-*.json
           if-no-files-found: ignore
 
-      - name: Fail if thresholds breached
+      - name: Fail if RAG thresholds breached
         if: always() && steps.eval.outputs.exit_code != '0'
         run: |
           echo "::error::RAG quality gate failed — see PR comment for details"
+          exit 1
+
+      - name: Fail if health thresholds breached
+        if: always() && steps.health.outputs.exit_code != '0'
+        run: |
+          echo "::error::Knowledge health gate failed — see PR comment for details"
           exit 1

@@ -26,13 +26,14 @@ Full research: `docs/decisions/2026-03-19-llmops-benchmarking-research.md`
 - [x] Report results as PR comment (via `gh` CLI)
 - [x] Add to GitHub Actions (`.github/workflows/eval-gate.yml`)
 
-## Phase 3: Knowledge Health Tracking
+## Phase 3: Knowledge Health Tracking (DONE)
 
-- [ ] Create `benchmarks/knowledge-health/eval.py`
-- [ ] Use `POST /v1/reason` to count findings by type
-- [ ] Track over time: stale entries, broken chains, contradictions
-- [ ] Persist results as corvia knowledge entries (dogfooding)
-- [ ] Dashboard panel for health trends
+- [x] Create `benchmarks/knowledge-health/eval.py`
+- [x] Use `POST /v1/reason` to count findings by type
+- [x] Track over time: stale entries, broken chains, contradictions
+- [x] Persist results as corvia knowledge entries (`--persist` flag, dogfooding)
+- [x] CI quality gate (`benchmarks/ci/health-gate.sh` + GHA workflow)
+- [ ] Dashboard panel for health trends (deferred to Rust-native work)
 
 ## Phase 4: Jason Liu's 6 RAG Evals (Rust-native)
 
@@ -43,12 +44,12 @@ Full research: `docs/decisions/2026-03-19-llmops-benchmarking-research.md`
 - [ ] Binary pass/fail first, graded scores later
 - [ ] Store eval results as knowledge entries (dogfooding)
 
-## Phase 5: Comparative Evals
+## Phase 5: Comparative Evals (DONE)
 
-- [ ] A/B test: `retriever = "vector"` vs `retriever = "graph_expand"`
-- [ ] A/B test: nomic-embed-text-v1.5 vs all-MiniLM-L6-v2
-- [ ] Measure delta in Recall@K, latency, cost per query
-- [ ] Requires RAG config abstraction (DONE — Phase 1 shipped)
+- [x] A/B test: `retriever = "vector"` vs `retriever = "graph_expand"` (`ab-test.py`)
+- [x] A/B test: nomic-embed-text-v1.5 vs all-MiniLM-L6-v2 (`ab-test-retrieval.sh`)
+- [x] Measure delta in Recall@K, latency, cost per query
+- [x] Requires RAG config abstraction (DONE — Phase 1 shipped)
 
 ## Phase 6: `corvia bench` Product Feature
 

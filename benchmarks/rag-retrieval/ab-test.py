@@ -85,6 +85,10 @@ def evaluate_query(query_def: dict, search_results: list, latency_ms: float) -> 
         result["keyword_recall"] * 0.3 +
         result["mrr"] * 0.2
     )
+
+    # Cost proxy: total content characters retrieved
+    result["total_content_chars"] = sum(len(r.get("content", "")) for r in search_results)
+
     return result
 
 
@@ -104,20 +108,63 @@ def run_variant(name: str, expand_graph: bool) -> dict:
         results.append(ev)
 
     valid = [r for r in results if "error" not in r]
+    n = max(len(valid), 1)
+    latencies = sorted(r["latency_ms"] for r in valid) if valid else [0]
+
+    # Cost proxy: sum content length across all results as token estimate
+    total_content_chars = sum(r.get("total_content_chars", 0) for r in valid)
+
     return {
         "name": name,
         "expand_graph": expand_graph,
         "queries": len(queries),
         "successful": len(valid),
         "errors": errors,
-        "avg_recall_5": sum(r["source_recall_5"] for r in valid) / max(len(valid), 1),
-        "avg_recall_10": sum(r["source_recall_10"] for r in valid) / max(len(valid), 1),
-        "avg_kw_recall": sum(r["keyword_recall"] for r in valid) / max(len(valid), 1),
-        "avg_mrr": sum(r["mrr"] for r in valid) / max(len(valid), 1),
-        "avg_relevance": sum(r["relevance"] for r in valid) / max(len(valid), 1),
-        "avg_latency": sum(r["latency_ms"] for r in valid) / max(len(valid), 1),
+        "avg_recall_5": sum(r["source_recall_5"] for r in valid) / n,
+        "avg_recall_10": sum(r["source_recall_10"] for r in valid) / n,
+        "avg_kw_recall": sum(r["keyword_recall"] for r in valid) / n,
+        "avg_mrr": sum(r["mrr"] for r in valid) / n,
+        "avg_relevance": sum(r["relevance"] for r in valid) / n,
+        "avg_latency": sum(r["latency_ms"] for r in valid) / n,
+        "p95_latency": latencies[min(int(len(latencies) * 0.95), len(latencies) - 1)] if latencies else 0,
+        "avg_tokens_per_query": (total_content_chars // 4) / n,  # rough char/4 token estimate
         "details": valid,
     }
+
+
+def persist_to_corvia(server: str, result: dict):
+    """Persist A/B comparison summary to corvia as a knowledge entry."""
+    a = result["graph_expand"]
+    b = result["vector"]
+    content = (
+        f"# A/B Test: graph_expand vs vector — {result['timestamp']}\n\n"
+        f"| Metric | graph_expand | vector | delta |\n"
+        f"|--------|------------:|-------:|------:|\n"
+        f"| Recall@5 | {a['avg_recall_5']:.3f} | {b['avg_recall_5']:.3f} | {a['avg_recall_5']-b['avg_recall_5']:+.3f} |\n"
+        f"| Recall@10 | {a['avg_recall_10']:.3f} | {b['avg_recall_10']:.3f} | {a['avg_recall_10']-b['avg_recall_10']:+.3f} |\n"
+        f"| KW Recall | {a['avg_kw_recall']:.3f} | {b['avg_kw_recall']:.3f} | {a['avg_kw_recall']-b['avg_kw_recall']:+.3f} |\n"
+        f"| MRR | {a['avg_mrr']:.3f} | {b['avg_mrr']:.3f} | {a['avg_mrr']-b['avg_mrr']:+.3f} |\n"
+        f"| Relevance | {a['avg_relevance']:.3f} | {b['avg_relevance']:.3f} | {a['avg_relevance']-b['avg_relevance']:+.3f} |\n"
+        f"| Latency | {a['avg_latency']:.0f}ms | {b['avg_latency']:.0f}ms | {a['avg_latency']-b['avg_latency']:+.0f}ms |\n"
+        f"| Tokens/query | {a['avg_tokens_per_query']:.0f} | {b['avg_tokens_per_query']:.0f} | {a['avg_tokens_per_query']-b['avg_tokens_per_query']:+.0f} |\n"
+    )
+    payload = json.dumps({
+        "content": content,
+        "scope_id": "corvia",
+        "source_version": f"ab-test-{result['timestamp']}",
+        "metadata": {
+            "content_role": "finding",
+            "source_origin": "workspace",
+            "source_file": "benchmarks/rag-retrieval/ab-test.py",
+        },
+    }).encode()
+    req = Request(f"{server}/v1/memories/write", data=payload, headers={"Content-Type": "application/json"})
+    try:
+        with urlopen(req, timeout=15) as resp:
+            data = json.loads(resp.read())
+            print(f"  Persisted to corvia: entry {data.get('id', 'unknown')}")
+    except (URLError, TimeoutError) as e:
+        print(f"  WARNING: Failed to persist to corvia: {e}", file=sys.stderr)
 
 
 def main():
@@ -126,6 +173,7 @@ def main():
     parser = argparse.ArgumentParser(description="A/B Test: Vector-only vs Graph-Expanded Retrieval")
     parser.add_argument("--server", default=SERVER, help="Server URL (default: %(default)s)")
     parser.add_argument("--limit", type=int, default=LIMIT, help="Results per query (default: %(default)s)")
+    parser.add_argument("--persist", action="store_true", help="Persist results to corvia (dogfooding)")
     args = parser.parse_args()
 
     SERVER = args.server
@@ -141,16 +189,16 @@ def main():
     a = run_variant("graph_expand", expand_graph=True)
     print(f"  Recall@5={a['avg_recall_5']:.1%}  Recall@10={a['avg_recall_10']:.1%}  "
           f"KW={a['avg_kw_recall']:.1%}  MRR={a['avg_mrr']:.3f}  "
-          f"Rel={a['avg_relevance']:.3f}  Lat={a['avg_latency']:.0f}ms  "
-          f"({a['successful']}/{a['queries']} ok)")
+          f"Rel={a['avg_relevance']:.3f}  Lat={a['avg_latency']:.0f}ms (p95={a['p95_latency']:.0f}ms)  "
+          f"Tok/q={a['avg_tokens_per_query']:.0f}  ({a['successful']}/{a['queries']} ok)")
 
     # Variant B: vector only
     print("\n--- Variant B: vector ---")
     b = run_variant("vector", expand_graph=False)
     print(f"  Recall@5={b['avg_recall_5']:.1%}  Recall@10={b['avg_recall_10']:.1%}  "
           f"KW={b['avg_kw_recall']:.1%}  MRR={b['avg_mrr']:.3f}  "
-          f"Rel={b['avg_relevance']:.3f}  Lat={b['avg_latency']:.0f}ms  "
-          f"({b['successful']}/{b['queries']} ok)")
+          f"Rel={b['avg_relevance']:.3f}  Lat={b['avg_latency']:.0f}ms (p95={b['p95_latency']:.0f}ms)  "
+          f"Tok/q={b['avg_tokens_per_query']:.0f}  ({b['successful']}/{b['queries']} ok)")
 
     # Delta
     print("\n--- Delta (graph_expand - vector) ---")
@@ -163,12 +211,16 @@ def main():
     lat_delta = a["avg_latency"] - b["avg_latency"]
     print(f"  {'avg_latency':<20} graph={a['avg_latency']:.0f}ms  vector={b['avg_latency']:.0f}ms  delta={lat_delta:+.0f}ms")
 
-    # Per-query comparison
+    # Per-query comparison (match by ID, not position)
     print("\n--- Per-Query Winners ---")
     graph_wins = 0
     vector_wins = 0
     ties = 0
-    for qa, qb in zip(a["details"], b["details"]):
+    b_by_id = {d["id"]: d for d in b["details"]}
+    for qa in a["details"]:
+        qb = b_by_id.get(qa["id"])
+        if not qb:
+            continue
         if qa["relevance"] > qb["relevance"] + 0.05:
             graph_wins += 1
             w = "GRAPH"
@@ -190,6 +242,16 @@ def main():
     with open(path, "w") as f:
         json.dump(output, f, indent=2)
     print(f"\nResults saved to: {path}")
+
+    # Dogfood: persist to corvia
+    if args.persist:
+        persist_to_corvia(SERVER, output)
+
+    # Exit code: 0 if graph_expand wins or ties, 1 if vector wins by >10%
+    if b["avg_relevance"] > a["avg_relevance"] * 1.10:
+        print("\nWARNING: vector outperforms graph_expand by >10%")
+        sys.exit(1)
+    sys.exit(0)
 
 
 if __name__ == "__main__":
