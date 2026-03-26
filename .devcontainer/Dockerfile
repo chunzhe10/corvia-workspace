@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     nodejs npm jq python3 sudo zstd \
     && rm -rf /var/lib/apt/lists/*
 
-# Intel GPU compute runtime (needed by Ollama for iGPU inference).
+# Intel GPU compute runtime (needed by corvia-inference OpenVINO EP for iGPU acceleration).
 # Packages aren't in Debian trixie repos — install from Intel's GitHub releases.
 # Only available for amd64; skip on other architectures.
 RUN if [ "$(dpkg --print-architecture)" = "amd64" ]; then \
@@ -86,8 +86,8 @@ RUN if [ "$(dpkg --print-architecture)" = "amd64" ]; then \
         echo "Skipping CUDA runtime packages (not amd64)"; \
     fi
 
-# Ollama (uses iGPU when /dev/dri is available, falls back to CPU)
-RUN curl -fsSL https://ollama.com/install.sh | sh
+# Ollama runs as a docker-compose sidecar (ollama/ollama image), not baked in.
+# See docker-compose.yml 'ollama' service with profiles: [ollama].
 
 # Docker CLI for Docker-outside-of-Docker (host socket mounted at /var/run/docker.sock).
 # Only the CLI is needed — the daemon runs on the host.

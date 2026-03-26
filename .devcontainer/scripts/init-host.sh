@@ -241,11 +241,17 @@ fi
     echo "  app:"
 
     # Port mapping (always emitted — maps host ports to fixed container ports)
+    # Ollama port is on the ollama sidecar service, not the app container.
     echo "    ports:"
     echo "      - \"$HOST_API:8020\""
     echo "      - \"$HOST_VITE:8021\""
     echo "      - \"$HOST_INFERENCE:8030\""
-    echo "      - \"$HOST_OLLAMA:11434\""
+
+    # Collect devices, groups, and volumes into arrays — initialized before the
+    # GPU conditional so they exist for both the app and ollama stanzas.
+    DEVICES=()
+    GROUP_ADD=()
+    VOLUMES=()
 
     if [ "$HAS_NVIDIA" = false ] && [ "$HAS_DRI" = false ] && [ "$HAS_DXG" = false ]; then
         GPU_SUMMARY="No GPU detected — running CPU-only"
@@ -253,11 +259,6 @@ fi
     else
         GPU_SUMMARY="nvidia=$HAS_NVIDIA dri=$HAS_DRI wsl_dxg=$HAS_DXG"
         echo "    # GPU: $GPU_SUMMARY"
-
-        # Collect devices, groups, and volumes into arrays (emitted once each)
-        DEVICES=()
-        GROUP_ADD=()
-        VOLUMES=()
 
         if [ "$HAS_DRI" = true ]; then
             DEVICES+=("/dev/dri:/dev/dri")
@@ -307,6 +308,39 @@ fi
         fi
 
         # NVIDIA container toolkit (uses deploy.resources for compose v2)
+        if [ "$HAS_NVIDIA" = true ]; then
+            echo "    deploy:"
+            echo "      resources:"
+            echo "        reservations:"
+            echo "          devices:"
+            echo "            - driver: nvidia"
+            echo "              count: all"
+            echo "              capabilities: [gpu]"
+        fi
+    fi
+
+    # ── Ollama sidecar GPU passthrough ────────────────────────────────
+    # The ollama service (docker-compose.yml, profiles: [ollama]) needs the
+    # same GPU access as the app container for accelerated inference.
+    echo ""
+    echo "  ollama:"
+    echo "    ports:"
+    echo "      - \"$HOST_OLLAMA:11434\""
+
+    if [ "$HAS_NVIDIA" = true ] || [ "$HAS_DRI" = true ] || [ "$HAS_DXG" = true ]; then
+        # Reuse the same device/group arrays built for the app container
+        if [ ${#DEVICES[@]} -gt 0 ]; then
+            echo "    devices:"
+            for d in "${DEVICES[@]}"; do
+                echo "      - $d"
+            done
+        fi
+        if [ ${#GROUP_ADD[@]} -gt 0 ]; then
+            echo "    group_add:"
+            for g in "${GROUP_ADD[@]}"; do
+                echo "      - $g"
+            done
+        fi
         if [ "$HAS_NVIDIA" = true ]; then
             echo "    deploy:"
             echo "      resources:"

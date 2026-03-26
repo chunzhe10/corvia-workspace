@@ -72,7 +72,7 @@ def check_service(svc: ServiceDefinition, timeout: float = 3.0) -> HealthResult:
     """Check health of a service. Dispatches to appropriate check method."""
     if svc.port is None or svc.health_proto == "none":
         return HealthResult(healthy=None, latency_ms=-1)
-    host = "127.0.0.1"
+    host = svc.health_host
     if svc.health_proto == "grpc":
         return check_grpc(host, svc.port, timeout=timeout)
     if svc.health_proto == "tcp":

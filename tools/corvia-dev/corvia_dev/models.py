@@ -26,7 +26,9 @@ class ServiceDefinition(BaseModel):
     health_path: str = "/health"
     health_proto: str = "http"  # "http", "grpc", "tcp", or "none"
     start_cmd: list[str] = []
+    stop_cmd: list[str] = []  # if non-empty, run this instead of kill-by-PID (for docker-managed services)
     stop_signal: str = "SIGTERM"
+    health_host: str = "127.0.0.1"  # override for services on Docker network (e.g. "ollama")
     depends_on: list[str] = []
     exclusive_group: str | None = None
 

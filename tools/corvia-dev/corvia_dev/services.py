@@ -30,7 +30,21 @@ SERVICES: list[ServiceDefinition] = [
         tier=1,
         port=11434,
         health_path="/api/tags",
-        start_cmd=["ollama", "serve"],
+        health_host="ollama",  # Docker Compose service name
+        start_cmd=[
+            "docker", "compose",
+            "-f", ".devcontainer/docker-compose.yml",
+            "-f", ".devcontainer/docker-compose.override.yml",
+            "--profile", "ollama",
+            "up", "-d", "ollama",
+        ],
+        stop_cmd=[
+            "docker", "compose",
+            "-f", ".devcontainer/docker-compose.yml",
+            "-f", ".devcontainer/docker-compose.override.yml",
+            "--profile", "ollama",
+            "stop", "ollama",
+        ],
         depends_on=[],
         exclusive_group="embedding",
     ),
