@@ -67,31 +67,24 @@ tasks:
 
   post-start:gpu-symlinks:
     desc: "Ensure Intel iGPU /dev/dri/by-path symlinks"
-    # [QA-W3] Skip (not fail) when no GPU hardware present
     status:
       - '! test -d /dev/dri || ! test -d /dev/dri/by-path || ls /dev/dri/by-path/pci-*-card 2>/dev/null | grep -q .'
     cmds:
-      - printf '\033[36m[gpu]\033[0m Ensuring GPU symlinks\n'
-      - source {{.SCRIPT_DIR}}/lib.sh && create_gpu_symlinks
+      - source {{.SCRIPT_DIR}}/lib.sh && log gpu "symlinks: creating" && create_gpu_symlinks
 
   post-start:auth:
     desc: "Forward host authentication (gh + claude)"
-    # [SWE-W3] Intentionally NO status: check — credentials may refresh
-    # between reconnects. Do NOT add a status check here for "consistency."
     cmds:
-      - printf '\033[36m[auth]\033[0m Forwarding host authentication\n'
       - >-
         python3 {{.SCRIPT_DIR}}/setup_telemetry.py record "auth"
-        -- bash -c "source {{.SCRIPT_DIR}}/lib.sh && forward_host_auth"
+        -- bash -c "source {{.SCRIPT_DIR}}/lib.sh && log auth 'forwarding credentials' && forward_host_auth"
 
   post-start:ort-providers:
     desc: "Ensure ORT CUDA/OpenVINO provider libraries"
-    # [QA-W3] Skip when not amd64 (no CUDA/OpenVINO GPUs on arm64)
     status:
       - 'test "$(dpkg --print-architecture)" != "amd64" || test -f /usr/lib/x86_64-linux-gnu/libonnxruntime_providers_shared.so'
     cmds:
-      - printf '\033[36m[gpu]\033[0m Ensuring GPU provider libraries\n'
-      - source {{.SCRIPT_DIR}}/lib.sh && ensure_ort_provider_libs
+      - source {{.SCRIPT_DIR}}/lib.sh && log gpu "provider libs: checking" && ensure_ort_provider_libs
 
   # ── Services ────────────────────────────────────────────────────────
 
@@ -100,7 +93,6 @@ tasks:
     status:
       - curl -sf --max-time 2 http://127.0.0.1:{{.API_PORT}}/mcp >/dev/null 2>&1
     cmds:
-      - cmd: "printf '\\033[32m[services]\\033[0m Starting corvia-dev services\\n'"
       - task: post-start:ensure-tooling
       - task: post-start:start-manager
       - task: post-start:wait-mcp
@@ -122,7 +114,7 @@ tasks:
     cmds:
       - >-
         python3 {{.SCRIPT_DIR}}/setup_telemetry.py record "start-manager"
-        -- bash -c "corvia-dev up --no-foreground && echo '    manager started'"
+        -- bash -c "source {{.SCRIPT_DIR}}/lib.sh && logg services 'manager: starting' && corvia-dev up --no-foreground && logg services 'manager: started'"
 
   post-start:wait-mcp:
     desc: "Wait for MCP server on port {{.API_PORT}}"
@@ -130,16 +122,17 @@ tasks:
       - curl -sf --max-time 2 http://127.0.0.1:{{.API_PORT}}/mcp >/dev/null 2>&1
     cmds:
       - |
-        printf "    waiting for MCP server (port {{.API_PORT}})"
+        source {{.SCRIPT_DIR}}/lib.sh
+        printf '\033[32m[services]\033[0m mcp: waiting (port {{.API_PORT}})'
         for _attempt in $(seq 1 30); do
           if curl -sf --max-time 2 -o /dev/null http://127.0.0.1:{{.API_PORT}}/mcp 2>/dev/null; then
-            printf "    ... done\n"
+            printf ' ready\n'
             exit 0
           fi
-          printf "."
+          printf '.'
           sleep 2
         done
-        printf "    ... FAILED (not ready after 60s — check 'corvia-dev logs corvia-server')\n" >&2
+        printf ' FAILED\n' >&2
         exit 1
 
   post-start:dashboard-deps:
@@ -149,8 +142,8 @@ tasks:
       - test -d node_modules
     cmds:
       - |
-        printf "    installing dashboard dependencies"
-        npm install --no-fund --no-audit >/dev/null 2>&1 && printf "    ... done\n" || printf "    ... FAILED\n"
+        printf '\033[32m[services]\033[0m dashboard: installing deps...'
+        npm install --no-fund --no-audit >/dev/null 2>&1 && printf ' done\n' || printf ' FAILED\n'
 
   post-start:wait-dashboard:
     desc: "Wait for dashboard (embedded on {{.API_PORT}} or Vite dev on 8021)"
@@ -158,20 +151,20 @@ tasks:
       - 'curl -sf --max-time 2 http://127.0.0.1:{{.API_PORT}}/ >/dev/null 2>&1 || curl -sf --max-time 2 http://127.0.0.1:8021/ >/dev/null 2>&1'
     cmds:
       - |
-        printf "    waiting for dashboard"
+        printf '\033[32m[services]\033[0m dashboard: waiting'
         for _attempt in $(seq 1 15); do
           if curl -sf --max-time 2 -o /dev/null http://127.0.0.1:{{.API_PORT}}/ 2>/dev/null; then
-            printf "    ... done (embedded on port {{.API_PORT}})\n"
+            printf ' ready (port {{.API_PORT}})\n'
             exit 0
           fi
           if curl -sf --max-time 2 -o /dev/null http://127.0.0.1:8021/ 2>/dev/null; then
-            printf "    ... done (Vite dev on port 8021)\n"
+            printf ' ready (vite:8021)\n'
             exit 0
           fi
-          printf "."
+          printf '.'
           sleep 2
         done
-        printf "    ... FAILED (not ready after 30s)\n" >&2
+        printf ' FAILED\n' >&2
         exit 1
 
   # ── Claude Code integration ─────────────────────────────────────────
@@ -182,14 +175,13 @@ tasks:
       - python3 -c "import json; assert 'corvia' in json.load(open('{{.WORKSPACE_ROOT}}/.mcp.json')).get('mcpServers',{})" 2>/dev/null
       - python3 -c "import json; assert 'enabledMcpjsonServers' in json.load(open('{{.WORKSPACE_ROOT}}/.claude/settings.local.json'))" 2>/dev/null
     cmds:
-      - printf '\033[35m[claude]\033[0m Configuring Claude Code integration\n'
       - |
-        # Ensure .mcp.json has corvia server
+        source {{.SCRIPT_DIR}}/lib.sh
         MCP_JSON="{{.WORKSPACE_ROOT}}/.mcp.json"
         if python3 -c "import json; assert 'corvia' in json.load(open('$MCP_JSON')).get('mcpServers',{})" 2>/dev/null; then
-          echo "    MCP server configured via .mcp.json"
+          logm claude "mcp: configured"
         else
-          echo "    writing .mcp.json"
+          logm claude "mcp: writing .mcp.json"
           python3 -c "
         import json, os
         p = '$MCP_JSON'
@@ -200,12 +192,12 @@ tasks:
         "
         fi
       - |
-        # Ensure settings.local.json enables MCP servers
+        source {{.SCRIPT_DIR}}/lib.sh
         SETTINGS_LOCAL="{{.WORKSPACE_ROOT}}/.claude/settings.local.json"
         if python3 -c "import json; assert 'enabledMcpjsonServers' in json.load(open('$SETTINGS_LOCAL'))" 2>/dev/null; then
-          echo "    settings.local.json already configured"
+          logm claude "settings: configured"
         else
-          echo "    writing .claude/settings.local.json"
+          logm claude "settings: writing settings.local.json"
           python3 -c "
         import json, os
         p = '$SETTINGS_LOCAL'
@@ -215,10 +207,10 @@ tasks:
         "
         fi
       - |
-        # Install superpowers plugin
-        printf "    superpowers plugin: "
-        source {{.SCRIPT_DIR}}/lib.sh && install_claude_plugin "https://github.com/obra/superpowers.git" superpowers claude-plugins-official \
-          || echo "FAILED — git clone failed (check network)"
+        source {{.SCRIPT_DIR}}/lib.sh
+        logm claude "superpowers: installing"
+        install_claude_plugin "https://github.com/obra/superpowers.git" superpowers claude-plugins-official \
+          || logw claude "superpowers: FAILED (check network)"
 
   post-start:ensure-extensions:
     desc: "Ensure VS Code extensions installed (catch-up from post-create)"
@@ -229,15 +221,15 @@ tasks:
         EXT_ID="corvia.corvia-services-$VERSION"
         test -d "/root/.vscode-server/extensions/$EXT_ID" -o -d "/root/.vscode-server-insiders/extensions/$EXT_ID"
     cmds:
-      - printf '\033[35m[vscode]\033[0m Ensuring VS Code extensions\n'
       - |
         source {{.SCRIPT_DIR}}/lib.sh
         EXT_DIR="{{.WORKSPACE_ROOT}}/.devcontainer/extensions/corvia-services"
         VSIX=$(ls -t "$EXT_DIR"/*.vsix 2>/dev/null | head -1)
         if [ -n "$VSIX" ]; then
+          logm vscode "extension: installing $(basename "$VSIX")"
           install_vsix_direct "$VSIX"
         else
-          echo "    no .vsix found — skipping"
+          logw vscode "extension: no .vsix found"
         fi
 
   # ── Optional services ───────────────────────────────────────────────
@@ -252,7 +244,7 @@ tasks:
   post-start:optional-services:
     desc: "Start optional services (coding-llm, etc)"
     cmds:
-      - printf '\033[33m[optional]\033[0m Checking optional services\n'
+      - source {{.SCRIPT_DIR}}/lib.sh && logw optional "checking enabled services"
       - |
         if [ ! -f "{{.FLAGS_FILE}}" ]; then
           echo "    none enabled"
@@ -297,7 +289,7 @@ tasks:
     status:
       - curl -fsL --max-time 2 https://github.com >/dev/null 2>&1
     cmds:
-      - printf '\033[36m[network]\033[0m Waiting for network\n'
+      - source {{.SCRIPT_DIR}}/lib.sh && log network "waiting for connectivity"
       - source {{.SCRIPT_DIR}}/lib.sh && wait_for_network
 
   post-create:parallel-setup:
@@ -315,7 +307,7 @@ tasks:
     status:
       - gh auth status >/dev/null 2>&1
     cmds:
-      - printf '\033[36m[auth]\033[0m Forwarding GitHub credentials\n'
+      - source {{.SCRIPT_DIR}}/lib.sh && log auth "forwarding GitHub credentials"
       - source {{.SCRIPT_DIR}}/lib.sh && forward_gh_auth
 
   post-create:binaries:
@@ -326,7 +318,7 @@ tasks:
       - test -x /usr/local/bin/corvia-adapter-basic
       - test -x /usr/local/bin/corvia-adapter-git
     cmds:
-      - printf '\033[32m[install]\033[0m Installing Corvia binaries\n'
+      - source {{.SCRIPT_DIR}}/lib.sh && logg install "downloading binaries"
       - >-
         python3 {{.SCRIPT_DIR}}/setup_telemetry.py record "install-binaries"
         -- bash -c "source {{.SCRIPT_DIR}}/lib.sh && retry 3 install_binaries"
@@ -344,7 +336,7 @@ tasks:
     status:
       - test -d {{.WORKSPACE_ROOT}}/.corvia/store
     cmds:
-      - printf '\033[32m[workspace]\033[0m Initializing workspace\n'
+      - source {{.SCRIPT_DIR}}/lib.sh && logg workspace "initializing"
       - source {{.SCRIPT_DIR}}/lib.sh && init_workspace
 
   post-create:hooks:
@@ -352,7 +344,7 @@ tasks:
     status:
       - test -f {{.WORKSPACE_ROOT}}/.git/hooks/pre-commit
     cmds:
-      - printf '\033[32m[hooks]\033[0m Setting up hooks\n'
+      - source {{.SCRIPT_DIR}}/lib.sh && logg hooks "setting up"
       - corvia workspace init-hooks 2>/dev/null && echo "    hooks initialized" || echo "    hook init deferred (server not ready)"
 
   post-create:tooling:
@@ -360,13 +352,13 @@ tasks:
     status:
       - command -v corvia-dev >/dev/null 2>&1
     cmds:
-      - printf '\033[32m[tooling]\033[0m Ensuring tooling\n'
+      - source {{.SCRIPT_DIR}}/lib.sh && logg tooling "ensuring corvia-dev"
       - source {{.SCRIPT_DIR}}/lib.sh && ensure_tooling
 
   post-create:vscode-extensions:
     desc: "Install VS Code extensions"
     cmds:
-      - printf '\033[35m[vscode]\033[0m Installing VS Code extensions\n'
+      - source {{.SCRIPT_DIR}}/lib.sh && logm vscode "installing extensions"
       - |
         source {{.SCRIPT_DIR}}/lib.sh
         EXT_DIR="{{.WORKSPACE_ROOT}}/.devcontainer/extensions/corvia-services"

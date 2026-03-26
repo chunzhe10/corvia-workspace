@@ -4,6 +4,25 @@
 
 err() { echo "Error: $*" >&2; }
 
+# Colored [module] log output. Usage: log <module> <message>
+# Colors: infra=cyan, core=green, ide=magenta, warn=yellow
+log() {
+    local mod="$1"; shift
+    printf '\033[36m[%s]\033[0m %s\n' "$mod" "$*"
+}
+logg() {
+    local mod="$1"; shift
+    printf '\033[32m[%s]\033[0m %s\n' "$mod" "$*"
+}
+logm() {
+    local mod="$1"; shift
+    printf '\033[35m[%s]\033[0m %s\n' "$mod" "$*"
+}
+logw() {
+    local mod="$1"; shift
+    printf '\033[33m[%s]\033[0m %s\n' "$mod" "$*"
+}
+
 # Retry a command up to N times with exponential backoff.
 # Usage: retry <max_attempts> command args...
 retry() {
@@ -105,7 +124,7 @@ _ensure_corvia_dev() {
     if python3 -c "import corvia_dev" 2>/dev/null; then
         return 0
     fi
-    echo "    installing corvia-dev..."
+    logg install "installing corvia-dev..."
     install_python_editable "$WORKSPACE_ROOT/tools/corvia-dev" 2>/dev/null
 }
 
@@ -119,12 +138,12 @@ import sys
 from corvia_dev.rebuild import download_release, get_latest_release_tag
 tag = get_latest_release_tag()
 if tag:
-    print(f"    downloading {tag}...")
+    print(f"\033[32m[install]\033[0m downloading {tag}...")
 installed = download_release(tag=tag)
 if not installed:
-    print("Error: binary download failed", file=sys.stderr)
+    print("\033[32m[install]\033[0m FAILED", file=sys.stderr)
     sys.exit(1)
-print(f"    installed: {', '.join(installed)}")
+print(f"\033[32m[install]\033[0m done: {', '.join(installed)}")
 PYEOF
 }
 
@@ -251,28 +270,20 @@ ensure_corvia() {
     local result
     result=$(python3 -c "from corvia_dev.rebuild import ensure_up_to_date; print(ensure_up_to_date())" 2>/dev/null) || true
 
+    local tag
+    tag=$(cat /usr/local/share/corvia-release-tag 2>/dev/null || echo "unknown")
+
     case "$result" in
-        up_to_date)
-            local tag
-            tag=$(cat /usr/local/share/corvia-release-tag 2>/dev/null || echo "unknown")
-            echo "    binaries up to date ($tag)"
-            ;;
-        updated)
-            local tag
-            tag=$(cat /usr/local/share/corvia-release-tag 2>/dev/null || echo "unknown")
-            echo "    binaries updated to $tag"
-            ;;
-        offline_ok)
-            echo "    no network — using existing binaries"
-            ;;
+        up_to_date) logg tooling "binaries: up to date ($tag)" ;;
+        updated)    logg tooling "binaries: updated to $tag" ;;
+        offline_ok) logw tooling "binaries: no network, using existing" ;;
         missing)
             err "binaries missing and no network available"
             return 1
             ;;
         *)
-            # Python import/runtime error — use existing if available
             if [ -x "/usr/local/bin/corvia" ]; then
-                echo "    using existing binaries (update check unavailable)"
+                logw tooling "binaries: using existing (update check unavailable)"
             else
                 err "binaries missing and update check failed"
                 return 1
@@ -538,7 +549,7 @@ from corvia_dev.rebuild import ensure_ort_libs
 print('yes' if ensure_ort_libs(Path('${WORKSPACE_ROOT}')) else 'no')
 " 2>/dev/null) || true
     if [ "$restored" = "yes" ]; then
-        echo "    ORT provider libs restored from build cache"
+        log gpu "ORT provider libs: restored from build cache"
     fi
 }
 
