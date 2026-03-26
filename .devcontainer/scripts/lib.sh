@@ -99,14 +99,21 @@ wait_for_network() {
     fi
 }
 
+# Ensure corvia_dev Python package is importable.
+# Installs it on-demand if missing (e.g., fresh container before ensure_tooling).
+_ensure_corvia_dev() {
+    if python3 -c "import corvia_dev" 2>/dev/null; then
+        return 0
+    fi
+    echo "    installing corvia-dev (first run)..."
+    install_python_editable "$WORKSPACE_ROOT/tools/corvia-dev" 2>/dev/null
+}
+
 # Download and install corvia release binaries.
 # Delegates to Python (corvia_dev.rebuild) which is the single source of truth
 # for binary names, paths, versioning, and download logic.
 install_binaries() {
-    if ! python3 -c "from corvia_dev.rebuild import download_release" 2>/dev/null; then
-        err "corvia_dev not installed — run ensure_tooling first"
-        return 1
-    fi
+    _ensure_corvia_dev || { err "corvia_dev install failed"; return 1; }
     python3 -c "
 from corvia_dev.rebuild import download_release, get_latest_release_tag
 tag = get_latest_release_tag()
@@ -237,6 +244,7 @@ with zipfile.ZipFile(os.environ['VSIX_PATH']) as z:
 # Delegates to Python (corvia_dev.rebuild.ensure_up_to_date) which handles
 # tag checking, network detection, download, and offline fallback.
 ensure_corvia() {
+    _ensure_corvia_dev || { err "corvia_dev install failed"; return 1; }
     local result
     result=$(python3 -c "
 from corvia_dev.rebuild import ensure_up_to_date

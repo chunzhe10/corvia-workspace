@@ -17,7 +17,7 @@ import subprocess
 import shutil
 import sys
 
-WORKSPACE = os.environ.get("CORVIA_WORKSPACE", "/workspaces/corvia-workspace-2")
+WORKSPACE = os.environ.get("CORVIA_WORKSPACE", "/workspaces/corvia-workspace")
 TASK_DIR = os.path.join(WORKSPACE, ".devcontainer/.task")
 PHASE = sys.argv[1] if len(sys.argv) > 1 else "post-start"
 LOCK = os.path.join(TASK_DIR, f"{PHASE}.lock")
