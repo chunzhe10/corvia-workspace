@@ -70,21 +70,19 @@ tasks:
     status:
       - '! test -d /dev/dri || ! test -d /dev/dri/by-path || ls /dev/dri/by-path/pci-*-card 2>/dev/null | grep -q .'
     cmds:
-      - source {{.SCRIPT_DIR}}/lib.sh && log gpu "symlinks: creating" && create_gpu_symlinks
+      - cmd: 'source {{.SCRIPT_DIR}}/lib.sh && log gpu "symlinks: creating" && create_gpu_symlinks'
 
   post-start:auth:
     desc: "Forward host authentication (gh + claude)"
     cmds:
-      - >-
-        python3 {{.SCRIPT_DIR}}/setup_telemetry.py record "auth"
-        -- bash -c "source {{.SCRIPT_DIR}}/lib.sh && log auth 'forwarding credentials' && forward_host_auth"
+      - cmd: 'source {{.SCRIPT_DIR}}/lib.sh && log auth "forwarding credentials" && forward_host_auth'
 
   post-start:ort-providers:
     desc: "Ensure ORT CUDA/OpenVINO provider libraries"
     status:
       - 'test "$(dpkg --print-architecture)" != "amd64" || test -f /usr/lib/x86_64-linux-gnu/libonnxruntime_providers_shared.so'
     cmds:
-      - source {{.SCRIPT_DIR}}/lib.sh && log gpu "provider libs: checking" && ensure_ort_provider_libs
+      - cmd: 'source {{.SCRIPT_DIR}}/lib.sh && log gpu "provider libs: checking" && ensure_ort_provider_libs'
 
   # ── Services ────────────────────────────────────────────────────────
 
@@ -105,7 +103,7 @@ tasks:
       - command -v corvia >/dev/null 2>&1
       - command -v corvia-dev >/dev/null 2>&1
     cmds:
-      - source {{.SCRIPT_DIR}}/lib.sh && ensure_tooling
+      - cmd: 'source {{.SCRIPT_DIR}}/lib.sh && ensure_tooling'
 
   post-start:start-manager:
     desc: "Start corvia-dev process manager"
@@ -244,7 +242,7 @@ tasks:
   post-start:optional-services:
     desc: "Start optional services (coding-llm, etc)"
     cmds:
-      - source {{.SCRIPT_DIR}}/lib.sh && logw optional "checking enabled services"
+      - cmd: 'source {{.SCRIPT_DIR}}/lib.sh && logw optional "checking enabled services"'
       - |
         if [ ! -f "{{.FLAGS_FILE}}" ]; then
           echo "    none enabled"
@@ -289,8 +287,8 @@ tasks:
     status:
       - curl -fsL --max-time 2 https://github.com >/dev/null 2>&1
     cmds:
-      - source {{.SCRIPT_DIR}}/lib.sh && log network "waiting for connectivity"
-      - source {{.SCRIPT_DIR}}/lib.sh && wait_for_network
+      - cmd: 'source {{.SCRIPT_DIR}}/lib.sh && log network "waiting for connectivity"'
+      - cmd: 'source {{.SCRIPT_DIR}}/lib.sh && wait_for_network'
 
   post-create:parallel-setup:
     desc: "Independent create steps (parallel, output grouped per task)"
@@ -307,8 +305,8 @@ tasks:
     status:
       - gh auth status >/dev/null 2>&1
     cmds:
-      - source {{.SCRIPT_DIR}}/lib.sh && log auth "forwarding GitHub credentials"
-      - source {{.SCRIPT_DIR}}/lib.sh && forward_gh_auth
+      - cmd: 'source {{.SCRIPT_DIR}}/lib.sh && log auth "forwarding GitHub credentials"'
+      - cmd: 'source {{.SCRIPT_DIR}}/lib.sh && forward_gh_auth'
 
   post-create:binaries:
     desc: "Install corvia + inference binaries"
@@ -318,7 +316,7 @@ tasks:
       - test -x /usr/local/bin/corvia-adapter-basic
       - test -x /usr/local/bin/corvia-adapter-git
     cmds:
-      - source {{.SCRIPT_DIR}}/lib.sh && logg install "downloading binaries"
+      - cmd: 'source {{.SCRIPT_DIR}}/lib.sh && logg install "downloading binaries"'
       - >-
         python3 {{.SCRIPT_DIR}}/setup_telemetry.py record "install-binaries"
         -- bash -c "source {{.SCRIPT_DIR}}/lib.sh && retry 3 install_binaries"
@@ -336,15 +334,15 @@ tasks:
     status:
       - test -d {{.WORKSPACE_ROOT}}/.corvia/store
     cmds:
-      - source {{.SCRIPT_DIR}}/lib.sh && logg workspace "initializing"
-      - source {{.SCRIPT_DIR}}/lib.sh && init_workspace
+      - cmd: 'source {{.SCRIPT_DIR}}/lib.sh && logg workspace "initializing"'
+      - cmd: 'source {{.SCRIPT_DIR}}/lib.sh && init_workspace'
 
   post-create:hooks:
     desc: "Set up git + doc-placement hooks"
     status:
       - test -f {{.WORKSPACE_ROOT}}/.git/hooks/pre-commit
     cmds:
-      - source {{.SCRIPT_DIR}}/lib.sh && logg hooks "setting up"
+      - cmd: 'source {{.SCRIPT_DIR}}/lib.sh && logg hooks "setting up"'
       - corvia workspace init-hooks 2>/dev/null && echo "    hooks initialized" || echo "    hook init deferred (server not ready)"
 
   post-create:tooling:
@@ -352,13 +350,13 @@ tasks:
     status:
       - command -v corvia-dev >/dev/null 2>&1
     cmds:
-      - source {{.SCRIPT_DIR}}/lib.sh && logg tooling "ensuring corvia-dev"
-      - source {{.SCRIPT_DIR}}/lib.sh && ensure_tooling
+      - cmd: 'source {{.SCRIPT_DIR}}/lib.sh && logg tooling "ensuring corvia-dev"'
+      - cmd: 'source {{.SCRIPT_DIR}}/lib.sh && ensure_tooling'
 
   post-create:vscode-extensions:
     desc: "Install VS Code extensions"
     cmds:
-      - source {{.SCRIPT_DIR}}/lib.sh && logm vscode "installing extensions"
+      - cmd: 'source {{.SCRIPT_DIR}}/lib.sh && logm vscode "installing extensions"'
       - |
         source {{.SCRIPT_DIR}}/lib.sh
         EXT_DIR="{{.WORKSPACE_ROOT}}/.devcontainer/extensions/corvia-services"
