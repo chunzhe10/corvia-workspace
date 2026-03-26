@@ -99,127 +99,23 @@ wait_for_network() {
     fi
 }
 
-# Download and install corvia + corvia-inference binaries.
-# Caches the installed release tag in /usr/local/share/corvia-release-tag.
-# Skips download if the cached tag matches the latest release.
+# Download and install corvia release binaries.
+# Delegates to Python (corvia_dev.rebuild) which is the single source of truth
+# for binary names, paths, versioning, and download logic.
 install_binaries() {
-    local arch_suffix
-    arch_suffix="$(detect_arch)" || return 1
-    local gh_repo="chunzhe10/corvia"
-    local install_dir="/usr/local/bin"
-    local tag_file="/usr/local/share/corvia-release-tag"
-    local cli_asset="corvia-cli-linux-${arch_suffix}"
-    local inf_asset="corvia-inference-linux-${arch_suffix}"
-    local adp_basic_asset="corvia-adapter-basic-linux-${arch_suffix}"
-    local adp_git_asset="corvia-adapter-git-linux-${arch_suffix}"
-
-    # Check latest release tag
-    local latest_tag=""
-    if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
-        latest_tag=$(gh release view --repo "$gh_repo" --json tagName -q .tagName 2>/dev/null || true)
-    else
-        latest_tag=$(curl -fsL --max-time 5 "https://api.github.com/repos/$gh_repo/releases/latest" 2>/dev/null \
-            | python3 -c "import sys,json; print(json.load(sys.stdin).get('tag_name',''))" 2>/dev/null || true)
+    if ! python3 -c "from corvia_dev.rebuild import download_release" 2>/dev/null; then
+        err "corvia_dev not installed — run ensure_tooling first"
+        return 1
     fi
-
-    # Skip if already on latest
-    if [ -n "$latest_tag" ] && [ -f "$tag_file" ] && [ "$(cat "$tag_file")" = "$latest_tag" ] \
-        && [ -x "$install_dir/corvia" ] && [ -x "$install_dir/corvia-inference" ] \
-        && [ -x "$install_dir/corvia-adapter-basic" ] && [ -x "$install_dir/corvia-adapter-git" ]; then
-        echo "    binaries up to date ($latest_tag)"
-        return 0
-    fi
-
-    if [ -n "$latest_tag" ]; then
-        echo "    downloading $latest_tag"
-    else
-        echo "    downloading latest release"
-    fi
-
-    local tmpdir
-    tmpdir=$(mktemp -d)
-
-    if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
-        spin "    fetching (gh)..." \
-            gh release download --repo "$gh_repo" --pattern "$cli_asset" --pattern "$inf_asset" \
-                --pattern "$adp_basic_asset" --pattern "$adp_git_asset" \
-                --pattern "libonnxruntime_providers_*-linux-${arch_suffix}.so" --dir "$tmpdir"
-    else
-        local url="https://github.com/$gh_repo/releases/latest/download"
-        # Required binary downloads (must succeed)
-        local pids=()
-        for asset in "$cli_asset" "$inf_asset" "$adp_basic_asset" "$adp_git_asset"; do
-            curl -fsL --retry 3 --retry-delay 2 -o "$tmpdir/$asset" "$url/$asset" 2>/dev/null &
-            pids+=($!)
-        done
-        # Best-effort ORT provider .so downloads (may not exist in older releases)
-        for asset in "libonnxruntime_providers_shared-linux-${arch_suffix}.so" \
-            "libonnxruntime_providers_cuda-linux-${arch_suffix}.so" \
-            "libonnxruntime_providers_openvino-linux-${arch_suffix}.so"; do
-            curl -fsL --retry 1 -o "$tmpdir/$asset" "$url/$asset" 2>/dev/null &
-            pids+=($!)
-        done
-        printf "    fetching (curl)..."
-        while :; do
-            alive=false
-            for pid in "${pids[@]}"; do
-                if kill -0 "$pid" 2>/dev/null; then
-                    alive=true
-                    break
-                fi
-            done
-            [ "$alive" = true ] || break
-            printf "."
-            sleep 1
-        done
-        # Only check required binaries (first 4 pids)
-        local ok=true
-        local i=0
-        for pid in "${pids[@]}"; do
-            if [ "$i" -lt 4 ]; then
-                wait "$pid" || ok=false
-            else
-                wait "$pid" 2>/dev/null || true  # ORT libs are best-effort
-            fi
-            i=$((i + 1))
-        done
-        if [ "$ok" = true ]; then
-            echo " done"
-        else
-            echo " FAILED"
-            rm -rf "$tmpdir"
-            return 1
-        fi
-    fi
-
-    sudo cp "$tmpdir/$cli_asset" "$install_dir/corvia"
-    sudo cp "$tmpdir/$inf_asset" "$install_dir/corvia-inference"
-    sudo cp "$tmpdir/$adp_basic_asset" "$install_dir/corvia-adapter-basic"
-    sudo cp "$tmpdir/$adp_git_asset" "$install_dir/corvia-adapter-git"
-    sudo chmod +x "$install_dir/corvia" "$install_dir/corvia-inference" \
-        "$install_dir/corvia-adapter-basic" "$install_dir/corvia-adapter-git"
-
-    # Install ORT provider shared libraries (best-effort: skip if not in release)
-    local ort_lib_dir="/usr/lib/x86_64-linux-gnu"
-    local ort_libs_installed=false
-    for lib in libonnxruntime_providers_shared libonnxruntime_providers_cuda libonnxruntime_providers_openvino; do
-        local lib_asset="${lib}-linux-${arch_suffix}.so"
-        local lib_file="$tmpdir/$lib_asset"
-        if [ -f "$lib_file" ]; then
-            sudo cp "$lib_file" "$ort_lib_dir/${lib}.so"
-            ort_libs_installed=true
-        fi
-    done
-    if [ "$ort_libs_installed" = true ]; then
-        sudo ldconfig
-    fi
-
-    rm -rf "$tmpdir"
-
-    # Cache the installed tag
-    if [ -n "$latest_tag" ]; then
-        echo "$latest_tag" | sudo tee "$tag_file" >/dev/null
-    fi
+    python3 -c "
+from corvia_dev.rebuild import download_release, get_latest_release_tag
+tag = get_latest_release_tag()
+installed = download_release(tag=tag)
+for name in installed:
+    print(f'    installed {name}')
+if not installed:
+    raise SystemExit(1)
+" || return 1
 }
 
 # Download the latest VS Code extension VSIX from workspace releases.
@@ -338,43 +234,33 @@ with zipfile.ZipFile(os.environ['VSIX_PATH']) as z:
 }
 
 # Ensure corvia binaries are installed and up to date.
-# Checks the release tag cache — downloads only when outdated or missing.
+# Delegates to Python (corvia_dev.rebuild.ensure_up_to_date) which handles
+# tag checking, network detection, download, and offline fallback.
 ensure_corvia() {
-    local tag_file="/usr/local/share/corvia-release-tag"
-    local install_dir="/usr/local/bin"
+    local result
+    result=$(python3 -c "
+from corvia_dev.rebuild import ensure_up_to_date
+print(ensure_up_to_date())
+" 2>&1) || true
 
-    # Quick path: all binaries present and tag looks like a release (not "local-build")
-    if [ -x "$install_dir/corvia" ] && [ -x "$install_dir/corvia-inference" ] \
-        && [ -x "$install_dir/corvia-adapter-basic" ] && [ -x "$install_dir/corvia-adapter-git" ] \
-        && [ -f "$tag_file" ] && grep -qE '^v[0-9]' "$tag_file" 2>/dev/null; then
-        # Binaries exist and tag looks like a release — let install_binaries
-        # do the lightweight API check (fast path: single HTTP request).
-        wait_for_network || return 0  # offline with binaries = OK
-        install_binaries
-        return 0
-    fi
-
-    # Invalidated tag or missing binaries — try to download.
-    local have_binaries=false
-    if [ -x "$install_dir/corvia" ] && [ -x "$install_dir/corvia-inference" ] \
-        && [ -x "$install_dir/corvia-adapter-basic" ] && [ -x "$install_dir/corvia-adapter-git" ]; then
-        have_binaries=true
-    fi
-
-    if [ "$have_binaries" = true ]; then
-        echo "corvia binaries outdated — checking for update..."
-    else
-        echo "corvia binaries missing — installing..."
-    fi
-
-    if ! wait_for_network; then
-        if [ "$have_binaries" = true ]; then
-            echo "    no network, using existing binaries"
-            return 0
-        fi
-        return 1
-    fi
-    retry 3 install_binaries
+    case "$result" in
+        up_to_date) echo "    binaries up to date" ;;
+        updated)    echo "    binaries updated" ;;
+        offline_ok) echo "    no network, using existing binaries" ;;
+        missing)
+            err "corvia binaries missing and no network available"
+            return 1
+            ;;
+        *)
+            # Python error — fall back to direct install
+            echo "    ensure_corvia check failed: $result"
+            if [ -x "/usr/local/bin/corvia" ]; then
+                echo "    using existing binaries"
+            else
+                return 1
+            fi
+            ;;
+    esac
 }
 
 # Fix ownership of workspace files so the current user can write.
@@ -624,60 +510,15 @@ json.dump(d, open(path, 'w'), indent=2)
     echo "installed v${version}"
 }
 
-# Ensure ORT CUDA provider .so files are installed in the system lib path.
-# These can be lost when the ORT pyke.io cache is evicted (e.g., layer rebuild,
-# driver update). When missing, corvia-inference silently falls back to CPU.
-# Copies from the most recent cargo build if available.
+# Ensure ORT CUDA/OpenVINO provider .so files are installed.
+# Delegates to Python (corvia_dev.rebuild.ensure_ort_libs).
 ensure_ort_provider_libs() {
-    # Only relevant on amd64 (CUDA/OpenVINO GPUs)
-    if [ "$(dpkg --print-architecture)" != "amd64" ]; then
-        return 0
-    fi
-
-    local ort_lib_dir="/usr/lib/x86_64-linux-gnu"
-    local ort_libs="libonnxruntime_providers_shared libonnxruntime_providers_cuda libonnxruntime_providers_openvino"
-    local libs_needed=false
-
-    for lib in $ort_libs; do
-        if [ ! -f "$ort_lib_dir/${lib}.so" ]; then
-            libs_needed=true
-            break
-        fi
-    done
-
-    if [ "$libs_needed" = false ]; then
-        return 0
-    fi
-
-    # Try release first, fall back to debug
-    local target_dir="$WORKSPACE_ROOT/repos/corvia/target/release"
-    if [ ! -d "$target_dir" ]; then
-        target_dir="$WORKSPACE_ROOT/repos/corvia/target/debug"
-    fi
-
-    echo "    ORT provider libs missing — reinstalling from build..."
-    local any_installed=false
-    for lib in $ort_libs; do
-        # Skip libs already present in destination
-        [ -f "$ort_lib_dir/${lib}.so" ] && continue
-        local src="$target_dir/${lib}.so"
-        if [ -L "$src" ] || [ -f "$src" ]; then
-            # Resolve symlinks (target/release/*.so → pyke.io cache); skip dangling
-            local real_src
-            real_src=$(readlink -f "$src" 2>/dev/null || true)
-            if [ -n "$real_src" ] && [ -f "$real_src" ]; then
-                sudo cp -L "$real_src" "$ort_lib_dir/${lib}.so"
-                any_installed=true
-            fi
-        fi
-    done
-
-    if [ "$any_installed" = true ]; then
-        sudo ldconfig
-        echo "    ORT provider libs restored"
-    else
-        echo "    ORT provider libs not found in build — run 'corvia-dev rebuild' to generate"
-    fi
+    python3 -c "
+from pathlib import Path
+from corvia_dev.rebuild import ensure_ort_libs
+if ensure_ort_libs(Path('${WORKSPACE_ROOT}')):
+    print('    ORT provider libs restored')
+" 2>/dev/null || true
 }
 
 # Create /dev/dri/by-path symlinks for Intel iGPU.
