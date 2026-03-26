@@ -97,8 +97,13 @@ Never use `corvia-dev restart` for binary updates. Instead:
 cargo build
 corvia-dev down && sleep 3
 cp target/debug/corvia /usr/local/bin/corvia
+echo "local-build" | sudo tee /usr/local/share/corvia-release-tag >/dev/null
 corvia-dev up --no-foreground
 ```
+
+**Important**: The `echo "local-build"` line invalidates the release tag cache so the
+next container rebuild downloads fresh release binaries instead of keeping the local build.
+If you use `corvia-dev rebuild` instead of manual `cp`, this is handled automatically.
 
 ### `corvia-dev rebuild` cmake failure
 

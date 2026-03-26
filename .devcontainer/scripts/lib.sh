@@ -338,9 +338,42 @@ with zipfile.ZipFile(os.environ['VSIX_PATH']) as z:
 }
 
 # Ensure corvia binaries are installed and up to date.
-# Always checks the release tag — install_binaries() handles skip-if-current.
+# Checks the release tag cache — downloads only when outdated or missing.
 ensure_corvia() {
-    wait_for_network || return 1
+    local tag_file="/usr/local/share/corvia-release-tag"
+    local install_dir="/usr/local/bin"
+
+    # Quick path: all binaries present and tag looks like a release (not "local-build")
+    if [ -x "$install_dir/corvia" ] && [ -x "$install_dir/corvia-inference" ] \
+        && [ -x "$install_dir/corvia-adapter-basic" ] && [ -x "$install_dir/corvia-adapter-git" ] \
+        && [ -f "$tag_file" ] && grep -qE '^v[0-9]' "$tag_file" 2>/dev/null; then
+        # Binaries exist and tag looks like a release — let install_binaries
+        # do the lightweight API check (fast path: single HTTP request).
+        wait_for_network || return 0  # offline with binaries = OK
+        install_binaries
+        return 0
+    fi
+
+    # Invalidated tag or missing binaries — try to download.
+    local have_binaries=false
+    if [ -x "$install_dir/corvia" ] && [ -x "$install_dir/corvia-inference" ] \
+        && [ -x "$install_dir/corvia-adapter-basic" ] && [ -x "$install_dir/corvia-adapter-git" ]; then
+        have_binaries=true
+    fi
+
+    if [ "$have_binaries" = true ]; then
+        echo "corvia binaries outdated — checking for update..."
+    else
+        echo "corvia binaries missing — installing..."
+    fi
+
+    if ! wait_for_network; then
+        if [ "$have_binaries" = true ]; then
+            echo "    no network, using existing binaries"
+            return 0
+        fi
+        return 1
+    fi
     retry 3 install_binaries
 }
 
