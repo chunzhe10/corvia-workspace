@@ -1,7 +1,7 @@
 # Devcontainer setup orchestration — replaces post-start.sh / post-create.sh
 #
 # Each task has a `status:` block that tests actual state ("is it done?")
-# rather than marker files ("did I run?"). Tasks with `deps:` run in parallel.
+# rather than marker files ("did I run?"). All tasks run sequentially for clean output.
 #
 # Entry points:
 #   task post-start    — called by setup_wrapper.py on every container connect
@@ -52,11 +52,11 @@ tasks:
   # ── Parallel setup (independent tasks) ──────────────────────────────
 
   post-start:parallel-setup:
-    desc: "Independent setup steps (run in parallel)"
-    deps:
-      - post-start:gpu-symlinks
-      - post-start:auth
-      - post-start:ort-providers
+    desc: "Independent setup steps (sequential for clean output)"
+    cmds:
+      - task: post-start:gpu-symlinks
+      - task: post-start:auth
+      - task: post-start:ort-providers
 
   post-start:gpu-symlinks:
     desc: "Ensure Intel iGPU /dev/dri/by-path symlinks"
@@ -294,10 +294,10 @@ tasks:
       - source {{.SCRIPT_DIR}}/lib.sh && wait_for_network
 
   post-create:parallel-setup:
-    desc: "Independent create steps (run in parallel)"
-    deps:
-      - post-create:gh-auth
-      - post-create:binaries
+    desc: "Independent create steps (sequential for clean output)"
+    cmds:
+      - task: post-create:gh-auth
+      - task: post-create:binaries
 
   post-create:gh-auth:
     desc: "Forward GitHub credentials"
