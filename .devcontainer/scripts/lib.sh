@@ -359,14 +359,34 @@ init_workspace() {
 }
 
 # Install a Python package in editable mode using uv.
-# Uses sudo because /usr/local/lib/python3.x/ is root-owned.
+# Uses uv sync --locked when a uv.lock is present (enforces pinned versions),
+# falls back to uv pip install --system for packages without a lock file.
+# Symlinks entry-point scripts to /usr/local/bin/ for PATH availability.
 install_python_editable() {
     local pkg_path="$1"
     if ! command -v uv >/dev/null 2>&1; then
         err "uv not found. Install uv: curl -LsSf https://astral.sh/uv/install.sh | sh"
         return 1
     fi
-    sudo uv pip install --system --break-system-packages -e "$pkg_path" --quiet
+
+    if [ -f "$pkg_path/uv.lock" ]; then
+        # Use uv sync to enforce lock file, then symlink entry points
+        uv sync --locked --quiet --directory "$pkg_path"
+        # Symlink entry-point scripts to /usr/local/bin/ for PATH availability
+        # Note: stale symlinks from removed entry points are not cleaned up,
+        # but devcontainers are ephemeral so this is acceptable.
+        local name
+        [ -d "$pkg_path/.venv/bin" ] || return 0
+        for script in "$pkg_path/.venv/bin/"*; do
+            name="$(basename "$script")"
+            case "$name" in
+                python*|activate*|pip*|uv*|wheel*|easy_install*) continue ;;
+            esac
+            [ -x "$script" ] && sudo ln -sf "$script" "/usr/local/bin/$name"
+        done
+    else
+        sudo uv pip install --system --break-system-packages -e "$pkg_path" --quiet
+    fi
 }
 
 
