@@ -18,13 +18,13 @@ Full research: `docs/decisions/2026-03-19-llmops-benchmarking-research.md`
 - [x] Metrics: Source Recall@K, Keyword Recall, MRR, relevance score
 - [x] Baseline established: Recall@5=37.5%, KW=65%, MRR=0.544
 
-## Phase 2: CI Quality Gate
+## Phase 2: CI Quality Gate (DONE)
 
-- [ ] Create `benchmarks/ci/eval-gate.sh`
-- [ ] Run eval suite on PRs touching retrieval/RAG code
-- [ ] Fail if MRR drops below 0.4 or Recall@5 drops below 30%
-- [ ] Report results as PR comment (via `gh` CLI)
-- [ ] Add to GitHub Actions / devcontainer pre-commit
+- [x] Create `benchmarks/ci/eval-gate.sh`
+- [x] Run eval suite on PRs touching retrieval/RAG code
+- [x] Fail if MRR drops below 0.4 or Recall@5 drops below 30%
+- [x] Report results as PR comment (via `gh` CLI)
+- [x] Add to GitHub Actions (`.github/workflows/eval-gate.yml`)
 
 ## Phase 3: Knowledge Health Tracking
 
