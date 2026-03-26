@@ -118,14 +118,30 @@ wait_for_network() {
     fi
 }
 
+# Python interpreter for corvia_dev — lives in the tool's own venv.
+# System python3 cannot import corvia_dev; we must use the venv python.
+_corvia_dev_python() {
+    local venv_py="$WORKSPACE_ROOT/tools/corvia-dev/.venv/bin/python3"
+    if [ -x "$venv_py" ]; then
+        echo "$venv_py"
+    else
+        echo "python3"  # fallback before venv exists
+    fi
+}
+
 # Ensure corvia_dev Python package is importable.
 # Installs it on-demand if missing (e.g., fresh container before ensure_tooling).
 _ensure_corvia_dev() {
-    if python3 -c "import corvia_dev" 2>/dev/null; then
+    local py
+    py=$(_corvia_dev_python)
+    if "$py" -c "import corvia_dev" 2>/dev/null; then
         return 0
     fi
     logg install "installing corvia-dev..."
     install_python_editable "$WORKSPACE_ROOT/tools/corvia-dev" 2>/dev/null
+    # Re-resolve — venv may have just been created
+    py=$(_corvia_dev_python)
+    "$py" -c "import corvia_dev" 2>/dev/null || { err "corvia_dev not importable after install"; return 1; }
 }
 
 # Download and install corvia release binaries.
@@ -133,7 +149,9 @@ _ensure_corvia_dev() {
 # for binary names, paths, versioning, and download logic.
 install_binaries() {
     _ensure_corvia_dev || { err "corvia_dev install failed"; return 1; }
-    python3 << 'PYEOF' || return 1
+    local py
+    py=$(_corvia_dev_python)
+    "$py" << 'PYEOF' || return 1
 import sys
 from corvia_dev.rebuild import download_release, get_latest_release_tag
 tag = get_latest_release_tag()
@@ -267,8 +285,9 @@ with zipfile.ZipFile(os.environ['VSIX_PATH']) as z:
 # tag checking, network detection, download, and offline fallback.
 ensure_corvia() {
     _ensure_corvia_dev || { err "corvia_dev install failed"; return 1; }
-    local result
-    result=$(python3 -c "from corvia_dev.rebuild import ensure_up_to_date; print(ensure_up_to_date())" 2>/dev/null) || true
+    local py result
+    py=$(_corvia_dev_python)
+    result=$("$py" -c "from corvia_dev.rebuild import ensure_up_to_date; print(ensure_up_to_date())" 2>/dev/null) || true
 
     local tag
     tag=$(cat /usr/local/share/corvia-release-tag 2>/dev/null || echo "unknown")
