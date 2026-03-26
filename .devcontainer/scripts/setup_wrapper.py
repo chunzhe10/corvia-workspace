@@ -118,7 +118,7 @@ def main() -> None:
         ).returncode
     else:
         rc = subprocess.run(
-            ["task", "-d", f"{WORKSPACE}/.devcontainer", "--output", "prefixed", PHASE],
+            ["task", "-d", f"{WORKSPACE}/.devcontainer", "--output", "group", PHASE],
         ).returncode
 
     if rc == 0:
