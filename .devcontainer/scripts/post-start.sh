@@ -9,6 +9,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=lib.sh
 source "$SCRIPT_DIR/lib.sh"
 
+API_PORT=$(python3 -c "import tomllib; print(tomllib.load(open('$WORKSPACE_ROOT/corvia.toml','rb')).get('server',{}).get('port',8020))" 2>/dev/null || echo 8020)
+
 step() { printf " => %s\n" "$*"; }
 done_msg() { printf "    ... done\n"; }
 skip_msg() { printf "    ... skipped (%s)\n" "$*"; }
@@ -83,10 +85,10 @@ else
     fail_msg "corvia-dev not available — run ensure_tooling manually"
 fi
 
-printf "    waiting for MCP server (port 8020)"
+printf "    waiting for MCP server (port $API_PORT)"
 mcp_ready=false
 for _attempt in $(seq 1 30); do
-    if curl -sf --max-time 2 -o /dev/null http://127.0.0.1:8020/mcp 2>/dev/null; then
+    if curl -sf --max-time 2 -o /dev/null http://127.0.0.1:$API_PORT/mcp 2>/dev/null; then
         done_msg
         mcp_ready=true
         break
@@ -107,10 +109,10 @@ fi
 
 # Dashboard is embedded in the corvia binary and served from port 8020.
 # The Vite dev server (port 8021) is only used during frontend development.
-printf "    waiting for embedded dashboard (port 8020)"
+printf "    waiting for embedded dashboard (port $API_PORT)"
 dash_ready=false
 for _attempt in $(seq 1 15); do
-    if curl -sf --max-time 2 -o /dev/null http://127.0.0.1:8020/ 2>/dev/null; then
+    if curl -sf --max-time 2 -o /dev/null http://127.0.0.1:$API_PORT/ 2>/dev/null; then
         done_msg
         dash_ready=true
         break
@@ -119,7 +121,7 @@ for _attempt in $(seq 1 15); do
     sleep 2
 done
 if [ "$dash_ready" = false ]; then
-    fail_msg "not ready after 30s — dashboard should be embedded in corvia-server on port 8020"
+    fail_msg "not ready after 30s — dashboard should be embedded in corvia-server on port $API_PORT"
 fi
 
 # Sweep stale sessions (sessions that never received SessionEnd)
