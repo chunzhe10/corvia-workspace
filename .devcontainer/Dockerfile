@@ -1,4 +1,3 @@
-FROM mcr.microsoft.com/playwright:latest AS playwright
 FROM ghcr.io/astral-sh/uv:latest AS uv
 
 FROM rust:1.88-trixie
@@ -81,7 +80,8 @@ RUN if [ "$(dpkg --print-architecture)" = "amd64" ]; then \
         && for lib in "$NVIDIA_PKGS"/cudnn/lib/libcudnn*.so.9; do \
             ln -sf "$lib" "/usr/lib/x86_64-linux-gnu/$(basename "$lib")"; \
         done \
-        && ldconfig; \
+        && ldconfig \
+        && rm -rf /root/.cache/uv /root/.cache/pip; \
     else \
         echo "Skipping CUDA runtime packages (not amd64)"; \
     fi
@@ -115,7 +115,8 @@ RUN (getent group $USER_GID >/dev/null 2>&1 || groupadd --gid $USER_GID $USERNAM
 # uv is copied from the official image (multi-stage above).
 # Pre-install Python deps needed by corvia-dev.
 RUN uv pip install --system --break-system-packages \
-        click pydantic tomli_w setuptools
+        click pydantic tomli_w setuptools \
+    && rm -rf /root/.cache/uv
 
 RUN { curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg \
         -o /usr/share/keyrings/githubcli-archive-keyring.gpg \
@@ -125,16 +126,16 @@ RUN { curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg \
     && rm -rf /var/lib/apt/lists/*; } \
     || { rm -rf /var/lib/apt/lists/*; echo "WARNING: gh CLI install failed — will retry at runtime"; }
 
-RUN npm install -g --silent @anthropic-ai/claude-code \
-    || echo "WARNING: claude-code install failed — will retry at runtime"
-
-RUN npm install -g --silent @vscode/vsce \
-    || echo "WARNING: vsce install failed — will retry at runtime"
+RUN { npm install -g --silent @anthropic-ai/claude-code \
+    && npm install -g --silent @vscode/vsce; } \
+    || echo "WARNING: npm global install failed — will retry at runtime"; \
+    rm -rf /root/.npm
 
 # Playwright MCP: install Chrome (amd64) or Chromium (arm64) for the playwright-mcp server.
-# Chrome is installed to /opt/google/chrome (fixed system path, not PLAYWRIGHT_BROWSERS_PATH).
-# Chromium falls back to /ms-playwright via PLAYWRIGHT_BROWSERS_PATH on arm64.
-COPY --from=playwright /ms-playwright /ms-playwright
+# Chrome installs to /opt/google/chrome (fixed system path).
+# On arm64, Chromium installs to /ms-playwright via PLAYWRIGHT_BROWSERS_PATH.
+# Note: the playwright multi-stage image is no longer COPYed — it added 1 GB of browsers
+# that went unused at runtime (Chrome is installed independently below).
 ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
 RUN if [ "$(dpkg --print-architecture)" = "amd64" ]; then \
         npx -y playwright@latest install chrome --with-deps \
@@ -142,7 +143,8 @@ RUN if [ "$(dpkg --print-architecture)" = "amd64" ]; then \
     else \
         npx -y playwright@latest install chromium --with-deps \
         || echo "WARNING: playwright chromium install failed — visual QA unavailable"; \
-    fi
+    fi \
+    && rm -rf /root/.npm
 
 # Pre-create cargo registry cache so volume mounts work cleanly
 ENV CARGO_HOME="/usr/local/cargo"
