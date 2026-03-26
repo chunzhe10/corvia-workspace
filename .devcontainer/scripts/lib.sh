@@ -337,14 +337,10 @@ with zipfile.ZipFile(os.environ['VSIX_PATH']) as z:
     [ "$installed" -eq 1 ] || { err "No VS Code server directory found"; return 1; }
 }
 
-# Ensure corvia binary is available, installing if needed.
+# Ensure corvia binaries are installed and up to date.
+# Always checks the release tag — install_binaries() handles skip-if-current.
 ensure_corvia() {
-    if [ -x "/usr/local/bin/corvia" ]; then
-        return 0
-    fi
-    echo "corvia binary not found — installing..."
     wait_for_network || return 1
-    echo "Installing Corvia binaries..."
     retry 3 install_binaries
 }
 
