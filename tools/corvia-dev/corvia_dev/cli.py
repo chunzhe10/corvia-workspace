@@ -6,6 +6,7 @@ import asyncio
 import json
 import os
 import signal
+import subprocess
 import sys
 import time
 from pathlib import Path
@@ -375,6 +376,80 @@ def logs(service: str | None, tail: int) -> None:
                 click.echo(line)
         if not found:
             click.echo("No log files found.")
+
+
+@main.command()
+@click.option("--fresh", is_flag=True, help="Re-index from scratch (pass --fresh to workspace ingest)")
+def ingest(fresh: bool) -> None:
+    """Stop server, run workspace ingest, then restart.
+
+    This works around the redb exclusive lock — the CLI and server cannot
+    both hold the database open at the same time.
+    """
+    # 1. Stop the manager (if running)
+    manager_was_running = False
+    if DEFAULT_STATE_PATH.exists():
+        try:
+            data = json.loads(DEFAULT_STATE_PATH.read_text())
+            resp = StatusResponse.model_validate(data)
+            if resp.manager and resp.manager.pid:
+                # Verify the process is actually alive before sending SIGTERM
+                try:
+                    os.kill(resp.manager.pid, 0)
+                except OSError:
+                    click.echo("Manager PID in state file is stale, skipping stop.")
+                else:
+                    click.echo("Stopping services...")
+                    os.kill(resp.manager.pid, signal.SIGTERM)
+                    manager_was_running = True
+                    # Poll for process death instead of blind sleep
+                    deadline = time.monotonic() + 15
+                    while time.monotonic() < deadline:
+                        try:
+                            os.kill(resp.manager.pid, 0)
+                            time.sleep(0.5)
+                        except OSError:
+                            break
+                    else:
+                        click.echo("Timed out waiting for manager to stop.", err=True)
+                        raise SystemExit(1)
+                    click.echo("Services stopped.")
+        except (json.JSONDecodeError, ValueError, ProcessLookupError):
+            pass
+
+    # 2. Run corvia workspace ingest
+    cmd = ["corvia", "workspace", "ingest"]
+    if fresh:
+        cmd.append("--fresh")
+
+    click.echo(f"Running: {' '.join(cmd)}")
+    try:
+        result = subprocess.run(cmd, cwd=str(_workspace_root()))
+    except FileNotFoundError:
+        click.echo("Error: 'corvia' binary not found on PATH.", err=True)
+        if manager_was_running:
+            click.echo("Restarting services...")
+            ctx = click.get_current_context()
+            ctx.invoke(up, no_foreground=True)
+        raise SystemExit(1)
+
+    if result.returncode != 0:
+        click.echo("Ingest failed.", err=True)
+        if manager_was_running:
+            click.echo("Restarting services despite ingest failure...")
+            ctx = click.get_current_context()
+            ctx.invoke(up, no_foreground=True)
+        raise SystemExit(1)
+
+    click.echo("Ingest complete.")
+
+    # 3. Restart services
+    if manager_was_running:
+        click.echo("Restarting services...")
+        ctx = click.get_current_context()
+        ctx.invoke(up, no_foreground=True)
+    else:
+        click.echo("Services were not running. Use 'corvia-dev up' to start.")
 
 
 @main.command()
