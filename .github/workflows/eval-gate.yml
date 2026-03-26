@@ -1,0 +1,171 @@
+name: RAG Quality Gate
+
+on:
+  pull_request:
+    paths:
+      - 'repos/corvia/crates/corvia-server/src/**'
+      - 'repos/corvia/crates/corvia-kernel/**'
+      - 'repos/corvia/crates/corvia-inference/**'
+      - 'benchmarks/**'
+      - 'corvia.toml'
+
+# Cancel in-progress runs for the same PR
+concurrency:
+  group: eval-gate-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  eval-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            pkg-config libssl-dev libclang-dev cmake protobuf-compiler python3 jq
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache cargo registry and build
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            repos/corvia/target
+          key: eval-gate-${{ runner.os }}-cargo-${{ hashFiles('repos/corvia/Cargo.lock') }}
+          restore-keys: |
+            eval-gate-${{ runner.os }}-cargo-
+
+      - name: Build corvia (server + inference + CLI)
+        working-directory: repos/corvia
+        run: cargo build --bin corvia --bin corvia-inference --release
+
+      - name: Cache HuggingFace models
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: hf-models-nomic-embed-text-v1.5-${{ hashFiles('corvia.toml') }}
+          restore-keys: |
+            hf-models-nomic-embed-text-v1.5-
+
+      - name: Start inference server
+        working-directory: repos/corvia
+        run: |
+          ./target/release/corvia-inference &
+          echo "Waiting for inference server on port 8030..."
+          for i in $(seq 1 60); do
+            if curl -sf --max-time 2 http://127.0.0.1:8030/health > /dev/null 2>&1; then
+              echo "Inference server ready"
+              break
+            fi
+            if [ "$i" -eq 60 ]; then
+              echo "ERROR: Inference server did not start within 60s"
+              exit 1
+            fi
+            sleep 1
+          done
+
+      - name: Start corvia server
+        run: |
+          repos/corvia/target/release/corvia serve &
+          echo "Waiting for corvia server on port 8020..."
+          for i in $(seq 1 30); do
+            if curl -sf --max-time 2 http://127.0.0.1:8020/health > /dev/null 2>&1; then
+              echo "Corvia server ready"
+              break
+            fi
+            if [ "$i" -eq 30 ]; then
+              echo "ERROR: Corvia server did not start within 30s"
+              exit 1
+            fi
+            sleep 1
+          done
+
+      - name: Ingest knowledge base
+        run: |
+          repos/corvia/target/release/corvia workspace ingest
+          echo "Ingestion complete"
+          # Verify ingestion produced entries
+          ENTRY_COUNT=$(curl -sf http://127.0.0.1:8020/v1/status | python3 -c "import json,sys; print(json.load(sys.stdin).get('entry_count', 0))" 2>/dev/null || echo "0")
+          echo "Entries ingested: $ENTRY_COUNT"
+          if [ "$ENTRY_COUNT" -eq 0 ]; then
+            echo "ERROR: No entries ingested — eval results would be meaningless"
+            exit 1
+          fi
+
+      - name: Run eval gate
+        id: eval
+        env:
+          CORVIA_SERVER: http://127.0.0.1:8020
+          SUMMARY_JSON: /tmp/eval-summary.json
+        run: |
+          set +e
+          ./benchmarks/ci/eval-gate.sh
+          EXIT_CODE=$?
+          echo "exit_code=$EXIT_CODE" >> "$GITHUB_OUTPUT"
+          # Don't fail yet — post comment first
+          exit 0
+
+      - name: Format PR comment
+        if: always() && github.event_name == 'pull_request'
+        run: |
+          if [ -f /tmp/eval-summary.json ]; then
+            python3 benchmarks/ci/format-pr-comment.py \
+              --summary /tmp/eval-summary.json \
+              --output /tmp/pr-comment.md
+          else
+            cat > /tmp/pr-comment.md <<'EOF'
+          <!-- eval-gate-comment -->
+          ## :x: RAG Quality Gate — ERROR
+
+          The eval gate script failed before producing results.
+          Check the workflow logs for details.
+
+          Run locally: `./benchmarks/ci/eval-gate.sh`
+          EOF
+          fi
+
+      - name: Post PR comment
+        if: always() && github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Delete previous eval-gate comment if it exists (use marker for reliable matching)
+          COMMENT_ID=$(gh api --paginate \
+            "repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments" \
+            --jq '.[] | select(.body | startswith("<!-- eval-gate-comment -->")) | .id' \
+            | head -1) || true
+          if [ -n "$COMMENT_ID" ]; then
+            gh api -X DELETE "repos/${{ github.repository }}/issues/comments/$COMMENT_ID" || true
+          fi
+
+          gh pr comment "${{ github.event.pull_request.number }}" \
+            --body-file /tmp/pr-comment.md
+
+      - name: Upload eval results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-results
+          path: |
+            /tmp/eval-summary.json
+            benchmarks/rag-retrieval/results/eval-*.json
+          if-no-files-found: ignore
+
+      - name: Fail if thresholds breached
+        if: always() && steps.eval.outputs.exit_code != '0'
+        run: |
+          echo "::error::RAG quality gate failed — see PR comment for details"
+          exit 1
