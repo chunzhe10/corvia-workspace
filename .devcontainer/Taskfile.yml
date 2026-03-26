@@ -57,10 +57,9 @@ tasks:
       # Run parallel deps as a subprocess with --output group so their output
       # is buffered per-task (no interleaving), while the outer post-start
       # streams sequential tasks in real-time (service waits, MCP polling).
-      - task --output group --silent post-start:parallel-setup-inner
+      - task --output group --silent post-start:_parallel
 
-  post-start:parallel-setup-inner:
-    internal: true
+  post-start:_parallel:
     deps:
       - post-start:gpu-symlinks
       - post-start:auth
@@ -304,10 +303,9 @@ tasks:
   post-create:parallel-setup:
     desc: "Independent create steps (parallel, output grouped per task)"
     cmds:
-      - task --output group --silent post-create:parallel-setup-inner
+      - task --output group --silent post-create:_parallel
 
-  post-create:parallel-setup-inner:
-    internal: true
+  post-create:_parallel:
     deps:
       - post-create:gh-auth
       - post-create:binaries
