@@ -214,13 +214,13 @@ def download_release(
                 try:
                     results = {name: fut.result() for name, fut in futures.items()}
                 except Exception as e:
-                    print(f"    download failed: {e}")
+                    print(f"Error: download failed: {e}", file=__import__('sys').stderr)
                     return []
 
             # Check required binaries succeeded
             for name in assets.values():
                 if not results.get(name, False):
-                    print(f"    FAILED to download {name}")
+                    print(f"Error: failed to download {name}", file=__import__('sys').stderr)
                     return []
 
         # Stop running services if binaries are in use (Text file busy).

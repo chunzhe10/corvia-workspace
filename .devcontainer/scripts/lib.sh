@@ -105,7 +105,7 @@ _ensure_corvia_dev() {
     if python3 -c "import corvia_dev" 2>/dev/null; then
         return 0
     fi
-    echo "    installing corvia-dev (first run)..."
+    echo "    installing corvia-dev..."
     install_python_editable "$WORKSPACE_ROOT/tools/corvia-dev" 2>/dev/null
 }
 
@@ -114,15 +114,18 @@ _ensure_corvia_dev() {
 # for binary names, paths, versioning, and download logic.
 install_binaries() {
     _ensure_corvia_dev || { err "corvia_dev install failed"; return 1; }
-    python3 -c "
+    python3 << 'PYEOF' || return 1
+import sys
 from corvia_dev.rebuild import download_release, get_latest_release_tag
 tag = get_latest_release_tag()
+if tag:
+    print(f"    downloading {tag}...")
 installed = download_release(tag=tag)
-for name in installed:
-    print(f'    installed {name}')
 if not installed:
-    raise SystemExit(1)
-" || return 1
+    print("Error: binary download failed", file=sys.stderr)
+    sys.exit(1)
+print(f"    installed: {', '.join(installed)}")
+PYEOF
 }
 
 # Download the latest VS Code extension VSIX from workspace releases.
@@ -246,25 +249,32 @@ with zipfile.ZipFile(os.environ['VSIX_PATH']) as z:
 ensure_corvia() {
     _ensure_corvia_dev || { err "corvia_dev install failed"; return 1; }
     local result
-    result=$(python3 -c "
-from corvia_dev.rebuild import ensure_up_to_date
-print(ensure_up_to_date())
-" 2>&1) || true
+    result=$(python3 -c "from corvia_dev.rebuild import ensure_up_to_date; print(ensure_up_to_date())" 2>/dev/null) || true
 
     case "$result" in
-        up_to_date) echo "    binaries up to date" ;;
-        updated)    echo "    binaries updated" ;;
-        offline_ok) echo "    no network, using existing binaries" ;;
+        up_to_date)
+            local tag
+            tag=$(cat /usr/local/share/corvia-release-tag 2>/dev/null || echo "unknown")
+            echo "    binaries up to date ($tag)"
+            ;;
+        updated)
+            local tag
+            tag=$(cat /usr/local/share/corvia-release-tag 2>/dev/null || echo "unknown")
+            echo "    binaries updated to $tag"
+            ;;
+        offline_ok)
+            echo "    no network — using existing binaries"
+            ;;
         missing)
-            err "corvia binaries missing and no network available"
+            err "binaries missing and no network available"
             return 1
             ;;
         *)
-            # Python error — fall back to direct install
-            echo "    ensure_corvia check failed: $result"
+            # Python import/runtime error — use existing if available
             if [ -x "/usr/local/bin/corvia" ]; then
-                echo "    using existing binaries"
+                echo "    using existing binaries (update check unavailable)"
             else
+                err "binaries missing and update check failed"
                 return 1
             fi
             ;;
@@ -521,12 +531,15 @@ json.dump(d, open(path, 'w'), indent=2)
 # Ensure ORT CUDA/OpenVINO provider .so files are installed.
 # Delegates to Python (corvia_dev.rebuild.ensure_ort_libs).
 ensure_ort_provider_libs() {
-    python3 -c "
+    local restored
+    restored=$(python3 -c "
 from pathlib import Path
 from corvia_dev.rebuild import ensure_ort_libs
-if ensure_ort_libs(Path('${WORKSPACE_ROOT}')):
-    print('    ORT provider libs restored')
-" 2>/dev/null || true
+print('yes' if ensure_ort_libs(Path('${WORKSPACE_ROOT}')) else 'no')
+" 2>/dev/null) || true
+    if [ "$restored" = "yes" ]; then
+        echo "    ORT provider libs restored from build cache"
+    fi
 }
 
 # Create /dev/dri/by-path symlinks for Intel iGPU.
