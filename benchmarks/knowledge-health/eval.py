@@ -154,10 +154,67 @@ def print_report(result: dict, delta: dict):
     print("=" * 60)
 
 
+def persist_to_corvia(server: str, result: dict):
+    """Persist health snapshot to corvia as a knowledge entry (dogfooding)."""
+    # Format as markdown
+    lines = [
+        f"# Knowledge Health Snapshot — {result['timestamp']}",
+        f"",
+        f"**Scope**: {result['scope_id']}",
+        f"**Total findings**: {result['total_findings']}",
+        f"**Check types**: {result['check_types_count']}",
+        f"",
+        f"## Findings by type",
+        f"",
+        f"| Check Type | Count |",
+        f"|------------|------:|",
+    ]
+    for check_type, info in sorted(result["groups"].items(), key=lambda x: -x[1]["count"]):
+        lines.append(f"| {check_type} | {info['count']} |")
+
+    delta = result.get("delta", {})
+    if not delta.get("first_run"):
+        lines.extend(["", "## Delta vs previous"])
+        for ct, d in delta.get("types", {}).items():
+            if d["delta"] != 0:
+                sign = "+" if d["delta"] > 0 else ""
+                lines.append(f"- **{ct}**: {sign}{d['delta']} ({d['previous']} → {d['current']})")
+        if delta.get("new_types"):
+            lines.append(f"- **New types**: {', '.join(delta['new_types'])}")
+        if delta.get("removed_types"):
+            lines.append(f"- **Resolved types**: {', '.join(delta['removed_types'])}")
+
+    content = "\n".join(lines)
+
+    payload = json.dumps({
+        "content": content,
+        "scope_id": result["scope_id"],
+        "source_version": f"health-eval-{result['timestamp']}",
+        "metadata": {
+            "content_role": "finding",
+            "source_origin": "workspace",
+            "source_file": "benchmarks/knowledge-health/eval.py",
+        },
+    }).encode()
+
+    req = Request(
+        f"{server}/v1/memories/write",
+        data=payload,
+        headers={"Content-Type": "application/json"},
+    )
+    try:
+        with urlopen(req, timeout=15) as resp:
+            data = json.loads(resp.read())
+            print(f"  Persisted to corvia: entry {data.get('id', 'unknown')}")
+    except (URLError, TimeoutError) as e:
+        print(f"  WARNING: Failed to persist to corvia: {e}", file=sys.stderr)
+
+
 def main():
     parser = argparse.ArgumentParser(description="Corvia Knowledge Health Evaluation")
     parser.add_argument("--server", default="http://localhost:8020", help="corvia server URL")
     parser.add_argument("--scope", default="corvia", help="Scope ID to check")
+    parser.add_argument("--persist", action="store_true", help="Persist results to corvia (dogfooding)")
     args = parser.parse_args()
 
     # Call reason endpoint
@@ -186,6 +243,11 @@ def main():
     # Save
     path = save_result(result)
     print(f"Saved: {path}")
+
+    # Dogfood: persist to corvia
+    if args.persist:
+        persist_to_corvia(args.server, result)
+
     print()
 
     # Report

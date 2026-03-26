@@ -6,8 +6,10 @@ Reproducible benchmarks for evaluating corvia's core capabilities.
 
 ```
 benchmarks/
-├── embedding-models/     # Embedding model comparison (latency, accuracy, resource usage)
-├── rag-retrieval/        # RAG pipeline retrieval quality (precision, recall, relevance)
+├── ci/                   # CI quality gates (eval-gate, health-gate, PR comment formatters)
+├── embedding-models/     # Embedding model comparison (latency, accuracy, A/B retrieval quality)
+├── knowledge-health/     # Knowledge base health tracking (structural integrity checks)
+├── rag-retrieval/        # RAG pipeline retrieval quality (precision, recall, relevance, A/B)
 ├── chunking-strategies/  # Chunking approach comparison (format-aware vs fixed-size vs semantic)
 └── README.md             # This file
 ```

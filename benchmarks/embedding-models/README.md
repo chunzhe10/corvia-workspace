@@ -37,6 +37,32 @@ Both models are supported by corvia-inference. Switch via `corvia.toml`:
 embedding_model = "all-MiniLM-L6-v2"  # or "nomic-embed-text-v1.5"
 ```
 
+## Retrieval Quality A/B Test
+
+Compare retrieval quality (not just latency) between embedding models:
+
+```bash
+bash benchmarks/embedding-models/ab-test-retrieval.sh
+```
+
+This orchestrator:
+1. Runs the full eval suite with the current model (nomic-embed-text-v1.5)
+2. Switches to all-MiniLM-L6-v2 (384d), restarts servers, re-ingests
+3. Runs the eval suite again
+4. Restores original config and produces a comparison report
+
+**Runtime**: Several minutes (two full ingestion cycles). Not suitable for CI.
+
+To compare results manually:
+
+```bash
+python3 benchmarks/embedding-models/compare-models.py \
+    results/model-nomic-embed-text-v1.5-*.json \
+    results/model-all-MiniLM-L6-v2-*.json \
+    --model-a nomic-embed-text-v1.5 --model-b all-MiniLM-L6-v2 \
+    --persist  # optional: save findings to corvia
+```
+
 ### Key Insight
 
 From the project's memory: **RAG retrieval is 89% of pipeline latency**.
