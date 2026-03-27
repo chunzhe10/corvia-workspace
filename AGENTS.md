@@ -142,6 +142,9 @@ for structured development workflows. For non-trivial work (3+ files, new archit
 or when the user explicitly asks), use these skills instead of ad-hoc alternatives.
 For quick questions, small renames, or single-file fixes, use your judgment.
 
+- **Dev Loop** (preferred): Use `/dev-loop <issue-number>` for the full autonomous
+  development lifecycle: issue intake → brainstorming → planning → implementation →
+  5-persona review → E2E testing → PR → merge. See `.agents/skills/dev-loop/SKILL.md`.
 - **Brainstorming**: When asked to brainstorm, design, or plan a feature, use the
   superpowers `brainstorming` skill. This enforces the structured flow: explore context
   → clarifying questions → 2-3 approaches → design → spec doc → review loop.
@@ -151,7 +154,8 @@ For quick questions, small renames, or single-file fixes, use your judgment.
 - **Debugging**: Use `systematic-debugging` skill for non-obvious bugs.
 
 Skills are in the plugin's `skills/` subdirectory. When in doubt, read the relevant
-`SKILL.md` before proceeding.
+`SKILL.md` before proceeding. The `dev-loop` skill orchestrates all of the above
+into a single autonomous pipeline.
 
 ## AI Development Learnings
 
@@ -200,10 +204,20 @@ Best Known Methods for autonomous, long-running Claude Code sessions. Adapted fr
 
 ### Multi-Persona Review Gate
 
-Every non-trivial change is reviewed through three lenses before commit:
-- **Senior SWE**: Correctness, safety, idiomatic patterns, edge cases
-- **Product Manager**: Goal alignment, UX coherence, milestone advancement
-- **QA**: Test coverage, end-to-end verification, graceful failure modes
+Every non-trivial change is reviewed through **five** independent lenses before commit.
+Three are standard; two are dynamic based on the task (see `dev-loop` skill for selection table):
+
+**Standard (always present):**
+- **Senior SWE**: Correctness, safety, idiomatic patterns, edge cases, performance
+- **Product Manager**: Goal alignment, UX coherence, milestone advancement, scope
+- **QA Engineer**: Test coverage, E2E verification, failure modes, regression risk
+
+**Dynamic (task-dependent, select two):**
+- Chosen based on issue labels and changed files (e.g., Security Engineer for auth work,
+  Performance Engineer for optimization, UX Designer for dashboard changes)
+
+Each reviewer MUST be a deep, independent subagent run — not a shallow one-liner.
+Reviews producing less than 10 lines of substantive feedback are invalid.
 
 ### Error Recovery
 
