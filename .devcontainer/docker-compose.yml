@@ -16,10 +16,17 @@ services:
   ollama:
     image: ollama/ollama:latest
     profiles: [ollama]  # only starts when explicitly activated
+    restart: unless-stopped
     environment:
       - OLLAMA_HOST=0.0.0.0:11434
     volumes:
       - corvia-ollama-models:/root/.ollama
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
     # GPU passthrough and ports injected by docker-compose.override.yml
 
 volumes:
