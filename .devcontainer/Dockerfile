@@ -100,10 +100,8 @@ RUN { curl -fsSL https://download.docker.com/linux/debian/gpg \
     && rm -rf /var/lib/apt/lists/*; } \
     || { rm -rf /var/lib/apt/lists/*; echo "WARNING: docker-ce-cli install failed"; }
 
-# Ensure GPU groups and docker group exist so Docker group_add resolves by name or GID.
-RUN groupadd -f video && groupadd -f render && groupadd -f docker
-
-# Create non-root user for devcontainer
+# Create non-root user FIRST — must run before GPU groups so GID 1000 is claimed
+# by the vscode group, not by render (which groupadd would otherwise assign GID 1000).
 ARG USERNAME=vscode
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
@@ -111,6 +109,9 @@ RUN (getent group $USER_GID >/dev/null 2>&1 || groupadd --gid $USER_GID $USERNAM
     && (getent passwd $USER_UID >/dev/null 2>&1 || useradd --uid $USER_UID --gid $USER_GID -m $USERNAME) \
     && echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME
+
+# Ensure GPU groups and docker group exist so Docker group_add resolves by name or GID.
+RUN groupadd -f video && groupadd -f render && groupadd -f docker
 
 # uv is copied from the official image (multi-stage above).
 # Pre-install Python deps needed by corvia-dev.
