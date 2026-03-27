@@ -263,7 +263,7 @@ tasks:
       - python3 {{.SCRIPT_DIR}}/setup_telemetry.py ingest
 
   post-start:optional-services:
-    desc: "Start optional services (coding-llm, etc)"
+    desc: "Check optional services (coding-llm, etc)"
     cmds:
       - cmd: 'source {{.SCRIPT_DIR}}/lib.sh && logw optional "checking enabled services"'
       - |
@@ -272,20 +272,47 @@ tasks:
           exit 0
         fi
         source {{.SCRIPT_DIR}}/lib.sh
-        COMPOSE_CMD="docker compose -f .devcontainer/docker-compose.yml -f .devcontainer/docker-compose.override.yml --profile ollama"
-        if grep -q "coding-llm=enabled" "{{.FLAGS_FILE}}"; then
-          if curl -sf http://ollama:11434/api/tags >/dev/null 2>&1; then
-            if ! $COMPOSE_CMD exec ollama ollama list 2>/dev/null | grep -q "qwen2.5-coder:7b"; then
-              printf "    pulling qwen2.5-coder:7b (first run only)"
-              $COMPOSE_CMD exec ollama ollama pull qwen2.5-coder:7b >/dev/null 2>&1 && printf "    ... done\n" || printf "    ... FAILED\n"
+        if grep -q "^coding-llm=enabled$" "{{.FLAGS_FILE}}"; then
+          # Wait for ollama sidecar (started by COMPOSE_PROFILES in .env)
+          printf "    ollama: waiting"
+          READY=false
+          for _attempt in $(seq 1 30); do
+            if curl -sf --max-time 2 http://ollama:11434/api/tags >/dev/null 2>&1; then
+              READY=true
+              printf ". ready\n"
+              break
+            fi
+            printf "."
+            sleep 2
+          done
+          if [ "$READY" = false ]; then
+            echo " FAILED (ollama sidecar not reachable on ollama:11434)" >&2
+            exit 0  # non-fatal: don't block post-start
+          fi
+          # Check/pull coding model via HTTP API
+          TAGS_JSON=$(curl -sf --max-time 5 http://ollama:11434/api/tags) || {
+            echo "    ollama: failed to query models (skipping)"
+            exit 0
+          }
+          if ! echo "$TAGS_JSON" | python3 -c "
+        import sys, json
+        tags = json.load(sys.stdin)
+        models = [m.get('name','') for m in tags.get('models',[])]
+        sys.exit(0 if any('qwen2.5-coder:7b' in m for m in models) else 1)
+        " 2>/dev/null; then
+            printf "    pulling qwen2.5-coder:7b (first run only)..."
+            if curl -sf -X POST http://ollama:11434/api/pull \
+              -d '{"name":"qwen2.5-coder:7b","stream":false}' \
+              --max-time 600 >/dev/null 2>&1; then
+              printf " done\n"
             else
-              echo "    ollama: qwen2.5-coder:7b already present"
+              printf " FAILED\n"
             fi
           else
-            echo "    ... FAILED (ollama sidecar not reachable on ollama:11434)" >&2
+            echo "    ollama: qwen2.5-coder:7b already present"
           fi
         fi
-        if ! grep -qE "(coding-llm)=enabled" "{{.FLAGS_FILE}}"; then
+        if ! grep -q "^coding-llm=enabled$" "{{.FLAGS_FILE}}"; then
           echo "    none enabled"
         fi
 
