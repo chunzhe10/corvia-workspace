@@ -90,6 +90,19 @@ export async function fetchClusteredGraph(level: number, parent?: string): Promi
   return get(`/graph/scope?${q.toString()}`);
 }
 
+// --- Index coverage ---
+
+export function refreshCoverage(): Promise<{
+  coverage: number | null;
+  stale: boolean | null;
+  disk_count: number;
+  store_count: number;
+  hnsw_count: number;
+  checked_at: string | null;
+}> {
+  return post("/status/refresh-coverage", {});
+}
+
 // --- Agents ---
 
 export function fetchAgents(): Promise<AgentRecord[]> {
