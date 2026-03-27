@@ -24,6 +24,9 @@ repos/corvia/
 # Claude Code local settings (session-specific permissions)
 .claude/settings.local.json
 
+# Claude Code worktrees (ephemeral, created by agent subagent runs)
+.claude/worktrees/
+
 # Editor / IDE state (per-user)
 .vscode/
 .continue/
