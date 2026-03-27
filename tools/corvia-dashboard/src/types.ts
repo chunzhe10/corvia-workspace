@@ -47,6 +47,13 @@ export interface DashboardStatusResponse {
   session_count: number;
   config: DashboardConfig;
   traces?: TracesData;
+  index_coverage: number | null;
+  index_stale: boolean | null;
+  index_disk_count: number;
+  index_store_count: number;
+  index_hnsw_count: number;
+  index_stale_threshold: number;
+  index_coverage_checked_at: string | null;
 }
 
 export interface LogEntry {

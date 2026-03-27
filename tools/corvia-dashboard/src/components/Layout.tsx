@@ -2,8 +2,9 @@ import { useState, useCallback, useEffect } from "preact/hooks";
 import { createContext } from "preact";
 import { useContext } from "preact/hooks";
 import { usePoll } from "../hooks/use-poll";
-import { fetchStatus, fetchHealth } from "../api";
+import { fetchStatus, fetchHealth, refreshCoverage } from "../api";
 import { StatusBar } from "./StatusBar";
+import { StaleIndexBanner } from "./StaleIndexBanner";
 import { LogsView } from "./LogsView";
 import { TracesView } from "./TracesView";
 import { GraphView } from "./GraphView";
@@ -77,6 +78,7 @@ export function Layout() {
   const [tab, setTab] = useState<Tab>("traces");
   const [healthData, setHealthData] = useState<HealthResponse | null>(null);
   const [healthLoading, setHealthLoading] = useState(false);
+  const [coverageRefreshing, setCoverageRefreshing] = useState(false);
 
   // Sidebar state
   const [sidebarState, setSidebarState] = useState<SidebarState>("collapsed");
@@ -138,6 +140,12 @@ export function Layout() {
       setHealthData(h);
     } catch { /* ignore */ }
     setHealthLoading(false);
+  }, []);
+
+  const handleRefreshCoverage = useCallback(async () => {
+    setCoverageRefreshing(true);
+    try { await refreshCoverage(); } catch { /* next poll picks up */ }
+    setCoverageRefreshing(false);
   }, []);
 
   // Summarize health for header dots
@@ -237,6 +245,13 @@ export function Layout() {
             {error && !data && <div class="error-banner">Unable to reach corvia-server: {error}</div>}
 
             {data && <StatusBar data={data} />}
+            {data && (
+              <StaleIndexBanner
+                data={data}
+                onRefresh={handleRefreshCoverage}
+                refreshing={coverageRefreshing}
+              />
+            )}
 
             {tab === "traces" && <TracesView onNavigate={navigateToTab} />}
             {tab === "agents" && <AgentsView navigateToHistory={navigateToHistory} />}
