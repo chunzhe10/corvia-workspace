@@ -1,5 +1,7 @@
 # Implementation Plan: Dashboard Index Coverage & Staleness Detection
 
+> **Status:** Complete — corvia#10 (implementation) + corvia#11 (review cleanup)
+
 **Date**: 2026-03-26
 **Spec**: `repos/corvia/docs/rfcs/2026-03-26-dashboard-index-coverage-design.md` (rev 2)
 **Issue**: corvia-workspace#18
