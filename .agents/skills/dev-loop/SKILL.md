@@ -70,7 +70,29 @@ Extract:
 - **Acceptance criteria** (if present)
 - **Linked issues/PRs**
 
-### Step 1.2: Query corvia for Context
+### Step 1.2: Claim the Issue
+
+**Guard:** If the issue already has an assignee, another agent is working on it.
+STOP and tell the user: "Issue #N is already assigned to <assignee>. Pick another issue
+or ask the assignee to unassign first."
+
+If unassigned, claim it:
+
+```bash
+# Assign to yourself (uses the repo owner as the assignee identity)
+gh issue edit <NUMBER> --add-assignee "@me"
+
+# Add in-progress label for visibility
+gh issue edit <NUMBER> --add-label "in-progress"
+
+# Post a claim comment so the timeline shows who/when
+gh issue comment <NUMBER> --body "🤖 Claimed by Claude Code agent — starting dev-loop."
+```
+
+**Why:** Prevents two agents from working the same issue concurrently, and gives the
+owner a single place (GitHub issue list → filter by `in-progress`) to see what's active.
+
+### Step 1.3: Query corvia for Context
 
 ```
 corvia_search: "<issue title and key terms>"
@@ -80,7 +102,7 @@ corvia_context: scope_id=corvia
 
 Record what corvia returns — this informs brainstorming.
 
-### Step 1.3: Create Feature Branch
+### Step 1.4: Create Feature Branch
 
 ```bash
 # Branch naming: <type>/<issue-number>-<short-description>
@@ -338,6 +360,9 @@ git push origin master
 ### Step 7.4: Cleanup
 
 ```bash
+# Remove in-progress label (issue is closed by the PR's "Closes #N")
+gh issue edit <NUMBER> --remove-label "in-progress"
+
 # Delete feature branch (remote and local)
 git push origin --delete <branch-name>
 git branch -d <branch-name>
@@ -374,7 +399,7 @@ this step pushes to the workspace repo.
 
 | Phase | Skill/Tool | Gate | Output |
 |-------|-----------|------|--------|
-| 1. Intake | `gh issue view`, `corvia_search` | Issue exists | Context gathered, branch created |
+| 1. Intake | `gh issue view`, `gh issue edit`, `corvia_search` | Issue exists + unassigned | Issue claimed, context gathered, branch created |
 | 2. Brainstorm | `superpowers:brainstorming` | Design approved | Design doc |
 | 3. Plan | `superpowers:writing-plans` | Plan reviewed | Plan doc |
 | 4. Implement | `superpowers:subagent-driven-development` | Per-task reviews pass | Working code |
