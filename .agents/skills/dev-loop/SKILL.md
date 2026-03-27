@@ -350,6 +350,24 @@ corvia_write: Record the implementation decision, any non-obvious patterns disco
 and the review outcomes for future reference.
 ```
 
+### Step 7.6: Commit Knowledge Store
+
+`corvia_write` creates JSON files in `.corvia/knowledge/` but does NOT commit them.
+The knowledge store is Git-tracked, so you must commit and push after writing.
+
+```bash
+# From the workspace root (corvia-workspace), not the code repo
+git add .corvia/knowledge/
+git commit -m "chore: sync corvia knowledge store (<brief description>)"
+git pull --rebase origin master  # workspace repo may have other changes
+git push origin master
+```
+
+**Why this is separate from Step 7.3:** The code lives in `repos/corvia/` (code repo)
+but knowledge JSON lives in `.corvia/` (workspace repo). They are different git
+repositories with different remotes. The code merge in 7.3 pushes to the code repo;
+this step pushes to the workspace repo.
+
 ---
 
 ## Quick Reference
@@ -363,6 +381,7 @@ and the review outcomes for future reference.
 | 5. Review | `./five-persona-reviewer.md` x5 | All Critical/Important/Low fixed | Clean review |
 | 6. E2E Test | Manual + automated | All tests pass | Test report |
 | 7. PR/Merge | `gh pr create`, `git merge` | No conflicts (or resolved) | Merged to master |
+| 7.6 Knowledge | `corvia_write`, `git push` | Knowledge JSON committed | Workspace repo pushed |
 
 ## Common Mistakes
 
@@ -389,6 +408,10 @@ and the review outcomes for future reference.
 **Not recording in corvia**
 - **Problem:** Next session re-discovers the same things
 - **Fix:** Phase 7.5 corvia_write is mandatory for non-trivial discoveries
+
+**Forgetting to commit knowledge JSON**
+- **Problem:** `corvia_write` creates the file but it sits uncommitted in `.corvia/knowledge/`
+- **Fix:** Phase 7.6 — always `git add .corvia/knowledge/ && git commit && git push` after corvia_write
 
 ## Red Flags
 
