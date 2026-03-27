@@ -13,6 +13,10 @@ superpowers skills into a single disciplined pipeline with mandatory quality gat
 **Core principle:** Issue -> Context -> Brainstorm -> Plan -> Implement -> 5-Persona Review
 -> Fix Loop -> E2E Test -> Branch/PR -> Merge.
 
+**Knowledge principle:** `corvia_write` is not a cleanup step — it runs throughout the loop.
+Every phase that produces a decision, finding, or non-obvious insight saves it immediately
+so future sessions benefit even if the current loop is interrupted.
+
 **Announce at start:** "I'm using the dev-loop skill to work on issue #N."
 
 ## When to Use
@@ -32,13 +36,13 @@ digraph dev_loop {
     node [shape=box];
 
     intake [label="Phase 1: Issue Intake\n(fetch issue, corvia context)"];
-    brainstorm [label="Phase 2: Brainstorm & Design\n(superpowers:brainstorming)"];
+    brainstorm [label="Phase 2: Brainstorm & Design\n(superpowers:brainstorming)\n+ corvia_write: design decisions"];
     plan [label="Phase 3: Implementation Plan\n(superpowers:writing-plans)"];
-    implement [label="Phase 4: Implementation\n(superpowers:subagent-driven-development)"];
-    review [label="Phase 5: 5-Persona Review\n(3 standard + 2 dynamic)"];
+    implement [label="Phase 4: Implementation\n(superpowers:subagent-driven-development)\n+ corvia_write: patterns/gotchas"];
+    review [label="Phase 5: 5-Persona Review\n(3 standard + 2 dynamic)\n+ corvia_write: review insights"];
     fix [label="Phase 5b: Fix Issues"];
     e2e [label="Phase 6: E2E Integration Test\n(user perspective + edge cases)"];
-    finish [label="Phase 7: Branch, PR, Merge\n(conflict resolution)"];
+    finish [label="Phase 7: Branch, PR, Merge\n+ corvia_write: final decision record"];
 
     intake -> brainstorm;
     brainstorm -> plan;
@@ -104,6 +108,27 @@ Feed the brainstorming skill:
 
 **Output:** Design doc written to `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md`
 
+### Step 2.1: Save Design Decisions to corvia
+
+After the design is approved, persist key decisions so future sessions can find them:
+
+```
+corvia_write:
+  content_role: "decision"
+  source_origin: "repo:corvia"  # or "workspace" for cross-repo decisions
+  content: |
+    # <Feature> — Design Decisions
+    ## What: <1-sentence summary of the design choice>
+    ## Why: <rationale, constraints, trade-offs considered>
+    ## Alternatives rejected: <approaches considered but not chosen, and why>
+```
+
+**What to save:** The "why" behind the design — not the design doc itself (that's in git).
+Focus on decisions that would surprise a future agent or that resolve an ambiguity.
+
+The resulting knowledge JSON in `.corvia/knowledge/` will be committed with the
+feature branch and included in the PR (Step 7.1).
+
 ---
 
 ## Phase 3: Implementation Plan
@@ -128,6 +153,26 @@ Execute the plan task-by-task with subagents. Each task gets:
 - Fix loops until both reviews pass
 
 **Commit cadence:** Commit after each completed task (not at the end).
+
+### Step 4.1: Save Implementation Insights to corvia
+
+During implementation, proactively call `corvia_write` when you discover:
+
+- **Non-obvious patterns**: "hnsw_rs::Hnsw::insert() uses internal RwLock, so concurrent
+  inserts via ArcSwap load() are safe" — a future session would waste time re-verifying this.
+- **Gotchas and workarounds**: Environment-specific behavior, version incompatibilities,
+  ordering constraints that aren't obvious from the code alone.
+- **Architecture insights**: How components interact in ways not documented elsewhere.
+
+```
+corvia_write:
+  content_role: "learning"  # or "finding" for debugging insights
+  source_origin: "repo:corvia"
+  content: "<what you discovered and why it matters>"
+```
+
+**Don't save:** Trivial facts, things obvious from code comments, temporary debugging state.
+**Do save:** Anything where you thought "a future agent would benefit from knowing this."
 
 ---
 
@@ -211,6 +256,29 @@ codebase. Dispatch a focused reviewer subagent for the fix diff.
 **Loop limit:** If the fix-review loop exceeds 3 iterations, STOP and escalate to the
 user. Something is structurally wrong.
 
+### Step 5.1: Save Review Insights to corvia
+
+After the fix loop completes, persist reusable insights from the review:
+
+```
+corvia_write:
+  content_role: "learning"
+  source_origin: "repo:corvia"  # or "workspace"
+  content: |
+    # Review Insights — <Feature>
+    ## Patterns validated: <approaches reviewers confirmed as correct>
+    ## Patterns to avoid: <approaches reviewers flagged, with reasoning>
+    ## Reusable knowledge: <anything a future review of similar code should know>
+```
+
+**What to save:** Insights that generalize beyond this specific change. Examples:
+- "ArcSwap load() returns a Guard that pins the old Arc. Use load_full() for long-lived ops."
+- "Mutex→ArcSwap migration: operations atomic under Mutex become non-atomic — explicit
+  sequencing needed for counter resets and pointer swaps."
+- "True blue-green rebuild: build fully before swap, not swap-then-populate."
+
+**Don't save:** Issue-specific fix details (those are in git), reviewer verdicts (in PR).
+
 ---
 
 ## Phase 6: E2E Integration Testing
@@ -269,10 +337,22 @@ user would experience it. Document what you tested and the results.
 
 ## Phase 7: Branch, PR, Merge
 
-### Step 7.1: Final Commit
+### Step 7.1: Final Knowledge Capture + Commit
 
-Ensure all changes are committed with descriptive messages. Squash fixup commits
-if the history is noisy (but preserve meaningful task-level commits).
+Before pushing, ensure all knowledge from the dev-loop is persisted and committed:
+
+1. **Call `corvia_write`** with the final decision record (Step 7.5 below). This
+   creates knowledge JSON files in `.corvia/knowledge/`.
+2. **Stage the knowledge files** alongside code changes:
+   ```bash
+   git add .corvia/knowledge/  # Include knowledge entries in the PR
+   ```
+3. **Commit** all changes with descriptive messages. Squash fixup commits
+   if the history is noisy (but preserve meaningful task-level commits).
+
+The knowledge JSON files become part of the PR diff, making the organizational
+memory changes reviewable alongside the code changes. This is corvia dogfooding —
+the knowledge store is git-tracked by design.
 
 ### Step 7.2: Push and Create PR
 
@@ -343,26 +423,78 @@ git push origin --delete <branch-name>
 git branch -d <branch-name>
 ```
 
-### Step 7.5: Record in corvia
+### Step 7.5: Record in corvia (Final Decision Record)
+
+**Timing:** This step runs *before* the final commit in Step 7.1 — the knowledge
+JSON files must be in the working tree so they get committed and included in the PR.
+
+Write a comprehensive decision record that ties together the full dev-loop outcome.
+This is the capstone entry — earlier phases saved incremental insights, this one
+captures the overall decision and its rationale.
 
 ```
-corvia_write: Record the implementation decision, any non-obvious patterns discovered,
-and the review outcomes for future reference.
+corvia_write:
+  content_role: "decision"
+  source_origin: "repo:corvia"
+  content: |
+    # <Feature> — Decision Record (<date>)
+    ## What: <1-sentence summary>
+    ## Key Design Decisions:
+    1. <decision and why>
+    2. <decision and why>
+    ## Review Findings Worth Remembering:
+    - <reusable insight from the 5-persona review>
+    ## What Blocked / Surprised:
+    - <anything non-obvious that slowed progress>
 ```
+
+**This is mandatory.** If nothing non-obvious was discovered, say so explicitly —
+but still write the decision record so future sessions know *what* was decided.
+
+**Flow:** `corvia_write` → `git add .corvia/knowledge/` → commit → push → PR.
 
 ---
 
 ## Quick Reference
 
-| Phase | Skill/Tool | Gate | Output |
-|-------|-----------|------|--------|
-| 1. Intake | `gh issue view`, `corvia_search` | Issue exists | Context gathered, branch created |
-| 2. Brainstorm | `superpowers:brainstorming` | Design approved | Design doc |
-| 3. Plan | `superpowers:writing-plans` | Plan reviewed | Plan doc |
-| 4. Implement | `superpowers:subagent-driven-development` | Per-task reviews pass | Working code |
-| 5. Review | `./five-persona-reviewer.md` x5 | All Critical/Important/Low fixed | Clean review |
-| 6. E2E Test | Manual + automated | All tests pass | Test report |
-| 7. PR/Merge | `gh pr create`, `git merge` | No conflicts (or resolved) | Merged to master |
+| Phase | Skill/Tool | Gate | Output | corvia_write |
+|-------|-----------|------|--------|--------------|
+| 1. Intake | `gh issue view`, `corvia_search` | Issue exists | Context gathered, branch created | — (read only) |
+| 2. Brainstorm | `superpowers:brainstorming` | Design approved | Design doc | Design decisions |
+| 3. Plan | `superpowers:writing-plans` | Plan reviewed | Plan doc | — |
+| 4. Implement | `superpowers:subagent-driven-development` | Per-task reviews pass | Working code | Patterns, gotchas |
+| 5. Review | `./five-persona-reviewer.md` x5 | All Critical/Important/Low fixed | Clean review | Review insights |
+| 6. E2E Test | Manual + automated | All tests pass | Test report | — |
+| 7. PR/Merge | `gh pr create`, `git merge` | No conflicts (or resolved) | Merged to master | Final decision record |
+
+## Knowledge Persistence Throughout the Loop
+
+The dev-loop is a knowledge-generating process. Each phase produces insights that
+future sessions need. Saving knowledge only at the end (Phase 7.5) means interrupted
+loops lose everything, and even completed loops miss incremental insights.
+
+### When to call corvia_write
+
+| Trigger | content_role | Example |
+|---------|-------------|---------|
+| Design choice made (Phase 2) | `decision` | "Chose ArcSwap over RwLock because..." |
+| Non-obvious pattern found (Phase 4) | `learning` | "hnsw_rs insert() is internally thread-safe" |
+| Debugging breakthrough (Phase 4) | `finding` | "Redb write lock only allows one process" |
+| Review reveals reusable insight (Phase 5) | `learning` | "load() pins old Arc; use load_full() for long ops" |
+| Feature complete (Phase 7) | `decision` | Comprehensive decision record |
+
+### What NOT to save
+
+- Code snippets (they're in git)
+- Test results (they're in CI)
+- Reviewer verdicts (they're in the PR)
+- Anything obvious from reading the code or its comments
+- Temporary debugging state
+
+### The test: "Would a future agent benefit from knowing this?"
+
+If yes → `corvia_write` immediately. Don't wait for Phase 7.
+If no → skip it. Corvia is organizational memory, not a journal.
 
 ## Common Mistakes
 
@@ -388,7 +520,12 @@ and the review outcomes for future reference.
 
 **Not recording in corvia**
 - **Problem:** Next session re-discovers the same things
-- **Fix:** Phase 7.5 corvia_write is mandatory for non-trivial discoveries
+- **Fix:** corvia_write at Phases 2, 4, 5, and 7 — not just at the end
+
+**Saving knowledge only at the end**
+- **Problem:** Interrupted loops lose all insights. Batching at the end also loses
+  incremental context (you forget details by Phase 7 that were clear in Phase 4).
+- **Fix:** Save immediately when the insight occurs. Each phase has a corvia_write step.
 
 ## Red Flags
 
