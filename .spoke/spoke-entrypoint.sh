@@ -69,7 +69,11 @@ else
 fi
 
 # --- 4. Create or checkout branch ---
-if [ -n "${ISSUE}" ] && [ "${ISSUE}" != "0" ]; then
+# Use CORVIA_BRANCH if set (hub determines the branch name).
+# Only generate from issue title when BRANCH is empty.
+if [ -n "${BRANCH}" ]; then
+    git checkout -b "${BRANCH}" 2>/dev/null || git checkout "${BRANCH}"
+elif [ -n "${ISSUE}" ] && [ "${ISSUE}" != "0" ]; then
     ISSUE_TITLE=$(gh issue view "${ISSUE}" --repo "${REPO_OWNER}/${REPO_NAME}" --json title --jq '.title' 2>/dev/null || echo "")
     SLUG=$(echo "${ISSUE_TITLE}" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | head -c 40)
     BRANCH_NAME="feat/${ISSUE}-${SLUG}"
@@ -78,12 +82,11 @@ if [ -n "${ISSUE}" ] && [ "${ISSUE}" != "0" ]; then
     else
         git checkout -b "${BRANCH_NAME}"
     fi
-elif [ -n "${BRANCH}" ]; then
-    git checkout -b "${BRANCH}" 2>/dev/null || git checkout "${BRANCH}"
 fi
 
-# --- 5. Write MCP config (with auth token) ---
-cat > /workspace/.mcp.json << EOF
+# --- 5. Write MCP config (outside git tree to prevent accidental commits) ---
+mkdir -p ~/.claude
+cat > ~/.claude/.mcp.json << EOF
 {
   "mcpServers": {
     "corvia": {
@@ -96,15 +99,23 @@ cat > /workspace/.mcp.json << EOF
   }
 }
 EOF
+# Symlink into workspace for Claude Code discovery, and exclude from git
+ln -sf ~/.claude/.mcp.json /workspace/.mcp.json
+echo '.mcp.json' >> /workspace/.git/info/exclude
 
-# --- 6. Copy workspace instruction files ---
+# --- 6. Copy workspace instruction files (exclude from git to avoid conflicts) ---
 cp /spoke-config/AGENTS.md /workspace/AGENTS.md 2>/dev/null || true
 cp /spoke-config/CLAUDE.md /workspace/CLAUDE.md 2>/dev/null || true
 mkdir -p /workspace/.agents
 cp -r /spoke-config/skills /workspace/.agents/skills 2>/dev/null || true
+# Exclude copied files from git to prevent accidental commits
+{
+    echo 'AGENTS.md'
+    echo 'CLAUDE.md'
+    echo '.agents/'
+} >> /workspace/.git/info/exclude
 
 # --- 7. Write Claude Code settings (scoped permissions) ---
-mkdir -p ~/.claude
 cat > ~/.claude/settings.json << EOF
 {
   "permissions": {
@@ -121,7 +132,9 @@ EOF
 # --- 8. Wait for hub MCP ---
 echo "Checking hub MCP connectivity..."
 for i in $(seq 1 30); do
-    if curl -sf "${MCP_URL%/mcp}/api/dashboard/status" >/dev/null 2>&1; then
+    if curl -sf -X POST "${MCP_URL}" \
+        -H "Content-Type: application/json" \
+        -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}' >/dev/null 2>&1; then
         echo "Hub MCP reachable."
         break
     fi
@@ -140,6 +153,8 @@ else
     claude || EXIT_CODE=$?
 fi
 
-# --- 10. Report completion ---
-report_failure "Spoke exited (code ${EXIT_CODE}). Issue #${ISSUE}."
+# --- 10. Report exit (only failures) ---
+if [ "${EXIT_CODE}" -ne 0 ]; then
+    report_failure "Spoke exited with error (code ${EXIT_CODE}). Issue #${ISSUE}."
+fi
 exit $EXIT_CODE
