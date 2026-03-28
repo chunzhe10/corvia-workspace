@@ -606,6 +606,11 @@ This skill is designed for autonomous operation. The agent should:
    - Phase 5 review completes (with verdicts)
    - Phase 6 E2E completes (with results)
    - Phase 7 merge completes (with PR link)
+4. **When suggesting the next issue** after completing a dev-loop:
+   - Check assignees on candidate issues (`gh issue view <N> --json assignees`)
+   - Do NOT recommend issues that already have an assignee — another agent or
+     human is working on them
+   - Only suggest unassigned issues, noting which related issues are taken and by whom
 
 ## Integration
 
