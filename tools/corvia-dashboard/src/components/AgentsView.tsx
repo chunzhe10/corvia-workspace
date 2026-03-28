@@ -155,10 +155,30 @@ function AgentCard({
           )}
         </div>
         <div class="agent-card-stats">
-          <span class="agent-stat">
-            <span class="agent-stat-label">type</span>
-            <span class="agent-stat-val">{agent.identity_type}</span>
-          </span>
+          {agent.spoke && (
+            <>
+              <span class="agent-stat">
+                <span class="agent-stat-label">issue</span>
+                <span class="agent-stat-val">#{agent.spoke.issue}</span>
+              </span>
+              <span class="agent-stat">
+                <span class="agent-stat-label">container</span>
+                <span class="agent-stat-val">
+                  <ContainerStatus
+                    state={agent.spoke.container_state}
+                    health={agent.spoke.health}
+                    status=""
+                  />
+                </span>
+              </span>
+            </>
+          )}
+          {!agent.spoke && (
+            <span class="agent-stat">
+              <span class="agent-stat-label">type</span>
+              <span class="agent-stat-val">{agent.identity_type}</span>
+            </span>
+          )}
           {agent.activity_summary && (
             <span class="agent-stat">
               <span class="agent-stat-label">entries</span>
