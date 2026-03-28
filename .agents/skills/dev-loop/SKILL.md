@@ -74,7 +74,29 @@ Extract:
 - **Acceptance criteria** (if present)
 - **Linked issues/PRs**
 
-### Step 1.2: Query corvia for Context
+### Step 1.2: Claim the Issue
+
+**Guard:** If the issue already has an assignee, another agent is working on it.
+STOP and tell the user: "Issue #N is already assigned to <assignee>. Pick another issue
+or ask the assignee to unassign first."
+
+If unassigned, claim it:
+
+```bash
+# Assign to yourself (uses the repo owner as the assignee identity)
+gh issue edit <NUMBER> --add-assignee "@me"
+
+# Add in-progress label for visibility
+gh issue edit <NUMBER> --add-label "in-progress"
+
+# Post a claim comment so the timeline shows who/when
+gh issue comment <NUMBER> --body "🤖 Claimed by Claude Code agent — starting dev-loop."
+```
+
+**Why:** Prevents two agents from working the same issue concurrently, and gives the
+owner a single place (GitHub issue list → filter by `in-progress`) to see what's active.
+
+### Step 1.3: Query corvia for Context
 
 ```
 corvia_search: "<issue title and key terms>"
@@ -84,7 +106,7 @@ corvia_context: scope_id=corvia
 
 Record what corvia returns — this informs brainstorming.
 
-### Step 1.3: Create Feature Branch
+### Step 1.4: Create Feature Branch
 
 ```bash
 # Branch naming: <type>/<issue-number>-<short-description>
@@ -418,6 +440,9 @@ git push origin master
 ### Step 7.4: Cleanup
 
 ```bash
+# Remove in-progress label (issue is closed by the PR's "Closes #N")
+gh issue edit <NUMBER> --remove-label "in-progress"
+
 # Delete feature branch (remote and local)
 git push origin --delete <branch-name>
 git branch -d <branch-name>
@@ -453,19 +478,38 @@ but still write the decision record so future sessions know *what* was decided.
 
 **Flow:** `corvia_write` → `git add .corvia/knowledge/` → commit → push → PR.
 
+### Step 7.6: Commit Knowledge Store
+
+`corvia_write` creates JSON files in `.corvia/knowledge/` but does NOT commit them.
+The knowledge store is Git-tracked, so you must commit and push after writing.
+
+```bash
+# From the workspace root (corvia-workspace), not the code repo
+git add .corvia/knowledge/
+git commit -m "chore: sync corvia knowledge store (<brief description>)"
+git pull --rebase origin master  # workspace repo may have other changes
+git push origin master
+```
+
+**Why this is separate from Step 7.3:** The code lives in `repos/corvia/` (code repo)
+but knowledge JSON lives in `.corvia/` (workspace repo). They are different git
+repositories with different remotes. The code merge in 7.3 pushes to the code repo;
+this step pushes to the workspace repo.
+
 ---
 
 ## Quick Reference
 
 | Phase | Skill/Tool | Gate | Output | corvia_write |
 |-------|-----------|------|--------|--------------|
-| 1. Intake | `gh issue view`, `corvia_search` | Issue exists | Context gathered, branch created | — (read only) |
+| 1. Intake | `gh issue view`, `gh issue edit`, `corvia_search` | Issue exists + unassigned | Issue claimed, context gathered, branch created | — (read only) |
 | 2. Brainstorm | `superpowers:brainstorming` | Design approved | Design doc | Design decisions |
 | 3. Plan | `superpowers:writing-plans` | Plan reviewed | Plan doc | — |
 | 4. Implement | `superpowers:subagent-driven-development` | Per-task reviews pass | Working code | Patterns, gotchas |
 | 5. Review | `./five-persona-reviewer.md` x5 | All Critical/Important/Low fixed | Clean review | Review insights |
 | 6. E2E Test | Manual + automated | All tests pass | Test report | — |
 | 7. PR/Merge | `gh pr create`, `git merge` | No conflicts (or resolved) | Merged to master | Final decision record |
+| 7.6 Knowledge | `corvia_write`, `git push` | Knowledge JSON committed | Workspace repo pushed | — |
 
 ## Knowledge Persistence Throughout the Loop
 
@@ -526,6 +570,10 @@ If no → skip it. Corvia is organizational memory, not a journal.
 - **Problem:** Interrupted loops lose all insights. Batching at the end also loses
   incremental context (you forget details by Phase 7 that were clear in Phase 4).
 - **Fix:** Save immediately when the insight occurs. Each phase has a corvia_write step.
+
+**Forgetting to commit knowledge JSON**
+- **Problem:** `corvia_write` creates the file but it sits uncommitted in `.corvia/knowledge/`
+- **Fix:** Phase 7.6 — always `git add .corvia/knowledge/ && git commit && git push` after corvia_write
 
 ## Red Flags
 

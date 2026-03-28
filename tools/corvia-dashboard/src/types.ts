@@ -414,3 +414,65 @@ export interface TraceTree {
 export interface RecentTracesResponse {
   traces: TraceTree[];
 }
+
+// --- Tiered knowledge types ---
+
+export interface TiersResponse {
+  hot: number;
+  warm: number;
+  cold: number;
+  forgotten: number;
+  total: number;
+  forgetting_enabled: boolean;
+}
+
+export interface TierTransitionDto {
+  entry_id: string;
+  scope_id: string;
+  from_tier: string;
+  to_tier: string;
+  retention_score: number;
+  reason: string;
+  timestamp: string;
+}
+
+export interface TierTransitionsResponse {
+  transitions: TierTransitionDto[];
+  count: number;
+}
+
+export interface PinnedEntryDto {
+  entry_id: string;
+  content_preview: string;
+  pinned_by: string;
+  pinned_at: string;
+  scope_id: string;
+}
+
+export interface PinnedEntriesResponse {
+  entries: PinnedEntryDto[];
+  count: number;
+}
+
+export interface GcCycleReportDto {
+  entries_scanned: number;
+  entries_scored: number;
+  hot_to_warm: number;
+  warm_to_cold: number;
+  cold_to_forgotten: number;
+  warm_to_hot: number;
+  cold_to_warm: number;
+  hnsw_rebuild_triggered: boolean;
+  rebuild_duration_ms: number;
+  cycle_duration_ms: number;
+  scopes_processed: number;
+  chain_protected: number;
+  auto_protected: number;
+  budget_demoted: number;
+  circuit_breaker_tripped: boolean;
+}
+
+export interface GcCycleHistoryResponse {
+  cycles: GcCycleReportDto[];
+  count: number;
+}

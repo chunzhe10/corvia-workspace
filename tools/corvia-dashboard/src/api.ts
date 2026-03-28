@@ -18,6 +18,10 @@ import type {
   GcReportDto,
   LiveSessionsResponse,
   RecentTracesResponse,
+  TiersResponse,
+  TierTransitionsResponse,
+  PinnedEntriesResponse,
+  GcCycleHistoryResponse,
 } from "./types";
 
 const BASE = "/api/dashboard";
@@ -197,4 +201,27 @@ export function fetchLiveSessions(): Promise<LiveSessionsResponse> {
 export function fetchRecentTraces(limit?: number): Promise<RecentTracesResponse> {
   const qs = limit ? `?limit=${limit}` : "";
   return get(`/traces/recent${qs}`);
+}
+
+// --- Tiered knowledge ---
+
+export function fetchTiers(): Promise<TiersResponse> {
+  return get("/tiers");
+}
+
+export function fetchTierTransitions(limit?: number): Promise<TierTransitionsResponse> {
+  const qs = limit ? `?limit=${limit}` : "";
+  return get(`/tiers/transitions${qs}`);
+}
+
+export function fetchPinnedEntries(): Promise<PinnedEntriesResponse> {
+  return get("/tiers/pinned");
+}
+
+export function fetchGcCycleHistory(): Promise<GcCycleHistoryResponse> {
+  return get("/tiers/gc-history");
+}
+
+export function unpinEntry(entryId: string): Promise<unknown> {
+  return post(`/tiers/unpin/${encodeURIComponent(entryId)}`, {});
 }

@@ -11,16 +11,18 @@ import { GraphView } from "./GraphView";
 import { AgentsView } from "./AgentsView";
 import { RagView } from "./RagView";
 import { HistoryView, SidebarEntryDetail } from "./HistoryView";
+import { TiersView } from "./TiersView";
 import { ConfigPanel } from "./ConfigPanel";
 import { HealthPanel } from "./HealthPanel";
 import type { HealthResponse } from "../types";
 
-type Tab = "traces" | "agents" | "rag" | "logs" | "graph" | "history";
+type Tab = "traces" | "agents" | "rag" | "logs" | "graph" | "history" | "tiers";
 
 const TABS: { id: Tab; label: string }[] = [
   { id: "traces", label: "Traces" },
   { id: "agents", label: "Agents" },
   { id: "rag", label: "RAG" },
+  { id: "tiers", label: "Tiers" },
   { id: "logs", label: "Logs" },
   { id: "graph", label: "Graph" },
   { id: "history", label: "History" },
@@ -256,6 +258,7 @@ export function Layout() {
             {tab === "traces" && <TracesView onNavigate={navigateToTab} />}
             {tab === "agents" && <AgentsView navigateToHistory={navigateToHistory} />}
             {tab === "rag" && <RagView navigateToHistory={navigateToHistory} />}
+            {tab === "tiers" && <TiersView navigateToHistory={navigateToHistory} />}
             {tab === "logs" && <LogsView navigateToHistory={navigateToHistory} />}
             {tab === "graph" && <GraphView navigateToHistory={navigateToHistory} />}
             {tab === "history" && <HistoryView deeplinkEntryId={deeplinkEntryId} />}
