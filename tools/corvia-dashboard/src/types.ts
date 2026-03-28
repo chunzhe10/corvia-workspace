@@ -355,6 +355,9 @@ export interface SpokeInfo {
   created: number;
   health: string;
   repo_url?: string;
+  cpu_percent?: number;
+  memory_bytes?: number;
+  memory_limit?: number;
 }
 
 export interface SpokesResponse {
