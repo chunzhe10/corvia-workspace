@@ -258,7 +258,7 @@ export function Layout() {
             {tab === "traces" && <TracesView onNavigate={navigateToTab} />}
             {tab === "agents" && <AgentsView navigateToHistory={navigateToHistory} />}
             {tab === "rag" && <RagView navigateToHistory={navigateToHistory} />}
-            {tab === "tiers" && <TiersView />}
+            {tab === "tiers" && <TiersView navigateToHistory={navigateToHistory} />}
             {tab === "logs" && <LogsView navigateToHistory={navigateToHistory} />}
             {tab === "graph" && <GraphView navigateToHistory={navigateToHistory} />}
             {tab === "history" && <HistoryView deeplinkEntryId={deeplinkEntryId} />}

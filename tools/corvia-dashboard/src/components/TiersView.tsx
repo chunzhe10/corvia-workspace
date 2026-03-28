@@ -22,7 +22,7 @@ const TIER_BG: Record<string, string> = {
 function DisabledBanner() {
   return (
     <div class="tier-disabled-banner">
-      <span class="tier-disabled-icon">&#x26A0;</span>
+      <span class="tier-disabled-icon" aria-hidden="true">&#x26A0;</span>
       <div>
         <div style={{ fontWeight: 600, marginBottom: "2px" }}>Forgetting is disabled</div>
         <div style={{ fontSize: "12px", color: "var(--text-dim)" }}>
@@ -39,7 +39,7 @@ function TierDistributionChart({ data }: { data: TiersResponse }) {
     return (
       <div class="trace-card">
         <h2 class="tier-section-title">Tier Distribution</h2>
-        <div class="tier-empty">No entries in knowledge store</div>
+        <div class="tier-empty">No entries in knowledge store. Ingest content or write via the API to populate.</div>
       </div>
     );
   }
@@ -56,7 +56,7 @@ function TierDistributionChart({ data }: { data: TiersResponse }) {
       <h2 class="tier-section-title">Tier Distribution</h2>
 
       {/* Stacked bar */}
-      <div class="tier-bar">
+      <div class="tier-bar" role="img" aria-label={`Tier distribution: ${tiers.map((t) => `${t.label} ${t.count}`).join(", ")} of ${data.total} total`}>
         {tiers.map((t) => {
           const pct = (t.count / data.total) * 100;
           if (pct === 0) return null;
@@ -94,7 +94,7 @@ function TierDistributionChart({ data }: { data: TiersResponse }) {
 }
 
 // --- 2. Recent Transitions Table ---
-function RecentTransitions({ data }: { data: TierTransitionsResponse }) {
+function RecentTransitions({ data, navigateToHistory }: { data: TierTransitionsResponse; navigateToHistory?: (entryId: string) => void }) {
   return (
     <div class="trace-card">
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
@@ -105,9 +105,9 @@ function RecentTransitions({ data }: { data: TierTransitionsResponse }) {
       </div>
 
       {data.transitions.length === 0 ? (
-        <div class="tier-empty">No tier transitions recorded yet</div>
+        <div class="tier-empty">No tier transitions recorded yet. Transitions appear after a GC cycle runs.</div>
       ) : (
-        <div class="tier-table-wrap">
+        <div class="tier-table-wrap" tabindex={0} role="region" aria-label="Recent tier transitions">
           <table class="tier-table">
             <thead>
               <tr>
@@ -123,7 +123,11 @@ function RecentTransitions({ data }: { data: TierTransitionsResponse }) {
               {data.transitions.map((t, i) => (
                 <tr key={i}>
                   <td>
-                    <code class="tier-entry-id">{t.entry_id.slice(0, 8)}</code>
+                    {navigateToHistory ? (
+                      <code class="tier-entry-id entry-link" onClick={() => navigateToHistory(t.entry_id)} style={{ cursor: "pointer" }}>{t.entry_id.slice(0, 8)}</code>
+                    ) : (
+                      <code class="tier-entry-id">{t.entry_id.slice(0, 8)}</code>
+                    )}
                   </td>
                   <td>
                     <span class="tier-badge" style={{ background: TIER_BG[t.from_tier.toLowerCase()] || TIER_BG.forgotten, color: TIER_COLORS[t.from_tier.toLowerCase()] || TIER_COLORS.forgotten }}>
@@ -136,7 +140,7 @@ function RecentTransitions({ data }: { data: TierTransitionsResponse }) {
                     </span>
                   </td>
                   <td class="tier-score">{t.retention_score.toFixed(3)}</td>
-                  <td class="tier-reason">{t.reason}</td>
+                  <td class="tier-reason" title={t.reason}>{t.reason}</td>
                   <td class="tier-time">{shortTs(t.timestamp)}</td>
                 </tr>
               ))}
@@ -149,7 +153,7 @@ function RecentTransitions({ data }: { data: TierTransitionsResponse }) {
 }
 
 // --- 3. Pinned Entries List ---
-function PinnedEntries({ data, onUnpin }: { data: PinnedEntriesResponse; onUnpin: (id: string) => void }) {
+function PinnedEntries({ data, onUnpin, unpinning, navigateToHistory }: { data: PinnedEntriesResponse; onUnpin: (id: string) => void; unpinning: string | null; navigateToHistory?: (entryId: string) => void }) {
   return (
     <div class="trace-card">
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
@@ -160,13 +164,17 @@ function PinnedEntries({ data, onUnpin }: { data: PinnedEntriesResponse; onUnpin
       </div>
 
       {data.entries.length === 0 ? (
-        <div class="tier-empty">No pinned entries</div>
+        <div class="tier-empty">No pinned entries. Pin entries via the CLI or MCP tools to protect them from forgetting.</div>
       ) : (
-        <div class="tier-pinned-list">
+        <div class="tier-pinned-list" tabindex={0} role="region" aria-label="Pinned entries list">
           {data.entries.map((entry) => (
             <div class="tier-pinned-item" key={entry.entry_id}>
               <div class="tier-pinned-content">
-                <code class="tier-entry-id">{entry.entry_id.slice(0, 8)}</code>
+                {navigateToHistory ? (
+                  <code class="tier-entry-id entry-link" onClick={() => navigateToHistory(entry.entry_id)} style={{ cursor: "pointer" }}>{entry.entry_id.slice(0, 8)}</code>
+                ) : (
+                  <code class="tier-entry-id">{entry.entry_id.slice(0, 8)}</code>
+                )}
                 <div class="tier-pinned-preview">{entry.content_preview}</div>
                 <div class="tier-pinned-meta">
                   Pinned by {entry.pinned_by} on {new Date(entry.pinned_at).toLocaleDateString()}
@@ -175,9 +183,10 @@ function PinnedEntries({ data, onUnpin }: { data: PinnedEntriesResponse; onUnpin
               <button
                 class="tier-unpin-btn"
                 onClick={() => onUnpin(entry.entry_id)}
+                disabled={unpinning === entry.entry_id}
                 title="Unpin entry"
               >
-                Unpin
+                {unpinning === entry.entry_id ? "Unpinning..." : "Unpin"}
               </button>
             </div>
           ))}
@@ -193,7 +202,7 @@ function GcHistoryTimeline({ data }: { data: GcCycleHistoryResponse }) {
     return (
       <div class="trace-card">
         <h2 class="tier-section-title">GC Cycle History</h2>
-        <div class="tier-empty">No knowledge GC cycles recorded yet</div>
+        <div class="tier-empty">No knowledge GC cycles recorded yet. Enable forgetting in corvia.toml to start lifecycle management.</div>
       </div>
     );
   }
@@ -216,7 +225,7 @@ function GcHistoryTimeline({ data }: { data: GcCycleHistoryResponse }) {
       </div>
 
       {/* Duration sparkline */}
-      <svg width={barW * data.cycles.length + 4} height={h} class="gc-sparkline">
+      <svg width={barW * data.cycles.length + 4} height={h} class="gc-sparkline" role="img" aria-label="GC cycle duration chart">
         {data.cycles.map((c, i) => {
           const barH = Math.max(2, (c.cycle_duration_ms / maxDuration) * (h - 4));
           const color = c.circuit_breaker_tripped
@@ -301,7 +310,7 @@ function shortTs(ts: string): string {
 }
 
 // --- Main TiersView ---
-export function TiersView() {
+export function TiersView({ navigateToHistory }: { navigateToHistory?: (entryId: string) => void }) {
   const [unpinning, setUnpinning] = useState<string | null>(null);
 
   const tiersFetcher = useCallback(() => fetchTiers(), []);
@@ -309,12 +318,13 @@ export function TiersView() {
   const pinnedFetcher = useCallback(() => fetchPinnedEntries(), []);
   const gcFetcher = useCallback(() => fetchGcCycleHistory(), []);
 
-  const { data: tiers, loading: tiersLoading } = usePoll(tiersFetcher, 10000);
+  const { data: tiers, loading: tiersLoading, error: tiersError } = usePoll(tiersFetcher, 10000);
   const { data: transitions } = usePoll(transitionsFetcher, 15000);
   const { data: pinned } = usePoll(pinnedFetcher, 10000);
   const { data: gcHistory } = usePoll(gcFetcher, 15000);
 
   const handleUnpin = useCallback(async (entryId: string) => {
+    if (!window.confirm("Unpin this entry? It will become eligible for forgetting.")) return;
     setUnpinning(entryId);
     try {
       await unpinEntry(entryId);
@@ -328,9 +338,10 @@ export function TiersView() {
 
   return (
     <div class="tiers-view">
+      {tiersError && <div class="error-banner">{tiersError}</div>}
       {tiers && !tiers.forgetting_enabled && <DisabledBanner />}
 
-      <div class="tiers-grid">
+      <div style={tiers && !tiers.forgetting_enabled ? { opacity: 0.5 } : {}} class="tiers-grid">
         {/* Left column: distribution + GC history */}
         <div class="tiers-col">
           {tiers && <TierDistributionChart data={tiers} />}
@@ -339,8 +350,8 @@ export function TiersView() {
 
         {/* Right column: transitions + pinned */}
         <div class="tiers-col">
-          {transitions && <RecentTransitions data={transitions} />}
-          {pinned && <PinnedEntries data={pinned} onUnpin={handleUnpin} />}
+          {transitions && <RecentTransitions data={transitions} navigateToHistory={navigateToHistory} />}
+          {pinned && <PinnedEntries data={pinned} onUnpin={handleUnpin} unpinning={unpinning} navigateToHistory={navigateToHistory} />}
         </div>
       </div>
     </div>
