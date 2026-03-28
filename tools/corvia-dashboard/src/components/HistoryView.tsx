@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "preact/hooks";
-import { fetchActivityFeed, fetchEntryHistory, fetchEntryDetail } from "../api";
+import { fetchActivityFeed, fetchEntryHistory, fetchEntryDetail, fetchSpokes } from "../api";
+import { usePoll } from "../hooks/use-poll";
 import { useSidebar } from "./Layout";
 import type {
   ActivityItem,
@@ -7,6 +8,7 @@ import type {
   HistoryEntry,
   HistoryResponse,
   EntryDetail,
+  SpokeInfo,
 } from "../types";
 
 // ---------------------------------------------------------------------------
@@ -128,11 +130,13 @@ function FeedItem({
   expandedGroups,
   onExpandGroup,
   onClickItem,
+  spokeAgentIds,
 }: {
   item: ActivityItem;
   expandedGroups: Set<string>;
   onExpandGroup: (groupId: string) => void;
   onClickItem: (entryId: string) => void;
+  spokeAgentIds: Set<string>;
 }) {
   const isGroupHeader =
     item.group_id &&
@@ -151,6 +155,9 @@ function FeedItem({
       />
       <span class="feed-agent">
         {item.agent_name || item.agent_id || "unknown"}
+        {item.agent_id && spokeAgentIds.has(item.agent_id) && (
+          <span class="spoke-tag">spoke</span>
+        )}
       </span>
       <span class="feed-action">{item.action}</span>
       <span class="feed-title" title={item.title}>
@@ -404,6 +411,16 @@ export function HistoryView({ deeplinkEntryId }: HistoryViewProps) {
 
   const { openSidebar } = useSidebar();
 
+  // Poll spoke data for badge display
+  const spokeFetcher = useCallback(() => fetchSpokes(), []);
+  const { data: spokesData } = usePoll(spokeFetcher, 15000);
+  const spokeAgentIds = new Set(
+    (spokesData?.spokes ?? []).map((s: SpokeInfo) => s.agent_id),
+  );
+  const spokeMap = new Map(
+    (spokesData?.spokes ?? []).map((s: SpokeInfo) => [s.agent_id, s]),
+  );
+
   // Load activity feed
   useEffect(() => {
     setLoading(true);
@@ -506,11 +523,14 @@ export function HistoryView({ deeplinkEntryId }: HistoryViewProps) {
             }}
           >
             <option value="">All agents</option>
-            {agents.map((a) => (
-              <option key={a} value={a}>
-                {a}
-              </option>
-            ))}
+            {agents.map((a) => {
+              const spoke = spokeMap.get(a);
+              return (
+                <option key={a} value={a}>
+                  {spoke ? `${spoke.name} (#${spoke.issue})` : a}
+                </option>
+              );
+            })}
           </select>
         )}
 
@@ -543,6 +563,7 @@ export function HistoryView({ deeplinkEntryId }: HistoryViewProps) {
               expandedGroups={expandedGroups}
               onExpandGroup={handleExpandGroup}
               onClickItem={handleClickItem}
+              spokeAgentIds={spokeAgentIds}
             />
           ))}
         </div>

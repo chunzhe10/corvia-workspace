@@ -1,7 +1,7 @@
-import { useState, useCallback } from "preact/hooks";
+import { useState, useCallback, useMemo } from "preact/hooks";
 import { usePoll } from "../hooks/use-poll";
-import { fetchAgents, fetchAgentSessions } from "../api";
-import type { AgentRecord, SessionRecord, SessionState, ActivitySummary } from "../types";
+import { fetchAgents, fetchAgentSessions, fetchSpokes } from "../api";
+import type { AgentRecord, SessionRecord, SessionState, SpokeInfo, EnrichedAgent, SpokesResponse } from "../types";
 import { LiveSessionsBar } from "./LiveSessionsBar";
 
 const STATE_COLORS: Record<SessionState, string> = {
@@ -36,6 +36,31 @@ function HeartbeatDot({ status, lastSeen }: { status: string; lastSeen: string }
   return <span class={`heartbeat-dot ${cls}`} />;
 }
 
+/** Derive issue URL from repo remote URL. */
+function issueUrl(repoUrl: string | undefined, issue: string): string {
+  if (!repoUrl || !issue) return "#";
+  const match = repoUrl.match(/github\.com[:/]([^/]+\/[^/.]+)/);
+  if (match) return `https://github.com/${match[1]}/issues/${issue}`;
+  return "#";
+}
+
+function ContainerStatus({ state, health, status }: {
+  state: string;
+  health: string;
+  status: string;
+}) {
+  const color = state === "running"
+    ? (health === "healthy" ? "green" : health === "unhealthy" ? "red" : "yellow")
+    : "gray";
+
+  return (
+    <span class={`container-status container-status--${color}`}>
+      <span class="container-status-dot" />
+      {status}
+    </span>
+  );
+}
+
 function SessionTimeline({ sessions }: { sessions: SessionRecord[] }) {
   if (sessions.length === 0) {
     return <div class="agent-empty">No sessions</div>;
@@ -66,7 +91,7 @@ function AgentCard({
   expanded,
   onToggle,
 }: {
-  agent: AgentRecord;
+  agent: EnrichedAgent;
   expanded: boolean;
   onToggle: () => void;
 }) {
@@ -103,7 +128,12 @@ function AgentCard({
       <div class="agent-card-header" onClick={handleToggle}>
         <HeartbeatDot status={agent.status} lastSeen={agent.last_seen} />
         <div class="agent-card-info">
-          <div class="agent-name">{agent.display_name}</div>
+          <div class="agent-name">
+            {agent.display_name}
+            {agent.spoke && (
+              <span class="spoke-badge">spoke</span>
+            )}
+          </div>
           <div class="agent-id">{agent.agent_id}</div>
           {agent.description && (
             <div class="agent-description">{agent.description}</div>
@@ -151,6 +181,40 @@ function AgentCard({
 
       {expanded && (
         <div class="agent-card-body">
+          {/* Spoke-specific info */}
+          {agent.spoke && (
+            <>
+              <h3 class="agent-section-title">Spoke Info</h3>
+              <div class="agent-detail-row">
+                <span class="agent-detail-label">Issue</span>
+                <span class="agent-detail-val">
+                  <a
+                    href={issueUrl(agent.spoke.repo_url, agent.spoke.issue)}
+                    target="_blank"
+                    rel="noopener"
+                    class="spoke-link"
+                  >
+                    #{agent.spoke.issue}
+                  </a>
+                </span>
+              </div>
+              <div class="agent-detail-row">
+                <span class="agent-detail-label">Branch</span>
+                <span class="agent-detail-val"><code>{agent.spoke.branch}</code></span>
+              </div>
+              <div class="agent-detail-row">
+                <span class="agent-detail-label">Container</span>
+                <span class="agent-detail-val">
+                  <ContainerStatus
+                    state={agent.spoke.container_state}
+                    health={agent.spoke.health}
+                    status={agent.spoke.container_status}
+                  />
+                </span>
+              </div>
+            </>
+          )}
+
           <div class="agent-detail-row">
             <span class="agent-detail-label">Registered</span>
             <span class="agent-detail-val">{new Date(agent.registered_at).toLocaleString()}</span>
@@ -217,25 +281,80 @@ function AgentCard({
   );
 }
 
+function SpokesSummaryBar({ spokes }: { spokes: SpokeInfo[] }) {
+  const running = spokes.filter(s => s.container_state === "running").length;
+  const exited = spokes.filter(s => s.container_state === "exited").length;
+
+  if (spokes.length === 0) return null;
+
+  return (
+    <div class="spokes-summary-bar">
+      <span class="spokes-count">
+        {running} spoke{running !== 1 ? "s" : ""} running
+      </span>
+      {exited > 0 && (
+        <span class="spokes-exited">
+          {exited} exited
+        </span>
+      )}
+      <div class="spoke-pills">
+        {spokes.filter(s => s.container_state === "running").map(s => (
+          <span key={s.name} class="spoke-pill" title={s.branch}>
+            #{s.issue}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function AgentsView({ navigateToHistory }: { navigateToHistory?: (entryId: string) => void }) {
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
-  const fetcher = useCallback(() => fetchAgents(), []);
-  const { data, error, loading } = usePoll(fetcher, 5000);
+  const agentFetcher = useCallback(() => fetchAgents(), []);
+  const { data: agents, error, loading } = usePoll(agentFetcher, 5000);
 
-  if (loading && !data) return <div class="loading">Loading agents...</div>;
+  const spokeFetcher = useCallback(() => fetchSpokes(), []);
+  const { data: spokesData } = usePoll(spokeFetcher, 15000);
+
+  const spokes = spokesData?.spokes ?? [];
+
+  // Merge: attach spoke metadata to matching agents
+  const enriched: EnrichedAgent[] = useMemo(() => {
+    if (!agents) return [];
+    const spokeMap = new Map(spokes.map(s => [s.agent_id, s]));
+    return agents.map(a => ({
+      ...a,
+      spoke: spokeMap.get(a.agent_id),
+    }));
+  }, [agents, spokes]);
+
+  // Sort: spokes first (active work), then other agents
+  const sorted = useMemo(() =>
+    [...enriched].sort((a, b) => {
+      if (a.spoke && !b.spoke) return -1;
+      if (!a.spoke && b.spoke) return 1;
+      return 0;
+    }),
+  [enriched]);
+
+  if (loading && !agents) return <div class="loading">Loading agents...</div>;
   if (error) return <div class="error-banner">{error}</div>;
-  if (!data) return null;
+  if (!agents) return null;
 
   return (
     <div class="agents-view">
       <LiveSessionsBar onSessionClick={(agentId) => setExpandedId(agentId)} />
+      <SpokesSummaryBar spokes={spokes} />
+      {spokesData?.warning && (
+        <div class="warning-banner">{spokesData.warning}</div>
+      )}
       <div class="agents-header">
         <h2>Registered Agents</h2>
-        <span class="agents-count">{data.length} agents</span>
+        <span class="agents-count">{agents.length} agents</span>
       </div>
 
-      {data.length === 0 ? (
+      {agents.length === 0 ? (
         <div class="card">
           <div style={{ color: "var(--text-dim)", textAlign: "center", padding: "40px 20px" }}>
             No agents registered. Agents appear here when they connect via the REST or MCP API.
@@ -243,7 +362,7 @@ export function AgentsView({ navigateToHistory }: { navigateToHistory?: (entryId
         </div>
       ) : (
         <div class="agents-grid">
-          {data.map((agent) => (
+          {sorted.map((agent) => (
             <AgentCard
               key={agent.agent_id}
               agent={agent}

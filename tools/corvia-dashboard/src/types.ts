@@ -54,6 +54,8 @@ export interface DashboardStatusResponse {
   index_hnsw_count: number;
   index_stale_threshold: number;
   index_coverage_checked_at: string | null;
+  spoke_count: number;
+  spokes_running: number;
 }
 
 export interface LogEntry {
@@ -340,6 +342,31 @@ export interface ActivityFeedResponse {
   items: ActivityItem[];
   total: number;
   topics: string[];
+}
+
+// --- Spoke types ---
+
+export interface SpokeInfo {
+  name: string;
+  agent_id: string;
+  repo: string;
+  branch: string;
+  issue: string;
+  container_state: string;
+  container_status: string;
+  created: number;
+  health: string;
+  repo_url?: string;
+}
+
+export interface SpokesResponse {
+  spokes: SpokeInfo[];
+  warning?: string;
+}
+
+/** Agent record enriched with optional spoke container metadata. */
+export interface EnrichedAgent extends AgentRecord {
+  spoke?: SpokeInfo;
 }
 
 // --- GC types ---

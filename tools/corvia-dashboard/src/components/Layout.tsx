@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from "preact/hooks";
 import { createContext } from "preact";
 import { useContext } from "preact/hooks";
 import { usePoll } from "../hooks/use-poll";
-import { fetchStatus, fetchHealth, refreshCoverage } from "../api";
+import { fetchStatus, fetchHealth, refreshCoverage, fetchSpokes } from "../api";
 import { StatusBar } from "./StatusBar";
 import { StaleIndexBanner } from "./StaleIndexBanner";
 import { LogsView } from "./LogsView";
@@ -91,6 +91,11 @@ export function Layout() {
 
   const fetcher = useCallback(() => fetchStatus(), []);
   const { data, error, loading } = usePoll(fetcher, 5000);
+
+  // Poll spoke count for header display
+  const spokeFetcher = useCallback(() => fetchSpokes(), []);
+  const { data: spokesData } = usePoll(spokeFetcher, 15000);
+  const spokeCount = spokesData?.spokes.filter(s => s.container_state === "running").length ?? 0;
 
   const navigateToTab = useCallback((t: string) => setTab(t as Tab), []);
 
@@ -189,6 +194,12 @@ export function Layout() {
               </div>
             ))}
           </div>
+
+          {spokeCount > 0 && (
+            <span class="header-spoke-count" title="Active spokes">
+              {spokeCount} spoke{spokeCount !== 1 ? "s" : ""}
+            </span>
+          )}
 
           {/* Health pulse dots */}
           <button

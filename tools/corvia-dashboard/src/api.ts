@@ -22,6 +22,7 @@ import type {
   TierTransitionsResponse,
   PinnedEntriesResponse,
   GcCycleHistoryResponse,
+  SpokesResponse,
 } from "./types";
 
 const BASE = "/api/dashboard";
@@ -224,4 +225,10 @@ export function fetchGcCycleHistory(): Promise<GcCycleHistoryResponse> {
 
 export function unpinEntry(entryId: string): Promise<unknown> {
   return post(`/tiers/unpin/${encodeURIComponent(entryId)}`, {});
+}
+
+// --- Spokes ---
+
+export function fetchSpokes(): Promise<SpokesResponse> {
+  return get("/spokes");
 }

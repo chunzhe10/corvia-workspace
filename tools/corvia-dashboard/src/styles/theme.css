@@ -1321,6 +1321,120 @@ tr:hover { background: var(--bg-card-hover); }
   white-space: nowrap;
 }
 
+/* ===== Spoke components ===== */
+
+.spoke-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 8px;
+  background: rgba(94, 234, 212, 0.15);
+  color: var(--mint);
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.spoke-tag {
+  display: inline-block;
+  padding: 0 4px;
+  border-radius: 4px;
+  background: rgba(94, 234, 212, 0.12);
+  color: var(--mint);
+  font-size: 9px;
+  font-weight: 600;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
+.spoke-link {
+  color: var(--sky);
+  text-decoration: none;
+}
+.spoke-link:hover {
+  text-decoration: underline;
+}
+
+.container-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+}
+
+.container-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.container-status--green .container-status-dot { background: var(--mint); }
+.container-status--yellow .container-status-dot { background: var(--amber); }
+.container-status--red .container-status-dot { background: var(--coral); }
+.container-status--gray .container-status-dot { background: var(--text-dim); }
+
+.spokes-summary-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  background: rgba(94, 234, 212, 0.06);
+  border: 1px solid rgba(94, 234, 212, 0.15);
+  border-radius: var(--radius-md);
+  margin-bottom: 10px;
+}
+
+.spokes-count {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--mint);
+}
+
+.spokes-exited {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.spoke-pills {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.spoke-pill {
+  display: inline-block;
+  padding: 1px 7px;
+  border-radius: 8px;
+  background: rgba(94, 234, 212, 0.12);
+  color: var(--mint);
+  font-size: 10px;
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+
+.header-spoke-count {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--mint);
+  padding: 2px 8px;
+  border-radius: 8px;
+  background: rgba(94, 234, 212, 0.1);
+}
+
+.warning-banner {
+  padding: 8px 14px;
+  background: rgba(252, 211, 77, 0.08);
+  border: 1px solid rgba(252, 211, 77, 0.2);
+  border-radius: var(--radius-sm);
+  color: var(--amber);
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
 /* ===== RAG view ===== */
 .rag-view {
   display: flex;
