@@ -54,8 +54,6 @@ export interface DashboardStatusResponse {
   index_hnsw_count: number;
   index_stale_threshold: number;
   index_coverage_checked_at: string | null;
-  spoke_count: number;
-  spokes_running: number;
 }
 
 export interface LogEntry {

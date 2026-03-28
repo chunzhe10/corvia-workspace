@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "preact/hooks";
+import { useState, useEffect, useCallback, useMemo } from "preact/hooks";
 import { fetchActivityFeed, fetchEntryHistory, fetchEntryDetail, fetchSpokes } from "../api";
 import { usePoll } from "../hooks/use-poll";
 import { useSidebar } from "./Layout";
@@ -414,11 +414,13 @@ export function HistoryView({ deeplinkEntryId }: HistoryViewProps) {
   // Poll spoke data for badge display
   const spokeFetcher = useCallback(() => fetchSpokes(), []);
   const { data: spokesData } = usePoll(spokeFetcher, 15000);
-  const spokeAgentIds = new Set(
-    (spokesData?.spokes ?? []).map((s: SpokeInfo) => s.agent_id),
+  const spokeAgentIds = useMemo(
+    () => new Set((spokesData?.spokes ?? []).map((s: SpokeInfo) => s.agent_id)),
+    [spokesData],
   );
-  const spokeMap = new Map(
-    (spokesData?.spokes ?? []).map((s: SpokeInfo) => [s.agent_id, s]),
+  const spokeMap = useMemo(
+    () => new Map((spokesData?.spokes ?? []).map((s: SpokeInfo) => [s.agent_id, s] as const)),
+    [spokesData],
   );
 
   // Load activity feed

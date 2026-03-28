@@ -329,11 +329,17 @@ export function AgentsView({ navigateToHistory }: { navigateToHistory?: (entryId
     }));
   }, [agents, spokes]);
 
-  // Sort: spokes first (active work), then other agents
+  // Sort: spokes first (running before exited), then other agents
   const sorted = useMemo(() =>
     [...enriched].sort((a, b) => {
       if (a.spoke && !b.spoke) return -1;
       if (!a.spoke && b.spoke) return 1;
+      if (a.spoke && b.spoke) {
+        const aRun = a.spoke.container_state === "running" ? 0 : 1;
+        const bRun = b.spoke.container_state === "running" ? 0 : 1;
+        if (aRun !== bRun) return aRun - bRun;
+        return b.spoke.created - a.spoke.created; // newest first
+      }
       return 0;
     }),
   [enriched]);
