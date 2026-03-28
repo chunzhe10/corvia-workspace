@@ -129,6 +129,10 @@ if command -v corvia >/dev/null 2>&1; then
     corvia hooks sweep --max-age-hours 4 2>/dev/null || true
 fi
 
+# Sweep cargo build artifacts if disk is >80% full.
+# Incremental cache and old deps grow 10-30GB/day during heavy dev.
+"$SCRIPT_DIR/sweep-cargo-cache.sh" || true
+
 # ── 4/5 ───────────────────────────────────────────────────────────────
 step "Claude Code integration"
 # MCP server is configured via .mcp.json in the workspace root (checked into git).
