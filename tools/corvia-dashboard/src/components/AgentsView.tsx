@@ -44,11 +44,11 @@ function issueUrl(repoUrl: string | undefined, issue: string): string {
   return "#";
 }
 
-/** Format bytes to human-readable (e.g., 1.2 GB). */
+/** Format bytes to human-readable with consistent precision (e.g., 1.2 GB). */
 function formatBytes(bytes: number): string {
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
-  if (bytes < 1024 * 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(0)} MB`;
+  if (bytes < 1024) return `< 1 KB`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  if (bytes < 1024 * 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
   return `${(bytes / (1024 * 1024 * 1024)).toFixed(1)} GB`;
 }
 
@@ -242,12 +242,18 @@ function AgentCard({
               </div>
               {agent.spoke.cpu_percent != null && (
                 <div class="agent-detail-row">
-                  <span class="agent-detail-label">Resources</span>
-                  <span class="agent-detail-val">
-                    CPU {agent.spoke.cpu_percent.toFixed(1)}%
-                    {agent.spoke.memory_bytes != null && agent.spoke.memory_limit != null && (
-                      <> | Mem {formatBytes(agent.spoke.memory_bytes)} / {formatBytes(agent.spoke.memory_limit)}</>
-                    )}
+                  <span class="agent-detail-label">CPU</span>
+                  <span class="agent-detail-val" aria-label={`CPU usage ${agent.spoke.cpu_percent.toFixed(1)} percent`}>
+                    {agent.spoke.cpu_percent.toFixed(1)}%
+                  </span>
+                </div>
+              )}
+              {agent.spoke.memory_bytes != null && (
+                <div class="agent-detail-row">
+                  <span class="agent-detail-label">Memory</span>
+                  <span class="agent-detail-val" aria-label={`Memory usage ${formatBytes(agent.spoke.memory_bytes)}${agent.spoke.memory_limit ? ` of ${formatBytes(agent.spoke.memory_limit)}` : ''}`}>
+                    {formatBytes(agent.spoke.memory_bytes)}
+                    {agent.spoke.memory_limit != null && <> / {formatBytes(agent.spoke.memory_limit)}</>}
                   </span>
                 </div>
               )}
