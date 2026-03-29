@@ -83,6 +83,7 @@ agent_check = true
 write_reminder = true
 orphan_cleanup = true
 corvia_first_reminder = true
+agent_teams = true
 
 [[scope]]
 id = "devcontainer-telemetry"
