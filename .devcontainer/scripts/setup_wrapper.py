@@ -27,16 +27,26 @@ DONE = os.path.join(TASK_DIR, f"{PHASE}.done")
 VALID_PHASES = ("post-start", "post-create")
 
 
+def _container_id() -> str:
+    """Read the container ID. In Docker, /proc/self/cgroup or the hostname
+    changes per container recreation, even when the kernel boot_id stays
+    the same (same host, same boot)."""
+    import socket
+    return socket.gethostname()
+
+
 def boot_id() -> str:
-    """Read kernel boot ID. Falls back to container hostname (changes per
-    recreate) rather than a constant like 'unknown' which would silently
-    match across reboots and defeat the done-marker mechanism."""
+    """Return an identity string that changes on host reboot OR container
+    recreation. The kernel boot_id alone is insufficient because it's shared
+    across all containers on the same host — done markers on the bind-mounted
+    workspace volume would survive container recreation and skip setup."""
     try:
         with open("/proc/sys/kernel/random/boot_id") as f:
-            return f.read().strip()
+            kid = f.read().strip()
     except OSError:
-        import socket
-        return f"host-{socket.gethostname()}"
+        kid = "unknown"
+    cid = _container_id()
+    return f"{kid}:{cid}"
 
 
 def _workspace_version() -> str:
