@@ -9,9 +9,9 @@ on:
       - 'benchmarks/**'
       - 'corvia.toml'
 
-# Cancel in-progress runs for the same PR
+# Cancel in-progress runs for the same PR.
 concurrency:
-  group: quality-gates-${{ github.event.pull_request.number }}
+  group: quality-gates-${{ github.event.pull_request.number || github.sha }}
   cancel-in-progress: true
 
 permissions:
