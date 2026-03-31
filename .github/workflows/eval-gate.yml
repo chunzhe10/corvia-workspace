@@ -170,13 +170,13 @@ EOF
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           COMMENT_ID=$(gh api --paginate \
-            "repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments" \
+            "repos/${{ github.repository }}/issues/${{ github.event.number }}/comments" \
             --jq '.[] | select(.body | startswith("<!-- eval-gate-comment -->")) | .id' \
             | head -1) || true
           if [ -n "$COMMENT_ID" ]; then
             gh api -X DELETE "repos/${{ github.repository }}/issues/comments/$COMMENT_ID" || true
           fi
-          gh pr comment "${{ github.event.pull_request.number }}" \
+          gh pr comment "${{ github.event.number }}" \
             --body-file /tmp/eval-comment.md
 
       - name: Post health PR comment
@@ -185,13 +185,13 @@ EOF
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           COMMENT_ID=$(gh api --paginate \
-            "repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments" \
+            "repos/${{ github.repository }}/issues/${{ github.event.number }}/comments" \
             --jq '.[] | select(.body | startswith("<!-- health-gate-comment -->")) | .id' \
             | head -1) || true
           if [ -n "$COMMENT_ID" ]; then
             gh api -X DELETE "repos/${{ github.repository }}/issues/comments/$COMMENT_ID" || true
           fi
-          gh pr comment "${{ github.event.pull_request.number }}" \
+          gh pr comment "${{ github.event.number }}" \
             --body-file /tmp/health-comment.md
 
       - name: Upload results
