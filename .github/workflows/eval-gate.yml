@@ -1,11 +1,7 @@
 name: Quality Gates
 
 on:
-  # Only runs the eval job on PRs (push events skip via job-level 'if' guard).
-  # Both triggers are listed so GitHub Actions doesn't report a "workflow file issue"
-  # when evaluating this file on push events.
-  push:
-    branches: [master]
+  workflow_dispatch: {}
   pull_request:
     paths:
       - 'repos/corvia/crates/corvia-server/src/**'
@@ -24,7 +20,6 @@ permissions:
 
 jobs:
   eval-gate:
-    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
