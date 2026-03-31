@@ -10,7 +10,7 @@ on:
       - 'corvia.toml'
 
 concurrency:
-  group: quality-gates-${{ github.event.pull_request.number || github.sha }}
+  group: quality-gates-${{ github.head_ref || github.sha }}
   cancel-in-progress: true
 
 permissions:
