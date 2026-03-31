@@ -9,7 +9,6 @@ on:
       - 'benchmarks/**'
       - 'corvia.toml'
 
-# Cancel in-progress runs for the same PR.
 concurrency:
   group: quality-gates-${{ github.event.pull_request.number || github.sha }}
   cancel-in-progress: true
@@ -20,6 +19,7 @@ permissions:
 
 jobs:
   eval-gate:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
