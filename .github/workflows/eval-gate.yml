@@ -1,6 +1,11 @@
 name: Quality Gates
 
 on:
+  # Only runs the eval job on PRs (push events skip via job-level 'if' guard).
+  # Both triggers are listed so GitHub Actions doesn't report a "workflow file issue"
+  # when evaluating this file on push events.
+  push:
+    branches: [master]
   pull_request:
     paths:
       - 'repos/corvia/crates/corvia-server/src/**'
