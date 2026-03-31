@@ -117,6 +117,28 @@ established patterns. This applies to ALL agents (Claude Code, Codex, etc.).
 > were already decided. Do NOT jump straight to file reads or code search without
 > checking corvia for relevant context first.
 
+## Agentic Retrieval Protocol
+
+These rules govern how agents interact with corvia's MCP tools for maximum effectiveness.
+The server handles complex logic (quality assessment, deduplication). Agents follow
+simple unconditional rules.
+
+1. **Check quality signals after search.** `corvia_search` responses include a
+   `quality_signal` object with `confidence` (high/medium/low) and `suggestion`.
+   If confidence is `low`, follow the `suggestion` field and retry once (max 1 retry).
+
+2. **Inject context into subagents.** Before spawning subagents for non-trivial work,
+   call `corvia_context` with `max_tokens` (recommended: 2000-3000) and `format: "compact"`.
+   Include the returned context in the subagent prompt so it has organizational knowledge.
+
+3. **Write discipline.** After discovering non-obvious insights, call `corvia_write`
+   immediately. The server handles deduplication automatically. If a near-duplicate is
+   detected, the server returns a message instead of writing. Use `force_write: true`
+   to bypass if the content is intentionally similar but distinct.
+
+4. **Use `min_score` when precision matters.** Pass `min_score` to `corvia_search`
+   to filter out low-relevance results at the server level.
+
 ## Auto-Save Research Findings
 
 When you discover something non-obvious during a task — a workaround, an architectural
