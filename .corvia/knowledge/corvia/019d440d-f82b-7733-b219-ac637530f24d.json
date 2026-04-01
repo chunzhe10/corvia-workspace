@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82b-7733-b219-ac637530f24d",
+  "content": "Err(format!(\n            \"exit code {:?}: {}\",\n            output.status.code(),\n            String::from_utf8_lossy(&output.stderr)\n        ));\n    }\n\n    serde_json::from_slice(&output.stdout)\n        .map_err(|e| format!(\"invalid metadata JSON: {e}\"))\n}\nfn is_executable(path: &Path) -> bool {\n    use std::os::unix::fs::PermissionsExt;\n    path.is_file()\n        && std::fs::metadata(path)\n            .map(|m| m.permissions().mode() & 0o111 != 0)\n            .unwrap_or(false)\n}",
+  "source_version": "crates/corvia-kernel/src/adapter_discovery.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.435836708Z",
+  "valid_from": "2026-03-31T13:20:59.435836708Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/adapter_discovery.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 192,
+    "end_line": 198,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

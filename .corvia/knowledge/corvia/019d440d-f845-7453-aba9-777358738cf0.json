@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-777358738cf0",
+  "content": "s\":\"2026-02-25T10:31:00Z\",\"type\":\"DocGenerated\",\"doc\":\"docs/auth.md\",\"source_chunks\":[\"auth.rs:1\",\"auth.rs:2\"],\"caused_by\":[\"D7\"]}\n{\"ts\":\"2026-02-25T10:35:00Z\",\"type\":\"DecisionCaptured\",\"id\":\"D8\",\"summary\":\"Use JWT over sessions\",\"conversation\":\"C12\"}\n```\n\n#### DVC Integration\n- DVC tracks binary artifacts (`index/`, optionally `tier-1` logs) with pointers in git\n- `dvc push` / `dvc pull` for team onboarding (clone + `dvc pull` = full knowledge state without re-indexing)\n- Remote storage configurable: S3, GCS, local, or none (re-index from scratch)\n- **DVC is optional** — Corvia works without it (just re-indexes), but with DVC you get full reproducibility\n\n\n#### Alternatives Considered\n- **Full CQRS event sourcing** — derives all state from events. Rejected: unnecessary complexity, Corvia already has live state.\n- **Snapshot-only** — simple but coarse. Rejected: loses fine-grained history, provenance is metadata-only not structural.\n- **Git-only for everything** — rejected: binary indexes bloat git history, slow clones\n- **DVC-only for everything** — rejected: overkill for markdown docs, adds friction for simple text versioning\n- **No versioning (always regenerate)** — rejected: loses historical semantic understanding entirely\n- **Git LFS instead of DVC** — rejected: DVC is purpose-built for ML artifacts, better remote storage options, signals ML/AI competency in portfolio\n- **Custom snapshot directories** — rejected: git tags achieve the same thing with zero custom infrastructure\n\n---\n",
+  "source_version": "docs/rfcs/2026-02-25-corvia-brainstorm.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461555173Z",
+  "valid_from": "2026-03-31T13:20:59.461555173Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-25-corvia-brainstorm.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 414,
+    "end_line": 430,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84a-7fb3-b052-e44141ff56c7",
+  "content": "sed);\n    }\n\n    #[test]\n    fn device_gpu_chat_skips_openvino() {\n        let gpu = GpuCapabilities::new(false, true);\n        let r = resolve_backend(\"gpu\", \"\", ModelType::Chat, &gpu).unwrap();\n        // OpenVINO not valid for chat, so falls back to CPU\n        assert_eq!(r.backend, BackendKind::Cpu);\n        assert_eq!(r.device, Device::Cpu);\n        assert!(r.fallback_used);\n    }\n\n    #[test]\n    fn device_auto_same_as_gpu() {\n        let gpu = GpuCapabilities::new(true, false);\n        let auto = resolve_backend(\"auto\", \"\", ModelType::Embedding, &gpu).unwrap();\n        let explicit = resolve_backend(\"gpu\", \"\", ModelType::Embedding, &gpu).unwrap();\n        assert_eq!(auto.backend, explicit.backend);\n        assert_eq!(auto.device, explicit.device);\n    }\n\n    #[test]\n    fn device_empty_same_as_auto() {\n        let gpu = GpuCapabilities::new(true, false);\n        let empty = resolve_backend(\"\", \"\", ModelType::Embedding, &gpu).unwrap();\n        let auto = resolve_backend(\"auto\", \"\", ModelType::Embedding, &gpu).unwrap();\n        assert_eq!(empty.backend, auto.backend);\n    }\n\n    #[test]\n    fn explicit_backend_overrides_device_field() {\n        let gpu = GpuCapabilities::new(true, false);\n        // Even though device says \"cpu\", explicit backend=\"cuda\" takes priority\n        let r = resolve_backend(\"cpu\", \"cuda\", ModelType::Embedding, &gpu).unwrap();\n        assert_eq!(r.backend, BackendKind::Cuda);\n        assert_eq!(r.device, Device::Gpu);\n    }\n\n    #[test]\n    fn unknown_device() {\n        let gpu = GpuCapabilities::new(true, true);\n        let r = resolve_backend(\"tpu\", \"\", ModelType::Embedding, &gpu);\n        assert!(r.is_err());\n    }\n}\n```\n\n-**Step 2: Add `mod backend;` to main.rs and run tests to see them fail**\n\nAdd `mod backend;` after the existing module declarations in `crates/corvia-inference/src/main.rs`.\n\nRun: `cd /workspaces/corvia-workspace/repos/corvia && cargo test -p corvia-inference backend::tests 2>&1 | tail -20`\nExpected: FAIL — all tests panic with `todo!()`\n",
+  "source_version": "docs/rfcs/2026-03-12-inference-gpu-device-control.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.466145448Z",
+  "valid_from": "2026-03-31T13:20:59.466145448Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-12-inference-gpu-device-control.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 259,
+    "end_line": 305,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

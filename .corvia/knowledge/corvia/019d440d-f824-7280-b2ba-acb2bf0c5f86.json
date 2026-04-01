@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f824-7280-b2ba-acb2bf0c5f86",
+  "content": "h\": git_branch,\n                \"agent_type\": agent_type,\n                \"parent_session_id\": if is_subagent { parent } else { None },\n                \"corvia_agent_id\": corvia_agent,\n                \"hook_duration_ms\": start.elapsed().as_millis() as u64,\n                \"hook_name\": \"session_record\",\n            })\n        }\n        HookEvent::UserPromptSubmit => {\n            let content = stdin.get(\"prompt\").and_then(|v| v.as_str()).unwrap_or(\"\");\n            let turn = current_turn(session_id) + 1;\n\n            serde_json::json!({\n                \"v\": SCHEMA_VERSION,\n                \"type\": \"user_prompt\",\n                \"session_id\": session_id,\n                \"turn\": turn,\n                \"timestamp\": ts,\n                \"content\": content,\n                \"hook_duration_ms\": start.elapsed().as_millis() as u64,\n                \"hook_name\": \"session_record\",\n            })\n        }\n        HookEvent::PreToolUse => {\n            let tool = stdin.get(\"tool_name\").and_then(|v| v.as_str()).unwrap_or(\"\");\n            let input = stdin.get(\"tool_input\").cloned().unwrap_or_default();\n            let input = strip_tool_input(&input);\n            let turn = current_turn(session_id);\n\n            serde_json::json!({\n                \"v\": SCHEMA_VERSION,",
+  "source_version": "crates/corvia-cli/src/hooks/session.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.428735439Z",
+  "valid_from": "2026-03-31T13:20:59.428735439Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/session.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 153,
+    "end_line": 178,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

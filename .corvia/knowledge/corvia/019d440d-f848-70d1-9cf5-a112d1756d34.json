@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-a112d1756d34",
+  "content": "## Parallel Execution Summary\n\n            │ A6: corvia-inference  │ B8: MCP corvia_context│ C8: D69 trait\n            │ A7: EmbeddingService  │ B9: tests             │ C9: AstChunker\n            │ A8: ChatService stub  │                       │ C10: tests\n            │ A9: CLI wiring        │                       │\n            │ A10: gRPC tests       │                       │\n            │     ──── H2 ────→     │                       │     ── H3 ──→\n            │ A11: GrpcVllmEngine   │                       │\n            │ A12: Candle full      │                       │\n────────────┼───────────────────────┼───────────────────────┼──────────────────\nPhase 2     │                   I1: Wire ask() mode (needs H2)               │\n(integrate) │                   I2: Wire ingestion (needs H3)                │\n            │                   I3: create_engine() Corvia                   │\n            │                   I4: E2E integration tests                    │\n            │                   I5: Final server + CLI wiring                │\n```\n",
+  "source_version": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464954703Z",
+  "valid_from": "2026-03-31T13:20:59.464954703Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1866,
+    "end_line": 1881,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

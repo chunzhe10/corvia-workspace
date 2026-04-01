@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f832-7981-8b9c-46262fd23be5",
+  "content": "on.state == SessionState::Active || session.state == SessionState::Committing {\n            self.session_mgr.transition(session_id, SessionState::Merging)?;\n            info!(session_id, \"commit_step5: state → Merging\");\n        }\n\n        Ok(())\n    }\n}\npub fn new(\n        session_mgr: Arc<SessionManager>,\n        merge_queue: Arc<MergeQueue>,\n        staging: Arc<StagingManager>,\n        store: Arc<dyn QueryableStore>,\n        event_bus: Arc<EventBus>,\n    ) -> Self {\n        Self {\n            session_mgr,\n            merge_queue,\n            staging,\n            store,\n            event_bus,\n        }\n    }",
+  "source_version": "crates/corvia-kernel/src/commit_pipeline.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.442585233Z",
+  "valid_from": "2026-03-31T13:20:59.442585233Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/commit_pipeline.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 29,
+    "end_line": 43,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

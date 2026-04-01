@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-3ef5d9facf6f",
+  "content": "atomic_copy(&src_config, &dst_config)\n    {\n        eprintln!(\"Warning: TeammateIdle failed to copy config.json: {e}\");\n    }\n\n    // 2. Copy teammate's inbox\n    let inboxes_staging = staging_dir.join(\"inboxes\");\n    fs::create_dir_all(&inboxes_staging)?;\n\n    let src_inbox = team_dir.join(\"inboxes\").join(format!(\"{teammate_name}.json\"));\n    let dst_inbox = inboxes_staging.join(format!(\"{teammate_name}.json\"));\n    if src_inbox.exists() && should_copy(&src_inbox, &dst_inbox)\n        && let Err(e) = atomic_copy(&src_inbox, &dst_inbox)\n    {\n        eprintln!(\"Warning: TeammateIdle failed to copy inbox for {teammate_name}: {e}\");\n    }\n\n    // 3. Copy lead's inbox (last writer wins via atomic rename)\n    let src_lead = team_dir.join(\"inboxes\").join(\"team-lead.json\");\n    let dst_lead = inboxes_staging.join(\"team-lead.json\");\n    if src_lead.exists() && should_copy(&src_lead, &dst_lead)\n        && let Err(e) = atomic_copy(&src_lead, &dst_lead)\n    {\n        eprintln!(\"Warning: TeammateIdle failed to copy lead inbox: {e}\");\n    }\n\n    // 4. Append to .capture-log\n    let log_path = staging_dir.join(\".capture-log\");\n    let log_entry = serde_json::json!({\n        \"v\": SCHEMA_VERSION,\n        \"event\": \"TeammateIdle\",\n        \"teammate\": teammate_name,\n        \"team\": team_name,\n        \"timestamp\": now_iso(),\n    });\n    if let Err(e) = flock_append(&log_path, &serde_json::to_string(&log_entry)?) {\n        eprintln!(\"Warning: TeammateIdle failed to append capture-log: {e}\");\n    }\n\n    Ok(())\n}",
+  "source_version": "crates/corvia-cli/src/hooks/agent_teams.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429234501Z",
+  "valid_from": "2026-03-31T13:20:59.429234501Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/agent_teams.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 329,
+    "end_line": 361,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

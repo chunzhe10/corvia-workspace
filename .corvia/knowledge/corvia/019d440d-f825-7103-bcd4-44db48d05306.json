@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-44db48d05306",
+  "content": "            actual_device = %actual_device,\n                actual_backend = %actual_backend,\n                \"GPU not available, fell back to CPU\"\n            );\n        }\n\n        // Delegate to appropriate service\n        let result = match model_type {\n            ModelType::Embedding => self.embed_svc.load_model(&req.name, resolved).await,\n            ModelType::Chat => self.chat_svc.load_model(&req.name, resolved, kv_cache_type, req.flash_attention, &req.hf_repo, &req.hf_filename).await,\n        };\n\n        match result {\n            Ok(()) => {\n                // For embedding models, query the actual backend from the service\n                // (EP verification may have changed it due to missing provider library).\n                let (actual_device, actual_backend) = if model_type == ModelType::Embedding {\n                    if let Some(real_backend) = self.embed_svc.get_backend(&req.name) {\n                        (real_backend.device.to_string(), real_backend.backend.to_string())\n                    } else {\n                        (actual_device, actual_backend)\n                    }\n                } else {\n                    (actual_device, actual_backend)\n                };\n\n                // Determine if fallback was used (actual != requested)\n                let requested_backend = req.backend.clone();\n                let fallback_used =\n                    actual_backend != requested_backend && requested_backend != \"auto\";\n\n                let mut models = self.models.write().await;",
+  "source_version": "crates/corvia-inference/src/model_manager.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429931054Z",
+  "valid_from": "2026-03-31T13:20:59.429931054Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/src/model_manager.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 204,
+    "end_line": 227,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

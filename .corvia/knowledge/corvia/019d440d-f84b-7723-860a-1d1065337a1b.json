@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84b-7723-860a-1d1065337a1b",
+  "content": "### `QueryableStore`\n### `InferenceEngine`\n\n### `IngestionAdapter`\n\nDomain-specific source ingestion. An adapter knows how to read a particular source type\n(Git repositories, documentation, wikis) and produce `KnowledgeEntry` values. The kernel\nadds embeddings after ingestion.\n\n```rust\npub trait IngestionAdapter: Send + Sync {\n    fn domain(&self) -> &str;\n    fn register_chunking(&self, registry: &mut FormatRegistry);\n    async fn ingest_sources(&self, source_path: &str) -> Result<Vec<SourceFile>>;\n}\n```\n\n**Implementations:** `GitAdapter` (tree-sitter parsing for Rust, JS, TS, Python), `ProcessAdapter` (IPC to external adapter binaries).\n\n\n### `TemporalStore`\n\nBi-temporal query interface. Redb compound keys `(scope, valid_from, entry_id)` give O(log n)\ntemporal lookups via B-tree range scans — chosen over a dedicated time-series database because\nRedb is already embedded for coordination and temporal queries don't need a separate service.\nSupports point-in-time snapshots, supersession chain traversal, and time-range evolution queries.\n\n```rust\npub trait TemporalStore: Send + Sync {\n    async fn as_of(&self, scope_id: &str, timestamp: DateTime<Utc>, limit: usize) -> Result<Vec<KnowledgeEntry>>;\n    async fn history(&self, entry_id: &uuid::Uuid) -> Result<Vec<KnowledgeEntry>>;\n    async fn evolution(&self, scope_id: &str, from: DateTime<Utc>, to: DateTime<Utc>) -> Result<Vec<KnowledgeEntry>>;\n}\n```\n\n**Implementations:** `LiteStore` (Redb compound-key range scans, O(log n)).\n",
+  "source_version": "ARCHITECTURE.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.467574298Z",
+  "valid_from": "2026-03-31T13:20:59.467574298Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "ARCHITECTURE.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 163,
+    "end_line": 195,
+    "content_role": null,
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

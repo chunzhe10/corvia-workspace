@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f843-7a03-b56b-3129623723a6",
+  "content": "_engine -- --nocapture`\nExpected: All existing tests PASS\n\n-**Step 6: Commit**\n\n```bash\ngit add crates/corvia-kernel/Cargo.toml crates/corvia-kernel/src/grpc_engine.rs\ngit commit -m \"feat(kernel): inject W3C trace context in gRPC embedding calls\"\n```\n\n---\n\n### Task 7: Add trace context extraction to corvia-inference\n\n**Files:**\n- Modify: `crates/corvia-inference/Cargo.toml`\n- Modify: `crates/corvia-inference/src/main.rs:1-62`\n\n-**Step 1: Add dependencies to corvia-inference Cargo.toml**\n\nAdd to `[dependencies]`:\n\n```toml\ncorvia-common = { workspace = true }\ncorvia-telemetry = { workspace = true }\nopentelemetry = { workspace = true }\n```\n\n-**Step 2: Rewrite main.rs to use init_telemetry and tonic interceptor**\n\nReplace `crates/corvia-inference/src/main.rs`:\n\n```rust\nmod chat_service;\nmod embedding_service;\nmod model_manager;\n\nuse clap::Parser;\nuse corvia_common::config::TelemetryConfig;\nuse corvia_proto::chat_service_server::ChatServiceServer;\nuse corvia_proto::embedding_service_server::EmbeddingServiceServer;\nuse corvia_proto::model_manager_server::ModelManagerServer;\nuse corvia_telemetry::propagation::MetadataExtractor;\nuse opentelemetry::global;\nuse tonic::transport::Server;\n\n#[derive(Parser)]\n#[command(name = \"corvia-inference\")]\n#[command(about = \"Corvia inference server — gRPC embedding + chat\")]\n#[command(version)]\nstruct Cli {\n    #[command(subcommand)]\n    command: Commands,\n}\n\n#[derive(clap::Subcommand)]\nenum Commands {\n    /// Start the gRPC server\n    Serve {\n        #[arg(long, default_value = \"8030\")]\n        port: u16,\n    },\n}\n\n/// Tonic interceptor that extracts W3C trace context from incoming gRPC metadata\n/// and sets it as the current context's parent span.\nfn accept_trace(mut request: tonic::Request<()>) -> std::result::Result<tonic::Request<()>, tonic::Status> {\n    let parent_cx = global::get_text_map_propagator(|propagator| {\n        propagator.extract(&MetadataExtractor(request.metadata()))\n    });\n    // Store the extracted context in request extensions so downstream\n    // handlers can access it. The tracing-opentelemetry layer will\n    // automatically pick up the parent context from the current span.\n    request.extensions_mut().insert(parent_cx);\n    Ok(request)",
+  "source_version": "docs/rfcs/2026-03-11-otel-standardization.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.459184602Z",
+  "valid_from": "2026-03-31T13:20:59.459184602Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-otel-standardization.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 654,
+    "end_line": 716,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a13-75d1-bfe3-f8cb2cab2276",
+  "content": "lass=\"slide-title\">\n    Give AI <span class=\"highlight-green\">Eyes.</span><br>\n    Playwright MCP.\n  </div>\n  <div class=\"slide-subtitle\">\n    Playwright MCP lets Claude Code launch a browser,<br>\n    render the page, and screenshot what it built.\n  </div>\n  <div style=\"display: flex; flex-direction: column; align-items: center; gap: 20px; margin-bottom: 28px;\">\n    <div style=\"display: flex; align-items: center; gap: 16px; width: 100%;\">\n      <div style=\"background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.3); border-radius: 14px; padding: 22px 20px; font-size: 20px; font-weight: 600; flex: 1; text-align: center;\">\n        &#9997; Write HTML/CSS\n      </div>\n      <div style=\"font-size: 32px; color: var(--accent-green);\">&rarr;</div>\n      <div style=\"background: rgba(139,92,246,0.15); border: 1px solid rgba(139,92,246,0.3); border-radius: 14px; padding: 22px 20px; font-size: 20px; font-weight: 600; flex: 1; text-align: center;\">\n        &#127760; Render page\n      </div>\n      <div style=\"font-size: 32px; color: var(--accent-green);\">&rarr;</div>\n      <div style=\"background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3); border-radius: 14px; padding: 22px 20px; font-size: 20px; font-weight: 600; flex: 1; text-align: center;\">\n        &#128248; See screenshot\n      </div>\n    </div>\n    <div style=\"font-size: 32px; color: var(--accent-green);\">&#8595;</div>\n    <div style=\"display: flex; align-items: center; gap: 16px; width: 100%;\">\n      <div style=\"background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.3); border-radius: 14px; padding: 22px 20px; font-size: 20px; font-weight: 600; flex: 1; text-align: center;\">\n        &#128064; Spot overflow\n      </div>\n      <div style=\"font-size: 32px; color: var(--accent-green);\">&rarr;</div>\n      <div style=\"background: rgba(6,182,212,0.15); border: 1px solid rgba(6,182,212,0.3); border-radius: 14px; padding: 22px 20px; font-size: 20px; font-weight: 600; flex: 1; text-align: center;\">\n        &#128295; Fix the CSS\n      </div>\n      <div style=\"font-size: 32px; color: var(--accent-green);\">&rarr;</div>",
+  "source_version": "marketing/linkedin/2026-03-11-ai-blind-designer/ai-blind-designer-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.027997288Z",
+  "valid_from": "2026-03-31T13:51:39.027997288Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-11-ai-blind-designer/ai-blind-designer-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 591,
+    "end_line": 614,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

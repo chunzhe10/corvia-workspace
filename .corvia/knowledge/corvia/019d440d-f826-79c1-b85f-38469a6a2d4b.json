@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f826-79c1-b85f-38469a6a2d4b",
+  "content": ",\n            fallback_used: false,\n        };\n        let eps = build_execution_providers(&backend);\n        assert_eq!(eps.len(), 1, \"OpenVINO backend should produce exactly one EP\");\n    }\n\n    #[test]\n    fn test_verify_ep_available_cpu_always_true() {\n        assert!(verify_ep_available(&BackendKind::Cpu));\n    }\n\n    #[test]\n    fn test_verify_ep_available_cuda() {\n        // CUDA EP: the cu12 prebuilt includes the provider .so.\n        // Don't assert true/false — just verify it doesn't panic.\n        let _ = verify_ep_available(&BackendKind::Cuda);\n    }\n\n    #[test]\n    fn test_verify_ep_available_openvino() {\n        // OpenVINO EP availability depends on whether\n        // libonnxruntime_providers_openvino.so is installed on the system.\n        // Don't assert true/false — just verify it doesn't panic.\n        let _ = verify_ep_available(&BackendKind::OpenVino);\n    }\n\n    #[test]\n    fn test_can_dlopen_nonexistent() {\n        assert!(!can_dlopen(\"libdoes_not_exist_12345.so\"));\n    }\n\n    #[test]\n    fn test_can_dlopen_libc() {\n        // libc.so.6 is always present on Linux\n        assert!(can_dlopen(\"libc.so.6\"));\n    }\n\n    #[test]\n    fn test_can_find_library_existing() {\n        // libc is always in /usr/lib/x86_64-linux-gnu/\n        assert!(can_find_library(\"libc.so.6\"));\n    }\n\n    #[test]\n    fn test_can_find_library_nonexistent() {\n        assert!(!can_find_library(\"libdoes_not_exist_12345.so\"));\n    }\n}",
+  "source_version": "crates/corvia-inference/src/embedding_service.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.430701340Z",
+  "valid_from": "2026-03-31T13:20:59.430701340Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/src/embedding_service.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 566,
+    "end_line": 605,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-782999840432",
+  "content": "### Step 6: Pipeline — wire it up\n### Step 7: Factory — `corvia-kernel/src/lib.rs`\n\n### Step 8: Register module — `corvia-kernel/src/lib.rs`\n\nAdd `pub mod skill_registry;` to module declarations.\n\n---\n\n\n### Step 9: Bundled skills directory\n\nCreate `repos/corvia/skills/` with 2-3 starter skills:\n\n1. `debugging.md` — guides LLM to ask about error messages, suggest root cause analysis\n2. `architecture.md` — guides LLM to reference high-level patterns, explain relationships\n3. `howto.md` — guides LLM to give step-by-step instructions, include examples\n\nEach skill file:\n```markdown\n---\ndescription: Short description used for semantic matching against queries\n---\n",
+  "source_version": "docs/rfcs/2026-03-10-skill-system-implementation-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461644119Z",
+  "valid_from": "2026-03-31T13:20:59.461644119Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-skill-system-implementation-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 259,
+    "end_line": 278,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-c1bf7e974ae1",
+  "content": "to \"basic\"\n    find_by_name(discovered, \"basic\")\n}\n\n/// Find a discovered adapter by name.\npub fn find_by_name<'a>(discovered: &'a [DiscoveredAdapter], name: &str) -> Option<&'a DiscoveredAdapter> {\n    discovered.iter().find(|a| a.metadata.name == name)\n}\n\n/// Format a human-readable adapter list for `corvia adapters list`.\npub fn format_adapter_list(adapters: &[DiscoveredAdapter]) -> String {\n    if adapters.is_empty() {\n        return \"No adapters found.\\n\\\n                Install adapters to ~/.config/corvia/adapters/ or ensure they are on PATH.\\n\\\n                Adapter binaries must be named corvia-adapter-<name>.\".to_string();\n    }\n    let mut out = String::new();\n    for a in adapters {\n        out.push_str(&format!(\n            \"  {:<12} v{:<8} {:<44} {}\\n\",\n            a.metadata.name,\n            a.metadata.version,\n            a.metadata.description,\n            a.binary_path.display(),\n        ));\n    }\n    out\n}\n\n// ---------------------------------------------------------------------------\n// Internal helpers\n// ---------------------------------------------------------------------------\n\nfn scan_dir(dir: &Path, seen: &mut HashSet<String>, out: &mut Vec<DiscoveredAdapter>) {\n    let entries = match std::fs::read_dir(dir) {\n        Ok(e) => e,\n        Err(_) => return,\n    };\n\n    for entry in entries.flatten() {\n        let path = entry.path();\n        let name = match path.file_name().and_then(|n| n.to_str()) {\n            Some(n) => n.to_string(),\n            None => continue,\n        };\n\n        if !name.starts_with(\"corvia-adapter-\") {\n            continue;\n        }\n\n        // Extract adapter name: corvia-adapter-git → git\n        let adapter_name = name.trim_start_matches(\"corvia-adapter-\");\n        // Strip platform extension (.exe on Windows)\n        let adapter_name = adapter_name.trim_end_matches(\".exe\");\n\n        if adapter_name.is_empty() || seen.contains(adapter_name) {\n            continue;\n        }\n\n        // Check executable\n        if !is_executable(&path) {\n            continue;",
+  "source_version": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462516193Z",
+  "valid_from": "2026-03-31T13:20:59.462516193Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 474,
+    "end_line": 527,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

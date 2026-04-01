@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-244ac0eee45e",
+  "content": "## Protocol Layering (Backward Compatible)\n## AGENTS.md Update (Track A)\n\n### Agentic Retrieval Protocol\n\n1. **Check quality signals**: After `corvia_search`, check `quality_signal.confidence`.\n   If `low`, follow the `suggestion` field and retry once (max 1 retry).\n\n2. **Inject context into subagents**: Before spawning subagents for non-trivial work,\n   call `corvia_context` with `max_tokens` appropriate for the task (recommended:\n   2000-3000 tokens) and include the result in the subagent prompt.\n\n3. **Write discipline**: After discovering non-obvious insights, call `corvia_write`\n   immediately. The server handles deduplication automatically.\n```\n",
+  "source_version": "docs/rfcs/2026-03-31-agentic-retrieval-protocol-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452819961Z",
+  "valid_from": "2026-03-31T13:20:59.452819961Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-31-agentic-retrieval-protocol-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 222,
+    "end_line": 234,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

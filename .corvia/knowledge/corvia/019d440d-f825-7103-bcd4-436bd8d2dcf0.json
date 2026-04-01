@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-436bd8d2dcf0",
+  "content": "fn test_parse_target_invalid() {\n        assert!(parse_target(\"mysql\").is_err());\n        assert!(parse_target(\"\").is_err());\n        assert!(parse_target(\"redis\").is_err());\n        assert!(parse_target(\"surrealdb\").is_err());\n    }\nfn test_store_type_name() {\n        assert_eq!(store_type_name(&StoreType::Lite), \"lite\");\n        assert_eq!(store_type_name(&StoreType::Postgres), \"postgres\");\n    }",
+  "source_version": "crates/corvia-cli/src/upgrade.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429790191Z",
+  "valid_from": "2026-03-31T13:20:59.429790191Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/upgrade.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 470,
+    "end_line": 473,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

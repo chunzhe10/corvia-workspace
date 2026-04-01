@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a15-7ca3-b9db-528a067be5e8",
+  "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<title>LinkedIn Post - 5-Persona AI Code Review</title>\n<style>\n  body {\n    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n    max-width: 680px;\n    margin: 40px auto;\n    padding: 24px;\n    font-size: 16px;\n    line-height: 1.6;\n    color: #1a1a1a;\n    background: #fff;\n  }\n  .instructions {\n    background: #f0f4ff;\n    border: 1px solid #c0d0ff;\n    border-radius: 8px;\n    padding: 16px;\n    margin-bottom: 24px;\n    font-size: 14px;\n    color: #445;\n  }\n  hr { border: none; border-top: 1px solid #ddd; margin: 24px 0; }\n  #post {\n    cursor: text;\n    white-space: pre-line;\n  }\n</style>\n</head>\n<body>\n\n<div class=\"instructions\">\n  <strong>How to use:</strong> Select all text below the line, copy (Ctrl+C), and paste directly into LinkedIn's post editor. Line breaks will be preserved.\n</div>\n\n<hr>\n\n<div id=\"post\">Six weeks ago I asked Claude to review its own code before committing. Just \"review this diff.\" It caught some things. Missed others. The feedback was generic. The kind of review where everything is \"looks good.\"\n\nSo I gave it a role. Then split it into three independent subagents. Then five. Each iteration caught things the previous one couldn't.\n\nHere's where I've landed: every commit runs through five AI reviewers in parallel. Three are always present. A Senior SWE, a Product Manager, and a QA Engineer.\n\nThe other two are created on the fly. Claude looks at which files changed, decides what expertise is needed, and spawns the right specialist reviewers. There's no fixed list. Touch auth code and you get a Security Engineer. Touch type definitions and you get a Rust Idiom reviewer. It invents the persona to match the domain.\n\nEach reviewer gets its own context window. They don't see each other's feedback. They cite specific file:line references with severity tags: Critical, Important, Low. The HNSW index rebuild review caught 2 criticals and 5 other issues in a single pass. The real output is on slide 6.",
+  "source_version": "marketing/linkedin/2026-03-27-five-persona-review/post.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.029414192Z",
+  "valid_from": "2026-03-31T13:51:39.029414192Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-27-five-persona-review/post.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 1,
+    "end_line": 49,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

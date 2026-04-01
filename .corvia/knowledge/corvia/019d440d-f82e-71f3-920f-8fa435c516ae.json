@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82e-71f3-920f-8fa435c516ae",
+  "content": "pub enum ConfidenceLevel {\n    High,\n    Medium,\n    Low,\n}\npub struct QualitySignal {\n    pub confidence: ConfidenceLevel,\n    pub top_score: f32,\n    pub result_count: usize,\n    #[serde(skip_serializing_if = \"Option::is_none\")]\n    pub suggestion: Option<String>,\n    pub gap_detected: bool,\n    /// Number of results filtered out by min_score parameter.\n    #[serde(default, skip_serializing_if = \"is_zero\")]\n    pub below_threshold_count: usize,\n}",
+  "source_version": "crates/corvia-kernel/src/rag_types.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.438188791Z",
+  "valid_from": "2026-03-31T13:20:59.438188791Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/rag_types.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 20,
+    "end_line": 30,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

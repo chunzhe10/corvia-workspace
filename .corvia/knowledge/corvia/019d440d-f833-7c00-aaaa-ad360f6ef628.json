@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f833-7c00-aaaa-ad360f6ef628",
+  "content": "fn test_empty_source() {\n        let chunker = MarkdownChunker::new();\n        let chunks = chunker.chunk(\"\", &test_meta()).unwrap().chunks;\n        assert!(chunks.is_empty(), \"expected empty vec for empty source\");\n    }\nfn test_overlap_carries_heading_hierarchy() {\n        let chunker = MarkdownChunker::new();\n        let prev = RawChunk {\n            content: \"## Auth\\n\\n### JWT\\n\\nJWT details here.\".into(),\n            chunk_type: \"heading_section\".into(),\n            start_line: 1,\n            end_line: 5,\n            metadata: ChunkMetadata {\n                source_file: \"docs/guide.md\".into(),\n                language: Some(\"markdown\".into()),\n                ..Default::default()\n            },\n        };\n        let next = RawChunk {\n            content: \"### OAuth\\n\\nOAuth details.\".into(),\n            chunk_type: \"heading_section\".into(),\n            start_line: 6,\n            end_line: 8,\n            metadata: ChunkMetadata {\n                source_file: \"docs/guide.md\".into(),\n                language: Some(\"markdown\".into()),\n                ..Default::default()\n            },\n        };\n\n        let overlap = chunker.overlap_context(&prev, &next);\n        assert!(overlap.is_some(), \"expected Some overlap context\");\n        let text = overlap.unwrap();\n        assert!(\n            text.contains(\"## Auth\"),\n            \"overlap should contain parent heading '## Auth', got: {:?}\",\n            text\n        );\n        assert!(\n            text.contains(\"### JWT\"),\n            \"overlap should contain sub-heading '### JWT', got: {:?}\",\n            text\n        );\n    }",
+  "source_version": "crates/corvia-kernel/src/chunking_markdown.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.443891728Z",
+  "valid_from": "2026-03-31T13:20:59.443891728Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_markdown.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 465,
+    "end_line": 503,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

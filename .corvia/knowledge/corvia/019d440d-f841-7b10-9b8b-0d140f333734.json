@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0d140f333734",
+  "content": "st_chunker -- --nocapture`\nExpected: All tests PASS\n\n**Step 5: Commit**\n\n```bash\ngit add corvia-adapter-git/src/ast_chunker.rs corvia-adapter-git/src/lib.rs\ngit commit -m \"feat(m3.3): AstChunker — tree-sitter ChunkingStrategy adapter (D65/D68)\"\n```\n\n---\n\n### Task 9: Update GitAdapter for D69 Trait\n\nImplement the revised `IngestionAdapter` trait on `GitAdapter`.\n\n**Files:**\n- Modify: `corvia-adapter-git/src/git.rs` (implement new trait methods)\n- Modify: `corvia-adapter-git/src/lib.rs` (update exports)\n\n**Step 1: Write the failing test**\n\nAdd test to `corvia-adapter-git/src/git.rs`:\n\n```rust\n#[tokio::test]\nasync fn test_ingest_sources_returns_source_files() {\n    let dir = TempDir::new().unwrap();\n    let src_dir = dir.path().join(\"src\");\n    fs::create_dir_all(&src_dir).unwrap();\n    fs::write(src_dir.join(\"lib.rs\"), \"fn hello() {\\n    42\\n}\\n\").unwrap();\n    fs::write(dir.path().join(\"README.md\"), \"# Hello\\n\\nWorld.\\n\").unwrap();\n\n    let adapter = GitAdapter::new();\n    let files = adapter.ingest_sources(dir.path().to_str().unwrap()).await.unwrap();\n    assert!(files.len() >= 2, \"expected at least 2 source files, got {}\", files.len());\n\n    // Verify SourceFile structure\n    let rs_file = files.iter().find(|f| f.metadata.extension == \"rs\");\n    assert!(rs_file.is_some(), \"should include .rs file\");\n    let rs = rs_file.unwrap();\n    assert!(rs.content.contains(\"fn hello\"));\n    assert!(rs.metadata.file_path.contains(\"lib.rs\"));\n}\n\n#[test]\nfn test_register_chunking_adds_ast_strategy() {\n    use corvia_kernel::chunking_pipeline::FormatRegistry;",
+  "source_version": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457572953Z",
+  "valid_from": "2026-03-31T13:20:59.457572953Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1389,
+    "end_line": 1424,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

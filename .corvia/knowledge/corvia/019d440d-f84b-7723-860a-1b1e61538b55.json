@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84b-7723-860a-1b1e61538b55",
+  "content": "  # https://ollama.com/download\n\n### Build and run\n\n```bash\ngit clone https://github.com/corvia/corvia.git\ncd corvia\ncargo build --release\n\ncorvia init                              # creates .corvia/\ncorvia ingest /path/to/your/repo         # parse + embed + store\ncorvia search \"how does authentication work?\"\ncorvia reason                            # run all health checks\n```\n\n\n### More commands\n\n```bash\ncorvia history <entry-id>                # supersession chain\ncorvia evolution --scope default --since 7d  # what changed recently\ncorvia graph <entry-id>                  # graph relationships\ncorvia relate <from-id> depends_on <to-id>   # create an edge\ncorvia serve                             # REST API on :8020\ncorvia serve --mcp                       # + MCP endpoint for agents\ncorvia status --metrics                   # extended metrics (entries, agents, latency)\ncorvia demo                              # ingest corvia's own source code\ncorvia bench run                         # evaluate retrieval quality (NDCG, MRR, P@K)\ncorvia bench report                      # show latest benchmark results\n```\n",
+  "source_version": "README.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.467384156Z",
+  "valid_from": "2026-03-31T13:20:59.467384156Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "README.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 95,
+    "end_line": 122,
+    "content_role": "instruction",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "procedural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

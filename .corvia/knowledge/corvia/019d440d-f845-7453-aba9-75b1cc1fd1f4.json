@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-75b1cc1fd1f4",
+  "content": "### Task 7: Build and install VSIX\n\n### Task 8: End-to-end verification\n\nRun through the 12-point checklist from the spec:\n\n-**Step 1: Verify Traces tab renders**\n\nOpen Corvia Dashboard → click Traces tab. Should show 7 module nodes in a graph layout with a detail panel on the right.\n\n-**Step 2: Verify all 7 modules render with correct colors**\n\nCheck: Agent (peach), Entry (gold), Merge (mint), Storage (lavender), RAG (sky), Inference (coral), GC (amber).\n\n-**Step 3: Verify SVG edges connect correctly**\n\nVisual check: 8 curved edges connecting modules per the topology table.\n\n-**Step 4: Verify mode switcher**\n\nClick Map → Data Flow → Heat. Map shows static nodes. Data Flow shows animated dots. Heat shows pulsing glows.\n\n-**Step 5: Verify node click → detail panel**\n\nClick Entry node. Detail panel should show: module name, description, 4 mini-stats, span list with timing pills, recent events.\n\n-**Step 6: Verify empty state**\n\nOn initial load with no node selected, detail panel should say \"Select a module to inspect its telemetry\".\n\n-**Step 7: Verify graceful degradation**\n\nIf `traces` field is missing from status JSON, nodes should show \"- ops\" and detail panel should show \"No span data available\".\n\n-**Step 8: Verify timing pill colors**\n\nFast spans (<50ms) = mint, Medium (50-150ms) = peach, Slow (>150ms) = coral.\n\n-**Step 9: Verify responsive layout**\n\nResize window below 700px. Graph and detail should stack vertically.\n\n-**Step 10: Run Python tests**\n\nRun: `cd /workspaces/corvia-workspace/tools/corvia-dev && python -m pytest tests/test_traces.py -v`\nExpected: All tests pass.\n\n-**Step 11: Verify status JSON includes traces**\n\nRun: `corvia-dev status --json | python3 -c \"import sys,json; d=json.load(sys.stdin); print('traces:', 'present' if d.get('traces') else 'absent')\"`\n\n-**Step 12: Commit final state**\n\n```bash\ngit add -A\ngit commit -m \"feat: telemetry traces page — interactive module map with 3 rendering modes\"\n```",
+  "source_version": "docs/rfcs/2026-03-10-telemetry-traces-page.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461393528Z",
+  "valid_from": "2026-03-31T13:20:59.461393528Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-telemetry-traces-page.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1029,
+    "end_line": 1083,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81e-7810-a8c3-637ab96b0145",
+  "content": "erage\")\n            .body(axum::body::Body::empty())\n            .unwrap();\n        let resp = app.oneshot(req).await.unwrap();\n        assert_eq!(resp.status(), axum::http::StatusCode::OK);\n\n        // Status after refresh — checked_at should now be set\n        let (_, json_after) = get_json(state, \"/api/dashboard/status\").await;\n        assert!(\n            json_after[\"index_coverage_checked_at\"].is_string(),\n            \"after refresh, checked_at should be set\"\n        );\n    }\n\n    // --- Tiered knowledge endpoint tests ---\n\n    #[tokio::test]\n    async fn test_tiers_handler() {\n        let tmp = tempfile::tempdir().unwrap();\n        let state = test_state(tmp.path()).await;\n\n        let (status, json) = get_json(state, \"/api/dashboard/tiers\").await;\n\n        assert_eq!(status, axum::http::StatusCode::OK);\n        assert_eq!(json[\"hot\"], 0);\n        assert_eq!(json[\"warm\"], 0);\n        assert_eq!(json[\"cold\"], 0);\n        assert_eq!(json[\"forgotten\"], 0);\n        assert_eq!(json[\"total\"], 0);\n        assert_eq!(json[\"forgetting_enabled\"], false);\n    }\n\n    #[tokio::test]\n    async fn test_tiers_handler_forgetting_enabled() {\n        let tmp = tempfile::tempdir().unwrap();\n        let state = test_state(tmp.path()).await;\n\n        // Enable forgetting in config\n        {\n            let mut cfg = state.config.write().unwrap();\n            cfg.forgetting = Some(corvia_common::config::ForgettingConfig {",
+  "source_version": "crates/corvia-server/src/dashboard/mod.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.422716353Z",
+  "valid_from": "2026-03-31T13:20:59.422716353Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/mod.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 2132,
+    "end_line": 2165,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

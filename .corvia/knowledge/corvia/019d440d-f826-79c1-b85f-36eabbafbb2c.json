@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f826-79c1-b85f-36eabbafbb2c",
+  "content": "ng::warn!(\n                model = %name_owned,\n                requested_backend = %backend.backend,\n                \"ONNX Runtime does NOT have the {} EP provider library. \\\n                 Embedding will fall back to CPU. To fix: install the matching \\\n                 libonnxruntime_providers_{}.so alongside the binary.\",\n                backend.backend,\n                match backend.backend {\n                    BackendKind::Cuda => \"cuda\",\n                    BackendKind::OpenVino => \"openvino\",\n                    BackendKind::Cpu => \"cpu\",\n                }\n            );\n            backend.backend = BackendKind::Cpu;\n            backend.device = crate::backend::Device::Cpu;\n            backend.fallback_used = true;\n        }\n\n        // Build the fallback chain: requested backend → alternatives → CPU.\n        let fallback_chain = build_fallback_chain(&backend);\n\n        let mut engine = None;\n        for attempt_backend in fallback_chain {\n            let is_fallback = attempt_backend != backend.backend;\n            if is_fallback {\n                tracing::warn!(\n                    model = %name_owned,\n                    fallback_backend = %attempt_backend,\n                    \"Retrying with fallback backend\"\n                );\n            }\n\n            let eps = build_execution_providers(&ResolvedBackend {\n                device: if attempt_backend == BackendKind::Cpu {\n                    crate::backend::Device::Cpu\n                } else {\n                    crate::backend::Device::Gpu\n                },\n                backend: attempt_backend,\n                fallback_used: is_fallback,\n            });",
+  "source_version": "crates/corvia-inference/src/embedding_service.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.430475508Z",
+  "valid_from": "2026-03-31T13:20:59.430475508Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/src/embedding_service.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 199,
+    "end_line": 234,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

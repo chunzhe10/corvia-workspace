@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a15-7ca3-b9db-55faf6b0421d",
+  "content": "═══════════════════════════════════════════════════ */\n  .slide-5 { background: var(--bg-dark); }\n  .slide-5 .slide-label { color: var(--accent-purple); }\n  .slide-5 .story-content {\n    display: flex;\n    flex-direction: column;\n    gap: 32px;\n    margin-top: 16px;\n  }\n  .slide-5 .story-block {\n    background: var(--bg-card);\n    border-radius: 16px;\n    padding: 36px;\n    border-left: 4px solid;\n  }\n  .slide-5 .story-block h3 {\n    font-size: 24px;\n    font-weight: 700;\n    color: var(--text-primary);\n    margin-bottom: 12px;\n  }\n  .slide-5 .story-block p {\n    font-size: 22px;\n    color: var(--text-secondary);\n    line-height: 1.55;\n  }\n  .slide-5 .story-block .stat-inline {\n    font-size: 42px;\n    font-weight: 800;\n    margin: 16px 0 8px;\n  }\n\n  /* ════════════════════════════════════════════════════ */\n  /* SLIDE 6 — NUMBERS                                  */\n  /* ════════════════════════════════════════════════════ */\n  .slide-6 { background: var(--bg-dark); }\n  .slide-6 .slide-label { color: var(--accent-cyan); }\n\n  .slide-6 .stat-grid {\n    display: grid;\n    grid-template-columns: 1fr 1fr;\n    gap: 28px;\n    flex: 1;\n    align-content: center;\n  }\n  .slide-6 .stat-box {\n    background: var(--bg-card);\n    border-radius: 16px;\n    padding: 48px 28px;\n    text-align: center;\n  }\n\n  /* ════════════════════════════════════════════════════ */\n  /* SLIDE 7 — WHAT EXISTS TODAY (clean)                */\n  /* ════════════════════════════════════════════════════ */\n  .slide-7 { background: var(--bg-dark); }\n  .slide-7 .slide-label { color: var(--accent-green); }",
+  "source_version": "marketing/linkedin/2026-03-29-recursive-loop-reflection/recursive-loop-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.029969843Z",
+  "valid_from": "2026-03-31T13:51:39.029969843Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-29-recursive-loop-reflection/recursive-loop-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 359,
+    "end_line": 412,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

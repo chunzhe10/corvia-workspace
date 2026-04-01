@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0e41e723552e",
+  "content": "# Dashboard Redesign Implementation Plan\n\n> **Status:** Shipped (v0.3.7)\n\n**Goal:** Rewrite the Corvia VS Code extension dashboard with a warm dark Figma-inspired design, M4 metrics, view tabs, and interactive log terminal.\n\n**Architecture:** Single-file rewrite of `extension.js` — the extension host code (activate, refresh, openDashboard, deactivate) stays nearly identical. The `getDashboardHtml()` function is fully replaced with new CSS, HTML skeleton, and JavaScript. The existing `corvia-dev status --json` polling contract is unchanged.\n\n**Tech Stack:** VS Code Webview API, vanilla HTML/CSS/JS (embedded in extension.js template literal), Inter font from Google Fonts.\n\n**Spec:** `2026-03-10-dashboard-redesign-design.md`\n**Mockup:** (layout-v5.html, superseded by shipped implementation)\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-10-dashboard-redesign.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457747722Z",
+  "valid_from": "2026-03-31T13:20:59.457747722Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-dashboard-redesign.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1,
+    "end_line": 15,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

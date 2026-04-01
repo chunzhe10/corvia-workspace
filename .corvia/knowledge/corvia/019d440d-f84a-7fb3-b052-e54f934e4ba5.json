@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84a-7fb3-b052-e54f934e4ba5",
+  "content": "### Task 6: Model Manager — Thread device/backend Through\n\n    let model_type = match req.model_type.as_str() {\n        \"embedding\" => ModelType::Embedding,\n        \"chat\" => ModelType::Chat,\n        other => {\n            return Ok(Response::new(LoadModelResponse {\n                success: false,\n                error: format!(\"Unknown model_type: '{other}'. Expected 'embedding' or 'chat'.\"),\n                actual_device: String::new(),\n                actual_backend: String::new(),\n            }));\n        }\n    };\n\n    // Resolve backend\n    let resolved = match backend::resolve_backend(&req.device, &req.backend, model_type, &self.gpu) {\n        Ok(r) => r,\n        Err(e) => {\n            return Ok(Response::new(LoadModelResponse {\n                success: false,\n                error: e,\n                actual_device: String::new(),\n                actual_backend: String::new(),\n            }));\n        }\n    };\n\n    let actual_device = resolved.device.to_string();\n    let actual_backend = resolved.backend.to_string();\n\n    if resolved.fallback_used {\n        tracing::warn!(\n            model = %req.name,\n            requested_device = %req.device,\n            actual_device = %actual_device,\n            actual_backend = %actual_backend,\n            \"GPU not available, fell back to CPU\"\n        );\n    }\n\n    // Delegate to appropriate service\n    let result = match model_type {\n        ModelType::Embedding => self.embed_svc.load_model(&req.name, resolved).await,\n        ModelType::Chat => self.chat_svc.load_model(&req.name, resolved).await,\n    };",
+  "source_version": "docs/rfcs/2026-03-12-inference-gpu-device-control.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.466311260Z",
+  "valid_from": "2026-03-31T13:20:59.466311260Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-12-inference-gpu-device-control.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 854,
+    "end_line": 897,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

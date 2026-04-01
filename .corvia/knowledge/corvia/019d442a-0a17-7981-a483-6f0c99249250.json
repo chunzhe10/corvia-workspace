@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a17-7981-a483-6f0c99249250",
+  "content": "# Test refresh endpoint\n# Verify hot-reload works\n\n## Dependency Order\n\n```\nTask 1 (config) ──────────────────────────┐\nTask 2 (hnsw_entry_count) ────────────────┤\nTask 3 (response fields) ─────────────────┼─→ Task 4 (cache module)\n                                           │         ↓\n                                           ├─→ Task 5 (wire into AppState + handlers)\n                                           │         ↓\n                                           ├─→ Task 6 (startup init)\n                                           │         ↓\nTask 7 (hot-reload allowlist) ─────────────┤\nTask 8 (config validation) ────────────────┤\n                                           ↓\n                                    Task 9 (test_state helper)\n                                           ↓\n                              Tasks 10-13 (tests, parallelizable)\n                                           ↓\n                              Task 14 (build + verify)\n                                           ↓\n                              Task 15 (manual verification)\n```\n\nTasks 1, 2, 3 can run in parallel. Tasks 10, 11, 12, 13 can run in parallel.",
+  "source_version": "plans/2026-03-26-index-coverage-plan.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.031309523Z",
+  "valid_from": "2026-03-31T13:51:39.031309523Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "plans/2026-03-26-index-coverage-plan.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 730,
+    "end_line": 753,
+    "content_role": "plan",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

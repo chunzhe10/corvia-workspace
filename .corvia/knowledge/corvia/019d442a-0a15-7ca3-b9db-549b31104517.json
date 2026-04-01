@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a15-7ca3-b9db-549b31104517",
+  "content": "olor: var(--accent-amber);\">36ms</span></div>\n    <div><span style=\"color: var(--accent-green);\">corvia.entry.write</span>   <span style=\"color: var(--text-muted);\">  2 calls</span>  avg: <span style=\"color: var(--accent-amber);\">88ms</span></div>\n  </div>\n  <div class=\"terminal\" style=\"font-size: 18px; line-height: 1.8;\">\n    <div style=\"color: var(--accent-cyan); font-weight: 600; margin-bottom: 12px;\">GET /api/dashboard/traces/recent (trace tree)</div>\n    <div><span style=\"color: var(--accent-blue);\">corvia.rag.context</span> <span style=\"color: var(--text-muted);\">42ms total, 3 spans</span></div>\n    <div style=\"padding-left: 24px;\"><span style=\"color: var(--accent-purple);\">&#9492;&#9472;</span> <span style=\"color: var(--accent-green);\">corvia.entry.embed</span> <span style=\"color: var(--accent-amber);\">14ms</span></div>\n    <div style=\"padding-left: 24px;\"><span style=\"color: var(--accent-purple);\">&#9492;&#9472;</span> <span style=\"color: var(--accent-green);\">corvia.store.search</span> <span style=\"color: var(--accent-amber);\">26ms</span> <span style=\"color: var(--accent-red);\">&larr; 60-85% of time</span></div>\n  </div>\n\n  <div class=\"insight-box\" style=\"margin-top: 20px;\">\n    <p>Retrieval consistently takes 60-85% of RAG pipeline time. That insight redirected optimization from the embedding model to the vector search path.</p>\n  </div>\n\n  <div class=\"flex-grow\"></div>\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">04 / 08</div>\n</div>\n\n<!-- SLIDE 5: THE GAP -->\n<div class=\"slide\">\n  <div class=\"slide-label\">The Next Question</div>\n  <div class=\"slide-title\">\n    It Can See.<br>\n    <span class=\"highlight-amber\">But Can It Act?</span>\n  </div>\n  <div class=\"slide-subtitle\" style=\"font-size: 22px; margin-bottom: 28px;\">\n    Observability showed the agent what was happening.<br>\n    But it had no way to change anything without running shell commands.\n  </div>",
+  "source_version": "marketing/linkedin/2026-03-28-observability-control-plane/observability-control-plane-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.029740414Z",
+  "valid_from": "2026-03-31T13:51:39.029740414Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-28-observability-control-plane/observability-control-plane-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 288,
+    "end_line": 314,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

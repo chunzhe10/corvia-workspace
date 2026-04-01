@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f836-7610-b605-bd6e177ef0fc",
+  "content": "sed) => {\n                                debug!(\"event_logger: channel closed, exiting\");\n                                break;\n                            }\n                        }\n                    }\n                }\n            }\n        })\n    }\nfn log_event(path: &std::path::Path, event: &KernelEvent) {\n        use corvia_common::events::{append_event, Event, EventType};\n\n        let (event_type, data) = match event {\n            KernelEvent::MergeCompleted { entry_id, session_id, scope_id } => (\n                EventType::MergeCompleted,\n                serde_json::json!({\n                    \"entry_id\": entry_id.to_string(),\n                    \"session_id\": session_id,\n                    \"scope_id\": scope_id,\n                }),\n            ),\n            KernelEvent::MergeFailed { entry_id, scope_id } => (\n                EventType::MergeFailed,\n                serde_json::json!({\n                    \"entry_id\": entry_id.to_string(),\n                    \"scope_id\": scope_id,\n                }),\n            ),\n            KernelEvent::EntryCommitted { entry_id, session_id, scope_id } => (\n                EventType::EntryCommitted,\n                serde_json::json!({\n                    \"entry_id\": entry_id.to_string(),\n                    \"session_id\": session_id,\n                    \"scope_id\": scope_id,\n                }),\n            ),\n            KernelEvent::SessionOpened { agent_id, session_id, scope_id } => (\n                EventType::SessionOpened,\n                serde_json::json!({\n                    \"agent_id\": agent_id,\n                    \"session_id\": session_id,\n                    \"scope_id\": scope_id,\n                }),\n            ),\n            KernelEvent::SessionClosed { session_id, scope_id } => (",
+  "source_version": "crates/corvia-kernel/src/event_bus.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.446280126Z",
+  "valid_from": "2026-03-31T13:20:59.446280126Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/event_bus.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 172,
+    "end_line": 207,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

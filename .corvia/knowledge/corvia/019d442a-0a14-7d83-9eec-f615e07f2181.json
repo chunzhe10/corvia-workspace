@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f615e07f2181",
+  "content": "ass=\"highlight-amber\">Sitting Idle.</span><br>\n    Use It.\n  </div>\n  <div class=\"slide-subtitle\" style=\"font-size: 20px;\">\n    Most laptops have two GPUs. Most people only use one.<br>\n    Linux lets you assign processes to each GPU individually.\n  </div>\n  <div style=\"display: flex; gap: 20px; margin-bottom: 24px;\">\n    <div class=\"card\" style=\"flex: 1; border-left: 4px solid var(--accent-red); margin-bottom: 0;\">\n      <div class=\"card-header\" style=\"color: var(--accent-red);\">Default (wasteful)</div>\n      <div style=\"font-size: 18px; line-height: 1.7;\">\n        VS Code, GNOME, browser &mdash;<br>\n        all running on the <strong>RTX 3060</strong>.<br>\n        iGPU completely <strong>unused</strong>.<br><br>\n        <span style=\"font-size: 36px; font-weight: 800; color: var(--accent-red);\">20%</span><br>\n        <span style=\"color: var(--text-secondary);\">dGPU wasted on desktop UI</span>\n      </div>\n    </div>\n    <div class=\"card\" style=\"flex: 1; border-left: 4px solid var(--accent-green); margin-bottom: 0;\">\n      <div class=\"card-header\" style=\"color: var(--accent-green);\">Optimized (both GPUs working)</div>\n      <div style=\"font-size: 18px; line-height: 1.7;\">\n        Desktop + editors on <strong>Intel iGPU</strong>.<br>\n        RTX 3060 reserved for<br>\n        rendering, compute &amp; local LLM inference.<br><br>\n        <span style=\"font-size: 36px; font-weight: 800; color: var(--accent-green);\">0%</span><br>\n        <span style=\"color: var(--text-secondary);\">dGPU free until you need it</span>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"terminal\">\n    <span class=\"prompt\">#</span> <span class=\"output\">Assign VS Code to Intel iGPU</span><br>\n    <span class=\"prompt\">$</span> <span class=\"cmd\">env <span class=\"highlight-val\">DRI_PRIME=0</span> code-insiders</span><br><br>\n    <span class=\"prompt\">#</span> <span class=\"output\">Set system to on-demand GPU switching</span><br>\n    <span class=\"prompt\">$</span> <span class=\"cmd\">sudo <span class=\"highlight-val\">prime-select on-demand</span></span>\n  </div>",
+  "source_version": "marketing/linkedin/2026-03-11-linux-discovery/linux-discovery-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028275806Z",
+  "valid_from": "2026-03-31T13:51:39.028275806Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-11-linux-discovery/linux-discovery-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 705,
+    "end_line": 733,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

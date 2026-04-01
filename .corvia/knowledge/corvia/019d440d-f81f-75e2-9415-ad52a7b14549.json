@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81f-75e2-9415-ad52a7b14549",
+  "content": "(\"ses-test\");\n        apply_event(&mut fs, &make_session_start(\"ses-test\"));\n        apply_event(&mut fs, &make_session_end());\n\n        assert_eq!(fs.session.state, HookSessionState::Ended);\n        // Ended sessions should be evicted on next sweep.\n    }\nasync fn test_max_sessions_limit() {\n        let (state, _rx) = SessionWatcherState::new();\n        let dir = tempfile::tempdir().unwrap();\n\n        // Create MAX_SESSIONS + 1 files.\n        for i in 0..=MAX_SESSIONS {\n            let path = dir.path().join(format!(\"ses-{i}.jsonl\"));\n            let mut f = std::fs::File::create(&path).unwrap();\n            writeln!(f, \"{}\", make_session_start(&format!(\"ses-{i}\"))).unwrap();\n        }\n\n        // Process them all.\n        let paths: HashSet<PathBuf> = (0..=MAX_SESSIONS)\n            .map(|i| dir.path().join(format!(\"ses-{i}.jsonl\")))\n            .collect();\n        process_file_changes(&state, paths).await;\n\n        let guard = state.sessions.read().await;\n        assert!(guard.len() <= MAX_SESSIONS);\n    }",
+  "source_version": "crates/corvia-server/src/dashboard/session_watcher.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.423818360Z",
+  "valid_from": "2026-03-31T13:20:59.423818360Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/session_watcher.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 890,
+    "end_line": 909,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

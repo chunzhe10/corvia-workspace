@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-a10f0bbc1a6b",
+  "content": "## Phase 2 Completion Checkpoint\n\n## Parallel Execution Summary\n\n```\nTimeline    │ Agent 1 (M3.1)        │ Agent 2 (M3.2)        │ Agent 3 (M3.3)\n────────────┼───────────────────────┼───────────────────────┼──────────────────\nPhase 0     │ ← F1 (GenEngine) + F6 (Corvia variant) ──────────────────────→ │\n(shared)    │ ← F2 (TokenEstimator) + F4 (RAG types) + F5 (configs) ───────→ │\n            │ ← F3 (ChunkingStrategy trait) ────────────────────────────────→ │\n────────────┼───────────────────────┼───────────────────────┼──────────────────\nPhase 1     │ A1: corvia-proto      │ B2: VectorRetriever   │ C2: FormatReg\n(parallel)  │ A2: MergeWorker refac │ B3: GraphExpandRetr   │ C3: FallbackChkr\n            │ A3: GrpcInferEngine   │ B4: StructuredAugmnt  │ C4: Pipeline\n            │ A4: GrpcChatEngine    │ B5: RagPipeline ctx   │ C5: MarkdownChkr\n            │     ──── H1 ────→     │ B6: search routing fix│ C6: ConfigChkr\n            │ A5: InferProvisioner  │ B7: REST /v1/context  │ C7: PdfChunker",
+  "source_version": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464948878Z",
+  "valid_from": "2026-03-31T13:20:59.464948878Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1851,
+    "end_line": 1865,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

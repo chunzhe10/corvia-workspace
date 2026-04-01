@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-1c2603ab08f2",
+  "content": "### Task 0: Add `rand` Dependency and `mod clustering`\n\n### Task 1: K-means and Silhouette Core\n\n**Files:**\n- Modify: `crates/corvia-server/src/dashboard/clustering.rs`\n\n-**Step 1: Write failing test for k-means on known data**\n\nIn `clustering.rs`, add a `#[cfg(test)] mod tests` block:\n\n```rust\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    #[test]\n    fn test_kmeans_two_obvious_clusters() {\n        // Two well-separated 3D clusters\n        let data: Vec<Vec<f32>> = vec![\n            vec![0.0, 0.0, 0.0],\n            vec![0.1, 0.1, 0.1],\n            vec![0.05, 0.05, 0.05],\n            vec![10.0, 10.0, 10.0],\n            vec![10.1, 10.1, 10.1],\n            vec![9.95, 9.95, 9.95],\n        ];\n        let assignments = kmeans(&data, 2, 100);\n        // First 3 should be same cluster, last 3 should be same cluster\n        assert_eq!(assignments[0], assignments[1]);\n        assert_eq!(assignments[1], assignments[2]);\n        assert_eq!(assignments[3], assignments[4]);\n        assert_eq!(assignments[4], assignments[5]);\n        assert_ne!(assignments[0], assignments[3]);\n    }\n}\n```\n\n-**Step 2: Run test to verify it fails**\n\nRun: `cd /workspaces/corvia-workspace/repos/corvia && cargo test -p corvia-server clustering::tests::test_kmeans --no-default-features 2>&1 | tail -5`\nExpected: FAIL — `kmeans` function not found\n\n-**Step 3: Implement k-means**\n\n```rust\nuse std::collections::HashMap;\n\n/// Assign each vector to one of k clusters. Returns cluster assignments (0..k).\npub fn kmeans(data: &[Vec<f32>], k: usize, max_iters: usize) -> Vec<usize> {\n    let n = data.len();\n    let dim = data[0].len();\n    if n <= k {\n        return (0..n).collect();\n    }\n\n    // Initialize centroids with k-means++ seeding\n    let mut centroids = kmeans_pp_init(data, k);\n    let mut assignments = vec![0usize; n];\n\n    for _ in 0..max_iters {\n        // Assign step\n        let mut changed = false;\n        for (i, point) in data.iter().enumerate() {",
+  "source_version": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456217927Z",
+  "valid_from": "2026-03-31T13:20:59.456217927Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 90,
+    "end_line": 151,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

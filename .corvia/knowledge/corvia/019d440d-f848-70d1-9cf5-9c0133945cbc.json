@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9c0133945cbc",
+  "content": "knowledge base. Cross-agent search works instantly via shared HNSW. `git log --all` shows every agent's contributions. MCP server exposes knowledge to any orchestrator (CrewAI, LangGraph, etc.). Agents survive crashes and reconnect without data loss.\n\n---\n\n### M3: \"Knowledge that remembers — and reasons\"\n\n**Depends on**: M2\n**LinkedIn**: \"My AI tool remembers *when*, reasons *why*, and I proved it by pointing it at itself\"\n\n**What changed from original**:\n- Graph: petgraph in-memory overlay + Redb edge persistence (D37), NOT SurrealDB graph\n- Temporal: Redb compound-key range scans (D38), NOT SurrealDB temporal queries\n- New traits: `TemporalStore`, `GraphStore` — Redb impl (LiteStore), SurrealDB impl (FullStore)\n- New capabilities: Level 2 reasoning + Level 3 structured findings (D44)\n- New command: `corvia upgrade` (LiteStore → FullStore migration)\n- Updated command: `corvia rebuild` now also reconstructs petgraph + temporal indexes\n\n**Deliverables**:\n1. `TemporalStore` trait + Redb implementation\n   - Compound keys: `{scope}:{valid_from}:{entry_id}`\n   - Methods: `as_of(timestamp)`, `history(entry_id)`, `evolution(scope, time_range)`\n   - Bi-temporal: `recorded_at` (when stored) + `valid_from`/`valid_to` (when true)\n2. `GraphStore` trait + petgraph implementation\n   - Redb edge persistence: key `{from_id}:{relation}:{to_id}`, value: edge metadata\n   - In-memory petgraph rebuilt on startup from Redb edges\n   - Operations: BFS, DFS, shortest path, cycle detection, subgraph extraction\n   - Relations: `depends_on`, `implements`, `supersedes`, `relates_to`, `contradicts`",
+  "source_version": "docs/rfcs/milestone-revision-notes.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464216162Z",
+  "valid_from": "2026-03-31T13:20:59.464216162Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/milestone-revision-notes.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 51,
+    "end_line": 73,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

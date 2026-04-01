@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f831-7562-9884-a97dc48d7e1e",
+  "content": "pub struct PipelineRegistry {\n    pub searchers: ComponentRegistry<dyn Searcher>,\n    pub fusions: ComponentRegistry<dyn Fusion>,\n    pub expanders: ComponentRegistry<dyn Expander>,\n    pub rerankers: ComponentRegistry<dyn Reranker>,\n}\nimpl PipelineRegistry {\n    /// Validate pipeline config and build a complete `RetrievalPipeline`.\n    ///\n    /// Returns `Err` if the config references unknown components or required\n    /// dependencies are missing. Used by the hot-swap path to validate before\n    /// atomically swapping the live pipeline.\n    pub fn validate_and_build(\n        config: &corvia_common::config::PipelineConfig,\n        deps: &ComponentDeps,\n        graph: Option<Arc<dyn GraphStore>>,\n        graph_alpha: f32,\n    ) -> Result<super::RetrievalPipeline> {\n        let registry = Self::with_defaults();\n\n        // Build searchers.\n        let mut searchers: Vec<Arc<dyn Searcher>> = Vec::new();\n        let mut errors: Vec<String> = Vec::new();\n        for name in &config.searchers {\n            match registry.searchers.create(name, deps) {\n                Ok(s) => searchers.push(s),\n                Err(e) => errors.push(format!(\"searcher '{name}': {e}\")),\n            }\n        }\n        if searchers.is_empty() {\n            return Err(CorviaError::Config(format!(\n                \"no valid searchers in config: {}\",\n                errors.join(\"; \")\n            )));\n        }\n\n        // Build fusion.\n        let fusion = registry.fusions.create(&config.fusion, deps)\n            .map_err(|e| CorviaError::Config(format!(\"fusion '{}': {e}\", config.fusion)))?;\n\n        // Build expander.\n        let expander: Arc<dyn super::Expander> = match (config.expander.as_str(), graph) {\n            (\"graph\", Some(g)) => {",
+  "source_version": "crates/corvia-kernel/src/pipeline/registry.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.441209067Z",
+  "valid_from": "2026-03-31T13:20:59.441209067Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/registry.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 117,
+    "end_line": 153,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

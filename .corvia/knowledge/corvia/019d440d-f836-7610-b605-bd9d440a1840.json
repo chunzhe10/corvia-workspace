@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f836-7610-b605-bd9d440a1840",
+  "content": " mut rx2 = bus.subscribe();\n\n        bus.publish(KernelEvent::SessionClosed {\n            session_id: \"sess-1\".into(),\n            scope_id: \"test\".into(),\n        });\n\n        let e1 = rx1.recv().await.unwrap();\n        let e2 = rx2.recv().await.unwrap();\n        assert!(matches!(e1, KernelEvent::SessionClosed { .. }));\n        assert!(matches!(e2, KernelEvent::SessionClosed { .. }));\n    }\n\n    #[tokio::test]\n    async fn test_cancellation_token() {\n        let bus = EventBus::new(16);\n        let token = bus.cancel_token();\n        assert!(!token.is_cancelled());\n        token.cancel();\n        assert!(token.is_cancelled());\n    }\n\n    #[tokio::test]\n    async fn test_event_logger_writes_jsonl() {\n        let dir = tempfile::tempdir().unwrap();\n        let events_path = dir.path().join(\"events.jsonl\");\n\n        let bus = EventBus::new(16);\n        let handle = EventLogger::spawn(&bus, events_path.clone());\n\n        // Publish a few events\n        bus.publish(KernelEvent::MergeCompleted {\n            entry_id: Uuid::nil(),\n            session_id: \"sess-1\".into(),\n            scope_id: \"test\".into(),\n        });\n        bus.publish(KernelEvent::EntryCommitted {\n            entry_id: Uuid::nil(),\n            session_id: \"sess-1\".into(),\n            scope_id: \"test\".into(),\n        });\n\n        // Give the logger a moment to process\n        tokio::time::sleep(std::time::Duration::from_millis(100)).await;\n\n        // Cancel and wait for shutdown\n        bus.cancel_token().cancel();\n        handle.await.unwrap();\n\n        // Verify JSONL was written\n        let content = std::fs::read_to_string(&events_path).unwrap();\n        let lines: Vec<&str> = content.trim().lines().collect();\n        assert_eq!(lines.len(), 2);\n        assert!(lines[0].contains(\"MergeCompleted\"));\n        assert!(lines[1].contains(\"EntryCommitted\"));\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/event_bus.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.446313917Z",
+  "valid_from": "2026-03-31T13:20:59.446313917Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/event_bus.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 298,
+    "end_line": 345,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

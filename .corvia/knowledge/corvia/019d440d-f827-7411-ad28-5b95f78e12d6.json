@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f827-7411-ad28-5b95f78e12d6",
+  "content": "0..30 {\n        tokio::time::sleep(std::time::Duration::from_millis(200)).await;\n        if ModelManagerClient::connect(endpoint.clone()).await.is_ok() {\n            return endpoint;\n        }\n    }\n\n    panic!(\"Server failed to start within 6 seconds\");\n}\nfn cleanup_server(endpoint: &str) {\n    // Extract port from endpoint\n    if let Some(port) = endpoint.rsplit(':').next() {\n        let _ = std::process::Command::new(\"fuser\")\n            .args([\"-k\", &format!(\"{port}/tcp\")])\n            .output();\n    }\n}",
+  "source_version": "crates/corvia-inference/tests/chat_e2e_test.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.431165815Z",
+  "valid_from": "2026-03-31T13:20:59.431165815Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/tests/chat_e2e_test.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 60,
+    "end_line": 67,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

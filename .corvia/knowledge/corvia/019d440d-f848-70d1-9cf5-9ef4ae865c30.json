@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9ef4ae865c30",
+  "content": "### Task F4: RAG Types\n\n### Task F5: Config Additions (RagConfig + ChunkingConfig)\n\n**Files:**\n- Modify: `crates/corvia-common/src/config.rs`\n\n**Unblocks:** M3.2 (RagPipeline config), M3.3 (ChunkingPipeline config)\n\n**Step 1: Add RagConfig**\n\nIn `crates/corvia-common/src/config.rs`, add:\n\n```rust\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct RagConfig {\n    #[serde(default = \"default_rag_limit\")]\n    pub default_limit: usize,\n    #[serde(default = \"default_graph_expand\")]\n    pub graph_expand: bool,\n    #[serde(default = \"default_graph_depth\")]\n    pub graph_depth: usize,\n    #[serde(default = \"default_graph_alpha\")]\n    pub graph_alpha: f32,\n    #[serde(default = \"default_reserve_for_answer\")]\n    pub reserve_for_answer: f32,\n    #[serde(default)]\n    pub max_context_tokens: usize, // 0 = model-aware auto-sizing\n    #[serde(default)]\n    pub system_prompt: String,     // empty = built-in default\n}\n\nfn default_rag_limit() -> usize { 10 }\nfn default_graph_expand() -> bool { true }\nfn default_graph_depth() -> usize { 2 }\nfn default_graph_alpha() -> f32 { 0.3 }\nfn default_reserve_for_answer() -> f32 { 0.2 }\n\nimpl Default for RagConfig {\n    fn default() -> Self {\n        Self {\n            default_limit: default_rag_limit(),\n            graph_expand: default_graph_expand(),\n            graph_depth: default_graph_depth(),\n            graph_alpha: default_graph_alpha(),\n            reserve_for_answer: default_reserve_for_answer(),\n            max_context_tokens: 0,\n            system_prompt: String::new(),",
+  "source_version": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464603268Z",
+  "valid_from": "2026-03-31T13:20:59.464603268Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 615,
+    "end_line": 660,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

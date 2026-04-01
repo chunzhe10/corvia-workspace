@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-74c4a90df363",
+  "content": "den;\n}\n.tnode-bar-fill { height: 100%; border-radius: 2px; transition: width 0.5s ease; }\n\n/* SVG edges */\n.edge-layer { position: absolute; inset: 0; pointer-events: none; z-index: 1; }\n.edge-path { stroke: var(--border); stroke-width: 1.5; fill: none; }\n\n/* Heat mode glow */\n@keyframes heat-pulse {\n  0%, 100% { opacity: 0.6; }\n  50% { opacity: 1; }\n}\n.tnode.heat-cool { box-shadow: 0 0 12px rgba(94,234,212,0.4); animation: heat-pulse 2s ease-in-out infinite; }\n.tnode.heat-warm { box-shadow: 0 0 16px rgba(240,201,76,0.5); animation: heat-pulse 2s ease-in-out infinite; }\n.tnode.heat-hot { box-shadow: 0 0 20px rgba(255,138,128,0.6); animation: heat-pulse 2s ease-in-out infinite; }\n\n/* Detail panel */\n.trace-detail { display: flex; flex-direction: column; gap: 16px; overflow-y: auto; }\n.trace-card {\n  background: var(--bg-card); border: 1px solid var(--border);\n  border-radius: var(--radius-lg); box-shadow: var(--shadow-card); overflow: hidden;\n}\n.trace-card-hdr { padding: 18px 20px 0; }\n.trace-card-body { padding: 0 20px 18px; }\n.trace-label {\n  font-size: 10px; text-transform: uppercase; letter-spacing: 0.07em;\n  color: var(--text-dim); font-weight: 700; margin-bottom: 14px;\n}\n\n.module-hdr {\n  display: flex; align-items: center; gap: 12px;\n  padding: 16px 20px; border-bottom: 1px solid var(--border-subtle);\n}\n.module-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }\n.module-name { font-size: 13px; font-weight: 700; color: var(--text-bright); }\n.module-desc { font-size: 10px; color: var(--text-dim); margin-top: 2px; }\n\n.mini-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 16px 20px; }\n.mini-stat {\n  background: var(--bg-input); border-radius: var(--radius-sm);\n  padding: 12px; text-align: center;\n}\n.mini-stat-val { font-size: 18px; font-weight: 800; color: var(--text-bright); }\n.mini-stat-lbl {\n  font-size: 9px; color: var(--text-dim); text-transform: uppercase;\n  letter-spacing: 0.06em; margin-top: 4px; font-weight: 600;\n}\n\n.span-row {",
+  "source_version": "docs/rfcs/2026-03-10-telemetry-traces-page.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461250553Z",
+  "valid_from": "2026-03-31T13:20:59.461250553Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-telemetry-traces-page.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 550,
+    "end_line": 591,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9c3207cbbb99",
+  "content": "### M4: \"See what's happening inside\"\n\n### M5: \"A window into the mind\"\n\n**Depends on**: M4\n**LinkedIn**: \"Corvia now has a VS Code extension — a visual window into your code's memory\"\n\n**What changed from original**: Minimal — MCP is backend-agnostic. Two additions.\n\n**Deliverables** (mostly unchanged):\n1. `corvia-extension` repo — VS Code extension connecting via MCP\n2. Dashboard panels: pipeline flow, namespace map, merge activity, temporal health, cost tracker\n3. Search panel with relevance scores\n4. Timeline view (temporal history)\n5. Agent status panel\n6. **New**: Auto-detect LiteStore vs FullStore from config (adjust available panels)\n7. **New**: Graph visualization panel — petgraph-based concept map (if M3 graph available)\n\n**What works after M5**: VS Code users get a visual window into Corvia. Works with both LiteStore and FullStore.\n\n---\n",
+  "source_version": "docs/rfcs/milestone-revision-notes.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464239247Z",
+  "valid_from": "2026-03-31T13:20:59.464239247Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/milestone-revision-notes.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 128,
+    "end_line": 147,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

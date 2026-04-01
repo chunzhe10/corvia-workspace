@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f836-7610-b605-bc0ab648fc8d",
+  "content": "lf, text: &str) -> Result<Vec<f32>>;\n\n    /// Generate embeddings for a batch of texts.\n    async fn embed_batch(&self, texts: &[String]) -> Result<Vec<Vec<f32>>>;\n\n    /// Return the embedding dimension for this model.\n    fn dimensions(&self) -> usize;\n}\npub trait IngestionAdapter: Send + Sync {\n    /// Domain name (e.g., \"git\", \"general\").\n    fn domain(&self) -> &str;\n\n    /// Register chunking strategies this adapter provides.\n    /// Called once during pipeline setup. The adapter registers\n    /// its strategies (e.g., AstChunker) as overrides in the registry.\n    fn register_chunking(&self, registry: &mut crate::chunking_pipeline::FormatRegistry);\n\n    /// Return raw source files for the kernel's ChunkingPipeline.\n    /// Files are returned as-is (content + metadata); the pipeline\n    /// handles all chunking, embedding, and storage.\n    async fn ingest_sources(&self, source_path: &str) -> Result<Vec<crate::chunking_strategy::SourceFile>>;\n}",
+  "source_version": "crates/corvia-kernel/src/traits.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.446117657Z",
+  "valid_from": "2026-03-31T13:20:59.446117657Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/traits.rs",
+    "language": "rs",
+    "chunk_type": "trait_item",
+    "start_line": 102,
+    "end_line": 115,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

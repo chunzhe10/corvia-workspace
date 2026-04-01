@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f826-79c1-b85f-38b5a196a5e6",
+  "content": " OpenVINO EP availability depends on whether\n        // libonnxruntime_providers_openvino.so is installed on the system.\n        // Don't assert true/false — just verify it doesn't panic.\n        let _ = verify_ep_available(&BackendKind::OpenVino);\n    }\nfn test_can_dlopen_nonexistent() {\n        assert!(!can_dlopen(\"libdoes_not_exist_12345.so\"));\n    }\nfn test_can_dlopen_libc() {\n        // libc.so.6 is always present on Linux\n        assert!(can_dlopen(\"libc.so.6\"));\n    }",
+  "source_version": "crates/corvia-inference/src/embedding_service.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.430741751Z",
+  "valid_from": "2026-03-31T13:20:59.430741751Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/src/embedding_service.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 585,
+    "end_line": 593,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

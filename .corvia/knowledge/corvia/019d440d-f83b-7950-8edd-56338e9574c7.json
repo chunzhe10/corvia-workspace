@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-56338e9574c7",
+  "content": "## Page Structure (single continuous page, multi-page PDF)\n\n### Page 1 — Cover\n- corvia logo centered (large)\n- \"Brand Guidelines\" subtitle\n- Version + date\n\n\n### Page 2 — Logo\n- Primary logo: navy on light\n- Dark mode variant: gold `#E8C44E` on dark\n- Pill variant: white on navy, gold on navy\n- Clear space: minimum padding = height of the \"i\" dot\n- Minimum size: 80px width\n- Don'ts: no stretching, no rotating, no drop shadows, no recoloring outside palette\n",
+  "source_version": "docs/rfcs/2026-03-02-brand-guideline-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451474029Z",
+  "valid_from": "2026-03-31T13:20:59.451474029Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-brand-guideline-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 29,
+    "end_line": 41,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f820-7670-b7d8-7a02194428d6",
+  "content": "ache.refresh(tmp.path(), \"test\", &store).await;\n\n        assert!(snap.coverage.is_none());\n        assert!(snap.stale.is_none());\n        assert_eq!(snap.disk_count, 0);\n        assert_eq!(snap.store_count, 0);\n        assert_eq!(snap.hnsw_count, 0);\n    }\nasync fn test_knowledge_dir_missing() {\n        let tmp = tempdir().unwrap();\n        let store = make_store(tmp.path());\n        store.init_schema().await.unwrap();\n        // Don't create knowledge/ dir at all\n        let cache = IndexCoverageCache::new(0.9, 60);\n        let snap = cache.refresh(tmp.path(), \"missing_scope\", &store).await;\n\n        assert!(snap.coverage.is_none());\n        assert!(snap.stale.is_none());\n        assert_eq!(snap.disk_count, 0);\n    }",
+  "source_version": "crates/corvia-server/src/dashboard/coverage.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.424672772Z",
+  "valid_from": "2026-03-31T13:20:59.424672772Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/coverage.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 301,
+    "end_line": 312,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f830-7a51-9391-464bc177b6f5",
+  "content": "isibility: VisibilityMode::All,\n            ..Default::default()\n        };\n\n        // Should succeed with results from the working searcher.\n        let result = pipeline\n            .retrieve(\"knowledge entry\", \"degrade-scope\", &opts)\n            .await\n            .unwrap();\n\n        assert!(\n            !result.results.is_empty(),\n            \"should return results from the working searcher\"\n        );\n    }\n\n    // -----------------------------------------------------------------------\n    // TEST 5: Panic searcher -- caught, pipeline continues with others\n    // -----------------------------------------------------------------------\n\n    /// Searcher that panics.\n    struct PanicSearcher;\n\n    #[async_trait]\n    impl crate::pipeline::searcher::Searcher for PanicSearcher {\n        fn name(&self) -> &str {\n            \"panic\"\n        }\n        fn needs_embedding(&self) -> bool {\n            false\n        }\n        async fn search(\n            &self,\n            _ctx: &SearchContext,\n        ) -> Result<crate::pipeline::RankedSet> {\n            panic!(\"intentional test panic\");\n        }\n    }\n\n    #[tokio::test]\n    async fn test_panic_searcher_caught() {\n        let dir = tempfile::tempdir().unwrap();\n        let store = Arc::new(LiteStore::open(dir.path(), 3).unwrap());\n        store.init_schema().await.unwrap();\n\n        let queryable = store.clone() as Arc<dyn QueryableStore>;\n        let engine: Arc<dyn InferenceEngine> = Arc::new(MockEngine);\n\n        insert_entries(&store, \"panic-scope\", 10).await;\n\n        let pipeline = RetrievalPipeline::new(\n            vec![\n                Arc::new(PanicSearcher) as Arc<dyn crate::pipeline::searcher::Searcher>,\n                Arc::new(VectorSearcher::new(queryable.clone(), engine.clone())),\n            ],\n            Arc::new(PassThrough),\n            Arc::new(crate::pipeline::expander::NoOpExpander),\n            Arc::new(IdentityReranker),\n            engine.clone(),\n            queryable.clone(),\n            5000,\n        );\n\n        let opts = RetrievalOpts {\n            limit: 10,\n            expand_graph: false,\n            visibility: VisibilityMode::All,\n            ..Default::default()\n        };\n\n        // Panic in one searcher should NOT crash the pipeline.\n        let result = pipeline",
+  "source_version": "crates/corvia-kernel/src/pipeline/core.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.440182518Z",
+  "valid_from": "2026-03-31T13:20:59.440182518Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/core.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 887,
+    "end_line": 950,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

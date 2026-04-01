@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-37081dbe43ff",
+  "content": "## Task 6: Implement GrpcChatEngine client\n\n            .await\n            .map_err(|e| CorviaError::Agent(format!(\"gRPC chat connect failed: {e}\")))\n    }\n}\n\n#[async_trait]\nimpl super::traits::ChatEngine for GrpcChatEngine {\n    async fn chat(&self, messages: &[ChatMessage], model: &str) -> Result<String> {\n        let mut client = self.connect().await?;\n        let proto_messages: Vec<corvia_proto::ChatMessage> = messages.iter().map(|m| {\n            corvia_proto::ChatMessage {\n                role: m.role.clone(),\n                content: m.content.clone(),\n            }\n        }).collect();\n\n        let request = tonic::Request::new(ChatRequest {\n            model: model.to_string(),\n            messages: proto_messages,\n            temperature: 0.7,\n            max_tokens: 2048,\n        });\n\n        let response = client.chat(request).await\n            .map_err(|e| CorviaError::Agent(format!(\"gRPC Chat failed: {e}\")))?;\n\n        let msg = response.into_inner().message\n            .ok_or_else(|| CorviaError::Agent(\"gRPC Chat response missing message\".into()))?;\n        Ok(msg.content)\n    }\n}\n```\n\n**Step 4: Register module in lib.rs**\n\nAdd to `crates/corvia-kernel/src/lib.rs`:\n```rust\npub mod grpc_chat;\n```\n\n**Step 5: Run tests**\n\nRun: `cargo test -p corvia-kernel`\nExpected: All tests PASS.\n\n**Step 6: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/grpc_chat.rs crates/corvia-kernel/src/lib.rs\ngit commit -m \"feat(d60): add GrpcChatEngine — gRPC client for ChatEngine trait\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458599402Z",
+  "valid_from": "2026-03-31T13:20:59.458599402Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 833,
+    "end_line": 886,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

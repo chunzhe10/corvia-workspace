@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0c57d93d4a93",
+  "content": " == \"key_section\");\n    }\n\n    #[test]\n    fn test_name_and_extensions() {\n        let chunker = ConfigChunker::new();\n        assert_eq!(chunker.name(), \"config\");\n        assert_eq!(chunker.supported_extensions(), &[\"toml\", \"yaml\", \"yml\", \"json\"]);\n    }\n}\n```\n\n**Step 2: Register module and run tests to verify they fail**\n\nAdd to `crates/corvia-kernel/src/lib.rs`:\n```rust\npub mod chunking_config_fmt;\n```\n\nRun: `cargo test -p corvia-kernel chunking_config_fmt -- --nocapture`\nExpected: FAIL\n\n**Step 3: Implement ConfigChunker**\n\nThree sub-strategies based on extension:\n- **TOML**: Split on `[section]` headers (regex: `^\\[`). Each section header + following key-value pairs = one chunk.\n- **YAML**: Split on top-level keys (lines that start at column 0 and end with `:`). Each top-level key + nested content = one chunk.\n- **JSON**: Parse with serde_json, split on top-level object keys. If the file is a top-level array or primitive, return as single chunk.\n\nAll three use `chunk_type = \"section\"`.\n\nThe `overlap_context()` override prepends the parent key path for nested sections.\n\n**Step 4: Run tests to verify they pass**\n\nRun: `cargo test -p corvia-kernel chunking_config_fmt -- --nocapture`\nExpected: All tests PASS\n\n**Step 5: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/chunking_config_fmt.rs crates/corvia-kernel/src/lib.rs\ngit commit -m \"feat(m3.3): ConfigChunker — TOML/YAML/JSON section splitting (D68)\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457437595Z",
+  "valid_from": "2026-03-31T13:20:59.457437595Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 883,
+    "end_line": 920,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83d-7542-8fa8-9f9b75363bc9",
+  "content": "### Task 2: Integrate `RustModuleMap` into AstChunker and treesitter\n\n) -> ChunkResult {\n    let chunks = chunk_file(file_path, source, extension);\n    let relations = extract_relations(file_path, source, extension, &chunks, module_map);\n    ChunkResult { chunks, relations }\n}\n```\n\nChange `extract_relations` (line 178):\n```rust\nfn extract_relations(\n    file_path: &str,\n    source: &str,\n    extension: &str,\n    chunks: &[CodeChunk],\n    module_map: Option<&RustModuleMap>,\n) -> Vec<CodeRelation> {\n    if chunks.is_empty() {\n        return vec![];\n    }\n    match extension {\n        \"rs\" => extract_rust_relations(file_path, source, chunks, module_map),\n        \"js\" | \"jsx\" | \"ts\" | \"tsx\" => extract_js_ts_relations(file_path, source, extension, chunks),\n        \"py\" => extract_python_relations(file_path, source, chunks),\n        _ => vec![],\n    }\n}\n```\n\nChange `extract_rust_relations` (line 200):\n```rust\nfn extract_rust_relations(\n    file_path: &str,\n    source: &str,\n    chunks: &[CodeChunk],\n    module_map: Option<&RustModuleMap>,\n) -> Vec<CodeRelation> {\n    // ... setup unchanged ...\n    match node.kind() {\n        \"use_declaration\" => {\n            let owner_idx = find_owning_chunk(chunks, node.start_position().row as u32 + 1);\n            extract_rust_use(&mut relations, source, &node, file_path, owner_idx, module_map);\n        }\n        // ... rest unchanged\n    }\n    // ...\n}\n```\n\nChange `extract_rust_use` (line 246) to accept and use the module map:\n```rust\nfn extract_rust_use(\n    relations: &mut Vec<CodeRelation>,\n    source: &str,\n    node: &Node,\n    file_path: &str,\n    owner_idx: usize,\n    module_map: Option<&RustModuleMap>,\n) {",
+  "source_version": "docs/rfcs/2026-03-04-m3.4-graph-edge-improvements-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.453466702Z",
+  "valid_from": "2026-03-31T13:20:59.453466702Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-04-m3.4-graph-edge-improvements-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 556,
+    "end_line": 613,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

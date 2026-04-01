@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-4382bd0234c4",
+  "content": "# corvia-cli\n\n## Commands\n\n```bash\ncorvia init                    # Initialize a new .corvia/ directory\ncorvia ingest <path>           # Parse, chunk, embed, and store knowledge\ncorvia search <query>          # Semantic search across knowledge\ncorvia reason                  # Run health checks on a scope\ncorvia history <entry-id>      # Supersession chain for an entry\ncorvia graph <entry-id>        # Graph edges for an entry\ncorvia serve                   # Start REST + MCP server on :8020\ncorvia status --metrics        # Extended metrics (entries, agents, latency)\ncorvia workspace init          # Clone repos, set up workspace\ncorvia workspace ingest        # Index all workspace repos\ncorvia workspace status        # Workspace + service health\ncorvia workspace init-hooks    # Generate doc-placement hooks from config\n```\n\n\n## Build\n\n```bash\ncargo build -p corvia-cli --release",
+  "source_version": "crates/corvia-cli/README.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429797595Z",
+  "valid_from": "2026-03-31T13:20:59.429797595Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/README.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 6,
+    "end_line": 26,
+    "content_role": "instruction",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "procedural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

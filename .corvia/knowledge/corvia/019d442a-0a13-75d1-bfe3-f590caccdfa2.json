@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a13-75d1-bfe3-f590caccdfa2",
+  "content": "ss=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">03 / 08</div>\n</div>\n```\n\n- [ ] **Step 2: Visual check**\n\nVerify: 2x2 grid of symptom blocks, crack line connecting to foundation slab, red foundation with \"Wayland\" and \"Ubuntu 24.04\" labels.\n\n### Task 5: Build Slide 4 (Claude Steps In)\n\n- [ ] **Step 1: Add Slide 4 HTML**\n\n```html\n<!-- Slide 4: CLAUDE STEPS IN -->\n<div class=\"slide\">\n  <div class=\"slide-label\">Claude Steps In</div>\n  <div class=\"slide-title\">Every Wall, <span class=\"highlight\">a Fix</span></div>\n  <div class=\"slide-subtitle\">Read. Search. Solve. Repeat.</div>\n\n  <!-- Three mini walls in sequence -->\n  <div style=\"display: flex; gap: 20px; flex: 1; align-items: stretch; margin-bottom: 20px;\">\n\n    <!-- Wall 1: mostly intact -->\n    <div style=\"flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 12px;\">\n      <div class=\"brick-wall\" style=\"position: relative; flex: 1; display: flex; align-items: center; justify-content: center; min-height: 200px;\">\n        <div style=\"font-size: 40px; opacity: 0.6;\">🧱</div>\n        <!-- Small crack -->",
+  "source_version": "marketing/2026-03-14-resolve-linux-carousel.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.027490708Z",
+  "valid_from": "2026-03-31T13:51:39.027490708Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/2026-03-14-resolve-linux-carousel.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 454,
+    "end_line": 472,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

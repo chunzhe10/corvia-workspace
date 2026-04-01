@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-c8b1c8981533",
+  "content": "## Corvia-Specific Recommendations\n\n### Phase 1: Foundation (Immediate)\n- Build golden QA dataset from corvia's own knowledge base (50-100 questions)\n- Implement Jason Liu's 6 RAG evals in Rust\n- Track MRR, Recall@K, NDCG@10 natively\n\n\n### Phase 2: Automated Pipeline\n- Adopt Cognee's multi-metric + bootstrapping approach\n- Add token-count tracking to corvia_ask for cost estimation\n- CI quality gate: fail if MRR drops below threshold\n",
+  "source_version": "decisions/2026-03-19-llmops-benchmarking-research.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025259181Z",
+  "valid_from": "2026-03-31T13:51:39.025259181Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-19-llmops-benchmarking-research.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 41,
+    "end_line": 50,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82b-7733-b219-a8fb1bfd63be",
+  "content": "        .await\n            .unwrap();\n        assert_eq!(findings.len(), 1);\n        assert_eq!(findings[0].check_type, CheckType::OrphanedNode);\n        assert_eq!(findings[0].target_ids, vec![e.id]);\n        assert_eq!(findings[0].confidence, 0.8);\n    }\nasync fn test_check_orphaned_nodes_skips_findings_and_files() {\n        let (_dir, store) = test_store().await;\n\n        let mut e_finding = entry(\"a finding\", \"scope\");\n        e_finding.metadata.chunk_type = Some(\"finding\".to_string());\n        store.insert(&e_finding).await.unwrap();\n\n        let mut e_file = entry(\"a whole file\", \"scope\");\n        e_file.metadata.chunk_type = Some(\"file\".to_string());\n        store.insert(&e_file).await.unwrap();\n\n        let reasoner = Reasoner::new(&store, &store);\n        let findings = reasoner\n            .check_orphaned_nodes(&[e_finding, e_file], \"scope\")\n            .await\n            .unwrap();\n        assert!(findings.is_empty(), \"finding and file chunk types should not be flagged as orphans\");\n    }",
+  "source_version": "crates/corvia-kernel/src/reasoner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.435503562Z",
+  "valid_from": "2026-03-31T13:20:59.435503562Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/reasoner.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 917,
+    "end_line": 934,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

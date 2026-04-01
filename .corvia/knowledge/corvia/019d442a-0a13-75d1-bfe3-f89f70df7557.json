@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a13-75d1-bfe3-f89f70df7557",
+  "content": "e-label\">The Root Cause</div>\n  <div class=\"slide-title\">\n    A Designer Who<br>\n    <span class=\"highlight-purple\">Can't Look Up</span><br>\n    From the Code\n  </div>\n  <div class=\"slide-subtitle\">\n    The gap isn't intelligence. It's perception.\n  </div>\n  <div style=\"display: flex; gap: 32px; margin-bottom: 28px;\">\n    <div style=\"flex: 1; text-align: center;\">\n      <div style=\"font-size: 56px; margin-bottom: 16px;\">&#128104;&#8205;&#128187;</div>\n      <h3 style=\"font-size: 24px; font-weight: 700; margin-bottom: 16px;\">Human Designer</h3>\n      <div style=\"display: flex; flex-direction: column; align-items: center; gap: 14px;\">\n        <div style=\"background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.3); border-radius: 12px; padding: 16px 28px; font-size: 20px; font-weight: 600; width: 90%;\">Write CSS</div>\n        <div style=\"font-size: 28px; color: var(--accent-green);\">&#8595;</div>\n        <div style=\"background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3); border-radius: 12px; padding: 16px 28px; font-size: 20px; font-weight: 700; width: 90%;\">Look at browser</div>\n        <div style=\"font-size: 28px; color: var(--accent-green);\">&#8595;</div>\n        <div style=\"background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.3); border-radius: 12px; padding: 16px 28px; font-size: 20px; font-weight: 600; width: 90%;\">Adjust</div>\n        <div style=\"font-size: 28px; color: var(--accent-green);\">&#8635;</div>\n        <div style=\"font-size: 24px; color: var(--accent-green); font-weight: 600;\">Feedback loop</div>\n      </div>\n    </div>\n\n    <div style=\"display: flex; align-items: center; font-size: 48px; color: var(--text-muted);\">vs</div>",
+  "source_version": "marketing/linkedin/2026-03-11-ai-blind-designer/ai-blind-designer-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.027974558Z",
+  "valid_from": "2026-03-31T13:51:39.027974558Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-11-ai-blind-designer/ai-blind-designer-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 535,
+    "end_line": 550,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

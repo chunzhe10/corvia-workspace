@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9d3143da41f4",
+  "content": "# Gauges (current state)\n# Counters (cumulative)\n\n# Histograms (distributions)\ncorvia.embed.duration_ms            — embedding latency per entry\ncorvia.search.duration_ms           — search latency\ncorvia.search.results_count         — results per search\ncorvia.merge.duration_ms            — merge latency per entry\ncorvia.merge.llm_duration_ms        — LLM merge latency (conflict resolution)\ncorvia.heartbeat.delta_ms           — time between heartbeats (detects slow agents)\ncorvia.merge.conflict_rate          — conflicts per merge attempt\n```\n\n**Layer 3: Structured Log Events** (audit trail and debugging)\n```\nINFO  agent_registered        { agent_id, identity_type, permissions }\nINFO  session_created         { session_id, agent_id, recoverable_count }\nINFO  entry_written           { entry_id, agent_id, session_id, embed_ms, insert_ms }\nWARN  session_stale           { session_id, agent_id, last_heartbeat, entries_at_risk }\nWARN  session_orphaned        { session_id, agent_id, entries_pending }\nINFO  session_recovered       { session_id, action: resume|commit|rollback, entries_affected }",
+  "source_version": "docs/rfcs/milestone-revision-notes.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464366206Z",
+  "valid_from": "2026-03-31T13:20:59.464366206Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/milestone-revision-notes.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 576,
+    "end_line": 593,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

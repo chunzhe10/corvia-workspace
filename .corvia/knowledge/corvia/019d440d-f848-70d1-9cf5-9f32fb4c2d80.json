@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9f32fb4c2d80",
+  "content": "sts**\n\nRun: `cargo test -p corvia-common config`\nExpected: PASS (all existing + 5 new tests)\n\n**Step 6: Commit**\n\n```bash\ngit add crates/corvia-common/src/config.rs\ngit commit -m \"feat(config): add RagConfig and ChunkingConfig sections (D61/D65)\"\n```\n\n---\n\n### Task F6: InferenceProvider::Corvia Enum Variant\n\n**Files:**\n- Modify: `crates/corvia-common/src/config.rs`\n\n**Unblocks:** M3.1 (Corvia gRPC provider selection)\n\n**Step 1: Add variant**\n\nIn `InferenceProvider` enum, add:\n```rust\n#[derive(Debug, Clone, Default, Serialize, Deserialize, PartialEq)]\n#[serde(rename_all = \"lowercase\")]\npub enum InferenceProvider {\n    #[default]\n    Ollama,\n    Vllm,\n    Corvia,\n}\n```\n\n**Step 2: Add MergeConfig provider field**\n\nIn `MergeConfig`, add:\n```rust\n#[serde(default)]\npub provider: InferenceProvider,\n```\n\nAnd update `Default for MergeConfig`:\n```rust\nprovider: InferenceProvider::Ollama,\n```\n\n**Step 3: Write test**\n\n```rust\n#[test]\nfn test_inference_provider_corvia_serde() {\n    let json = serde_json::to_string(&InferenceProvider::Corvia).unwrap();\n    assert_eq!(json, \"\\\"corvia\\\"\");\n    let parsed: InferenceProvider = serde_json::from_str(\"\\\"corvia\\\"\").unwrap();\n    assert_eq!(parsed, InferenceProvider::Corvia);\n}\n```\n\n**Step 4: Run tests**\n\nRun: `cargo test -p corvia-common config`\nExpected: PASS\n\n**Step 5: Commit**\n\n```bash\ngit add crates/corvia-common/src/config.rs\ngit commit -m \"feat(config): add InferenceProvider::Corvia variant (D60)\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464651769Z",
+  "valid_from": "2026-03-31T13:20:59.464651769Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 802,
+    "end_line": 861,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

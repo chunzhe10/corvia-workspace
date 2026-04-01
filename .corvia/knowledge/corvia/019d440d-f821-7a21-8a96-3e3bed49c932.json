@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f821-7a21-8a96-3e3bed49c932",
+  "content": "pub fn is_mapped_content_role(role: &str) -> bool {\n    MemoryType::is_known_content_role(role)\n}\npub struct KnowledgeEntry {\n    pub id: Uuid,\n    pub content: String,\n    pub source_version: String,\n    pub scope_id: String,\n    pub workstream: String,\n    pub recorded_at: DateTime<Utc>,\n    pub valid_from: DateTime<Utc>,\n    pub valid_to: Option<DateTime<Utc>>,\n    pub superseded_by: Option<Uuid>,\n    #[serde(skip_serializing)]\n    #[serde(default)]\n    pub embedding: Option<Vec<f32>>,\n    pub metadata: EntryMetadata,\n    #[serde(default)]\n    pub agent_id: Option<String>,\n    #[serde(default)]\n    pub session_id: Option<String>,\n    #[serde(default)]\n    pub entry_status: crate::agent_types::EntryStatus,\n    // Tiered knowledge fields\n    #[serde(default)]\n    pub memory_type: MemoryType,\n    /// Confidence score for decisional/analytical entries. Value must be in `[0.0, 1.0]`.\n    /// Used in decay math: `effective_age = actual_age / confidence`.\n    #[serde(default)]\n    pub confidence: Option<f32>,\n    #[serde(default)]\n    pub last_accessed: Option<DateTime<Utc>>,\n    #[serde(default)]\n    pub access_count: u32,\n    #[serde(default)]\n    pub tier: Tier,\n    #[serde(default)]\n    pub tier_changed_at: Option<DateTime<Utc>>,\n    /// Composite retention score (0.0-1.0). Higher = more likely to stay in current tier.\n    /// Computed by GC workers: `0.35×decay + 0.30×access + 0.20×graph + 0.15×confidence`.\n    #[serde(default)]\n    pub retention_score: Option<f32>,\n    /// Pin state. `Some(info)` = pinned (exempt from GC demotion), `None` = not pinned.\n    /// Pinned entries cannot be demoted below their current tier.\n    #[serde(default)]\n    pub pin: Option<PinInfo>,\n}",
+  "source_version": "crates/corvia-common/src/types.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.425259648Z",
+  "valid_from": "2026-03-31T13:20:59.425259648Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/types.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 165,
+    "end_line": 208,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

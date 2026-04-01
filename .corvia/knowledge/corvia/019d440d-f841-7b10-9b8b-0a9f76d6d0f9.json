@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0a9f76d6d0f9",
+  "content": "## 8. Staging Directory Layout\n## 9. Implementation Plan\n\n### Phase 1: Hooks (3 scripts)\n\n| Deliverable | Description | Effort |\n|-------------|-------------|--------|\n| H1 | `capture-task-created.sh` | Small |\n| H2 | `capture-task-completed.sh` | Small |\n| H3 | `capture-teammate-idle.sh` | Small |\n| H4 | Extend `record-session-end.sh` with team file sweep | Small |\n| H5 | Extend `corvia hooks init` to generate team hooks | Small |\n\n\n### Phase 2: Adapter extension\n\n| Deliverable | Description | Effort |\n|-------------|-------------|--------|\n| A1 | Add `agent-teams` domain mode to claude-sessions adapter | Medium |\n| A2 | Staging directory scanner + parser | Medium |\n| A3 | Team structure entry emitter | Small |\n| A4 | Task entry emitter (with task-grouping for messages) | Medium |\n| A5 | Message entry emitter (task-grouped chunking) | Medium |\n| A6 | State tracking (`.ingested` files) | Small |\n",
+  "source_version": "docs/rfcs/2026-03-28-agent-teams-adapter-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457154092Z",
+  "valid_from": "2026-03-31T13:20:59.457154092Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-agent-teams-adapter-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 633,
+    "end_line": 653,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

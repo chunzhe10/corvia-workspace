@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-c74dddd18065",
+  "content": "## D7: MCP as Primary Integration Protocol\n\n## D8: Bi-Temporal Knowledge Model\n\n**Original rationale**: Knowledge has two time axes — when it was recorded and when it was true.\n\n**Pros:**\n- Can answer \"what did we know about auth 3 months ago?\"\n- Supersession chains track knowledge evolution\n- `valid_from/valid_to` enable snapshot queries at any point in time\n\n**Cons:**\n- **Complexity**: Bi-temporal queries are hard to reason about\n- **Storage cost**: Never-deleted entries (only superseded) means unbounded growth\n- **Query performance**: Range scans over compound temporal keys get slower with history depth\n- **User confusion**: Most users don't think in terms of \"valid time\" vs \"recorded time\"\n\n**Challenge: Is anyone actually using temporal queries?** The dashboard has a history explorer and the API has temporal endpoints, but there's no telemetry on how often they're called.\n\n**Verdict: KEEP but TRACK USAGE.** The model is architecturally clean and doesn't add runtime cost for non-temporal queries. Add metrics to measure actual temporal query usage before investing more in temporal features.\n\n---\n",
+  "source_version": "decisions/2026-03-19-architecture-challenge.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025118519Z",
+  "valid_from": "2026-03-31T13:51:39.025118519Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-19-architecture-challenge.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 169,
+    "end_line": 189,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

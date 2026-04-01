@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82b-7733-b219-a868deebbb05",
+  "content": "q!(findings.len(), 1);\n        assert_eq!(findings[0].check_type, CheckType::CoverageGap);\n    }\n\n    // ---- UnmappedContentRole check ----\n\n    #[test]\n    fn test_unmapped_content_role_detects_unknown() {\n        let mut e = entry(\"some entry\", \"test\");\n        e.metadata.content_role = Some(\"exotic_role\".into());\n        let findings = check_unmapped_content_role(&[e], \"test\");\n        assert_eq!(findings.len(), 1);\n        assert_eq!(findings[0].check_type, CheckType::UnmappedContentRole);\n        assert!(findings[0].rationale.contains(\"exotic_role\"));\n    }\n\n    #[test]\n    fn test_unmapped_content_role_ignores_known() {\n        let mut e = entry(\"some entry\", \"test\");\n        e.metadata.content_role = Some(\"design\".into());\n        let findings = check_unmapped_content_role(&[e], \"test\");\n        assert!(findings.is_empty());\n    }\n\n    #[test]\n    fn test_unmapped_content_role_ignores_none() {\n        let e = entry(\"some entry\", \"test\");\n        let findings = check_unmapped_content_role(&[e], \"test\");\n        assert!(findings.is_empty());\n    }\n\n    #[test]\n    fn test_unmapped_content_role_detects_empty_string() {\n        let mut e = entry(\"some entry\", \"test\");\n        e.metadata.content_role = Some(\"\".into());",
+  "source_version": "crates/corvia-kernel/src/reasoner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.435443559Z",
+  "valid_from": "2026-03-31T13:20:59.435443559Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/reasoner.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 1569,
+    "end_line": 1594,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

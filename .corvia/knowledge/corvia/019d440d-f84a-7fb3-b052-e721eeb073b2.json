@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84a-7fb3-b052-e721eeb073b2",
+  "content": ");\n    }\n\n    #[test]\n    fn test_lossy_drop_when_full_and_flushing() {\n        let buf = AccessBuffer::new(3600, 2); // max_pending = 2\n        let id1 = uuid::Uuid::now_v7();\n        let id2 = uuid::Uuid::now_v7();\n        let id3 = uuid::Uuid::now_v7();\n\n        buf.record(&[id1, id2]);\n        assert_eq!(buf.pending_count(), 2);\n\n        // Simulate flush in progress.\n        buf.flushing.store(true, Ordering::Relaxed);\n\n        // This should be dropped because buffer is full + flush in progress.\n        buf.record(&[id3]);\n        assert_eq!(buf.pending_count(), 2);\n        assert!(buf.pending.get(&id3).is_none());\n\n        // Cleanup.\n        buf.flushing.store(false, Ordering::Relaxed);\n    }\n}\n```\n\n- [ ] **Step 2: Register the module in lib.rs**\n\nIn `crates/corvia-kernel/src/lib.rs`, add after `pub mod gc_worker;` (line 100):\n\n```rust\npub mod access_buffer;\n```\n\n- [ ] **Step 3: Make ENTRIES table constant accessible**\n\nThe `ENTRIES` table definition in `lite_store.rs` is currently `const` (private). The `access_buffer` module needs to access it. Change line 17 from:\n\n```rust\nconst ENTRIES: TableDefinition<&str, &[u8]> = TableDefinition::new(\"entries\");\n```\n\nto:\n\n```rust\npub(crate) const ENTRIES: TableDefinition<&str, &[u8]> = TableDefinition::new(\"entries\");\n```\n\n- [ ] **Step 4: Run tests to verify they pass**\n\nRun: `cargo test -p corvia-kernel access_buffer`\nExpected: All 8 tests pass\n\n- [ ] **Step 5: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/access_buffer.rs crates/corvia-kernel/src/lib.rs crates/corvia-kernel/src/lite_store.rs\ngit commit -m \"feat(kernel): add AccessBuffer module with DashMap + periodic flush\"\n```\n\n---\n",
+  "source_version": "docs/superpowers/plans/2026-03-28-buffered-access-tracking-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.466572312Z",
+  "valid_from": "2026-03-31T13:20:59.466572312Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/superpowers/plans/2026-03-28-buffered-access-tracking-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 422,
+    "end_line": 475,
+    "content_role": "plan",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

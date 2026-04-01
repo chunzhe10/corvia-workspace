@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82b-7733-b219-a746b9344e9e",
+  "content": "dir, store) = test_store().await;\n\n        let mut e = entry(\"superseded knowledge\", \"scope\");\n        e.valid_to = Some(Utc::now());\n        e.superseded_by = Some(Uuid::now_v7()); // Has replacement — not stale\n        store.insert(&e).await.unwrap();\n\n        let reasoner = Reasoner::new(&store, &store);\n        let findings = reasoner\n            .check_stale_entries(&[e], \"scope\")\n            .await\n            .unwrap();\n        assert!(findings.is_empty(), \"entry with superseded_by should not be flagged as stale\");\n    }\n\n    // ---- Check 2: Broken chains ----\n\n    #[tokio::test]\n    async fn test_check_broken_chains() {\n        let (_dir, store) = test_store().await;\n\n        let nonexistent = Uuid::now_v7();\n        let mut e = entry(\"broken chain\", \"scope\");\n        e.superseded_by = Some(nonexistent);\n        store.insert(&e).await.unwrap();\n\n        let reasoner = Reasoner::new(&store, &store);\n        let findings = reasoner\n            .check_broken_chains(&[e.clone()], \"scope\")\n            .await\n            .unwrap();\n        assert_eq!(findings.len(), 1);\n        assert_eq!(findings[0].check_type, CheckType::BrokenChain);\n        assert_eq!(findings[0].target_ids, vec![e.id, nonexistent]);\n    }\n\n    #[tokio::test]\n    async fn test_check_broken_chains_valid() {\n        let (_dir, store) = test_store().await;\n\n        let e1 = entry(\"original\", \"scope\");\n        let e2 = entry(\"replacement\", \"scope\");\n        let mut e1_mut = e1.clone();\n        e1_mut.superseded_by = Some(e2.id);\n        store.insert(&e1_mut).await.unwrap();\n        store.insert(&e2).await.unwrap();\n\n        let reasoner = Reasoner::new(&store, &store);\n        let findings = reasoner\n            .check_broken_chains(&[e1_mut, e2], \"scope\")\n            .await\n            .unwrap();\n        assert!(findings.is_empty(), \"valid supersession chain should not produce findings\");\n    }\n\n    // ---- Check 3: Orphaned nodes ----\n\n    #[tokio::test]\n    async fn test_check_orphaned_nodes() {",
+  "source_version": "crates/corvia-kernel/src/reasoner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.435244886Z",
+  "valid_from": "2026-03-31T13:20:59.435244886Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/reasoner.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 846,
+    "end_line": 897,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

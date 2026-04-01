@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f834-7df0-9fec-22e9ec79b089",
+  "content": "        .or_else(|| {\n                for suffix in JS_TS_INDEX_EXTENSIONS {\n                    let candidate = format!(\"{}{}\", rel.to_file, suffix);\n                    if let Some(id) = resolve_target(&file_index, stored_ids, &candidate, &rel.to_name) {\n                        return Some(id);\n                    }\n                }\n                None\n            })\n            // Python __init__.py fallback: package/module -> package/module/__init__.py\n            .or_else(|| {\n                let init_candidate = format!(\"{}/__init__.py\", rel.to_file.replace('.', \"/\"));\n                resolve_target(&file_index, stored_ids, &init_candidate, &rel.to_name)\n            });\n\n        if let Some(to_uuid) = to_uuid {\n            if (rel.relation == \"imports\" || rel.relation == \"calls\") && to_uuid == from_uuid {\n                continue;\n            }\n            if let Err(e) = graph.relate(&from_uuid, &rel.relation, &to_uuid, None).await {\n                tracing::warn!(\"Failed to store relation: {e}\");\n            } else {\n                relations_stored += 1;\n            }\n        } else {\n            target_miss += 1;\n            tracing::debug!(\n                target_file = %rel.to_file,\n                target_name = ?rel.to_name,\n                relation = %rel.relation,\n                \"wire_pipeline_relations: target chunk not found\"\n            );\n        }\n    }\n    if source_miss > 0 || target_miss > 0 {\n        let total = relations.len();\n        if relations_stored * 2 < total {\n            tracing::warn!(\n                total,\n                stored = relations_stored,\n                source_miss,\n                target_miss,\n                \"wire_pipeline_relations: most relations failed to resolve - check adapter version\"\n            );\n        } else {\n            tracing::info!(\n                total,\n                stored = relations_stored,\n                source_miss,\n                target_miss,\n                \"wire_pipeline_relations: relation wiring summary\"\n            );\n        }\n    }\n    relations_stored\n}",
+  "source_version": "crates/corvia-kernel/src/ingest.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.444344649Z",
+  "valid_from": "2026-03-31T13:20:59.444344649Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ingest.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 310,
+    "end_line": 361,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

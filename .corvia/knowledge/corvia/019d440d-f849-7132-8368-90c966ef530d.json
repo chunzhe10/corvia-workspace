@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-90c966ef530d",
+  "content": "# Dashboard REST API (Rust) — Implementation Plan\n\n> **Status:** Shipped (v0.3.7)\n\n**Goal:** Add `/api/dashboard/*` REST endpoints to corvia-server for health, traces, logs, and status — replacing the Python corvia-dev data path.\n\n**Architecture:** New `dashboard` module in corvia-server with health probing (raw TCP/HTTP), structured log parsing (ported from Python `traces.py`), and Axum handlers. Shared response types defined in corvia-common. Dashboard UI (separate plan) polls these endpoints.\n\n**Tech Stack:** Rust, Axum 0.8, tokio, chrono, serde/serde_json\n\n**Design Spec:** `2026-03-11-standalone-dashboard-design.md`\n\n**Parallel Track:** Frontend plan at `2026-03-11-dashboard-ui-standalone.md`\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465606645Z",
+  "valid_from": "2026-03-31T13:20:59.465606645Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1,
+    "end_line": 16,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

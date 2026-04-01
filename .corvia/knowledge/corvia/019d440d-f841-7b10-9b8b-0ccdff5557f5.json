@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0ccdff5557f5",
+  "content": "### Task 7: Revise IngestionAdapter Trait (D69)\n\n    /// its strategies (e.g., AstChunker) as overrides in the registry.\n    fn register_chunking(&self, registry: &mut crate::chunking_pipeline::FormatRegistry);\n\n    /// Return raw source files for the kernel's ChunkingPipeline.\n    /// Files are returned as-is (content + metadata); the pipeline\n    /// handles all chunking, embedding, and storage.\n    async fn ingest_sources(&self, source_path: &str) -> Result<Vec<crate::chunking_strategy::SourceFile>>;\n}\n```\n\nAlso add to the imports at the top of traits.rs:\n```rust\nuse crate::chunking_pipeline::FormatRegistry;\nuse crate::chunking_strategy::SourceFile;\n```\n\nNOTE: This is a breaking change. The adapter-git crate will fail to compile until Task 8. That's expected — this is a pre-release clean break per D69.\n\n**Step 3: Verify corvia-kernel compiles**\n\nRun: `cargo check -p corvia-kernel`\nExpected: PASS (kernel itself doesn't implement the trait)\n\nRun: `cargo check -p corvia-adapter-git`\nExpected: FAIL (expected — adapter still implements old trait)\n\n**Step 4: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/traits.rs\ngit commit -m \"feat(m3.3): revise IngestionAdapter trait — D69 clean break\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457517065Z",
+  "valid_from": "2026-03-31T13:20:59.457517065Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1183,
+    "end_line": 1217,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-2c12128331d5",
+  "content": "### Response type\n### Enhanced agents endpoint\n\n### System status enhancement\n\nAdd spoke count to `GET /api/dashboard/status`:\n\n```rust\n// In status_handler, add:\n\"spoke_count\": spokes.len(),\n\"spokes_running\": spokes.iter().filter(|s| s.container_state == \"running\").count(),\n```\n\n---\n",
+  "source_version": "decisions/2026-03-28-spoke-dashboard-design.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026171728Z",
+  "valid_from": "2026-03-31T13:51:39.026171728Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-dashboard-design.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 124,
+    "end_line": 135,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

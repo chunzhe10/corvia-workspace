@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f824-7280-b2ba-a5f3e654f53e",
+  "content": "r_name(\"foo/bar\").is_err());\n        assert!(validate_dir_name(\"foo\\\\bar\").is_err());\n        assert!(validate_dir_name(\"\").is_err());\n        assert!(validate_dir_name(\"valid-name\").is_ok());\n        assert!(validate_dir_name(\"my_repo.v2\").is_ok());\n    }\nfn test_generate_rejects_bad_workspace_name() {\n        let result = generate_workspace_config(\n            \"../escape\",\n            &[\"https://github.com/org/repo\".into()],\n            &[],\n        );\n        assert!(result.is_err());\n    }",
+  "source_version": "crates/corvia-cli/src/workspace.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.428014970Z",
+  "valid_from": "2026-03-31T13:20:59.428014970Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/workspace.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 758,
+    "end_line": 765,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

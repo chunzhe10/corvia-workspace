@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-74caca57de12",
+  "content": "### EmbeddingService\n### ChatService\n\n### ModelManager\n\n```protobuf\nservice ModelManager {\n  rpc ListModels(ListModelsRequest) returns (ListModelsResponse);\n  rpc LoadModel(LoadModelRequest) returns (LoadModelResponse);\n  rpc UnloadModel(UnloadModelRequest) returns (UnloadModelResponse);\n  rpc Health(HealthRequest) returns (HealthResponse);\n}\n\nmessage ListModelsRequest {}\nmessage ListModelsResponse {\n  repeated ModelStatus models = 1;\n}\n\nmessage ModelStatus {\n  string name = 1;\n  string model_type = 2;\n  bool loaded = 3;\n  uint64 memory_bytes = 4;\n}\n\nmessage LoadModelRequest {\n  string name = 1;\n  string model_type = 2;\n}\nmessage LoadModelResponse {\n  bool success = 1;\n  string error = 2;\n}\n\nmessage UnloadModelRequest { string name = 1; }\nmessage UnloadModelResponse { bool success = 1; }\n\nmessage HealthRequest {}\nmessage HealthResponse {\n  bool healthy = 1;\n  uint32 models_loaded = 2;\n}\n```\n",
+  "source_version": "docs/rfcs/2026-03-02-grpc-inference-server-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463919492Z",
+  "valid_from": "2026-03-31T13:20:59.463919492Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-grpc-inference-server-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 155,
+    "end_line": 195,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f834-7df0-9fec-24ad8356537c",
+  "content": ")));\n\n                        // Collect edge hints before consuming source_files\n                        let edge_hints_by_idx: Vec<Vec<crate::chunking_strategy::EdgeHint>> =\n                            source_files\n                                .iter()\n                                .map(|sf| sf.metadata.edge_hints.clone())\n                                .collect();\n\n                        let entries: Vec<KnowledgeEntry> = source_files\n                            .iter()\n                            .map(|sf| {\n                                let mut entry = KnowledgeEntry::new(\n                                    sf.content.clone(),\n                                    USER_HISTORY_SCOPE.to_string(),\n                                    sf.metadata.source_version.clone(),\n                                );\n                                entry.workstream =\n                                    sf.metadata.workstream.clone().unwrap_or_default();\n                                entry.metadata = corvia_common::types::EntryMetadata {\n                                    source_file: Some(sf.metadata.file_path.clone()),\n                                    language: sf.metadata.language.clone(),\n                                    chunk_type: Some(\"team-entry\".into()),\n                                    start_line: None,\n                                    end_line: None,\n                                    content_role: sf.metadata.content_role.clone(),\n                                    source_origin: sf.metadata.source_origin.clone(),\n                                };\n                                entry",
+  "source_version": "crates/corvia-kernel/src/ingest.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.444597234Z",
+  "valid_from": "2026-03-31T13:20:59.444597234Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ingest.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1153,
+    "end_line": 1175,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

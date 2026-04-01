@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-3f01d836e0b3",
+  "content": "te_name,\n        \"team\": team_name,\n        \"timestamp\": now_iso(),\n    });\n    if let Err(e) = flock_append(&log_path, &serde_json::to_string(&log_entry)?) {\n        eprintln!(\"Warning: TeammateIdle failed to append capture-log: {e}\");\n    }\n\n    Ok(())\n}\nfn team_sweep_inner(dirs: &Dirs, session_id: &str) -> Result<()> {\n    if !dirs.claude_teams.exists() {\n        return Ok(());\n    }\n\n    let entries = fs::read_dir(&dirs.claude_teams)?;\n    for entry in entries.flatten() {\n        let team_name = entry.file_name().to_string_lossy().to_string();\n        let ft = match entry.file_type() {\n            Ok(ft) => ft,\n            Err(_) => continue,\n        };\n        if !ft.is_dir() {\n            continue;\n        }\n        if !is_valid_name(&team_name) {\n            continue;\n        }\n\n        // Scope to teams matching this session's leadSessionId\n        let config_path = entry.path().join(\"config.json\");\n        if config_path.exists() {\n            let config_content = fs::read_to_string(&config_path).unwrap_or_default();\n            if let Ok(config) = serde_json::from_str::<serde_json::Value>(&config_content) {\n                let lead_session = config.get(\"leadSessionId\")\n                    .and_then(|v| v.as_str())\n                    .unwrap_or(\"\");\n                if !lead_session.is_empty() && lead_session != session_id {\n                    continue;\n                }\n            }\n        }\n\n        let staging_dir = match dirs.ensure_staging_dir(&team_name) {\n            Ok(d) => d,\n            Err(e) => {\n                eprintln!(\"Warning: team sweep failed to create staging for {team_name}: {e}\");\n                continue;\n            }\n        };\n\n        // Copy config.json\n        let src_config = entry.path().join(\"config.json\");\n        if src_config.exists()\n            && let Err(e) = atomic_copy(&src_config, &staging_dir.join(\"config.json\"))\n        {\n            eprintln!(\"Warning: team sweep failed to copy config.json for {team_name}: {e}\");\n        }",
+  "source_version": "crates/corvia-cli/src/hooks/agent_teams.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429246191Z",
+  "valid_from": "2026-03-31T13:20:59.429246191Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/agent_teams.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 363,
+    "end_line": 410,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

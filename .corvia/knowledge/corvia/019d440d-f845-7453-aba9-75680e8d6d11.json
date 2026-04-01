@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-75680e8d6d11",
+  "content": "holder for Graph / Traces\n    html += '<div class=\"view-placeholder\">' +\n      '<svg width=\"48\" height=\"48\" viewBox=\"0 0 16 16\" fill=\"currentColor\"><path d=\"M1 1v14h14V1H1zm13 13H2V2h12v12zM3 13V8h2v5H3zm3 0V5h2v8H6zm3 0V9h2v4H9zm3 0V3h1v10h-1z\"/></svg>' +\n      '<p>' + esc(activeView.charAt(0).toUpperCase() + activeView.slice(1)) + ' view coming soon</p>' +\n    '</div>';\n  }\n```\n\nWith:\n\n```javascript\n  } else if (activeView === 'traces') {\n    // Traces view — close log-panel early, render outside it\n    html += '</div>'; // close log-panel\n    html += renderTraces(data);\n    html += '</div>'; // close workspace\n    // Set flags to skip normal closing tags\n    el.innerHTML = html;\n    bindAll();\n    bindTraces();\n    drawEdges();\n    return;\n  } else {\n    // Placeholder for Graph\n    html += '<div class=\"view-placeholder\">' +\n      '<svg width=\"48\" height=\"48\" viewBox=\"0 0 16 16\" fill=\"currentColor\"><path d=\"M1 1v14h14V1H1zm13 13H2V2h12v12zM3 13V8h2v5H3zm3 0V5h2v8H6zm3 0V9h2v4H9zm3 0V3h1v10h-1z\"/></svg>' +\n      '<p>Graph view coming soon</p>' +\n    '</div>';\n  }\n```\n\nNote: the traces view needs a different layout (no sidebar), so it breaks out of the normal log-panel + sidebar structure. The early return avoids appending the sidebar HTML.\n\n-**Step 3: Add `bindTraces()` and `drawEdges()` functions**\n\nAfter `bindAll()`, add:\n\n```javascript",
+  "source_version": "docs/rfcs/2026-03-10-telemetry-traces-page.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461351958Z",
+  "valid_from": "2026-03-31T13:20:59.461351958Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-telemetry-traces-page.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 898,
+    "end_line": 932,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

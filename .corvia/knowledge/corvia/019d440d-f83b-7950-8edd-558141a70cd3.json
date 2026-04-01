@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-558141a70cd3",
+  "content": "### Config\n\n### Computation Logic\n\n`IndexCoverageCache::get()` method:\n\n```rust\npub async fn get(\n    &self,\n    data_dir: &Path,\n    scope_id: &str,\n    store: &dyn QueryableStore,\n) -> CoverageSnapshot\n```\n\nReturns a `CoverageSnapshot` struct with all fields needed by the response.\n\n**Steps:**\n\n1. If `last_computed` is `Some(t)` and `Instant::now() - t < ttl`:\n   return cached snapshot. Log `tracing::debug!` with cached values.\n\n2. Otherwise recompute:\n\n   a. **Disk count** — via `tokio::task::spawn_blocking` to avoid blocking the\n      async runtime. Uses `knowledge_files::scope_dir(data_dir, scope_id)` to\n      construct the path (inherits `validate_scope_id` for path traversal safety).\n      - Directory does not exist → `disk_count = 0` (fresh workspace).\n      - `read_dir` fails (permissions, NFS) → `disk_count = 0`, log `tracing::warn!`.\n      - Count `.json` files only (non-recursive, flat directory — matches\n        `knowledge_files::write_entry` layout).",
+  "source_version": "docs/rfcs/2026-03-26-dashboard-index-coverage-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451392466Z",
+  "valid_from": "2026-03-31T13:20:59.451392466Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-26-dashboard-index-coverage-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 132,
+    "end_line": 160,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

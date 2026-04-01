@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81d-7d20-aabb-c009b4b550d5",
+  "content": "enum Request {\n    #[serde(rename = \"ingest\")]\n    Ingest { source_path: String, scope_id: String },\n    #[serde(rename = \"chunk\")]\n    Chunk { #[allow(dead_code)] content: String, #[allow(dead_code)] metadata: serde_json::Value },\n}\nfn main() {\n    let args: Vec<String> = std::env::args().collect();\n\n    if args.len() < 2 {\n        // Session mode: read JSONL from stdin\n        session_mode();\n        return;\n    }\n\n    match args[1].as_str() {\n        \"--corvia-metadata\" => {\n            let meta = metadata();\n            println!(\"{}\", serde_json::to_string(&meta).unwrap());\n        }\n        \"ingest\" => {\n            if args.len() < 3 {\n                eprintln!(\"Error: ingest requires a path argument\");\n                std::process::exit(1);\n            }\n            ingest_cli(&args[2]);\n        }\n        _ => {\n            eprintln!(\"Usage: corvia-adapter-basic [--corvia-metadata | ingest <path>]\");\n            eprintln!(\"  No args: session mode (read JSONL from stdin)\");\n            std::process::exit(1);\n        }\n    }\n}",
+  "source_version": "adapters/corvia-adapter-basic/rust/src/main.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.421463433Z",
+  "valid_from": "2026-03-31T13:20:59.421463433Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-basic/rust/src/main.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 104,
+    "end_line": 131,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

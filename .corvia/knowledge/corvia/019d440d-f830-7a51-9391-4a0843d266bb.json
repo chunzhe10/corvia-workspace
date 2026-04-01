@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f830-7a51-9391-4a0843d266bb",
+  "content": "pub struct GraphExpander {\n    store: Arc<dyn QueryableStore>,\n    graph: Arc<dyn GraphStore>,\n    alpha: f32,\n}\nimpl GraphExpander {\n    pub fn new(\n        store: Arc<dyn QueryableStore>,\n        graph: Arc<dyn GraphStore>,\n        alpha: f32,\n    ) -> Self {\n        Self { store, graph, alpha }\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/pipeline/expander.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.440694469Z",
+  "valid_from": "2026-03-31T13:20:59.440694469Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/expander.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 66,
+    "end_line": 74,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

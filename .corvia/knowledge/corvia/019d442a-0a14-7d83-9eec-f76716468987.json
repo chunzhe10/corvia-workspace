@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f76716468987",
+  "content": "</div>\n  </div>\n\n  <div style=\"flex: 1;\"></div>\n\n  <div class=\"warning-box\" style=\"margin-bottom: 0;\">\n    <p style=\"font-size: 22px; text-align: center;\">None of them were \"hard\".<br>Used to take an afternoon — Claude handled it in minutes.</p>\n  </div>\n  <div class=\"flex-grow\"></div>\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">05 / 08</div>\n</div>\n\n<!-- SLIDE 6: DEVCONTAINER — visual timeline -->\n<div class=\"slide\">\n  <div class=\"slide-label\">Zero-Config DevEx</div>\n  <div class=\"slide-title\" style=\"margin-bottom: 48px;\">\n    Open Project.<br>\n    <span class=\"highlight-green\">Both GPUs Ready.</span>\n  </div>",
+  "source_version": "marketing/linkedin/2026-03-13-dual-gpu-inference/dual-gpu-inference-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028477477Z",
+  "valid_from": "2026-03-31T13:51:39.028477477Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-13-dual-gpu-inference/dual-gpu-inference-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 419,
+    "end_line": 430,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

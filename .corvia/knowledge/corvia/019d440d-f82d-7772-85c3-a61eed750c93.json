@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82d-7772-85c3-a61eed750c93",
+  "content": "u32,\n                    metadata: ChunkMetadata {\n                        source_file: meta.file_path.clone(),\n                        language: meta.language.clone(),\n                        ..Default::default()\n                    },\n                }],\n                relations: vec![],\n            })\n        }\n    }\n\n    fn test_meta() -> SourceMetadata {\n        SourceMetadata {\n            file_path: \"test.txt\".into(),\n            extension: \"txt\".into(),\n            language: None,\n            scope_id: \"test:scope\".into(),\n            source_version: \"v1\".into(),\n            workstream: None,\n            content_role: None,\n            source_origin: None,\n                    parent_session_id: None,\n                    edge_hints: vec![],\n        }\n    }\n\n    #[test]\n    fn test_default_split_oversized() {\n        let strategy = TestStrategy;\n        let source = \"line one\\nline two\\nline three\\nline four\";\n        let chunks = strategy.chunk(source, &test_meta()).unwrap().chunks;\n        assert_eq!(chunks.len(), 1);\n\n        let split = strategy.split_oversized(&chunks[0], 10).unwrap();\n        assert_eq!(split.len(), 2, \"expected 2 chunks after split\");\n\n        // Both halves should reference the same parent id.\n        let parent_a = split[0].metadata.parent_chunk_id.unwrap();\n        let parent_b = split[1].metadata.parent_chunk_id.unwrap();\n        assert_eq!(parent_a, parent_b);\n\n        // Content should be preserved across the split.\n        let rejoined = format!(\"{}\\n{}\", split[0].content, split[1].content);\n        assert_eq!(rejoined, source);\n    }\n\n    #[test]\n    fn test_default_merge_returns_none() {\n        let strategy = TestStrategy;\n        let chunks = strategy.chunk(\"hello\", &test_meta()).unwrap().chunks;\n        assert!(strategy.merge_small(&chunks, 100).is_none());\n    }\n\n    #[test]\n    fn test_default_overlap_returns_none() {\n        let strategy = TestStrategy;\n        let chunks = strategy.chunk(\"a\\nb\", &test_meta()).unwrap().chunks;\n        let a = &chunks[0];\n        assert!(strategy.overlap_context(a, a).is_none());\n    }",
+  "source_version": "crates/corvia-kernel/src/chunking_strategy.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.437004044Z",
+  "valid_from": "2026-03-31T13:20:59.437004044Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_strategy.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 329,
+    "end_line": 382,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f832-7981-8b9c-42fc898bc9b7",
+  "content": ".permissions.can_write_scope(scope_id) {\n                return Err(CorviaError::Agent(format!(\n                    \"Agent '{}' does not have write permission for scope '{scope_id}'\",\n                    session.agent_id\n                )));\n            }\n\n        let staging_dir = session.staging_dir.as_ref().map(|s| {\n            self.staging.resolve_staging_path(s)\n        });\n\n        let result = self.writer.write_with_dedup(\n            content,\n            scope_id,\n            source_version,\n            &session.agent_id,\n            session_id,\n            staging_dir.as_deref(),\n            content_role,\n            source_origin,\n            force_write,\n        ).await?;\n\n        // Increment written count only if entry was actually written.\n        match &result {\n            crate::agent_writer::WriteResult::Written(_)\n            | crate::agent_writer::WriteResult::WrittenWithWarning { .. } => {\n                self.sessions.increment_written(session_id)?;\n            }\n            crate::agent_writer::WriteResult::Blocked { .. } => {}\n        }\n\n        Ok(result)\n    }\n\n    /// Commit a session — transitions through the commit pipeline.\n    #[tracing::instrument(name = \"corvia.session.commit\", skip(self), fields(session_id))]\n    pub async fn commit_session(&self, session_id: &str) -> Result<()> {\n        self.commit_pipeline.commit_session(session_id).await\n    }\n\n    /// Rollback a session — cleanup staging and close.\n    pub fn rollback_session(&self, session_id: &str) -> Result<()> {\n        let session = self.sessions.get(session_id)?\n            .ok_or_else(|| CorviaError::NotFound(format!(\"Session {session_id} not found\")))?;\n\n        // Cleanup staging directory\n        if let Some(ref staging_dir_str) = session.staging_dir {\n            let staging_dir = self.staging.resolve_staging_path(staging_dir_str);\n            self.staging.cleanup_staging_dir(&staging_dir)?;\n        }\n\n        // Delete git branch\n        if let Some(ref branch) = session.git_branch {\n            let _ = self.staging.delete_branch(branch);\n        }\n\n        // Close session",
+  "source_version": "crates/corvia-kernel/src/agent_coordinator.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.442159178Z",
+  "valid_from": "2026-03-31T13:20:59.442159178Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/agent_coordinator.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 262,
+    "end_line": 312,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

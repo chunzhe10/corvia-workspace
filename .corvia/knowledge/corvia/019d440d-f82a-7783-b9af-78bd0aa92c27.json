@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82a-7783-b9af-78bd0aa92c27",
+  "content": "g(test_embedding(0.0, 1.0, 0.0));\n        warm.tier = corvia_common::types::Tier::Warm;\n\n        let mut cold = KnowledgeEntry::new(\n            \"Rust programming language cold tier\".into(),\n            \"test-fts\".into(),\n            \"v3\".into(),\n        )\n        .with_embedding(test_embedding(0.0, 0.0, 1.0));\n        cold.tier = corvia_common::types::Tier::Cold;\n\n        let mut forgotten = KnowledgeEntry::new(\n            \"Rust programming language forgotten tier\".into(),\n            \"test-fts\".into(),\n            \"v4\".into(),\n        )\n        .with_embedding(test_embedding(0.5, 0.5, 0.0));\n        forgotten.tier = corvia_common::types::Tier::Forgotten;\n\n        store.insert(&hot).await.unwrap();\n        store.insert(&warm).await.unwrap();\n        store.insert(&cold).await.unwrap();\n        store.insert(&forgotten).await.unwrap();\n\n        // FTS should only return hot + warm (matching vector search behavior)\n        let results = store.search_text(\"Rust programming\", \"test-fts\", 10).await.unwrap();\n        assert_eq!(results.len(), 2, \"expected only hot + warm entries\");\n        for r in &results {\n            assert!(\n                r.tier == corvia_common::types::Tier::Hot || r.tier == corvia_common::types::Tier::Warm,\n                \"unexpected tier: {:?}\",\n                r.tier\n            );\n        }\n\n        store.delete_scope(\"test-fts\").await.unwrap();\n        cleanup_test_db(\"fts_tiers\").await;\n    }",
+  "source_version": "crates/corvia-kernel/src/postgres_store.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.434805635Z",
+  "valid_from": "2026-03-31T13:20:59.434805635Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/postgres_store.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 2059,
+    "end_line": 2088,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

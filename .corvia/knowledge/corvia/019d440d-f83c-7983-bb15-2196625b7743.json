@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-2196625b7743",
+  "content": "### Task 1: TemporalStore trait + GraphStore trait + types\n\n\n/// Knowledge graph interface (D37).\n/// Implemented by LiteStore (petgraph + Redb) and SurrealStore (RELATE).\n#[async_trait]\npub trait GraphStore: Send + Sync {\n    /// Create a directed edge between two entries.\n    async fn relate(\n        &self,\n        from: &uuid::Uuid,\n        relation: &str,\n        to: &uuid::Uuid,\n        metadata: Option<serde_json::Value>,\n    ) -> Result<()>;\n\n    /// Get all edges from/to an entry.\n    async fn edges(\n        &self,\n        entry_id: &uuid::Uuid,\n        direction: corvia_common::types::EdgeDirection,\n    ) -> Result<Vec<corvia_common::types::GraphEdge>>;\n\n    /// BFS traversal from a starting node, optionally filtering by relation type.\n    async fn traverse(\n        &self,\n        start: &uuid::Uuid,\n        relation: Option<&str>,\n        direction: corvia_common::types::EdgeDirection,\n        max_depth: usize,\n    ) -> Result<Vec<KnowledgeEntry>>;\n\n    /// Shortest path between two entries (returns the entries along the path).\n    async fn shortest_path(\n        &self,\n        from: &uuid::Uuid,\n        to: &uuid::Uuid,\n    ) -> Result<Option<Vec<KnowledgeEntry>>>;\n\n    /// Delete all edges involving an entry.\n    async fn remove_edges(&self, entry_id: &uuid::Uuid) -> Result<()>;\n}\n```\n\n**Step 3: Add necessary imports to `traits.rs`**\n\nAdd `chrono` and `GraphEdge`/`EdgeDirection` to the use statements at the top.\n\n**Step 4: Verify compilation**\n\nRun: `cargo check -p corvia-kernel`\nExpected: Compiles (traits defined but not yet implemented).\n\n**Step 5: Commit**\n\n```\ngit add crates/corvia-kernel/src/traits.rs crates/corvia-common/src/types.rs\ngit commit -m \"feat(m3): define TemporalStore and GraphStore traits + graph types\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-m3-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452448092Z",
+  "valid_from": "2026-03-31T13:20:59.452448092Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 76,
+    "end_line": 135,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

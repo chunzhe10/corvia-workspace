@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84a-7fb3-b052-e7db72ffd672",
+  "content": ".health(tonic::Request::new(HealthRequest {})).await {\n                if resp.into_inner().healthy {\n                    return true;\n                }\n            }\n        }\n        tokio::time::sleep(Duration::from_millis(200)).await;\n    }\n    false\n}\nasync fn ensure_server() -> String {\n    let addr = format!(\"127.0.0.1:{TEST_PORT}\");\n    let url = format!(\"http://{addr}\");\n\n    // Check if something is already listening (e.g. previous test run, dev server)\n    if wait_for_server(&addr, Duration::from_millis(500)).await {\n        return url;\n    }\n\n    SERVER\n        .get_or_init(|| async {\n            let binary = find_or_build_binary();\n\n            let child = Command::new(&binary)\n                .args([\"serve\", \"--port\", &TEST_PORT.to_string()])\n                .stdout(Stdio::null())\n                .stderr(Stdio::null())\n                .spawn()\n                .unwrap_or_else(|e| panic!(\"failed to start {binary}: {e}\"));\n\n            ServerGuard {\n                child: std::sync::Mutex::new(child),\n            }\n        })\n        .await;\n\n    // Wait for it to be healthy\n    assert!(\n        wait_for_server(&addr, Duration::from_secs(30)).await,\n        \"corvia-inference server did not become healthy within 30s on port {TEST_PORT}\"\n    );\n\n    url\n}",
+  "source_version": "tests/integration/grpc_inference_test.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.466665819Z",
+  "valid_from": "2026-03-31T13:20:59.466665819Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "tests/integration/grpc_inference_test.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 106,
+    "end_line": 139,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

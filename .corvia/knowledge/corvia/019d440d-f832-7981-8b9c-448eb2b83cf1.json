@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f832-7981-8b9c-448eb2b83cf1",
+  "content": "ession = coord.create_session(\"test::indexer\", true).unwrap();\n        assert!(session.staging_dir.is_some());\n\n        // 3. Write 2 entries\n        let e1 = coord.write_entry(&session.session_id, \"knowledge one\", \"test\", \"v1\", None, None).await.unwrap();\n        let e2 = coord.write_entry(&session.session_id, \"knowledge two\", \"test\", \"v1\", None, None).await.unwrap();\n        assert_eq!(e1.entry_status, EntryStatus::Pending);\n        assert_eq!(e2.entry_status, EntryStatus::Pending);\n\n        // 4. Commit session\n        coord.commit_session(&session.session_id).await.unwrap();\n\n        // 5. Verify entries in merge queue\n        assert_eq!(coord.merge_queue.depth().unwrap(), 2);\n    }\n\n    #[tokio::test]\n    async fn test_connect_with_recoverable_sessions() {\n        let dir = tempfile::tempdir().unwrap();\n        let coord = setup_coordinator(dir.path()).await;\n\n        // Register agent and create session\n        let identity = AgentIdentity::Registered {\n            agent_id: \"test::agent\".into(),\n            api_key: None,\n        };\n        coord.register_agent(&identity, \"Agent\", AgentPermission::ReadOnly).unwrap();\n        let session = coord.create_session(\"test::agent\", true).unwrap();\n\n        // Simulate crash: Active → Stale → Orphaned\n        coord.sessions.transition(&session.session_id, SessionState::Stale).unwrap();\n        coord.sessions.transition(&session.session_id, SessionState::Orphaned).unwrap();\n\n        // Connect again\n        let response = coord.connect(\"test::agent\").unwrap();\n        assert_eq!(response.recoverable_sessions.len(), 1);\n        assert_eq!(response.recoverable_sessions[0].session_id, session.session_id);\n    }\n\n    #[tokio::test]",
+  "source_version": "crates/corvia-kernel/src/agent_coordinator.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.442376426Z",
+  "valid_from": "2026-03-31T13:20:59.442376426Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/agent_coordinator.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 540,
+    "end_line": 574,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9c7d1a6edffc",
+  "content": "## Revised Dependency Map\n## Preliminary Decisions\n\n### D43: Agent Write Isolation — Staging Hybrid (Git Branches + Shared HNSW)\n\n**Status**: Preliminary — to be formalized when M2 implementation begins\n\n**Decision**: Agent write isolation uses a lightweight staging directory + git branches, NOT full git worktrees or Redb-only logical isolation. The HNSW index and Redb metadata remain shared (single instance). Git branches provide audit trail.\n\n**Write path**:\n1. Agent starts session → gets staging dir `.corvia/staging/{agent-id}/` + git branch `{agent-id}/session-{uuid}`\n2. Agent writes knowledge → embeds via Ollama → writes JSON to staging dir → inserts vector into shared HNSW immediately (tagged as `{agent-id}:pending` in Redb metadata)\n3. Agent commits → `git commit` on agent branch → entries enter merge queue\n4. Merge worker processes → no conflict: auto-merge to main. Conflict: LLM-assisted merge (re-embed merged content)\n5. Post-merge → moves JSON from staging to `.corvia/knowledge/`, retags Redb metadata as `main`, HNSW vectors stay in place (or replaced if merged). Git merge agent branch into main. Cleanup staging dir + delete branch.\n\n**Read path**:\n- Agent searches → shared HNSW index → Redb metadata filter (scope, workstream, permissions) → results include main knowledge + agent's own pending\n- Visibility configurable: `own` (main + own pending), `all` (main + all agents' pending), `explicit` (main + named agents' pending)\n\n**Embedding flow for conflicts**:\n- Non-conflicting writes: embedding stays as-is in HNSW. No re-embedding.\n- Conflicting writes: merge worker produces new merged content → re-embeds → replaces conflicting vectors in HNSW → writes new merged JSON.\n\n**Why not full git worktrees**: HNSW binary duplication (~50-100MB per agent), knowledge file duplication, cross-agent search requires shared index.\n**Why not Redb-only**: No git history per agent, rollback requires scanning key prefixes vs simple `git branch -D`.\n\n---\n",
+  "source_version": "docs/rfcs/milestone-revision-notes.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464267594Z",
+  "valid_from": "2026-03-31T13:20:59.464267594Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/milestone-revision-notes.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 226,
+    "end_line": 251,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

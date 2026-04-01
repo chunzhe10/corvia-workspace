@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-ca412f6e1354",
+  "content": "## Q2: Agent ID to Session ID Correlation (RESOLVED by spike)\n\n## Q3: Incremental Capture Feasibility\n\n**Recommendation: Hybrid (incremental hooks + batch at SessionEnd). Skip TeammateIdle.**\n\n**What hooks provide on stdin:**\n\n- `TaskCompleted`: task_id, subject, description, teammate_name, team_name, session_id,\n  transcript_path. Can also read the full task JSON file from disk.\n- `TeammateIdle`: teammate_name, team_name, session_id, transcript_path.\n- `TaskCreated`: task fields from stdin.\n\n**Critical finding:** All file reads must happen synchronously inside the hook, not\ndeferred. By the time an async post-processing job runs, files may be deleted.\n\n**Why skip TeammateIdle for capture:** Fires after every LLM turn. 50 turns = 50\nhook invocations with deduplication overhead. The same data is captured at teammate\n`SessionEnd` in a single pass.\n\n**Timing guarantee:** Teammate `SessionEnd` fires before lead can run cleanup. Lead's\n`SessionEnd` fires after cleanup (files gone). So: teammate hooks are safe, lead\nhooks are not.\n\n---\n",
+  "source_version": "decisions/2026-03-28-adapter-agent-teams-brainstorm.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025427191Z",
+  "valid_from": "2026-03-31T13:51:39.025427191Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-adapter-agent-teams-brainstorm.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 209,
+    "end_line": 232,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

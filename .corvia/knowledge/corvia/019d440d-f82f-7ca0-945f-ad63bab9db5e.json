@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82f-7ca0-945f-ad63bab9db5e",
+  "content": "pub struct RankedCandidate {\n    /// The underlying knowledge entry (shared ownership for dedup efficiency).\n    pub entry: Arc<KnowledgeEntry>,\n    /// Per-component and final scores.\n    pub scores: CandidateScores,\n}\npub struct StageMetrics {\n    /// Human-readable stage name (e.g. \"vector_searcher\", \"passthrough_fusion\").\n    pub stage_name: String,\n    /// Wall-clock latency in milliseconds.\n    pub latency_ms: u64,\n    /// Number of candidates entering this stage.\n    pub input_count: usize,\n    /// Number of candidates leaving this stage.\n    pub output_count: usize,\n    /// Non-fatal warnings emitted during this stage.\n    #[serde(default, skip_serializing_if = \"Vec::is_empty\")]\n    pub warnings: Vec<String>,\n}",
+  "source_version": "crates/corvia-kernel/src/pipeline/mod.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.439742391Z",
+  "valid_from": "2026-03-31T13:20:59.439742391Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/mod.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 133,
+    "end_line": 145,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82e-71f3-920f-8fb0af8c0c4a",
+  "content": "rializing_if = \"Option::is_none\")]\n    pub suggestion: Option<String>,\n    pub gap_detected: bool,\n    /// Number of results filtered out by min_score parameter.\n    #[serde(default, skip_serializing_if = \"is_zero\")]\n    pub below_threshold_count: usize,\n}\nfn is_zero(n: &usize) -> bool {\n    *n == 0\n}",
+  "source_version": "crates/corvia-kernel/src/rag_types.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.438194156Z",
+  "valid_from": "2026-03-31T13:20:59.438194156Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/rag_types.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 32,
+    "end_line": 34,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f830-7a51-9391-4bb8e8b5bd36",
+  "content": "eMetrics {\n                stage_name: self.name().to_string(),\n                latency_ms: start.elapsed().as_millis() as u64,\n                input_count,\n                output_count,\n                warnings: Vec::new(),\n            },\n        })\n    }\nstruct Accumulator {\n            rrf_score: f64,\n            components: HashMap<String, f32>,\n            entry: Arc<corvia_common::types::KnowledgeEntry>,\n        }",
+  "source_version": "crates/corvia-kernel/src/pipeline/fusion.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.440933749Z",
+  "valid_from": "2026-03-31T13:20:59.440933749Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/fusion.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 167,
+    "end_line": 171,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

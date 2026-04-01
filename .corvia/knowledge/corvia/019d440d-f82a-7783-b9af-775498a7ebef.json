@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82a-7783-b9af-775498a7ebef",
+  "content": "    assert_eq!(in_edges[0].from, e1.id);\n\n        let both = store.edges(&e1.id, EdgeDirection::Both).await.unwrap();\n        assert_eq!(both.len(), 1);\n\n        store.delete_scope(\"test-graph\").await.unwrap();\n        cleanup_test_db(\"edges\").await;\n    }\nasync fn test_pg_graph_traverse() {\n        let store = match connect_test_store(\"traverse\").await {\n            Ok(s) => s,\n            Err(_) => {\n                eprintln!(\"Skipping: PostgreSQL not available\");\n                return;\n            }\n        };\n\n        let e1 = KnowledgeEntry::new(\"module A\".into(), \"test-graph\".into(), \"v1\".into())\n            .with_embedding(test_embedding(1.0, 0.0, 0.0));\n        let e2 = KnowledgeEntry::new(\"module B\".into(), \"test-graph\".into(), \"v1\".into())\n            .with_embedding(test_embedding(0.0, 1.0, 0.0));\n        let e3 = KnowledgeEntry::new(\"module C\".into(), \"test-graph\".into(), \"v1\".into())\n            .with_embedding(test_embedding(0.0, 0.0, 1.0));\n        store.insert(&e1).await.unwrap();\n        store.insert(&e2).await.unwrap();\n        store.insert(&e3).await.unwrap();\n\n        store.relate(&e1.id, \"imports\", &e2.id, None).await.unwrap();\n        store.relate(&e2.id, \"imports\", &e3.id, None).await.unwrap();\n\n        // Traverse from e1, depth 2 — should reach e2 and e3\n        let results = store\n            .traverse(&e1.id, None, EdgeDirection::Outgoing, 2)\n            .await\n            .unwrap();\n        assert_eq!(results.len(), 2);\n\n        // Traverse depth 1 — only e2\n        let results = store\n            .traverse(&e1.id, None, EdgeDirection::Outgoing, 1)\n            .await\n            .unwrap();\n        assert_eq!(results.len(), 1);\n        assert_eq!(results[0].content, \"module B\");\n\n        // Traverse with relation filter\n        store.relate(&e1.id, \"calls\", &e3.id, None).await.unwrap();\n        let results = store\n            .traverse(&e1.id, Some(\"calls\"), EdgeDirection::Outgoing, 1)\n            .await\n            .unwrap();\n        assert_eq!(results.len(), 1);\n        assert_eq!(results[0].content, \"module C\");\n\n        store.delete_scope(\"test-graph\").await.unwrap();\n        cleanup_test_db(\"traverse\").await;\n    }",
+  "source_version": "crates/corvia-kernel/src/postgres_store.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.434563596Z",
+  "valid_from": "2026-03-31T13:20:59.434563596Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/postgres_store.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1233,
+    "end_line": 1281,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

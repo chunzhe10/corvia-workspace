@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f826-79c1-b85f-35a263bd0da7",
+  "content": "     assert_eq!(resolved.filename, \"Qwen3-8B-Q4_K_M.gguf\");\n    }\n\n    #[test]\n    fn test_resolve_model_qwen3_8b_explicit() {\n        let resolved = resolve_model(\"qwen3:8b\").unwrap();\n        assert_eq!(resolved, resolve_model(\"qwen3\").unwrap());\n    }\n}\nfn test_build_model_params_cpu() {\n        let backend = ResolvedBackend {\n            device: Device::Cpu,\n            backend: BackendKind::Cpu,\n            fallback_used: false,\n        };\n        let params = build_model_params(&backend);\n        let _ = params;\n    }",
+  "source_version": "crates/corvia-inference/src/chat_service.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.430361203Z",
+  "valid_from": "2026-03-31T13:20:59.430361203Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/src/chat_service.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 564,
+    "end_line": 572,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

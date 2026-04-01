@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-cb34a7d4de8a",
+  "content": "### Ingestion Flow\n### SourceMetadata Mapping\n\n### Trigger Mechanism\n\nTwo options:\n\n**Option A: Hook-based (preferred)**\nHook into the `TeammateIdle` event to capture task completions incrementally.\nHook into team cleanup (no native hook exists -- would need to watch for file\ndeletion or wrap the cleanup command).\n\n**Option B: Periodic scan**\nRun `corvia workspace ingest` on a schedule. The adapter scans for teams that\nexist but haven't been ingested yet. Simpler but risks missing teams that get\ncleaned up between scans.\n\n**Option C: Hybrid**\nHooks capture incrementally during team lifetime. A scan pass at ingest time\ncatches anything hooks missed. This matches how claude-sessions works\n(hooks capture events, adapter processes at session end).\n",
+  "source_version": "decisions/2026-03-28-adapter-agent-teams-exploration.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025534667Z",
+  "valid_from": "2026-03-31T13:51:39.025534667Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-adapter-agent-teams-exploration.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 136,
+    "end_line": 154,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

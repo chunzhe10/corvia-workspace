@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-2b299bd9603a",
+  "content": "        return Ok(net.to_string());\n            }\n            Err(CorviaError::Config(format!(\n                \"Multiple networks: {:?}. Set [workspace.spokes] network in corvia.toml.\",\n                candidates\n            )))\n        }\n    }\n}\n```\n\n---\n\n## Sequence Diagram\n\n```\nUser: corvia workspace spoke create --repo corvia --issue 42\n\n  Hub CLI                    Docker Daemon               Spoke Container\n  --------                   -------------               ---------------\n  1. load_config()\n  2. HubContext::detect()\n     |--inspect(hostname)-->|\n     |<--mounts, network----|\n  3. Resolve host creds path\n  4. Find repo URL from config\n  5. Generate spoke name\n  6. Create container\n     |--create_container--->|\n     |                      |--pull image (if needed)\n     |<--container_id-------|\n  7. Start container\n     |--start_container---->|\n     |                      |--entrypoint.sh----------->|\n     |                      |                           | npm install claude\n     |                      |                           | git clone\n     |                      |                           | write .mcp.json\n     |                      |                           | claude -p \"/dev-loop 42\"\n     |                      |                           |   |\n     |                      |                           |   |--corvia_search-->Hub MCP\n     |                      |                           |   |--corvia_write--->Hub MCP\n     |                      |                           |   |--gh pr create--->GitHub\n  8. Print spoke info\n     |\n     Done\n```\n\n---\n\n\n## Implementation Plan\n",
+  "source_version": "decisions/2026-03-28-spoke-cli-design.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026054630Z",
+  "valid_from": "2026-03-31T13:51:39.026054630Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-cli-design.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 664,
+    "end_line": 701,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

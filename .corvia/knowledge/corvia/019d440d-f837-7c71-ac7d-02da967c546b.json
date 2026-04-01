@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f837-7c71-ac7d-02da967c546b",
+  "content": "fn test_provisioner_endpoint_url_no_scheme() {\n        let p = InferenceProvisioner::new(\"127.0.0.1:8030\");\n        assert_eq!(p.endpoint_url(), \"http://127.0.0.1:8030\");\n    }\nfn test_provisioner_endpoint_url_with_scheme() {\n        let p = InferenceProvisioner::new(\"http://localhost:8030\");\n        assert_eq!(p.endpoint_url(), \"http://localhost:8030\");\n    }",
+  "source_version": "crates/corvia-kernel/src/inference_provisioner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.447062340Z",
+  "valid_from": "2026-03-31T13:20:59.447062340Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/inference_provisioner.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 280,
+    "end_line": 283,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

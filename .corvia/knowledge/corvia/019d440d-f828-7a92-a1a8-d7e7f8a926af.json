@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f828-7a92-a1a8-d7e7f8a926af",
+  "content": "fn test_relation_weight_unknown_fallback() {\n        assert_eq!(relation_weight(\"custom_edge\"), 0.5);\n        assert_eq!(relation_weight(\"\"), 0.5);\n    }\nfn test_implements_scores_higher_than_imports() {\n        // Same cosine, different relation -> implements should score higher\n        let alpha = 0.3;\n        let cosine = 0.6;\n        let implements_score = (1.0 - alpha) * cosine + alpha * relation_weight(\"implements\");\n        let imports_score = (1.0 - alpha) * cosine + alpha * relation_weight(\"imports\");\n        assert!(\n            implements_score > imports_score,\n            \"implements ({}) should score higher than imports ({})\",\n            implements_score,\n            imports_score\n        );\n    }",
+  "source_version": "crates/corvia-kernel/src/retriever.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.432747040Z",
+  "valid_from": "2026-03-31T13:20:59.432747040Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/retriever.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 2099,
+    "end_line": 2111,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f832-7981-8b9c-49904a2f208f",
+  "content": "        reg.grant_scope(\"test::agent\", \"telemetry\").unwrap();\n        let agent = reg.get(\"test::agent\").unwrap().unwrap();\n        assert!(agent.permissions.can_write_scope(\"corvia\"));\n        assert!(agent.permissions.can_write_scope(\"telemetry\"));\n    }\nfn test_grant_scope_noop_if_already_granted() {\n        let reg = test_registry();\n        reg.register(\"test::agent\", \"Agent\", IdentityType::McpClient,\n            AgentPermission::ReadWrite { scopes: vec![\"corvia\".into()] }).unwrap();\n\n        reg.grant_scope(\"test::agent\", \"corvia\").unwrap();\n        let agent = reg.get(\"test::agent\").unwrap().unwrap();\n        if let AgentPermission::ReadWrite { scopes } = &agent.permissions {\n            assert_eq!(scopes.len(), 1); // no duplicate\n        } else {\n            panic!(\"expected ReadWrite\");\n        }\n    }",
+  "source_version": "crates/corvia-kernel/src/agent_registry.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.442984498Z",
+  "valid_from": "2026-03-31T13:20:59.442984498Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/agent_registry.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 332,
+    "end_line": 344,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

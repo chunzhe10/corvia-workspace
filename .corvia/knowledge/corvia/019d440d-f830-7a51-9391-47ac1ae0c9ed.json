@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f830-7a51-9391-47ac1ae0c9ed",
+  "content": "         expand_graph: true,\n                graph_depth: 1,\n                visibility: VisibilityMode::All,\n                ..Default::default()\n            };\n\n            let legacy_result = legacy.retrieve(query, \"compat-scope\", &opts).await.unwrap();\n            let pipeline_result = pipeline\n                .retrieve(query, \"compat-scope\", &opts)\n                .await\n                .unwrap();\n\n            // Both should return results (HNSW approximate, use >= 2).\n            assert!(\n                legacy_result.results.len() >= 2,\n                \"legacy should return at least 2 results for query '{query}', got {}\",\n                legacy_result.results.len()\n            );\n            assert!(\n                pipeline_result.results.len() >= 2,\n                \"pipeline should return at least 2 results for query '{query}', got {}\",\n                pipeline_result.results.len()\n            );\n\n            // Verify entry ID overlap >= 80%.\n            let legacy_ids: HashSet<uuid::Uuid> =\n                legacy_result.results.iter().map(|r| r.entry.id).collect();\n            let pipeline_ids: HashSet<uuid::Uuid> =\n                pipeline_result.results.iter().map(|r| r.entry.id).collect();\n            let overlap = legacy_ids.intersection(&pipeline_ids).count();\n            let min_count = legacy_ids.len().min(pipeline_ids.len());\n            if min_count > 0 {\n                let overlap_pct = overlap as f64 / min_count as f64;\n                assert!(\n                    overlap_pct >= 0.80,\n                    \"entry ID overlap should be >= 80% for query '{query}', \\\n                     got {:.0}% ({overlap}/{min_count})\",",
+  "source_version": "crates/corvia-kernel/src/pipeline/core.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.440380162Z",
+  "valid_from": "2026-03-31T13:20:59.440380162Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/core.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 460,
+    "end_line": 489,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

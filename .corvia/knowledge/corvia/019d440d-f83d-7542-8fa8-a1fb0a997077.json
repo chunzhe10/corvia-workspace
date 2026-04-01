@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83d-7542-8fa8-a1fb0a997077",
+  "content": "# Inline Playwright script\n\n### Task 2: Build brand guideline HTML\n\n**Files:**\n- Create: `/root/corvia/docs/brand/corvia-brand-guide.html`\n\nBuild a single-page HTML document with 5 sections. Each section is a full `@page` for PDF. Design: clean white background, navy text, Inter body font, Poppins for brand specimens.\n\n**Sections:**\n\n**Page 1 — Cover:**\n- Large corvia wordmark (navy, Poppins 700, 96px)\n- \"Brand Guidelines\" subtitle (Inter 500, 24px, mid-gray)\n- \"v1.0 — March 2026\" footer\n\n**Page 2 — Logo:**\n- 4 logo variants shown on appropriate backgrounds:\n  - Navy on white (light mode primary)\n  - Gold #E8C44E on navy (dark mode primary)\n  - White on navy pill\n  - Gold on navy pill\n- Clear space rule: padding = \"i\" dot height\n- Minimum size: 80px width\n- Don'ts grid (4 items): no stretching, no rotating, no drop shadows, no recoloring\n\n**Page 3 — Color Palette:**\n- 7 color swatches, each showing: swatch rectangle + hex + RGB + role description\n  - Navy #0f1b33 (primary)\n  - Gold #D4A832 (accent, light)\n  - Bright Gold #E8C44E (accent, dark)\n  - White #ffffff\n  - Light Gray #f5f5f7\n  - Mid Gray #86868b\n  - Dark Surface #0d1117 (GitHub dark reference)\n\n**Page 4 — Typography:**\n- Poppins 700 specimen: \"corvia\" at 48/32/24px with letter-spacing notes\n- Inter specimen: 700/500/400 weights at 32/24/16/14px\n- Monospace specimen: `corvia search \"query\"` at 14px\n- Scale table: Hero 48 / H1 32 / H2 24 / Body 16 / Caption 14\n\n**Page 5 — Applications:**\n- GitHub README mockup: two side-by-side cards simulating light and dark mode with the logo\n- LinkedIn card: navy bg, gold accent bar, \"corvia\" in Poppins, tagline in Inter\n- CLI output: simulated terminal with corvia commands and colored output\n\n**CSS approach:**\n- `@page { size: 1080px 1350px; margin: 0; }` for LinkedIn-sized PDF pages\n- `page-break-after: always` between sections\n- Embedded Google Fonts via `@import`\n- All colors as CSS custom properties for easy reference\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-brand-guideline-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.453799428Z",
+  "valid_from": "2026-03-31T13:20:59.453799428Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-brand-guideline-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 61,
+    "end_line": 113,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

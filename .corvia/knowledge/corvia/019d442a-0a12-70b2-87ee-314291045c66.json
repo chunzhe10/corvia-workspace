@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-314291045c66",
+  "content": "### 7. Docker stats in dashboard\n\n## Deferred (not in this PR)\n\n- MCP rate limiting (per-agent-id: 60 writes/min, 300 reads/min)\n- Secret content filter on corvia_write (regex for API key patterns)\n- Spoke log capture via corvia-telemetry (not corvia_write)\n\nThese require deeper kernel changes and are better as separate issues.",
+  "source_version": "decisions/2026-03-28-spoke-phase3-autonomous-design.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026743904Z",
+  "valid_from": "2026-03-31T13:51:39.026743904Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-phase3-autonomous-design.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 71,
+    "end_line": 77,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

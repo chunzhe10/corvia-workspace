@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f826-79c1-b85f-36d66fc19628",
+  "content": "d(format!(\"Unknown embedding model: {other}. \\\n                Supported: nomic-embed-text-v1.5, all-MiniLM-L6-v2, all-MiniLM-L12-v2, \\\n                bge-small/base/large-en-v1.5, snowflake-arctic-embed-s/m/l, gte-base/large-en-v1.5\"))),\n        }\n    }\n\n    /// Load an embedding model by name. Downloads from HuggingFace if not cached.\n    ///\n    /// If the requested GPU backend fails at runtime (e.g., CUDA EP registers but\n    /// cudaSetDevice fails), automatically falls back through the backend chain:\n    /// CUDA → OpenVINO → CPU.\n    pub async fn load_model(&self, name: &str, mut backend: ResolvedBackend) -> Result<(), Status> {\n        let model_enum = Self::resolve_model(name)?;\n        let name_owned = name.to_string();\n        tracing::info!(model = %name_owned, device = %backend.device, backend_kind = %backend.backend, \"Loading embedding model...\");\n\n        // Verify the requested EP is actually available in the ORT runtime.\n        // ORT silently falls back to CPU if the EP provider library is missing\n        // (e.g., libonnxruntime_providers_openvino.so). Detect this upfront.\n        if !verify_ep_available(&backend.backend) {\n            tracing::warn!(\n                model = %name_owned,\n                requested_backend = %backend.backend,\n                \"ONNX Runtime does NOT have the {} EP provider library. \\\n                 Embedding will fall back to CPU. To fix: install the matching \\",
+  "source_version": "crates/corvia-inference/src/embedding_service.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.430468121Z",
+  "valid_from": "2026-03-31T13:20:59.430468121Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/src/embedding_service.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 180,
+    "end_line": 198,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

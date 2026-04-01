@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82f-7ca0-945f-ae8f98fcce4b",
+  "content": "engine.embed(query).await {\n            Ok(emb) => (Arc::new(emb), false),\n            Err(e) => {\n                if has_non_embedding_searchers {\n                    warn!(error = %e, \"embedding failed, degrading to non-embedding searchers (e.g. BM25)\");\n                    // Provide a zero-length placeholder; embedding-dependent searchers are skipped below.\n                    (Arc::new(Vec::new()), true)\n                } else {\n                    return Err(e);\n                }\n            }\n        };\n        let embed_latency_ms = embed_start.elapsed().as_millis() as u64;\n\n        let ctx = SearchContext {\n            query_embedding: Arc::clone(&embedding_arc),\n            scope_id: scope_id.to_string(),\n            query: query.to_string(),\n            opts: opts.clone(),\n        };\n\n        // Determine which searchers to run. If embedding failed, skip those\n        // that require embeddings.\n        let active_searchers: Vec<&Arc<dyn Searcher>> = if embed_failed {\n            self.searchers.iter().filter(|s| !s.needs_embedding()).collect()\n        } else {\n            self.searchers.iter().collect()\n        };\n\n        // Step 2: Run searchers with timeout + panic isolation.\n        // Fast path: single searcher avoids tokio::spawn overhead.\n        let search_start = Instant::now();\n        let mut searcher_results = Vec::new();\n        let mut search_warnings: Vec<String> = Vec::new();\n",
+  "source_version": "crates/corvia-kernel/src/pipeline/core.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.439844078Z",
+  "valid_from": "2026-03-31T13:20:59.439844078Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/core.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 98,
+    "end_line": 127,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

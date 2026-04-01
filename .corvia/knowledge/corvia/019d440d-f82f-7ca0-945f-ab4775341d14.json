@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82f-7ca0-945f-ab4775341d14",
+  "content": "ates,\n            metrics: StageMetrics {\n                stage_name: self.name().to_string(),\n                latency_ms,\n                input_count: 0,\n                output_count,\n                warnings: Vec::new(),\n            },\n        })\n    }\n}\nfn name(&self) -> &str {\n        \"bm25\"\n    }\nfn needs_embedding(&self) -> bool {\n        false\n    }",
+  "source_version": "crates/corvia-kernel/src/pipeline/searcher.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.439502597Z",
+  "valid_from": "2026-03-31T13:20:59.439502597Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/searcher.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 193,
+    "end_line": 199,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

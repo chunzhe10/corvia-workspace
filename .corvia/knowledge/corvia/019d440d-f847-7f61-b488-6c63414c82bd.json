@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-6c63414c82bd",
+  "content": "## Task 11: Update Release Workflow\n\n## Task 12: Protocol Conformance Test with Python Adapter\n\nEnd-to-end test that spawns the Python reference adapter and validates JSONL parsing.\n\n**Files:**\n- Modify: `crates/corvia-kernel/src/process_adapter.rs` (add integration test)\n\n**Step 1: Add cross-language protocol test**\n\nAdd to the `#[cfg(test)] mod tests` in `process_adapter.rs`:\n\n```rust\n    #[test]\n    fn test_python_adapter_protocol_conformance() {\n        // Use the Python reference adapter from examples/\n        let adapter_path = Path::new(env!(\"CARGO_MANIFEST_DIR\"))\n            .parent().unwrap().parent().unwrap()\n            .join(\"adapters/corvia-adapter-basic/python/corvia-adapter-basic\");\n\n        if !adapter_path.exists() {\n            eprintln!(\"Skipping: Python adapter not found at {}\", adapter_path.display());\n            return;\n        }\n\n        // Create a temp dir with test files\n        let dir = tempfile::tempdir().unwrap();\n        fs::write(dir.path().join(\"hello.rs\"), \"fn main() { println!(\\\"hello\\\"); }\").unwrap();\n        fs::write(dir.path().join(\"readme.md\"), \"# Test\\nThis is a test.\").unwrap();\n\n        let meta = AdapterMetadata {\n            name: \"basic\".into(),\n            version: \"0.1.0\".into(),\n            domain: \"filesystem\".into(),\n            protocol_version: 1,\n            description: \"Basic filesystem adapter\".into(),\n            supported_extensions: vec![\"rs\".into(), \"md\".into()],\n            chunking_extensions: vec![],",
+  "source_version": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463075541Z",
+  "valid_from": "2026-03-31T13:20:59.463075541Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 2525,
+    "end_line": 2561,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

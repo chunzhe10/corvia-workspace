@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-1bc143a4825d",
+  "content": "# Dashboard UX Overhaul — Implementation Plan\n\n> **Status:** Shipped (v0.4.3)\n\n**Goal:** Overhaul the corvia dashboard across 5 subsystems: multi-tiered graph LOD, agent registration with reconnect, activity-feed-based history, collapsible sidebar, and agent descriptions with topic drift.\n\n**Architecture:** Server-side `ClusterStore` in `corvia-server/src/dashboard/clustering.rs` computes semantic clusters from entry embeddings, providing a shared topic vocabulary consumed by the graph, activity feed, and agent summaries. Frontend components (GraphView, HistoryView, Layout, AgentsView) are rewritten to consume the new APIs. Agent registration moves from passive MCP detection to explicit CLI-driven identity selection.\n\n**Tech Stack:** Rust (axum 0.8, redb, tokio, rand), TypeScript/Preact (Vite), k-means clustering on 768-dim nomic-embed-text embeddings\n\n**Note:** Cluster hierarchy is stored in-memory (`Arc<RwLock>`) and recomputed on server start. Redb persistence is deferred — recomputation is fast (~11 MB at current scale) and simplifies the initial implementation.\n\n**Repo structure:** Backend code lives in the `repos/corvia/` git repo. Frontend/hooks live in the workspace root git repo. Subagents must branch in the correct repo.\n\n**Design spec:** `2026-03-13-dashboard-ux-overhaul-design.md`\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456161943Z",
+  "valid_from": "2026-03-31T13:20:59.456161943Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1,
+    "end_line": 18,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

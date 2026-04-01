@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-3f7076ade888",
+  "content": "pub fn team_sweep(session_id: &str) {\n    if let Err(e) = team_sweep_inner(&Dirs::from_home(), session_id) {\n        eprintln!(\"Warning: Agent Teams sweep failed (non-fatal): {e}\");\n    }\n}\nmod tests {\n    use super::*;\n    use std::os::unix::fs::PermissionsExt;\n    use tempfile::TempDir;\n\n    /// Create isolated Dirs backed by a temp directory.\n    fn test_dirs(base: &Path) -> Dirs {\n        Dirs {\n            staging_root: base.join(\"staging/agent-teams\"),\n            claude_tasks: base.join(\"claude/tasks\"),\n            claude_teams: base.join(\"claude/teams\"),\n        }\n    }\n\n    /// Set up a mock task file so infer_team_from_task works.\n    fn setup_task(dirs: &Dirs, team: &str, task_id: &str, task_json: &serde_json::Value) {\n        let task_dir = dirs.claude_tasks.join(team);\n        fs::create_dir_all(&task_dir).unwrap();\n        let path = task_dir.join(format!(\"{task_id}.json\"));\n        fs::write(&path, serde_json::to_string(task_json).unwrap()).unwrap();\n    }\n\n    /// Set up mock team files (config + inboxes).\n    fn setup_team(dirs: &Dirs, team: &str, config: &serde_json::Value, inboxes: &[(&str, &str)]) {\n        let team_dir = dirs.claude_teams.join(team);\n        let inbox_dir = team_dir.join(\"inboxes\");\n        fs::create_dir_all(&inbox_dir).unwrap();\n        fs::write(team_dir.join(\"config.json\"), serde_json::to_string(config).unwrap()).unwrap();\n        for (name, content) in inboxes {\n            fs::write(inbox_dir.join(format!(\"{name}.json\")), content).unwrap();\n        }",
+  "source_version": "crates/corvia-cli/src/hooks/agent_teams.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429297265Z",
+  "valid_from": "2026-03-31T13:20:59.429297265Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/agent_teams.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 489,
+    "end_line": 519,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

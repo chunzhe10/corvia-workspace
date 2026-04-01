@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a15-7ca3-b9db-527656f1e579",
+  "content": "\"font-size: 22px; color: var(--text-secondary); margin-top: 6px; line-height: 1.5;\">\n          The highest-leverage reviews happen before implementation. A flaw caught in a spec costs minutes. In code, it costs hours.\n        </div>\n      </div>\n    </div>\n    <div style=\"display: flex; align-items: flex-start; gap: 20px;\">\n      <div style=\"font-size: 32px; flex-shrink: 0;\">&#9889;</div>\n      <div>\n        <div style=\"font-size: 24px; font-weight: 700;\">Speed without review is shipping bugs faster</div>\n        <div style=\"font-size: 22px; color: var(--text-secondary); margin-top: 6px; line-height: 1.5;\">\n          AI makes writing code fast. The real leverage is simulating the team dynamics that catch mistakes before they ship.\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"divider\"></div>\n\n  <div style=\"margin-top: 8px;\">\n    <div style=\"font-size: 24px; font-weight: 600; color: var(--text-secondary);\">\n      What's the best bug your AI reviewer caught<br>that you would have shipped?\n    </div>\n    <div style=\"font-size: 20px; color: var(--text-muted); margin-top: 8px;\">\n      Curious what setups people have landed on.\n    </div>\n  </div>\n\n  <div class=\"flex-grow\"></div>\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">09 / 09</div>\n</div>\n\n</body>\n</html>\n",
+  "source_version": "marketing/linkedin/2026-03-27-five-persona-review/five-persona-review-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.029404803Z",
+  "valid_from": "2026-03-31T13:51:39.029404803Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-27-five-persona-review/five-persona-review-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 608,
+    "end_line": 637,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

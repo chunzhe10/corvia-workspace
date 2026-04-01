@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f823-7d80-90e7-32abf5a81d7a",
+  "content": "s/*\", \"docs/superpowers/plans/foo.md\"));\n        assert!(!blocked_path_match(\"docs/superpowers/*\", \"docs/decisions/d01.md\"));\n        assert!(blocked_path_match(\"exact.md\", \"exact.md\"));\n        assert!(!blocked_path_match(\"exact.md\", \"other.md\"));\n    }\n}\nfn test_repo_name_from_url() {\n        assert_eq!(\n            repo_name_from_url(\"https://github.com/org/my-repo\"),\n            \"my-repo\"\n        );\n        assert_eq!(\n            repo_name_from_url(\"https://github.com/org/my-repo.git\"),\n            \"my-repo\"\n        );\n        assert_eq!(\n            repo_name_from_url(\"https://github.com/org/my-repo/\"),\n            \"my-repo\"\n        );\n        assert_eq!(\n            repo_name_from_url(\"git@github.com:org/my-repo.git\"),\n            \"my-repo\"\n        );\n    }",
+  "source_version": "crates/corvia-cli/src/workspace.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.427933970Z",
+  "valid_from": "2026-03-31T13:20:59.427933970Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/workspace.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 565,
+    "end_line": 582,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f839-77c3-913e-15978bf54ec9",
+  "content": "moved after max retries)\n        assert_eq!(queue.depth().unwrap(), 0);\n\n        // Entry should be Rejected in store\n        let updated = store.get(&entry.id).await.unwrap().unwrap();\n        assert_eq!(updated.entry_status, EntryStatus::Rejected);\n    }\nasync fn test_auto_merge_publishes_merge_completed_event() {\n        let dir = tempfile::tempdir().unwrap();\n        let (worker, store, queue, session_mgr, event_bus) = setup(dir.path());\n        store.init_schema().await.unwrap();\n\n        // Subscribe BEFORE the action\n        let mut rx = event_bus.subscribe();\n\n        // Insert entry A as Merged (different embedding direction)\n        let mut entry_a = KnowledgeEntry::new(\"auth system design\".into(), \"scope-a\".into(), \"v1\".into())\n            .with_embedding(vec![1.0, 0.0, 0.0]);\n        entry_a.entry_status = EntryStatus::Merged;\n        store.insert(&entry_a).await.unwrap();\n\n        // Create a session and write entry B (very different embedding)\n        let session = session_mgr.create(\"test::agent\", true).unwrap();\n        session_mgr.transition(&session.session_id, SessionState::Active).unwrap();\n\n        let entry_b = KnowledgeEntry::new(\"database schema\".into(), \"scope-a\".into(), \"v1\".into())\n            .with_embedding(vec![0.0, 1.0, 0.0])\n            .with_agent(\"test::agent\".into(), session.session_id.clone());\n        store.insert(&entry_b).await.unwrap();\n\n        queue.enqueue(entry_b.id, \"test::agent\", &session.session_id, \"scope-a\").unwrap();\n\n        let queue_entry = queue.list(1).unwrap().into_iter().next().unwrap();\n        worker.process_one(&queue_entry).await.unwrap();\n\n        // Verify MergeCompleted event was published\n        let event = rx.try_recv().unwrap();\n        match event {\n            KernelEvent::MergeCompleted { entry_id, session_id, scope_id } => {\n                assert_eq!(entry_id, entry_b.id);\n                assert_eq!(session_id, session.session_id);\n                assert_eq!(scope_id, \"scope-a\");\n            }\n            other => panic!(\"expected MergeCompleted, got {:?}\", other),\n        }\n    }",
+  "source_version": "crates/corvia-kernel/src/merge_worker.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.449010685Z",
+  "valid_from": "2026-03-31T13:20:59.449010685Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/merge_worker.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 515,
+    "end_line": 553,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

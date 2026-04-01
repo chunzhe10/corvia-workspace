@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82e-71f3-920f-907ee725d52f",
+  "content": "esult(0.80 - i as f32 * 0.03)).collect();\n        let qs = QualitySignal::from_results(&results, \"test query\", 10);\n        assert_eq!(qs.confidence, ConfidenceLevel::High);\n        assert!(qs.suggestion.is_none());\n        assert!(!qs.gap_detected);\n    }\nfn test_quality_signal_medium_confidence() {\n        let results = vec![mock_result(0.50), mock_result(0.40)];\n        let qs = QualitySignal::from_results(&results, \"test query\", 10);\n        assert_eq!(qs.confidence, ConfidenceLevel::Medium);\n        assert!(qs.suggestion.is_some());\n    }",
+  "source_version": "crates/corvia-kernel/src/rag_types.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.438291001Z",
+  "valid_from": "2026-03-31T13:20:59.438291001Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/rag_types.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 188,
+    "end_line": 193,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

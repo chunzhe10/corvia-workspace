@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-503c4d7b453e",
+  "content": "## Chunk 2: Inference Server — KV Cache + Flash Attention\n\n### Task 5: resolve_kv_quant in backend.rs\n\n**Files:**\n- Modify: `crates/corvia-inference/src/backend.rs`\n\n-**Step 1: Write tests for resolve_kv_quant**\n\nAdd to `#[cfg(test)] mod tests` at the bottom of `crates/corvia-inference/src/backend.rs`:\n\n```rust\n    // --- KV quant resolution ---\n\n    #[test]\n    fn kv_quant_q8() {\n        let r = resolve_kv_quant(\"q8\").unwrap();\n        assert_eq!(r, KvCacheType::Q8_0);\n    }\n\n    #[test]\n    fn kv_quant_q8_0() {\n        let r = resolve_kv_quant(\"q8_0\").unwrap();\n        assert_eq!(r, KvCacheType::Q8_0);\n    }\n\n    #[test]\n    fn kv_quant_q4() {\n        let r = resolve_kv_quant(\"q4\").unwrap();\n        assert_eq!(r, KvCacheType::Q4_0);\n    }\n\n    #[test]\n    fn kv_quant_q4_0() {\n        let r = resolve_kv_quant(\"q4_0\").unwrap();\n        assert_eq!(r, KvCacheType::Q4_0);\n    }\n\n    #[test]\n    fn kv_quant_none() {\n        let r = resolve_kv_quant(\"none\").unwrap();\n        assert_eq!(r, KvCacheType::F16);\n    }\n\n    #[test]\n    fn kv_quant_f16() {\n        let r = resolve_kv_quant(\"f16\").unwrap();\n        assert_eq!(r, KvCacheType::F16);\n    }\n\n    #[test]\n    fn kv_quant_empty_defaults_to_f16() {\n        let r = resolve_kv_quant(\"\").unwrap();\n        assert_eq!(r, KvCacheType::F16);\n    }\n\n    #[test]\n    fn kv_quant_case_insensitive() {\n        let r = resolve_kv_quant(\"Q8\").unwrap();",
+  "source_version": "docs/rfcs/2026-03-12-inference-kv-cache-config.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460856775Z",
+  "valid_from": "2026-03-31T13:20:59.460856775Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-12-inference-kv-cache-config.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 377,
+    "end_line": 433,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

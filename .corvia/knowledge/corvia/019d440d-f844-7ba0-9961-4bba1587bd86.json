@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-4bba1587bd86",
+  "content": "` returns super-clusters as nodes with inter-cluster edges aggregated\n- `level=1&parent=<cluster_id>` returns sub-clusters within a given parent\n- `level=2&parent=<cluster_id>` returns file groups\n- `level=3` returns individual entries (existing behavior)\n\n### 1.2 Frontend: Zoom-Driven LOD\n\nThe force-directed canvas adapts based on zoom level:\n\n| Zoom range | Renders | Typical node count |\n|------------|---------|-------------------|\n| 0.2x–0.8x (exclusive) | Super-clusters (L0) | 5–12 |\n| 0.8x–1.5x (exclusive) | Sub-clusters (L1) | 20–60 |\n| 1.5x–3.0x (exclusive) | File groups (L2) | 50–200 |\n| 3.0x–5.0x | Individual entries (L3) | Viewport-culled |\n\nBoundary rule: each threshold is exclusive on the upper bound (e.g., zoom=0.8 renders L1, not L0). Hysteresis of 0.05x prevents flickering at boundaries.\n\nTransitions animate: nodes split apart or coalesce as zoom crosses thresholds. The force simulation re-runs at each level with parameters tuned to node count (existing per-level tuning in GraphView already supports this pattern).\n\n**Double-click** on any cluster node drills into the next level (extends current behavior to multiple tiers).\n\n**Breadcrumbs** at top of graph: `All → Agent Lifecycle → Session Management → file.rs` — clickable to zoom back out to any level.\n\n**Viewport culling at L3:** Only render entries within the visible canvas region + 20% margin. Nodes outside are excluded from the force simulation. This removes the current 500-edge hard limit.\n\n\n### 1.3 Shared Vocabulary\n\nThe cluster labels generated here (super-cluster and sub-cluster names) are reused as the topic vocabulary for the History activity feed (Section 3) and agent activity summaries (Section 5). One clustering computation, three consumers.\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460410931Z",
+  "valid_from": "2026-03-31T13:20:59.460410931Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 47,
+    "end_line": 73,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

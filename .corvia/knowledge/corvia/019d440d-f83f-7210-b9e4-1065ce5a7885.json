@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83f-7210-b9e4-1065ce5a7885",
+  "content": "## Chunk 6: Verification and Finalization\n\n### Task 17: Run all backend tests\n\n- **Step 1: Run full Rust test suite**\n\nRun: `cd /workspaces/corvia-workspace/repos/corvia && cargo test --workspace 2>&1 | tail -30`\nExpected: all tests pass. Fix any compilation errors or test failures.\n\n- **Step 2: Run the dashboard build**\n\nRun: `cd /workspaces/corvia-workspace/tools/corvia-dashboard && npm run build 2>&1 | tail -20`\nExpected: clean build\n\n\n### Task 18: Update documentation\n\n**Files:**\n- Modify: `repos/corvia/AGENTS.md`\n- Modify: `repos/corvia/CHANGELOG.md`\n\n- **Step 1: Update AGENTS.md key files**\n\nAdd to the Key Files section in `repos/corvia/AGENTS.md`:\n\n```\n- `crates/corvia-telemetry/src/otel_context_layer.rs` — Custom OTEL→fmt bridge layer\n```\n\n- **Step 2: Add CHANGELOG entry**\n\nAdd a new section at the top of `CHANGELOG.md` for the new features.\n\n- **Step 3: Commit**\n\n```bash\ncd /workspaces/corvia-workspace/repos/corvia\ngit add AGENTS.md CHANGELOG.md\ngit commit -m \"docs: update AGENTS.md and CHANGELOG for dashboard completion features\"\n```\n",
+  "source_version": "docs/rfcs/2026-03-14-dashboard-completion-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.455836428Z",
+  "valid_from": "2026-03-31T13:20:59.455836428Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-14-dashboard-completion-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1983,
+    "end_line": 2020,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

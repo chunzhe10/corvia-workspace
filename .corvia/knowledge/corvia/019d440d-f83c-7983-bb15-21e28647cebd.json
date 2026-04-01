@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-21e28647cebd",
+  "content": "parse temporal value: {e}\")))?;\n\n            if let Some(valid_to_millis) = val_json[\"valid_to_millis\"].as_i64() {\n                if valid_to_millis <= ts_millis {\n                    continue; // Entry expired before the query timestamp\n                }\n            }\n\n            // Extract entry_id from compound key\n            let parts: Vec<&str> = key_str.rsplitn(2, ':').collect();\n            if parts.len() < 2 { continue; }\n            let entry_uuid_str = parts[0];\n\n            // Look up entry\n            if let Ok(Some(entry_val)) = entries_table.get(entry_uuid_str) {\n                if let Ok(entry) = serde_json::from_slice::<KnowledgeEntry>(entry_val.value()) {\n                    results.push(entry);\n                    if results.len() >= limit { break; }\n                }\n            }\n        }\n\n        Ok(results)\n    }\n\n    async fn history(&self, _entry_id: &uuid::Uuid) -> Result<Vec<KnowledgeEntry>> {\n        todo!(\"Implemented in Task 3\")\n    }\n\n    async fn evolution(\n        &self, _scope_id: &str,\n        _from: chrono::DateTime<chrono::Utc>,\n        _to: chrono::DateTime<chrono::Utc>,\n    ) -> Result<Vec<KnowledgeEntry>> {\n        todo!(\"Implemented in Task 3\")\n    }\n}\n```\n\n**Step 7: Run test to verify it passes**\n\nRun: `cargo test -p corvia-kernel -- test_temporal_index_populated_on_insert`\nExpected: PASS\n\n**Step 8: Commit**\n\n```\ngit add crates/corvia-kernel/src/lite_store.rs\ngit commit -m \"feat(m3): temporal index in LiteStore — Redb table + as_of query\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-m3-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452502277Z",
+  "valid_from": "2026-03-31T13:20:59.452502277Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 275,
+    "end_line": 321,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f831-7562-9884-ae5e2b7cb2dd",
+  "content": "pub struct StagingManager {\n    data_dir: PathBuf,\n}\nimpl StagingManager {\n    pub fn new(data_dir: &Path) -> Self {\n        Self {\n            data_dir: data_dir.to_path_buf(),\n        }\n    }\n\n    pub fn data_dir(&self) -> &Path {\n        &self.data_dir\n    }\n\n    /// Resolve a stored staging dir string (e.g., \".corvia/staging/agent/sess-abc\")\n    /// into an absolute path under data_dir by stripping the \".corvia/\" prefix.\n    pub fn resolve_staging_path(&self, staging_dir_str: &str) -> PathBuf {\n        self.data_dir.join(\n            staging_dir_str.strip_prefix(\".corvia/\").unwrap_or(staging_dir_str)\n        )\n    }\n\n    /// Create a staging directory for an agent session.\n    /// Path: `{data_dir}/staging/{sanitized_agent}/{session_short}/`\n    pub fn create_staging_dir(&self, agent_id: &str, session_short: &str) -> Result<PathBuf> {\n        let sanitized = sanitize_agent_id(agent_id);\n        let path = self.data_dir.join(\"staging\").join(&sanitized).join(session_short);",
+  "source_version": "crates/corvia-kernel/src/staging.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.441867485Z",
+  "valid_from": "2026-03-31T13:20:59.441867485Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/staging.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 15,
+    "end_line": 38,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

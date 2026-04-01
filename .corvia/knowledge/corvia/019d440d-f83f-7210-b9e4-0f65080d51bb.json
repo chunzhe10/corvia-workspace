@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83f-7210-b9e4-0f65080d51bb",
+  "content": "### Task 11: Add TypeScript types\n\n  entries_merged: number;\n  pending_entries: number;\n  git_branch: string | null;\n  has_staging_dir: boolean;\n}\n\nexport interface LiveSessionsSummary {\n  total_active: number;\n  total_stale: number;\n  total_entries_pending: number;\n}\n\nexport interface LiveSessionsResponse {\n  sessions: LiveSession[];\n  summary: LiveSessionsSummary;\n}\n\n// --- Trace tree types ---\n\nexport interface SpanNode {\n  span_id: string;\n  parent_span_id: string;\n  trace_id: string;\n  span_name: string;\n  elapsed_ms: number;\n  start_offset_ms: number;\n  depth: number;\n  module: string;\n  fields: Record<string, unknown>;\n  children: SpanNode[];\n}\n\nexport interface TraceTree {\n  trace_id: string;\n  root_span: string;\n  total_ms: number;\n  span_count: number;\n  started_at: string;\n  spans: SpanNode[];\n}\n\nexport interface RecentTracesResponse {\n  traces: TraceTree[];\n}\n```\n\n- **Step 3: Commit**\n\nNote: `tools/corvia-dashboard/` lives in the workspace root repo, not `repos/corvia/`.\n\n```bash\ncd /workspaces/corvia-workspace\ngit add tools/corvia-dashboard/src/types.ts\ngit commit -m \"feat(dashboard-ui): add GC, live session, and trace tree TypeScript types\"\n```\n",
+  "source_version": "docs/rfcs/2026-03-14-dashboard-completion-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.455674065Z",
+  "valid_from": "2026-03-31T13:20:59.455674065Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-14-dashboard-completion-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1407,
+    "end_line": 1462,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

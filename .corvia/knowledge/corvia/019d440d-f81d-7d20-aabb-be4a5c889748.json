@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81d-7d20-aabb-be4a5c889748",
+  "content": "match std::fs::File::open(path) {\n        Ok(f) => f,\n        Err(_) => return String::new(),\n    };\n    let mut decoder = flate2::read::GzDecoder::new(file);\n    let mut content = String::new();\n    decoder.read_to_string(&mut content).ok();\n    content\n}\nmod tests {\n    use super::*;\n    use std::io::Write;\n\n    #[test]\n    fn test_extract_teammate_message_summary() {\n        let content = r#\"<teammate-message teammate_id=\"team-lead\" summary=\"Research auth patterns\">Full prompt here</teammate-message>\"#;\n        assert_eq!(\n            extract_teammate_message_summary(content),\n            Some(\"Research auth patterns\".into())\n        );\n    }\n\n    #[test]\n    fn test_extract_teammate_message_summary_missing() {\n        assert_eq!(extract_teammate_message_summary(\"no tag here\"), None);\n    }\n\n    #[test]\n    fn test_extract_teammate_message_summary_no_summary_attr() {\n        let content = r#\"<teammate-message teammate_id=\"lead\">text</teammate-message>\"#;\n        assert_eq!(extract_teammate_message_summary(content), None);\n    }\n\n    #[test]\n    fn test_match_by_description_exact() {\n        let calls = vec![\n            AgentCall {\n                name: \"researcher\".into(),\n                description: \"Research auth patterns\".into(),\n            },\n            AgentCall {\n                name: \"reviewer\".into(),\n                description: \"Review code quality\".into(),\n            },\n        ];\n        assert_eq!(\n            match_by_description(\"Research auth patterns\", &calls),",
+  "source_version": "adapters/corvia-adapter-claude-sessions/rust/src/correlation.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.421281343Z",
+  "valid_from": "2026-03-31T13:20:59.421281343Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-claude-sessions/rust/src/correlation.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 366,
+    "end_line": 403,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

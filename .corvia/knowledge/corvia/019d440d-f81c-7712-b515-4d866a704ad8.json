@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81c-7712-b515-4d866a704ad8",
+  "content": "her, compute), got {}\",\n            calls.len()\n        );\n        let names: Vec<Option<&str>> = calls.iter().map(|r| r.to_name.as_deref()).collect();\n        assert!(names.contains(&Some(\"helper\")));\n        assert!(names.contains(&Some(\"other\")));\n    }\nfn test_rust_call_skips_std_and_common() {\n        let source = r#\"\nfn process() {\n    let v = Vec::new();\n    let s = String::from(\"hello\");\n    let c = s.clone();\n    let d = Default::default();\n    std::io::stdout();\n    core::mem::drop(c);\n}\n\"#;\n        let result = chunk_file_with_relations(\"src/lib.rs\", source, \"rs\");\n        let calls: Vec<&CodeRelation> = result\n            .relations\n            .iter()\n            .filter(|r| r.relation == \"calls\")\n            .collect();\n        // All of these should be filtered: new, from, clone, default, std::*, core::*\n        for call in &calls {\n            let name = call.to_name.as_deref().unwrap_or(\"\");\n            assert!(\n                ![\"new\", \"from\", \"clone\", \"default\", \"drop\"].contains(&name),\n                \"should have filtered common method '{name}'\"\n            );\n        }\n    }",
+  "source_version": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.420580051Z",
+  "valid_from": "2026-03-31T13:20:59.420580051Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1799,
+    "end_line": 1824,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

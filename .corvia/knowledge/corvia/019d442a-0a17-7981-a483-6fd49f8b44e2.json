@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a17-7981-a483-6fd49f8b44e2",
+  "content": "### Task 9: Update `flush_hnsw()` for 5 files\n### Task 10: Update `scan_cold_entries()` (no functional change needed)\n\n### Task 11: Migration in `open()`\n**File:** `crates/corvia-kernel/src/lite_store.rs`\n**What:** After constructing the store with fresh per-type indexes:\n1. Check if old `litestore.hnsw.graph` exists AND no per-type files exist\n2. If so, log migration message\n3. Trigger `rebuild_from_files()` (which now builds per-type indexes)\n4. Call `flush_hnsw()` to persist per-type files\n5. Delete old `litestore.hnsw.graph` / `litestore.hnsw.data`\n\nThis is mostly handled by the existing rebuild-on-startup logic, just need to:\n- Change the \"loaded from disk\" detection to check per-type files instead of old single files\n- Add cleanup of old files after successful migration\n\n\n### Task 12: Add `ChannelConfig` to PipelineConfig\n**File:** `crates/corvia-common/src/config.rs` (lines 518-564)\n**What:**\n```rust\npub struct PipelineConfig {\n    // ... existing fields ...\n    /// Per-memory-type channel strategies. Default: all \"vector\".\n    /// Maps to `[rag.pipeline.channels]` in TOML.\n    #[serde(default)]\n    pub channels: ChannelsConfig,\n}\n\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct ChannelsConfig {\n    #[serde(default = \"default_structural_strategy\")]\n    pub structural: String,\n    #[serde(default = \"default_vector_strategy\")]\n    pub decisional: String,\n    #[serde(default = \"default_vector_strategy\")]\n    pub episodic: String,\n    #[serde(default = \"default_vector_strategy\")]\n    pub analytical: String,\n    #[serde(default = \"default_vector_strategy\")]\n    pub procedural: String,\n}\n\nfn default_structural_strategy() -> String { \"bm25\".into() }\nfn default_vector_strategy() -> String { \"vector\".into() }\n```\n",
+  "source_version": "plans/2026-03-31-multichannel-rag-plan.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.031410053Z",
+  "valid_from": "2026-03-31T13:51:39.031410053Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "plans/2026-03-31-multichannel-rag-plan.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 214,
+    "end_line": 256,
+    "content_role": "plan",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

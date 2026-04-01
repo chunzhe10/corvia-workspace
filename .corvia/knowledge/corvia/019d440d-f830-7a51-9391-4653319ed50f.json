@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f830-7a51-9391-4653319ed50f",
+  "content": " RetrievalOpts {\n            limit: 10,\n            expand_graph: false,\n            visibility: VisibilityMode::All,\n            ..Default::default()\n        };\n\n        // Panic in one searcher should NOT crash the pipeline.\n        let result = pipeline\n            .retrieve(\"knowledge entry\", \"panic-scope\", &opts)\n            .await\n            .unwrap();\n\n        assert!(\n            !result.results.is_empty(),\n            \"should return results from non-panicking searcher\"\n        );\n    }\n\n    // -----------------------------------------------------------------------\n    // TEST 6: Embedding failure -- degrades to BM25-only\n    // -----------------------------------------------------------------------\n\n    /// Mock engine that always fails embedding.\n    struct FailingEngine;\n\n    #[async_trait]\n    impl InferenceEngine for FailingEngine {\n        async fn embed(&self, _text: &str) -> Result<Vec<f32>> {\n            Err(corvia_common::errors::CorviaError::Infra(\n                \"embedding service unavailable\".into(),\n            ))\n        }\n        async fn embed_batch(&self, _texts: &[String]) -> Result<Vec<Vec<f32>>> {\n            Err(corvia_common::errors::CorviaError::Infra(\n                \"embedding service unavailable\".into(),\n            ))\n        }\n        fn dimensions(&self) -> usize {\n            3\n        }",
+  "source_version": "crates/corvia-kernel/src/pipeline/core.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.440198207Z",
+  "valid_from": "2026-03-31T13:20:59.440198207Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/core.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 951,
+    "end_line": 982,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

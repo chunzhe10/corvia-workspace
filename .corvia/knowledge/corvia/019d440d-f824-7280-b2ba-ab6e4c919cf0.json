@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f824-7280-b2ba-ab6e4c919cf0",
+  "content": "ms_env(&settings));\n\n        let settings = json!({\"env\": {}});\n        assert!(!has_agent_teams_env(&settings));\n\n        let settings = json!({\"env\": {\"CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS\": \"0\"}});\n        assert!(!has_agent_teams_env(&settings));\n    }\nfn test_purge_preserves_custom_hooks() {\n        let custom = json!({\n            \"hooks\": [{\"command\": \"bash my-custom-hook.sh\", \"type\": \"command\"}]\n        });\n        let corvia = json!({\n            \"hooks\": [{\"command\": \"corvia hooks run --event SessionStart\", \"type\": \"command\"}]\n        });\n        assert!(!is_corvia_hook(&custom));\n        assert!(is_corvia_hook(&corvia));\n    }",
+  "source_version": "crates/corvia-cli/src/hooks/settings.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.428610044Z",
+  "valid_from": "2026-03-31T13:20:59.428610044Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/settings.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 331,
+    "end_line": 340,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

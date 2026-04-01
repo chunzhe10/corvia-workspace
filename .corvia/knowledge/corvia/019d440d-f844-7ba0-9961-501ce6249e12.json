@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-501ce6249e12",
+  "content": "ill still parse due to TOML ignoring unknown fields).\n\n-**Step 13: Commit**\n\n```bash\ngit add crates/corvia-common/src/config.rs crates/corvia-cli/src/main.rs\ngit commit -m \"feat(config): add [inference] section, remove device/backend from [embedding]\"\n```\n\n### Task 3: Telemetry span constants\n\n**Files:**\n- Modify: `crates/corvia-telemetry/src/lib.rs`\n\n-**Step 1: Add span constants**\n\nIn `crates/corvia-telemetry/src/lib.rs`, add to the `spans` module (after `RAG_ASK` at line 26):\n\n```rust\n    pub const INFERENCE_LOAD: &str = \"corvia.inference.load\";\n    pub const INFERENCE_RELOAD: &str = \"corvia.inference.reload\";\n    pub const INFERENCE_CONFIG_RELOAD: &str = \"corvia.inference.config_reload\";\n```\n\n-**Step 2: Update the span constants test**\n\nIn `test_span_constants_are_dotted`, add to the `all` array (after `spans::RAG_ASK` at line 162):\n\n```rust\n            spans::INFERENCE_LOAD,\n            spans::INFERENCE_RELOAD,\n            spans::INFERENCE_CONFIG_RELOAD,\n```\n\n-**Step 3: Run test**\n\nRun: `cd repos/corvia && cargo test -p corvia-telemetry test_span_constants_are_dotted`\nExpected: PASS\n\n-**Step 4: Commit**\n\n```bash\ngit add crates/corvia-telemetry/src/lib.rs\ngit commit -m \"feat(telemetry): add inference span constants\"\n```\n\n\n### Task 4: Hot-reloadable config — add inference section\n\n**Files:**\n- Modify: `crates/corvia-kernel/src/ops.rs`\n\n-**Step 1: Add \"inference\" to HOT_RELOADABLE_SECTIONS**\n\nIn `crates/corvia-kernel/src/ops.rs`, line 127, change:\n\n```rust\nconst HOT_RELOADABLE_SECTIONS: &[&str] = &[\"agent_lifecycle\", \"merge\", \"rag\", \"chunking\", \"reasoning\", \"adapters\"];\n```\n\nto:\n\n```rust\nconst HOT_RELOADABLE_SECTIONS: &[&str] = &[\"agent_lifecycle\", \"merge\", \"rag\", \"chunking\", \"reasoning\", \"adapters\", \"inference\"];\n```\n\n-**Step 2: Build to verify**\n\nRun: `cd repos/corvia && cargo build -p corvia-kernel`\nExpected: compiles.\n\n-**Step 3: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/ops.rs\ngit commit -m \"feat(kernel): add inference to hot-reloadable config sections\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-12-inference-kv-cache-config.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460837849Z",
+  "valid_from": "2026-03-31T13:20:59.460837849Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-12-inference-kv-cache-config.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 305,
+    "end_line": 374,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

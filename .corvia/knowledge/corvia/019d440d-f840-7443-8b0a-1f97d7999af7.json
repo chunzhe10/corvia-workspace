@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-1f97d7999af7",
+  "content": "# Test activity feed\n# Test reconnectable agents\n\n## Parallelization Guide\n\nThese task groups can be dispatched to independent subagents:\n\n| Subagent | Tasks | Branch | Git Repo | Worktree Port | Dependencies |\n|----------|-------|--------|----------|---------------|-------------|\n| **A: ClusterStore** | 0, 1, 2, 3 | `feature/cluster-store` | repos/corvia | 8023 | None — build first |\n| **B: Agent Identity** | 5, 6, 7, 8, 9, 10 | `feature/agent-identity` | repos/corvia | 8024 | Needs ClusterStore for topic tags (Task 7) |\n| **C: Collapsible Panel** | 12 | `feature/collapsible-panel` | workspace root | 8025 | None — pure frontend |\n| **D: Graph LOD Frontend** | 4 | `feature/graph-lod` | workspace root | 8026 | Needs ClusterStore endpoint (Task 3) |\n| **E: History Feed** | 13, 14, 15 | `feature/history-feed` | both repos | 8027 | Needs ClusterStore (Task 2) + Collapsible Panel (Task 12) |\n| **F: Agent Display** | 11 | `feature/agent-display` | workspace root | N/A | Needs Agent Identity types (Task 5) |\n| **G: Integration** | 16, 17 | N/A | both repos | N/A | All above complete |\n\n**Recommended execution order:**\n1. **Phase 1:** A (ClusterStore) + C (Collapsible Panel) — fully independent\n2. **Phase 2:** B (Agent Identity) + D (Graph LOD Frontend) — both need ClusterStore\n3. **Phase 3:** E (History Feed) + F (Agent Display) — need Phase 2 outputs\n4. **Phase 4:** G (Integration) — smoke test everything\n\n**Merge order:** A → C → B → D → F → E → G (each rebases on previous)",
+  "source_version": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456784885Z",
+  "valid_from": "2026-03-31T13:20:59.456784885Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 2161,
+    "end_line": 2181,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f834-7df0-9fec-23fffff95964",
+  "content": "en(|m| m.content_role.clone())\n                                    .or_else(|| infer_content_role(&pc.metadata.source_file)),\n                                source_origin: src_meta\n                                    .and_then(|m| m.source_origin.clone())\n                                    .or_else(|| infer_source_origin(None, &pc.metadata.source_file)),\n                            };\n                            entry.auto_classify();\n                            entry\n                        })\n                        .filter(|e| content_passes_min_length(&e.content))\n                        .collect();\n\n                    let total = entries.len();\n                    let mut stored_ids: Vec<uuid::Uuid> = Vec::with_capacity(total);\n                    let mut stored = 0;\n                    for batch in entries.chunks(EMBED_BATCH_SIZE) {\n                        let texts: Vec<String> = batch.iter().map(|e| e.content.clone()).collect();\n                        let embeddings = engine.embed_batch(&texts).await?;\n                        for (entry, embedding) in batch.iter().zip(embeddings) {\n                            let mut entry = entry.clone();\n                            entry.embedding = Some(embedding);\n                            store.insert(&entry).await?;\n                            stored_ids.push(entry.id);\n                            stored += 1;\n                        }\n                        progress.log(&format!(\"  embedded and stored {}/{}\", stored, total));\n                    }",
+  "source_version": "crates/corvia-kernel/src/ingest.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.444512320Z",
+  "valid_from": "2026-03-31T13:20:59.444512320Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ingest.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 900,
+    "end_line": 922,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81b-7e30-ace5-9abbe8982b18",
+  "content": "fn metadata() -> AdapterMetadata {\n    let chunker = AstChunker;\n    let exts: Vec<String> = chunker.supported_extensions().iter().map(|s| s.to_string()).collect();\n\n    AdapterMetadata {\n        name: \"git\".into(),\n        version: env!(\"CARGO_PKG_VERSION\").into(),\n        domain: \"git\".into(),\n        protocol_version: PROTOCOL_VERSION,\n        description: \"Git + tree-sitter code ingestion\".into(),\n        supported_extensions: vec![\n            \"rs\".into(), \"js\".into(), \"jsx\".into(), \"ts\".into(), \"tsx\".into(),\n            \"py\".into(), \"md\".into(), \"toml\".into(), \"yaml\".into(), \"yml\".into(),\n            \"json\".into(),\n        ],\n        chunking_extensions: exts,\n    }\n}",
+  "source_version": "adapters/corvia-adapter-git/rust/src/main.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.419491612Z",
+  "valid_from": "2026-03-31T13:20:59.419491612Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-git/rust/src/main.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 14,
+    "end_line": 31,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

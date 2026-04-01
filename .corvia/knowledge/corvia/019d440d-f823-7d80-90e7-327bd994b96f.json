@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f823-7d80-90e7-327bd994b96f",
+  "content": "r_name(\"foo/bar\").is_err());\n        assert!(validate_dir_name(\"foo\\\\bar\").is_err());\n        assert!(validate_dir_name(\"\").is_err());\n        assert!(validate_dir_name(\"valid-name\").is_ok());\n        assert!(validate_dir_name(\"my_repo.v2\").is_ok());\n    }\n\n    #[test]\n    fn test_generate_rejects_bad_workspace_name() {\n        let result = generate_workspace_config(\n            \"../escape\",\n            &[\"https://github.com/org/repo\".into()],\n            &[],\n        );\n        assert!(result.is_err());\n    }\n\n    #[test]\n    fn test_add_repo_rejects_bad_name() {\n        let mut config =\n            generate_workspace_config(\"test\", &[\"https://github.com/org/a\".into()], &[]).unwrap();\n        let result = add_repo_to_config(\n            &mut config,\n            \"https://github.com/org/b\",\n            Some(\"../escape\"),\n            None,\n            None,\n        );\n        assert!(result.is_err());\n    }\n\n    #[test]\n    fn test_infer_content_role_code() {\n        assert_eq!(infer_content_role(\"src/main.rs\"), Some(\"code\".into()));\n        assert_eq!(infer_content_role(\"lib/utils.py\"), Some(\"code\".into()));\n        assert_eq!(infer_content_role(\"src/app.tsx\"), Some(\"code\".into()));\n        assert_eq!(infer_content_role(\"build.sh\"), Some(\"code\".into()));\n    }\n\n    #[test]\n    fn test_infer_content_role_instruction() {\n        assert_eq!(infer_content_role(\"AGENTS.md\"), Some(\"instruction\".into()));\n        assert_eq!(infer_content_role(\"CLAUDE.md\"), Some(\"instruction\".into()));\n        assert_eq!(infer_content_role(\"README.md\"), Some(\"instruction\".into()));\n        assert_eq!(",
+  "source_version": "crates/corvia-cli/src/workspace.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.427901073Z",
+  "valid_from": "2026-03-31T13:20:59.427901073Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/workspace.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 756,
+    "end_line": 794,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

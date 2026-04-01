@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84b-7723-860a-1d8ab1293bd9",
+  "content": "## Key Design Decisions\n\n| **Trait-bounded storage** | Hardcode storage directly | Trait boundary enabled building LiteStore (zero-Docker) and PostgresStore without touching kernel code. Storage became a compile-time choice, not a runtime dependency |\n| **LLM-assisted merge** | Last-write-wins / manual merge | Knowledge conflicts are semantic, not textual — an LLM can reason about which version of \"how auth works\" is more accurate. Last-write-wins silently loses knowledge |\n| **Two-tier storage (LiteStore + PostgresStore)** | Single backend | Requiring Docker for a dev tool kills adoption. LiteStore is the full product at zero cost; PostgresStore is an opt-in upgrade for production environments |\n| **petgraph + Redb for graph** | External graph database | LiteStore needed full traversal (BFS, shortest path, cycles) without any external service. petgraph handles computation in-memory, Redb handles persistence |\n| **Redb compound-key range scans for temporal** | Dedicated time-series DB | Redb is already embedded for coordination. Compound keys `(scope, valid_from, entry_id)` give O(log n) temporal lookups without adding another dependency |",
+  "source_version": "ARCHITECTURE.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.467623507Z",
+  "valid_from": "2026-03-31T13:20:59.467623507Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "ARCHITECTURE.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 309,
+    "end_line": 313,
+    "content_role": null,
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

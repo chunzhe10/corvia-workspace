@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f835-7a40-9ae4-13c8fc547e91",
+  "content": "riever\".to_string()));\n        assert!(tokens.contains(&\"rs\".to_string()));\n    }\n\n    #[test]\n    fn test_tokenize_file_path() {\n        let tokens = tokenize_code_aware(\"path/to/file.rs\");\n        assert!(tokens.contains(&\"path/to/file.rs\".to_string()));\n        assert!(tokens.contains(&\"path\".to_string()));\n        assert!(tokens.contains(&\"to\".to_string()));\n        assert!(tokens.contains(&\"file\".to_string()));\n        assert!(tokens.contains(&\"rs\".to_string()));\n    }\n\n    #[test]\n    fn test_tokenize_version_with_v() {\n        let tokens = tokenize_code_aware(\"v0.4.5\");\n        assert!(tokens.contains(&\"v0.4.5\".to_string()));\n        assert!(tokens.contains(&\"0.4.5\".to_string()));\n        assert!(tokens.contains(&\"v0\".to_string()));\n        assert!(tokens.contains(&\"4\".to_string()));\n        assert!(tokens.contains(&\"5\".to_string()));\n    }\n\n    #[test]\n    fn test_tokenize_uuid() {\n        let tokens = tokenize_code_aware(\"550e8400-e29b-41d4-a716-446655440000\");\n        assert!(tokens.contains(&\"550e8400-e29b-41d4-a716-446655440000\".to_string()));\n        assert!(tokens.contains(&\"550e8400\".to_string()));\n        assert!(tokens.contains(&\"e29b\".to_string()));\n    }\n\n    #[test]\n    fn test_tokenize_empty() {\n        let tokens = tokenize_code_aware(\"\");\n        assert!(tokens.is_empty());\n    }\n\n    #[test]\n    fn test_tokenize_plain_word() {\n        let tokens = tokenize_code_aware(\"hello\");\n        assert_eq!(tokens, vec![\"hello\"]);\n    }\n\n    // -- TantivyIndex integration tests --\n\n    fn make_test_entry(content: &str, scope: &str) -> KnowledgeEntry {\n        let mut entry = KnowledgeEntry::new(content.to_string(), scope.to_string(), \"v1\".to_string());\n        entry.metadata.content_role = Some(\"code\".to_string());\n        entry.metadata.source_origin = Some(\"repo:corvia\".to_string());\n        // Set a minimal embedding so entries can be inserted into LiteStore.\n        entry.embedding = Some(vec![1.0, 0.0, 0.0]);\n        entry\n    }\n\n    /// Insert entry into both tantivy and the store (for search_text lookups).\n    async fn index_with_store(",
+  "source_version": "crates/corvia-kernel/src/tantivy_index.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.445825279Z",
+  "valid_from": "2026-03-31T13:20:59.445825279Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/tantivy_index.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 636,
+    "end_line": 684,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

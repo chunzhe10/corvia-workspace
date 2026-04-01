@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81b-7e30-ace5-9c893f71ae3b",
+  "content": "  for i in 0..list.child_count() {\n                    let Some(child) = list.child(i as u32) else {\n                        continue;\n                    };\n                    if !child.is_named() {\n                        continue;\n                    }\n                    let name = match child.kind() {\n                        \"identifier\" => source[child.byte_range()].to_string(),\n                        \"use_as_clause\" => {\n                            // Extract the original name (before `as`)\n                            child\n                                .child_by_field_name(\"path\")\n                                .map(|p| source[p.byte_range()].to_string())\n                                .unwrap_or_else(|| source[child.byte_range()].to_string())\n                        }\n                        _ => continue,\n                    };\n                    relations.push(CodeRelation {\n                        from_chunk_index: owner_idx,\n                        relation: \"imports\".to_string(),\n                        to_file: resolved_path.clone(),\n                        to_name: Some(name),\n                    });\n                }\n            }\n        }\n        \"use_wildcard\" => {\n            // e.g., `use super::*`\n            let full_text = source[argument.byte_range()].to_string();\n            let module_path = full_text.trim_end_matches(\"::*\");\n            relations.push(CodeRelation {\n                from_chunk_index: owner_idx,\n                relation: \"imports\".to_string(),\n                to_file: resolve_rust_module_path(file_path, module_path),\n                to_name: Some(\"*\".to_string()),\n            });\n        }\n        \"identifier\" => {\n            // e.g., `use foo` (bare crate import, rare)\n            let name = source[argument.byte_range()].to_string();\n            relations.push(CodeRelation {\n                from_chunk_index: owner_idx,\n                relation: \"imports\".to_string(),\n                to_file: name.clone(),\n                to_name: Some(name),\n            });\n        }\n        _ => {}\n    }\n}",
+  "source_version": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.419745494Z",
+  "valid_from": "2026-03-31T13:20:59.419745494Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 293,
+    "end_line": 336,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

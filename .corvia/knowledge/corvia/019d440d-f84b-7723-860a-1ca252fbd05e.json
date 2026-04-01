@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84b-7723-860a-1ca252fbd05e",
+  "content": "## Crate Map\n\n## Kernel Subsystems\n\nThe kernel contains eleven subsystems, each in its own module within `corvia-kernel`:\n\n| Subsystem | Module | Description |\n|-----------|--------|-------------|\n| **Knowledge Store** | `lite_store.rs`, `postgres_store.rs` | Read/write knowledge entries with vector search. Two implementations: `LiteStore` (hnsw_rs + Redb, embedded) and `PostgresStore` (pgvector). Both implement `QueryableStore` |\n| **Agent Coordinator** | `agent_coordinator.rs`, `agent_registry.rs`, `session_manager.rs`, `staging.rs`, `agent_writer.rs` | Multi-agent lifecycle management. Agent registration with multi-layer identity (three tiers: Registered, MCP Client, Anonymous — chosen over single-tier to support both long-lived agents and one-shot queries without forcing registration). Session state machine (Created → Active → Committing → Merging → Closed), staging isolation, crash recovery (resume/commit/rollback), garbage collection |\n| **Embedding Pipeline** | `embedding_pipeline.rs`, `ollama_engine.rs`, `grpc_engine.rs`, `ollama_provisioner.rs` | Provider-agnostic embedding generation. `OllamaEngine` for Ollama (HTTP), `GrpcEngine` for the corvia-inference gRPC server. Both implement `InferenceEngine` |",
+  "source_version": "ARCHITECTURE.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.467534527Z",
+  "valid_from": "2026-03-31T13:20:59.467534527Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "ARCHITECTURE.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 64,
+    "end_line": 72,
+    "content_role": null,
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

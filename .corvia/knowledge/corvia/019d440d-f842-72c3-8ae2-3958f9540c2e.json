@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-3958f9540c2e",
+  "content": "## Observability (D62)\n\n### Layer A: OTel Spans\n\n```\ncorvia.rag.query                      — parent span\n  ├─ corvia.rag.retrieve              — retrieval\n  │   ├─ corvia.rag.retrieve.vector   — vector search\n  │   ├─ corvia.rag.retrieve.graph    — graph expansion (if enabled)\n  │   └─ corvia.rag.retrieve.filter   — visibility + RBAC\n  ├─ corvia.rag.augment               — context assembly\n  └─ corvia.rag.generate              — GenerationEngine call (ask mode only)\n```\n\n\n### Layer A: Metrics\n\n| Type | Name | Description |\n|------|------|-------------|\n| Counter | `corvia.rag.queries` | Total RAG queries |\n| Counter | `corvia.rag.context_only` | Queries in context-only mode |\n| Histogram | `corvia.rag.retrieve.duration_ms` | Retrieval latency |\n| Histogram | `corvia.rag.augment.duration_ms` | Context assembly latency |\n| Histogram | `corvia.rag.generate.duration_ms` | Generation latency |\n| Histogram | `corvia.rag.total.duration_ms` | End-to-end latency |\n| Histogram | `corvia.rag.context.tokens` | Token count of assembled context |\n| Counter | `corvia.rag.sources.included` | Entries included in context |\n| Counter | `corvia.rag.sources.truncated` | Entries that exceeded budget |\n",
+  "source_version": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458954778Z",
+  "valid_from": "2026-03-31T13:20:59.458954778Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 277,
+    "end_line": 302,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

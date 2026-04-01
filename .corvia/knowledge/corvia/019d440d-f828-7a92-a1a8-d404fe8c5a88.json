@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f828-7a92-a1a8-d404fe8c5a88",
+  "content": " entries with slight embedding variation.\n        let mut entry_ids = Vec::new();\n        for i in 0..5 {\n            let mut entry = KnowledgeEntry::new(\n                format!(\"access tracking test item {i}\"),\n                \"access-scope\".to_string(),\n                format!(\"v{i}\"),\n            );\n            entry.embedding = Some(vec![1.0, i as f32 * 0.01, 0.0]);\n            entry_ids.push(entry.id);\n            store.insert(&entry).await.unwrap();\n        }\n\n        // Verify initial state: access_count = 0, last_accessed = None.\n        let initial = store.get(&entry_ids[0]).await.unwrap().unwrap();\n        assert_eq!(initial.access_count, 0);\n        assert!(initial.last_accessed.is_none());\n\n        let retriever = VectorRetriever::new(store.clone() as Arc<dyn QueryableStore>, engine);\n\n        let opts = RetrievalOpts {\n            limit: 5,\n            visibility: VisibilityMode::All,\n            ..Default::default()\n        };\n        let result = retriever.retrieve(\"test\", \"access-scope\", &opts).await.unwrap();\n        assert!(!result.results.is_empty());\n\n        // Give the spawned task time to complete, then flush the access buffer.\n        tokio::time::sleep(std::time::Duration::from_millis(250)).await;\n        store.flush_access_buffer();\n\n        // Verify access tracking updated for returned entries.\n        let returned_ids: Vec<uuid::Uuid> = result.results.iter().map(|sr| sr.entry.id).collect();\n        for id in &returned_ids {\n            let entry = store.get(id).await.unwrap().unwrap();\n            assert_eq!(entry.access_count, 1, \"access_count should be 1 for entry {}\", id);\n            assert!(entry.last_accessed.is_some(), \"last_accessed should be set for entry {}\", id);\n        }\n\n        // Search again — access_count should increment to 2.\n        let _result2 = retriever.retrieve(\"test\", \"access-scope\", &opts).await.unwrap();\n        tokio::time::sleep(std::time::Duration::from_millis(250)).await;",
+  "source_version": "crates/corvia-kernel/src/retriever.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.432160963Z",
+  "valid_from": "2026-03-31T13:20:59.432160963Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/retriever.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 1327,
+    "end_line": 1363,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

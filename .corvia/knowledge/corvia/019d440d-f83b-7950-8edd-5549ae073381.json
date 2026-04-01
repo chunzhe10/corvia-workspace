@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-5549ae073381",
+  "content": "# Dashboard Index Coverage & Staleness Detection\n\n## Problem\n\n`GET /api/dashboard/status` does not report whether the HNSW index is stale or\nhow much of the knowledge store is indexed. Users and automation (e.g., Taskfile\npost-start hooks) have no API-level signal that search results may be incomplete\nafter a partial ingest or index corruption.\n\nThree divergence scenarios exist across the storage layers:\n\n1. **Partial ingest** — knowledge JSON files written to disk but never inserted\n   into Redb/HNSW (e.g., embedding server down mid-ingest). Disk > Redb = HNSW.\n2. **Index corruption/rebuild** — HNSW wiped or rebuilt but Redb and disk files\n   remain intact. Disk = Redb > HNSW.\n3. **Orphaned index entries** — entries deleted from disk (manual or GC) but\n   still present in Redb/HNSW. Redb or HNSW > Disk.\n\n\n## Design\n",
+  "source_version": "docs/rfcs/2026-03-26-dashboard-index-coverage-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451358939Z",
+  "valid_from": "2026-03-31T13:20:59.451358939Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-26-dashboard-index-coverage-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 7,
+    "end_line": 24,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

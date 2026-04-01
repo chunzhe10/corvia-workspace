@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f837-7c71-ac7d-029dc20b5502",
+  "content": "failed: {e}\")))?;\n\n        let resp = client\n            .list_models(tonic::Request::new(ListModelsRequest {}))\n            .await\n            .map_err(|e| CorviaError::Infra(format!(\"ListModels failed: {e}\")))?;\n        Ok(resp.into_inner().models)\n    }\npub async fn ensure_ready(\n        &self,\n        embed_model: &str,\n        chat_model: Option<&ChatModelCoords>,\n        device: &str,\n        backend: &str,\n        embedding_backend: &str,\n        kv_quant: &str,\n        flash_attention: bool,\n    ) -> Result<()> {\n        if !self.is_running().await {\n            if !Self::is_installed() {\n                return Err(CorviaError::Infra(\n                    \"corvia-inference not found. Install it or switch to provider = \\\"ollama\\\"\"\n                        .into(),\n                ));\n            }\n            self.start()?;\n            self.wait_ready(15).await?;\n        }\n        self.load_models(embed_model, chat_model, device, backend, embedding_backend, kv_quant, flash_attention).await?;\n        Ok(())\n    }",
+  "source_version": "crates/corvia-kernel/src/inference_provisioner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.447036487Z",
+  "valid_from": "2026-03-31T13:20:59.447036487Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/inference_provisioner.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 238,
+    "end_line": 260,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

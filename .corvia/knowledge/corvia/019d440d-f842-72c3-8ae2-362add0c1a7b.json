@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-362add0c1a7b",
+  "content": ".rs**\n\nCreate `crates/corvia-proto/Cargo.toml`:\n```toml\n[package]\nname = \"corvia-proto\"\nversion.workspace = true\nedition.workspace = true\nlicense.workspace = true\n\n[dependencies]\ntonic = \"0.12\"\nprost = \"0.13\"\n\n[build-dependencies]\ntonic-build = \"0.12\"\n```\n\nCreate `crates/corvia-proto/build.rs`:\n```rust\nfn main() -> Result<(), Box<dyn std::error::Error>> {\n    tonic_build::configure()\n        .build_server(true)\n        .build_client(true)\n        .compile_protos(\n            &[\n                \"proto/corvia/inference/v1/embedding.proto\",\n                \"proto/corvia/inference/v1/chat.proto\",\n                \"proto/corvia/inference/v1/model.proto\",\n            ],\n            &[\"proto/\"],\n        )?;\n    Ok(())\n}\n```\n\n**Step 3: Create lib.rs re-exports**\n\nCreate `crates/corvia-proto/src/lib.rs`:\n```rust\npub mod corvia {\n    pub mod inference {\n        pub mod v1 {\n            tonic::include_proto!(\"corvia.inference.v1\");\n        }\n    }\n}\n\n// Convenience re-export\npub use corvia::inference::v1::*;\n```\n\n**Step 4: Add to workspace Cargo.toml**\n\nAdd `\"crates/corvia-proto\"` to `[workspace].members` array in root `Cargo.toml`.\nAdd `corvia-proto = { path = \"crates/corvia-proto\" }` to `[workspace.dependencies]`.\n\n**Step 5: Verify it compiles**\n\nRun: `cargo build -p corvia-proto`\nExpected: SUCCESS — tonic-build generates server/client stubs from proto files.\n\n**Step 6: Commit**\n\n```bash\ngit add crates/corvia-proto/ Cargo.toml\ngit commit -m \"feat(d60): add corvia-proto crate with gRPC service definitions\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458424150Z",
+  "valid_from": "2026-03-31T13:20:59.458424150Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 171,
+    "end_line": 223,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

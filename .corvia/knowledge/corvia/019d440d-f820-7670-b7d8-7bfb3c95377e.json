@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f820-7670-b7d8-7bfb3c95377e",
+  "content": "fn read_sysfs_string(path: &Path) -> Option<String> {\n    std::fs::read_to_string(path)\n        .ok()\n        .map(|s| s.trim().to_string())\n        .filter(|s| !s.is_empty())\n}\nfn read_sysfs_u64(path: &Path) -> Option<u64> {\n    read_sysfs_string(path).and_then(|s| s.parse::<u64>().ok())\n}",
+  "source_version": "crates/corvia-server/src/dashboard/gpu.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.424920416Z",
+  "valid_from": "2026-03-31T13:20:59.424920416Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/gpu.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 511,
+    "end_line": 513,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

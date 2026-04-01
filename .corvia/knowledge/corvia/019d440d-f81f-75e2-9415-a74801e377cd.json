@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81f-75e2-9415-a74801e377cd",
+  "content": ".is_empty() {\n        return 0.0;\n    }\n    durations.sort_by(|a, b| a.partial_cmp(b).unwrap_or(std::cmp::Ordering::Equal));\n    let idx = ((percentile / 100.0) * (durations.len() - 1) as f64).round() as usize;\n    durations[idx.min(durations.len() - 1)]\n}\npub fn collect_traces_from_lines(lines: &[&str]) -> TracesData {\n    let now = chrono::Utc::now().timestamp();\n    let one_hour_ago = now - 3600;\n\n    let mut span_all: HashMap<String, Vec<f64>> = HashMap::new();\n    let mut span_1h: HashMap<String, Vec<f64>> = HashMap::new();\n    let mut span_errors: HashMap<String, u64> = HashMap::new();\n    let mut events: Vec<TraceEvent> = Vec::new();\n\n    for line in lines {\n        let parsed = match parse_trace_line(line) {\n            Some(p) => p,\n            None => continue,\n        };\n\n        match parsed {\n            ParsedTrace::Span {\n                level,\n                timestamp,\n                span_name,\n                elapsed_ms,\n                ..\n            } => {\n                span_all\n                    .entry(span_name.clone())\n                    .or_default()\n                    .push(elapsed_ms);\n\n                if let Some(epoch) = timestamp_to_epoch(&timestamp)\n                    && epoch >= one_hour_ago {\n                        span_1h\n                            .entry(span_name.clone())\n                            .or_default()\n                            .push(elapsed_ms);\n                    }\n\n                let level_lower = level.to_lowercase();\n                if level_lower == \"error\" || level_lower == \"err\" {\n                    *span_errors.entry(span_name).or_default() += 1;\n                }\n            }\n            ParsedTrace::Event {\n                level,\n                timestamp,\n                msg,\n                target,\n            } => {\n                if !msg.is_empty() {\n                    let module = target_to_module(&target);\n                    events.push(TraceEvent {\n                        ts: short_timestamp(&timestamp),\n                        level: normalize_level(&level).to_string(),\n                        module: module.to_string(),",
+  "source_version": "crates/corvia-server/src/dashboard/traces.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.423041887Z",
+  "valid_from": "2026-03-31T13:20:59.423041887Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/traces.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 186,
+    "end_line": 238,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

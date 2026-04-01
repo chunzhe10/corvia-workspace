@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82b-7733-b219-a713c24ff478",
+  "content": ".collect(),\n        0.6,\n        format!(\n            \"{} entries have unmapped content_role values: {} — these default to Episodic memory type\",\n            unmapped.len(),\n            roles.into_iter().collect::<Vec<_>>().join(\", \")\n        ),\n    )]\n}\npub fn check_temporal_contradiction(\n    entries: &[KnowledgeEntry],\n    threshold: f32,\n) -> Vec<Finding> {\n    let mut findings = Vec::new();\n    // Only compare entries that have a source_origin set and are current\n    let current: Vec<&KnowledgeEntry> = entries\n        .iter()\n        .filter(|e| e.is_current() && e.metadata.source_origin.is_some())\n        .collect();\n\n    let max_pairs = 1000;\n    let mut pair_count = 0;\n\n    for i in 0..current.len() {\n        if pair_count >= max_pairs {\n            break;\n        }\n        for j in (i + 1)..current.len() {\n            if pair_count >= max_pairs {\n                break;\n            }\n            pair_count += 1;\n\n            let a = current[i];\n            let b = current[j];\n\n            // Must have different source_origin\n            if a.metadata.source_origin == b.metadata.source_origin {\n                continue;\n            }\n\n            // Must both have embeddings for similarity check\n            let (Some(ea), Some(eb)) = (&a.embedding, &b.embedding) else {\n                continue;\n            };\n\n            let sim = cosine_similarity(ea, eb);\n            if sim >= threshold {\n                findings.push(Finding::new(\n                    CheckType::TemporalContradiction,\n                    &a.scope_id,\n                    vec![a.id, b.id],\n                    0.6, // heuristic confidence (consistent with Contradiction check)\n                    format!(\n                        \"High similarity ({:.2}) between entries from '{}' and '{}' — possible contradiction\",\n                        sim,\n                        a.metadata.source_origin.as_deref().unwrap_or(\"unknown\"),\n                        b.metadata.source_origin.as_deref().unwrap_or(\"unknown\"),\n                    ),\n                ));\n            }\n        }\n    }\n    findings\n}",
+  "source_version": "crates/corvia-kernel/src/reasoner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.435210860Z",
+  "valid_from": "2026-03-31T13:20:59.435210860Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/reasoner.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 724,
+    "end_line": 779,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

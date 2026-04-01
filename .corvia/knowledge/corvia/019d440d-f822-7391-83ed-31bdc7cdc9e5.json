@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f822-7391-83ed-31bdc7cdc9e5",
+  "content": "pub struct DocsRulesConfig {\n    #[serde(default)]\n    pub blocked_paths: Vec<String>,\n    #[serde(default)]\n    pub repo_docs_pattern: Option<String>,\n}\npub struct HooksConfig {\n    /// Master switch — set to false to disable all hooks at once.\n    #[serde(default = \"default_true\")]\n    pub enabled: bool,\n    #[serde(default = \"default_true\")]\n    pub session_recording: bool,\n    #[serde(default = \"default_true\")]\n    pub doc_placement: bool,\n    #[serde(default = \"default_true\")]\n    pub agent_check: bool,\n    #[serde(default = \"default_true\")]\n    pub write_reminder: bool,\n    #[serde(default = \"default_true\")]\n    pub orphan_cleanup: bool,\n    #[serde(default = \"default_true\")]\n    pub corvia_first_reminder: bool,\n    /// Agent Teams capture hooks (default false — only active when Agent Teams is enabled).\n    #[serde(default)]\n    pub agent_teams: bool,\n}",
+  "source_version": "crates/corvia-common/src/config.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.426108646Z",
+  "valid_from": "2026-03-31T13:20:59.426108646Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/config.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 62,
+    "end_line": 81,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

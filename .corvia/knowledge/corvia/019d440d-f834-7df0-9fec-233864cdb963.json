@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f834-7df0-9fec-233864cdb963",
+  "content": ":EntryMetadata {\n                source_file: Some(pc.metadata.source_file.clone()),\n                language: pc.metadata.language.clone(),\n                chunk_type: Some(\"semantic_subchunk\".to_string()),\n                start_line: Some(pc.start_line),\n                end_line: Some(pc.end_line),\n                content_role: None,\n                source_origin: None,\n            };\n            entry.auto_classify();\n            entry.embedding = Some(embedding);\n\n            match store.insert(&entry).await {\n                Ok(_) => {\n                    // Wire \"split_from\" edge: sub-chunk -> original\n                    if let Err(e) = graph\n                        .relate(&entry.id, \"split_from\", &original_id, None)\n                        .await\n                    {\n                        tracing::warn!(error = %e, \"semantic_subsplit: failed to wire split_from edge\");\n                    }\n                    sub_chunks_created += 1;\n                }\n                Err(e) => {\n                    tracing::warn!(error = %e, \"semantic_subsplit: failed to store sub-chunk\");\n                }\n            }\n        }\n\n        tracing::debug!(\n            source_file = %pc.metadata.source_file,\n            original_tokens = pc.token_estimate,\n            sub_chunks = groups.len(),\n            \"semantic_subsplit: split oversized heading section\"\n        );\n    }\n\n    sub_chunks_created\n}",
+  "source_version": "crates/corvia-kernel/src/ingest.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.444397187Z",
+  "valid_from": "2026-03-31T13:20:59.444397187Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ingest.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 504,
+    "end_line": 537,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

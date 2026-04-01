@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a13-75d1-bfe3-f586d79a51a9",
+  "content": "### Task 4: Build Slide 3 (The Adversary)\n\n      </div>\n      <div class=\"symptom-block\" style=\"border-left: 4px solid var(--accent-amber);\">\n        <span style=\"font-size: 28px;\">📦</span>\n        <div>\n          <div style=\"font-size: 22px; font-weight: 700; color: var(--text-primary);\">Missing packages</div>\n          <div style=\"font-size: 18px; color: var(--text-secondary);\">Not in default repos</div>\n        </div>\n      </div>\n    </div>\n\n    <!-- Crack lines (decorative) -->\n    <div style=\"display: flex; justify-content: center; margin: 8px 0;\">\n      <div style=\"width: 2px; height: 40px; background: linear-gradient(180deg, rgba(239,68,68,0.4), rgba(239,68,68,0.1));\"></div>\n    </div>\n\n    <!-- Foundation slab -->\n    <div class=\"foundation\">\n      <div style=\"font-size: 22px; font-weight: 800; color: var(--accent-red); letter-spacing: 2px; text-transform: uppercase;\">Wayland</div>\n      <div style=\"font-size: 18px; color: var(--text-muted);\">Root causes</div>\n      <div style=\"font-size: 22px; font-weight: 800; color: var(--accent-red); letter-spacing: 2px; text-transform: uppercase;\">Ubuntu 24.04</div>\n    </div>\n  </div>\n\n  <div style=\"font-size: 22px; color: var(--text-secondary); line-height: 1.5;\">\n    What should be \"install and go\" turned into a debugging session. Most issues traced back to the same root causes.\n  </div>\n\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">03 / 08</div>\n</div>\n```\n\n- [ ] **Step 2: Visual check**\n\nVerify: 2x2 grid of symptom blocks, crack line connecting to foundation slab, red foundation with \"Wayland\" and \"Ubuntu 24.04\" labels.\n",
+  "source_version": "marketing/2026-03-14-resolve-linux-carousel.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.027480751Z",
+  "valid_from": "2026-03-31T13:51:39.027480751Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/2026-03-14-resolve-linux-carousel.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 418,
+    "end_line": 453,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

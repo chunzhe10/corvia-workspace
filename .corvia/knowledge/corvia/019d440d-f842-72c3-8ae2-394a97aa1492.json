@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-394a97aa1492",
+  "content": "### StructuredAugmenter\n### Token budget (D64)\n\n## Observability (D62)\n\nFollows D23 (OpenTelemetry stack) and D45 Part 8 (emit from day one, M4 configures export).\n",
+  "source_version": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458951373Z",
+  "valid_from": "2026-03-31T13:20:59.458951373Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 273,
+    "end_line": 276,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

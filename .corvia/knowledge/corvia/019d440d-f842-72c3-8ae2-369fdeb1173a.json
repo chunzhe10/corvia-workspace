@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-369fdeb1173a",
+  "content": "## Task 4: Refactor MergeWorker to use ChatEngine trait\n\n    }\n}\n\n#[async_trait]\nimpl super::traits::ChatEngine for OllamaChatEngine {\n    async fn chat(&self, messages: &[ChatMessage], model: &str) -> Result<String> {\n        let api_messages: Vec<serde_json::Value> = messages.iter().map(|m| {\n            serde_json::json!({ \"role\": m.role, \"content\": m.content })\n        }).collect();\n\n        let request_body = serde_json::json!({\n            \"model\": model,\n            \"messages\": api_messages,\n            \"stream\": false\n        });\n\n        let response = self.client\n            .post(format!(\"{}/api/chat\", self.url))\n            .json(&request_body)\n            .timeout(std::time::Duration::from_secs(60))\n            .send()\n            .await\n            .map_err(|e| CorviaError::Agent(format!(\"LLM chat request failed: {e}\")))?;\n\n        if !response.status().is_success() {\n            let status = response.status();\n            let body = response.text().await.unwrap_or_default();\n            return Err(CorviaError::Agent(format!(\"LLM chat failed with status {status}: {body}\")));\n        }\n\n        let body: serde_json::Value = response.json().await\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to parse LLM response: {e}\")))?;\n\n        body[\"message\"][\"content\"]\n            .as_str()\n            .ok_or_else(|| CorviaError::Agent(\"LLM response missing message.content\".into()))\n            .map(|s| s.to_string())\n    }\n}\n```\n\n**Step 4: Refactor MergeWorker to accept ChatEngine**\n\nIn `crates/corvia-kernel/src/merge_worker.rs`, replace `ollama_url: String` with `chat_engine: Arc<dyn ChatEngine>`:\n\n```rust\npub struct MergeWorker {\n    store: Arc<dyn QueryableStore>,",
+  "source_version": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458509975Z",
+  "valid_from": "2026-03-31T13:20:59.458509975Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 487,
+    "end_line": 534,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81f-75e2-9415-ac632c5cc527",
+  "content": "0:00:00.000000000Z\",\n            \"workspace\": \"/workspaces/test\",\n            \"git_branch\": \"main\",\n            \"agent_type\": \"main\",\n            \"parent_session_id\": null,\n            \"corvia_agent_id\": \"claude-code\",\n        })\n        .to_string()\n    }\nfn make_user_prompt(turn: u32) -> String {\n        serde_json::json!({\n            \"v\": 1,\n            \"type\": \"user_prompt\",\n            \"session_id\": \"ses-test\",\n            \"turn\": turn,\n            \"timestamp\": \"2026-03-25T10:01:00.000000000Z\",\n            \"content\": \"hello world\",\n        })\n        .to_string()\n    }",
+  "source_version": "crates/corvia-server/src/dashboard/session_watcher.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.423720739Z",
+  "valid_from": "2026-03-31T13:20:59.423720739Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/session_watcher.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 657,
+    "end_line": 667,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

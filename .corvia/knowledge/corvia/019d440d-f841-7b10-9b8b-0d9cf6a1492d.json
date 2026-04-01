@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0d9cf6a1492d",
+  "content": "mmit**\n\n```bash\ngit add crates/corvia-kernel/src/lib.rs crates/corvia-kernel/src/chunking_pipeline.rs crates/corvia-cli/src/main.rs crates/corvia-cli/src/workspace.rs\ngit commit -m \"feat(m3.3): wire ChunkingPipeline into CLI ingestion flow (D69)\"\n```\n\n---\n\n### Task 11: E2E Integration Test\n\nVerify the full pipeline end-to-end: source files → chunking pipeline → ProcessedChunks with correct strategy routing, budget enforcement, and metrics.\n\n**Files:**\n- Modify: `crates/corvia-kernel/src/chunking_pipeline.rs` (add integration test)\n\n**Step 1: Write the E2E test**\n\n```rust\n#[test]\nfn test_e2e_mixed_format_batch() {\n    let config = ChunkingConfig {\n        max_tokens: 100,\n        min_tokens: 5,\n        overlap_tokens: 4,\n        strategy: \"auto\".into(),\n    };\n    let pipeline = ChunkingPipeline::with_kernel_defaults(config);\n\n    let files = vec![\n        SourceFile {\n            content: \"# Title\\n\\nIntro paragraph.\\n\\n## Section\\n\\nContent here.\".into(),\n            metadata: SourceMetadata {\n                file_path: \"README.md\".into(),\n                extension: \"md\".into(),\n                language: Some(\"markdown\".into()),\n                scope_id: \"test\".into(),\n                source_version: \"v1\".into(),\n            },\n        },\n        SourceFile {\n            content: \"[package]\\nname = \\\"test\\\"\\nversion = \\\"0.1.0\\\"\\n\\n[dependencies]\\nserde = \\\"1\\\"\\n\".into(),\n            metadata: SourceMetadata {\n                file_path: \"Cargo.toml\".into(),\n                extension: \"toml\".into(),\n                language: Some(\"toml\".into()),\n                scope_id: \"test\".into(),\n                source_version: \"v1\".into(),\n            },\n        },\n        SourceFile {\n            content: \"Just a plain text file with some content.\".into(),\n            metadata: SourceMetadata {\n                file_path: \"notes.txt\".into(),\n                extension: \"txt\".into(),\n                language: None,\n                scope_id: \"test\".into(),\n                source_version: \"v1\".into(),",
+  "source_version": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457657963Z",
+  "valid_from": "2026-03-31T13:20:59.457657963Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1688,
+    "end_line": 1736,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

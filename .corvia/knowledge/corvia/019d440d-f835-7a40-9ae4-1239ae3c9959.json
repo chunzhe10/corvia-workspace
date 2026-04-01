@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f835-7a40-9ae4-1239ae3c9959",
+  "content": ");\n\n        let field_content = schema_builder.add_text_field(\"content\", text_options);\n        let field_entry_id = schema_builder.add_text_field(\"entry_id\", STRING | STORED);\n        let field_scope_id = schema_builder.add_text_field(\"scope_id\", STRING);\n        let field_content_role = schema_builder.add_text_field(\"content_role\", STRING);\n        let field_source_origin = schema_builder.add_text_field(\"source_origin\", STRING);\n        let schema = schema_builder.build();\n\n        // Open or create the index.\n        let mmap_dir = tantivy::directory::MmapDirectory::open(cache_dir)\n            .map_err(|e| CorviaError::Storage(format!(\"tantivy dir open: {e}\")))?;\n        let index_exists = Index::exists(&mmap_dir)\n            .map_err(|e| CorviaError::Storage(format!(\"tantivy index exists check: {e}\")))?;\n        let index = if index_exists {\n            Index::open_in_dir(cache_dir)\n                .map_err(|e| CorviaError::Storage(format!(\"tantivy index open: {e}\")))?\n        } else {\n            Index::create_in_dir(cache_dir, schema.clone())\n                .map_err(|e| CorviaError::Storage(format!(\"tantivy index create: {e}\")))?\n        };\n\n        // Register the custom tokenizer.\n        index\n            .tokenizers()\n            .register(\"corvia_code\", CorviaCodeTokenizer);",
+  "source_version": "crates/corvia-kernel/src/tantivy_index.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.445597256Z",
+  "valid_from": "2026-03-31T13:20:59.445597256Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/tantivy_index.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 266,
+    "end_line": 286,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

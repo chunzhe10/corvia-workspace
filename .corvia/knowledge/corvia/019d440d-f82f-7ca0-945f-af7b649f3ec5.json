@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82f-7ca0-945f-af7b649f3ec5",
+  "content": "![1.0, 0.0, 0.0])\n        }\n        async fn embed_batch(&self, texts: &[String]) -> Result<Vec<Vec<f32>>> {\n            Ok(texts.iter().map(|_| vec![1.0, 0.0, 0.0]).collect())\n        }\n        fn dimensions(&self) -> usize {\n            3\n        }\n    }\n\n    /// Mock searcher that sleeps for a configurable duration (for timeout test).\n    struct SlowSearcher {\n        delay: std::time::Duration,\n    }\n\n    #[async_trait]\n    impl crate::pipeline::searcher::Searcher for SlowSearcher {\n        fn name(&self) -> &str {\n            \"slow\"\n        }\n        fn needs_embedding(&self) -> bool {\n            false\n        }\n        async fn search(\n            &self,\n            _ctx: &SearchContext,\n        ) -> Result<crate::pipeline::RankedSet> {\n            tokio::time::sleep(self.delay).await;\n            Ok(crate::pipeline::RankedSet {\n                candidates: Vec::new(),\n                metrics: crate::pipeline::StageMetrics {\n                    stage_name: \"slow\".into(),\n                    latency_ms: 0,\n                    input_count: 0,\n                    output_count: 0,\n                    warnings: Vec::new(),\n                },\n            })\n        }\n    }\n",
+  "source_version": "crates/corvia-kernel/src/pipeline/core.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.439991400Z",
+  "valid_from": "2026-03-31T13:20:59.439991400Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/core.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 343,
+    "end_line": 374,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

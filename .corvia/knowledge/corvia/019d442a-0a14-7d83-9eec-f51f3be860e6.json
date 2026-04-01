@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f51f3be860e6",
+  "content": "=\"takeaway-text\">\n        <strong>Context engineering &gt; prompt engineering.</strong><br>\n        <span style=\"color: var(--text-secondary);\">Don't ask AI to be better. Give it the right<br>tools to close the loop.</span>\n      </div>\n    </div>\n  </div>\n  <div class=\"divider\" style=\"margin-top: 32px;\"></div>\n\n  <div style=\"text-align: center; margin-top: 24px;\">\n    <div style=\"font-size: 24px; font-weight: 600; color: var(--text-secondary); margin-bottom: 12px;\">\n      Have you used AI to generate visual outputs?\n    </div>\n    <div style=\"font-size: 20px; color: var(--text-muted);\">\n      How do you handle the \"can't see what it built\" problem? &#128071;\n    </div>\n  </div>\n\n  <div class=\"flex-grow\"></div>\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">08 / 08</div>\n</div>\n\n</body>\n</html>\n",
+  "source_version": "marketing/linkedin/2026-03-11-ai-blind-designer/ai-blind-designer-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028053246Z",
+  "valid_from": "2026-03-31T13:51:39.028053246Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-11-ai-blind-designer/ai-blind-designer-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 756,
+    "end_line": 774,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

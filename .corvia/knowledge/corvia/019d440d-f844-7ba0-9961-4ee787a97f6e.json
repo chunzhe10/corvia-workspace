@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-4ee787a97f6e",
+  "content": "## The 4 Query Pairs\n\n### Query 1: Vector wins (or ties) — direct config lookup\n\n**Query:** `\"How do I configure the embedding model and what dimensions does it use?\"`\n\n**Why realistic:** Onboarding question. A developer joining the project asks how to set up inference.\n\n**Expected behavior:**\n- **Vector:** Finds config.rs and embedding_pipeline.rs directly — high semantic similarity.\n- **Graph:** Finds the same files plus graph neighbors. Extra context doesn't hurt but doesn't help for a direct lookup.\n- **Lesson:** For \"where is this thing?\" questions, vector search is already great.\n\n\n### Query 2: Graph wins — structural relationships\n\n**Query:** `\"I'm adding a new storage backend. Walk me through what traits I need to implement and how the existing backends do it.\"`\n\n**Why realistic:** New contributor question. Needs to connect traits.rs → LiteStore → SurrealStore → PostgresStore.\n\n**Expected behavior:**\n- **Vector:** Finds traits.rs (high similarity) and maybe one backend. Can't see the full picture.\n- **Graph:** Follows `implements` edges from traits → all three backend implementations. Surfaces the complete picture.\n- **Lesson:** For \"how do these connect?\" questions, graph edges surface the chain.\n",
+  "source_version": "docs/rfcs/2026-03-03-benchmark-script-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460691862Z",
+  "valid_from": "2026-03-31T13:20:59.460691862Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-03-benchmark-script-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 44,
+    "end_line": 65,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

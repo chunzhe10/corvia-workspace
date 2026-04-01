@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83a-78e0-bb2b-da9158b0aaf3",
+  "content": "### Rotating mounted credentials\n### Rotating ANTHROPIC_API_KEY\n\n   # Re-create spokes with the new key in the environment\n   corvia workspace spoke create --repo corvia --issue 42\n   ```\n",
+  "source_version": "docs/spoke-credentials.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.450414759Z",
+  "valid_from": "2026-03-31T13:20:59.450414759Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/spoke-credentials.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 59,
+    "end_line": 62,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

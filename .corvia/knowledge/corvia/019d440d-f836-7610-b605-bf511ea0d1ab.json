@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f836-7610-b605-bf511ea0d1ab",
+  "content": "   #[test]\n    fn test_negative_days_since_access_clamps() {\n        let a_neg = access_component(5, Some(-3.0));\n        let a_zero = access_component(5, Some(0.0));\n        assert_eq!(a_neg, a_zero, \"Negative days_since_access should clamp to 0\");\n    }\n\n    #[test]\n    fn test_confidence_zero() {\n        assert_eq!(confidence_component(Some(0.0)), 0.0);\n    }\n\n    #[test]\n    fn test_confidence_over_one_clamped() {\n        assert_eq!(confidence_component(Some(1.5)), 1.0);\n    }\n\n    #[test]\n    fn test_confidence_nan_uses_default() {\n        assert_eq!(confidence_component(Some(f32::NAN)), DEFAULT_CONFIDENCE);\n    }\n\n    // ── Hysteresis tests ────────────────────────────────────────────────────\n\n    #[test]\n    fn test_hysteresis_hot_stays_hot_at_051() {\n        assert_eq!(determine_tier_transition(Tier::Hot, 0.51), None);\n    }\n\n    #[test]\n    fn test_hysteresis_warm_stays_warm_at_059() {\n        assert_eq!(determine_tier_transition(Tier::Warm, 0.59), None);\n    }\n\n    #[test]\n    fn test_hysteresis_prevents_oscillation() {\n        // score=0.55 stays in whatever tier it's in\n        assert_eq!(determine_tier_transition(Tier::Hot, 0.55), None);\n        assert_eq!(determine_tier_transition(Tier::Warm, 0.55), None);\n    }\n\n    #[test]\n    fn test_hot_demotes_to_warm_below_050() {\n        assert_eq!(determine_tier_transition(Tier::Hot, 0.49), Some(Tier::Warm));\n    }",
+  "source_version": "crates/corvia-kernel/src/scoring.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.446521169Z",
+  "valid_from": "2026-03-31T13:20:59.446521169Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/scoring.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 559,
+    "end_line": 596,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

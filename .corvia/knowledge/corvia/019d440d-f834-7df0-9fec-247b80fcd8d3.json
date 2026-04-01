@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f834-7df0-9fec-247b80fcd8d3",
+  "content": "               {\n                                                    tracing::warn!(\"cross-batch spawned_by edge failed: {e}\");\n                                                } else {\n                                                    edges_created += 1;\n                                                }\n                                            }\n                                            Ok(None) => {\n                                                tracing::debug!(\n                                                    \"parent session {parent_sid} not found — \\\n                                                     spawned_by edge skipped (not yet ingested or GC'd)\"\n                                                );\n                                            }\n                                            Err(e) => {\n                                                tracing::warn!(\"cross-batch parent lookup failed: {e}\");\n                                            }\n                                        }\n                                    }\n                                }\n                            }\n                            if edges_created > 0 {\n                                progress.log(&format!(\"  {edges_created} spawned_by graph edges created\"));\n                            }\n                        }\n\n                        progress.log(&format!(\"  {} session turns stored\", stored));\n                        report.session_turns = stored;\n                        report.total_chunks += stored;",
+  "source_version": "crates/corvia-kernel/src/ingest.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.444573956Z",
+  "valid_from": "2026-03-31T13:20:59.444573956Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ingest.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1084,
+    "end_line": 1106,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

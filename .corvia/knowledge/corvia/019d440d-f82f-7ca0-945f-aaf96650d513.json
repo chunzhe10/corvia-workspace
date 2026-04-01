@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82f-7ca0-945f-aaf96650d513",
+  "content": "    all_results.push(sr);\n                            }\n                        }\n                    }\n                    Err(e) => {\n                        warn!(error = %e, \"Cold scan failed in VectorSearcher\");\n                    }\n                }\n            }\n\n        let mut candidates = Self::to_candidates(all_results, \"vector\");\n\n        // Sort by final_score descending.\n        candidates.sort_unstable_by_key(|c| std::cmp::Reverse(c.scores.final_score));\n\n        let output_count = candidates.len();\n        let latency_ms = start.elapsed().as_millis() as u64;\n\n        info!(\n            searcher = self.name(),\n            vector_count,\n            cold_count,\n            output_count,\n            latency_ms,\n            \"vector search complete\"\n        );\n\n        Ok(RankedSet {\n            candidates,\n            metrics: StageMetrics {\n                stage_name: self.name().to_string(),\n                latency_ms,\n                input_count: 0, // searchers have no input\n                output_count,\n                warnings: Vec::new(),\n            },\n        })\n    }",
+  "source_version": "crates/corvia-kernel/src/pipeline/searcher.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.439457819Z",
+  "valid_from": "2026-03-31T13:20:59.439457819Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/searcher.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 134,
+    "end_line": 163,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

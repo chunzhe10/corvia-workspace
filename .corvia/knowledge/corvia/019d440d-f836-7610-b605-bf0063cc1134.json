@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f836-7610-b605-bf0063cc1134",
+  "content": "es last access ~1 day ago\n        let params = RetentionParams {\n            memory_type: MemoryType::Episodic,\n            days_since_creation: 14.0,\n            access_count: 2,\n            days_since_access: Some(1.0),\n            confidence: Some(0.6),\n            ..Default::default()\n        };\n        let score = compute_retention_score(&params);\n        assert!(\n            approx_eq(score, 0.217, 0.03),\n            \"Expected ~0.217, got {score}\"\n        );\n        assert_eq!(\n            determine_tier_transition(Tier::Warm, score),\n            Some(Tier::Cold)\n        );\n    }\n\n    #[test]\n    fn test_rfc_example_2_decisional_180d() {\n        // Decisional 180d, 30 accesses, 6 edges, conf 0.9 → ~0.576 (Hot stays)\n        // RFC assumes last access ~2 days ago\n        let params = RetentionParams {\n            memory_type: MemoryType::Decisional,\n            days_since_creation: 180.0,\n            access_count: 30,\n            days_since_access: Some(2.0),\n            inbound_edges: 6,\n            confidence: Some(0.9),\n            ..Default::default()\n        };\n        let score = compute_retention_score(&params);\n        assert!(\n            approx_eq(score, 0.576, 0.03),\n            \"Expected ~0.576, got {score}\"\n        );\n        assert_eq!(determine_tier_transition(Tier::Hot, score), None);\n    }\n\n    #[test]\n    fn test_rfc_example_3_episodic_60d() {\n        // Episodic 60d, 0 accesses, 0 edges, conf 0.5 → ~0.105 (Cold)",
+  "source_version": "crates/corvia-kernel/src/scoring.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.446468334Z",
+  "valid_from": "2026-03-31T13:20:59.446468334Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/scoring.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 372,
+    "end_line": 408,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

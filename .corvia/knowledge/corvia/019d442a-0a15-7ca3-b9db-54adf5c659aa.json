@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a15-7ca3-b9db-54adf5c659aa",
+  "content": "amber\">But Can It Act?</span>\n  </div>\n  <div class=\"slide-subtitle\" style=\"font-size: 22px; margin-bottom: 28px;\">\n    Observability showed the agent what was happening.<br>\n    But it had no way to change anything without running shell commands.\n  </div>\n  <div class=\"card\" style=\"border-left: 4px solid var(--accent-amber); padding: 28px; margin-bottom: 20px;\">\n    <div style=\"font-size: 15px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-amber); margin-bottom: 16px;\">What I wanted to do but couldn't</div>\n    <div style=\"display: flex; flex-direction: column; gap: 20px;\">\n      <div style=\"display: flex; align-items: flex-start; gap: 16px;\">\n        <div style=\"font-size: 24px; flex-shrink: 0;\">&#128202;</div>\n        <div>\n          <div style=\"font-size: 20px; font-weight: 700;\">Tune RAG parameters live</div>\n          <div style=\"font-size: 18px; color: var(--text-secondary); margin-top: 4px;\">Change top_k, similarity cutoff, graph expansion depth. Hot-reload. See the impact on the next query.</div>\n        </div>\n      </div>\n      <div style=\"display: flex; align-items: flex-start; gap: 16px;\">\n        <div style=\"font-size: 24px; flex-shrink: 0;\">&#128295;</div>\n        <div>\n          <div style=\"font-size: 20px; font-weight: 700;\">Rebuild the vector index</div>\n          <div style=\"font-size: 18px; color: var(--text-secondary); margin-top: 4px;\">After a schema change or chunking update. No SSH, no CLI. Tell the agent to do it.</div>\n        </div>\n      </div>\n      <div style=\"display: flex; align-items: flex-start; gap: 16px;\">\n        <div style=\"font-size: 24px; flex-shrink: 0;\">&#128260;</div>\n        <div>\n          <div style=\"font-size: 20px; font-weight: 700;\">Toggle features and A/B test</div>\n          <div style=\"font-size: 18px; color: var(--text-secondary); margin-top: 4px;\">Enable skills, change chunking strategy, adjust merge thresholds. All hot-reloadable.</div>\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"warning-box\">\n    <p>Observability without control is a dashboard with no buttons. I want to operate the system through the agent, with the same protocol it already speaks.</p>\n  </div>",
+  "source_version": "marketing/linkedin/2026-03-28-observability-control-plane/observability-control-plane-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.029749637Z",
+  "valid_from": "2026-03-31T13:51:39.029749637Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-28-observability-control-plane/observability-control-plane-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 316,
+    "end_line": 345,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9cebfbf81ddf",
+  "content": "#### Part 5: Session Lifecycle & Crash Recovery (Registered Agents Only)\n\n  \"active_sessions\": []\n}\n  │\n  ▼\nAgent chooses:\n  RESUME  → recovery scan (re-embed orphaned files) → status: Active → continue writing\n  COMMIT  → recovery scan → commit flow → entries to merge queue → new session available\n  ROLLBACK → delete staging dir + git branch + pending HNSW vectors + Redb metadata → Closed\n  IGNORE  → create new session, old one stays Orphaned (GC'd later)\n```\n\n**Key design point**: Agent remembers nothing except its `agent_id`. All state is on Corvia's side (Redb, staging dir, git branch, HNSW). Even a completely stateless LLM agent can reconnect and Corvia tells it everything.\n\n**Commit flow with failure points**:\n```\nPOST /sessions/{session_id}/commit\n  Step 1: Session status → Committing (Redb)\n  Step 2: git add staging files + git commit on agent branch\n  Step 3: All entry statuses → Committed (Redb)\n  Step 4: Entries enter merge queue (Redb)\n  Step 5: Session status → Merging (Redb)",
+  "source_version": "docs/rfcs/milestone-revision-notes.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464327599Z",
+  "valid_from": "2026-03-31T13:20:59.464327599Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/milestone-revision-notes.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 446,
+    "end_line": 466,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

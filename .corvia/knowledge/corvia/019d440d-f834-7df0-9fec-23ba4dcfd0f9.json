@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f834-7df0-9fec-23ba4dcfd0f9",
+  "content": ";\n        } else if processed.len() > 10 {\n            tracing::warn!(\n                chunks = processed.len(),\n                input_relations = pipeline_relations.len(),\n                \"0 graph relations stored for {} chunks — check adapter version\",\n                processed.len()\n            );\n        }\n\n        // Semantic sub-splitting pass (V1: post-ingest with real embeddings)\n        let semantic_split_count = if config.chunking.semantic_splitting {\n            let threshold = config.chunking.semantic_split_threshold\n                .unwrap_or(config.chunking.max_tokens);\n            semantic_subsplit(\n                &processed, &stored_ids, &*engine, &*store, &*graph,\n                &config.project.scope_id, threshold, config.chunking.max_tokens,\n            ).await\n        } else {\n            0\n        };\n        if semantic_split_count > 0 {\n            progress.log(&format!(\"  semantic sub-split: {semantic_split_count} sub-chunks created\"));\n        }\n\n        // Shutdown adapter\n        process.shutdown().map_err(|e| anyhow::anyhow!(e))?;\n\n        progress.log(&format!(\n            \"  {} chunks stored for namespace '{}'\",\n            stored, repo_config.namespace\n        ));\n\n        report.repos.push(RepoIngestStats {\n            name: repo_config.name.clone(),\n            files: pipeline_report.files_processed,\n            chunks: stored,\n            relations: relations_stored,\n        });\n        report.total_chunks += stored;\n    }\n\n    // --- Phase 2: Workspace docs (only on full ingest) ---\n    if repo_filter.is_none()\n        && let Some(docs_config) = ws.docs.as_ref()\n        && let Some(workspace_docs_dir) = &docs_config.workspace_docs\n    {\n        let docs_path = root.join(workspace_docs_dir);\n        if docs_path.exists() && docs_path.is_dir() {\n            let docs_path_str = docs_path\n                .to_str()\n                .ok_or_else(|| anyhow::anyhow!(\"Invalid workspace docs path\"))?;",
+  "source_version": "crates/corvia-kernel/src/ingest.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.444471429Z",
+  "valid_from": "2026-03-31T13:20:59.444471429Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ingest.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 762,
+    "end_line": 807,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-716a6832fe31",
+  "content": "### System Prompt Assembly\n### Token Budget\n\n## Config Additions\n\n```toml\n[rag]\nskills_dirs = [\"skills\"]      # directories to load skills from (default: bundled)\nmax_skills = 3                # max skills injected per query\nskill_threshold = 0.3         # minimum cosine similarity to select a skill\nreserve_for_skills = 0.15     # fraction of context window for skills\n```\n\nAll fields have serde defaults — existing configs work unchanged.\n\n\n## Integration Points\n",
+  "source_version": "docs/rfcs/2026-03-09-dynamic-skill-system-prompt-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463581909Z",
+  "valid_from": "2026-03-31T13:20:59.463581909Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-09-dynamic-skill-system-prompt-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 119,
+    "end_line": 132,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

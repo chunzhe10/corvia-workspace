@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f821-7a21-8a96-45394887ddfe",
+  "content": "pub struct InferenceBackendInfo {\n    pub model: String,\n    pub device: String,\n    pub backend: String,\n}\npub enum InferenceProbeStatus {\n    Pending,\n    Healthy,\n    Degraded,\n    Failed,\n    Unreachable,\n}\npub struct InferenceHealthStatus {\n    pub status: InferenceProbeStatus,\n    pub ep_name: String,\n    pub ep_requested: String,\n    pub fallback_used: bool,\n    pub baseline_us: u64,\n    pub last_probe_us: u64,\n    pub drift_pct: f64,\n    pub models_loaded: u32,\n    #[serde(skip_serializing_if = \"Option::is_none\")]\n    pub last_probe_at: Option<String>,\n}",
+  "source_version": "crates/corvia-common/src/dashboard.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.425932432Z",
+  "valid_from": "2026-03-31T13:20:59.425932432Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/dashboard.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 438,
+    "end_line": 449,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

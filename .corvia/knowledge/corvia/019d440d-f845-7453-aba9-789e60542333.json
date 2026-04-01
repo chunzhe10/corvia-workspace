@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-789e60542333",
+  "content": "# M3.2 RAG Pipeline Implementation Plan\n\n> **Status:** Shipped (v0.3.0)\n\n**Goal:** Add a trait-based RAG pipeline (Retriever → Augmenter → GenerationEngine) to corvia-kernel with REST/MCP endpoints.\n\n**Architecture:** Three pluggable trait stages orchestrated by `RagPipeline`. Ships with `VectorRetriever`, `GraphExpandRetriever`, `StructuredAugmenter`. Two modes: `context()` (R+A) and `ask()` (R+A+G). All search routed through pipeline. D23/D45-aligned observability.\n\n**Tech Stack:** Rust, async-trait, corvia-kernel (hnsw_rs, petgraph, Redb), corvia-server (axum), tracing, uuid, chrono, serde\n\n**Design doc:** `docs/rfcs/2026-03-02-m3.2-rag-pipeline-design.md`\n**Decisions:** D61-D64 in `docs/rfcs/2026-02-27-corvia-v0.2.0-brainstorm.md`\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461672739Z",
+  "valid_from": "2026-03-31T13:20:59.461672739Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1,
+    "end_line": 15,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

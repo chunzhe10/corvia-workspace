@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-205851674939",
+  "content": "isplay())))?;\n        toml::from_str(&content)\n            .map_err(|e| CorviaError::Config(format!(\"Failed to parse introspect config: {e}\")))\n    }\n\n    /// Built-in fallback queries if introspect.toml is not found.\n    pub fn default_queries() -> Self {\n        Self {\n            config: IntrospectMeta {\n                default_min_score: 0.70,\n                scope_id: \"corvia-introspect\".into(),\n            },\n            query: vec![\n                CanonicalQuery {\n                    text: \"how does embedding work?\".into(),\n                    expect_file: \"crates/corvia-kernel/src/embedding_pipeline.rs\".into(),\n                    min_score: None,\n                },\n                CanonicalQuery {\n                    text: \"how is knowledge stored in the database?\".into(),\n                    expect_file: \"crates/corvia-kernel/src/knowledge_store.rs\".into(),\n                    min_score: None,\n                },\n                CanonicalQuery {\n                    text: \"what CLI commands are available?\".into(),\n                    expect_file: \"crates/corvia-cli/src/main.rs\".into(),\n                    min_score: None,\n                },\n            ],\n        }\n    }\n}\n```\n\n**Step 4: Run tests to verify they pass**\n\nRun: `cargo test -p corvia-kernel test_parse_introspect test_effective_min_score -- --nocapture`\nExpected: PASS (2 tests)\n\n**Step 5: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/introspect.rs crates/corvia-kernel/src/lib.rs crates/corvia-kernel/Cargo.toml\ngit commit -m \"feat(kernel): add Introspect config types and TOML parsing\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-02-28-introspect-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452208116Z",
+  "valid_from": "2026-03-31T13:20:59.452208116Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-introspect-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 424,
+    "end_line": 464,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

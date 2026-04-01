@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-c7029af4f43c",
+  "content": "## D3: Git-Tracked JSON Files as Source of Truth\n\n## D4: LLM-Assisted Merge Over Last-Write-Wins\n\n**Original rationale**: Knowledge conflicts are semantic, not textual. An LLM can reason about accuracy.\n\n**Pros:**\n- Semantically aware: understands that two descriptions of \"how auth works\" may conflict\n- Produces merged output that combines insights from both entries\n- Preserves knowledge that last-write-wins would silently destroy\n\n**Cons:**\n- **Latency**: LLM merge adds seconds per conflict (vs microseconds for last-write-wins)\n- **Cost**: Every conflict requires an LLM call (GPU/API cost)\n- **Reliability**: LLM can hallucinate during merge — may introduce incorrect content\n- **Determinism**: Same conflict can produce different merges on different runs\n- **Complexity**: Merge queue, retry logic, exponential backoff — all for a feature that triggers rarely\n\n**Challenge: How often do conflicts actually occur?** In practice, with a single developer (the current user), conflicts are extremely rare. The merge worker is over-engineered for the current use case.\n\n**Verdict: KEEP but SIMPLIFY.** The architecture is sound for the multi-agent future. But for now, the merge worker rarely fires. Consider adding metrics to track actual conflict rate before optimizing further.\n\n---\n",
+  "source_version": "decisions/2026-03-19-architecture-challenge.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025088594Z",
+  "valid_from": "2026-03-31T13:51:39.025088594Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-19-architecture-challenge.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 79,
+    "end_line": 100,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

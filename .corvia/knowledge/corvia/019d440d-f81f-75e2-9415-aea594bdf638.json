@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81f-75e2-9415-aea594bdf638",
+  "content": "et result = HealthResult { healthy: Some(true), latency_ms: 2.5 };\n        let status = result_to_status(\"corvia-server\", Some(8020), &result);\n        assert_eq!(status.state, ServiceState::Healthy);\n        assert_eq!(status.latency_ms, Some(2.5));\n    }\nfn health_result_to_service_status_unhealthy() {\n        let result = HealthResult { healthy: Some(false), latency_ms: -1.0 };\n        let status = result_to_status(\"corvia-server\", Some(8020), &result);\n        assert_eq!(status.state, ServiceState::Unhealthy);\n        assert_eq!(status.latency_ms, None);\n    }",
+  "source_version": "crates/corvia-server/src/dashboard/health.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.423971129Z",
+  "valid_from": "2026-03-31T13:20:59.423971129Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/health.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 258,
+    "end_line": 263,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

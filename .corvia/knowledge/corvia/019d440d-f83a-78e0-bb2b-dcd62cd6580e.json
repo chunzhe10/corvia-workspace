@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83a-78e0-bb2b-dcd62cd6580e",
+  "content": "ng_pipeline.rs crates/corvia-kernel/Cargo.toml\ngit commit -m \"feat(kernel): implement InferenceEngine for Ollama\n\nHTTP client for Ollama /api/embed endpoint. Supports single and batch embedding.\nUses nomic-embed-text (768 dimensions) by default.\"\n```\n\n---\n\n## Task 8: corvia-adapter-git — Tree-sitter Chunking\n\n**Files:**\n- Create: `/root/corvia-adapter-git/` (new repo)\n- Create: `Cargo.toml`, `src/lib.rs`, `src/treesitter.rs`, `src/git.rs`\n- Test: inline tests\n\n**Step 1: Initialize the adapter repo**\n\n```bash\nmkdir -p /root/corvia-adapter-git/src\ncd /root/corvia-adapter-git\ngit init\n```\n\n`/root/corvia-adapter-git/Cargo.toml`:\n```toml\n[package]\nname = \"corvia-adapter-git\"\nversion = \"0.1.0\"\nedition = \"2024\"\nlicense = \"AGPL-3.0-only\"\n\n[dependencies]\ncorvia-common = { path = \"../corvia/crates/corvia-common\" }\ncorvia-kernel = { path = \"../corvia/crates/corvia-kernel\" }\nasync-trait = \"0.1\"\ntree-sitter = \"0.26\"\ntree-sitter-rust = \"0.23\"\ntree-sitter-javascript = \"0.23\"\ntree-sitter-typescript = \"0.23\"\ntree-sitter-python = \"0.23\"\ngit2 = \"0.20\"\ntokio = { version = \"1\", features = [\"full\"] }\ntracing = \"0.1\"\nwalkdir = \"2\"\n```\n\n**Step 2: Write tree-sitter chunker**\n\n`/root/corvia-adapter-git/src/treesitter.rs`:\n```rust\nuse corvia_common::types::{EntryMetadata, KnowledgeEntry};\nuse tree_sitter::{Parser, Query, QueryCursor};\nuse tracing::debug;\n\n/// Supported languages and their tree-sitter grammars + queries.\nstruct LangConfig {\n    language: tree_sitter::Language,\n    /// Query to match top-level constructs (functions, classes, structs, etc.)\n    query: &'static str,\n}\n\nfn lang_config_for(extension: &str) -> Option<LangConfig> {\n    match extension {\n        \"rs\" => Some(LangConfig {\n            language: tree_sitter_rust::LANGUAGE.into(),\n            query: \"(function_item) @chunk\n                    (struct_item) @chunk\n                    (enum_item) @chunk\n                    (impl_item) @chunk\n                    (trait_item) @chunk\n                    (mod_item) @chunk\",\n        }),\n        \"js\" | \"jsx\" => Some(LangConfig {\n            language: tree_sitter_javascript::LANGUAGE.into(),",
+  "source_version": "docs/rfcs/2026-02-28-m1-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.450805339Z",
+  "valid_from": "2026-03-31T13:20:59.450805339Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-m1-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1270,
+    "end_line": 1335,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

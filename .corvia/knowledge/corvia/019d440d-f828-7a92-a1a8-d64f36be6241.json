@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f828-7a92-a1a8-d64f36be6241",
+  "content": "_access_buffer();\n\n        for id in &returned_ids {\n            let entry = store.get(id).await.unwrap().unwrap();\n            assert!(entry.access_count >= 2, \"access_count should be >= 2 after second search, got {}\", entry.access_count);\n        }\n    }\nasync fn test_access_tracking_empty_results_noop() {\n        let dir = tempfile::tempdir().unwrap();\n        let store = Arc::new(LiteStore::open(dir.path(), 3).unwrap());\n        store.init_schema().await.unwrap();\n\n        // record_access with empty slice should not panic or error.\n        store.record_access(&[]).await.unwrap();\n    }",
+  "source_version": "crates/corvia-kernel/src/retriever.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.432513598Z",
+  "valid_from": "2026-03-31T13:20:59.432513598Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/retriever.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1374,
+    "end_line": 1381,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

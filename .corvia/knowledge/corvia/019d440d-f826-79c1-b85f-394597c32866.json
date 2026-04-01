@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f826-79c1-b85f-394597c32866",
+  "content": "pub fn new(cuda: bool, openvino: bool) -> Self {\n        Self {\n            cuda_available: cuda,\n            openvino_available: openvino,\n        }\n    }\npub fn resolve_backend(\n    device: &str,\n    backend: &str,\n    model_type: ModelType,\n    gpu: &GpuCapabilities,\n) -> Result<ResolvedBackend, String> {\n    // 1. Explicit backend override\n    if !backend.is_empty() {\n        return resolve_explicit_backend(backend, model_type, gpu);\n    }\n\n    // 2. Device-based resolution\n    match device {\n        \"cpu\" => Ok(ResolvedBackend {\n            device: Device::Cpu,\n            backend: BackendKind::Cpu,\n            fallback_used: false,\n        }),\n        \"gpu\" | \"auto\" | \"\" => resolve_gpu_preferred(model_type, gpu),\n        other => Err(format!(\"Unknown device: '{other}'. Expected 'auto', 'gpu', or 'cpu'.\")),\n    }\n}",
+  "source_version": "crates/corvia-inference/src/backend.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.430791488Z",
+  "valid_from": "2026-03-31T13:20:59.430791488Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/src/backend.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 73,
+    "end_line": 94,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

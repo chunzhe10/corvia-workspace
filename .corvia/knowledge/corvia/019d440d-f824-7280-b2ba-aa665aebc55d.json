@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f824-7280-b2ba-aa665aebc55d",
+  "content": "  // If the existing value is not an array, replace it with an empty array\n    if obj.get(key).map(|v| !v.is_array()).unwrap_or(false) {\n        obj.insert(key.to_string(), json!([]));\n    }\n    obj.entry(key).or_insert(json!([])).as_array_mut().unwrap()\n}\nfn hook_entry(matcher: Option<&str>, command: &str, timeout: u64) -> serde_json::Value {\n    // Wrap command with:\n    // 1. CORVIA_HOOKS_DISABLED=1 env var bypass (emergency escape hatch)\n    // 2. Graceful fallback if `corvia hooks` subcommand doesn't exist (binary mismatch)\n    //\n    // The fallback checks if the exit was due to a missing subcommand (exit code 2 from\n    // clap) vs a legitimate hook block (also exit 2 from doc-placement). We distinguish\n    // by checking stderr for \"unrecognized subcommand\".\n    let wrapped = format!(\n        r#\"[ \"$CORVIA_HOOKS_DISABLED\" = \"1\" ] && exit 0; {command} 2>/tmp/.corvia-hook-err || {{ rc=$?; grep -q \"unrecognized subcommand\" /tmp/.corvia-hook-err 2>/dev/null && exit 0; cat /tmp/.corvia-hook-err >&2; exit $rc; }}\"#\n    );\n    let mut entry = json!({\n        \"hooks\": [{\n            \"type\": \"command\",\n            \"command\": wrapped,\n            \"timeout\": timeout,\n        }]\n    });\n    if let Some(m) = matcher {\n        entry.as_object_mut().unwrap().insert(\"matcher\".into(), json!(m));\n    }\n    entry\n}",
+  "source_version": "crates/corvia-cli/src/hooks/settings.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.428504116Z",
+  "valid_from": "2026-03-31T13:20:59.428504116Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/settings.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 172,
+    "end_line": 194,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

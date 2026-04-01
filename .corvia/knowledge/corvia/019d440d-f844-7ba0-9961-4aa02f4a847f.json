@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-4aa02f4a847f",
+  "content": "## Section 3: HTTP Request Tracing — Axum Middleware\n## Section 4: Logging Standardization Sweep\n\n### 4a. Structured fields everywhere\n\nAll `info!()`, `warn!()`, `debug!()` calls converted from string interpolation\nto structured key-value fields:\n\n```rust\n// Before:\ninfo!(\"Model {model} already available\");\n\n// After:\ninfo!(model = %model, \"model_already_available\");\n```\n\nEvent message convention: `snake_case` event names as message string. All\ncontextual data in structured fields, never in the message string.\n\n\n### 4b. `error!()` events at API boundaries\n\nAdd `error!()` events in REST/MCP handlers when returning error responses:\n\n```rust\nerror!(endpoint = \"write_memory\", status = %status, err = %e, \"request_failed\");\n```\n\nKeep kernel clean — errors propagate via `Result`, handlers log them.\n",
+  "source_version": "docs/rfcs/2026-03-11-otel-standardization-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460327810Z",
+  "valid_from": "2026-03-31T13:20:59.460327810Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-otel-standardization-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 90,
+    "end_line": 115,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

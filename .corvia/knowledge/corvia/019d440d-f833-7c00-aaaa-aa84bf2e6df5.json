@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f833-7c00-aaaa-aa84bf2e6df5",
+  "content": "ry\".into(),\n            expect_file: \"src/main.rs\".into(),\n            actual_file: Some(\"src/main.rs\".into()),\n            score: 0.85,\n            min_score: 0.70,\n        };\n        assert!(result.passed());\n        assert!(result.file_matched());\n    }\nfn test_query_result_fail_score() {\n        let result = QueryResult {\n            query_text: \"test query\".into(),\n            expect_file: \"src/main.rs\".into(),\n            actual_file: Some(\"src/main.rs\".into()),\n            score: 0.50,\n            min_score: 0.70,\n        };\n        assert!(!result.passed());\n        assert!(result.file_matched());\n    }",
+  "source_version": "crates/corvia-kernel/src/introspect.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.443480659Z",
+  "valid_from": "2026-03-31T13:20:59.443480659Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/introspect.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 364,
+    "end_line": 374,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0dcea0ba4090",
+  "content": "# GPU/CPU Device Control for corvia-inference\n\n**Date:** 2026-03-11\n**Status:** Shipped (v0.4.2)\n**Scope:** corvia-inference crate only (no kernel/server changes)\n",
+  "source_version": "docs/rfcs/2026-03-11-inference-gpu-device-control-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457690313Z",
+  "valid_from": "2026-03-31T13:20:59.457690313Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-inference-gpu-device-control-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1,
+    "end_line": 6,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

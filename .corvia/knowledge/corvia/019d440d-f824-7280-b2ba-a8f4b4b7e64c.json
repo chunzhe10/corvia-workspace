@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f824-7280-b2ba-a8f4b4b7e64c",
+  "content": "pub enum HookEvent {\n    SessionStart,\n    UserPromptSubmit,\n    PreToolUse,\n    PostToolUse,\n    SessionEnd,\n    TaskCreated,\n    TaskCompleted,\n    TeammateIdle,\n}\nimpl FromStr for HookEvent {\n    type Err = anyhow::Error;\n    fn from_str(s: &str) -> Result<Self> {\n        match s {\n            \"SessionStart\" => Ok(Self::SessionStart),\n            \"UserPromptSubmit\" => Ok(Self::UserPromptSubmit),\n            \"PreToolUse\" => Ok(Self::PreToolUse),\n            \"PostToolUse\" => Ok(Self::PostToolUse),\n            \"SessionEnd\" => Ok(Self::SessionEnd),\n            \"TaskCreated\" => Ok(Self::TaskCreated),\n            \"TaskCompleted\" => Ok(Self::TaskCompleted),\n            \"TeammateIdle\" => Ok(Self::TeammateIdle),\n            _ => anyhow::bail!(\"Unknown hook event: {s}\"),\n        }\n    }\n}",
+  "source_version": "crates/corvia-cli/src/hooks/mod.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.428337280Z",
+  "valid_from": "2026-03-31T13:20:59.428337280Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/mod.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 54,
+    "end_line": 69,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

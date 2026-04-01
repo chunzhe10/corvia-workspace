@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-2d6a0ea15b09",
+  "content": "## Phase 1 Blockers\n\n### C1: HubContext Error Handling (SWE)\n\n**Problem:** `host_path().unwrap()` panics.\n\n**Fix:** All callers use `?` with contextual errors:\n\n```rust\nimpl HubContext {\n    pub fn host_path_or_err(&self, container_path: &str) -> Result<String> {\n        self.host_path(container_path).ok_or_else(|| {\n            let mounts: Vec<_> = self.host_mounts.keys().collect();\n            CorviaError::Config(format!(\n                \"Cannot resolve host path for '{}'. \\\n                 Hub mount table: {:?}. \\\n                 Ensure the devcontainer mounts cover this path.\",\n                container_path, mounts\n            ))\n        })\n    }\n}\n```\n\nAll spoke creation code uses `host_path_or_err()` instead of `host_path().unwrap()`.\n\n---\n\n\n### C2: Duplicate Spoke Name Guard (SWE)\n\n**Fix:**\n\n```rust\n// Before create_container:\nlet existing = docker.list_containers(Some(\n    ListContainersOptionsBuilder::new()\n        .all(true)  // include stopped\n        .filters(&HashMap::from([\n            (\"name\".into(), vec![spoke_name.clone()]),\n        ]))\n        .build()\n)).await?;\n\nif let Some(container) = existing.first() {\n    let state = container.state.as_deref().unwrap_or(\"unknown\");\n    if state == \"running\" {\n        return Err(CorviaError::Config(format!(\n            \"Spoke '{}' is already running. Use `spoke destroy {}` first.\",\n            spoke_name, spoke_name\n        )));\n    }\n    if force {\n        docker.remove_container(&spoke_name, None).await?;\n    } else {\n        return Err(CorviaError::Config(format!(\n            \"Spoke '{}' exists (state: {}). Use --force to replace.\",\n            spoke_name, state\n        )));\n    }\n}\n```\n\nAdd `--force` flag to `spoke create`.\n\n---\n",
+  "source_version": "decisions/2026-03-28-spoke-design-review-fixes.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026322300Z",
+  "valid_from": "2026-03-31T13:51:39.026322300Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-design-review-fixes.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 114,
+    "end_line": 177,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

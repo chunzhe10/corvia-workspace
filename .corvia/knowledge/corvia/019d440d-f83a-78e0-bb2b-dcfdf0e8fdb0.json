@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83a-78e0-bb2b-dcfdf0e8fdb0",
+  "content": "// A chunk of code extracted from a source file via tree-sitter AST parsing.\npub struct CodeChunk {\n    pub content: String,\n    pub file_path: String,\n    pub language: String,\n    pub chunk_type: String,\n    pub start_line: u32,\n    pub end_line: u32,\n}\n\n/// Parse a source file and extract AST-aware chunks.\n/// Falls back to full-file chunk if language is unsupported.\npub fn chunk_file(file_path: &str, source: &str, extension: &str) -> Vec<CodeChunk> {\n    let Some(config) = lang_config_for(extension) else {\n        // Unsupported language: return entire file as one chunk\n        let line_count = source.lines().count() as u32;\n        return vec![CodeChunk {\n            content: source.to_string(),\n            file_path: file_path.to_string(),\n            language: extension.to_string(),\n            chunk_type: \"file\".to_string(),\n            start_line: 1,\n            end_line: line_count,\n        }];\n    };\n\n    let mut parser = Parser::new();\n    if parser.set_language(&config.language).is_err() {\n        return vec![];\n    }\n\n    let Some(tree) = parser.parse(source, None) else {\n        return vec![];\n    };\n\n    let Ok(query) = Query::new(&config.language, config.query) else {\n        return vec![];\n    };\n\n    let mut cursor = QueryCursor::new();\n    let matches = cursor.matches(&query, tree.root_node(), source.as_bytes());\n\n    let mut chunks = Vec::new();",
+  "source_version": "docs/rfcs/2026-02-28-m1-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.450830299Z",
+  "valid_from": "2026-03-31T13:20:59.450830299Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-m1-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1369,
+    "end_line": 1401,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

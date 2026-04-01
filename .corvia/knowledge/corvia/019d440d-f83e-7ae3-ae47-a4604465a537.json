@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83e-7ae3-ae47-a4604465a537",
+  "content": "Step 7: Commit**\n\n```bash\ngit add crates/corvia-telemetry/ Cargo.toml crates/corvia-common/src/config.rs crates/corvia-common/Cargo.toml\ngit commit -m \"feat(m4): add corvia-telemetry crate with TelemetryConfig, span constants, and init_telemetry\"\n```\n\n---\n\n### Task 2: Rename `MergeQueue::dequeue_batch` → `list`\n\n**Files:**\n- Modify: `crates/corvia-kernel/src/merge_queue.rs`\n- Modify: all callers of `dequeue_batch` (search for usage)\n\n-**Step 1: Find all callers of `dequeue_batch`**\n\nRun: `cd /workspaces/corvia-workspace/repos/corvia && grep -rn \"dequeue_batch\" crates/`\nRecord all call sites.\n\n-**Step 2: Rename the method**\n\nIn `crates/corvia-kernel/src/merge_queue.rs`, rename `pub fn dequeue_batch` to `pub fn list`. The implementation is already read-only — this is a naming fix only.\n\n-**Step 3: Update all callers**\n\nReplace `dequeue_batch` with `list` at every call site found in step 1.\n\n-**Step 4: Run tests**\n\nRun: `cargo test --workspace`\nExpected: All tests pass (pure rename, no behavior change).\n\n-**Step 5: Commit**\n\n```bash\ngit add -u\ngit commit -m \"refactor(kernel): rename MergeQueue::dequeue_batch to list for clarity\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.454776569Z",
+  "valid_from": "2026-03-31T13:20:59.454776569Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 272,
+    "end_line": 304,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

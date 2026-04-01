@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81d-7d20-aabb-be2395da0fc7",
+  "content": " Approximate day-of-year (sufficient for diff within a few days)\n    let day_of_year = (month - 1) * 30 + day; // Approximate, sufficient for diff\n    let total = (year * 365 + day_of_year) * 86400 + hours * 3600 + minutes * 60 + seconds;\n    Some(total)\n}\nfn read_transcript(path: &Path) -> String {\n    let path_str = path.to_string_lossy();\n    if path_str.ends_with(\".jsonl.gz\") {\n        read_gzip_file(path)\n    } else {\n        std::fs::read_to_string(path).unwrap_or_default()\n    }\n}",
+  "source_version": "adapters/corvia-adapter-claude-sessions/rust/src/correlation.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.421269815Z",
+  "valid_from": "2026-03-31T13:20:59.421269815Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-claude-sessions/rust/src/correlation.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 344,
+    "end_line": 351,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

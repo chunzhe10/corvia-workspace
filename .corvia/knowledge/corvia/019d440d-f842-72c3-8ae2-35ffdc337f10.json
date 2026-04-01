@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-35ffdc337f10",
+  "content": "# gRPC Inference Server Implementation Plan\n\n## Task 1: Create corvia-proto crate with proto files\n\n**Files:**\n- Create: `crates/corvia-proto/Cargo.toml`\n- Create: `crates/corvia-proto/build.rs`\n- Create: `crates/corvia-proto/src/lib.rs`\n- Create: `crates/corvia-proto/proto/corvia/inference/v1/embedding.proto`\n- Create: `crates/corvia-proto/proto/corvia/inference/v1/chat.proto`\n- Create: `crates/corvia-proto/proto/corvia/inference/v1/model.proto`\n- Modify: `Cargo.toml` (workspace members)\n\n**Step 1: Create proto files**\n\nCreate `crates/corvia-proto/proto/corvia/inference/v1/embedding.proto`:\n```protobuf\nsyntax = \"proto3\";\npackage corvia.inference.v1;\n\nservice EmbeddingService {\n  rpc Embed(EmbedRequest) returns (EmbedResponse);\n  rpc EmbedBatch(EmbedBatchRequest) returns (EmbedBatchResponse);\n  rpc ModelInfo(ModelInfoRequest) returns (ModelInfoResponse);\n}\n\nmessage EmbedRequest {\n  string model = 1;\n  string text = 2;\n}\n\nmessage EmbedResponse {\n  repeated float embedding = 1 [packed = true];\n  uint32 dimensions = 2;\n}\n\nmessage EmbedBatchRequest {\n  string model = 1;\n  repeated string texts = 2;\n}\n\nmessage EmbedBatchResponse {\n  repeated Embedding embeddings = 1;\n}\n\nmessage Embedding {\n  repeated float values = 1 [packed = true];\n  uint32 index = 2;\n}\n\nmessage ModelInfoRequest {\n  string model = 1;\n}\n",
+  "source_version": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458387130Z",
+  "valid_from": "2026-03-31T13:20:59.458387130Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 15,
+    "end_line": 66,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

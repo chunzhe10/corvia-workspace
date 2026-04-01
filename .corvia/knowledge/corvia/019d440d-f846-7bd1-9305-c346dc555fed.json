@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-c346dc555fed",
+  "content": ":from).collect();\n    Metadata {\n        name: \"basic\",\n        version: VERSION.to_string(),\n        domain: \"filesystem\",\n        protocol_version: PROTOCOL_VERSION,\n        description: \"Basic filesystem adapter — walks directories, reads text files\",\n        supported_extensions: exts,\n        chunking_extensions: vec![], // no custom chunking\n    }\n}\n\n/// Session mode: read JSONL requests from stdin, respond on stdout.\nfn session_mode() {\n    let stdin = io::stdin();\n    let stdout = io::stdout();\n    let mut out = io::BufWriter::new(stdout.lock());\n\n    for line in stdin.lock().lines() {\n        let line = match line {\n            Ok(l) => l,\n            Err(_) => break,\n        };\n        let line = line.trim().to_string();\n        if line.is_empty() {\n            continue;\n        }\n\n        match serde_json::from_str::<Request>(&line) {\n            Ok(Request::Ingest { source_path, scope_id }) => {\n                ingest_to_writer(&source_path, &scope_id, &mut out);\n            }\n            Ok(Request::Chunk { .. }) => {\n                let err = ErrorMsg {\n                    error: ErrorPayload {\n                        code: \"NOT_SUPPORTED\".into(),\n                        message: \"basic adapter does not provide chunking\".into(),\n                    },\n                };\n                writeln!(out, \"{}\", serde_json::to_string(&err).unwrap()).ok();\n                out.flush().ok();\n            }\n            Err(e) => {\n                let err = ErrorMsg {\n                    error: ErrorPayload {\n                        code: \"PARSE_ERROR\".into(),\n                        message: format!(\"Invalid request: {e}\"),\n                    },\n                };\n                writeln!(out, \"{}\", serde_json::to_string(&err).unwrap()).ok();\n                out.flush().ok();\n            }\n        }\n    }\n}\n\n/// CLI mode: ingest directly from command line args.\nfn ingest_cli(source_path: &str) {\n    let stdout = io::stdout();\n    let mut out = io::BufWriter::new(stdout.lock());\n\n    let scope_id = Path::new(source_path)\n        .canonicalize()\n        .ok()\n        .and_then(|p| p.file_name().map(|n| n.to_string_lossy().to_string()))\n        .unwrap_or_else(|| \"unknown\".into());\n\n    ingest_to_writer(source_path, &scope_id, &mut out);",
+  "source_version": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462826692Z",
+  "valid_from": "2026-03-31T13:20:59.462826692Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1613,
+    "end_line": 1673,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f822-7391-83ed-32a02b6eb055",
+  "content": "pub enum SpokeAuthMode {\n    /// Mount .credentials.json from the hub container (default).\n    #[default]\n    Credentials,\n    /// Pass ANTHROPIC_API_KEY env var.\n    ApiKey,\n}\npub struct ReasoningConfig {\n    /// Inference provider for reasoning (reuses the embedding provider enum).\n    #[serde(default)]\n    pub provider: InferenceProvider,\n    /// Model for reasoning tasks (e.g., \"llama3.2:3b\").\n    pub model: String,\n}",
+  "source_version": "crates/corvia-common/src/config.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.426226847Z",
+  "valid_from": "2026-03-31T13:20:59.426226847Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/config.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 219,
+    "end_line": 225,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

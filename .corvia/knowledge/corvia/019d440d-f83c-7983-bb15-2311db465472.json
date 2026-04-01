@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-2311db465472",
+  "content": "### Task 11: Reasoner module — algorithmic checks\n### Task 12: LLM-powered findings (opt-in)\n\n### Task 13: CLI commands — history, graph, relate, reason\n\n**Files:**\n- Modify: `crates/corvia-cli/src/main.rs`\n\n**Step 1:** Add `History`, `Graph`, `Relate`, `Reason` to `Commands` enum.\n\n**Step 2:** Implement handlers:\n- `history`: call `TemporalStore::history()`, print chain\n- `evolution`: call `TemporalStore::evolution()`, print entries with timestamps\n- `graph`: call `GraphStore::edges()`, print edges table\n- `relate`: call `GraphStore::relate()`, print confirmation\n- `reason`: call `Reasoner::run()`, print findings summary\n\n**Step 3:** Test CLI output manually.\n\n**Step 4:** Commit.\n\n```\ngit commit -m \"feat(m3): CLI commands — history, evolution, graph, relate, reason\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-m3-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452699667Z",
+  "valid_from": "2026-03-31T13:20:59.452699667Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 971,
+    "end_line": 994,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-4809b5886e91",
+  "content": "### Step 5: Implement cmd_rebuild\n### Step 6: Update cmd_ingest to use factory\n\n### Step 7: Update cmd_serve to use factory\n\n```rust\nasync fn cmd_serve() -> Result<()> {\n    let config = load_config()?;\n    let store = Arc::from(connect_store(&config).await?);\n    let engine: Arc<dyn InferenceEngine> = Arc::from(connect_engine(&config));\n\n    let state = Arc::new(corvia_server::rest::AppState { store, engine });\n    let app = corvia_server::rest::router(state);\n\n    let addr = format!(\"{}:{}\", config.server.host, config.server.port);\n    println!(\"Corvia server listening on {addr}\");\n    let listener = tokio::net::TcpListener::bind(&addr).await?;\n    axum::serve(listener, app).await?;\n    Ok(())\n}\n```\n\n\n### Step 8: Update cmd_status for store type awareness\n\n```rust\nasync fn cmd_status() -> Result<()> {\n    let config = load_config()?;\n\n    match config.storage.store_type {\n        corvia_common::config::StoreType::Lite => {\n            println!(\"Store: LiteStore ({})\", config.storage.data_dir);\n            println!(\"Inference: {} ({})\",\n                match config.embedding.provider {\n                    corvia_common::config::InferenceProvider::Ollama => \"Ollama\",\n                    corvia_common::config::InferenceProvider::Vllm => \"vLLM\",\n                },\n                config.embedding.url);\n\n            let store = connect_store(&config).await?;\n            let count = store.count(&config.project.scope_id).await?;\n            println!(\"Entries in scope '{}': {count}\", config.project.scope_id);\n        }\n        corvia_common::config::StoreType::Surrealdb => {\n            let docker = DockerProvisioner::new()?;\n            let running = docker.is_running().await?;\n            println!(\"Store: SurrealDB ({})\",\n                if running { \"running\" } else { \"stopped\" });\n\n            if running {\n                let store = connect_store(&config).await?;\n                let count = store.count(&config.project.scope_id).await?;\n                println!(\"Entries in scope '{}': {count}\", config.project.scope_id);\n            }\n        }\n    }\n\n    Ok(())\n}\n```\n",
+  "source_version": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460060004Z",
+  "valid_from": "2026-03-31T13:20:59.460060004Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1647,
+    "end_line": 1703,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

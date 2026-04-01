@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-405d44733d4f",
+  "content": "py(&src, &dst));\n    }\n\n    #[test]\n    fn test_atomic_copy() {\n        let dir = TempDir::new().unwrap();\n        let src = dir.path().join(\"src.json\");\n        fs::write(&src, r#\"{\"key\":\"value\"}\"#).unwrap();\n        let dst = dir.path().join(\"dst.json\");\n        atomic_copy(&src, &dst).unwrap();\n        assert_eq!(fs::read_to_string(&dst).unwrap(), r#\"{\"key\":\"value\"}\"#);\n    }\n\n    #[test]\n    fn test_staging_dir_permissions() {\n        let dir = TempDir::new().unwrap();\n        let dirs = test_dirs(dir.path());\n        let staging = dirs.ensure_staging_dir(\"test-team\").unwrap();\n        let perms = staging.metadata().unwrap().permissions().mode();\n        assert_eq!(perms & 0o777, 0o700);\n    }\n\n    #[test]\n    fn test_now_iso_format() {\n        let ts = now_iso();\n        assert!(ts.ends_with('Z'));\n        assert!(ts.contains('T'));\n    }\n\n    #[test]\n    fn test_infer_team_from_task() {\n        let dir = TempDir::new().unwrap();\n        let tasks_dir = dir.path().join(\"tasks\");\n        let team_dir = tasks_dir.join(\"my-team\");\n        fs::create_dir_all(&team_dir).unwrap();\n        fs::write(team_dir.join(\"42.json\"), \"{}\").unwrap();\n\n        assert_eq!(infer_team_from_task(&tasks_dir, \"42\"), Some(\"my-team\".into()));\n        assert_eq!(infer_team_from_task(&tasks_dir, \"999\"), None);\n    }",
+  "source_version": "crates/corvia-cli/src/hooks/agent_teams.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429434134Z",
+  "valid_from": "2026-03-31T13:20:59.429434134Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/agent_teams.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 926,
+    "end_line": 956,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

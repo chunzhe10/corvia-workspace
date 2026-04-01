@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-fa42a250909e",
+  "content": "troke-width=\"2\"/>\n    <circle cx=\"16\" cy=\"14\" r=\"4.5\" fill=\"white\" stroke=\"#1B6D4A\" stroke-width=\"1.5\"/>\n    <circle cx=\"17\" cy=\"13\" r=\"2.2\" fill=\"#1a2e4a\"/>\n    <path d=\"M26,4 C27,-1 32,0 33,4\" fill=\"#2E9060\" stroke=\"#1B6D4A\" stroke-width=\"1.5\"/>\n  </svg>\n  <!-- Bubbles -->\n  <div class=\"bubble\" style=\"width: 18px; height: 18px; top: 520px; left: 260px; opacity: 0.25; background: rgba(255,255,255,0.12); border: 2px solid rgba(255,255,255,0.18);\"></div>\n  <div class=\"bubble\" style=\"width: 12px; height: 12px; top: 600px; left: 480px; opacity: 0.3; background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.22);\"></div>\n  <div class=\"bubble\" style=\"width: 24px; height: 24px; top: 680px; right: 120px; opacity: 0.2; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.15);\"></div>\n  <div class=\"bubble\" style=\"width: 10px; height: 10px; top: 760px; left: 440px; opacity: 0.3; background: rgba(255,255,255,0.14); border: 2px solid rgba(255,255,255,0.2);\"></div>\n  <div class=\"bubble\" style=\"width: 16px; height: 16px; top: 830px; right: 200px; opacity: 0.25; background: rgba(255,255,255,0.12); border: 2px solid rgba(255,255,255,0.18);\"></div>\n  <div class=\"bubble\" style=\"width: 22px; height: 22px; top: 900px; left: 180px; opacity: 0.2; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.14);\"></div>\n  <div class=\"bubble\" style=\"width: 8px; height: 8px; top: 560px; left: 650px; opacity: 0.35; background: rgba(255,255,255,0.16); border: 2px solid rgba(255,255,255,0.24);\"></div>\n\n  <!-- === CONTENT (with dark backdrop for readability) === -->\n  <div style=\"position: relative; z-index: 1;\">\n    <div class=\"slide-label\" style=\"color: #ffffff; text-shadow: 0 2px 8px rgba(0,0,0,0.5);\">What's Next</div>\n    <div class=\"slide-title\" style=\"text-shadow: 0 2px 12px rgba(0,0,0,0.4);\">Diving Trip. <span class=\"highlight-cyan\">Resolve MCP.</span></div>\n  </div>\n\n  <!-- Dark panel behind main content for readability -->\n  <div style=\"position: relative; z-index: 1; background: rgba(10, 22, 40, 0.7); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 32px; backdrop-filter: blur(4px);\">\n    <div style=\"font-size: 26px; font-weight: 500; color: rgba(255,255,255,0.8); margin-bottom: 20px;\">Pieces Coming Together.</div>",
+  "source_version": "marketing/linkedin/2026-03-14-resolve-linux-setup/resolve-linux-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028872086Z",
+  "valid_from": "2026-03-31T13:51:39.028872086Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-14-resolve-linux-setup/resolve-linux-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 821,
+    "end_line": 838,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

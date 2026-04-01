@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81f-75e2-9415-a771f03b1d07",
+  "content": "{\n                    trace_id: tid,\n                    span_id: sid,\n                    parent_span_id: parent_span_id.unwrap_or_default(),\n                    span_name,\n                    elapsed_ms,\n                    timestamp,\n                });\n        }\n    }\n\n    let mut trees: Vec<TraceTree> = Vec::new();\n\n    for (trace_id, mut trace_spans) in spans_by_trace {\n        trace_spans.sort_by(|a, b| a.timestamp.cmp(&b.timestamp));\n\n        let root_ts = trace_spans\n            .first()\n            .map(|s| s.timestamp.clone())\n            .unwrap_or_default();\n\n        let root_name = trace_spans\n            .iter()\n            .find(|s| s.parent_span_id.is_empty())\n            .map(|s| s.span_name.clone())\n            .unwrap_or_else(|| {\n                trace_spans\n                    .first()\n                    .map(|s| s.span_name.clone())\n                    .unwrap_or_default()\n            });\n\n        let total_ms = trace_spans\n            .iter()\n            .find(|s| s.parent_span_id.is_empty())\n            .map(|s| s.elapsed_ms)\n            .unwrap_or_else(|| {\n                trace_spans\n                    .iter()\n                    .map(|s| s.elapsed_ms)\n                    .fold(0.0f64, f64::max)\n            });\n\n        let span_count = trace_spans.len();\n",
+  "source_version": "crates/corvia-server/src/dashboard/traces.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.423080766Z",
+  "valid_from": "2026-03-31T13:20:59.423080766Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/traces.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 333,
+    "end_line": 369,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

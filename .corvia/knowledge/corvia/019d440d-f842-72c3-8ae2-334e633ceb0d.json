@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-334e633ceb0d",
+  "content": "# Structural Intelligence: Native Code Relationship Extraction\n\n> **Status:** Draft (reviewed)\n> **Date:** 2026-03-28\n\n**Goal:** Close the repo onboarding cold-start gap by extending adapter-git's tree-sitter\nrelation extraction to produce richer structural edges. Teams running `corvia workspace ingest`\non an established repo should get navigable code structure on day one, not just text chunks.\n\n**Motivation:** Evaluated GitNexus (19k GitHub stars, Feb 2026) as a code intelligence\ncomplement. GitNexus builds knowledge graphs with Leiden clustering, execution flow tracing,\nblast radius analysis, and 14-language support. However, its output is locked in LadybugDB\nwith no portable export format, undocumented schema, and MCP responses designed for LLM\nconsumption, not data interchange. An adapter integration would be fragile and tightly coupled.\nBuilding the 80/20 natively leverages corvia's existing infrastructure and preserves the\nunified knowledge graph as a differentiator.\n\n**Prior Art:** M3.4 (graph edge improvements) and M4.2 (relation wiring fix) established\nthe end-to-end pipeline. After M4.2: 552 relations stored, 324 edges rebuilt on the corvia\nrepo. The infrastructure works. This RFC extends what gets extracted, not the pipeline itself.\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-28-structural-intelligence-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458111178Z",
+  "valid_from": "2026-03-31T13:20:59.458111178Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-structural-intelligence-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1,
+    "end_line": 23,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

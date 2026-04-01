@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9b372063a0fd",
+  "content": "### Tier 1: Read-only (auto-approved)\n### Tier 2: Low-risk mutation (single confirmation via Elicitation)\n\n### Tier 3: Medium-risk (confirmation + dry-run preview)\n\n| Tool | Purpose | Notes |\n|------|---------|-------|\n| `corvia_ingest_trigger` | Start ingestion pipeline | Async Task — returns handle, poll for completion |\n| `corvia_migrate` | Backend migration | Supports `--dry-run` preview before execution |\n| `corvia_agent_suspend` | Suspend an agent | Prevents new sessions, existing sessions unaffected |\n| `corvia_merge_retry` | Retry failed merges | Re-queue entries with `merge_failed` status |\n\n\n### Tier 4: High-risk (double confirmation + audit log)\n\n| Tool | Purpose | Notes |\n|------|---------|-------|\n| `corvia_scope_delete` | Delete all knowledge in a scope | Irreversible — requires explicit scope name + confirmation |\n| `corvia_agent_deregister` | Permanently remove an agent | Cleans up sessions, staging, branches |\n| `corvia_config_reset` | Reset config to defaults | Overwrites current config |\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-04-m4-control-plane-research.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464121892Z",
+  "valid_from": "2026-03-31T13:20:59.464121892Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-04-m4-control-plane-research.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 106,
+    "end_line": 124,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

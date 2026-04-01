@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-25acddc69db0",
+  "content": "uper::foo` → resolve relative to current file's parent module\n    /// - `corvia_common::config` → look up cross-crate reference\n    ///\n    /// Returns `None` if the path can't be resolved (external crate, std, etc.).\n    pub fn resolve(\n        &self,\n        current_file: &str,\n        module_path: &str,\n    ) -> Option<String> {\n        if module_path.starts_with(\"crate::\") {\n            let relative = &module_path[\"crate::\".len()..];\n            // Find which crate this file belongs to\n            let crate_prefix = self.crate_prefix_for_file(current_file)?;\n            let lookup = format!(\"{}::{}\", crate_prefix, relative);\n            self.module_to_file.get(&lookup).cloned()\n        } else if module_path.starts_with(\"super::\") {\n            let relative = &module_path[\"super::\".len()..];\n            self.resolve_super(current_file, relative)\n        } else if module_path == \"crate\" || module_path == \"super\" {\n            // Bare `crate` or `super` — resolve to parent\n            if module_path == \"crate\" {\n                let crate_prefix = self.crate_prefix_for_file(current_file)?;\n                self.module_to_file.get(&crate_prefix).cloned()\n            } else {\n                self.resolve_super(current_file, \"\")\n            }\n        } else {\n            // Could be a cross-crate workspace reference like `corvia_common::config`\n            // Try looking it up directly\n            self.module_to_file.get(module_path).cloned()\n                .or_else(|| {\n                    // Try first segment as crate name\n                    let first_sep = module_path.find(\"::\")?;\n                    let crate_module = &module_path[..first_sep];\n                    let rest = &module_path[first_sep + 2..];\n                    let lookup = format!(\"{}::{}\", crate_module, rest);\n                    self.module_to_file.get(&lookup).cloned()",
+  "source_version": "docs/rfcs/2026-03-04-m3.4-graph-edge-improvements-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452946459Z",
+  "valid_from": "2026-03-31T13:20:59.452946459Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-04-m3.4-graph-edge-improvements-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 103,
+    "end_line": 133,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

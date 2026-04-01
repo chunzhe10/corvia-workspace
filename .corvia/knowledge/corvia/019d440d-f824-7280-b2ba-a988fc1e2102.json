@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f824-7280-b2ba-a988fc1e2102",
+  "content": "{\n                        eprintln!(\"Warning: TeammateIdle capture failed: {e}\");\n                    }\n                }\n                _ => {}\n            }\n        }\n    }\n\n    hook_debug!(\"completed in {}ms\", start.elapsed().as_millis());\n    Ok(())\n}\nfn load_hooks_config() -> HooksConfig {\n    let config_path = CorviaConfig::config_path();\n    if config_path.exists() {\n        match CorviaConfig::load(&config_path) {\n            Ok(config) => return config.hooks.unwrap_or_default(),\n            Err(e) => eprintln!(\"Warning: failed to load corvia.toml hooks config: {e} (using defaults)\"),\n        }\n    }\n    HooksConfig::default()\n}",
+  "source_version": "crates/corvia-cli/src/hooks/mod.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.428405411Z",
+  "valid_from": "2026-03-31T13:20:59.428405411Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/mod.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 232,
+    "end_line": 241,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

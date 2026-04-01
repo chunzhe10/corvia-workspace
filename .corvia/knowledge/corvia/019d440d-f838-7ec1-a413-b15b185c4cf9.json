@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f838-7ec1-a413-b15b185c4cf9",
+  "content": ":GenerationResult> {\n            Ok(crate::traits::GenerationResult {\n                text: format!(\"merged: {user_message}\"),\n                model: \"mock\".into(),\n                input_tokens: 0,\n                output_tokens: 0,\n            })\n        }\nimpl crate::traits::GenerationEngine for FailingGenerationEngine {\n        fn name(&self) -> &str { \"failing\" }\n        async fn generate(&self, _system_prompt: &str, _user_message: &str) -> corvia_common::errors::Result<crate::traits::GenerationResult> {\n            Err(corvia_common::errors::CorviaError::Agent(\"Mock failure\".into()))\n        }\n        fn context_window(&self) -> usize { 4096 }\n    }",
+  "source_version": "crates/corvia-kernel/src/merge_worker.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.448944670Z",
+  "valid_from": "2026-03-31T13:20:59.448944670Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/merge_worker.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 339,
+    "end_line": 345,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81c-7712-b515-4e17f99925f5",
+  "content": "(&\"helperMethod\"),\n            \"Should extract 'helperMethod' from this.helperMethod(), got: {:?}\",\n            names\n        );\n        assert!(\n            !names.contains(&\"this\"),\n            \"'this' should not appear as a call target\"\n        );\n    }\nfn test_js_dynamic_import() {\n        let source = r#\"\nasync function loadModule() {\n    const mod = await import('./lazy-module');\n    return mod;\n}\n\"#;\n        let result = chunk_file_with_relations(\"app.js\", source, \"js\");\n        let imports: Vec<&CodeRelation> = result\n            .relations\n            .iter()\n            .filter(|r| r.relation == \"imports\")\n            .collect();\n        assert!(\n            imports.iter().any(|r| r.to_file == \"./lazy-module\"),\n            \"Dynamic import('./lazy-module') should produce an imports relation, got: {:?}\",\n            imports.iter().map(|r| &r.to_file).collect::<Vec<_>>()\n        );\n\n        // Should NOT produce a \"calls\" relation for import()\n        let calls: Vec<&CodeRelation> = result\n            .relations\n            .iter()\n            .filter(|r| r.relation == \"calls\" && r.to_name.as_deref() == Some(\"import\"))\n            .collect();\n        assert!(calls.is_empty(), \"import() should not produce a 'calls' relation\");\n    }",
+  "source_version": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.420661043Z",
+  "valid_from": "2026-03-31T13:20:59.420661043Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 2061,
+    "end_line": 2087,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

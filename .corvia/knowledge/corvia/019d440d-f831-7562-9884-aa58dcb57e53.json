@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f831-7562-9884-aa58dcb57e53",
+  "content": "   rrf_k: 60,\n            channels: Default::default(),\n            searcher_timeout_ms: 5000,\n        };\n        // VectorSearcher requires store + engine.\n        let result = reg.searchers.create(\"vector\", &deps);\n        assert!(result.is_err());\n    }\nfn test_registry_names() {\n        let reg = PipelineRegistry::with_defaults();\n        assert!(reg.searchers.contains(\"vector\"));\n        assert!(reg.searchers.contains(\"bm25\"));\n        assert!(reg.searchers.contains(\"multichannel\"));\n        assert!(reg.fusions.contains(\"passthrough\"));\n        assert!(reg.fusions.contains(\"rrf\"));\n        // \"graph\" expander is NOT in the registry; it requires config-driven alpha\n        // and is constructed directly in build_pipeline_retriever.\n        assert!(!reg.expanders.contains(\"graph\"));\n        assert!(reg.expanders.contains(\"noop\"));\n        assert!(reg.rerankers.contains(\"identity\"));\n    }",
+  "source_version": "crates/corvia-kernel/src/pipeline/registry.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.441361052Z",
+  "valid_from": "2026-03-31T13:20:59.441361052Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/registry.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 311,
+    "end_line": 323,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

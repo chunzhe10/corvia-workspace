@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81f-75e2-9415-ae20320df321",
+  "content": "=> ServiceState::Stopped,\n    };\n    let latency_ms = if result.latency_ms > 0.0 {\n        Some(result.latency_ms)\n    } else {\n        None\n    };\n    ServiceStatus {\n        name: name.to_string(),\n        state,\n        port,\n        latency_ms,\n    }\n}\npub async fn check_service(svc: &ServiceDef) -> HealthResult {\n    let host = \"127.0.0.1\";\n    match (svc.port, &svc.health_proto) {\n        (None, _) | (_, HealthProto::None) => HealthResult {\n            healthy: None,\n            latency_ms: -1.0,\n        },\n        (Some(port), HealthProto::Http) => check_http(host, port, svc.health_path).await,\n        (Some(port), HealthProto::Grpc) => check_grpc(host, port).await,\n        (Some(port), HealthProto::Tcp) => check_tcp(host, port).await,\n    }\n}",
+  "source_version": "crates/corvia-server/src/dashboard/health.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.423911093Z",
+  "valid_from": "2026-03-31T13:20:59.423911093Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/health.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 138,
+    "end_line": 149,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

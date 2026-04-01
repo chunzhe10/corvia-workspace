@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82d-7772-85c3-acb8d00de29b",
+  "content": "   continue;\n                    }\n                };\n\n                let (description, content) = parse_skill_file(&raw);\n                if description.is_empty() {\n                    warn!(path = %path.display(), \"skill has no description, skipping\");\n                    continue;\n                }\n\n                skill_files.insert(name, (description, content));\n            }\n        }\n\n        if skill_files.is_empty() {\n            return Ok(Self {\n                skills: Vec::new(),\n                dimensions,\n            });\n        }\n\n        // Embed all descriptions in a single batch.\n        let names: Vec<String> = skill_files.keys().cloned().collect();\n        let descriptions: Vec<String> = names\n            .iter()\n            .map(|n| skill_files[n].0.clone())\n            .collect();\n\n        let embeddings = engine.embed_batch(&descriptions).await?;\n\n        let skills: Vec<Skill> = names\n            .into_iter()\n            .zip(descriptions)\n            .zip(embeddings)\n            .map(|((name, description), embedding)| {\n                let content = skill_files[&name].1.clone();\n                Skill {\n                    name,\n                    description,\n                    content,\n                    embedding,\n                }\n            })\n            .collect();\n\n        info!(count = skills.len(), \"skills loaded into registry\");\n        Ok(Self { skills, dimensions })\n    }",
+  "source_version": "crates/corvia-kernel/src/skill_registry.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.437846062Z",
+  "valid_from": "2026-03-31T13:20:59.437846062Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/skill_registry.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 90,
+    "end_line": 130,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

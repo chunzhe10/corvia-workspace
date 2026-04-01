@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83a-78e0-bb2b-db0f00cd7643",
+  "content": "# 1. Restart the hub\n# 2. Verify hub is healthy\n\n# 3. If spokes are unresponsive, restart them all\ncorvia workspace spoke restart --all\n```\n\nWhen to use `spoke restart --all`:\n- Hub was down for more than 30 seconds\n- Spokes show \"unhealthy\" in the dashboard after hub restart\n- MCP write operations from spokes are failing\n\nWhen you do NOT need to restart spokes:\n- Brief hub restart (under 30 seconds). Claude Code retries MCP calls.\n- Hub config changes that don't affect the MCP endpoint.\n",
+  "source_version": "docs/spoke-credentials.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.450446128Z",
+  "valid_from": "2026-03-31T13:20:59.450446128Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/spoke-credentials.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 111,
+    "end_line": 123,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

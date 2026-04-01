@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f830-7a51-9391-4a7bacf987c0",
+  "content": "mbedding, emb))\n                        .unwrap_or(0.0);\n                    let blended = ((1.0 - self.alpha) * cosine + self.alpha * (1.0 / 3.0))\n                        * tier_weight(entry.tier);\n\n                    let mut components = HashMap::new();\n                    components.insert(\"cosine\".to_string(), cosine);\n                    components.insert(\"graph_deep\".to_string(), self.alpha * (1.0 / 3.0));\n\n                    scored.push(RankedCandidate {\n                        entry: Arc::new(entry),\n                        scores: CandidateScores {\n                            components,\n                            final_score: NormalizedScore::new(blended),\n                        },\n                    });\n                    graph_expanded += 1;\n                }\n            }\n        }\n\n        // Re-sort by final_score descending.\n        scored.sort_unstable_by_key(|c| std::cmp::Reverse(c.scores.final_score));\n\n        let output_count = scored.len();\n        let latency_ms = start.elapsed().as_millis() as u64;\n\n        if graph_expanded == 0 && input_count > 0 {\n            warnings.push(\"graph expansion produced no new candidates\".to_string());\n        }\n\n        info!(\n            expander = self.name(),\n            input_count,\n            graph_expanded,\n            graph_reinforced,\n            output_count,\n            latency_ms,\n            \"graph expansion complete\"\n        );\n\n        Ok(RankedSet {\n            candidates: scored,\n            metrics: StageMetrics {\n                stage_name: self.name().to_string(),\n                latency_ms,\n                input_count,\n                output_count,\n                warnings,\n            },\n        })\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/pipeline/expander.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.440750895Z",
+  "valid_from": "2026-03-31T13:20:59.440750895Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/expander.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 218,
+    "end_line": 264,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

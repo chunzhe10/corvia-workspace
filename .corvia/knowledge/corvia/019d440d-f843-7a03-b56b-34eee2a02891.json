@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f843-7a03-b56b-34eee2a02891",
+  "content": "### Step 3: Implement config changes\n\n}\n\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct StorageConfig {\n    #[serde(default)]\n    pub store_type: StoreType,\n    #[serde(default = \"default_data_dir\")]\n    pub data_dir: String,\n    // SurrealDB fields — only used when store_type = Surrealdb\n    pub surrealdb_url: Option<String>,\n    pub surrealdb_ns: Option<String>,\n    pub surrealdb_db: Option<String>,\n    pub surrealdb_user: Option<String>,\n    pub surrealdb_pass: Option<String>,\n}\n\nfn default_data_dir() -> String { \".corvia\".into() }\n\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct EmbeddingConfig {\n    #[serde(default)]\n    pub provider: InferenceProvider,\n    pub model: String,\n    pub url: String,\n    pub dimensions: usize,\n}\n\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct ServerConfig {\n    pub host: String,\n    pub port: u16,\n}\n\nimpl Default for CorviaConfig {\n    fn default() -> Self {\n        Self {\n            project: ProjectConfig {\n                name: \"default\".into(),\n                scope_id: \"default\".into(),\n            },\n            storage: StorageConfig {\n                store_type: StoreType::Lite,\n                data_dir: \".corvia\".into(),\n                surrealdb_url: None,",
+  "source_version": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.459597728Z",
+  "valid_from": "2026-03-31T13:20:59.459597728Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 125,
+    "end_line": 168,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

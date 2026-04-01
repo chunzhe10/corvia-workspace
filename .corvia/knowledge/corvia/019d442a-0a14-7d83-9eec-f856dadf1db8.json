@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f856dadf1db8",
+  "content": "e; bottom: 48px; left: 72px;\n    font-size: 18px; font-weight: 500; color: var(--text-muted);\n  }\n  .slide-number {\n    position: absolute; bottom: 48px; right: 72px;\n    font-size: 18px; font-weight: 600; color: var(--text-muted); letter-spacing: 2px;\n  }\n  /* Chat bubbles */\n  .chat-bubble {\n    padding: 16px 24px; border-radius: 16px;\n    font-size: 20px; font-weight: 500; line-height: 1.4;\n    max-width: 440px; position: relative;\n  }\n  .chat-bubble.claude {\n    background: rgba(59, 130, 246, 0.12);\n    border: 1px solid rgba(59, 130, 246, 0.3);\n    color: #60a5fa;\n  }\n  .chat-bubble.claude::before {\n    content: 'CLAUDE'; display: block;\n    font-size: 15px; font-weight: 700; letter-spacing: 1px;\n    margin-bottom: 6px; color: var(--accent-blue);\n  }\n  .chat-bubble.claude::after {\n    content: '';\n    position: absolute; left: -12px; top: 28px;\n    width: 0; height: 0;\n    border-top: 8px solid transparent;\n    border-bottom: 8px solid transparent;\n    border-right: 12px solid rgba(59, 130, 246, 0.3);\n  }\n  .chat-bubble.user {\n    background: rgba(139, 92, 246, 0.12);\n    border: 1px solid rgba(139, 92, 246, 0.3);\n    color: #a78bfa;\n  }\n  .chat-bubble.user::before {\n    content: 'YOU'; display: block;\n    font-size: 15px; font-weight: 700; letter-spacing: 1px;\n    margin-bottom: 6px; color: var(--accent-purple);\n  }\n  .chat-bubble.user::after {\n    content: '';\n    position: absolute; right: -12px; top: 28px;\n    width: 0; height: 0;\n    border-top: 8px solid transparent;\n    border-bottom: 8px solid transparent;\n    border-left: 12px solid rgba(139, 92, 246, 0.3);\n  }\n\n  /* Symptom block */\n  .symptom-block {\n    background: var(--bg-card);\n    border-radius: 16px; padding: 24px 28px;\n    display: flex; align-items: center; gap: 16px;\n    min-width: 0;\n  }\n\n  /* Foundation slab */\n  .foundation {\n    background: rgba(239, 68, 68, 0.1);\n    border: 2px solid rgba(239, 68, 68, 0.35);\n    border-radius: 12px; padding: 24px 32px;\n    display: flex; justify-content: space-between; align-items: center;\n  }",
+  "source_version": "marketing/linkedin/2026-03-14-resolve-linux-setup/resolve-linux-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028611760Z",
+  "valid_from": "2026-03-31T13:51:39.028611760Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-14-resolve-linux-setup/resolve-linux-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 128,
+    "end_line": 185,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

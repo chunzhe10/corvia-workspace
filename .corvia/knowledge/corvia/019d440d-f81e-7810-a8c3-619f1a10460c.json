@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81e-7810-a8c3-619f1a10460c",
+  "content": "from_str(line) {\n            Ok(v) => v,\n            Err(_) => continue,\n        };\n\n        // Look for tier_transition events\n        let msg = v\n            .get(\"fields\")\n            .and_then(|f| f.get(\"message\"))\n            .and_then(|m| m.as_str())\n            .unwrap_or(\"\");\n\n        if msg != \"tier_transition\" {\n            continue;\n        }\n\n        let fields = match v.get(\"fields\") {\n            Some(f) => f,\n            None => continue,\n        };\n\n        let entry_id = fields.get(\"entry_id\").and_then(|e| e.as_str()).unwrap_or(\"\").to_string();\n        let scope_id = fields.get(\"scope_id\").and_then(|e| e.as_str()).unwrap_or(\"\").to_string();\n        let from_tier = fields.get(\"from_tier\").and_then(|e| e.as_str()).unwrap_or(\"\").to_string();\n        let to_tier = fields.get(\"to_tier\").and_then(|e| e.as_str()).unwrap_or(\"\").to_string();\n        let retention_score = fields.get(\"retention_score\").and_then(|e| e.as_f64()).unwrap_or(0.0);\n        let reason = fields.get(\"reason\").and_then(|e| e.as_str()).unwrap_or(\"\").to_string();\n        let timestamp = v.get(\"timestamp\").and_then(|t| t.as_str()).unwrap_or(\"\").to_string();\n\n        transitions.push(corvia_common::dashboard::TierTransitionDto {\n            entry_id,\n            scope_id,\n            from_tier,\n            to_tier,\n            retention_score,\n            reason,\n            timestamp,\n        });\n    }\n\n    transitions\n}",
+  "source_version": "crates/corvia-server/src/dashboard/mod.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.422430620Z",
+  "valid_from": "2026-03-31T13:20:59.422430620Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/mod.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1195,
+    "end_line": 1226,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

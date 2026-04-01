@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83a-78e0-bb2b-ddaa9adf1f54",
+  "content": "# ... existing deps ...\n\n\n    let cli = Cli::parse();\n\n    match cli.command {\n        Commands::Init => cmd_init().await?,\n        Commands::Serve => cmd_serve().await?,\n        Commands::Ingest { path } => cmd_ingest(&path).await?,\n        Commands::Search { query, limit } => cmd_search(&query, limit).await?,\n        Commands::Status => cmd_status().await?,\n    }\n\n    Ok(())\n}\n\nasync fn cmd_init() -> Result<()> {\n    println!(\"Initializing Corvia...\");\n\n    // Create default config\n    let config = CorviaConfig::default();\n    let config_path = CorviaConfig::config_path();\n    if !config_path.exists() {\n        config.save(&config_path)?;\n        println!(\"Created {}\", config_path.display());\n    } else {\n        println!(\"Config already exists: {}\", config_path.display());\n    }\n\n    // Provision SurrealDB\n    let docker = DockerProvisioner::new()?;\n    docker.start(&config.storage.surrealdb_user, &config.storage.surrealdb_pass).await?;\n\n    // Connect and init schema\n    let store = connect_store(&config).await?;\n    store.init_schema().await?;\n\n    println!(\"Corvia initialized. SurrealDB running on port 8000.\");\n    println!(\"Next: corvia ingest <path-to-repo>\");\n    Ok(())\n}\n\nasync fn cmd_serve() -> Result<()> {\n    let config = load_config()?;\n    let store = Arc::new(connect_store(&config).await?) as Arc<dyn QueryableStore>;\n    let engine = Arc::new(connect_engine(&config)) as Arc<dyn InferenceEngine>;\n\n    let state = Arc::new(corvia_server::rest::AppState { store, engine });\n    let app = corvia_server::rest::router(state);\n\n    let addr = format!(\"{}:{}\", config.server.host, config.server.port);\n    println!(\"Corvia server listening on {addr}\");\n    let listener = tokio::net::TcpListener::bind(&addr).await?;\n    axum::serve(listener, app).await?;\n    Ok(())\n}\n\nasync fn cmd_ingest(path: &str) -> Result<()> {\n    let config = load_config()?;\n    let store = connect_store(&config).await?;\n    let engine = connect_engine(&config);\n\n    let adapter = GitAdapter::new();\n    println!(\"Ingesting {}...\", path);",
+  "source_version": "docs/rfcs/2026-02-28-m1-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.450975182Z",
+  "valid_from": "2026-03-31T13:20:59.450975182Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-m1-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1930,
+    "end_line": 1991,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

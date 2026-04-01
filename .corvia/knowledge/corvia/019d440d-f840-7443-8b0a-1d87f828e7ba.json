@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-1d87f828e7ba",
+  "content": "### Task 6: Reconnectable Agents Endpoint\n\n/// List agents that have stale or orphaned sessions (candidates for reconnection).\npub fn list_reconnectable(&self) -> Result<Vec<AgentRecord>> {\n    let all_agents = self.registry.list_active()?;\n    let mut reconnectable = Vec::new();\n    for agent in all_agents {\n        let sessions = self.sessions.list_by_agent(&agent.agent_id)?;\n        let has_stale_or_orphaned = sessions.iter().any(|s|\n            matches!(s.state, SessionState::Stale | SessionState::Orphaned)\n        );\n        if has_stale_or_orphaned {\n            reconnectable.push(agent);\n        }\n    }\n    reconnectable.sort_by(|a, b| b.last_seen.cmp(&a.last_seen));\n    Ok(reconnectable)\n}\n```\n\n-**Step 3: Run test, verify pass**\n\n-**Step 4: Add REST endpoint**\n\nIn `dashboard/mod.rs` or `rest.rs`, add:\n\n```rust\nasync fn reconnectable_agents_handler(\n    State(state): State<Arc<AppState>>,\n) -> impl IntoResponse {\n    match state.coordinator.list_reconnectable() {\n        Ok(agents) => Json(agents).into_response(),\n        Err(e) => (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()).into_response(),",
+  "source_version": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456465812Z",
+  "valid_from": "2026-03-31T13:20:59.456465812Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1002,
+    "end_line": 1032,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

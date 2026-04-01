@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f830-7a51-9391-45ecec7310e3",
+  "content": "p();\n            for sr in &result.results {\n                assert_eq!(\n                    sr.entry.metadata.source_origin.as_deref(),\n                    Some(\"repo:other\"),\n                    \"metadata filter should only pass source_origin=repo:other\"\n                );\n            }\n        }\n\n        // Sub-test E: Visibility filtering (Own mode)\n        {\n            // Insert a pending entry for agent-X.\n            let mut pending = KnowledgeEntry::new(\n                \"agent-X pending work\".to_string(),\n                \"flow-scope\".to_string(),\n                \"v1\".to_string(),\n            );\n            pending.embedding = Some(next_emb());\n            pending.agent_id = Some(\"agent-X\".to_string());\n            pending.session_id = Some(\"sess-X\".to_string());\n            pending.entry_status = EntryStatus::Pending;\n            queryable.insert(&pending).await.unwrap();\n\n            // Insert a pending entry for agent-Y.\n            let mut pending_y = KnowledgeEntry::new(\n                \"agent-Y pending work\".to_string(),\n                \"flow-scope\".to_string(),\n                \"v1\".to_string(),\n            );\n            pending_y.embedding = Some(next_emb());\n            pending_y.agent_id = Some(\"agent-Y\".to_string());\n            pending_y.session_id = Some(\"sess-Y\".to_string());\n            pending_y.entry_status = EntryStatus::Pending;\n            queryable.insert(&pending_y).await.unwrap();\n\n            let opts = RetrievalOpts {\n                limit: 20,",
+  "source_version": "crates/corvia-kernel/src/pipeline/core.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.440098688Z",
+  "valid_from": "2026-03-31T13:20:59.440098688Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/core.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 695,
+    "end_line": 726,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

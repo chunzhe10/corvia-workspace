@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81c-7712-b515-4e7c850f92b5",
+  "content": ".len()\n        );\n        let names: Vec<&str> = implements.iter().filter_map(|r| r.to_name.as_deref()).collect();\n        assert!(names.contains(&\"ILogger\"), \"Missing ILogger\");\n        assert!(names.contains(&\"IDisposable\"), \"Missing IDisposable\");\n    }\nfn test_existing_rust_extraction_unchanged() {\n        // Regression: existing Rust extraction must still work\n        let source = r#\"\nuse crate::foo::Bar;\n\npub trait MyTrait {\n    fn do_thing(&self);\n}\n\nimpl MyTrait for MyStruct {\n    fn do_thing(&self) {\n        println!(\"hello\");\n    }\n}\n\nfn main() {\n    helper();\n}\n\"#;\n        let result = chunk_file_with_relations(\"src/main.rs\", source, \"rs\");\n        let imports: Vec<&CodeRelation> = result\n            .relations\n            .iter()\n            .filter(|r| r.relation == \"imports\")\n            .collect();\n        assert!(!imports.is_empty(), \"Rust imports should still work\");\n\n        let implements: Vec<&CodeRelation> = result\n            .relations\n            .iter()\n            .filter(|r| r.relation == \"implements\")\n            .collect();\n        assert!(!implements.is_empty(), \"Rust implements should still work\");\n\n        let calls: Vec<&CodeRelation> = result\n            .relations\n            .iter()\n            .filter(|r| r.relation == \"calls\")\n            .collect();\n        assert!(!calls.is_empty(), \"Rust calls should still work\");\n    }",
+  "source_version": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.420713986Z",
+  "valid_from": "2026-03-31T13:20:59.420713986Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 2219,
+    "end_line": 2259,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f826-79c1-b85f-38af670a958a",
+  "content": "fn test_verify_ep_available_cuda() {\n        // CUDA EP: the cu12 prebuilt includes the provider .so.\n        // Don't assert true/false — just verify it doesn't panic.\n        let _ = verify_ep_available(&BackendKind::Cuda);\n    }\nfn test_verify_ep_available_openvino() {\n        // OpenVINO EP availability depends on whether\n        // libonnxruntime_providers_openvino.so is installed on the system.\n        // Don't assert true/false — just verify it doesn't panic.\n        let _ = verify_ep_available(&BackendKind::OpenVino);\n    }",
+  "source_version": "crates/corvia-inference/src/embedding_service.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.430737304Z",
+  "valid_from": "2026-03-31T13:20:59.430737304Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/src/embedding_service.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 577,
+    "end_line": 582,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

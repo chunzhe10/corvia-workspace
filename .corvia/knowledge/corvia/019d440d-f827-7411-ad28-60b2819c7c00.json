@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f827-7411-ad28-60b2819c7c00",
+  "content": "         edges.sort_unstable_by(|a, b| {\n                        let score_a = relation_weight(&a.relation)\n                            * direction_bias(&a.relation, a.from == sr.entry.id);\n                        let score_b = relation_weight(&b.relation)\n                            * direction_bias(&b.relation, b.from == sr.entry.id);\n                        score_b.partial_cmp(&score_a).unwrap_or(std::cmp::Ordering::Equal)\n                    });\n                    edges.truncate(MAX_EDGES_PER_NODE);\n                }\n\n                for edge in &edges {\n                    // Determine the neighbor ID and direction.\n                    let is_outgoing = edge.from == sr.entry.id;\n                    let neighbor_id = if is_outgoing { edge.to } else { edge.from };\n\n                    let rel_weight = relation_weight(&edge.relation);\n                    let dir_bias = direction_bias(&edge.relation, is_outgoing);\n                    let edge_score = rel_weight * dir_bias;\n\n                    if seen.contains(&neighbor_id) {\n                        // Reinforce with diminishing returns, scaled by relation weight.\n                        let count = reinforcement_counts.entry(neighbor_id).or_insert(0);\n                        let decay = 0.5_f32.powi(*count as i32);\n                        let bonus = self.alpha * 0.25 * decay * rel_weight;\n                        if bonus > 0.001 {\n                            if let Some(existing) = scored.iter_mut().find(|(_, sr)| sr.entry.id == neighbor_id) {\n                                existing.0 += bonus;\n                                existing.1.score = existing.0;\n                                graph_reinforced += 1;\n                            }\n                            *count += 1;\n                        }\n                        continue;\n                    }\n\n                    // Look up the entry; skip if not found, wrong scope, or Forgotten.\n                    if let Some(neighbor_entry) = self.store.get(&neighbor_id).await? {\n                        if neighbor_entry.scope_id != scope_id {\n                            continue;\n                        }\n                        if neighbor_entry.tier == Tier::Forgotten {\n                            continue;\n                        }",
+  "source_version": "crates/corvia-kernel/src/retriever.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.431784717Z",
+  "valid_from": "2026-03-31T13:20:59.431784717Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/retriever.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 523,
+    "end_line": 561,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

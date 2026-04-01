@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a13-75d1-bfe3-f81993cd8845",
+  "content": "class=\"slide-label\">The Failure Mode</div>\n  <div class=\"slide-title\">\n    Text Everywhere.<br>\n    <span class=\"highlight-red\">Nothing Aligned.</span>\n  </div>\n  <div class=\"slide-subtitle\">\n    The code looked correct, but the output was broken.\n  </div>\n  <!-- Broken example: Text overflow + overlap -->\n  <div style=\"display: flex; gap: 24px; margin-bottom: 28px;\">\n    <div style=\"flex: 1;\">\n      <div class=\"mock-label\" style=\"color: var(--accent-red);\">&#10060; AI's attempt</div>\n      <div style=\"background: var(--bg-card); border: 2px solid var(--accent-red); border-radius: 16px; padding: 28px; position: relative; height: 300px; overflow: hidden;\">\n        <div style=\"font-size: 24px; font-weight: 700; color: var(--accent-blue); letter-spacing: 2px; margin-bottom: 12px;\">STAT BOXES</div>\n        <div style=\"display: flex; gap: 12px;\">\n          <div style=\"background: var(--bg-card-alt); border-radius: 10px; padding: 16px; flex: 1; text-align: center;\">\n            <div style=\"font-size: 34px; font-weight: 800; color: var(--accent-green);\">0%</div>\n            <div style=\"font-size: 15px; color: var(--text-secondary);\">GPU</div>\n          </div>\n          <div style=\"background: var(--bg-card-alt); border-radius: 10px; padding: 16px; flex: 1; text-align: center;\">\n            <div style=\"font-size: 34px; font-weight: 800; color: var(--accent-cyan); white-space: nowrap; margin-left: -16px;\">14.41%</div>\n            <div style=\"font-size: 15px; color: var(--text-secondary);\">iGPU</div>\n          </div>\n          <div style=\"background: var(--bg-card-alt); border-radius: 10px; padding: 16px; flex: 1; text-align: center;\">\n            <div style=\"font-size: 34px; font-weight: 800; color: var(--accent-amber); white-space: nowrap; margin-left: -24px;\">1,248</div>\n            <div style=\"font-size: 15px; color: var(--text-secondary);\">chunks</div>\n          </div>\n        </div>\n        <!-- Overlapping element -->\n        <div style=\"background: var(--bg-card-alt); border-radius: 10px; padding: 14px 20px; position: absolute; top: 50px; right: 16px; text-align: center; opacity: 0.9; border: 2px dashed var(--accent-red);\">\n          <div style=\"font-size: 32px; font-weight: 800; color: var(--accent-purple);\">58&deg;C</div>",
+  "source_version": "marketing/linkedin/2026-03-11-ai-blind-designer/ai-blind-designer-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.027907707Z",
+  "valid_from": "2026-03-31T13:51:39.027907707Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-11-ai-blind-designer/ai-blind-designer-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 349,
+    "end_line": 371,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

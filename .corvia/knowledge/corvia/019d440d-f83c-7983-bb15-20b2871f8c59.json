@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-20b2871f8c59",
+  "content": "             let file = top.entry.metadata.source_file.clone();\n                (file, top.score as f64)\n            } else {\n                (None, 0.0)\n            };\n\n            results.push(QueryResult {\n                query_text: query.text.clone(),\n                expect_file: query.expect_file.clone(),\n                actual_file,\n                score,\n                min_score: query.effective_min_score(default_min),\n            });\n        }\n\n        Ok(results)\n    }\n\n    /// Accessor for the scope_id.\n    pub fn scope_id(&self) -> &str {\n        &self.config.config.scope_id\n    }\n}\n```\n\n**Step 4: Run tests to verify they pass**\n\nRun: `cargo test -p corvia-kernel test_query_result test_introspect_report -- --nocapture`\nExpected: PASS (5 tests)\n\n**Step 5: Run full crate tests**\n\nRun: `cargo test -p corvia-kernel -- --nocapture`\nExpected: PASS (all tests including the TOML parsing tests from Task 4)\n\n**Step 6: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/introspect.rs\ngit commit -m \"feat(kernel): implement Introspect pipeline with check_env, ingest_self, query_self\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-02-28-introspect-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452283949Z",
+  "valid_from": "2026-03-31T13:20:59.452283949Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-introspect-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 715,
+    "end_line": 750,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

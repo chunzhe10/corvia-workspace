@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-485a766f4259",
+  "content": "tln!(\"\\n  Introspect: running canonical queries...\");\n    let results = introspect.query_self(engine.as_ref(), store.as_ref()).await?;\n\n    let report = corvia_kernel::introspect::IntrospectReport {\n        results,\n        chunks_ingested: chunks,\n    };\n\n    // Phase 4: Report\n    println!();\n    for r in &report.results {\n        let status = if r.passed() { \"pass\" } else { \"FAIL\" };\n        let actual = r.actual_file.as_deref().unwrap_or(\"(no results)\");\n        println!(\n            \"    [{status}] \\\"{}\\\"\\n          expected: {}\\n          actual:   {} (score: {:.3}, min: {:.3})\",\n            r.query_text, r.expect_file, actual, r.score, r.min_score\n        );\n    }\n\n    println!(\n        \"\\n  Introspect: {}/{} passed (avg score: {:.3})\",\n        report.pass_count(), report.results.len(), report.avg_score()\n    );\n\n    // Teardown\n    if !keep {\n        println!(\"  Cleaning up introspect data...\");\n        if let Err(e) = store.delete_scope(introspect.scope_id()).await {\n            eprintln!(\"  Warning: teardown failed: {e}\");\n        } else {\n            println!(\"  Teardown complete.\");\n        }\n    }\n\n    if ci && report.exit_code() != 0 {\n        std::process::exit(report.exit_code());\n    } else if !report.all_passed() {\n        println!(\"\\n  Some queries failed. Use --ci to fail with exit code 1.\");\n    }\n\n    Ok(())\n}\n```\n",
+  "source_version": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460108546Z",
+  "valid_from": "2026-03-31T13:20:59.460108546Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1835,
+    "end_line": 1870,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

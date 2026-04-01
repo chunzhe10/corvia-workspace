@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83f-7210-b9e4-0c3864b0929e",
+  "content": "### Data Source\n### Code Structure\n\n### Node Position Grid\n\nNodes are placed on a 3-column layout within the graph canvas (percentage-based):\n\n```\n         Col 1 (8%)       Col 2 (40%)      Col 3 (72%)\nRow 1    Agent (8%, 10%)   Entry (40%, 8%)   Storage (72%, 8%)\n         (top-left)        (top-center)      (top-right)\n\nRow 2    Inference (8%,50%) Merge (40%, 48%)  RAG (72%, 48%)\n         (mid-left)        (mid-center)      (mid-right)\n\nRow 3    GC (8%, 82%)\n         (bottom-left)\n```\n\nFormat: `(left%, top%)` relative to canvas. Node width: 120px fixed. Canvas has 24px padding.\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-10-telemetry-traces-page-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.455202843Z",
+  "valid_from": "2026-03-31T13:20:59.455202843Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-telemetry-traces-page-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 41,
+    "end_line": 60,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

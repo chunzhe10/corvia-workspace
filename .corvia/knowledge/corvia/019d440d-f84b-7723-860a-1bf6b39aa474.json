@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84b-7723-860a-1bf6b39aa474",
+  "content": "permissions:\n  contents: write\n\nenv:\n  CARGO_INCREMENTAL: 0\n\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n\n      - name: Install system dependencies\n        run: |\n          sudo apt-get update\n          sudo apt-get install -y pkg-config libssl-dev libclang-dev cmake protobuf-compiler\n\n      - name: Install Rust toolchain\n        uses: dtolnay/rust-toolchain@stable\n\n      - name: Setup sccache\n        id: sccache\n        uses: mozilla-actions/sccache-action@v0.0.9\n        continue-on-error: true\n\n      - name: Enable sccache (if available)\n        if: steps.sccache.outcome == 'success'\n        run: |\n          echo \"SCCACHE_GHA_ENABLED=true\" >> \"$GITHUB_ENV\"\n          echo \"RUSTC_WRAPPER=sccache\" >> \"$GITHUB_ENV\"\n\n      - name: Cache cargo registry\n        uses: actions/cache@v4\n        with:\n          path: |\n            ~/.cargo/registry\n            ~/.cargo/git\n          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}\n          restore-keys: |",
+  "source_version": ".github/workflows/release.yml",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.467458533Z",
+  "valid_from": "2026-03-31T13:20:59.467458533Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": ".github/workflows/release.yml",
+    "language": "yaml",
+    "chunk_type": "section",
+    "start_line": 14,
+    "end_line": 46,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

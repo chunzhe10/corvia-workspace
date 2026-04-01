@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f824-7280-b2ba-ad0783b5012b",
+  "content": "n(&serde_json::json!({}))\n            .send()\n        {\n            Ok(resp) if resp.status().is_success() => return,\n            _ => continue,\n        }\n    }\n    // All retries exhausted — session data is safe in .jsonl.gz, adapter picks it up later\n}\nfn compute_duration_ms(path: &std::path::Path) -> u64 {\n    let file = match fs::File::open(path) {\n        Ok(f) => f,\n        Err(_) => return 0,\n    };\n    let reader = BufReader::new(file);\n    if let Some(Ok(first_line)) = reader.lines().next()\n        && let Ok(obj) = serde_json::from_str::<serde_json::Value>(&first_line)\n        && let Some(ts_str) = obj.get(\"timestamp\").and_then(|t| t.as_str())\n        && let Some(start_secs) = parse_iso_epoch_secs(ts_str)\n    {\n        let now_secs = std::time::SystemTime::now()\n            .duration_since(std::time::UNIX_EPOCH)\n            .unwrap_or_default()\n            .as_secs();\n        return now_secs.saturating_sub(start_secs) * 1000;\n    }\n    0\n}",
+  "source_version": "crates/corvia-cli/src/hooks/session.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.428782459Z",
+  "valid_from": "2026-03-31T13:20:59.428782459Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/session.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 316,
+    "end_line": 334,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-4b731f72ee40",
+  "content": "# Dashboard UX Overhaul — Design Spec\n\n> **Date:** 2026-03-13\n> **Status:** Shipped (v0.4.3)\n> **Scope:** 5 subsystems — graph simplification, agent registration, history UX, collapsible panel, agent descriptions\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460391506Z",
+  "valid_from": "2026-03-31T13:20:59.460391506Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1,
+    "end_line": 8,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

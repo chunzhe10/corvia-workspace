@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-bebda40d2619",
+  "content": " so.\";\n\n/// Estimate token count using chars/4 heuristic.\nfn estimate_tokens(text: &str) -> usize {\n    text.len() / 4\n}\n\n/// Structured context augmenter with source citations and token budget.\npub struct StructuredAugmenter {\n    system_prompt: String,\n}\n\nimpl StructuredAugmenter {\n    pub fn new(system_prompt: Option<String>) -> Self {\n        Self {\n            system_prompt: system_prompt.unwrap_or_else(|| DEFAULT_SYSTEM_PROMPT.into()),\n        }\n    }\n}\n\nimpl Augmenter for StructuredAugmenter {\n    fn name(&self) -> &str { \"structured\" }\n\n    fn augment(\n        &self,\n        query: &str,\n        results: &[SearchResult],\n        budget: &TokenBudget,\n    ) -> Result<AugmentedContext> {\n        let start = std::time::Instant::now();\n\n        let token_budget = budget.max_context_tokens.unwrap_or(usize::MAX);\n\n        if results.is_empty() {\n            return Ok(AugmentedContext {\n                system_prompt: self.system_prompt.clone(),\n                context: format!(\n                    \"No relevant context found.\\n\\nQuestion: {query}\"\n                ),\n                sources: Vec::new(),\n                metrics: AugmentationMetrics {\n                    latency_ms: start.elapsed().as_millis() as u64,\n                    token_estimate: 0,",
+  "source_version": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462002039Z",
+  "valid_from": "2026-03-31T13:20:59.462002039Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1176,
+    "end_line": 1207,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

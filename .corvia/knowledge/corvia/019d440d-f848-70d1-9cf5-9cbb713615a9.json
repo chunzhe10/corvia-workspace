@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9cbb713615a9",
+  "content": "s its own card at `/.well-known/agent-card.json`, accepts remote agent cards for identity\n- IETF `actor_token`: extract `sub` claim as agent identity, `principal` as authorizing user\n- W3C `did:wba`: accept DID as agent identifier, verify via DID document\n\n#### Part 2: Internal Identity Scheme (Registered Agents)\n\n**ID format**:\n```\nAgent ID:    \"{scope}::{agent-name}\"     e.g., \"myproject::code-indexer\"\nSession ID:  \"{agent-id}/sess-{uuid}\"    e.g., \"myproject::code-indexer/sess-550e8400\"\n```\n- `::` separator distinguishes from 5-segment namespace (which uses `:`)\n- Agent names are human-readable — visible in `git log`, `corvia status`, MCP queries\n- Session ID embeds agent ID for traceability\n\n**Redb agent registry** (`agents` table):\n- Key: `agent_id` (string)\n- Value: `AgentRecord` — `agent_id`, `display_name`, `identity_type`, `registered_at`, `permissions`, `last_seen`, `status`\n- Permissions: `ReadOnly` (Level 0), `ReadWrite { scopes }` (Level 0-1), `Admin` (all scopes)\n- Status: `Active`, `Suspended`, `Deregistered`\n\n\n#### Part 3: Knowledge Ownership\n\n- `KnowledgeEntry` extended with: `agent_id: Option<String>`, `session_id: Option<String>`, `status: EntryStatus`\n- `EntryStatus`: `Pending` (in staging) → `Committed` (in merge queue) → `Merged` (in main) or `Rejected`\n- For `McpClient` agents with `_meta`: `agent_id` = `\"{client_name}::{agent_hint}\"` (e.g., `\"crewai::financial-advisor\"`)\n- For `McpClient` without `_meta`: `agent_id` = `\"{client_name}\"` (e.g., `\"langgraph\"`)\n- Query \"my memory\": `agent_id == self AND status == Merged` for contributions, `status == Pending` for in-flight\n",
+  "source_version": "docs/rfcs/milestone-revision-notes.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464301356Z",
+  "valid_from": "2026-03-31T13:20:59.464301356Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/milestone-revision-notes.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 351,
+    "end_line": 375,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

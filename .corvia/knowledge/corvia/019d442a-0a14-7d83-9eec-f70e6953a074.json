@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f70e6953a074",
+  "content": "LIDE 3: THE ARCHITECTURE — mostly visual already -->\n<div class=\"slide\">\n  <div class=\"slide-label\">The Fix</div>\n  <div class=\"slide-title\" style=\"margin-bottom: 48px;\">\n    Split Them.<br>\n    <span class=\"highlight-green\">One GPU Each.</span>\n  </div>\n  <div style=\"display: flex; gap: 16px; align-items: stretch; margin-bottom: 32px;\">\n    <!-- Intel side -->\n    <div style=\"flex: 1; background: rgba(6, 182, 212, 0.06); border: 2px solid var(--accent-cyan); border-radius: 20px; padding: 32px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;\">\n      <div style=\"font-size: 56px; margin-bottom: 16px;\">&#128270;</div>\n      <div style=\"font-size: 14px; font-weight: 700; letter-spacing: 2px; color: var(--accent-cyan); margin-bottom: 12px;\">INTEL IRIS XE</div>\n      <div style=\"font-size: 26px; font-weight: 800; margin-bottom: 10px;\">Embeddings</div>\n      <div style=\"font-size: 15px; color: var(--text-secondary); line-height: 1.6;\">\n        ONNX Runtime<br>OpenVINO EP<br>\n        <span class=\"highlight-cyan\" style=\"font-weight: 600;\">nomic-embed-text-v1.5</span>\n      </div>\n    </div>\n    <!-- Arrow -->\n    <div style=\"display: flex; align-items: center; flex-direction: column; justify-content: center; gap: 8px; padding: 0 8px;\">\n      <div style=\"font-size: 14px; color: var(--text-muted); font-weight: 700; letter-spacing: 1px;\">gRPC</div>\n      <div style=\"font-size: 36px; color: var(--text-muted);\">&#8596;</div>\n    </div>\n    <!-- NVIDIA side -->\n    <div style=\"flex: 1; background: rgba(139, 92, 246, 0.06); border: 2px solid var(--accent-purple); border-radius: 20px; padding: 32px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;\">\n      <div style=\"font-size: 56px; margin-bottom: 16px;\">&#129504;</div>\n      <div style=\"font-size: 14px; font-weight: 700; letter-spacing: 2px; color: var(--accent-purple); margin-bottom: 12px;\">NVIDIA RTX 3060</div>\n      <div style=\"font-size: 26px; font-weight: 800; margin-bottom: 10px;\">LLM Chat</div>\n      <div style=\"font-size: 15px; color: var(--text-secondary); line-height: 1.6;\">\n        llama.cpp<br>CUDA &bull; full offload<br>\n        <span class=\"highlight-purple\" style=\"font-weight: 600;\">llama 3.2 3B Q4</span>",
+  "source_version": "marketing/linkedin/2026-03-13-dual-gpu-inference/dual-gpu-inference-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028427179Z",
+  "valid_from": "2026-03-31T13:51:39.028427179Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-13-dual-gpu-inference/dual-gpu-inference-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 267,
+    "end_line": 290,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

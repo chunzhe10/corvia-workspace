@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-9320862cdfae",
+  "content": "### Task 8: Traces endpoint handler\n\n### Task 9: Logs endpoint handler\n\n**Files:**\n- Modify: `crates/corvia-server/src/dashboard/mod.rs`\n\n-**Step 1: Add query params and logs handler**\n\nAdd the query params struct and handler in `mod.rs`:\n\n```rust\n/// Query params for /api/dashboard/logs\n#[derive(Debug, serde::Deserialize)]\npub struct LogsQuery {\n    /// Filter by service name (log file)\n    pub service: Option<String>,\n    /// Filter by module (agent, entry, merge, etc.)\n    pub module: Option<String>,\n    /// Filter by level (info, warn, error, debug)\n    pub level: Option<String>,\n    /// Max entries to return (default 100)\n    pub limit: Option<usize>,\n}\n\n/// GET /api/dashboard/logs\n/// Returns filtered structured log entries.\nasync fn logs_handler(\n    State(_state): State<Arc<AppState>>,\n    Query(params): Query<LogsQuery>,\n) -> Json<LogsResponse> {\n    let log_dir_path = traces::log_dir();\n    let limit = params.limit.unwrap_or(100);\n\n    let mut entries: Vec<LogEntry> = Vec::new();\n\n    if let Ok(dir_entries) = std::fs::read_dir(&log_dir_path) {\n        for entry in dir_entries.filter_map(|e| e.ok()) {\n            let path = entry.path();\n            if !path.extension().is_some_and(|ext| ext == \"log\") {\n                continue;\n            }\n\n            // Filter by service (file stem)\n            if let Some(ref svc) = params.service {\n                if let Some(stem) = path.file_stem().and_then(|s| s.to_str()) {\n                    if stem != svc.as_str() {\n                        continue;\n                    }\n                }\n            }\n\n            let lines = traces::tail_lines(&path, 500);\n            for line in &lines {\n                let parsed = match traces::parse_trace_line(line) {\n                    Some(p) => p,\n                    None => continue,\n                };\n\n                let (timestamp, level, module, message) = match parsed {\n                    traces::ParsedTrace::Span {\n                        timestamp, level, span_name, elapsed_ms,",
+  "source_version": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465984795Z",
+  "valid_from": "2026-03-31T13:20:59.465984795Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1332,
+    "end_line": 1391,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

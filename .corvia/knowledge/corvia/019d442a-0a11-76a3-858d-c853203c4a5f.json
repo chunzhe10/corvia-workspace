@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-c853203c4a5f",
+  "content": "## Impact\n## Risk\n\n## Implementation\n\nSingle change in `lite_store.rs` — when writing the JSON file, clone the entry\nand set `embedding = None`:\n\n```rust\n// In write_json_file():\nlet mut disk_entry = entry.clone();\ndisk_entry.embedding = None; // Don't persist embeddings to JSON\nserde_json::to_writer_pretty(&file, &disk_entry)?;\n```\n\n\n## Review Required\n\nThis change affects the data model's persistence contract. Needs 3-persona\ndeep review before implementation.",
+  "source_version": "decisions/2026-03-19-json-embedding-exclusion-design.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025229002Z",
+  "valid_from": "2026-03-31T13:51:39.025229002Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-19-json-embedding-exclusion-design.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 66,
+    "end_line": 81,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

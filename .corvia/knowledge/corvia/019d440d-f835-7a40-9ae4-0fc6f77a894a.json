@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f835-7a40-9ae4-0fc6f77a894a",
+  "content": " = b\n            .chars()\n            .take(30)\n            .map(|c| if c.is_alphanumeric() { c } else { '-' })\n            .collect();\n        format!(\"spoke-{slug}\")\n    } else {\n        format!(\"spoke-{}\", &uuid::Uuid::new_v4().to_string()[..8])\n    }\n}\nmod tests {\n    use super::*;\n\n    #[test]\n    fn test_host_path_resolution_exact_mount() {\n        let hub = HubContext {\n            container_name: \"test\".into(),\n            networks: HashMap::new(),\n            host_mounts: HashMap::from([\n                (\"/workspaces\".into(), \"/home/user/workspaces\".into()),\n            ]),\n        };\n        assert_eq!(\n            hub.host_path(\"/workspaces/corvia-workspace/AGENTS.md\"),\n            Some(\"/home/user/workspaces/corvia-workspace/AGENTS.md\".into())\n        );\n    }\n\n    #[test]\n    fn test_host_path_resolution_nested_mount_wins() {\n        let hub = HubContext {\n            container_name: \"test\".into(),\n            networks: HashMap::new(),\n            host_mounts: HashMap::from([\n                (\"/workspaces\".into(), \"/host/ws\".into()),\n                (\"/workspaces/corvia-workspace\".into(), \"/host/cw\".into()),\n            ]),\n        };\n        // More specific mount should win\n        assert_eq!(\n            hub.host_path(\"/workspaces/corvia-workspace/file.txt\"),\n            Some(\"/host/cw/file.txt\".into())\n        );\n    }\n\n    #[test]\n    fn test_host_path_resolution_no_match() {\n        let hub = HubContext {\n            container_name: \"test\".into(),\n            networks: HashMap::new(),\n            host_mounts: HashMap::from([(\"/data\".into(), \"/host/data\".into())]),\n        };\n        assert_eq!(hub.host_path(\"/workspaces/file.txt\"), None);\n    }\n\n    #[test]\n    fn test_host_path_or_err_returns_diagnostic() {\n        let hub = HubContext {\n            container_name: \"test\".into(),\n            networks: HashMap::new(),\n            host_mounts: HashMap::from([(\"/data\".into(), \"/host/data\".into())]),\n        };\n        let err = hub.host_path_or_err(\"/workspaces/file.txt\").unwrap_err();\n        let msg = format!(\"{err}\");",
+  "source_version": "crates/corvia-kernel/src/spoke.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.445338095Z",
+  "valid_from": "2026-03-31T13:20:59.445338095Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/spoke.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 861,
+    "end_line": 914,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f826-79c1-b85f-3389993b55f1",
+  "content": " // (EP verification may have changed it due to missing provider library).\n                let (actual_device, actual_backend) = if model_type == ModelType::Embedding {\n                    if let Some(real_backend) = self.embed_svc.get_backend(&req.name) {\n                        (real_backend.device.to_string(), real_backend.backend.to_string())\n                    } else {\n                        (actual_device, actual_backend)\n                    }\n                } else {\n                    (actual_device, actual_backend)\n                };\n\n                // Determine if fallback was used (actual != requested)\n                let requested_backend = req.backend.clone();\n                let fallback_used =\n                    actual_backend != requested_backend && requested_backend != \"auto\";\n\n                let mut models = self.models.write().await;\n                models.insert(\n                    req.name.clone(),\n                    ModelEntry {\n                        name: req.name,\n                        model_type: req.model_type,\n                        loaded: true,\n                        device: actual_device.clone(),\n                        backend: actual_backend.clone(),\n                        kv_quant: req.kv_quant,\n                        flash_attention: req.flash_attention,\n                        hf_repo: req.hf_repo,\n                        hf_filename: req.hf_filename,\n                    },\n                );\n                drop(models);\n\n                // Run canary + spawn probe loop on first embedding model load.\n                // Use a write lock for atomic check-and-transition to prevent\n                // concurrent LoadModel calls from spawning duplicate probe loops.\n                if model_type == ModelType::Embedding {\n                    let should_probe = {\n                        let mut state = self.probe_state.write().await;\n                        if state.status == crate::probe::ProbeStatus::Pending {\n                            // Claim the transition so no other caller can enter this branch.\n                            state.status = crate::probe::ProbeStatus::Failed;\n                            true",
+  "source_version": "crates/corvia-inference/src/model_manager.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.430052575Z",
+  "valid_from": "2026-03-31T13:20:59.430052575Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/src/model_manager.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 214,
+    "end_line": 253,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

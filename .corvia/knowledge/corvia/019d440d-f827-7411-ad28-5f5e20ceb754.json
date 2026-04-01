@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f827-7411-ad28-5f5e20ceb754",
+  "content": "esults: None,\n                        fusion_method: None,\n                        fusion_latency_ms: None,\n                        stages: None,\n                    },\n                    query_embedding: None,\n                });\n            }\n    None\n}\npub(crate) fn spawn_access_recording(store: Arc<dyn QueryableStore>, results: &[SearchResult]) {\n    if results.is_empty() {\n        return;\n    }\n    let entry_ids: Vec<uuid::Uuid> = results.iter().map(|sr| sr.entry.id).collect();\n    tokio::spawn(async move {\n        match store.record_access(&entry_ids).await {\n            Ok(()) => {}\n            Err(e) => warn!(error = %e, \"Access recording failed\"),\n        }\n    });\n}",
+  "source_version": "crates/corvia-kernel/src/retriever.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.431606890Z",
+  "valid_from": "2026-03-31T13:20:59.431606890Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/retriever.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 96,
+    "end_line": 107,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

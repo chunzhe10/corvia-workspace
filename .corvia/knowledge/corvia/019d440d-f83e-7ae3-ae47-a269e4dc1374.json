@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83e-7ae3-ae47-a269e4dc1374",
+  "content": "\n```\n\nExpected: Build succeeds, output in `dist/`\n\n-**Step 3: Commit**\n\n```bash\ncd /workspaces/corvia-workspace\ngit add tools/corvia-dashboard/src/styles/theme.css\ngit commit -m \"feat(dashboard-ui): add full component CSS (ported from extension)\"\n```\n\n---\n\n### Task 14: VS Code extension retrofit\n\n**Files:**\n- Modify: `.devcontainer/extensions/corvia-services/extension.js`\n\nThe current `extension.js` is ~1,477 lines. The retrofit keeps ~lines 1-111 (activation, panel lifecycle, status bar, command registration) and replaces the rest (the embedded HTML dashboard) with a thin iframe wrapper.\n\n-**Step 1: Read `extension.js` and identify boundaries**\n\nRead `.devcontainer/extensions/corvia-services/extension.js`.\n\n**Keep** (lines 1-111):\n- `activate()` function — panel creation, command registration, status bar setup\n- `deactivate()` function\n- Panel lifecycle (`createOrShow`, `onDidDispose`, `retainContextWhenHidden`)\n- Status bar item creation\n\n**Remove/replace**:\n- The `getDashboardHtml()` function (or equivalent content-generation function — everything after panel lifecycle)\n- The `pollStatus()` internals that shell-exec `corvia-dev status --json`\n\n-**Step 2: Replace `getDashboardHtml()` with iframe wrapper**\n\nDelete the entire HTML blob function body and replace with:\n\n```javascript\nfunction getWebviewContent() {\n  return `<!DOCTYPE html>\n<html>\n<head>\n  <style>\n    body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }\n    iframe { width: 100%; height: 100%; border: none; }\n  </style>\n</head>\n<body>\n  <iframe src=\"http://localhost:8021\" />\n</body>\n</html>`;\n}\n```\n",
+  "source_version": "docs/rfcs/2026-03-11-dashboard-ui-standalone.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.454459870Z",
+  "valid_from": "2026-03-31T13:20:59.454459870Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-dashboard-ui-standalone.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1960,
+    "end_line": 2001,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f9188faa3b51",
+  "content": "        <div style=\"font-size: 18px; color: var(--text-secondary); line-height: 1.4;\">Not in default repos. Manual downloads or alternate sources required.</div>\n      </div>\n    </div>\n  </div>\n  <!-- Connection lines -->\n  <div style=\"display: flex; justify-content: center; padding: 8px 0;\">\n    <div style=\"display: flex; gap: 60px;\">\n      <div style=\"width: 2px; height: 40px; background: linear-gradient(180deg, rgba(239,68,68,0.4), rgba(239,68,68,0.15));\"></div>\n      <div style=\"width: 2px; height: 40px; background: linear-gradient(180deg, rgba(239,68,68,0.4), rgba(239,68,68,0.15));\"></div>\n      <div style=\"width: 2px; height: 40px; background: linear-gradient(180deg, rgba(239,68,68,0.4), rgba(239,68,68,0.15));\"></div>\n    </div>\n  </div>\n\n  <!-- Foundation slab - taller -->\n  <div class=\"foundation\" style=\"padding: 28px 36px; margin-bottom: 28px;\">\n    <div style=\"font-size: 24px; font-weight: 800; color: var(--accent-red); letter-spacing: 2px; text-transform: uppercase;\">Wayland</div>\n    <div style=\"text-align: center;\">\n      <div style=\"font-size: 16px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 4px;\">Root causes</div>\n      <div style=\"font-size: 40px; color: rgba(239,68,68,0.3);\">⚡</div>\n    </div>\n    <div style=\"font-size: 24px; font-weight: 800; color: var(--accent-red); letter-spacing: 2px; text-transform: uppercase;\">Ubuntu 24.04</div>\n  </div>\n\n  <div style=\"font-size: 22px; color: var(--text-secondary); line-height: 1.5;\">\n    What should be \"install and go\" turned into a debugging session. Most issues traced back to the same root causes.\n  </div>\n\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">03 / 07</div>\n</div>\n\n<!-- Slide 4: CLAUDE STEPS IN + THE BIG ONE (merged) -->\n<div class=\"slide\">\n  <div class=\"slide-label\">Claude Steps In</div>\n  <div class=\"slide-title\">Every Fix. <span class=\"highlight-red\">One Mistake.</span></div>\n  <div class=\"slide-subtitle\" style=\"margin-bottom: 24px;\">Claude solved each issue. Then got the big one wrong.</div>",
+  "source_version": "marketing/linkedin/2026-03-14-resolve-linux-setup/resolve-linux-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028716132Z",
+  "valid_from": "2026-03-31T13:51:39.028716132Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-14-resolve-linux-setup/resolve-linux-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 438,
+    "end_line": 469,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

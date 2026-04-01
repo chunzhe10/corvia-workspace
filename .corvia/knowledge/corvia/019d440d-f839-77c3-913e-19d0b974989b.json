@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f839-77c3-913e-19d0b974989b",
+  "content": "def run_query(url: str, scope_id: str, query: str, limit: int = 10) -> dict:\n    \"\"\"Run a single context query against the server.\"\"\"\n    payload = json.dumps({\n        \"query\": query,\n        \"scope_id\": scope_id,\n        \"limit\": limit,\n        \"expand_graph\": True,\n    }).encode()\n\n    req = Request(\n        f\"{url}/v1/context\",\n        data=payload,\n        headers={\"Content-Type\": \"application/json\"},\n        method=\"POST\",\n    )\n\n    start = time.monotonic()\n    with urlopen(req, timeout=30) as resp:\n        data = json.loads(resp.read())\n    wall_ms = (time.monotonic() - start) * 1000\n\n    return {**data, \"_wall_ms\": wall_ms}",
+  "source_version": "benchmarks/rag-retrieval/eval.py",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.449583174Z",
+  "valid_from": "2026-03-31T13:20:59.449583174Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "benchmarks/rag-retrieval/eval.py",
+    "language": "py",
+    "chunk_type": "function_definition",
+    "start_line": 142,
+    "end_line": 163,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f821-7a21-8a96-44ccbf362b63",
+  "content": "ring>,\n    pub corvia_agent_id: Option<String>,\n    pub started_at: String,\n    pub last_activity: String,\n    pub duration_secs: u64,\n    pub turn_count: u32,\n    pub tool_calls: u32,\n    pub active_tool: Option<String>,\n    pub tools_used: Vec<String>,\n}\npub struct HookSessionUpdate {\n    pub session_id: String,\n    pub event_type: String,\n    pub session: Option<HookSession>,\n}",
+  "source_version": "crates/corvia-common/src/dashboard.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.425889912Z",
+  "valid_from": "2026-03-31T13:20:59.425889912Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/dashboard.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 317,
+    "end_line": 321,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

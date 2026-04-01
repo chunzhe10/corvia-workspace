@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f833-7c00-aaaa-abddf82b8de5",
+  "content": "),\n                start_line: section_start,\n                end_line,\n                metadata: ChunkMetadata {\n                    source_file: meta.file_path.clone(),\n                    language: meta.language.clone(),\n                    merge_group,\n                    ..Default::default()\n                },\n            });\n        }\n\n        let relations = Self::extract_references(source, &chunks, meta);\n        Ok(ChunkResult { chunks, relations })\n    }\n\n    fn overlap_context(&self, prev: &RawChunk, _next: &RawChunk) -> Option<String> {\n        // Extract heading lines from the previous chunk to provide\n        // structural context for the next chunk.\n        let heading_lines: Vec<&str> = prev\n            .content\n            .lines()\n            .filter(|line| Self::heading_depth(line).is_some())\n            .collect();\n\n        if heading_lines.is_empty() {\n            return None;\n        }\n\n        // Join heading lines with newline, plus a trailing newline.\n        let mut context = heading_lines.join(\"\\n\");\n        context.push('\\n');\n        Some(context)\n    }\n\n    fn merge_small(&self, chunks: &[RawChunk], max_tokens: usize) -> Option<Vec<RawChunk>> {\n        if chunks.len() < 2 {\n            return None;\n        }\n\n        // Simple chars/4 token estimation (matches CharDivFourEstimator).\n        fn estimate(text: &str) -> usize {\n            if text.is_empty() { 0 } else { (text.len() / 4).max(1) }\n        }\n\n        let mut result: Vec<RawChunk> = Vec::new();\n        let mut merged_any = false;",
+  "source_version": "crates/corvia-kernel/src/chunking_markdown.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.443682564Z",
+  "valid_from": "2026-03-31T13:20:59.443682564Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_markdown.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 300,
+    "end_line": 339,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

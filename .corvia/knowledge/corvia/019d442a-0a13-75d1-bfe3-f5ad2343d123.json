@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a13-75d1-bfe3-f5ad2343d123",
+  "content": "### Task 5: Build Slide 4 (Claude Steps In)\n\n        <div style=\"position: absolute; bottom: 30%; right: 20%; width: 30px; height: 2px; background: rgba(16,185,129,0.4); transform: rotate(-30deg);\"></div>\n      </div>\n      <div class=\"chat-bubble claude\">Read the error</div>\n    </div>\n\n    <!-- Arrow -->\n    <div style=\"display: flex; align-items: center; font-size: 28px; color: var(--text-muted);\">→</div>\n\n    <!-- Wall 2: large cracks -->\n    <div style=\"flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 12px;\">\n      <div class=\"brick-wall\" style=\"position: relative; flex: 1; display: flex; align-items: center; justify-content: center; min-height: 200px; opacity: 0.7;\">\n        <div style=\"font-size: 40px; opacity: 0.4;\">🧱</div>\n        <!-- Cracks -->\n        <div style=\"position: absolute; top: 20%; left: 15%; width: 50px; height: 2px; background: rgba(16,185,129,0.5); transform: rotate(15deg);\"></div>\n        <div style=\"position: absolute; bottom: 25%; right: 10%; width: 40px; height: 2px; background: rgba(16,185,129,0.5); transform: rotate(-20deg);\"></div>\n        <div style=\"position: absolute; top: 50%; left: 40%; width: 60px; height: 2px; background: rgba(16,185,129,0.5); transform: rotate(5deg);\"></div>\n      </div>\n      <div class=\"chat-bubble claude\">Searched known issues</div>\n    </div>\n",
+  "source_version": "marketing/2026-03-14-resolve-linux-carousel.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.027498798Z",
+  "valid_from": "2026-03-31T13:51:39.027498798Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/2026-03-14-resolve-linux-carousel.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 473,
+    "end_line": 492,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

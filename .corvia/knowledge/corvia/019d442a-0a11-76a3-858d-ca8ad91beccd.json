@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-ca8ad91beccd",
+  "content": "## Research Spike: COMPLETED (2026-03-28)\n## Identity Mechanism Verification (TODO)\n\n### Test 1: Late-joining teammate\n- Create team with 1 teammate\n- Let it work for a bit\n- Spawn a 2nd teammate mid-session\n- Verify: config.json updated, new member in subagents/, TeammateIdle fires for new member\n\n\n### Test 2: Teammate spawns subagents\n- Create team with 1 teammate\n- Teammate spawns a subagent for research\n- Verify: subagent transcript nested under teammate's transcript (or lead's?)\n- Verify: graph chain team -> teammate -> subagent is reconstructable\n",
+  "source_version": "decisions/2026-03-28-adapter-agent-teams-brainstorm.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025462452Z",
+  "valid_from": "2026-03-31T13:51:39.025462452Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-adapter-agent-teams-brainstorm.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 327,
+    "end_line": 338,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

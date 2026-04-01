@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-faa5fa86439e",
+  "content": "nal .prompt { color: var(--accent-green); }\n  .terminal .cmd { color: var(--text-primary); }\n  .terminal .output { color: var(--text-secondary); }\n  .terminal .highlight-val { color: var(--accent-amber); }\n  .terminal .comment { color: var(--text-muted); }\n  .stat-box {\n    background: var(--bg-card); border: 1px solid var(--border);\n    border-radius: 16px; padding: 28px; text-align: center;\n  }\n  .insight-box {\n    background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25);\n    border-radius: 16px; padding: 24px 28px; margin: 16px 0;\n  }\n  .insight-box p { font-size: 18px; font-weight: 500; color: var(--accent-green); line-height: 1.5; }\n  .warning-box {\n    background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.25);\n    border-radius: 16px; padding: 24px 28px; margin: 16px 0;\n  }\n  .warning-box p { font-size: 18px; font-weight: 500; color: var(--accent-amber); line-height: 1.5; }\n\n  .corvia-wm {\n    font-family: 'Poppins', sans-serif;\n    font-weight: 700;\n    color: #E8C44E;\n    letter-spacing: -1px;\n  }\n\n  .divider { height: 1px; background: var(--border); margin: 28px 0; }\n  .flex-grow { flex: 1; }\n  .cover-center { flex: 1; display: flex; flex-direction: column; justify-content: center; }\n  .cover-tags { margin-top: 40px; display: flex; flex-wrap: wrap; gap: 12px; }\n  .cover-tags .tag {\n    display: inline-block; padding: 10px 20px; border-radius: 20px;\n    font-size: 16px; font-weight: 600;\n    background: rgba(59, 130, 246, 0.15); color: var(--accent-blue);\n  }\n\n  /* Bar chart */\n  .bar-row {\n    display: flex; align-items: center; gap: 16px; margin-bottom: 16px;\n  }\n  .bar-label {\n    width: 180px; font-size: 17px; font-weight: 700; text-align: right;\n    flex-shrink: 0;\n  }\n  .bar-track {\n    flex: 1; height: 44px; background: var(--bg-card); border-radius: 10px;\n    position: relative; overflow: hidden;\n  }\n  .bar-fill {\n    height: 100%; border-radius: 10px;\n    display: flex; align-items: center; justify-content: flex-end;\n    padding-right: 16px; font-size: 16px; font-weight: 800;\n    transition: width 0.3s ease;\n  }\n  .bar-value {\n    font-size: 17px; font-weight: 800; min-width: 80px; text-align: left;\n    margin-left: 12px; flex-shrink: 0;\n  }\n</style>\n</head>\n<body>",
+  "source_version": "marketing/linkedin/2026-03-16-embedding-benchmark/embedding-benchmark-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028934684Z",
+  "valid_from": "2026-03-31T13:51:39.028934684Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-16-embedding-benchmark/embedding-benchmark-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 110,
+    "end_line": 166,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f823-7d80-90e7-2d2a502f18ee",
+  "content": "ingConfig::default();\n        assert!(!cfg.enabled);\n        assert_eq!(cfg.interval_minutes, 60);\n        assert_eq!(cfg.defaults.max_inactive_days, 90);\n        assert_eq!(cfg.defaults.budget_top_n, 10_000);\n        assert!(cfg.by_type.is_empty());\n    }\nfn test_forgetting_global_defaults_apply() {\n        let cfg = ForgettingConfig {\n            enabled: true,\n            ..ForgettingConfig::default()\n        };\n        let resolved = cfg.resolve_policy(MemoryType::Episodic, None);\n        assert!(resolved.enabled);\n        assert_eq!(resolved.max_inactive_days, 90);\n        assert_eq!(resolved.budget_top_n, 10_000);\n    }",
+  "source_version": "crates/corvia-common/src/config.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.427231869Z",
+  "valid_from": "2026-03-31T13:20:59.427231869Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/config.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1791,
+    "end_line": 1800,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

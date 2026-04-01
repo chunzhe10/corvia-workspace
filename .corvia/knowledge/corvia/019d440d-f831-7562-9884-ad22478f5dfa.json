@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f831-7562-9884-ad22478f5dfa",
+  "content": "retriever::visibility_filter)\n        let filtered: Vec<SearchResult> = results\n            .into_iter()\n            .filter(|r| visibility_filter(&r.entry, visibility, agent_id))\n            .take(limit)\n            .collect();\n\n        Ok(filtered)\n    }\nmod tests {\n    use super::*;\n    use crate::lite_store::LiteStore;\n    use corvia_common::types::KnowledgeEntry;\n\n    struct MockEngine;\n    #[async_trait::async_trait]\n    impl crate::traits::InferenceEngine for MockEngine {\n        async fn embed(&self, _text: &str) -> corvia_common::errors::Result<Vec<f32>> {\n            Ok(vec![1.0, 0.0, 0.0])\n        }\n        async fn embed_batch(&self, texts: &[String]) -> corvia_common::errors::Result<Vec<Vec<f32>>> {\n            Ok(texts.iter().map(|_| vec![1.0, 0.0, 0.0]).collect())\n        }\n        fn dimensions(&self) -> usize { 3 }\n    }\n\n    async fn setup_with_entries(dir: &std::path::Path) -> (ContextBuilder, Arc<dyn QueryableStore>) {\n        let store = Arc::new(LiteStore::open(dir, 3).unwrap()) as Arc<dyn QueryableStore>;\n        let engine = Arc::new(MockEngine) as Arc<dyn InferenceEngine>;\n        store.init_schema().await.unwrap();\n\n        // Use very similar but non-identical embeddings — HNSW needs distance variation\n        // to build a well-connected graph. Identical vectors cause degenerate structure.\n        // All are close to query [1,0,0] (cosine ~0.999+), ensuring HNSW returns them.\n        let mut idx = 0_usize;\n        let mut next_emb = || {\n            idx += 1;\n            let offset = idx as f32 * 0.1;\n            vec![1.0, offset, 0.0]\n        };\n\n        // Insert 2 Merged entries\n        let mut m1 = KnowledgeEntry::new(\"merged one\".into(), \"scope-a\".into(), \"v1\".into())\n            .with_embedding(next_emb());\n        m1.entry_status = EntryStatus::Merged;\n        store.insert(&m1).await.unwrap();\n\n        let mut m2 = KnowledgeEntry::new(\"merged two\".into(), \"scope-a\".into(), \"v1\".into())\n            .with_embedding(next_emb());\n        m2.entry_status = EntryStatus::Merged;\n        store.insert(&m2).await.unwrap();\n\n        // Insert 1 Pending by agent-A\n        let p_a = KnowledgeEntry::new(\"pending by A\".into(), \"scope-a\".into(), \"v1\".into())",
+  "source_version": "crates/corvia-kernel/src/context_builder.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.441711099Z",
+  "valid_from": "2026-03-31T13:20:59.441711099Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/context_builder.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 77,
+    "end_line": 121,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

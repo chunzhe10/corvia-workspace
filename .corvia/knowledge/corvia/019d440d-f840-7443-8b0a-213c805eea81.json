@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-213c805eea81",
+  "content": "## 9. Performance Considerations\n\n### HNSW Index Impact\n\nLiteStore uses a **single global HNSW index** across all scopes. Scope filtering\nis a post-filter. A large `user-history` scope degrades search in `corvia` scope\nbecause the HNSW returns personal history candidates that are then discarded.\n\n**Mitigations built into this design:**\n\n| Mitigation | Effect |\n|---|---|\n| Turn-level chunking (not per-event) | ~7× fewer entries than naive per-event recording |\n| Skip low-signal events | Omit health pings, internal hooks, duplicate reads |\n| TTL via `valid_to` (future) | Expired entries excluded from search results |\n| `corvia rebuild` after `delete_scope` | Compacts HNSW, restores search performance |\n\n**Volume estimates (turn-level, heavy daily use):**\n\n| Period | Entries |\n|---|---|\n| 1 week | ~140 |\n| 1 month | ~600 |\n| 6 months (TTL window) | ~3,600 |\n| Steady-state (TTL enforced) | ≤ 3,600 |\n\nFor comparison, the corvia codebase itself ≈ 1,500–2,000 entries.\nAt steady state with TTL, `user-history` is ~2× the product scope — manageable.\n\n\n### Per-Scope HNSW (Future Work)\n\nA per-scope HNSW would eliminate cross-scope pollution entirely. Not in scope\nfor this feature but noted as the permanent fix.\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-14-claude-session-history-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456952595Z",
+  "valid_from": "2026-03-31T13:20:59.456952595Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-14-claude-session-history-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 524,
+    "end_line": 557,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

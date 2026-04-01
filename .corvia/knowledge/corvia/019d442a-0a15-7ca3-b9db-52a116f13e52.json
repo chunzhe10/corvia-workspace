@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a15-7ca3-b9db-52a116f13e52",
+  "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>Dev Loop Exploration - LinkedIn Carousel</title>\n<style>\n  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');\n\n  :root {\n    --bg-dark: #0f172a;\n    --bg-card: #1e293b;\n    --bg-card-alt: #334155;\n    --accent-blue: #3b82f6;\n    --accent-cyan: #06b6d4;\n    --accent-green: #10b981;\n    --accent-amber: #f59e0b;\n    --accent-red: #ef4444;\n    --accent-purple: #8b5cf6;\n    --text-primary: #f1f5f9;\n    --text-secondary: #94a3b8;\n    --text-muted: #64748b;\n    --border: #334155;\n  }\n\n  * { margin: 0; padding: 0; box-sizing: border-box; }\n\n  body {\n    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;\n    background: #000;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    gap: 40px;\n    padding: 40px;\n  }\n\n  .slide {\n    width: 1080px;\n    height: 1350px;\n    background: var(--bg-dark);\n    color: var(--text-primary);\n    padding: 72px;\n    display: flex;\n    flex-direction: column;\n    position: relative;\n    overflow: hidden;\n    page-break-after: always;\n  }\n\n  @page { size: 1080px 1350px; margin: 0; }\n  @media print {\n    body { padding: 0; gap: 0; background: none; }\n    .slide { break-after: page; }\n  }\n\n  .slide::before {\n    content: '';\n    position: absolute;\n    top: -200px; right: -200px;\n    width: 500px; height: 500px;\n    background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%);\n    border-radius: 50%;\n    pointer-events: none;\n  }",
+  "source_version": "marketing/linkedin/2026-03-28-dev-loop-exploration/dev-loop-exploration-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.029431389Z",
+  "valid_from": "2026-03-31T13:51:39.029431389Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-28-dev-loop-exploration/dev-loop-exploration-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 1,
+    "end_line": 65,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

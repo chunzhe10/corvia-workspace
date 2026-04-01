@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81c-7712-b515-4b7639bb4e06",
+  "content": " names.contains(&\"helper\"),\n            \"Expected call to 'helper' inside method body, got: {:?}\",\n            names\n        );\n    }\n\n    #[test]\n    fn test_js_call_in_arrow_function() {\n        let source = r#\"\nconst handler = () => {\n    processData();\n    return true;\n};\n\"#;\n        let result = chunk_file_with_relations(\"app.js\", source, \"js\");\n        let calls: Vec<&CodeRelation> = result\n            .relations\n            .iter()\n            .filter(|r| r.relation == \"calls\")\n            .collect();\n        let names: Vec<&str> = calls.iter().filter_map(|r| r.to_name.as_deref()).collect();\n        assert!(\n            names.contains(&\"processData\"),\n            \"Expected call to 'processData' in arrow function, got: {:?}\",\n            names\n        );\n    }\n\n    #[test]\n    fn test_js_deny_listed_calls_skipped() {\n        let source = r#\"\nfunction doStuff() {\n    console.log(\"hello\");\n    arr.map(x => x + 1);\n    promise.then(r => r);\n    arr.push(1);\n    JSON.stringify({});\n    return true;\n}\n\"#;\n        let result = chunk_file_with_relations(\"app.js\", source, \"js\");\n        let calls: Vec<&CodeRelation> = result\n            .relations\n            .iter()\n            .filter(|r| r.relation == \"calls\")\n            .collect();\n        for call in &calls {\n            let name = call.to_name.as_deref().unwrap_or(\"\");\n            assert!(",
+  "source_version": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.420264084Z",
+  "valid_from": "2026-03-31T13:20:59.420264084Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 1984,
+    "end_line": 2021,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

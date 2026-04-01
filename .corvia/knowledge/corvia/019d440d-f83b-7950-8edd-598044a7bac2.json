@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-598044a7bac2",
+  "content": "## Task 8: Context Builder + Visibility\n\n### Step 1: Write failing tests\n\n```rust\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    #[tokio::test]\n    async fn test_own_visibility_includes_agent_pending() {\n        // Store: 2 Merged entries, 1 Pending entry by agent-A, 1 Pending by agent-B\n        // Search with VisibilityMode::Own for agent-A\n        // Assert: returns Merged + agent-A's Pending, NOT agent-B's Pending\n    }\n\n    #[tokio::test]\n    async fn test_all_visibility_includes_all_pending() {\n        // Same setup\n        // Search with VisibilityMode::All\n        // Assert: returns Merged + all Pending entries\n    }\n\n    #[tokio::test]\n    async fn test_explicit_visibility() {\n        // Search with VisibilityMode::Explicit(vec![\"agent-A\"])\n        // Assert: returns Merged + agent-A's Pending only\n    }\n\n    #[tokio::test]\n    async fn test_rbac_scope_filtering() {\n        // Agent with ReadWrite { scopes: [\"project-a\"] }\n        // Entries in project-a and project-b\n        // Assert: only project-a entries returned\n    }\n}\n```\n\n\n### Step 2: Implement ContextBuilder\n\n```rust\npub struct ContextBuilder {\n    store: Arc<dyn QueryableStore>,\n    engine: Arc<dyn InferenceEngine>,\n}\n```\n\nKey method:\n```rust\npub async fn search(\n    &self,\n    query: &str,\n    scope_id: &str,\n    limit: usize,\n    visibility: &VisibilityMode,\n    agent_id: Option<&str>,\n    permissions: Option<&AgentPermission>,\n) -> Result<Vec<SearchResult>>\n```\n\nThe search method:\n1. Embeds the query\n2. Calls `store.search()` with a higher limit (2x) to allow for post-filtering\n3. Post-filters results based on visibility mode and entry_status:\n   - `Merged` entries always included\n   - `Pending` entries filtered by visibility + agent_id\n4. Post-filters by RBAC permissions (scope access)\n5. Returns up to `limit` results\n",
+  "source_version": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451923920Z",
+  "valid_from": "2026-03-31T13:20:59.451923920Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1425,
+    "end_line": 1491,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

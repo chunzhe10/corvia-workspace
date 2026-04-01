@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-49316d2e69f5",
+  "content": "## Section 2: Enhanced GcReport\n\n### Problem\n\n`GcReport` only has `orphans_rolled_back: usize`. The GC Operations Dashboard needs\nricher data to show what happened during a GC run.\n\n\n### Solution\n\nExpand `GcReport` in `corvia-common` and populate from `coordinator.gc()`.\n\n```rust\npub struct GcReport {\n    pub orphans_rolled_back: usize,       // existing\n    pub duration_ms: u64,                 // wall-clock time of GC run\n    pub stale_transitioned: usize,        // sessions moved Active→Stale\n    pub closed_sessions_cleaned: usize,   // Closed sessions with staging dirs removed\n    pub agents_suspended: usize,          // agents auto-suspended (no activity)\n    pub entries_deduplicated: usize,      // duplicate entries merged\n    pub started_at: String,               // ISO 8601 timestamp\n}\n```\n\n**Field population:**\n- `duration_ms` — `Instant::now()` before/after in `ops::gc_run()`\n- `stale_transitioned` — count from `SessionManager` timeout sweep\n- `closed_sessions_cleaned` — staging dirs removed for Closed sessions\n- `agents_suspended` — count from agent coordinator inactivity check\n- `entries_deduplicated` — placeholder (0) for future dedup pass\n- `started_at` — `Utc::now().to_rfc3339()` at GC start\n",
+  "source_version": "docs/rfcs/2026-03-13-dashboard-completion-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460203135Z",
+  "valid_from": "2026-03-31T13:20:59.460203135Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-13-dashboard-completion-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 90,
+    "end_line": 118,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

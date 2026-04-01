@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-50be3bc6f6da",
+  "content": "### Task 7: ModelManager — pass kv_quant/flash_attention through gRPC\n\n                loaded: m.loaded,\n                memory_bytes: 0,\n                device: m.device.clone(),\n                backend: m.backend.clone(),\n                kv_quant: m.kv_quant.clone(),\n                flash_attention: m.flash_attention,\n            })\n```\n\n-**Step 4: Update load_model to resolve and pass kv_quant**\n\nIn `load_model`, after the backend resolution block (after line 109), add:\n\n```rust\n        // Resolve KV quant\n        let kv_cache_type = match resolve_kv_quant(&req.kv_quant) {\n            Ok(t) => t,\n            Err(e) => {\n                return Ok(Response::new(LoadModelResponse {\n                    success: false,\n                    error: e,\n                    actual_device: String::new(),\n                    actual_backend: String::new(),\n                }));\n            }\n        };\n\n        // Log if KV quant set on embedding model (ignored by ONNX)\n        if model_type == ModelType::Embedding && kv_cache_type != KvCacheType::F16 {\n            tracing::debug!(model = %req.name, kv_quant = %req.kv_quant, \"KV quant ignored for embedding model\");\n        }\n```\n\nUpdate the delegate call (around lines 125-128) to pass KV settings to chat models:\n\n```rust\n        let result = match model_type {\n            ModelType::Embedding => self.embed_svc.load_model(&req.name, resolved).await,\n            ModelType::Chat => self.chat_svc.load_model(&req.name, resolved, kv_cache_type, req.flash_attention).await,\n        };\n```\n",
+  "source_version": "docs/rfcs/2026-03-12-inference-kv-cache-config.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460964378Z",
+  "valid_from": "2026-03-31T13:20:59.460964378Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-12-inference-kv-cache-config.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 811,
+    "end_line": 852,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

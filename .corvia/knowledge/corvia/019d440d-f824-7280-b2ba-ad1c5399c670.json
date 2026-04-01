@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f824-7280-b2ba-ad1c5399c670",
+  "content": "poch_secs(ts_str)\n    {\n        let now_secs = std::time::SystemTime::now()\n            .duration_since(std::time::UNIX_EPOCH)\n            .unwrap_or_default()\n            .as_secs();\n        return now_secs.saturating_sub(start_secs) * 1000;\n    }\n    0\n}\nfn parse_iso_epoch_secs(ts: &str) -> Option<u64> {\n    chrono::DateTime::parse_from_rfc3339(ts)\n        .ok()\n        .or_else(|| {\n            // Handle our format: \"2026-03-25T10:00:00.123456789Z\"\n            chrono::NaiveDateTime::parse_from_str(\n                ts.trim_end_matches('Z'),\n                \"%Y-%m-%dT%H:%M:%S%.f\"\n            ).ok().map(|dt| dt.and_utc().fixed_offset())\n        })\n        .map(|dt| dt.timestamp() as u64)\n}",
+  "source_version": "crates/corvia-cli/src/hooks/session.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.428790098Z",
+  "valid_from": "2026-03-31T13:20:59.428790098Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/session.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 337,
+    "end_line": 348,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82b-7733-b219-ac335e6cc109",
+  "content": "pub fn find_by_name<'a>(discovered: &'a [DiscoveredAdapter], name: &str) -> Option<&'a DiscoveredAdapter> {\n    discovered.iter().find(|a| a.metadata.name == name)\n}\npub fn format_adapter_list(adapters: &[DiscoveredAdapter]) -> String {\n    if adapters.is_empty() {\n        return \"No adapters found.\\n\\\n                Install adapters to ~/.config/corvia/adapters/ or ensure they are on PATH.\\n\\\n                Adapter binaries must be named corvia-adapter-<name>.\".to_string();\n    }\n    let mut out = String::new();\n    for a in adapters {\n        out.push_str(&format!(\n            \"  {:<12} v{:<8} {:<44} {}\\n\",\n            a.metadata.name,\n            a.metadata.version,\n            a.metadata.description,\n            a.binary_path.display(),\n        ));\n    }\n    out\n}",
+  "source_version": "crates/corvia-kernel/src/adapter_discovery.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.435809071Z",
+  "valid_from": "2026-03-31T13:20:59.435809071Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/adapter_discovery.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 104,
+    "end_line": 121,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

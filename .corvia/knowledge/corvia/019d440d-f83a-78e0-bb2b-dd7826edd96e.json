@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83a-78e0-bb2b-dd7826edd96e",
+  "content": "!(\"Storage failed: {e}\")))?;\n\n    Ok(Json(WriteResponse { id, embedded: true }))\n}\n\nasync fn search_memories(\n    State(state): State<Arc<AppState>>,\n    Json(req): Json<SearchRequest>,\n) -> std::result::Result<Json<SearchResponse>, (StatusCode, String)> {\n    let limit = req.limit.unwrap_or(10);\n\n    // Embed the query\n    let query_embedding = state.engine.embed(&req.query).await\n        .map_err(|e| (StatusCode::INTERNAL_SERVER_ERROR, format!(\"Embedding failed: {e}\")))?;\n\n    // Search\n    let results = state.store.search(&query_embedding, &req.scope_id, limit).await\n        .map_err(|e| (StatusCode::INTERNAL_SERVER_ERROR, format!(\"Search failed: {e}\")))?;\n\n    let count = results.len();\n    let results: Vec<SearchResultDto> = results.into_iter().map(Into::into).collect();\n\n    Ok(Json(SearchResponse { results, count }))\n}\n```\n\n**Step 2: Update lib.rs**\n\n`crates/corvia-server/src/lib.rs`:\n```rust\npub mod rest;\n```\n\n**Step 3: Verify it compiles**\n\nRun: `cargo check -p corvia-server`\nExpected: Compiles\n\n**Step 4: Commit**\n\n```bash\ngit add crates/corvia-server/\ngit commit -m \"feat(server): REST API with /v1/memories/write and /v1/memories/search\n\nAxum routes. Write embeds content via InferenceEngine then stores.\nSearch embeds query then performs vector similarity search.\n/health endpoint for liveness checks.\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-02-28-m1-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.450944230Z",
+  "valid_from": "2026-03-31T13:20:59.450944230Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-m1-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1815,
+    "end_line": 1856,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f822-7391-83ed-352f13ea6b18",
+  "content": "       otlp_protocol: default_telemetry_otlp_protocol(),\n            service_name: default_telemetry_service_name(),\n            log_format: default_telemetry_log_format(),\n            metrics_enabled: default_telemetry_metrics_enabled(),\n        }\n    }\n}\nfn default() -> Self {\n        Self {\n            exporter: default_telemetry_exporter(),\n            otlp_endpoint: String::new(),\n            otlp_protocol: default_telemetry_otlp_protocol(),\n            service_name: default_telemetry_service_name(),\n            log_format: default_telemetry_log_format(),\n            metrics_enabled: default_telemetry_metrics_enabled(),\n        }\n    }",
+  "source_version": "crates/corvia-common/src/config.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.426477055Z",
+  "valid_from": "2026-03-31T13:20:59.426477055Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/config.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 755,
+    "end_line": 764,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f838-7ec1-a413-ab789f49c60e",
+  "content": "y::new(\"a\".into(), \"scope-a\".into(), \"v1\".into())\n            .with_embedding(vec![0.1]);\n        let e2 = KnowledgeEntry::new(\"b\".into(), \"scope-b\".into(), \"v1\".into())\n            .with_embedding(vec![0.2]);\n        write_entry(dir.path(), &e1).unwrap();\n        write_entry(dir.path(), &e2).unwrap();\n        let all = read_all(dir.path()).unwrap();\n        assert_eq!(all.len(), 2);\n    }\n\n    #[test]\n    fn test_delete_entry() {\n        let dir = tempfile::tempdir().unwrap();\n        let entry = KnowledgeEntry::new(\"test\".into(), \"scope\".into(), \"v1\".into());\n        write_entry(dir.path(), &entry).unwrap();\n        delete_entry(dir.path(), \"scope\", &entry.id).unwrap();\n        assert!(read_entry(dir.path(), \"scope\", &entry.id).is_err());\n    }\n\n    #[test]\n    fn test_delete_scope() {\n        let dir = tempfile::tempdir().unwrap();\n        for i in 0..3 {\n            let entry = KnowledgeEntry::new(\n                format!(\"entry {i}\"),\n                \"doomed\".into(),\n                \"v1\".into(),\n            );\n            write_entry(dir.path(), &entry).unwrap();\n        }\n        delete_scope_files(dir.path(), \"doomed\").unwrap();\n        let entries = read_scope(dir.path(), \"doomed\").unwrap();\n        assert!(entries.is_empty());\n    }\n\n    #[test]\n    fn test_scope_id_path_traversal_rejected() {\n        let dir = tempfile::tempdir().unwrap();\n\n        let bad_ids = [\"../etc\", \"foo/bar\", \"scope\\\\sub\", \"..\", \"\"];\n        for bad_id in bad_ids {\n            let entry = KnowledgeEntry::new(\"test\".into(), bad_id.into(), \"v1\".into());\n            let result = write_entry(dir.path(), &entry);\n            assert!(result.is_err(), \"should reject scope_id={bad_id:?}\");\n        }\n    }\n\n    #[test]\n    fn test_scope_id_valid_names_accepted() {\n        let dir = tempfile::tempdir().unwrap();\n\n        let good_ids = [\"my-scope\", \"scope_v2\", \"org:team:project\", \"scope.name\"];\n        for good_id in good_ids {\n            let entry = KnowledgeEntry::new(\"test\".into(), good_id.into(), \"v1\".into());\n            assert!(write_entry(dir.path(), &entry).is_ok(), \"should accept scope_id={good_id:?}\");\n        }\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/knowledge_files.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.448066396Z",
+  "valid_from": "2026-03-31T13:20:59.448066396Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/knowledge_files.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 211,
+    "end_line": 263,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

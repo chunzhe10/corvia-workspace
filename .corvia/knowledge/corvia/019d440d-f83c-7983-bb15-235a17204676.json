@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-235a17204676",
+  "content": "### Task 16: MCP + REST endpoints for temporal/graph\n### Task 17: Integration tests + self-dogfooding\n\n## Summary\n\n| Group | Tasks | Focus |\n|-------|-------|-------|\n| A | 1-4 | Temporal Store (traits, LiteStore, SurrealStore) |\n| B | 5-8 | Graph Store (petgraph, LiteStore, SurrealStore) |\n| C | 9-10 | Adapter relation extraction + ingestion wiring |\n| D | 11-13 | Reasoner (algorithmic + LLM opt-in) + CLI |\n| E | 14-17 | Upgrade, rebuild, MCP/REST, integration tests |\n\n**Total: 17 tasks, ~3,000 LOC estimated.**\n\nDependencies: A and B are independent (can parallelize). C depends on B. D depends on A+B. E depends on all.",
+  "source_version": "docs/rfcs/2026-03-02-m3-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452731376Z",
+  "valid_from": "2026-03-31T13:20:59.452731376Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1079,
+    "end_line": 1091,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

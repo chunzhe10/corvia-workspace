@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f821-7a21-8a96-3c32629b18aa",
+  "content": "//! HTTP server for the Corvia knowledge system.\n//!\n//! `corvia-server` exposes the kernel's capabilities over two protocols:\n//!\n//! - **REST** ([`rest`]) — Axum-based HTTP API on port `8020` with endpoints for\n//!   knowledge ingestion, semantic search, graph queries, temporal history,\n//!   reasoning, and agent coordination.\n//! - **MCP** ([`mcp`]) — JSON-RPC 2.0 Model Context Protocol via Streamable HTTP\n//!   transport (POST/GET/DELETE `/mcp`), providing tool-use access for AI agents.\n//!\n//! Both protocol handlers share a common `AppState` that holds trait objects\n//! ([`QueryableStore`](corvia_kernel::traits::QueryableStore),\n//! [`GraphStore`](corvia_kernel::traits::GraphStore), etc.), so the server\n//! works identically with either storage tier.\n//!\n//! This crate is typically started via `corvia serve` rather than used as a\n//! library directly. See the [README](https://github.com/corvia/corvia) and\n//! [ARCHITECTURE.md](https://github.com/corvia/corvia/blob/master/ARCHITECTURE.md)\n//! for details.\n\npub mod rest;\npub mod mcp;\npub mod dashboard;\n",
+  "source_version": "crates/corvia-server/src/lib.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.425050826Z",
+  "valid_from": "2026-03-31T13:20:59.425050826Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/lib.rs",
+    "language": "rs",
+    "chunk_type": "file",
+    "start_line": 1,
+    "end_line": 23,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

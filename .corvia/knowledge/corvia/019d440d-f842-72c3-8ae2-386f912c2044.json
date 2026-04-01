@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-386f912c2044",
+  "content": "## Task 14: Fill in candle chat implementation\n\n## Summary: Dependency Order\n\n```\nTask 1: corvia-proto crate ─────────────────────────────────────┐\nTask 2: ChatEngine trait ────────────────────────┐              │\nTask 3: Config changes ─────────────────────────┐│              │\nTask 4: Refactor MergeWorker ◄──────────────────┘│              │\nTask 5: GrpcInferenceEngine ◄───────────────────────────────────┤\nTask 6: GrpcChatEngine ◄───────────────────────────────────────┤\nTask 7: InferenceProvisioner ◄──────────────────────────────────┤\nTask 8: Scaffold corvia-inference ◄─────────────────────────────┤\nTask 9: EmbeddingService (fastembed) ◄──────── Task 8          │\nTask 10: ChatService scaffold ◄─────────────── Task 8          │\nTask 11: CLI wiring ◄──── Tasks 3,4,5,6,7                     │\nTask 12: Integration tests ◄── Tasks 5,6,8,9                  │\nTask 13: GrpcVllmEngine ◄─────────────────────────────────────┘\nTask 14: Candle chat impl ◄── Task 10\n```\n\nTasks 1-4 are foundation (must be sequential).\nTasks 5-7 can be parallelized after Task 1.\nTasks 8-10 can be parallelized after Task 1.\nTask 11 depends on Tasks 3-7.\nTask 12 depends on Tasks 5,6,8,9.\nTask 13 can be done anytime after Task 1.\nTask 14 can be done anytime after Task 10.",
+  "source_version": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458860087Z",
+  "valid_from": "2026-03-31T13:20:59.458860087Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1812,
+    "end_line": 1837,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

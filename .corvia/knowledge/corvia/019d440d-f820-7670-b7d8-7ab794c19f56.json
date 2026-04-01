@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f820-7670-b7d8-7ab794c19f56",
+  "content": "Cache::new(0.9, 0); // will be clamped to 5 at config level, but raw 0 works here\n        cache.refresh(tmp.path(), \"test\", &store).await;\n        // Immediately after refresh with 0s TTL, needs_refresh is true\n        assert!(cache.needs_refresh());\n    }\nfn test_count_json_files_ignores_subdirectories() {\n        let tmp = tempdir().unwrap();\n        let dir = tmp.path().join(\"scope\");\n        std::fs::create_dir_all(&dir).unwrap();\n        // 2 json files at top level\n        std::fs::write(dir.join(\"a.json\"), \"{}\").unwrap();\n        std::fs::write(dir.join(\"b.json\"), \"{}\").unwrap();\n        // 3 json files in a subdirectory (should NOT be counted)\n        let sub = dir.join(\"subdir\");\n        std::fs::create_dir_all(&sub).unwrap();\n        std::fs::write(sub.join(\"c.json\"), \"{}\").unwrap();\n        std::fs::write(sub.join(\"d.json\"), \"{}\").unwrap();\n        std::fs::write(sub.join(\"e.json\"), \"{}\").unwrap();\n        assert_eq!(count_json_files(&dir), 2);\n    }",
+  "source_version": "crates/corvia-server/src/dashboard/coverage.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.424746578Z",
+  "valid_from": "2026-03-31T13:20:59.424746578Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/coverage.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 497,
+    "end_line": 511,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

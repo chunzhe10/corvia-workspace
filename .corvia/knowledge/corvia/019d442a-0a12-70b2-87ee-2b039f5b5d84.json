@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-2b039f5b5d84",
+  "content": "## Hub Path Resolution\n\n\n        let hostname = std::env::var(\"HOSTNAME\")\n            .or_else(|_| std::fs::read_to_string(\"/etc/hostname\").map(|s| s.trim().to_string()))\n            .map_err(|_| CorviaError::Config(\"Cannot determine container hostname\".into()))?;\n\n        let inspect = docker.inspect_container(&hostname, None).await\n            .map_err(|e| CorviaError::Docker(format!(\"Cannot inspect hub container: {e}\")))?;\n\n        let mut host_mounts = HashMap::new();\n        if let Some(mounts) = inspect.mounts {\n            for m in mounts {\n                if let (Some(src), Some(dst)) = (m.source, m.destination) {\n                    host_mounts.insert(dst, src);\n                }\n            }\n        }\n\n        let networks = inspect.network_settings\n            .and_then(|ns| ns.networks)\n            .unwrap_or_default();\n\n        Ok(Self { container_name: hostname, networks, host_mounts })\n    }\n\n    /// Translate a container path to a host path. Returns Result with diagnostic.\n    pub fn host_path_or_err(&self, container_path: &str) -> Result<String> {\n        self.host_path(container_path).ok_or_else(|| {\n            let mounts: Vec<_> = self.host_mounts.keys().collect();\n            CorviaError::Config(format!(",
+  "source_version": "decisions/2026-03-28-spoke-cli-design.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026031636Z",
+  "valid_from": "2026-03-31T13:51:39.026031636Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-cli-design.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 578,
+    "end_line": 606,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

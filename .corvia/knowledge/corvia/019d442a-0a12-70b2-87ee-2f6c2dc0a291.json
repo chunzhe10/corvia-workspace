@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-2f6c2dc0a291",
+  "content": "## Minor Issues\n\n### M1, M8, M9: Unified via corvia-telemetry (DevOps, Security, SWE)\n\nThree deferred items share the same solution: **corvia-telemetry**, not\nseparate ad-hoc mechanisms.\n\n| Original Issue | Telemetry Approach |\n|---|---|\n| M1: Docker stats in dashboard | Spoke container metrics emitted as OTel metrics via `corvia-telemetry`. Dashboard traces view already displays spans/metrics. Add `spoke.cpu_percent`, `spoke.memory_bytes` gauge metrics. Collected by the hub's spoke provisioner on the existing 15s poll interval. |\n| M8: Audit log for lifecycle events | Spoke create/destroy emitted as `tracing::info_span!(\"spoke.lifecycle\")` events with structured fields (spoke_name, repo, issue, action). These flow through corvia-telemetry's existing exporters (stdout, file, OTLP). The dashboard Traces tab already renders them. No separate audit system needed. |\n| M9: Spoke log capture | Spoke entrypoint streams Claude Code output to the hub via a lightweight log shipper (or `docker logs` API from the hub). Ingested as `tracing::info!` events tagged with `spoke.name`. Searchable in the existing Traces/Logs views. |\n\n**Why telemetry, not corvia_write:** These are operational signals, not knowledge.\nThey don't belong in the knowledge store (they'd pollute search results and\nconsume embedding compute). `corvia-telemetry` already has the pipeline:\nstructured tracing -> exporters -> dashboard. Spoke metrics and lifecycle events\nare just new span/metric types flowing through the same pipe.\n\n**Implementation:** Add `spoke.*` span names to `corvia-telemetry/src/lib.rs`\nspan name constants. The hub's `SpokeProvisioner` emits spans on create/destroy.\nThe dashboard poll emits gauge metrics for running spoke resource usage.\n\nDeferred to Phase 2, but the approach is defined.\n\n\n### M2: Spoke Detection by Lookup (SWE)\n\n```typescript\n// Use spokeMap instead of string prefix\nconst isSpoke = spokeMap.has(entry.agent_id);\n```\n",
+  "source_version": "decisions/2026-03-28-spoke-design-review-fixes.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026579020Z",
+  "valid_from": "2026-03-31T13:51:39.026579020Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-design-review-fixes.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 912,
+    "end_line": 941,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

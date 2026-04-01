@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82c-7720-a124-33e5755ee3f1",
+  "content": "               for _ in 0..100 {\n                    buf.record(&[uuid::Uuid::now_v7()]);\n                }\n            }));\n        }\n\n        for h in handles {\n            h.join().unwrap();\n        }\n\n        assert_eq!(buf.pending_count(), 800);\n    }\n\n    #[test]\n    fn test_lossy_drop_when_full_and_flushing() {\n        let buf = AccessBuffer::new(3600, 2);\n        let id1 = uuid::Uuid::now_v7();\n        let id2 = uuid::Uuid::now_v7();\n        let id3 = uuid::Uuid::now_v7();\n\n        buf.record(&[id1, id2]);\n        assert_eq!(buf.pending_count(), 2);\n\n        // Simulate flush in progress.\n        buf.flushing.store(true, Ordering::Relaxed);\n\n        // All events are dropped when buffer full + flushing (new and existing keys).\n        buf.record(&[id3]);\n        assert_eq!(buf.pending_count(), 2);\n        assert!(buf.pending.get(&id3).is_none());\n\n        buf.record(&[id1]); // existing key also dropped\n        let ba1 = buf.pending.get(&id1).unwrap();\n        assert_eq!(ba1.count, 1); // unchanged\n\n        buf.flushing.store(false, Ordering::Relaxed);\n    }\n\n    #[test]\n    fn test_flush_updates_redb_entries() {\n        let dir = tempfile::tempdir().unwrap();\n        let db = Arc::new(Database::create(dir.path().join(\"test.redb\")).unwrap());\n\n        // Create ENTRIES table and insert a test entry.\n        let entry =\n            KnowledgeEntry::new(\"test content\".into(), \"scope\".into(), \"v1\".into());\n        let entry_id = entry.id;",
+  "source_version": "crates/corvia-kernel/src/access_buffer.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.436581092Z",
+  "valid_from": "2026-03-31T13:20:59.436581092Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/access_buffer.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 439,
+    "end_line": 473,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

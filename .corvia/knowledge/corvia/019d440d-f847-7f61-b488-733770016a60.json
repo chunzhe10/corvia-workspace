@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-733770016a60",
+  "content": "                          # entries by ~day 4 (alpha=0.60 drops score below 0.25)\n\n### Pinning\n\n**Explicit pin:** `pinned: bool` field. Skips all forgetting evaluation. Requires\nmanual unpin.\n\n**Auto-protection** (prevents Cold → Forgotten only, not demotion):\n- `memory_type == Structural`\n- HEAD of supersession chain (not superseded by anything)\n- `inbound_edges >= 5`\n- `content_role == \"decision\"` AND `confidence >= 0.9`\n",
+  "source_version": "docs/rfcs/2026-03-27-tiered-knowledge-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463760800Z",
+  "valid_from": "2026-03-31T13:20:59.463760800Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-27-tiered-knowledge-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 386,
+    "end_line": 396,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

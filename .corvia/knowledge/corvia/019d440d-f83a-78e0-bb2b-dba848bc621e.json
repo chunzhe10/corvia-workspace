@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83a-78e0-bb2b-dba848bc621e",
+  "content": "ep 4: Commit**\n\n```bash\ngit add crates/corvia-common/src/types.rs crates/corvia-common/src/errors.rs\ngit commit -m \"feat(common): add KnowledgeEntry, SearchResult, and error types\n\nBi-temporal schema per D14. Builder pattern for optional fields.\"\n```\n\n---\n\n## Task 3: corvia-common — Namespace & Config\n\n**Files:**\n- Create: `crates/corvia-common/src/namespace.rs`\n- Create: `crates/corvia-common/src/config.rs`\n- Create: `crates/corvia-common/src/events.rs`\n- Test: inline tests in each file\n\n**Step 1: Write namespace struct with tests (D17)**\n\n`crates/corvia-common/src/namespace.rs`:\n```rust\nuse serde::{Deserialize, Serialize};\nuse std::fmt;\nuse crate::errors::{CorviaError, Result};\n\n/// Five-segment hierarchical namespace (D17).\n/// Format: {org}:{scope_id}:{workstream}:{source}:{version_ref}\n/// Version ref: @{hash} (immutable) or :{label} (mutable)\n#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]\npub struct Namespace {\n    pub org: String,\n    pub scope: String,\n    pub workstream: String,\n    pub source: String,\n    pub version_ref: VersionRef,\n}\n\n#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]\npub enum VersionRef {\n    Immutable(String),",
+  "source_version": "docs/rfcs/2026-02-28-m1-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.450579915Z",
+  "valid_from": "2026-03-31T13:20:59.450579915Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-m1-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 405,
+    "end_line": 435,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

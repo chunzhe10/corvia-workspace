@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84b-7723-860a-190efeae228d",
+  "content": "       break;\n            }\n            tokio::time::sleep(Duration::from_secs(1)).await;\n        }\n\n        E2eEnv {\n            container_name,\n            client,\n            trace_dir: traces_dir,\n            _workdir: workdir,\n        }\n    }).await\n}\nasync fn mcp_call(env: &E2eEnv, tool: &str, args: Value, agent_id: &str) -> Value {\n    let payload = json!({\n        \"jsonrpc\": \"2.0\",\n        \"id\": 1,\n        \"method\": \"tools/call\",\n        \"params\": {\n            \"name\": tool,\n            \"arguments\": args,\n            \"_meta\": { \"agent_id\": agent_id }\n        }\n    });\n\n    let resp = env\n        .client\n        .post(MCP_URL)\n        .header(\"Content-Type\", \"application/json\")\n        .json(&payload)\n        .send()\n        .await\n        .unwrap_or_else(|e| {\n            let logs = dump_container_logs(&env.container_name);\n            panic!(\"MCP request to {tool} failed: {e}\\nContainer logs:\\n{logs}\");\n        });\n\n    let body: Value = resp.json().await.expect(\"Failed to parse MCP response\");\n\n    if let Some(err) = body.get(\"error\") {\n        let logs = dump_container_logs(&env.container_name);\n        panic!(\"MCP error calling {tool}: {err}\\nContainer logs:\\n{logs}\");\n    }\n\n    body\n}",
+  "source_version": "tests/integration/docker_mcp_e2e_test.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.467170522Z",
+  "valid_from": "2026-03-31T13:20:59.467170522Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "tests/integration/docker_mcp_e2e_test.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 298,
+    "end_line": 330,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

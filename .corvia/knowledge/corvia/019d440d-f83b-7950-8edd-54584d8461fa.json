@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-54584d8461fa",
+  "content": "## Task 1: Add `mcp_token` to AppState and generate on startup\n## Task 2: Add bearer token validation to MCP write operations\n\n## Task 3: Create spoke Dockerfile\n\n**Files:** `docker/spoke/Dockerfile` (new)\n\n1. Base image: `node:22-bookworm`\n2. Install system deps: git, curl, build-essential, gh CLI\n3. `ARG CLAUDE_CODE_VERSION=1.0.18` with pinned install\n4. Create non-root `spoke` user\n5. HEALTHCHECK via `pgrep -f \"claude\"`\n6. COPY entrypoint script\n7. ENTRYPOINT to entrypoint script\n\n**Verify:** File exists, Dockerfile syntax valid\n\n---\n\n\n## Task 4: Create spoke entrypoint script\n\n**Files:** `docker/spoke/spoke-entrypoint.sh` (new)\n\n1. Error trap with best-effort failure reporting to corvia\n2. Copy credentials to user-owned location\n3. Clone repo (with retry, --depth 100, query default branch)\n4. Create/checkout feature branch from issue\n5. Write `.mcp.json` pointing to hub with bearer token\n6. Health-check hub MCP connectivity (10 retries, 3s interval)\n7. Start Claude Code with dev-loop\n\n**Verify:** `shellcheck docker/spoke/spoke-entrypoint.sh` (if available)\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-28-multi-spoke-phase0-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451255037Z",
+  "valid_from": "2026-03-31T13:20:59.451255037Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-multi-spoke-phase0-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 44,
+    "end_line": 75,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

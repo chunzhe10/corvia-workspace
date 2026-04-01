@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82f-7ca0-945f-aa023a1ebe4f",
+  "content": "t 3 chunks, got {}\",\n            report.total_chunks\n        );\n        assert!(report.per_strategy.contains_key(\"markdown\"));\n        assert!(report.per_strategy.contains_key(\"config\"));\n        assert!(report.per_strategy.contains_key(\"fallback\"));\n    }\nfn make_chunk(\n        source_file: &str,\n        chunk_type: &str,\n        start_line: u32,\n        content: &str,\n    ) -> ProcessedChunk {\n        ProcessedChunk {\n            content: content.to_string(),\n            original_content: content.to_string(),\n            chunk_type: chunk_type.to_string(),\n            start_line,\n            end_line: start_line + 10,\n            metadata: ChunkMetadata {\n                source_file: source_file.to_string(),\n                language: Some(\"rust\".to_string()),\n                ..Default::default()\n            },\n            token_estimate: 100,\n            processing: ProcessingInfo {\n                strategy_name: \"test\".to_string(),\n                was_split: false,\n                was_merged: false,\n                overlap_tokens: 0,\n            },\n        }\n    }",
+  "source_version": "crates/corvia-kernel/src/chunking_pipeline.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.439343637Z",
+  "valid_from": "2026-03-31T13:20:59.439343637Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_pipeline.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1170,
+    "end_line": 1195,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

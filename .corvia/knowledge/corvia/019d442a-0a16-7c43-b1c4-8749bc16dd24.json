@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a16-7c43-b1c4-8749bc16dd24",
+  "content": "<div class=\"slide-inner\">\n    <div class=\"slide-label\">The Bootstrap</div>\n    <div class=\"slide-title\">Day 1: <span class=\"hl-amber\">No Tool Yet</span></div>\n    <div class=\"slide-subtitle\">Building a memory system that can't remember anything. Yet.</div>\n    <div class=\"timeline\">\n      <div class=\"timeline-item\">\n        <div class=\"timeline-marker\">\n          <div class=\"timeline-dot\" style=\"background: var(--accent-amber);\"></div>\n          <div class=\"timeline-line\"></div>\n        </div>\n        <div class=\"timeline-content\">\n          <h3>Markdown files</h3>\n          <p>Asked Claude to save every decision in a specific format. Brainstorms, trade-offs, architecture calls. All by hand. The plan: migrate it all once the tool is ready.</p>\n        </div>\n      </div>\n      <div class=\"timeline-item\">\n        <div class=\"timeline-marker\">\n          <div class=\"timeline-dot\" style=\"background: var(--accent-blue);\"></div>\n          <div class=\"timeline-line\"></div>\n        </div>\n        <div class=\"timeline-content\">\n          <h3>Obra's superpowers plugin</h3>\n          <p>The brainstorming skill structured every design session. Explore, clarify, converge. This was the process from day 1. The rest came later.</p>\n        </div>\n      </div>\n      <div class=\"timeline-item\">\n        <div class=\"timeline-marker\">\n          <div class=\"timeline-dot\" style=\"background: var(--accent-green);\"></div>\n          <div class=\"timeline-line\"></div>\n        </div>\n        <div class=\"timeline-content\">\n          <h3>First self-ingest</h3>\n          <p>corvia ingests its own decisions. The markdown files migrate in. Now the tool can search its own history. The loop starts forming.</p>\n        </div>\n      </div>\n      <div class=\"timeline-item\">\n        <div class=\"timeline-marker\">\n          <div class=\"timeline-dot\" style=\"background: var(--accent-purple);\"></div>\n        </div>\n        <div class=\"timeline-content\">\n          <h3>The loop gets better</h3>\n          <p>5-persona review, session history, agent coordination. The process and the product grew together.</p>\n        </div>\n      </div>\n    </div>\n\n    <div class=\"footer\">\n      <span>Lim Chun Zhe</span>\n      <span>4 / 10</span>\n    </div>\n  </div>\n</div>",
+  "source_version": "marketing/linkedin/2026-03-29-recursive-loop-reflection/recursive-loop-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.030087502Z",
+  "valid_from": "2026-03-31T13:51:39.030087502Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-29-recursive-loop-reflection/recursive-loop-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 747,
+    "end_line": 794,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

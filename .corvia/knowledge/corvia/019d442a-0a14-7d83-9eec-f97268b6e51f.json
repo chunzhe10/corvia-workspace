@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f97268b6e51f",
+  "content": "und: #3A5545; border: 2px solid #2A4035; border-radius: 50% 60% 40% 50%;\"></div>\n  <div style=\"position: absolute; bottom: 82px; left: 460px; width: 30px; height: 20px; background: #4A6555; border: 2px solid #3A5040; border-radius: 55% 45% 50% 50%;\"></div>\n  <!-- === SVG FISH (large tropical, right side) === -->\n  <svg style=\"position: absolute; top: 640px; right: 100px;\" width=\"160\" height=\"100\" viewBox=\"0 0 160 100\">\n    <path d=\"M20,50 C10,25 30,8 65,5 C95,2 125,18 130,50 C125,82 95,98 65,95 C30,92 10,75 20,50 Z\" fill=\"#3AAFBF\" stroke=\"#1A8A9A\" stroke-width=\"3\"/>\n    <path d=\"M128,50 C135,30 150,15 158,8 C148,28 146,42 146,50 C146,58 148,72 158,92 C150,85 135,70 128,50 Z\" fill=\"#3AAFBF\" stroke=\"#1A8A9A\" stroke-width=\"3\"/>\n    <path d=\"M60,8 C65,-8 82,-4 88,8\" fill=\"#2E9EAE\" stroke=\"#1A8A9A\" stroke-width=\"2.5\"/>\n    <path d=\"M60,92 C65,104 75,102 78,92\" fill=\"#2E9EAE\" stroke=\"#1A8A9A\" stroke-width=\"2\"/>\n    <path d=\"M50,55 C42,68 30,72 35,62 C40,55 46,52 50,55 Z\" fill=\"#5CC8D8\" stroke=\"#1A8A9A\" stroke-width=\"2\"/>\n    <ellipse cx=\"38\" cy=\"42\" rx=\"10\" ry=\"10\" fill=\"white\" stroke=\"#1A8A9A\" stroke-width=\"2.5\"/>\n    <circle cx=\"41\" cy=\"40\" r=\"5.5\" fill=\"#1a2e4a\"/>\n    <circle cx=\"43\" cy=\"38\" r=\"2\" fill=\"white\"/>\n    <path d=\"M55,20 C53,40 55,65 57,80\" fill=\"none\" stroke=\"#1A8A9A\" stroke-width=\"2\" opacity=\"0.6\"/>\n    <line x1=\"72\" y1=\"15\" x2=\"74\" y2=\"85\" stroke=\"#5CC8D8\" stroke-width=\"2\" opacity=\"0.4\"/>\n    <line x1=\"90\" y1=\"18\" x2=\"92\" y2=\"82\" stroke=\"#5CC8D8\" stroke-width=\"2\" opacity=\"0.3\"/>\n  </svg>",
+  "source_version": "marketing/linkedin/2026-03-14-resolve-linux-setup/resolve-linux-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028788719Z",
+  "valid_from": "2026-03-31T13:51:39.028788719Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-14-resolve-linux-setup/resolve-linux-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 612,
+    "end_line": 625,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

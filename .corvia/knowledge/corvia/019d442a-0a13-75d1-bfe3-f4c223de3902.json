@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a13-75d1-bfe3-f4c223de3902",
+  "content": "# DaVinci Resolve Linux Carousel Implementation Plan\n\n## File Structure\n\n| File | Purpose |\n|------|---------|\n| Create: `docs/marketing/linkedin/2026-03-14-resolve-linux-setup/resolve-linux-carousel.html` | The carousel (all 8 slides + CSS) |\n| Create: `docs/marketing/linkedin/2026-03-14-resolve-linux-setup/output/` | Rendered PNGs + PDF |\n| Existing: `tools/carousel-render/render.js` | Render + validate script |\n| Existing: `docs/marketing/linkedin/2026-03-14-resolve-linux-setup/post.html` | Companion post (already written) |\n\n---\n\n\n## Content Integrity Rules (MUST follow)\n\nThese apply to ALL slide text. Violating any of these is a bug:\n\n- No specific library names (libpango, libglib, etc.)\n- No exact error log strings or stack traces\n- No technical explanations of WHY Wayland breaks things\n- Frame all technical details as discovery: \"turns out,\" \"traced back to\"\n- Reference \"DaVinci Resolve\" never \"DaVinci Resolve Studio\"\n- Confirmed facts only: GPU memory error message, Wayland root cause, 3 env vars forcing X11, full 4K playback, Claude misdiagnosis, user pushed back\n\n---\n",
+  "source_version": "marketing/2026-03-14-resolve-linux-carousel.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.027361108Z",
+  "valid_from": "2026-03-31T13:51:39.027361108Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/2026-03-14-resolve-linux-carousel.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 15,
+    "end_line": 38,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

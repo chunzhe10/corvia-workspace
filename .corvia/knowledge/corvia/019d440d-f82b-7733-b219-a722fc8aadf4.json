@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82b-7733-b219-a722fc8aadf4",
+  "content": "sim,\n                        a.metadata.source_origin.as_deref().unwrap_or(\"unknown\"),\n                        b.metadata.source_origin.as_deref().unwrap_or(\"unknown\"),\n                    ),\n                ));\n            }\n        }\n    }\n    findings\n}\npub fn cosine_similarity(a: &[f32], b: &[f32]) -> f32 {\n    debug_assert_eq!(a.len(), b.len(), \"embedding vectors must have equal dimensions\");\n    let dot: f32 = a.iter().zip(b.iter()).map(|(x, y)| x * y).sum();\n    let norm_a: f32 = a.iter().map(|x| x * x).sum::<f32>().sqrt();\n    let norm_b: f32 = b.iter().map(|x| x * x).sum::<f32>().sqrt();\n    if norm_a == 0.0 || norm_b == 0.0 {\n        return 0.0;\n    }\n    dot / (norm_a * norm_b)\n}",
+  "source_version": "crates/corvia-kernel/src/reasoner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.435225362Z",
+  "valid_from": "2026-03-31T13:20:59.435225362Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/reasoner.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 783,
+    "end_line": 792,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

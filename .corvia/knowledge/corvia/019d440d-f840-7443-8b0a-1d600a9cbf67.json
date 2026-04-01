@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-1d600a9cbf67",
+  "content": "### Task 5: Extend AgentRecord with Description and ActivitySummary\n\n\nRun: `cd /workspaces/corvia-workspace/repos/corvia && cargo test -p corvia-kernel test_agent_description_and_summary 2>&1 | tail -5`\nExpected: FAIL — fields don't exist\n\n-**Step 3: Add fields to AgentRecord**\n\nIn `agent_types.rs`:\n\n```rust\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct ActivitySummary {\n    pub entry_count: u64,\n    pub topic_tags: Vec<String>,\n    pub last_topics: Vec<String>,\n    pub last_active: DateTime<Utc>,\n    pub session_count: u64,\n}\n\n// Add to AgentRecord:\npub struct AgentRecord {\n    // ... existing fields ...\n    pub description: Option<String>,\n    pub activity_summary: Option<ActivitySummary>,\n}\n```\n\n-**Step 4: Add persistence methods to AgentRegistry**\n\nIn `agent_registry.rs`, add `set_description` and `set_activity_summary` methods that read the record, update the field, and write it back to Redb. Follow the existing pattern used by `set_status` and `touch`.\n\n-**Step 5: Run test, verify pass**\n\n-**Step 6: Commit**\n\n```bash\ncd /workspaces/corvia-workspace/repos/corvia\ngit add crates/corvia-common/src/agent_types.rs crates/corvia-kernel/src/agent_registry.rs\ngit commit -m \"feat(agent): add description and activity_summary to AgentRecord\"\n```\n",
+  "source_version": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456446246Z",
+  "valid_from": "2026-03-31T13:20:59.456446246Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 931,
+    "end_line": 970,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

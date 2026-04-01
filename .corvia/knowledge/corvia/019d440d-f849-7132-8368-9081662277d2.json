@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-9081662277d2",
+  "content": "## Config\n## Observability (D23/D45/D62 conventions)\n\n### OTel Spans\n\n```\ncorvia.chunking.process              — parent span (per file)\n  ├─ corvia.chunking.resolve         — format registry lookup\n  ├─ corvia.chunking.chunk           — strategy.chunk() call\n  ├─ corvia.chunking.merge           — merge small pass\n  ├─ corvia.chunking.split           — split oversized pass\n  └─ corvia.chunking.overlap         — overlap context pass\n```\n\n\n### Metrics\n\n| Type | Name | Description |\n|------|------|-------------|\n| Counter | `corvia.chunking.files` | Total files processed |\n| Counter | `corvia.chunking.chunks_produced` | Total chunks after pipeline |\n| Counter | `corvia.chunking.chunks_split` | Chunks that exceeded budget and were split |\n| Counter | `corvia.chunking.chunks_merged` | Chunks merged from smaller ones |\n| Histogram | `corvia.chunking.chunk_tokens` | Token count distribution of final chunks |\n| Histogram | `corvia.chunking.process_duration_ms` | Per-file processing latency |\n",
+  "source_version": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465578183Z",
+  "valid_from": "2026-03-31T13:20:59.465578183Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 351,
+    "end_line": 372,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

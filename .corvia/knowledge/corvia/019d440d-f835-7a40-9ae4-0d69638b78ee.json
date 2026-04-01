@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f835-7a40-9ae4-0d69638b78ee",
+  "content": "\".into(), \"50m\".into()),\n                (\"max-file\".into(), \"3\".into()),\n            ])),\n        };\n\n        let mem_bytes = parse_memory_limit(&spoke_config.memory_limit)?;\n\n        let host_config = HostConfig {\n            binds: if binds.is_empty() {\n                None\n            } else {\n                Some(binds)\n            },\n            network_mode: Some(network.into()),\n            memory: Some(mem_bytes),\n            memory_swap: Some(mem_bytes), // Equal to memory = no swap usage\n            cpu_shares: Some(spoke_config.cpu_shares.into()),\n            pids_limit: Some(512),\n            log_config: Some(log_config),\n            restart_policy: Some(bollard::models::RestartPolicy {\n                name: Some(bollard::models::RestartPolicyNameEnum::ON_FAILURE),\n                maximum_retry_count: Some(3),\n            }),\n            ..Default::default()\n        };\n\n        let container_config = ContainerCreateBody {\n            image: Some(spoke_config.image.clone()),\n            host_config: Some(host_config),\n            env: Some(env),\n            labels: Some(labels),\n            working_dir: Some(\"/workspace\".into()),\n            ..Default::default()\n        };\n\n        // Remove existing container if present\n        let _ = self\n            .docker\n            .remove_container(spoke_name, Some(RemoveContainerOptions { force: true, ..Default::default() }))\n            .await;",
+  "source_version": "crates/corvia-kernel/src/spoke.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.445027653Z",
+  "valid_from": "2026-03-31T13:20:59.445027653Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/spoke.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 455,
+    "end_line": 485,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

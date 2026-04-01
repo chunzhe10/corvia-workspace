@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81b-7e30-ace5-9dc417cc35a6",
+  "content": "           if !cursor.goto_next_sibling() {\n                    break;\n                }\n                continue;\n            }\n\n            let owner_idx = find_chunk_by_line(chunks, node.start_position().row as u32 + 1);\n\n            match node.kind() {\n                \"import_statement\" => {\n                    for i in 0..node.child_count() {\n                        let Some(child) = node.child(i as u32) else {\n                            continue;\n                        };\n                        if child.is_named()\n                            && (child.kind() == \"dotted_name\" || child.kind() == \"aliased_import\")\n                        {\n                            let module_text = source[child.byte_range()].to_string();\n                            let module_name = if child.kind() == \"aliased_import\" {\n                                child\n                                    .child_by_field_name(\"name\")\n                                    .map(|n| source[n.byte_range()].to_string())\n                                    .unwrap_or(module_text)\n                            } else {\n                                module_text\n                            };\n                            relations.push(CodeRelation {\n                                from_chunk_index: owner_idx,\n                                relation: \"imports\".to_string(),\n                                to_file: module_name.clone(),\n                                to_name: Some(module_name),\n                            });\n                        }\n                    }\n                }\n                \"import_from_statement\" => {\n                    let module_path = node\n                        .child_by_field_name(\"module_name\")\n                        .map(|m| source[m.byte_range()].to_string())\n                        .unwrap_or_default();\n\n                    let mut imported_names = Vec::new();",
+  "source_version": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.419954879Z",
+  "valid_from": "2026-03-31T13:20:59.419954879Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1027,
+    "end_line": 1059,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

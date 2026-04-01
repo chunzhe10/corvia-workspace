@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-259eeb472626",
+  "content": "dule: HashMap::new(),\n        };\n\n        let cargo_toml = workspace_root.join(\"Cargo.toml\");\n        if !cargo_toml.exists() {\n            return map;\n        }\n\n        let Ok(content) = std::fs::read_to_string(&cargo_toml) else {\n            return map;\n        };\n        let Ok(doc) = content.parse::<toml::Table>() else {\n            return map;\n        };\n\n        // Collect crate directories: workspace members or single crate\n        let crate_dirs = if let Some(workspace) = doc.get(\"workspace\").and_then(|w| w.as_table()) {\n            Self::resolve_workspace_members(workspace, workspace_root)\n        } else {\n            // Single crate at workspace root\n            vec![workspace_root.to_path_buf()]\n        };\n\n        for crate_dir in &crate_dirs {\n            map.index_crate(crate_dir, workspace_root);\n        }\n\n        map\n    }\n\n    /// Resolve a Rust module path to a file path.\n    ///\n    /// Handles:\n    /// - `crate::config` → look up in this crate's module tree\n    /// - `super::foo` → resolve relative to current file's parent module\n    /// - `corvia_common::config` → look up cross-crate reference\n    ///\n    /// Returns `None` if the path can't be resolved (external crate, std, etc.).\n    pub fn resolve(\n        &self,",
+  "source_version": "docs/rfcs/2026-03-04-m3.4-graph-edge-improvements-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452935690Z",
+  "valid_from": "2026-03-31T13:20:59.452935690Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-04-m3.4-graph-edge-improvements-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 73,
+    "end_line": 102,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

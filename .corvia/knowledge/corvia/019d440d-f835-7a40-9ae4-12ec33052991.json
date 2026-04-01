@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f835-7a40-9ae4-12ec33052991",
+  "content": "g(&self.gen_meta_path)\n            && let Ok(json) = serde_json::from_str::<serde_json::Value>(&data) {\n            return json.get(\"last_synced_generation\")\n                .and_then(|v| v.as_u64())\n                .unwrap_or(0);\n        }\n        0\n    }\nasync fn do_flush(&self) -> Result<()> {\n        let mut writer = self.writer.lock().await;\n        writer.commit()\n            .map_err(|e| CorviaError::Storage(format!(\"tantivy commit: {e}\")))?;\n        self.reader.reload()\n            .map_err(|e| CorviaError::Storage(format!(\"tantivy reader reload: {e}\")))?;\n        self.pending_count.store(0, Ordering::Relaxed);\n        Ok(())\n    }",
+  "source_version": "crates/corvia-kernel/src/tantivy_index.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.445690397Z",
+  "valid_from": "2026-03-31T13:20:59.445690397Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/tantivy_index.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 376,
+    "end_line": 384,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

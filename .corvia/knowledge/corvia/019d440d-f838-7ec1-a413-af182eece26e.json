@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f838-7ec1-a413-af182eece26e",
+  "content": "Direction::Incoming).await.unwrap();\n        assert_eq!(in_edges.len(), 1);\n        assert_eq!(in_edges[0].from, a);\n\n        // Both direction\n        let both = store.edges(&a, EdgeDirection::Both).await.unwrap();\n        assert_eq!(both.len(), 1);\n    }\nasync fn test_traverse_bfs() {\n        let db = test_db();\n        let store = LiteGraphStore::new(db).unwrap();\n\n        let a = Uuid::now_v7();\n        let b = Uuid::now_v7();\n        let c = Uuid::now_v7();\n        store.relate(&a, \"imports\", &b, None).await.unwrap();\n        store.relate(&b, \"imports\", &c, None).await.unwrap();\n\n        // Traverse from a, depth 2 — should reach b and c\n        let results = store.traverse_ids(&a, None, EdgeDirection::Outgoing, 2).unwrap();\n        assert_eq!(results.len(), 2); // b and c (not a itself)\n    }",
+  "source_version": "crates/corvia-kernel/src/graph_store.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.448616206Z",
+  "valid_from": "2026-03-31T13:20:59.448616206Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/graph_store.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 450,
+    "end_line": 463,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

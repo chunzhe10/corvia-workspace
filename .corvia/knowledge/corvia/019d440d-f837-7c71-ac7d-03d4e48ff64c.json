@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f837-7c71-ac7d-03d4e48ff64c",
+  "content": " for entries in active chains.\n    transitions.retain(|t| {\n        if t.new_tier == Tier::Forgotten && chain_protected_ids.contains(&t.entry_id) {\n            report.chain_protected += 1;\n            transitioned_ids.remove(&t.entry_id);\n            false\n        } else {\n            true\n        }\n    });\n\n    // Build entry lookup once (used by auto-protection and budget policy)\n    let entry_map: HashMap<uuid::Uuid, &KnowledgeEntry> =\n        scope_entries.iter().map(|e| (e.id, *e)).collect();\n\n    // ── Safeguard 2: Auto-protection rules ──────────────────────────────────\n    // Block Cold→Forgotten for auto-protected entries.\n    {\n        transitions.retain(|t| {\n            if t.new_tier == Tier::Forgotten\n                && let Some(entry) = entry_map.get(&t.entry_id)\n            {\n                let auto_params = AutoProtectParams {\n                    memory_type: entry.memory_type,\n                    is_chain_head: entry.superseded_by.is_none(),\n                    inbound_edges: inbound_edge_map.get(&entry.id).copied().unwrap_or(0),\n                    content_role: entry.metadata.content_role.as_deref(),\n                    confidence: entry.confidence,\n                };\n                if scoring::is_auto_protected(&auto_params) {\n                    report.auto_protected += 1;\n                    transitioned_ids.remove(&t.entry_id);\n                    return false;\n                }\n            }\n            true\n        });\n    }",
+  "source_version": "crates/corvia-kernel/src/gc_worker.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.447190241Z",
+  "valid_from": "2026-03-31T13:20:59.447190241Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/gc_worker.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 417,
+    "end_line": 448,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

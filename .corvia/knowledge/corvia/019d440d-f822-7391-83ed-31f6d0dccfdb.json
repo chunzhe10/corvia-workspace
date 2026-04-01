@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f822-7391-83ed-31f6d0dccfdb",
+  "content": "        \"write_reminder\" => self.write_reminder,\n            \"orphan_cleanup\" => self.orphan_cleanup,\n            \"corvia_first_reminder\" => self.corvia_first_reminder,\n            \"agent_teams\" => self.agent_teams,\n            _ => true,\n        }\n    }\n}\npub fn is_active(&self, hook: &str) -> bool {\n        if !self.enabled { return false; }\n        match hook {\n            \"session_recording\" => self.session_recording,\n            \"doc_placement\" => self.doc_placement,\n            \"agent_check\" => self.agent_check,\n            \"write_reminder\" => self.write_reminder,\n            \"orphan_cleanup\" => self.orphan_cleanup,\n            \"corvia_first_reminder\" => self.corvia_first_reminder,\n            \"agent_teams\" => self.agent_teams,\n            _ => true,\n        }\n    }",
+  "source_version": "crates/corvia-common/src/config.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.426138058Z",
+  "valid_from": "2026-03-31T13:20:59.426138058Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/config.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 100,
+    "end_line": 112,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

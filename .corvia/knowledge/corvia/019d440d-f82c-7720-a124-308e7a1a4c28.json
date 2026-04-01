@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82c-7720-a124-308e7a1a4c28",
+  "content": "        assert_eq!(sim.similarity(0, 5), 0.0);\n    }\n\n    // -----------------------------------------------------------------------\n    // Sentence splitting tests\n    // -----------------------------------------------------------------------\n\n    #[test]\n    fn test_split_paragraphs() {\n        let content = \"First paragraph about HNSW.\\n\\nSecond paragraph about graph expansion.\\n\\nThird about agents.\";\n        let segments = split_into_segments(content);\n        assert_eq!(segments.len(), 3);\n        assert!(segments[0].contains(\"HNSW\"));\n        assert!(segments[1].contains(\"graph\"));\n        assert!(segments[2].contains(\"agents\"));\n    }\n\n    #[test]\n    fn test_split_preserves_code_blocks() {\n        let content = \"Some intro text.\\n\\n```rust\\nfn main() {\\n    println!(\\\"hello\\\");\\n}\\n```\\n\\nMore text after.\";\n        let segments = split_into_segments(content);\n        assert_eq!(segments.len(), 3, \"Should have intro, code block, and outro\");\n        assert!(segments[1].contains(\"fn main()\"), \"Code block should be atomic\");\n        assert!(segments[1].contains(\"```\"), \"Code block should include fences\");\n    }\n\n    #[test]\n    fn test_split_empty_content() {\n        let segments = split_into_segments(\"\");\n        assert!(segments.is_empty());\n    }\n\n    #[test]\n    fn test_split_single_line() {\n        let segments = split_into_segments(\"Just one line.\");\n        assert_eq!(segments.len(), 1);\n    }\n",
+  "source_version": "crates/corvia-kernel/src/semantic_split.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.436192197Z",
+  "valid_from": "2026-03-31T13:20:59.436192197Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/semantic_split.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 416,
+    "end_line": 445,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

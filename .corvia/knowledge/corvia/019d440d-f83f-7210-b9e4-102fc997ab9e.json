@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83f-7210-b9e4-102fc997ab9e",
+  "content": "12px\", color: \"var(--text-dim)\", textAlign: \"center\", padding: \"16px 0\" }}>\n          Enable OTEL exporter to see trace trees.\n        </div>\n      </div>\n    );\n  }\n\n  const active = data.traces.find((t) => t.trace_id === selectedTrace) ?? data.traces[0];\n\n  return (\n    <div class=\"waterfall-view\">\n      <div class=\"trace-card\">\n        <h2 style={{ fontSize: \"12px\", fontWeight: 600, color: \"var(--text-dim)\", textTransform: \"uppercase\", letterSpacing: \"0.5px\", marginBottom: \"10px\" }}>\n          Recent Traces ({data.traces.length})\n        </h2>\n        <div class=\"trace-list\">\n          {data.traces.map((t) => (\n            <button\n              key={t.trace_id}\n              class={`trace-list-item${t.trace_id === active.trace_id ? \" active\" : \"\"}`}\n              onClick={() => setSelectedTrace(t.trace_id)}\n            >\n              <span class=\"trace-list-name\">{t.root_span.replace(\"corvia.\", \"\")}</span>\n              <span class=\"trace-list-ms\">{t.total_ms.toFixed(0)}ms</span>\n              <span class=\"trace-list-count\">{t.span_count} spans</span>\n            </button>\n          ))}\n        </div>\n      </div>\n\n      <TraceDetail trace={active} />\n    </div>\n  );\n}\n```\n\n- **Step 2: Commit**\n\n```bash\ncd /workspaces/corvia-workspace\ngit add tools/corvia-dashboard/src/components/WaterfallView.tsx\ngit commit -m \"feat(dashboard-ui): add WaterfallView component for OTEL span drill-down\"\n```\n",
+  "source_version": "docs/rfcs/2026-03-14-dashboard-completion-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.455797947Z",
+  "valid_from": "2026-03-31T13:20:59.455797947Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-14-dashboard-completion-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1852,
+    "end_line": 1887,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

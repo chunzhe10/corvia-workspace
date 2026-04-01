@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a15-7ca3-b9db-50185c6f72c1",
+  "content": "    </div>\n  </div>\n\n  <div class=\"insight-box\">\n    <p>The embedding backend everyone benchmarks? It's less than 10% of the real-world latency. In a RAG pipeline, the retrieval layer — not the model — is what your users actually wait for.</p>\n  </div>\n  <div class=\"flex-grow\"></div>\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">03 / 08</div>\n</div>\n\n<!-- SLIDE 4: THE NUMBERS — bar chart -->\n<div class=\"slide\">\n  <div class=\"slide-label\">The Numbers</div>\n  <div class=\"slide-title\" style=\"margin-bottom: 16px;\">\n    Per-Embed Latency<br>\n    <span class=\"highlight-green\">Across All Inputs</span>\n  </div>\n  <div class=\"slide-subtitle\" style=\"font-size: 19px; margin-bottom: 32px;\">\n    Lower is better. Each bar = mean of 5 runs. Error bars omitted for clarity\n    (all &le; &plusmn;11ms).\n  </div>\n\n  <!-- Short texts -->\n  <div style=\"margin-bottom: 28px;\">\n    <div style=\"font-size: 15px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 12px;\">Short Texts (2-3 words &times; 5)</div>\n    <div class=\"bar-row\">\n      <div class=\"bar-label\" style=\"color: var(--accent-amber);\">CPU</div>\n      <div class=\"bar-track\">\n        <div class=\"bar-fill\" style=\"width: 100%; background: linear-gradient(90deg, rgba(245,158,11,0.3), rgba(245,158,11,0.6));\">\n        </div>\n      </div>\n      <div class=\"bar-value\" style=\"color: var(--accent-amber);\">527 ms</div>\n    </div>\n    <div class=\"bar-row\">\n      <div class=\"bar-label\" style=\"color: var(--accent-cyan);\">Intel iGPU</div>\n      <div class=\"bar-track\">\n        <div class=\"bar-fill\" style=\"width: 9.7%; background: linear-gradient(90deg, rgba(6,182,212,0.4), rgba(6,182,212,0.8));\">\n        </div>\n      </div>\n      <div class=\"bar-value\" style=\"color: var(--accent-cyan);\">51 ms</div>\n    </div>\n    <div class=\"bar-row\">\n      <div class=\"bar-label\" style=\"color: var(--accent-purple);\">NVIDIA dGPU</div>\n      <div class=\"bar-track\">\n        <div class=\"bar-fill\" style=\"width: 10.6%; background: linear-gradient(90deg, rgba(139,92,246,0.4), rgba(139,92,246,0.8));\">\n        </div>\n      </div>\n      <div class=\"bar-value\" style=\"color: var(--accent-purple);\">56 ms</div>\n    </div>\n  </div>",
+  "source_version": "marketing/linkedin/2026-03-16-embedding-benchmark/embedding-benchmark-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.029034762Z",
+  "valid_from": "2026-03-31T13:51:39.029034762Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-16-embedding-benchmark/embedding-benchmark-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 361,
+    "end_line": 405,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

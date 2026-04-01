@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f837-7c71-ac7d-042c1606a8e2",
+  "content": ".id {\n                                protected.insert(pred_id);\n                            }\n                            stack.push(pred_id);\n                        }\n                    }\n                }\n            }\n        }\n    }\n\n    protected\n}\nfn apply_budget_policy(\n    scope_entries: &[&KnowledgeEntry],\n    entry_map: &HashMap<uuid::Uuid, &KnowledgeEntry>,\n    score_map: &HashMap<uuid::Uuid, f32>,\n    inbound_edge_map: &HashMap<uuid::Uuid, u32>,\n    transitioned_ids: &HashSet<uuid::Uuid>,\n    chain_protected_ids: &HashSet<uuid::Uuid>,\n    forgetting: &ForgettingConfig,\n    scope_override: Option<&ScopeForgettingOverride>,\n) -> Vec<TierTransition> {\n    let mut budget_transitions = Vec::new();\n\n    // Budget is scope-wide, not per-type. Resolve directly from global defaults\n    // with optional scope override, bypassing per-type layer.\n    let mut budget = forgetting.defaults.budget_top_n;\n    if let Some(scope_cfg) = scope_override\n        && let Some(b) = scope_cfg.budget_top_n\n    {\n        budget = b;\n    }\n    if budget == 0 {\n        return budget_transitions; // 0 = no limit\n    }\n\n    // Count active entries (Hot + Warm), excluding pinned\n    let active_count = scope_entries\n        .iter()\n        .filter(|e| {\n            (e.tier == Tier::Hot || e.tier == Tier::Warm)\n                && e.pin.is_none()\n        })\n        .count();\n\n    if active_count <= budget as usize {\n        return budget_transitions; // Under budget\n    }\n\n    let excess = active_count - budget as usize;\n\n    // Rank active non-pinned entries by retention_score (ascending = lowest first)\n    let mut candidates: Vec<(uuid::Uuid, f32, Tier)> = scope_entries\n        .iter()\n        .filter(|e| {\n            (e.tier == Tier::Hot || e.tier == Tier::Warm)\n                && e.pin.is_none()\n                && !transitioned_ids.contains(&e.id) // Skip already-transitioned\n        })\n        .map(|e| {\n            let score = score_map.get(&e.id).copied().unwrap_or(0.0);\n            (e.id, score, e.tier)\n        })\n        .collect();\n\n    candidates.sort_by(|a, b| a.1.partial_cmp(&b.1).unwrap_or(std::cmp::Ordering::Equal));\n\n    let mut demoted = 0;\n    for (entry_id, score, current_tier) in &candidates {\n        if demoted >= excess {\n            break;\n        }\n",
+  "source_version": "crates/corvia-kernel/src/gc_worker.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.447241988Z",
+  "valid_from": "2026-03-31T13:20:59.447241988Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/gc_worker.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 609,
+    "end_line": 669,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

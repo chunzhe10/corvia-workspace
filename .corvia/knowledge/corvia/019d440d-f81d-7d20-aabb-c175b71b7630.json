@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81d-7d20-aabb-c175b71b7630",
+  "content": "stats unavailable.\n    #[serde(skip_serializing_if = \"Option::is_none\")]\n    pub memory_bytes: Option<u64>,\n    /// Memory limit in bytes. None if stats unavailable.\n    #[serde(skip_serializing_if = \"Option::is_none\")]\n    pub memory_limit: Option<u64>,\n}\npub struct SpokesResponse {\n    pub spokes: Vec<DashboardSpokeInfo>,\n    #[serde(skip_serializing_if = \"Option::is_none\")]\n    pub warning: Option<String>,\n}",
+  "source_version": "crates/corvia-server/src/dashboard/spokes.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.421626780Z",
+  "valid_from": "2026-03-31T13:20:59.421626780Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/spokes.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 35,
+    "end_line": 39,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f839-77c3-913e-163adade80a9",
+  "content": "impl Default for StructuredAugmenter {\n    fn default() -> Self {\n        Self::new()\n    }\n}\nfn default() -> Self {\n        Self::new()\n    }\nimpl Augmenter for StructuredAugmenter {\n    fn name(&self) -> &str {\n        \"structured\"\n    }\n\n    fn augment(\n        &self,\n        query: &str,\n        results: &[SearchResult],\n        budget: &TokenBudget,\n    ) -> Result<AugmentedContext> {\n        let start = Instant::now();\n\n        // Resolve the effective token budget.\n        let effective_budget = budget.max_context_tokens.unwrap_or(DEFAULT_TOKEN_BUDGET);\n\n        // --- Skill matching and injection ---\n        let mut skills_used: Vec<String> = Vec::new();\n        let system_prompt = if let (Some(registry), Some(query_emb)) =\n            (&self.skill_registry, &budget.query_embedding)\n        {\n            let skills_budget =\n                (effective_budget as f32 * budget.reserve_for_skills) as usize;\n            if skills_budget > 0 && budget.max_skills > 0 {\n                let matches =\n                    registry.match_skills(query_emb, budget.skill_threshold, budget.max_skills);\n                let mut skill_parts: Vec<String> = Vec::new();\n                let mut skill_tokens_used: usize = 0;\n                for m in &matches {\n                    let tokens = estimate_tokens(&m.skill.content);\n                    if skill_tokens_used + tokens > skills_budget {\n                        break;\n                    }\n                    skill_parts.push(m.skill.content.clone());\n                    skills_used.push(m.skill.name.clone());\n                    skill_tokens_used += tokens;\n                }",
+  "source_version": "crates/corvia-kernel/src/augmenter.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.449078922Z",
+  "valid_from": "2026-03-31T13:20:59.449078922Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/augmenter.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 96,
+    "end_line": 132,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

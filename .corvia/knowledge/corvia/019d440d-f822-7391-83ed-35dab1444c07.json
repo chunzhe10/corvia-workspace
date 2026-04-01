@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f822-7391-83ed-35dab1444c07",
+  "content": "pub struct ResolvedPolicy {\n    pub enabled: bool,\n    pub max_inactive_days: u32,\n    pub budget_top_n: u32,\n}\nimpl ForgettingConfig {\n    /// Merge the 3-level hierarchy: global defaults → per-type → per-scope.\n    ///\n    /// Resolution order (most specific wins per field):\n    /// 1. Start with global `defaults`\n    /// 2. If global `enabled == false`, short-circuit to disabled\n    /// 3. Layer per-type override (non-None fields replace)\n    /// 4. If per-type `enabled == Some(false)`, short-circuit to disabled.\n    ///    **Note:** This is a hard disable — scope overrides cannot re-enable a\n    ///    type disabled at the per-type level. This allows admins to guarantee\n    ///    certain memory types are never subject to forgetting.\n    /// 5. Layer per-scope override (non-None fields replace)\n    /// 6. Return merged `ResolvedPolicy`\n    pub fn resolve_policy(\n        &self,\n        memory_type: MemoryType,\n        scope_override: Option<&ScopeForgettingOverride>,\n    ) -> ResolvedPolicy {\n        // Global disabled → everything off\n        if !self.enabled {\n            return ResolvedPolicy {\n                enabled: false,\n                max_inactive_days: self.defaults.max_inactive_days,\n                budget_top_n: self.defaults.budget_top_n,\n            };\n        }\n\n        let mut enabled = true;\n        let mut max_inactive_days = self.defaults.max_inactive_days;\n        let mut budget_top_n = self.defaults.budget_top_n;\n\n        // Layer 2: per-type override\n        if let Some(type_cfg) = self.by_type.get(&memory_type) {\n            if let Some(e) = type_cfg.enabled {\n                enabled = e;\n            }\n            if !enabled {\n                return ResolvedPolicy { enabled, max_inactive_days, budget_top_n };\n            }\n            if let Some(d) = type_cfg.max_inactive_days {\n                max_inactive_days = d;\n            }",
+  "source_version": "crates/corvia-common/src/config.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.426533495Z",
+  "valid_from": "2026-03-31T13:20:59.426533495Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/config.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 871,
+    "end_line": 912,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

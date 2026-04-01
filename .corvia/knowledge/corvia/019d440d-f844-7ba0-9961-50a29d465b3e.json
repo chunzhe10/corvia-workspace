@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-50a29d465b3e",
+  "content": "l`). We'll fix those in the next task.\n\n-**Step 13: Commit (partial — chat_service done)**\n\n```bash\ngit add crates/corvia-inference/src/chat_service.rs\ngit commit -m \"feat(inference): wire KV cache quantization and flash attention into chat service\"\n```\n\n### Task 7: ModelManager — pass kv_quant/flash_attention through gRPC\n\n**Files:**\n- Modify: `crates/corvia-inference/src/model_manager.rs`\n\n-**Step 1: Add kv_quant and flash_attention to ModelEntry**\n\nIn `crates/corvia-inference/src/model_manager.rs`, replace the `ModelEntry` struct (lines 12-18):\n\n```rust\n#[derive(Clone)]\npub struct ModelEntry {\n    pub name: String,\n    pub model_type: String,\n    pub loaded: bool,\n    pub device: String,\n    pub backend: String,\n    pub kv_quant: String,\n    pub flash_attention: bool,\n}\n```\n\n-**Step 2: Add resolve_kv_quant import**\n\nAdd to the imports at line 1:\n\n```rust\nuse crate::backend::{self, GpuCapabilities, ModelType, resolve_kv_quant};\nuse llama_cpp_2::context::params::KvCacheType;\n```\n\n(Replace the existing `use crate::backend::{self, GpuCapabilities, ModelType};` line.)\n\n-**Step 3: Update list_models to include new fields**\n\nIn `list_models` (around lines 62-68), update the `ModelStatus` construction:\n\n```rust\n            .map(|m| ModelStatus {\n                name: m.name.clone(),\n                model_type: m.model_type.clone(),",
+  "source_version": "docs/rfcs/2026-03-12-inference-kv-cache-config.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460952967Z",
+  "valid_from": "2026-03-31T13:20:59.460952967Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-12-inference-kv-cache-config.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 770,
+    "end_line": 810,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

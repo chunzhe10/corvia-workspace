@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-21b743eeb4f9",
+  "content": "### Task 2: LiteStore temporal index — Redb table + insert integration\n\nKey format: `\"{scope_id}:{valid_from_millis:020}:{entry_id}\"` (zero-padded millis for lexicographic ordering).\nValue format: JSON `{\"valid_to_millis\": Option<i64>, \"recorded_at_millis\": i64}`.\n\n**Step 4: Write temporal index during insert**\n\nIn the `insert()` method, after `self.persist_next_id()?;`, add:\n\n```rust\n// 4. Write temporal index entry\nself.write_temporal_index(entry)?;\n```\n\nImplement `write_temporal_index`:\n\n```rust\nfn write_temporal_index(&self, entry: &KnowledgeEntry) -> Result<()> {\n    let valid_from_millis = entry.valid_from.timestamp_millis();\n    let recorded_at_millis = entry.recorded_at.timestamp_millis();\n    let valid_to_millis = entry.valid_to.map(|t| t.timestamp_millis());\n\n    let key = format!(\n        \"{}:{:020}:{}\",\n        entry.scope_id, valid_from_millis, entry.id\n    );\n    let value = serde_json::to_vec(&serde_json::json!({\n        \"valid_to_millis\": valid_to_millis,\n        \"recorded_at_millis\": recorded_at_millis,\n    }))\n    .map_err(|e| CorviaError::Storage(format!(\"Failed to serialize temporal value: {e}\")))?;\n\n    let write_txn = self.db.begin_write()\n        .map_err(|e| CorviaError::Storage(format!(\"Failed to begin write txn: {e}\")))?;\n    {\n        let mut table = write_txn.open_table(TEMPORAL_INDEX)\n            .map_err(|e| CorviaError::Storage(format!(\"Failed to open TEMPORAL_INDEX: {e}\")))?;\n        table.insert(key.as_str(), value.as_slice())\n            .map_err(|e| CorviaError::Storage(format!(\"Failed to insert temporal index: {e}\")))?;\n    }\n    write_txn.commit()\n        .map_err(|e| CorviaError::Storage(format!(\"Failed to commit temporal index: {e}\")))?;\n    Ok(())\n}\n```\n\n**Step 5: Add TEMPORAL_INDEX to `init_schema`**\n\nIn `init_schema()`, add alongside the other table creations:",
+  "source_version": "docs/rfcs/2026-03-02-m3-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452474221Z",
+  "valid_from": "2026-03-31T13:20:59.452474221Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 182,
+    "end_line": 228,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

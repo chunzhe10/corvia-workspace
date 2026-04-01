@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81e-7810-a8c3-61d5e4c4cdb8",
+  "content": "ait\n        .map_err(|e| (StatusCode::INTERNAL_SERVER_ERROR, format!(\"Unpin failed: {e}\")))?;\n    let json = serde_json::to_value(result)\n        .map_err(|e| (StatusCode::INTERNAL_SERVER_ERROR, format!(\"Serialization failed: {e}\")))?;\n    Ok(Json(json))\n}\nasync fn live_sessions_handler(\n    State(state): State<Arc<AppState>>,\n) -> Result<Json<corvia_common::dashboard::LiveSessionsResponse>, (StatusCode, String)> {\n    let open_sessions = state\n        .coordinator\n        .sessions\n        .list_open()\n        .map_err(|e| (StatusCode::INTERNAL_SERVER_ERROR, format!(\"Failed to list sessions: {e}\")))?;\n\n    let agents = corvia_kernel::ops::agents_list(&state.coordinator).unwrap_or_default();\n    let agent_names: std::collections::HashMap<String, String> = agents\n        .into_iter()\n        .map(|a| (a.agent_id.clone(), a.display_name))\n        .collect();\n\n    let now = chrono::Utc::now();\n    let mut total_active = 0usize;\n    let mut total_stale = 0usize;\n    let mut total_entries_pending = 0u64;\n\n    let sessions: Vec<corvia_common::dashboard::LiveSession> = open_sessions\n        .iter()\n        .map(|s| {\n            let state_str = format!(\"{:?}\", s.state);\n            let pending = s.entries_written.saturating_sub(s.entries_merged);\n            let duration = (now - s.created_at).num_seconds().max(0) as u64;\n            let has_staging = s\n                .staging_dir\n                .as_ref()\n                .map(|d| std::path::Path::new(d).exists())\n                .unwrap_or(false);\n\n            match s.state {",
+  "source_version": "crates/corvia-server/src/dashboard/mod.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.422466377Z",
+  "valid_from": "2026-03-31T13:20:59.422466377Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/mod.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1307,
+    "end_line": 1339,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

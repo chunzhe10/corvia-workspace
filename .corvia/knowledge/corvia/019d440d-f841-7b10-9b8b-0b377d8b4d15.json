@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0b377d8b4d15",
+  "content": "unk(source, &meta()).unwrap();\n        assert!(chunks.len() >= 2, \"should split on line boundaries\");\n    }\n\n    #[test]\n    fn test_empty_source() {\n        let chunker = FallbackChunker::new(512);\n        let chunks = chunker.chunk(\"\", &meta()).unwrap();\n        assert!(chunks.is_empty() || chunks.len() == 1);\n    }\n\n    #[test]\n    fn test_metadata_populated() {\n        let chunker = FallbackChunker::new(512);\n        let chunks = chunker.chunk(\"content here\\nmore content\", &meta()).unwrap();\n        assert!(!chunks.is_empty());\n        assert_eq!(chunks[0].metadata.source_file, \"readme.txt\");\n    }\n\n    #[test]\n    fn test_name_and_extensions() {\n        let chunker = FallbackChunker::new(512);\n        assert_eq!(chunker.name(), \"fallback\");\n        assert!(chunker.supported_extensions().is_empty());\n    }\n}\n```\n\n**Step 2: Register the module and run tests to verify they fail**\n\nAdd to `crates/corvia-kernel/src/lib.rs` after line 84 (`pub mod chunking_strategy;`):\n```rust\npub mod chunking_fallback;\n```\n\nRun: `cargo test -p corvia-kernel chunking_fallback -- --nocapture`\nExpected: FAIL (todo!() panics)\n\n**Step 3: Implement FallbackChunker**",
+  "source_version": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457226357Z",
+  "valid_from": "2026-03-31T13:20:59.457226357Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 116,
+    "end_line": 146,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

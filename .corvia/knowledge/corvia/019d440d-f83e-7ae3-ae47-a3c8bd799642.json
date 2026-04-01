@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83e-7ae3-ae47-a3c8bd799642",
+  "content": "# Reconnect MCP client, then ask a question\n\n### Task 7: Integration test (Tier 3)\n\n**Files:**\n- Create: `crates/corvia-inference/tests/chat_e2e_test.rs`\n\n**Step 1: Write the integration test**\n\n```rust\n//! E2E test for chat inference. Requires GGUF model download (~800MB).\n//! Auto-skips when model download would be too slow or fails.\n\nuse corvia_proto::chat_service_client::ChatServiceClient;\nuse corvia_proto::*;\n\n/// Helper: skip test if we can't download the model.\nfn skip_if_no_model() -> bool {\n    std::env::var(\"CORVIA_CHAT_TEST\").is_err()\n}\n\n#[tokio::test]\nasync fn test_chat_e2e_generates_response() {\n    if skip_if_no_model() {\n        eprintln!(\"Skipping: set CORVIA_CHAT_TEST=1 to enable (downloads ~800MB model)\");\n        return;\n    }\n    // Start server, load model, send chat request, verify non-empty response\n    // ...\n}\n\n#[tokio::test]\nasync fn test_chat_stream_e2e() {\n    if skip_if_no_model() {\n        eprintln!(\"Skipping: set CORVIA_CHAT_TEST=1 to enable\");\n        return;\n    }\n    // Start server, load model, send streaming request, collect chunks,\n    // verify final chunk has done=true and concatenated text is non-empty\n    // ...\n}\n```\n\n**Step 2: Run tests (skipped by default)**\n\nRun: `cargo test --package corvia-inference -- chat_e2e`\nExpected: 2 tests skipped (no CORVIA_CHAT_TEST env var).\n\n**Step 3: Commit**\n\n```bash\ngit add crates/corvia-inference/tests/chat_e2e_test.rs\ngit commit -m \"test(corvia-inference): add Tier 3 chat inference e2e tests\"\n```",
+  "source_version": "docs/rfcs/2026-03-09-chat-inference.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.454686580Z",
+  "valid_from": "2026-03-31T13:20:59.454686580Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-09-chat-inference.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 594,
+    "end_line": 645,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

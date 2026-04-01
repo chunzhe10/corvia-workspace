@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84b-7723-860a-1add75b7869d",
+  "content": "## Features\n\n| **Git as truth** | All knowledge stored as JSON in `.corvia/knowledge/`. `corvia rebuild` reconstructs everything from files alone |\n| **Observability** | Structured tracing across all kernel subsystems. Configurable exporters (stdout, file, OTLP). CLI metrics via `corvia status --metrics` |\n| **MCP control plane** | 18 MCP tools across 3 safety tiers (read-only, low-risk, medium-risk). Config hot-reload, GC, index rebuild |\n| **Retrieval quality** | Built-in `corvia bench` measures NDCG, MRR, Precision@K against your own knowledge. Current dogfood scores: NDCG 0.656, MRR 0.608, Precision@5 49.6% |\n| **Config-driven RAG** | Composable retrieval pipeline: mix vector, BM25, and graph search via `[rag.pipeline]` config. Hot-swap at runtime for A/B benchmarking. RRF fusion for hybrid search |\n| **Three integration paths** | Rust crate, REST API (`:8020`), or MCP server for Claude and other agent frameworks |\n| **Embedded dashboard** | Single-binary serves dashboard on `:8021` with knowledge browser, semantic clustering, activity feed, agent status, and system health |\n| **GPU inference** | OpenVINO for Intel iGPU, CUDA for NVIDIA GPU. Runtime backend switching via config. CPU fallback with automatic detection |\n| **Docs workflow** | Doc placement enforcement (hooks), docs health checks (Aggregator), multi-repo ownership tracking |\n",
+  "source_version": "README.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.467370538Z",
+  "valid_from": "2026-03-31T13:20:59.467370538Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "README.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 69,
+    "end_line": 78,
+    "content_role": "instruction",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "procedural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

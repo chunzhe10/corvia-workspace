@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82b-7733-b219-a63c241387ca",
+  "content": "pub fn with_docs_rules(mut self, rules: corvia_common::config::DocsRulesConfig) -> Self {\n        self.docs_rules = Some(rules);\n        self\n    }\npub async fn run_all(\n        &self,\n        entries: &[KnowledgeEntry],\n        scope_id: &str,\n    ) -> Result<Vec<Finding>> {\n        let mut findings = Vec::new();\n        // Core checks\n        findings.extend(self.check_stale_entries(entries, scope_id).await?);\n        findings.extend(self.check_broken_chains(entries, scope_id).await?);\n        findings.extend(self.check_orphaned_nodes(entries, scope_id).await?);\n        findings.extend(self.check_dangling_imports(entries, scope_id).await?);\n        findings.extend(self.check_cycles(entries, scope_id).await?);\n        // Docs workflow checks\n        if let Some(ref rules) = self.docs_rules {\n            findings.extend(check_misplaced_doc(entries, rules));\n        }\n        findings.extend(check_coverage_gap(entries, scope_id));\n        findings.extend(check_temporal_contradiction(entries, 0.85));\n        findings.extend(check_unmapped_content_role(entries, scope_id));\n        Ok(findings)\n    }",
+  "source_version": "crates/corvia-kernel/src/reasoner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.435056418Z",
+  "valid_from": "2026-03-31T13:20:59.435056418Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/reasoner.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 163,
+    "end_line": 183,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

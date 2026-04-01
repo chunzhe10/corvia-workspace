@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-6da4fd079a52",
+  "content": "### 4. Default Config Flip (conditional)\n### 5. Documentation Updates\n\n## Ship Gates (from RFC)\n\n| Gate | Threshold | Baseline |\n|------|-----------|----------|\n| Source Recall@5 | > 50% | 37.5% |\n| MRR | > 0.60 | 0.544 |\n| No category regression | none below baseline | -- |\n| Retrieval latency p95 | < 20ms | -- |\n\n\n## Design Decisions\n",
+  "source_version": "docs/rfcs/2026-03-28-eval-default-flip-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463206983Z",
+  "valid_from": "2026-03-31T13:20:59.463206983Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-eval-default-flip-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 125,
+    "end_line": 135,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

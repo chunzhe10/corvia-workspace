@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-56dea6b2398d",
+  "content": "### Step 2: Run tests to verify they fail\n\n### Step 3: Implement agent types\n\nCreate `crates/corvia-common/src/agent_types.rs`:\n\n```rust\nuse chrono::{DateTime, Utc};\nuse serde::{Deserialize, Serialize};\n\n/// Agent identity — multi-layer per D45 Part 1.\n/// Corvia accepts identity at multiple layers for ecosystem compatibility.\n#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]\npub enum AgentIdentity {\n    /// Internal: registered Corvia agent with persistent ID.\n    /// Format: \"{scope}::{agent-name}\", e.g., \"myproject::code-indexer\"\n    Registered {\n        agent_id: String,\n        api_key: Option<String>,\n    },\n\n    /// External via MCP: identified by client info + optional _meta.\n    /// Used by CrewAI, LangGraph, OpenAI Agents SDK, Claude Code, etc.\n    McpClient {\n        client_name: String,\n        client_version: String,\n        agent_hint: Option<String>,\n    },\n\n    /// Anonymous: no identity, read-only access.\n    Anonymous,\n}\n\nimpl AgentIdentity {\n    /// Returns the effective agent ID used for knowledge ownership.\n    /// Registered: \"{scope}::{agent-name}\"\n    /// McpClient with hint: \"{client_name}::{agent_hint}\"\n    /// McpClient without hint: \"{client_name}\"\n    /// Anonymous: \"anonymous\"\n    pub fn effective_agent_id(&self) -> String {\n        match self {\n            Self::Registered { agent_id, .. } => agent_id.clone(),\n            Self::McpClient {\n                client_name,\n                agent_hint: Some(hint),\n                ..\n            } => format!(\"{client_name}::{hint}\"),\n            Self::McpClient { client_name, .. } => client_name.clone(),\n            Self::Anonymous => \"anonymous\".into(),\n        }\n    }\n\n    /// Whether this identity type has write access.",
+  "source_version": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451540432Z",
+  "valid_from": "2026-03-31T13:20:59.451540432Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 137,
+    "end_line": 187,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

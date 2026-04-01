@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f843-7a03-b56b-35ddbe0342c1",
+  "content": "### Step 1: Add tempfile dev dependency\n\n### Step 2: Write failing tests\n\nCreate `crates/corvia-kernel/src/knowledge_files.rs` with just tests:\n\n```rust\n#[cfg(test)]\nmod tests {\n    use super::*;\n    use corvia_common::types::KnowledgeEntry;\n\n    #[test]\n    fn test_write_and_read_entry() {\n        let dir = tempfile::tempdir().unwrap();\n\n        let entry = KnowledgeEntry::new(\n            \"fn hello() {}\".into(),\n            \"test-scope\".into(),\n            \"abc123\".into(),\n        ).with_embedding(vec![0.1, 0.2, 0.3]);\n\n        write_entry(dir.path(), &entry).unwrap();\n\n        let loaded = read_entry(dir.path(), \"test-scope\", &entry.id).unwrap();\n        assert_eq!(loaded.content, entry.content);\n        assert_eq!(loaded.embedding, entry.embedding);\n    }\n\n    #[test]\n    fn test_read_scope() {\n        let dir = tempfile::tempdir().unwrap();\n\n        for i in 0..3 {\n            let entry = KnowledgeEntry::new(\n                format!(\"entry {i}\"),\n                \"my-scope\".into(),\n                \"v1\".into(),\n            ).with_embedding(vec![0.1; 3]);\n            write_entry(dir.path(), &entry).unwrap();\n        }\n\n        let entries = read_scope(dir.path(), \"my-scope\").unwrap();\n        assert_eq!(entries.len(), 3);\n    }\n\n    #[test]\n    fn test_read_scope_empty() {\n        let dir = tempfile::tempdir().unwrap();\n        let entries = read_scope(dir.path(), \"nonexistent\").unwrap();",
+  "source_version": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.459739971Z",
+  "valid_from": "2026-03-31T13:20:59.459739971Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 524,
+    "end_line": 571,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

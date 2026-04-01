@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f830-7a51-9391-47ba68d210d7",
+  "content": "  let overlap_pct = overlap as f64 / min_count as f64;\n                assert!(\n                    overlap_pct >= 0.80,\n                    \"entry ID overlap should be >= 80% for query '{query}', \\\n                     got {:.0}% ({overlap}/{min_count})\",\n                    overlap_pct * 100.0\n                );\n            }\n\n            // Check top-1 match.\n            if !legacy_result.results.is_empty() && !pipeline_result.results.is_empty() {\n                if legacy_result.results[0].entry.id == pipeline_result.results[0].entry.id {\n                    top1_matches += 1;\n                }\n            }\n\n            // Graph expansion counts should be similar (within +-3).\n            let legacy_expanded = legacy_result.metrics.graph_expanded;\n            let pipeline_expanded = pipeline_result.metrics.graph_expanded;\n            let diff =\n                (legacy_expanded as i64 - pipeline_expanded as i64).unsigned_abs() as usize;\n            assert!(\n                diff <= 3,\n                \"graph_expanded difference too large for query '{query}': \\\n                 legacy={legacy_expanded}, pipeline={pipeline_expanded}\"\n            );\n        }\n\n        // Top-1 comparison is informational only. The legacy retriever applies\n        // alpha-blended scoring directly (((1-alpha)*cosine + alpha*1.0) * tier_weight)\n        // while the pipeline applies tier_weight in VectorSearcher then min-max\n        // normalizes in PassThrough, which can reorder entries with very similar\n        // embeddings. The entry ID overlap check above is the meaningful comparison.\n        // We just log the top-1 match rate for diagnostics.\n        let _top1_pct = top1_matches as f64 / queries.len() as f64;\n    }",
+  "source_version": "crates/corvia-kernel/src/pipeline/core.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.440389953Z",
+  "valid_from": "2026-03-31T13:20:59.440389953Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/core.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 490,
+    "end_line": 520,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

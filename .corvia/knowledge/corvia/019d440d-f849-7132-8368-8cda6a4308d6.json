@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-8cda6a4308d6",
+  "content": " name: repo_name.clone(),\n                url: url.clone(),\n                local,\n                namespace: repo_name,\n            }\n        })\n        .collect();\n\n    let mut config = CorviaConfig::default();\n    config.project.name = name.to_string();\n    config.project.scope_id = name.to_string();\n    config.workspace = Some(WorkspaceConfig {\n        repos_dir: \"repos\".into(),\n        repos,\n    });\n    config\n}\n\n/// Resolve the actual path for a repo: local override if valid, otherwise cloned path\npub fn resolve_repo_path(workspace_root: &Path, repos_dir: &str, repo: &RepoConfig) -> PathBuf {\n    if let Some(local) = &repo.local {\n        let local_path = PathBuf::from(local);\n        if local_path.exists() && local_path.join(\".git\").exists() {\n            return local_path;\n        }\n    }\n    workspace_root.join(repos_dir).join(&repo.name)\n}\n\n/// Clone a repo into the workspace repos directory. Returns the clone path.\npub fn clone_repo(url: &str, target_dir: &Path) -> Result<PathBuf> {\n    if target_dir.exists() {\n        println!(\"  repo already exists: {}\", target_dir.display());\n        return Ok(target_dir.to_path_buf());\n    }\n    println!(\"  cloning {} -> {}\", url, target_dir.display());\n    git2::Repository::clone(url, target_dir)?;\n    Ok(target_dir.to_path_buf())\n}\n\n/// Scaffold the workspace directory structure\npub fn scaffold_workspace(root: &Path, config: &CorviaConfig) -> Result<()> {\n    let ws = config.workspace.as_ref()\n        .ok_or_else(|| anyhow::anyhow!(\"Not a workspace config\"))?;",
+  "source_version": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465080688Z",
+  "valid_from": "2026-03-31T13:20:59.465080688Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 428,
+    "end_line": 461,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

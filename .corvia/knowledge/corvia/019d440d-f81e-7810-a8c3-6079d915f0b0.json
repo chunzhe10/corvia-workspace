@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81e-7810-a8c3-6079d915f0b0",
+  "content": "pub struct MergeRetryRequest {\n    pub entry_ids: Vec<String>,\n}\nasync fn merge_retry_handler(\n    State(state): State<Arc<AppState>>,\n    Json(req): Json<MergeRetryRequest>,\n) -> Result<Json<serde_json::Value>, (StatusCode, String)> {\n    let ids: Vec<uuid::Uuid> = req\n        .entry_ids\n        .iter()\n        .map(|s| s.parse::<uuid::Uuid>())\n        .collect::<std::result::Result<Vec<_>, _>>()\n        .map_err(|e| (StatusCode::BAD_REQUEST, format!(\"Invalid UUID: {e}\")))?;\n\n    let retried = corvia_kernel::ops::merge_retry(&state.coordinator, &ids)\n        .map_err(|e| (StatusCode::INTERNAL_SERVER_ERROR, format!(\"Merge retry failed: {e}\")))?;\n\n    Ok(Json(serde_json::json!({ \"retried\": retried })))\n}",
+  "source_version": "crates/corvia-server/src/dashboard/mod.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.422292206Z",
+  "valid_from": "2026-03-31T13:20:59.422292206Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/mod.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 767,
+    "end_line": 782,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

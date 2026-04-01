@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f822-7391-83ed-384d75c7cf8e",
+  "content": "_eq!(fg.interval_minutes, 30);\n        assert_eq!(fg.defaults.budget_top_n, 5000);\n        let scopes = loaded.scope.unwrap();\n        let scope_fg = scopes[0].forgetting.as_ref().unwrap();\n        assert_eq!(scope_fg.max_inactive_days, Some(365));\n    }\n}\nfn test_default_config() {\n        let config = CorviaConfig::default();\n        assert_eq!(config.storage.store_type, StoreType::Lite);\n        assert_eq!(config.embedding.provider, InferenceProvider::Ollama);\n        assert_eq!(config.embedding.dimensions, 768);\n        assert_eq!(config.server.port, 8020);\n    }",
+  "source_version": "crates/corvia-common/src/config.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.426946834Z",
+  "valid_from": "2026-03-31T13:20:59.426946834Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/config.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1104,
+    "end_line": 1110,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

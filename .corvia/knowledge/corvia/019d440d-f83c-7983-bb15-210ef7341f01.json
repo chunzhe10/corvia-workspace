@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-210ef7341f01",
+  "content": "`\n\n**Step 4: Verify it compiles**\n\nRun: `cargo build -p corvia`\nExpected: Compiles without errors.\n\n**Step 5: Commit**\n\n```bash\ngit add crates/corvia-cli/src/main.rs\ngit commit -m \"feat(cli): add 'corvia test' subcommand with Introspect pipeline\"\n```\n\n---\n\n### Task 7: Add `corvia demo` CLI Subcommand (Interactive REPL)\n\nWire the Introspect pipeline into an interactive REPL for new users.\n\n**Files:**\n- Modify: `crates/corvia-cli/src/main.rs`\n\n**Step 1: Extract search result formatting into a shared function**\n\nRefactor the existing `cmd_search` result formatting into a reusable function. Add this helper above `cmd_search`:\n\n```rust\nfn print_search_results(results: &[corvia_common::types::SearchResult]) {\n    for (i, result) in results.iter().enumerate() {\n        let file = result\n            .entry\n            .metadata\n            .source_file\n            .as_deref()\n            .unwrap_or(\"unknown\");\n        let lines = match (\n            result.entry.metadata.start_line,\n            result.entry.metadata.end_line,\n        ) {\n            (Some(s), Some(e)) => format!(\":{s}-{e}\"),\n            _ => String::new(),\n        };\n        println!(\"--- Result {} (score: {:.3}) ---\", i + 1, result.score);\n        println!(\"File: {file}{lines}\");\n        let preview: String = result\n            .entry\n            .content\n            .lines()\n            .take(5)\n            .collect::<Vec<_>>()\n            .join(\"\\n\");\n        println!(\"{preview}\");\n        if result.entry.content.lines().count() > 5 {\n            println!(\"  ...\");",
+  "source_version": "docs/rfcs/2026-02-28-introspect-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452346858Z",
+  "valid_from": "2026-03-31T13:20:59.452346858Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-introspect-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 956,
+    "end_line": 994,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

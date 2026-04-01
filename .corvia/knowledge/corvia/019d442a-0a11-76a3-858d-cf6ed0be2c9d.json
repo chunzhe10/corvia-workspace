@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-cf6ed0be2c9d",
+  "content": "# --- 10. Report completion ---\n\n### Environment Variables (passed by `spoke create`)\n\n| Env Var | Source | Purpose |\n|---------|--------|---------|\n| `CORVIA_REPO_URL` | From `corvia.toml` repo config | Git clone URL |\n| `CORVIA_BRANCH` | From `--branch` or `feat/<issue>-<desc>` | Feature branch name |\n| `CORVIA_ISSUE` | From `--issue` | GitHub issue number for dev-loop |\n| `CORVIA_MCP_URL` | Hub's MCP endpoint | corvia server connection |\n| `CORVIA_AGENT_ID` | Generated `spoke-<issue>` | Unique agent identity |\n| `GITHUB_TOKEN` | From hub's env | Git push and gh CLI auth |\n\n---\n",
+  "source_version": "decisions/2026-03-28-spoke-cli-design.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025971398Z",
+  "valid_from": "2026-03-31T13:51:39.025971398Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-cli-design.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 413,
+    "end_line": 425,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

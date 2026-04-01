@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9c20d5baa337",
+  "content": "\n**What works after M3**: \"What did we know about auth 3 months ago?\" works. Graph traversal shows how concepts connect. Pattern detection finds inconsistencies. `corvia upgrade` migrates to FullStore when ready. Corvia documents its own development.\n\n---\n\n### M4: \"See what's happening inside\"\n\n**Depends on**: M3\n**LinkedIn**: \"OpenTelemetry for AI agents — instrumenting a multi-agent knowledge system end to end\"\n\n**What changed from original**:\n- Two-tier observability: LiteStore (zero-Docker) needs CLI-based metrics, not just Grafana\n- OTLP export targets: stdout/file (LiteStore) + OTLP endpoint (FullStore/Grafana)\n\n**Deliverables**:\n1. `corvia-telemetry` crate — OpenTelemetry spans across all kernel subsystems\n   - Embedding pipeline: embed duration, batch size, model, token count\n   - Knowledge store: insert/search/get latency, result count\n   - Agent coordinator: session count, merge queue depth, conflict rate\n   - Context builder: query build time, filter selectivity\n2. **LiteStore tier**: `corvia status --metrics`\n   - Ingest rate (entries/min), search latency (P50/P95/P99)\n   - Active agent sessions, merge queue depth, conflict rate\n   - HNSW index size, knowledge entry count by scope\n   - GC activity: orphaned sessions cleaned, entries discarded, agents suspended\n   - Crash recovery events: sessions resumed, committed, rolled back\n   - Structured JSON logs to file\n3. **FullStore tier**: `corvia serve --grafana`\n   - Docker Compose stack: Grafana + Tempo + Prometheus\n   - Pre-built dashboards: pipeline overview, agent activity, merge worker, search performance, GC/recovery\n4. OTLP exporter with configurable target (stdout, file, OTLP endpoint)\n\n**What works after M4**: LiteStore users get `corvia status --metrics` in terminal. FullStore users get Grafana dashboards. Both have structured logs and OpenTelemetry traces.\n\n---\n",
+  "source_version": "docs/rfcs/milestone-revision-notes.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464230707Z",
+  "valid_from": "2026-03-31T13:20:59.464230707Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/milestone-revision-notes.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 97,
+    "end_line": 127,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

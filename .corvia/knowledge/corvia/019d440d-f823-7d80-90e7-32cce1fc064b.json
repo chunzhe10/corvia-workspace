@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f823-7d80-90e7-32cce1fc064b",
+  "content": "fn test_repo_name_from_url_empty_fallback() {\n        assert_eq!(repo_name_from_url(\"\"), \"unknown\");\n        assert_eq!(repo_name_from_url(\".git\"), \"unknown\");\n    }\nfn test_parse_local_overrides() {\n        let overrides = vec![\n            \"backend=/home/dev/backend\".into(),\n            \"frontend=/tmp/fe\".into(),\n        ];\n        let parsed = parse_local_overrides(&overrides).unwrap();\n        assert_eq!(parsed.len(), 2);\n        assert_eq!(parsed[0], (\"backend\".into(), \"/home/dev/backend\".into()));\n        assert_eq!(parsed[1], (\"frontend\".into(), \"/tmp/fe\".into()));\n    }",
+  "source_version": "crates/corvia-cli/src/workspace.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.427945930Z",
+  "valid_from": "2026-03-31T13:20:59.427945930Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/workspace.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 591,
+    "end_line": 600,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

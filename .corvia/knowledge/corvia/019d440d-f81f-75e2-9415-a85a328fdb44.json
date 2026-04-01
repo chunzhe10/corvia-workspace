@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81f-75e2-9415-a85a328fdb44",
+  "content": "(&path, 3);\n        assert_eq!(lines, vec![\"line 7\", \"line 8\", \"line 9\"]);\n    }\n\n    #[test]\n    fn tail_lines_missing_file_returns_empty() {\n        let lines = tail_lines(Path::new(\"/nonexistent/file.log\"), 10);\n        assert!(lines.is_empty());\n    }\n\n    // --- OTEL trace context ---\n\n    #[test]\n    fn parse_span_with_otel_context() {\n        let line = r#\"{\"timestamp\":\"2026-03-14T10:00:00Z\",\"level\":\"INFO\",\"span\":{\"name\":\"corvia.entry.write\"},\"fields\":{},\"elapsed_ms\":12.5,\"otel.trace_id\":\"abcdef1234567890abcdef1234567890\",\"otel.span_id\":\"1234567890abcdef\",\"otel.parent_span_id\":\"fedcba0987654321\"}\"#;\n        let result = parse_trace_line(line).unwrap();\n        match result {\n            ParsedTrace::Span {\n                trace_id,\n                span_id,\n                parent_span_id,\n                ..\n            } => {\n                assert_eq!(\n                    trace_id.as_deref(),\n                    Some(\"abcdef1234567890abcdef1234567890\")\n                );\n                assert_eq!(span_id.as_deref(), Some(\"1234567890abcdef\"));\n                assert_eq!(parent_span_id.as_deref(), Some(\"fedcba0987654321\"));\n            }\n            _ => panic!(\"expected Span variant\"),\n        }\n    }\n\n    #[test]\n    fn parse_span_without_otel_context() {\n        let line = r#\"{\"timestamp\":\"2026-03-14T10:00:00Z\",\"level\":\"INFO\",\"span\":{\"name\":\"corvia.entry.write\"},\"fields\":{},\"elapsed_ms\":12.5}\"#;\n        let result = parse_trace_line(line).unwrap();\n        match result {\n            ParsedTrace::Span {\n                trace_id,\n                span_id,\n                parent_span_id,\n                ..\n            } => {",
+  "source_version": "crates/corvia-server/src/dashboard/traces.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.423236167Z",
+  "valid_from": "2026-03-31T13:20:59.423236167Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/traces.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 686,
+    "end_line": 720,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

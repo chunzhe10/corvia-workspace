@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f823-7d80-90e7-2f15bfd7ed57",
+  "content": "b agent_id: String,\n    pub created_at: DateTime<Utc>,\n    pub last_heartbeat: DateTime<Utc>,\n    pub state: SessionState,\n    pub git_branch: Option<String>,\n    pub staging_dir: Option<String>,\n    pub entries_written: u64,\n    pub entries_merged: u64,\n}\npub enum EntryStatus {\n    Pending,\n    Committed,\n    #[default]\n    Merged,\n    Rejected,\n}",
+  "source_version": "crates/corvia-common/src/agent_types.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.427471904Z",
+  "valid_from": "2026-03-31T13:20:59.427471904Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/agent_types.rs",
+    "language": "rs",
+    "chunk_type": "enum_item",
+    "start_line": 177,
+    "end_line": 183,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f824-7280-b2ba-a678ecfda781",
+  "content": "fn test_infer_source_origin_repo() {\n        assert_eq!(\n            infer_source_origin(Some(\"corvia\"), \"src/main.rs\"),\n            Some(\"repo:corvia\".into())\n        );\n    }\nfn test_infer_source_origin_workspace() {\n        assert_eq!(\n            infer_source_origin(None, \"decisions/d01.md\"),\n            Some(\"workspace\".into())\n        );\n    }",
+  "source_version": "crates/corvia-cli/src/workspace.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.428055704Z",
+  "valid_from": "2026-03-31T13:20:59.428055704Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/workspace.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 846,
+    "end_line": 851,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

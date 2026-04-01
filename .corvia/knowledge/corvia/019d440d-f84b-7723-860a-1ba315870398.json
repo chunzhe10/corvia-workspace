@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84b-7723-860a-1ba315870398",
+  "content": "## Architecture\n\n### Workspace crates\n\n| Crate | Path | What it does |\n|-------|------|-------------|\n| `corvia-common` | `crates/corvia-common` | Shared types, config, errors, namespace, events |\n| `corvia-kernel` | `crates/corvia-kernel` | Storage, coordination, reasoning, graph, temporal, RAG, chunking |\n| `corvia-server` | `crates/corvia-server` | Axum HTTP server — REST + MCP protocol |\n| `corvia` (CLI) | `crates/corvia-cli` | CLI binary and workspace management |\n| `corvia-inference` | `crates/corvia-inference` | gRPC inference server (ONNX Runtime) |\n| `corvia-proto` | `crates/corvia-proto` | Protocol Buffers for gRPC inference |\n| `corvia-adapter-git` | `adapters/corvia-adapter-git/rust` | Git + tree-sitter code ingestion adapter |\n| `corvia-telemetry` | `crates/corvia-telemetry` | Structured tracing initialization, span name contracts |\n| `corvia-adapter-basic` | `adapters/corvia-adapter-basic/rust` | Basic filesystem ingestion adapter |\n\n\n### Design principles\n\n- **Single-binary** — `corvia serve` runs API server + embedded dashboard. No separate frontend deployment\n- **Local-first** — zero cost, no API keys. corvia-inference (ONNX, 12 models) or Ollama provides local embeddings\n- **Provider-agnostic** — any LLM, any embedding model. All inference goes through traits\n- **Domain-agnostic kernel** — adapters bring domain knowledge. The kernel doesn't assume code\n- **Trait-bounded** — `QueryableStore`, `InferenceEngine`, `TemporalStore`, `GraphStore`, `IngestionAdapter` are all swappable\n- **Measurable** — `corvia bench` evaluates retrieval quality against your own data. No separate eval infrastructure needed\n\nFor detailed internals, see [ARCHITECTURE.md](ARCHITECTURE.md).\n",
+  "source_version": "README.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.467431353Z",
+  "valid_from": "2026-03-31T13:20:59.467431353Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "README.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 248,
+    "end_line": 272,
+    "content_role": "instruction",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "procedural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-30a007f49d03",
+  "content": "### I13: Spoke permissions maximally permissive (Security)\n\n## Low Issues (Fix Before Merge)\n\n| # | Issue | Source |\n|---|-------|--------|\n| L1 | Dashboard Docker client created per request, not cached in AppState | SWE |\n| L2 | SpokeConfig nested under two Option levels, needs helper | SWE |\n| L3 | Label key mismatch between CLI and dashboard (`corvia.spoke.name`) | SWE |\n| L4 | Credential bind mount contradicts brainstorm warning | SWE |\n| L5 | AGENTS.md mount may fail if workspace is on Docker volume | QA |\n| L6 | Dashboard Docker dependency introduces new failure domain | QA |\n| L7 | `spoke destroy --all` has no confirmation | QA, SWE |\n| L8 | Agent ID collision on spoke reuse (spoke-42 v1 vs v2) | QA |\n| L9 | macOS Docker Desktop / Codespaces portability | DevOps |\n| L10 | Spoke image versioning and cache invalidation | DevOps |\n| L11 | Container name collision across workspaces | DevOps |\n| L12 | No log rotation for spoke containers | DevOps, PM |\n| L13 | Spoke containers run as root | Security |\n| L14 | No credential rotation/revocation mechanism | Security |\n\n---\n\n\n## Minor Issues (Nice to Have)\n\n| # | Issue | Source |\n|---|-------|--------|\n| M1 | No spoke-level resource usage in dashboard (docker stats) | DevOps |\n| M2 | Activity feed spoke detection uses string prefix, not lookup | SWE |\n| M3 | Dashboard polls spokes every 5s, 15-30s is sufficient | PM, DevOps |\n| M4 | No spoke restart command (preserve repo state) | PM |\n| M5 | GitHub issue link hardcodes URL pattern | PM, QA |\n| M6 | No rate limiting on MCP endpoint | Security |\n| M7 | No content filter for secrets in corvia_write | Security |\n| M8 | No audit log for spoke lifecycle events | Security |\n| M9 | No spoke-level logging capture in corvia | SWE |\n| M10 | Entrypoint no retry logic for transient git clone failures | QA |\n\n---\n",
+  "source_version": "decisions/2026-03-28-spoke-design-review-summary.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026683018Z",
+  "valid_from": "2026-03-31T13:51:39.026683018Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-design-review-summary.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 116,
+    "end_line": 153,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

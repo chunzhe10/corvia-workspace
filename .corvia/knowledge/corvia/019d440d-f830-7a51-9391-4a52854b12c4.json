@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f830-7a51-9391-4a52854b12c4",
+  "content": "teScores {\n                            components,\n                            final_score: NormalizedScore::new(blended),\n                        },\n                    });\n                    graph_expanded += 1;\n                }\n            }\n        }\n\n        // Deeper hops (graph_depth > 1).\n        if ctx.opts.graph_depth > 1 {\n            for seed in &set.candidates {\n                let deep_entries = self\n                    .graph\n                    .traverse(\n                        &seed.entry.id,\n                        None,\n                        EdgeDirection::Both,\n                        ctx.opts.graph_depth,\n                    )\n                    .await?;\n\n                for entry in deep_entries {\n                    if seen.contains(&entry.id) {\n                        // Reinforce with diminishing returns for deeper hops.\n                        let count = reinforcement_counts.entry(entry.id).or_insert(0);\n                        let decay = 0.5_f32.powi(*count as i32);\n                        let bonus = self.alpha * 0.15 * decay;\n                        if bonus > 0.001 {\n                            if let Some(existing) = scored.iter_mut().find(|c| c.entry.id == entry.id) {\n                                let new_score = existing.scores.final_score.value() + bonus;",
+  "source_version": "crates/corvia-kernel/src/pipeline/expander.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.440734717Z",
+  "valid_from": "2026-03-31T13:20:59.440734717Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/expander.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 171,
+    "end_line": 193,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

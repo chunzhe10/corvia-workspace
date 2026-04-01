@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84b-7723-860a-1d5518393e81",
+  "content": "### REST Endpoints\n\n### MCP Tools\n\nCorvia implements the Model Context Protocol (version `2024-11-05`) via JSON-RPC 2.0 at\n`POST /mcp`. Enabled with `corvia serve --mcp`. Supports `initialize`, `tools/list`, and\n`tools/call` methods.\n\nTools use a three-tier safety model. Tier 1 tools execute immediately. Tier 2 tools require\n`_meta.confirmed: true`. Tier 3 tools require confirmation and support `dry_run` mode.\n\n**Tier 1 — Read-only (auto-approved):**\n\n| Tool | Parameters | Description |\n|------|-----------|-------------|\n| `corvia_search` | `query`, `scope_id`, `limit?` | Semantic similarity search |\n| `corvia_write` | `content`, `scope_id`, `agent_id?`, `source_version?` | Write a knowledge entry |\n| `corvia_history` | `entry_id` | Supersession history chain |\n| `corvia_graph` | `entry_id` | Graph edges (both directions) |\n| `corvia_reason` | `scope_id`, `check?` | Reasoning health checks |\n| `corvia_agent_status` | `agent_id?` | Agent contribution summary |\n| `corvia_context` | `query`, `scope_id`, `limit?` | RAG context retrieval (no generation) |\n| `corvia_ask` | `query`, `scope_id`, `limit?` | Full RAG with AI-generated answer |",
+  "source_version": "ARCHITECTURE.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.467603543Z",
+  "valid_from": "2026-03-31T13:20:59.467603543Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "ARCHITECTURE.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 257,
+    "end_line": 277,
+    "content_role": null,
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

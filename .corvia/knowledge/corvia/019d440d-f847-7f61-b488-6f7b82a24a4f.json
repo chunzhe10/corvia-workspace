@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-6f7b82a24a4f",
+  "content": "### Dashboard (v0.3.7 — v0.4.3)\n### GPU Inference (v0.4.2)\n\n### Reference & Future Work\n\n| Date | Title | Type | Status |\n|------|-------|------|--------|\n| — | [Milestone revision notes](milestone-revision-notes.md) | Reference | Reference |\n| 2026-03-08 | [StoreClient trait abstraction](store-client-abstraction.md) | Design | Proposed |\n| 2026-03-14 | [Claude session history design](2026-03-14-claude-session-history-design.md) | Design | Draft |",
+  "source_version": "docs/rfcs/README.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463381245Z",
+  "valid_from": "2026-03-31T13:20:59.463381245Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/README.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 93,
+    "end_line": 99,
+    "content_role": "instruction",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "procedural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-3798329b5349",
+  "content": " (in background, Ctrl-C)\nExpected: Prints \"corvia-inference listening on 0.0.0.0:0\"\n\n**Step 6: Commit**\n\n```bash\ngit add crates/corvia-inference/ Cargo.toml\ngit commit -m \"feat(d60): scaffold corvia-inference crate with ModelManager gRPC service\"\n```\n\n---\n\n## Task 9: Implement EmbeddingService with fastembed\n\n**Files:**\n- Create: `crates/corvia-inference/src/embedding_service.rs`\n- Modify: `crates/corvia-inference/Cargo.toml`\n- Modify: `crates/corvia-inference/src/main.rs`\n- Modify: `crates/corvia-inference/src/model_manager.rs`\n\n**Step 1: Add fastembed dependency**\n\nIn `crates/corvia-inference/Cargo.toml`:\n```toml\nfastembed = \"5\"\n```\n\n**Step 2: Implement EmbeddingService**\n\nCreate `crates/corvia-inference/src/embedding_service.rs`:\n```rust\nuse corvia_proto::embedding_service_server::EmbeddingService;\nuse corvia_proto::*;\nuse fastembed::{TextEmbedding, InitOptions, EmbeddingModel};\nuse std::collections::HashMap;\nuse std::sync::Arc;\nuse tokio::sync::RwLock;\nuse tonic::{Request, Response, Status};\n\npub struct EmbeddingServiceImpl {\n    models: Arc<RwLock<HashMap<String, TextEmbedding>>>,\n}\n\nimpl EmbeddingServiceImpl {\n    pub fn new() -> Self {\n        Self {\n            models: Arc::new(RwLock::new(HashMap::new())),\n        }\n    }\n\n    pub fn models(&self) -> Arc<RwLock<HashMap<String, TextEmbedding>>> {",
+  "source_version": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458706201Z",
+  "valid_from": "2026-03-31T13:20:59.458706201Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1245,
+    "end_line": 1283,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

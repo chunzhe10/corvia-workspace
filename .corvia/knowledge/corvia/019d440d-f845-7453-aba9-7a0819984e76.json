@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-7a0819984e76",
+  "content": "await?;\n        let fetch_limit = std::cmp::max(opts.limit * 2, 10);\n        let vector_results = self.store.search(&embedding, scope_id, fetch_limit).await?;\n        let vector_count = vector_results.len();\n\n        // Track seen IDs and their best scores\n        let mut seen: HashSet<uuid::Uuid> = HashSet::new();\n        let mut scored: Vec<(SearchResult, f32)> = Vec::new();\n\n        for r in &vector_results {\n            seen.insert(r.entry.id);\n            // Pure vector score (graph component = 0 for direct hits at hop 0)\n            let final_score = (1.0 - self.alpha) * r.score + self.alpha * 1.0;\n            scored.push((r.clone(), final_score));\n        }\n\n        // Step 2: Graph expansion (if enabled)\n        let mut graph_expanded = 0;\n        if opts.expand_graph {\n            let _gs = tracing::info_span!(\"corvia.rag.retrieve.graph\").entered();\n            for r in &vector_results {\n                let edges = self.graph.edges(&r.entry.id, EdgeDirection::Both).await?;\n                for edge in edges {\n                    let neighbor_id = if edge.from == r.entry.id { edge.to } else { edge.from };\n                    if seen.contains(&neighbor_id) {\n                        continue;\n                    }\n                    seen.insert(neighbor_id);\n\n                    if let Ok(Some(entry)) = self.store.get(&neighbor_id).await {\n                        if entry.scope_id != scope_id {\n                            continue;\n                        }\n                        let hop_score = self.alpha * (1.0 / 2.0); // hop distance = 1\n                        let result = SearchResult { entry, score: hop_score };\n                        scored.push((result, hop_score));\n                        graph_expanded += 1;\n                    }\n                }\n\n                // Depth > 1: follow edges of edges",
+  "source_version": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461930381Z",
+  "valid_from": "2026-03-31T13:20:59.461930381Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 942,
+    "end_line": 976,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

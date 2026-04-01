@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0cdbf2adea3f",
+  "content": "go check -p corvia-adapter-git`\nExpected: FAIL (expected — adapter still implements old trait)\n\n**Step 4: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/traits.rs\ngit commit -m \"feat(m3.3): revise IngestionAdapter trait — D69 clean break\"\n```\n\n---\n\n### Task 8: AstChunker (corvia-adapter-git)\n\nWrap existing tree-sitter parsing as a `ChunkingStrategy` implementation.\n\n**Files:**\n- Create: `corvia-adapter-git/src/ast_chunker.rs`\n- Modify: `corvia-adapter-git/src/lib.rs` (add module, re-export)\n\n**Step 1: Write the failing tests**\n\nCreate `corvia-adapter-git/src/ast_chunker.rs`:\n\n```rust\n//! AstChunker — tree-sitter AST-aware chunking strategy (D65/D68).\n//!\n//! Implements [`ChunkingStrategy`] by delegating to the existing\n//! tree-sitter parsing in [`treesitter`]. Supports Rust, Python,\n//! JavaScript, and TypeScript.\n\nuse corvia_common::errors::Result;\nuse corvia_kernel::chunking_strategy::*;\nuse crate::treesitter;\n\npub struct AstChunker;\n\nimpl AstChunker {\n    pub fn new() -> Self { Self }\n}\n\nimpl ChunkingStrategy for AstChunker {\n    fn name(&self) -> &str { \"ast\" }\n    fn supported_extensions(&self) -> &[&str] { &[\"rs\", \"js\", \"jsx\", \"ts\", \"tsx\", \"py\"] }\n    fn chunk(&self, _source: &str, _meta: &SourceMetadata) -> Result<Vec<RawChunk>> {\n        todo!()\n    }\n}\n\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    fn rust_meta() -> SourceMetadata {",
+  "source_version": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457526565Z",
+  "valid_from": "2026-03-31T13:20:59.457526565Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1218,
+    "end_line": 1259,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

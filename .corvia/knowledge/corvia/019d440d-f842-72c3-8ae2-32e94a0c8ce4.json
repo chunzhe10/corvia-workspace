@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-32e94a0c8ce4",
+  "content": "'; }\n        else if (lvl === 'WARN' || lvl === 'WARNING') { level = 'warn'; levelLabel = 'WARN'; }\n        else if (lvl === 'DEBUG') { level = 'debug'; levelLabel = 'DBUG'; }\n        msg = m2[2];\n      }\n    }\n  }\n\n  return { ts, level, levelLabel, msg };\n}\n\n// --- Bind all interactive elements ---\nfunction bindAll() {\n  // Command buttons\n  document.querySelectorAll('[data-cmd]').forEach(b => {\n    b.onclick = () => vscode.postMessage({ type: 'command', command: b.dataset.cmd });\n  });\n\n  // Refresh action\n  document.querySelectorAll('[data-action=\"refresh\"]').forEach(b => {\n    b.onclick = () => vscode.postMessage({ type: 'refresh' });\n  });\n\n  // View tabs\n  document.querySelectorAll('[data-view]').forEach(b => {\n    b.onclick = () => {\n      activeView = b.dataset.view;\n      // Re-render with last data by requesting refresh\n      vscode.postMessage({ type: 'refresh' });\n    };\n  });\n\n  // Log filter buttons\n  document.querySelectorAll('[data-filter]').forEach(b => {\n    b.onclick = () => {\n      activeFilter = b.dataset.filter;\n      applyLogFilters();\n      document.querySelectorAll('.log-filter').forEach(f => f.classList.toggle('active', f.dataset.filter === activeFilter));\n    };\n  });\n\n  // Log source tabs\n  document.querySelectorAll('[data-log-tab]').forEach(b => {\n    b.onclick = () => {\n      activeLogTab = b.dataset.logTab;\n      vscode.postMessage({ type: 'refresh' });\n    };\n  });\n\n  // Search input\n  const searchInput = document.getElementById('logSearchInput');\n  if (searchInput) {\n    searchInput.oninput = () => {\n      searchQuery = searchInput.value;\n      applyLogFilters();\n    };\n  }\n\n  // Auto-scroll toggle\n  const autoBtn = document.getElementById('autoScrollBtn');\n  if (autoBtn) {\n    autoBtn.onclick = () => {\n      autoScroll = !autoScroll;\n      autoBtn.classList.toggle('active', autoScroll);\n      if (autoScroll) {\n        const output = document.getElementById('logOutput');\n        if (output) output.scrollTop = output.scrollHeight;\n      }\n    };\n  }\n\n  // Clear logs",
+  "source_version": "docs/rfcs/2026-03-10-dashboard-redesign.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458055875Z",
+  "valid_from": "2026-03-31T13:20:59.458055875Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-dashboard-redesign.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 982,
+    "end_line": 1044,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

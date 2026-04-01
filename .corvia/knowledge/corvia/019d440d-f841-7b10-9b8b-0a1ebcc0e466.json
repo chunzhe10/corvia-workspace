@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0a1ebcc0e466",
+  "content": "## 5. Graph Edges\n\n### Deferred edge wiring\n\nGraph edges that reference session history entries (from the session adapter)\nmay fail if the session adapter has not yet run. The adapter handles this\ngracefully:\n\n1. Attempt to resolve the target entry by querying the store.\n2. If found, create the edge immediately.\n3. If not found, append the edge spec to `.pending-edges` in the staging\n   directory: `{from_source_version, relation, to_source_version}`.\n4. On the next ingest run, retry pending edges. Edges that resolve are\n   created and removed from the file. Edges that still fail remain pending.\n\nThis eliminates the ordering dependency between session history and agent-teams\nadapter runs.\n\n\n### Team to session (lifecycle)\n\n```\nrelate(\n  from: team_structure_entry_id,\n  relation: \"ran_during\",\n  to: lead_session_first_turn_entry_id\n)\n```\n\nThis `ran_during` edge links the team to its lead session, enabling temporal\nqueries (\"what teams ran on March 15?\") via the session's timestamp metadata.\nDistinct from `has_member` which captures membership, not lifecycle.\n",
+  "source_version": "docs/rfcs/2026-03-28-agent-teams-adapter-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457085463Z",
+  "valid_from": "2026-03-31T13:20:59.457085463Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-agent-teams-adapter-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 401,
+    "end_line": 430,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

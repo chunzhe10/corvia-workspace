@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-2232970bb3c5",
+  "content": " break,\n        }\n    }\n\n    Ok(chain)\n}\n```\n\nNote: This is a simple scan-based approach. For large stores, a `SUPERSEDED_BY_REVERSE` Redb index would be better, but YAGNI — optimize when needed.\n\n**Step 5: Implement `evolution`**\n\nReplace the `todo!()`:\n\n```rust\nasync fn evolution(\n    &self,\n    scope_id: &str,\n    from: chrono::DateTime<chrono::Utc>,\n    to: chrono::DateTime<chrono::Utc>,\n) -> Result<Vec<KnowledgeEntry>> {\n    let from_millis = from.timestamp_millis();\n    let to_millis = to.timestamp_millis();\n\n    let range_start = format!(\"{}:{:020}:\", scope_id, from_millis);\n    let range_end = format!(\"{}:{:020}:\\xff\", scope_id, to_millis);\n\n    let read_txn = self.db.begin_read()\n        .map_err(|e| CorviaError::Storage(format!(\"Failed to begin read txn: {e}\")))?;\n    let table = read_txn.open_table(TEMPORAL_INDEX)\n        .map_err(|e| CorviaError::Storage(format!(\"Failed to open TEMPORAL_INDEX: {e}\")))?;\n    let entries_table = read_txn.open_table(ENTRIES)\n        .map_err(|e| CorviaError::Storage(format!(\"Failed to open ENTRIES: {e}\")))?;\n\n    let range = table.range(range_start.as_str()..=range_end.as_str())\n        .map_err(|e| CorviaError::Storage(format!(\"Failed to range scan: {e}\")))?;\n\n    let mut results = Vec::new();\n    for item in range {\n        let (key, _value) = item\n            .map_err(|e| CorviaError::Storage(format!(\"Failed to read range item: {e}\")))?;\n        let key_str = key.value();\n        let parts: Vec<&str> = key_str.rsplitn(2, ':').collect();\n        if parts.len() < 2 { continue; }\n        let entry_uuid_str = parts[0];\n\n        if let Ok(Some(entry_val)) = entries_table.get(entry_uuid_str) {\n            if let Ok(entry) = serde_json::from_slice::<KnowledgeEntry>(entry_val.value()) {\n                results.push(entry);\n            }\n        }\n    }\n\n    Ok(results)\n}\n```\n\n**Step 6: Run tests**\n\nRun: `cargo test -p corvia-kernel -- test_temporal`\nExpected: All temporal tests PASS.\n\n**Step 7: Commit**\n\n```\ngit add crates/corvia-kernel/src/lite_store.rs\ngit commit -m \"feat(m3): LiteStore temporal — history (supersession chain) + evolution (time range)\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-m3-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452561283Z",
+  "valid_from": "2026-03-31T13:20:59.452561283Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 494,
+    "end_line": 551,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

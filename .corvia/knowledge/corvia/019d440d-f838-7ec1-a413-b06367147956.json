@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f838-7ec1-a413-b06367147956",
+  "content": "g.resolve_staging_path(staging_dir_str);\n                // Ignore errors — file may already have been moved (idempotent)\n                let _ = self.staging.move_to_knowledge(&staging_dir, &entry.id, &entry.scope_id);\n            }\n        Ok(())\n    }\nasync fn llm_merge(\n        &self,\n        new_entry: &KnowledgeEntry,\n        existing: &KnowledgeEntry,\n    ) -> Result<KnowledgeEntry> {\n        let system_prompt = \"You are merging two knowledge entries that conflict. \\\n             Produce a single merged entry that preserves all important information from both.\";\n\n        let user_message = format!(\n            \"Entry A (existing):\\n{}\\n\\nEntry B (new):\\n{}\\n\\nMerged entry:\",\n            existing.content, new_entry.content\n        );\n\n        let result = self.gen_engine.generate(system_prompt, &user_message).await?;\n        let merged_content = result.text;\n\n        // Re-embed the merged content\n        let embedding = self.engine.embed(&merged_content).await?;\n\n        // Create merged entry based on the new entry (preserves agent attribution)\n        let merged = KnowledgeEntry::new(\n            merged_content,\n            new_entry.scope_id.clone(),\n            new_entry.source_version.clone(),\n        )\n        .with_embedding(embedding)\n        .with_agent(\n            new_entry.agent_id.clone().unwrap_or_default(),\n            new_entry.session_id.clone().unwrap_or_default(),\n        );\n        // Override status to Merged\n        let mut merged = merged;\n        merged.entry_status = EntryStatus::Merged;\n\n        Ok(merged)\n    }",
+  "source_version": "crates/corvia-kernel/src/merge_worker.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.448802839Z",
+  "valid_from": "2026-03-31T13:20:59.448802839Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/merge_worker.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 219,
+    "end_line": 254,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

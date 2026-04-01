@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81e-7810-a8c3-5f50f99ce05d",
+  "content": "sed_ms, ..\n                    } => {\n                        let module = traces::span_to_module(&span_name);\n                        let msg = format!(\"{span_name} ({elapsed_ms:.1}ms)\");\n                        (timestamp, level, module.to_string(), msg)\n                    }\n                    traces::ParsedTrace::Event {\n                        timestamp, level, msg, target,\n                    } => {\n                        let module = traces::target_to_module(&target);\n                        (timestamp, level, module.to_string(), msg)\n                    }\n                };\n\n                let norm_level = traces::normalize_level(&level);\n\n                // Apply filters\n                if let Some(ref filter_module) = params.module\n                    && module != *filter_module {\n                        continue;\n                    }\n                if let Some(ref filter_level) = params.level\n                    && norm_level != filter_level.as_str() {\n                        continue;\n                    }\n\n                entries.push(LogEntry {\n                    timestamp: traces::short_timestamp(&timestamp),\n                    level: norm_level.to_string(),\n                    module,\n                    message,\n                });\n            }\n        }\n    }\n\n    // Sort by timestamp and limit\n    entries.sort_by(|a, b| a.timestamp.cmp(&b.timestamp));\n    let total = entries.len();\n    entries.truncate(limit);\n\n    Json(LogsResponse { entries, total })\n}",
+  "source_version": "crates/corvia-server/src/dashboard/mod.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.422127022Z",
+  "valid_from": "2026-03-31T13:20:59.422127022Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/mod.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 338,
+    "end_line": 375,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

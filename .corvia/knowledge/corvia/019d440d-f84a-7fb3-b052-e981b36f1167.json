@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84a-7fb3-b052-e981b36f1167",
+  "content": "\n}\n\"#,\n    )\n    .unwrap();\n\n    std::fs::write(\n        src_dir.join(\"main.rs\"),\n        r#\"\nuse crate::lib::MemStore;\n\nfn main() {\n    let store = MemStore { data: Default::default() };\n    println!(\"{:?}\", store.get(\"hello\"));\n}\n\"#,\n    )\n    .unwrap();\n\n    // 2. Use GitAdapter + ChunkingPipeline to ingest with relations\n    let adapter = GitAdapter::new();\n    let source_files = adapter\n        .ingest_sources(repo_dir.path().to_str().unwrap())\n        .await\n        .unwrap();\n\n    let config = corvia_common::config::CorviaConfig::default();\n    let mut pipeline = corvia_kernel::create_chunking_pipeline(&config);\n    adapter.register_chunking(pipeline.registry_mut());\n\n    let (processed, relations, _report) = pipeline.process_batch(&source_files).unwrap();\n\n    assert!(\n        !processed.is_empty(),\n        \"Ingestion should produce chunks from the Rust files\"\n    );\n\n    // 3. Set up LiteStore and insert entries with embeddings\n    let store_dir = tempdir().unwrap();\n    let store = LiteStore::open(store_dir.path(), 3).unwrap();\n    store.init_schema().await.unwrap();\n\n    let mut stored_entries = Vec::new();\n    for (i, pc) in processed.iter().enumerate() {\n        let mut e = KnowledgeEntry::new(\n            pc.content.clone(),\n            \"test:scope\".into(),\n            pc.metadata.source_file.clone(),\n        );\n        e.metadata = corvia_common::types::EntryMetadata {\n            source_file: Some(pc.metadata.source_file.clone()),\n            language: pc.metadata.language.clone(),\n            chunk_type: Some(pc.chunk_type.clone()),\n            start_line: Some(pc.start_line),\n            end_line: Some(pc.end_line),\n            ..Default::default()\n        };\n        // Assign deterministic embeddings (vary by index for diversity)\n        let x = if i % 3 == 0 { 1.0 } else { 0.0 };\n        let y = if i % 3 == 1 { 1.0 } else { 0.0 };\n        let z = if i % 3 == 2 { 1.0 } else { 0.0 };",
+  "source_version": "tests/integration/m3_e2e_test.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.466926781Z",
+  "valid_from": "2026-03-31T13:20:59.466926781Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "tests/integration/m3_e2e_test.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 369,
+    "end_line": 411,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

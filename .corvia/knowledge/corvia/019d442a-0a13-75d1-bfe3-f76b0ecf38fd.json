@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a13-75d1-bfe3-f76b0ecf38fd",
+  "content": "ws between steps: 32px, accent-green\",\n        \"Terminal/code block: JetBrains Mono (20px), dark background (#0d1117)\",\n        \"Keep code to essential config only — no boilerplate\",\n        \"Summary card: border-left accent-green, body at 24px\"\n      ],\n      \"structure\": [\n        {\n          \"element\": \"slide-label\"\n        },\n        {\n          \"element\": \"title\",\n          \"font\": \"slideTitle (58px)\",\n          \"heightBudget\": 140,\n          \"maxLines\": 2\n        },\n        {\n          \"element\": \"subtitle\",\n          \"font\": \"subtitle (28px)\",\n          \"heightBudget\": 90,\n          \"maxLines\": 2\n        },\n        {\n          \"element\": \"pipeline\",\n          \"heightBudget\": 180,\n          \"layout\": \"2 rows of 3 steps with arrows\"\n        },\n        {\n          \"element\": \"terminal\",\n          \"heightBudget\": 280,\n          \"maxLines\": 10\n        },\n        {\n          \"element\": \"summary-card\",\n          \"heightBudget\": 100\n        }\n      ]\n    },\n    \"stat-highlight\": {\n      \"description\": \"Big numbers that tell a story. 2-4 stats with context.\",\n      \"rules\": [\n        \"Stat boxes: value (48px bold colored) + label (18px secondary)\",\n        \"Use grid-template-columns: 1fr 1fr — never flex for stat layout\",",
+  "source_version": "marketing/design-system.json",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.027762610Z",
+  "valid_from": "2026-03-31T13:51:39.027762610Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/design-system.json",
+    "language": null,
+    "chunk_type": "section",
+    "start_line": 447,
+    "end_line": 483,
+    "content_role": "code",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

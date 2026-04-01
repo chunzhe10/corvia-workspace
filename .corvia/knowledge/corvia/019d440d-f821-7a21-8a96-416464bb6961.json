@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f821-7a21-8a96-416464bb6961",
+  "content": "e::Episodic);\n        assert_eq!(\"analytical\".parse::<MemoryType>().unwrap(), MemoryType::Analytical);\n        assert_eq!(\"procedural\".parse::<MemoryType>().unwrap(), MemoryType::Procedural);\n        assert!(\"unknown\".parse::<MemoryType>().is_err());\n    }\nfn test_tier_from_str() {\n        assert_eq!(\"hot\".parse::<Tier>().unwrap(), Tier::Hot);\n        assert_eq!(\"warm\".parse::<Tier>().unwrap(), Tier::Warm);\n        assert_eq!(\"cold\".parse::<Tier>().unwrap(), Tier::Cold);\n        assert_eq!(\"forgotten\".parse::<Tier>().unwrap(), Tier::Forgotten);\n        assert!(\"unknown\".parse::<Tier>().is_err());\n    }",
+  "source_version": "crates/corvia-common/src/types.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.425593267Z",
+  "valid_from": "2026-03-31T13:20:59.425593267Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/types.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 594,
+    "end_line": 600,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

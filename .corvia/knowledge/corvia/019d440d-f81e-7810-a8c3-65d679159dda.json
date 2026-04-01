@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81e-7810-a8c3-65d679159dda",
+  "content": "pub fn span_to_module(span: &str) -> &'static str {\n    // Exact overrides\n    if span == \"corvia.entry.embed\" {\n        return \"inference\";\n    }\n\n    // Prefix matches (order matters — first match wins)\n    const PREFIX_MAP: &[(&str, &str)] = &[\n        (\"corvia.agent.\", \"agent\"),\n        (\"corvia.session.\", \"agent\"),\n        (\"corvia.entry.\", \"entry\"),\n        (\"corvia.merge.\", \"merge\"),\n        (\"corvia.store.\", \"storage\"),\n        (\"corvia.rag.\", \"rag\"),\n        (\"corvia.gc.\", \"gc\"),\n    ];\n\n    for (prefix, module) in PREFIX_MAP {\n        if span.starts_with(prefix) {\n            return module;\n        }\n    }\n\n    \"unknown\"\n}",
+  "source_version": "crates/corvia-server/src/dashboard/traces.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.422976807Z",
+  "valid_from": "2026-03-31T13:20:59.422976807Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/traces.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 11,
+    "end_line": 35,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

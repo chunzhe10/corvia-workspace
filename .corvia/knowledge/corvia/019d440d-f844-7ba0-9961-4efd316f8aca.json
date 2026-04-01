@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-4efd316f8aca",
+  "content": "### Query 1: Vector wins (or ties) — direct config lookup\n### Query 2: Graph wins — structural relationships\n\n### Query 3: Graph wins clearly — debugging trace\n\n**Query:** `\"A search request is returning unexpected results. Trace the full path from the REST API endpoint through the RAG pipeline to the storage layer.\"`\n\n**Why realistic:** Debugging scenario. Developer needs the full call chain across modules.\n\n**Expected behavior:**\n- **Vector:** Finds retriever.rs or server routes — whichever matches the query terms best. Misses the connections.\n- **Graph:** Follows the chain: server routes → RAG pipeline → retriever → graph expansion → LiteStore search. Multiple hops surfaced.\n- **Lesson:** For debugging across module boundaries, graph traversal finds what vector can't.\n\n\n### Query 4: Graph wins clearly — cross-subsystem architecture\n\n**Query:** `\"How does the agent session lifecycle interact with the staging system and conflict resolution during merge?\"`\n\n**Why realistic:** Architecture investigation. Three interconnected subsystems that span multiple files.\n\n**Expected behavior:**\n- **Vector:** Finds agent_coordinator.rs or staging.rs — whichever has highest term overlap. Can't connect all three.\n- **Graph:** Follows edges from agent_coordinator → staging → merge/conflict resolution. Surfaces the full interaction across three subsystems.\n- **Lesson:** For architecture questions spanning subsystems, graph is essential.\n",
+  "source_version": "docs/rfcs/2026-03-03-benchmark-script-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460698527Z",
+  "valid_from": "2026-03-31T13:20:59.460698527Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-03-benchmark-script-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 66,
+    "end_line": 87,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

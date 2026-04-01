@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f9ca53710934",
+  "content": "2,7 Z\" fill=\"#EAC43E\" stroke=\"#C49E20\" stroke-width=\"1.5\"/><path d=\"M17,7 C19,3 22,1 23,0 C21,3 20,6 20,7 C20,8 21,11 23,14 C22,13 19,11 17,7 Z\" fill=\"#EAC43E\" stroke=\"#C49E20\" stroke-width=\"1.5\"/><circle cx=\"6\" cy=\"5\" r=\"1.5\" fill=\"#1a2e4a\"/></g>\n  </svg>\n  <!-- SVG Pink jellyfish (smaller) -->\n  <svg style=\"position: absolute; top: 760px; right: 180px;\" width=\"55\" height=\"85\" viewBox=\"0 0 55 85\">\n    <path d=\"M3,32 C3,10 14,1 28,1 C42,1 52,10 52,32 C42,38 14,38 3,32 Z\" fill=\"#D97DB8\" stroke=\"#B05A95\" stroke-width=\"2.5\"/>\n    <ellipse cx=\"20\" cy=\"16\" rx=\"10\" ry=\"7\" fill=\"#E8A0CC\" opacity=\"0.5\"/>\n    <path d=\"M10,35 Q14,55 8,72\" fill=\"none\" stroke=\"#D97DB8\" stroke-width=\"2.5\" stroke-linecap=\"round\" opacity=\"0.7\"/>\n    <path d=\"M20,36 Q24,58 18,80\" fill=\"none\" stroke=\"#C870A8\" stroke-width=\"2.5\" stroke-linecap=\"round\" opacity=\"0.6\"/>\n    <path d=\"M32,36 Q36,56 30,75\" fill=\"none\" stroke=\"#D97DB8\" stroke-width=\"2.5\" stroke-linecap=\"round\" opacity=\"0.7\"/>\n    <path d=\"M42,35 Q46,52 40,68\" fill=\"none\" stroke=\"#C870A8\" stroke-width=\"2\" stroke-linecap=\"round\" opacity=\"0.6\"/>\n  </svg>",
+  "source_version": "marketing/linkedin/2026-03-14-resolve-linux-setup/resolve-linux-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028821896Z",
+  "valid_from": "2026-03-31T13:51:39.028821896Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-14-resolve-linux-setup/resolve-linux-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 696,
+    "end_line": 704,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

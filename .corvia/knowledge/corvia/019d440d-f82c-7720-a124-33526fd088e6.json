@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82c-7720-a124-33526fd088e6",
+  "content": "ing::Relaxed)\n            .is_err()\n        {\n            return 0;\n        }\n\n        let flushed = self.flush_inner(db);\n\n        self.last_flush.store(now, Ordering::Release);\n        self.flushing.store(false, Ordering::Release);\n\n        flushed\n    }\npub(crate) fn flush_sync(&self, db: &Arc<Database>) -> usize {\n        if self.pending.is_empty() {\n            return 0;\n        }\n\n        // Spin until we acquire the flush lock. In practice, contention only\n        // happens if try_flush is mid-flight during Drop, which is rare.\n        loop {\n            match self.flushing.compare_exchange(\n                false,\n                true,\n                Ordering::AcqRel,\n                Ordering::Relaxed,\n            ) {\n                Ok(_) => break,\n                Err(_) => std::hint::spin_loop(),\n            }\n        }\n\n        let flushed = self.flush_inner(db);\n\n        self.flushing.store(false, Ordering::Release);\n\n        flushed\n    }",
+  "source_version": "crates/corvia-kernel/src/access_buffer.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.436487704Z",
+  "valid_from": "2026-03-31T13:20:59.436487704Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/access_buffer.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 131,
+    "end_line": 155,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

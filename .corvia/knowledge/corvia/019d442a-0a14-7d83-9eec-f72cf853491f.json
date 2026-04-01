@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f72cf853491f",
+  "content": "      </div>\n    </div>\n  </div>\n  <div class=\"terminal\" style=\"font-size: 15px;\">\n    <span class=\"comment\"># Startup log</span><br>\n    <span class=\"output\">cuda=</span><span class=\"highlight-val\">true</span>\n    <span class=\"output\"> openvino=</span><span class=\"highlight-val\">true</span><br>\n    <span class=\"output\">embedding &rarr; device=</span><span class=\"highlight-val\">gpu</span>\n    <span class=\"output\"> backend=</span><span class=\"highlight-val\">openvino</span><br>\n    <span class=\"output\">chat &rarr; device=</span><span class=\"highlight-val\">gpu</span>\n    <span class=\"output\"> backend=</span><span class=\"highlight-val\">cuda</span>\n  </div>\n\n  <div class=\"insight-box\">\n    <p>Neither GPU blocks the other. Embeddings and LLM run in parallel.</p>\n  </div>\n\n  <div class=\"flex-grow\"></div>\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">03 / 08</div>\n</div>\n\n<!-- SLIDE 4: DETECTION — visual flow chart -->\n<div class=\"slide\">\n  <div class=\"slide-label\">Runtime Detection</div>\n  <div class=\"slide-title\" style=\"margin-bottom: 48px;\">\n    Probe. Resolve. Load.<br>\n    <span class=\"highlight-cyan\">No Config Needed.</span>\n  </div>",
+  "source_version": "marketing/linkedin/2026-03-13-dual-gpu-inference/dual-gpu-inference-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028439836Z",
+  "valid_from": "2026-03-31T13:51:39.028439836Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-13-dual-gpu-inference/dual-gpu-inference-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 295,
+    "end_line": 320,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

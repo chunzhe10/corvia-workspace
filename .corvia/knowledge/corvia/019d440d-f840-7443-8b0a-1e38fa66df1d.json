@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-1e38fa66df1d",
+  "content": "### Task 11: Agent Description Display in Dashboard\n\n        ⚠ drifted\n      </span>\n    )}\n  </div>\n)}\n```\n\n-**Step 3: Add CSS for topic pills and drift indicator**\n\n```css\n.topic-pill {\n  display: inline-block;\n  padding: 2px 8px;\n  margin: 2px;\n  border-radius: 12px;\n  background: rgba(147, 130, 220, 0.15); /* lavender from design system */\n  color: #9382dc;\n  font-size: 11px;\n}\n.drift-indicator {\n  color: #f0a050;\n  font-size: 11px;\n  margin-left: 4px;\n}\n.agent-description {\n  color: #8899aa;\n  font-size: 12px;\n  margin-top: 2px;\n}\n```\n\n-**Step 4: Test in browser**\n\nOpen `http://localhost:8021`, go to Agents tab. Verify agent cards show description and topic pills.\n\n-**Step 5: Commit**\n\n```bash\ncd /workspaces/corvia-workspace\ngit add tools/corvia-dashboard/src/components/AgentsView.tsx tools/corvia-dashboard/src/types.ts\ngit commit -m \"feat(dashboard): show agent description, topic tags, and drift indicator\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456575346Z",
+  "valid_from": "2026-03-31T13:20:59.456575346Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1416,
+    "end_line": 1460,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

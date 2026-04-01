@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f831-7562-9884-a7dbd0a94ce1",
+  "content": "didates,\n            metrics: StageMetrics {\n                stage_name: \"test\".into(),\n                latency_ms: 0,\n                input_count: 0,\n                output_count: count,\n                warnings: Vec::new(),\n            },\n        }\n    }\nasync fn test_passthrough_single_result() {\n        let set = make_set(vec![make_candidate(1, 0.8)]);\n        let result = PassThrough.fuse(vec![set]).await.unwrap();\n        // Single result with degenerate range -> 1.0.\n        assert_eq!(result.candidates.len(), 1);\n        assert!((result.candidates[0].scores.final_score.value() - 1.0).abs() < f32::EPSILON);\n    }",
+  "source_version": "crates/corvia-kernel/src/pipeline/fusion.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.441033065Z",
+  "valid_from": "2026-03-31T13:20:59.441033065Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/fusion.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 288,
+    "end_line": 294,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

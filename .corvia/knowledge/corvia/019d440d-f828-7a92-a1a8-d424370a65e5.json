@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f828-7a92-a1a8-d424370a65e5",
+  "content": "ss(&[fake_id]).await.unwrap();\n    }\n\n    /// Cold entry found when include_cold=true.\n    #[tokio::test]\n    async fn test_cold_entry_found_when_include_cold_true() {\n        use corvia_common::types::Tier;\n\n        let dir = tempfile::tempdir().unwrap();\n        let store = Arc::new(LiteStore::open(dir.path(), 3).unwrap());\n        store.init_schema().await.unwrap();\n        let engine: Arc<dyn InferenceEngine> = Arc::new(MockEngine);\n\n        // Insert 10 Hot entries for HNSW connectivity.\n        let mut idx: usize = 0;\n        let mut next_emb = || {\n            idx += 1;\n            vec![1.0, idx as f32 * 0.1, 0.0]\n        };\n        for i in 0..10 {\n            let mut entry = KnowledgeEntry::new(\n                format!(\"hot item {i}\"),\n                \"scope-cold\".to_string(),\n                \"v1\".to_string(),\n            );\n            entry.embedding = Some(next_emb());\n            store.insert(&entry).await.unwrap();\n        }\n\n        // Insert a Cold entry directly into Redb (not HNSW).\n        // We insert it as Hot first, then update its tier to Cold in Redb.\n        let mut cold_entry = KnowledgeEntry::new(\n            \"cold knowledge: secret sauce\".to_string(),\n            \"scope-cold\".to_string(),\n            \"v1\".to_string(),\n        );\n        cold_entry.embedding = Some(vec![1.0, 0.0, 0.0]); // exact match to query\n        cold_entry.tier = Tier::Cold;\n        // Insert via store (adds to HNSW), then we'll test cold scan directly\n        store.insert(&cold_entry).await.unwrap();\n\n        // Test: scan_cold_entries should find the cold entry.\n        let cold_results = store\n            .scan_cold_entries(&[1.0, 0.0, 0.0], \"scope-cold\", 10)\n            .unwrap();\n        assert_eq!(cold_results.len(), 1, \"should find exactly 1 cold entry\");",
+  "source_version": "crates/corvia-kernel/src/retriever.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.432181565Z",
+  "valid_from": "2026-03-31T13:20:59.432181565Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/retriever.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 1401,
+    "end_line": 1437,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

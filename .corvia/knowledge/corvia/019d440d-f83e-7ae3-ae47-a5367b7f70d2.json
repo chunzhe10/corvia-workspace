@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83e-7ae3-ae47-a5367b7f70d2",
+  "content": "()> { ... }\n```\n\nNote: Use `skip(self)` to avoid Debug-printing the entire coordinator. Use `fields(...)` for key identifiers only. `register_agent` and `create_session` are sync (`fn`), the rest are `async fn`.\n\n-**Step 3: Add spans to `merge_worker.rs`**\n\n```rust\n#[tracing::instrument(name = \"corvia.merge.conflict\", skip(self, entry), fields(entry_id = %entry.id))]\npub async fn detect_conflict(&self, entry: &KnowledgeEntry) -> Result<...> { ... }\n```\n\n-**Step 4: Add spans to `lite_store.rs`**\n\n```rust\n#[tracing::instrument(name = \"corvia.store.insert\", skip(self, entry, embedding), fields(entry_id = %entry.id, scope_id = %entry.scope_id))]\nasync fn insert(&self, entry: &KnowledgeEntry, embedding: &[f32]) -> Result<()> { ... }\n\n#[tracing::instrument(name = \"corvia.store.search\", skip(self, embedding), fields(scope_id = %scope_id))]\nasync fn search(&self, embedding: &[f32], scope_id: &str, limit: usize) -> Result<...> { ... }\n```\n\n-**Step 5: Add spans to `ollama_engine.rs` and `grpc_engine.rs`**\n\n```rust\n#[tracing::instrument(name = \"corvia.entry.embed\", skip(self, text))]\nasync fn embed(&self, text: &str) -> Result<Vec<f32>> { ... }\n```\n\n-**Step 6: Add spans to `rag_pipeline.rs`**\n\n```rust\n#[tracing::instrument(name = \"corvia.rag.context\", skip(self), fields(scope_id = %scope_id))]\npub async fn context(&self, query: &str, scope_id: &str, ...) -> Result<...> { ... }\n\n#[tracing::instrument(name = \"corvia.rag.ask\", skip(self), fields(scope_id = %scope_id))]\npub async fn ask(&self, query: &str, scope_id: &str, ...) -> Result<...> { ... }\n```\n\n-**Step 7: Verify compilation and tests**\n\nRun: `cargo test --workspace`\nExpected: All tests pass. Spans are no-ops without a subscriber, so behavior is unchanged.\n\n-**Step 8: Commit**\n\n```bash\ngit add -u\ngit commit -m \"feat(m4): add tracing instrument spans across kernel subsystems (D81)\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.454914250Z",
+  "valid_from": "2026-03-31T13:20:59.454914250Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 760,
+    "end_line": 806,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

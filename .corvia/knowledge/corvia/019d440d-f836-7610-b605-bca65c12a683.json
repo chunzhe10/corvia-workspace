@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f836-7610-b605-bca65c12a683",
+  "content": "pub enum KernelEvent {\n    MergeCompleted {\n        entry_id: Uuid,\n        session_id: String,\n        scope_id: String,\n    },\n    MergeFailed {\n        entry_id: Uuid,\n        scope_id: String,\n    },\n    EntryCommitted {\n        entry_id: Uuid,\n        session_id: String,\n        scope_id: String,\n    },\n    SessionOpened {\n        agent_id: String,\n        session_id: String,\n        scope_id: String,\n    },\n    SessionClosed {\n        session_id: String,\n        scope_id: String,\n    },\n    GcCompleted {\n        scope_id: String,\n        entries_removed: usize,\n    },\n    IngestCompleted {\n        scope_id: String,\n        entries_added: usize,\n        duration_ms: u64,\n    },\n}",
+  "source_version": "crates/corvia-kernel/src/event_bus.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.446189883Z",
+  "valid_from": "2026-03-31T13:20:59.446189883Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/event_bus.rs",
+    "language": "rs",
+    "chunk_type": "enum_item",
+    "start_line": 35,
+    "end_line": 68,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

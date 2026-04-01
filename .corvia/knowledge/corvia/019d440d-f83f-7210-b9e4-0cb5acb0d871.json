@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83f-7210-b9e4-0cb5acb0d871",
+  "content": "count in the last hour) for the detail panel's \"Last hour\" mini-stat. The `recent_events` array contains the last 50 events globally, with the `module` field for client-side per-module filtering. Client filters by module and displays the first 10 matches.\n\n### Parsing Strategy\n- corvia-dev CLI parses JSON-formatted tracing output from service logs\n- Aggregates span timings over a rolling window\n- Collects last N structured events per module\n- Returns in status JSON under `traces` key\n\n\n### Graceful Degradation\n- If `traces` field is absent (older corvia-dev): nodes show \"—\" for stats, detail panel shows \"Upgrade corvia-dev for span data\"\n- Topology map always renders regardless of data availability\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-10-telemetry-traces-page-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.455257089Z",
+  "valid_from": "2026-03-31T13:20:59.455257089Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-telemetry-traces-page-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 213,
+    "end_line": 224,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

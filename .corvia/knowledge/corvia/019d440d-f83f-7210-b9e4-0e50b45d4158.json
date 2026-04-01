@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83f-7210-b9e4-0e50b45d4158",
+  "content": "## Chunk 3: Backend — Dashboard Endpoints\n\n### Task 7: Add trace context fields to ParsedTrace\n\n**Files:**\n- Modify: `crates/corvia-server/src/dashboard/traces.rs:63-76`\n\n- **Step 1: Write the failing test**\n\nAdd to `traces.rs` tests:\n\n```rust\n#[test]\nfn parse_span_with_otel_context() {\n    let line = r#\"{\"timestamp\":\"2026-03-14T10:00:00Z\",\"level\":\"INFO\",\"span\":{\"name\":\"corvia.entry.write\"},\"fields\":{},\"elapsed_ms\":12.5,\"otel.trace_id\":\"abcdef1234567890abcdef1234567890\",\"otel.span_id\":\"1234567890abcdef\",\"otel.parent_span_id\":\"fedcba0987654321\"}\"#;\n    let result = parse_trace_line(line).unwrap();\n    match result {\n        ParsedTrace::Span { trace_id, span_id, parent_span_id, .. } => {\n            assert_eq!(trace_id.as_deref(), Some(\"abcdef1234567890abcdef1234567890\"));\n            assert_eq!(span_id.as_deref(), Some(\"1234567890abcdef\"));\n            assert_eq!(parent_span_id.as_deref(), Some(\"fedcba0987654321\"));\n        }\n        _ => panic!(\"expected Span variant\"),\n    }\n}\n\n#[test]\nfn parse_span_without_otel_context() {\n    let line = r#\"{\"timestamp\":\"2026-03-14T10:00:00Z\",\"level\":\"INFO\",\"span\":{\"name\":\"corvia.entry.write\"},\"fields\":{},\"elapsed_ms\":12.5}\"#;\n    let result = parse_trace_line(line).unwrap();\n    match result {\n        ParsedTrace::Span { trace_id, span_id, parent_span_id, .. } => {\n            assert!(trace_id.is_none());",
+  "source_version": "docs/rfcs/2026-03-14-dashboard-completion-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.455489281Z",
+  "valid_from": "2026-03-31T13:20:59.455489281Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-14-dashboard-completion-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 733,
+    "end_line": 763,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

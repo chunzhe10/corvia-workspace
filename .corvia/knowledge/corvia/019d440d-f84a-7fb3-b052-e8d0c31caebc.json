@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84a-7fb3-b052-e8d0c31caebc",
+  "content": "written\n    let knowledge_dir = dir.path().join(\"knowledge\").join(\"test-repo\");\n    assert!(knowledge_dir.exists(), \"Knowledge directory should exist\");\n\n    println!(\"Ollama + LiteStore E2E test passed.\");\n    println!(\"Score: {:.3}\", results[0].score);\n}\nasync fn test_ollama_lite_store_introspect() {\n    let config = CorviaConfig::default();\n\n    // Check Ollama is reachable\n    if !OllamaEngine::check_health(&config.embedding.url).await {\n        eprintln!(\n            \"SKIPPING test_ollama_lite_store_introspect: \\\n             Ollama not reachable at {}\",\n            config.embedding.url\n        );\n        return;\n    }\n\n    let engine = OllamaEngine::new(\n        &config.embedding.url,\n        &config.embedding.model,\n        config.embedding.dimensions,\n    );\n\n    let dir = tempfile::tempdir().unwrap();\n    let store = LiteStore::open(dir.path(), config.embedding.dimensions).unwrap();\n    store.init_schema().await.unwrap();\n\n    let adapter = corvia_adapter_git::GitAdapter::new();\n\n    let introspect_config = IntrospectConfig {\n        config: IntrospectMeta {\n            default_min_score: 0.50,\n            scope_id: \"introspect-lite-e2e\".into(),\n        },\n        query: vec![\n            CanonicalQuery {\n                text: \"what CLI commands are available?\".into(),\n                expect_file: \"crates/corvia-cli/src/main.rs\".into(),\n                min_score: None,\n            },\n        ],\n    };\n",
+  "source_version": "tests/integration/e2e_test.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.466813453Z",
+  "valid_from": "2026-03-31T13:20:59.466813453Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "tests/integration/e2e_test.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 162,
+    "end_line": 200,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

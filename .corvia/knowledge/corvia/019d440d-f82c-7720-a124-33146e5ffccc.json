@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82c-7720-a124-33146e5ffccc",
+  "content": "\n                            \"AccessBuffer: failed to deserialize\"\n                        );\n                        continue;\n                    }\n                };\n\n                // Apply buffered access: add accumulated count, set latest timestamp.\n                entry.access_count = entry.access_count.saturating_add(ba.count);\n                entry.last_accessed = Some(\n                    chrono::DateTime::from_timestamp(ba.last_ts as i64, 0)\n                        .unwrap_or_else(chrono::Utc::now),\n                );\n\n                let updated_bytes = match serde_json::to_vec(&entry) {\n                    Ok(b) => b,\n                    Err(e) => {\n                        warn!(\n                            entry_id = %id,\n                            error = %e,\n                            \"AccessBuffer: failed to serialize\"\n                        );\n                        continue;\n                    }\n                };\n\n                if let Err(e) =\n                    entries_table.insert(uuid_str.as_str(), updated_bytes.as_slice())\n                {\n                    warn!(\n                        entry_id = %id,\n                        error = %e,\n                        \"AccessBuffer: failed to write entry\"\n                    );\n                    continue;\n                }\n\n                success_count += 1;\n            }\n        }\n\n        if let Err(e) = write_txn.commit() {\n            warn!(\n                error = %e,\n                \"AccessBuffer: failed to commit flush transaction\"\n            );\n            // Re-insert entries so they aren't lost on commit failure.\n            for (id, ba) in batch {\n                self.pending\n                    .entry(id)\n                    .and_modify(|existing| {\n                        existing.count = existing.count.saturating_add(ba.count);\n                        if ba.last_ts > existing.last_ts {\n                            existing.last_ts = ba.last_ts;\n                        }\n                    })\n                    .or_insert(ba);\n            }\n            return 0;\n        }\n\n        debug!(\n            success_count,\n            total = batch.len(),\n            \"AccessBuffer: flushed access events to Redb\"\n        );\n        success_count\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/access_buffer.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.436447714Z",
+  "valid_from": "2026-03-31T13:20:59.436447714Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/access_buffer.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 237,
+    "end_line": 297,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

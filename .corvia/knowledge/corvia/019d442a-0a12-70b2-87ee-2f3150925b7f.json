@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-2f3150925b7f",
+  "content": "### L13: Non-Root Spoke Containers (Security)\n\n# Create non-root user\nRUN useradd -m -s /bin/bash spoke\nUSER spoke\nWORKDIR /workspace\n\nCOPY --chown=spoke:spoke spoke-entrypoint.sh /usr/local/bin/\nRUN chmod +x /usr/local/bin/spoke-entrypoint.sh\n\nHEALTHCHECK --interval=30s --timeout=5s --retries=3 \\\n    CMD pgrep -f \"claude\" || exit 1\n\nENTRYPOINT [\"/usr/local/bin/spoke-entrypoint.sh\"]\n```\n\nEntrypoint adjusts credential permissions:\n```bash\n\n# Credentials mounted as root:root, copy to user-owned location\nmkdir -p ~/.claude\ncp /spoke-config/.credentials.json ~/.claude/.credentials.json 2>/dev/null || true\nchmod 600 ~/.claude/.credentials.json\n```\n",
+  "source_version": "decisions/2026-03-28-spoke-design-review-fixes.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026562030Z",
+  "valid_from": "2026-03-31T13:51:39.026562030Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-design-review-fixes.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 867,
+    "end_line": 888,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

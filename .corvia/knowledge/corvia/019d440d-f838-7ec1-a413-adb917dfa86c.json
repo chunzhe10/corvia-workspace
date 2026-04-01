@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f838-7ec1-a413-adb917dfa86c",
+  "content": "erde_json::from_slice(value.value())\n                .ok()\n                .and_then(|v: serde_json::Value| if v.is_null() { None } else { Some(v) });\n\n            edges.push(GraphEdge { from, to, relation, metadata });\n        }\n\n        Ok(edges)\n    }\n}\npub fn new(db: Arc<Database>) -> Result<Self> {\n        let store = Self {\n            db,\n            graph: Mutex::new(DiGraph::new()),\n            node_map: Mutex::new(HashMap::new()),\n        };\n        store.rebuild_from_redb()?;\n        Ok(store)\n    }",
+  "source_version": "crates/corvia-kernel/src/graph_store.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.448392536Z",
+  "valid_from": "2026-03-31T13:20:59.448392536Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/graph_store.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 27,
+    "end_line": 35,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

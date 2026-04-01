@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83a-78e0-bb2b-db620b6a4cea",
+  "content": "ules)\n\n**Step 7: Commit**\n\n```bash\ngit add -A\ngit commit -m \"feat: initialize cargo workspace with 4 crates and docker config\n\nCorvia M1 scaffold: corvia-common, corvia-kernel, corvia-server, corvia-cli.\nExisting design docs moved to docs/rfcs/.\"\n```\n\n---\n\n## Task 2: corvia-common — Core Types\n\n**Files:**\n- Create: `crates/corvia-common/src/types.rs`\n- Create: `crates/corvia-common/src/errors.rs`\n- Test: `crates/corvia-common/src/types.rs` (inline tests)\n\n**Step 1: Write the types with failing tests**\n\n`crates/corvia-common/src/types.rs`:\n```rust\nuse chrono::{DateTime, Utc};\nuse serde::{Deserialize, Serialize};\nuse uuid::Uuid;\n\n/// A single unit of knowledge stored in Corvia.\n/// Bi-temporal: tracks both when the knowledge was true (valid_from/valid_to)\n/// and when it was recorded (recorded_at). See design doc D14.\n#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]\npub struct KnowledgeEntry {\n    pub id: Uuid,\n    pub content: String,\n    pub source_version: String,\n    pub scope_id: String,\n    pub workstream: String,\n    pub recorded_at: DateTime<Utc>,\n    pub valid_from: DateTime<Utc>,\n    pub valid_to: Option<DateTime<Utc>>,\n    pub superseded_by: Option<Uuid>,\n    pub embedding: Option<Vec<f32>>,\n    pub metadata: EntryMetadata,\n}\n\n#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Default)]\npub struct EntryMetadata {\n    pub source_file: Option<String>,\n    pub language: Option<String>,\n    pub chunk_type: Option<String>,\n    pub start_line: Option<u32>,\n    pub end_line: Option<u32>,\n}\n\nimpl KnowledgeEntry {\n    pub fn new(content: String, scope_id: String, source_version: String) -> Self {",
+  "source_version": "docs/rfcs/2026-02-28-m1-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.450530423Z",
+  "valid_from": "2026-03-31T13:20:59.450530423Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-m1-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 228,
+    "end_line": 271,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

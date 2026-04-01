@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-91475fa871a3",
+  "content": "orvia-common dashboard`\nExpected: 3 tests PASS\n\n-**Step 5: Commit**\n\n```bash\ncd repos/corvia\ngit add crates/corvia-common/src/dashboard.rs crates/corvia-common/src/lib.rs\ngit commit -m \"feat(dashboard): add shared response types in corvia-common\"\n```\n\n---\n\n### Task 2: Add dashboard module skeleton to corvia-server\n\n**Files:**\n- Create: `crates/corvia-server/src/dashboard/mod.rs`\n- Create: `crates/corvia-server/src/dashboard/health.rs`\n- Create: `crates/corvia-server/src/dashboard/traces.rs`\n- Modify: `crates/corvia-server/src/lib.rs`\n\n-**Step 1: Create skeleton files**\n\n`crates/corvia-server/src/dashboard/mod.rs`:\n```rust\npub mod health;\npub mod traces;\n```\n\n`crates/corvia-server/src/dashboard/health.rs`:\n```rust\n// Service health probing — HTTP, gRPC, TCP\n```\n\n`crates/corvia-server/src/dashboard/traces.rs`:\n```rust\n// Structured log parsing and span aggregation\n```\n\n-**Step 2: Verify dependencies in `Cargo.toml`**\n\nCheck `crates/corvia-server/Cargo.toml` for these dependencies. Add any that are missing:\n\n```toml",
+  "source_version": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465670074Z",
+  "valid_from": "2026-03-31T13:20:59.465670074Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 227,
+    "end_line": 257,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

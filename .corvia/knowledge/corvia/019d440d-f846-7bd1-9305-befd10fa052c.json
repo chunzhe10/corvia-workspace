@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-befd10fa052c",
+  "content": "## Task 7: RagPipeline Orchestrator\n\n    use corvia_common::agent_types::EntryStatus;\n    use corvia_common::types::KnowledgeEntry;\n\n    struct MockEngine;\n    #[async_trait::async_trait]\n    impl InferenceEngine for MockEngine {\n        async fn embed(&self, _text: &str) -> corvia_common::errors::Result<Vec<f32>> {\n            Ok(vec![1.0, 0.0, 0.0])\n        }\n        async fn embed_batch(&self, texts: &[String]) -> corvia_common::errors::Result<Vec<Vec<f32>>> {\n            Ok(texts.iter().map(|_| vec![1.0, 0.0, 0.0]).collect())\n        }\n        fn dimensions(&self) -> usize { 3 }\n    }\n\n    struct MockGenerator;\n    #[async_trait::async_trait]\n    impl GenerationEngine for MockGenerator {\n        fn name(&self) -> &str { \"mock\" }\n        async fn generate(&self, _system: &str, user: &str) -> corvia_common::errors::Result<GenerationResult> {\n            Ok(GenerationResult {\n                text: format!(\"Generated answer for: {user}\"),\n                model: \"mock-v1\".into(),\n                input_tokens: user.len() / 4,\n                output_tokens: 20,\n            })\n        }\n        fn context_window(&self) -> usize { 4096 }\n    }\n\n    async fn setup_pipeline(dir: &std::path::Path, with_generator: bool) -> RagPipeline {\n        let store = Arc::new(LiteStore::open(dir, 3).unwrap()) as Arc<dyn QueryableStore>;\n        let engine = Arc::new(MockEngine) as Arc<dyn InferenceEngine>;\n        store.init_schema().await.unwrap();\n\n        let mut idx = 0_usize;\n        let mut next_emb = || { idx += 1; vec![1.0, idx as f32 * 0.001, 0.0] };\n\n        for i in 0..10 {\n            let mut e = KnowledgeEntry::new(\n                format!(\"knowledge entry {i}\"), \"proj\".into(), \"v1\".into(),\n            ).with_embedding(next_emb());",
+  "source_version": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462054057Z",
+  "valid_from": "2026-03-31T13:20:59.462054057Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1348,
+    "end_line": 1389,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

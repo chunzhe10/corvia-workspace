@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82c-7720-a124-341819f9bb91",
+  "content": "txn.open_table(ENTRIES).unwrap();\n        let val = table.get(entry_id.to_string().as_str()).unwrap().unwrap();\n        let updated: KnowledgeEntry = serde_json::from_slice(val.value()).unwrap();\n\n        assert_eq!(updated.access_count, 5); // 3 + 2\n    }\n\n    #[test]\n    fn test_flush_sync_acquires_lock() {\n        // Verify flush_sync waits for an in-progress flush to complete.\n        let buf = Arc::new(AccessBuffer::new(3600, 1000));\n        buf.record(&[uuid::Uuid::now_v7()]);\n\n        // Simulate flush in progress.\n        buf.flushing.store(true, Ordering::Relaxed);\n\n        let buf_clone = Arc::clone(&buf);\n        let handle = std::thread::spawn(move || {\n            // This should spin until flushing is released.\n            let dir = tempfile::tempdir().unwrap();\n            let db = Arc::new(Database::create(dir.path().join(\"test.redb\")).unwrap());\n            {\n                let txn = db.begin_write().unwrap();\n                txn.open_table(ENTRIES).unwrap();\n                txn.commit().unwrap();\n            }\n            buf_clone.flush_sync(&db)\n        });\n\n        // Give the thread time to start spinning.\n        std::thread::sleep(std::time::Duration::from_millis(50));\n\n        // Release the lock.\n        buf.flushing.store(false, Ordering::Release);\n\n        // The thread should now complete.\n        let result = handle.join().unwrap();\n        assert_eq!(result, 0); // Entry doesn't exist in that db\n        assert_eq!(buf.pending_count(), 0);\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/access_buffer.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.436612848Z",
+  "valid_from": "2026-03-31T13:20:59.436612848Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/access_buffer.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 544,
+    "end_line": 578,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

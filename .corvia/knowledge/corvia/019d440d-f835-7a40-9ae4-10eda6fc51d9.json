@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f835-7a40-9ae4-10eda6fc51d9",
+  "content": "b.host_path(\"/datafiles\"), None);\n        assert_eq!(\n            hub.host_path(\"/data/file.txt\"),\n            Some(\"/host/data/file.txt\".into())\n        );\n        // Exact match\n        assert_eq!(hub.host_path(\"/data\"), Some(\"/host/data\".into()));\n    }\nfn test_host_path_trailing_slash_mount() {\n        let hub = HubContext {\n            container_name: \"test\".into(),\n            networks: HashMap::new(),\n            host_mounts: HashMap::from([(\"/workspaces/\".into(), \"/host/ws\".into())]),\n        };\n        assert_eq!(\n            hub.host_path(\"/workspaces/file.txt\"),\n            Some(\"/host/ws/file.txt\".into())\n        );\n    }",
+  "source_version": "crates/corvia-kernel/src/spoke.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.445467033Z",
+  "valid_from": "2026-03-31T13:20:59.445467033Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/spoke.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1021,
+    "end_line": 1031,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

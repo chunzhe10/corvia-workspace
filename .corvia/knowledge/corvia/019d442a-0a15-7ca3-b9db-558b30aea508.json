@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a15-7ca3-b9db-558b30aea508",
+  "content": "izational memory. That's the layer corvia is building.\n\nBut there was a catch. The memory system didn't exist yet. So I recorded every design decision in markdown files by hand. The plan was to migrate everything once the tool could hold its own knowledge.\nDay 1 was markdown files and Obra's superpowers plugin for brainstorming. No review gate. No agent coordination. Some early decisions got missed. The first real milestone was getting corvia to ingest its own decisions. Once those files migrated in, the development loop started forming. The process got better as the product got better.\n\nThen came the first test outside corvia's own development. An interview take-home. Same approach. Structured decision recording. Querying past decisions before building. Finished in less than 24 hours. That was the moment it started feeling like infrastructure I'd actually carry forward.\n\nNot everything shipped perfectly. Some recent capabilities haven't been fully used yet. Getting hands-on with AI development is fundamentally different from reading about it. You have to feel it break, watch it recover, and build intuition from there.\n\nI'm building this on a Claude Max 5 plan. Not cheap when you're unemployed, but I'm committed. When they ran the 2x token limit promotion, I was out diving and missed most of it. Timing. hahaha\n\nClaude shipped memory, Agent Teams, and session persistence. I find that exciting, not threatening. Personal memory is becoming table stakes. What's still open is the organizational layer. I think these tools could work really well together.\n\n30 days: 700+ commits across both repos, 12 releases, 10 Rust crates, 1,100+ tests, 100+ decisions recorded, 21 MCP tools. The carousel has the full breakdown.\n\nI'm looking for my next role in AI infrastructure engineering, developer tooling, or platform engineering. The repo is open source at https://github.com/chunzhe10/corvia. If any of this resonates, I'd love to connect.\n\nWhat's the messiest part of your AI development workflow right now? The part you'd fix if you had time.\n\n#BuildingInPublic #AIAgents #Rust #DeveloperTools #MCP #OpenSource #OpenToWork</div>\n\n</body>\n</html>\n",
+  "source_version": "marketing/linkedin/2026-03-29-recursive-loop-reflection/post.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.029864783Z",
+  "valid_from": "2026-03-31T13:51:39.029864783Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-29-recursive-loop-reflection/post.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 49,
+    "end_line": 69,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

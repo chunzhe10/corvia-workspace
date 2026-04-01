@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f829-7a43-a547-588065c6201e",
+  "content": "try>> { Ok(vec![]) }\n        async fn shortest_path(&self, _from: &uuid::Uuid, _to: &uuid::Uuid) -> Result<Option<Vec<corvia_common::types::KnowledgeEntry>>> { Ok(None) }\n        async fn remove_edges(&self, _id: &uuid::Uuid) -> Result<()> { Ok(()) }\n    }\nasync fn test_inspect_entry() {\n        let dir = tempfile::tempdir().unwrap();\n        let store = Arc::new(LiteStore::open(dir.path(), 3).unwrap()) as Arc<dyn QueryableStore>;\n        store.init_schema().await.unwrap();\n        let graph = Arc::new(MockGraphStore) as Arc<dyn crate::traits::GraphStore>;\n\n        let mut entry = corvia_common::types::KnowledgeEntry::new(\n            \"test inspect content\".into(), \"test-scope\".into(), \"v1\".into(),\n        );\n        entry.embedding = Some(vec![1.0, 0.0, 0.0]);\n        entry.tier = corvia_common::types::Tier::Warm;\n        entry.retention_score = Some(0.42);\n        entry.access_count = 5;\n        let entry_id = entry.id;\n        store.insert(&entry).await.unwrap();\n\n        let inspection = inspect_entry(&store, &graph, &entry_id).await.unwrap();\n        assert_eq!(inspection.tier, \"warm\");\n        assert_eq!(inspection.retention_score, Some(0.42));\n        assert_eq!(inspection.access_count, 5);\n        assert_eq!(inspection.memory_type, \"episodic\"); // default\n        assert!(inspection.content_preview.starts_with(\"test inspect content\"));\n        assert!(inspection.pin.is_none());\n    }",
+  "source_version": "crates/corvia-kernel/src/ops.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.433298553Z",
+  "valid_from": "2026-03-31T13:20:59.433298553Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ops.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 890,
+    "end_line": 913,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

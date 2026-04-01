@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f834-7df0-9fec-2289c808258a",
+  "content": "h\", \"toml\", \"yaml\", \"yml\", \"json\",\n    ];\n    let ext = std::path::Path::new(source_file)\n        .extension()\n        .and_then(|e| e.to_str())\n        .unwrap_or(\"\");\n    if CODE_EXTS.contains(&ext) {\n        return Some(\"code\".into());\n    }\n\n    None\n}\npub fn infer_source_origin(repo_name: Option<&str>, source_file: &str) -> Option<String> {\n    let lower = source_file.to_lowercase();\n    if lower.contains(\"/.memory/\") || lower.starts_with(\".memory/\") {\n        return Some(\"memory\".into());\n    }\n    if let Some(name) = repo_name {\n        return Some(format!(\"repo:{name}\"));\n    }\n    Some(\"workspace\".into())\n}",
+  "source_version": "crates/corvia-kernel/src/ingest.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.444304448Z",
+  "valid_from": "2026-03-31T13:20:59.444304448Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ingest.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 196,
+    "end_line": 205,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

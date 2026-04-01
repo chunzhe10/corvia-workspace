@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-8ef05022ad5e",
+  "content": "# Install Corvia from source (or from release binary when available)\n# For now, build from source — replace with binary install for releases\n\n# Or build from the workspace's own repos:\n\n# This will be replaced with a release binary URL in production\nWORKDIR /workspace\n```\n\nNote: The Dockerfile will evolve. For the initial version, we can use a simpler approach that builds Corvia inside the container from the cloned repo. The exact Dockerfile depends on whether we have release binaries yet. For now, use a multi-stage build approach or install from the workspace's own clone.\n\n**Simplified initial Dockerfile:**\n\n```dockerfile\nFROM rust:1.85-bookworm\n\nRUN apt-get update && apt-get install -y \\\n    curl git build-essential pkg-config libssl-dev cmake \\\n    && rm -rf /var/lib/apt/lists/*\n",
+  "source_version": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465413115Z",
+  "valid_from": "2026-03-31T13:20:59.465413115Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1590,
+    "end_line": 1605,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

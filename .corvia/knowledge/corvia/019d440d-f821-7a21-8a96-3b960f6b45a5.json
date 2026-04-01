@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f821-7a21-8a96-3b960f6b45a5",
+  "content": "ackend.contains_key(\"chat\"));\n        // GPUs may or may not be present depending on hardware\n        for gpu in &status.gpus {\n            assert!(!gpu.name.is_empty());\n            assert!(gpu.vendor == \"nvidia\" || gpu.vendor == \"intel\");\n        }\n    }\nfn test_read_sysfs_helpers_missing_path() {\n        assert!(read_sysfs_string(Path::new(\"/nonexistent/path\")).is_none());\n        assert!(read_sysfs_u64(Path::new(\"/nonexistent/path\")).is_none());\n    }",
+  "source_version": "crates/corvia-server/src/dashboard/gpu.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.425006396Z",
+  "valid_from": "2026-03-31T13:20:59.425006396Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/gpu.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 608,
+    "end_line": 611,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-760b23d019a3",
+  "content": "### D2: Codebase Invariance Strategy\n### D3: Code Understanding Approach\n\n### D4: Development Environment Form Factor\n- **Decision**: VS Code extension (primary) + devcontainer (optional)\n- **Alternatives considered**:\n  - (A) Devcontainer-first — framework IS the devcontainer definition\n  - (C) Standalone CLI + Devcontainer — CLI scaffolds setup, devcontainer optional\n- **Why not A**: Requires Docker, heavy for onboarding, limits audience. Many developers don't use devcontainers.\n- **Why not C (as primary)**: CLI-only misses the UI showcase opportunity critical for portfolio. VS Code extension allows visual demonstration of streaming, real-time indexing, agent coordination.\n- **Why extension + optional devcontainer**: Extension is lightweight (no Docker), showcases UI skills. Devcontainer available for users who want guaranteed environment consistency.\n\n\n### D5: Multi-Source Architecture\n- **Decision**: Three sources with tiered processing\n- **No alternatives presented** — this was a refinement question. User specified the three sources and tiering approach directly.\n",
+  "source_version": "docs/rfcs/2026-02-25-corvia-brainstorm.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461424194Z",
+  "valid_from": "2026-03-31T13:20:59.461424194Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-25-corvia-brainstorm.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 41,
+    "end_line": 53,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

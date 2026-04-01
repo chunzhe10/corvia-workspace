@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-727fd1c6c011",
+  "content": "### Tiers\n### Tier Thresholds (with hysteresis)\n\n### Cold is Reversible\n\nCold entries retain their embeddings in Redb. When accessed via brute-force fallback,\nthe entry is returned to the caller immediately and its `last_accessed` / `access_count`\nare updated. The next GC cycle recomputes the retention score; if it crosses the\npromotion threshold (≥ 0.35), the entry is promoted to Warm and re-inserted into HNSW\nduring the cycle's rebuild phase.\n\nPromotion is **deferred to the GC cycle**, not synchronous. The entry is already\nreachable via brute-force scan (adding ~1-3ms), so the HNSW insert is a performance\noptimization, not a correctness requirement. This avoids mutation complexity with the\nArcSwap-based read path. This is hibernation, not death.\n",
+  "source_version": "docs/rfcs/2026-03-27-tiered-knowledge-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463678177Z",
+  "valid_from": "2026-03-31T13:20:59.463678177Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-27-tiered-knowledge-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 123,
+    "end_line": 135,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

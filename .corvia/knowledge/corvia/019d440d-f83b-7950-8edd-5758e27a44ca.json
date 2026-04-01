@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-5758e27a44ca",
+  "content": "### Step 6: Add Agent error variant\n### Step 7: Run tests and verify they pass\n\n### Step 8: Verify existing tests still pass\n\nRun: `cargo test --workspace`\nExpected: All 55 existing tests pass (backward-compatible serde defaults).\n\n\n### Step 9: Commit\n\n```bash\ngit add crates/corvia-common/src/agent_types.rs crates/corvia-common/src/\ngit commit -m \"feat(m2): add agent identity, session, and entry status types (D45)\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451632667Z",
+  "valid_from": "2026-03-31T13:20:59.451632667Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 468,
+    "end_line": 481,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

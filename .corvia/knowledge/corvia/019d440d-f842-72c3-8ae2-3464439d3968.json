@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-3464439d3968",
+  "content": "## User-Facing Observability\n\n### Ingest Output\n\nBreak down relation wiring results by type in the ingest summary log:\n\n```\nStructural relations: 324 stored (142 imports, 87 calls, 65 extends, 18 implements, 12 contains)\nResolution: 324/552 succeeded, 228 target-miss (41% resolution rate)\n```\n\n\n### `corvia workspace status`\n\nAdd graph metrics to workspace status output:\n\n```\nGraph: 324 edges (imports: 142, calls: 87, extends: 65, implements: 18, contains: 12)\n```\n",
+  "source_version": "docs/rfcs/2026-03-28-structural-intelligence-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458248482Z",
+  "valid_from": "2026-03-31T13:20:59.458248482Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-structural-intelligence-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 445,
+    "end_line": 461,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

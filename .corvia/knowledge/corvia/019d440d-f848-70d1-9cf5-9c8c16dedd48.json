@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9c8c16dedd48",
+  "content": "### D43: Agent Write Isolation — Staging Hybrid (Git Branches + Shared HNSW)\n\n### D44: Agent Capability Scope — Levels 0-3 (Memory + Reasoning + Findings)\n\n**Status**: Preliminary — to be formalized when M2/M3 implementation begins\n\n**Decision**: Corvia targets capability Levels 0-3. Code writing (Level 4) is explicitly out of scope.\n\n| Level | Name | What It Does | Milestone |\n|-------|------|-------------|-----------|\n| **0** | Passive Index | Ingest, embed, search. Read-only over source code. | M1 (done) |\n| **1** | Knowledge Writer | Agents create/update knowledge entries, merge conflicts. | M2 |\n| **2** | Knowledge Reasoner | Cross-reference knowledge, detect gaps, surface contradictions. | M3 |\n| **3** | Structured Findings | Detect patterns, post findings as knowledge entries. No diff generation. | M3 |\n| **4** | Code Writer | Directly modify source code. **OUT OF SCOPE.** | Separate project |\n\n**Level 3 revised scope**: Detect patterns and post structured findings — no diff generation. Corvia is a \"suggestion board\": it posts findings, external coding agents pick them up via MCP, generate their own diffs. Corvia tracks acceptance rate. No orchestrator overlap.\n\n**Expanded git adapter vision**:\n- Current `corvia-adapter-git`: reads source files, tree-sitter chunks, extracts HEAD SHA\n- Expanded: also ingest git commits, diffs, commit messages as knowledge entries\n- Future `corvia-adapter-github`: PRs, issues, CI results, review comments\n\n---\n\n\n### D45: Agent Identity & Session Recovery Model (Multi-Layer)\n\n**Status**: Preliminary — to be formalized when M2 implementation begins\n\n**Decision**: Corvia accepts agent identity at multiple layers for ecosystem compatibility. Internally, agents have persistent human-readable IDs. Externally, agents from any framework can connect via MCP with optional identity metadata. Sessions are ephemeral work units that survive crashes.\n",
+  "source_version": "docs/rfcs/milestone-revision-notes.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464275082Z",
+  "valid_from": "2026-03-31T13:20:59.464275082Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/milestone-revision-notes.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 252,
+    "end_line": 280,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

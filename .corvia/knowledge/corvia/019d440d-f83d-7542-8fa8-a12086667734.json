@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83d-7542-8fa8-a12086667734",
+  "content": "### Approach: Parallel tracks with shared API contract\n### Component ownership\n\n## Section 1: API Contract\n\nNew REST endpoints on `corvia-server` (`:8020`) under `/api/dashboard/`:\n\n| Endpoint | Returns | Source (currently in corvia-dev) |\n|---|---|---|\n| `GET /api/dashboard/status` | Services health, entry counts, agents, sessions, merge queue | `corvia_dev/cli.py` → `status --json` |\n| `GET /api/dashboard/traces` | Span statistics, module topology, recent events | `corvia_dev/traces.py` → `collect_traces()` |\n| `GET /api/dashboard/logs?module=X&level=Y` | Filtered structured log entries | `corvia_dev/traces.py` → log parsing |\n| `GET /api/dashboard/graph?scope=X` | Knowledge graph edges for visualization | Already exists in kernel (`corvia_graph`) |\n| `GET /api/dashboard/config` | Current server config (read-only) | `corvia_config_get` |\n\nAll endpoints return JSON. Response types defined in `corvia-common::dashboard` for shared use.\n\n**Why REST, not gRPC**: Browser `fetch()` works natively, payloads are small JSON, polling pattern\ndoesn't need streaming, Axum already serves REST. gRPC-web would add complexity for no benefit here.\n\n\n## Section 2: Rust Migration — corvia-dev → corvia-server\n",
+  "source_version": "docs/rfcs/2026-03-11-standalone-dashboard-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.453729307Z",
+  "valid_from": "2026-03-31T13:20:59.453729307Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-standalone-dashboard-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 48,
+    "end_line": 66,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

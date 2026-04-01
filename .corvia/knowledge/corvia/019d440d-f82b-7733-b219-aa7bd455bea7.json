@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82b-7733-b219-aa7bd455bea7",
+  "content": "     let contradiction_findings = reasoner\n            .run_check(&[], \"scope\", CheckType::Contradiction)\n            .await\n            .unwrap();\n        assert!(contradiction_findings.is_empty(), \"Contradiction via run_check should return empty\");\n    }\nfn test_check_type_as_str_llm_variants() {\n        assert_eq!(CheckType::SemanticGap.as_str(), \"semantic_gap\");\n        assert_eq!(CheckType::Contradiction.as_str(), \"contradiction\");\n    }",
+  "source_version": "crates/corvia-kernel/src/reasoner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.435659412Z",
+  "valid_from": "2026-03-31T13:20:59.435659412Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/reasoner.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1350,
+    "end_line": 1353,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

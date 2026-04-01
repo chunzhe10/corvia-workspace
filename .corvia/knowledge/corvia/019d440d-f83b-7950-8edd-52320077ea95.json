@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-52320077ea95",
+  "content": "## Task 12: End-to-End Integration Test\n\n        .expect(\"Failed to embed — is Ollama running with nomic-embed-text?\");\n\n    assert_eq!(embedding.len(), config.embedding.dimensions);\n\n    let entry = KnowledgeEntry::new(\n        content.to_string(),\n        \"test-repo\".to_string(),\n        \"abc123\".to_string(),\n    ).with_embedding(embedding);\n\n    store.insert(&entry).await.expect(\"Failed to insert\");\n\n    // Search for it\n    let query_embedding = engine.embed(\"how does authentication work?\").await.unwrap();\n    let results = store.search(&query_embedding, \"test-repo\", 5).await.unwrap();\n\n    assert!(!results.is_empty(), \"Expected at least one search result\");\n    assert!(results[0].entry.content.contains(\"authenticate\"));\n\n    println!(\"E2E test passed: wrote 1 entry, searched, found it.\");\n    println!(\"Score: {:.3}\", results[0].score);\n}\n```\n\nAdd to `Cargo.toml` workspace root:\n```toml\n[[test]]\nname = \"e2e_test\"\npath = \"tests/integration/e2e_test.rs\"\n```\n\n**Step 2: Run the test (requires infrastructure)**\n\nRun: `cargo test --test e2e_test -- --nocapture`\nExpected: PASS (if Docker + SurrealDB + Ollama are running)\n\n**Step 3: Commit**\n\n```bash\ngit add tests/ Cargo.toml\ngit commit -m \"test: end-to-end integration test for M1\n\nVerifies: connect to SurrealDB, embed via Ollama, insert, vector search.\nRequires Docker + SurrealDB + Ollama running.\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-02-28-m1-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451037592Z",
+  "valid_from": "2026-03-31T13:20:59.451037592Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-m1-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 2164,
+    "end_line": 2211,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

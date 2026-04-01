@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f836-7610-b605-bd0c99d04066",
+  "content": "pub fn subscribe(&self) -> broadcast::Receiver<KernelEvent> {\n        self.tx.subscribe()\n    }\npub fn cancel_token(&self) -> CancellationToken {\n        self.cancel.clone()\n    }\npub fn test() -> (Self, broadcast::Receiver<KernelEvent>) {\n        let bus = Self::new(64);\n        let rx = bus.subscribe();\n        (bus, rx)\n    }",
+  "source_version": "crates/corvia-kernel/src/event_bus.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.446229893Z",
+  "valid_from": "2026-03-31T13:20:59.446229893Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/event_bus.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 117,
+    "end_line": 121,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

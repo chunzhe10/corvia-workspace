@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82f-7ca0-945f-a7ec170ef5e2",
+  "content": "nforces_token_budget() {\n        // Use a very small token budget so the content must be split.\n        let config = ChunkingConfig {\n            max_tokens: 10,\n            min_tokens: 2,\n            overlap_tokens: 0,\n            strategy: \"auto\".into(),\n            ..Default::default()\n        };\n        let pipeline = make_pipeline(config);\n\n        // Generate content that exceeds 10 tokens (~40 chars).\n        let source = \"The quick brown fox jumps over the lazy dog. \\\n                       This sentence is here to ensure we exceed the budget. \\\n                       Another line to push the total higher still.\";\n        let meta = test_meta(\"xyz\"); // unknown ext -> fallback\n\n        let (chunks, _relations) = pipeline.process(source, &meta).unwrap();\n        assert!(\n            chunks.len() > 1,\n            \"expected multiple chunks after budget enforcement, got {}\",\n            chunks.len()\n        );\n\n        // Every chunk should fit within the budget (with some tolerance for\n        // single-line chunks that cannot be split further).\n        let estimator = CharDivFourEstimator;\n        for chunk in &chunks {\n            let est = estimator.estimate(&chunk.content);\n            // Allow up to 2x budget for unsplittable single-line chunks.\n            assert!(\n                est <= 20,\n                \"chunk token estimate {} exceeds 2x budget for content: {:?}\",\n                est,\n                chunk.content\n            );\n        }\n    }\n\n    #[test]\n    fn test_process_merges_small_chunks() {\n        // Each line is ~5 chars / 4 = ~1 token. With min_tokens=10, they\n        // should be merged.\n        let config = ChunkingConfig {",
+  "source_version": "crates/corvia-kernel/src/chunking_pipeline.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.439025966Z",
+  "valid_from": "2026-03-31T13:20:59.439025966Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_pipeline.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 860,
+    "end_line": 896,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

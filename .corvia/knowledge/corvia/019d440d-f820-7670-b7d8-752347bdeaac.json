@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f820-7670-b7d8-752347bdeaac",
+  "content": "pub fn silhouette_score(data: &[Vec<f32>], assignments: &[usize], k: usize) -> f32 {\n    silhouette_score_with_rng(data, assignments, k, &mut rand::thread_rng())\n}\npub fn silhouette_score_with_rng(data: &[Vec<f32>], assignments: &[usize], k: usize, rng: &mut impl Rng) -> f32 {\n    let n = data.len();\n    if n <= 1 || k <= 1 {\n        return 0.0;\n    }\n\n    let indices: Vec<usize> = (0..n).collect();\n    let sample: Vec<usize> = if n > 500 {\n        let mut shuffled = indices.clone();\n        shuffled.shuffle(rng);\n        shuffled.into_iter().take(500).collect()\n    } else {\n        indices\n    };\n\n    let mut total = 0.0f32;\n    let mut counted = 0usize;\n    for &i in &sample {\n        let ci = assignments[i];\n        // a(i) = mean distance to same cluster\n        let mut same_sum = 0.0f32;\n        let mut same_count = 0usize;\n        // b(i) = min mean distance to other clusters\n        let mut other_sums = vec![0.0f32; k];\n        let mut other_counts = vec![0usize; k];\n\n        for (j, point) in data.iter().enumerate() {\n            if i == j {\n                continue;\n            }\n            let d = euclidean_dist_sq(&data[i], point).sqrt();\n            if assignments[j] == ci {\n                same_sum += d;\n                same_count += 1;\n            } else {\n                other_sums[assignments[j]] += d;\n                other_counts[assignments[j]] += 1;\n            }\n        }\n\n        let a = if same_count > 0 {\n            same_sum / same_count as f32\n        } else {\n            0.0\n        };\n        let b = (0..k)\n            .filter(|&c| c != ci && other_counts[c] > 0)\n            .map(|c| other_sums[c] / other_counts[c] as f32)\n            .fold(f32::MAX, f32::min);\n\n        if b == f32::MAX {\n            continue;\n        }\n        let s = (b - a) / a.max(b);\n        total += s;\n        counted += 1;\n    }\n    if counted == 0 {\n        return 0.0;\n    }\n    total / counted as f32\n}",
+  "source_version": "crates/corvia-server/src/dashboard/clustering.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.424027281Z",
+  "valid_from": "2026-03-31T13:20:59.424027281Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/clustering.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 147,
+    "end_line": 208,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

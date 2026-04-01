@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f821-7a21-8a96-3dd76d83a863",
+  "content": "          \"warm\" => Ok(Self::Warm),\n            \"cold\" => Ok(Self::Cold),\n            \"forgotten\" => Ok(Self::Forgotten),\n            _ => Err(format!(\n                \"Unknown tier: {s}. Valid: hot, warm, cold, forgotten\"\n            )),\n        }\n    }\n}\nfn from_str(s: &str) -> std::result::Result<Self, Self::Err> {\n        match s {\n            \"hot\" => Ok(Self::Hot),\n            \"warm\" => Ok(Self::Warm),\n            \"cold\" => Ok(Self::Cold),\n            \"forgotten\" => Ok(Self::Forgotten),\n            _ => Err(format!(\n                \"Unknown tier: {s}. Valid: hot, warm, cold, forgotten\"\n            )),\n        }\n    }",
+  "source_version": "crates/corvia-common/src/types.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.425222483Z",
+  "valid_from": "2026-03-31T13:20:59.425222483Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/types.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 99,
+    "end_line": 109,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

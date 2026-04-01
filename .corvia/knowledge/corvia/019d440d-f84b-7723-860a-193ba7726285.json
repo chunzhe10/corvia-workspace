@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84b-7723-860a-193ba7726285",
+  "content": "\n        json!({ \"query\": query, \"scope_id\": scope, \"limit\": 10 }),\n        agent_id,\n    )\n    .await;\n\n    let text = result[\"result\"][\"content\"][0][\"text\"]\n        .as_str()\n        .unwrap_or(\"{}\");\n    serde_json::from_str(text).unwrap_or(json!({}))\n}\nasync fn search_with_retry(\n    env: &E2eEnv,\n    query: &str,\n    scope: &str,\n    agent_id: &str,\n    min_results: u64,\n    max_wait: Duration,\n) -> Value {\n    let deadline = tokio::time::Instant::now() + max_wait;\n    loop {\n        let results = mcp_search(env, query, scope, agent_id).await;\n        let count = results[\"count\"].as_u64().unwrap_or(0);\n        if count >= min_results {\n            return results;\n        }\n        if tokio::time::Instant::now() > deadline {\n            panic!(\n                \"Search for '{query}' in scope '{scope}' found {count} results (need {min_results}) after {max_wait:?}. Results: {results}\"\n            );\n        }\n        tokio::time::sleep(Duration::from_secs(1)).await;\n    }\n}",
+  "source_version": "tests/integration/docker_mcp_e2e_test.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.467197781Z",
+  "valid_from": "2026-03-31T13:20:59.467197781Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "tests/integration/docker_mcp_e2e_test.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 380,
+    "end_line": 402,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f828-7a92-a1a8-d33a7b6477ee",
+  "content": "ign\"), None, \"feat/auth\", 0.7),\n        ];\n        let filtered = super::post_filter_metadata(results, None, None, Some(\"feat/auth\"));\n        assert_eq!(filtered.len(), 2);\n        assert!(filtered.iter().all(|r| r.entry.workstream == \"feat/auth\"));\n    }\nfn test_post_filter_workstream_combined_with_role() {\n        let results = vec![\n            make_result_with_workstream(Some(\"design\"), None, \"feat/auth\", 0.9),\n            make_result_with_workstream(Some(\"code\"), None, \"feat/auth\", 0.8),\n            make_result_with_workstream(Some(\"design\"), None, \"feat/billing\", 0.7),\n        ];\n        let filtered = super::post_filter_metadata(results, Some(\"design\"), None, Some(\"feat/auth\"));\n        assert_eq!(filtered.len(), 1);\n        assert_eq!(filtered[0].entry.workstream, \"feat/auth\");\n        assert_eq!(filtered[0].entry.metadata.content_role.as_deref(), Some(\"design\"));\n    }",
+  "source_version": "crates/corvia-kernel/src/retriever.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.432024745Z",
+  "valid_from": "2026-03-31T13:20:59.432024745Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/retriever.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 867,
+    "end_line": 877,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

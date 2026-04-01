@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9c5bed474008",
+  "content": "### M6: \"How good is it?\"\n\n### M7: \"Try it yourself\"\n\n**Depends on**: M6\n**LinkedIn**: \"Introducing Corvia — open source code memory. AI agents that understand your codebase and get smarter over time. Try it today.\"\n\n**What changed from original**: Two-tier onboarding story (LiteStore default, FullStore upgrade).\n\n**Deliverables**:\n1. Published crates: `cargo install corvia`\n2. **Two installation paths**:\n   - \"5-minute quickstart\" — `cargo install corvia && corvia init && corvia demo` (LiteStore, zero Docker)\n   - \"Production setup\" — `corvia init --full` (SurrealDB + vLLM Docker stack)\n3. **Migration docs**: `corvia upgrade` path from LiteStore → FullStore\n4. VS Code Marketplace listing\n5. Docs site with:\n   - Architecture decision records (D1-D44) as navigable docs\n   - API reference (REST + MCP)\n   - Adapter authoring guide\n   - Contributing guide\n6. GitHub org polished (README, LICENSE, CONTRIBUTING, CODE_OF_CONDUCT)\n7. One cloud deployment (free tier, FullStore)\n\n**What works after M7**: Anyone can install and use Corvia. Zero-friction local start, upgrade path to production.\n\n---\n",
+  "source_version": "docs/rfcs/milestone-revision-notes.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464252630Z",
+  "valid_from": "2026-03-31T13:20:59.464252630Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/milestone-revision-notes.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 174,
+    "end_line": 199,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

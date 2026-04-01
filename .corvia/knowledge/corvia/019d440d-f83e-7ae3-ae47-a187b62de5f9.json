@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83e-7ae3-ae47-a187b62de5f9",
+  "content": "` }}>\n                {totalCount > 0 ? totalCount.toLocaleString() : \"—\"}\n              </div>\n            </div>\n          );\n        })}\n      </div>\n\n      {selectedModule && (\n        <div class=\"traces-detail\">\n          <div class=\"detail-header\">\n            <span\n              class=\"detail-dot\"\n              style={{ background: `var(--${selectedModule.color})` }}\n            />\n            <h3>{selectedModule.label}</h3>\n            <p class=\"detail-desc\">{selectedModule.desc}</p>\n          </div>\n\n          <div class=\"detail-stats\">\n            <div class=\"stat\">\n              <span class=\"stat-label\">Total</span>\n              <span class=\"stat-value\">\n                {selectedSpans.reduce((s, [, st]) => s + st.count, 0)}\n              </span>\n            </div>\n            <div class=\"stat\">\n              <span class=\"stat-label\">Last hour</span>\n              <span class=\"stat-value\">\n                {selectedSpans.reduce((s, [, st]) => s + st.count_1h, 0)}\n              </span>\n            </div>\n            <div class=\"stat\">\n              <span class=\"stat-label\">Avg latency</span>\n              <span\n                class=\"stat-value\"\n                style={{\n                  color: latencyColor(\n                    selectedSpans.length > 0\n                      ? selectedSpans.reduce((s, [, st]) => s + st.avg_ms, 0) /\n                          selectedSpans.length\n                      : 0\n                  ),\n                }}\n              >\n                {selectedSpans.length > 0\n                  ? (\n                      selectedSpans.reduce((s, [, st]) => s + st.avg_ms, 0) /\n                      selectedSpans.length\n                    ).toFixed(1)\n                  : \"—\"}\n                ms\n              </span>\n            </div>\n            <div class=\"stat\">\n              <span class=\"stat-label\">Errors</span>\n              <span class=\"stat-value\" style={{ color: \"var(--coral)\" }}>\n                {selectedSpans.reduce((s, [, st]) => s + st.errors, 0)}\n              </span>\n            </div>\n          </div>\n\n          {selectedSpans.length > 0 && (\n            <div class=\"detail-card\">",
+  "source_version": "docs/rfcs/2026-03-11-dashboard-ui-standalone.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.454237549Z",
+  "valid_from": "2026-03-31T13:20:59.454237549Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-dashboard-ui-standalone.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1039,
+    "end_line": 1091,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83e-7ae3-ae47-a0d9d65d94cd",
+  "content": "## Chunk 2: Layout & Core Components\n\n### Task 4: Main entry point and hash routing\n\n**Files:**\n- Create: `tools/corvia-dashboard/src/main.tsx`\n\n-**Step 1: Create `main.tsx` with hash routing**\n\n```tsx\n// tools/corvia-dashboard/src/main.tsx\n\nimport { render } from \"preact\";\nimport { useState, useEffect } from \"preact/hooks\";\nimport \"./styles/theme.css\";\nimport { Layout } from \"./components/Layout\";\n\ntype View = \"logs\" | \"graph\" | \"traces\";\n\nfunction App() {\n  const [view, setView] = useState<View>(() => {\n    const hash = window.location.hash.slice(2); // remove #/\n    return ([\"logs\", \"graph\", \"traces\"].includes(hash) ? hash : \"logs\") as View;\n  });\n\n  useEffect(() => {\n    const onHash = () => {\n      const hash = window.location.hash.slice(2);\n      if ([\"logs\", \"graph\", \"traces\"].includes(hash)) {\n        setView(hash as View);\n      }\n    };\n    window.addEventListener(\"hashchange\", onHash);\n    return () => window.removeEventListener(\"hashchange\", onHash);\n  }, []);\n\n  const navigate = (v: View) => {\n    window.location.hash = `/${v}`;\n    setView(v);\n  };\n\n  return <Layout view={view} onNavigate={navigate} />;\n}\n\nrender(<App />, document.getElementById(\"app\")!);\n```\n\n-**Step 2: Verify Vite dev server starts with the entry point**\n\n```bash\ncd tools/corvia-dashboard && npx vite --port 8021 &\nsleep 2 && curl -s http://localhost:8021/ | grep -c \"module\"\nkill %1\n```\n\nExpected: At least 1 match (the script module tag)\n\n-**Step 3: Commit**\n\n```bash\ncd /workspaces/corvia-workspace\ngit add tools/corvia-dashboard/src/main.tsx\ngit commit -m \"feat(dashboard-ui): add entry point with hash routing\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-11-dashboard-ui-standalone.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.454098710Z",
+  "valid_from": "2026-03-31T13:20:59.454098710Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-dashboard-ui-standalone.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 501,
+    "end_line": 565,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a15-7ca3-b9db-54313f1e724b",
+  "content": "e-box {\n    background: rgba(59, 130, 246, 0.08); border: 1px solid rgba(59, 130, 246, 0.25);\n    border-radius: 16px; padding: 24px 28px; margin: 16px 0;\n  }\n  .blue-box p { font-size: 20px; font-weight: 500; color: var(--accent-blue); line-height: 1.5; }\n  .divider { height: 1px; background: var(--border); margin: 28px 0; }\n  .flex-grow { flex: 1; }\n  .cover-center { flex: 1; display: flex; flex-direction: column; justify-content: center; }\n  .cover-tags { margin-top: 40px; display: flex; flex-wrap: wrap; gap: 12px; }\n  .cover-tags .tag {\n    display: inline-block; padding: 10px 20px; border-radius: 20px;\n    font-size: 20px; font-weight: 600;\n    background: rgba(59, 130, 246, 0.15); color: var(--accent-blue);\n  }\n\n  .stat-box {\n    background: var(--bg-card); border: 1px solid var(--border);\n    border-radius: 16px; padding: 28px; text-align: center;\n  }\n\n  .terminal {\n    background: #0d1117; border-radius: 12px; padding: 24px;\n    font-family: 'JetBrains Mono', monospace; font-size: 18px;\n    line-height: 1.7; color: var(--text-secondary);\n  }\n\n  .tier-row {\n    display: flex; align-items: stretch; gap: 16px; margin-bottom: 16px;\n  }\n  .tier-card {\n    flex: 1; background: var(--bg-card); border: 1px solid var(--border);\n    border-radius: 16px; padding: 24px;\n  }\n</style>\n</head>\n<body>",
+  "source_version": "marketing/linkedin/2026-03-28-observability-control-plane/observability-control-plane-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.029681046Z",
+  "valid_from": "2026-03-31T13:51:39.029681046Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-28-observability-control-plane/observability-control-plane-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 118,
+    "end_line": 148,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

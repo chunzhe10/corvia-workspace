@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-c2a1e2f20ec2",
+  "content": "        # Return one file then done\n\n    fn test_spawn_and_ingest() {\n        let dir = tempfile::tempdir().unwrap();\n        let binary = create_session_adapter(dir.path());\n        let mut adapter = ProcessAdapter::new(binary, mock_metadata());\n\n        adapter.spawn().unwrap();\n        let files = adapter.ingest(\"/fake/path\", \"test-scope\").unwrap();\n        assert_eq!(files.len(), 1);\n        assert_eq!(files[0].content, \"hello world\");\n        assert_eq!(files[0].metadata.file_path, \"test.txt\");\n        assert_eq!(files[0].metadata.scope_id, \"test-scope\");\n        adapter.shutdown().unwrap();\n    }\n\n    #[test]\n    fn test_spawn_and_chunk() {\n        let dir = tempfile::tempdir().unwrap();\n        let binary = create_session_adapter(dir.path());\n        let mut adapter = ProcessAdapter::new(binary, mock_metadata());\n\n        adapter.spawn().unwrap();\n        let meta = SourceMetadata {\n            file_path: \"src/main.rs\".into(),\n            extension: \"rs\".into(),\n            language: Some(\"rust\".into()),\n            scope_id: \"test\".into(),\n            source_version: \"v1\".into(),\n        };\n        let (chunks, relations) = adapter.chunk(\"fn main() {}\", &meta).unwrap();\n        assert_eq!(chunks.len(), 1);\n        assert_eq!(chunks[0].content, \"fn main() {}\");\n        assert!(relations.is_empty());\n        adapter.shutdown().unwrap();\n    }",
+  "source_version": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462687044Z",
+  "valid_from": "2026-03-31T13:20:59.462687044Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1061,
+    "end_line": 1094,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

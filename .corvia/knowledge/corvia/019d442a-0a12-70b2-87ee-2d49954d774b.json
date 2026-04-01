@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-2d49954d774b",
+  "content": "### C7: MCP Authentication (Security)\n### I9: Usage Agreement (PM)\n\n### I4: Supply Chain Pinning (Security)\n\n**Problem:** `npm install @anthropic-ai/claude-code@latest` with no integrity check.\n\n**Fix:**\n\nPre-built Dockerfile pins version:\n```dockerfile\nARG CLAUDE_CODE_VERSION=2.1.86\nRUN npm install -g @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}\n```\n\nRuntime entrypoint never installs. If Claude Code is not present, error:\n```bash\nif ! command -v claude &>/dev/null; then\n    echo \"ERROR: Claude Code not installed. Use pre-built spoke image.\"\n    exit 1\nfi\n```\n\nThe `corvia workspace spoke build-image` command handles version updates:\n```bash\ncorvia workspace spoke build-image --claude-version 2.1.86\n```\n\nMinimal spoke image (node:22 + runtime install) retained only for development\nwith an explicit `--allow-runtime-install` flag and a warning.\n\n---\n",
+  "source_version": "decisions/2026-03-28-spoke-design-review-fixes.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026311205Z",
+  "valid_from": "2026-03-31T13:51:39.026311205Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-design-review-fixes.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 82,
+    "end_line": 111,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

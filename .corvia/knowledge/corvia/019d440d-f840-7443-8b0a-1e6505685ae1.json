@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-1e6505685ae1",
+  "content": "### Task 12: Sidebar State Machine\n\n    width: `${SIDEBAR_WIDTHS[sidebarState]}px`,\n    transition: 'width 200ms ease',\n    overflow: 'hidden',\n  }}\n>\n  {sidebarState !== 'collapsed' && (\n    <>\n      <button class=\"sidebar-close\" onClick={closeSidebar}>✕</button>\n      {sidebarContent?.kind === 'config' && <ConfigPanel config={config} />}\n      {sidebarContent?.kind === 'health' && <HealthPanel ... />}\n      {/* Other content kinds rendered by their respective views */}\n    </>\n  )}\n</aside>\n\n{/* Chevron toggle always visible */}\n<button\n  class=\"sidebar-toggle\"\n  onClick={() => sidebarState === 'collapsed'\n    ? openSidebar({ kind: 'config' })\n    : closeSidebar()\n  }\n>\n  {sidebarState === 'collapsed' ? '◀' : '▶'}\n</button>\n```\n\n-**Step 4: Move Config to gear icon, Health to pulse dots**\n\nReplace the existing sidebar tab strip (Config | Health) with:\n- A gear icon (`⚙`) in the header bar that calls `openSidebar({ kind: 'config' })`\n- The existing health pulse dots already call health — update to use `openSidebar({ kind: 'health' })`\n\n-**Step 5: Pass openSidebar to child components**\n\nThread `openSidebar` and `closeSidebar` as props (or via Preact context) to GraphView, AgentsView, HistoryView, etc. Each component calls `openSidebar` with the appropriate content kind when the user clicks an interactive element.\n\n-**Step 6: Test in browser**\n\nVerify:\n1. Sidebar starts collapsed on page load\n2. Clicking gear icon opens Config in narrow mode\n3. Clicking health dots opens Health in narrow mode\n4. Switching tabs collapses sidebar\n5. Close button and clicking empty area collapses\n\n-**Step 7: Commit**\n\n```bash\ncd /workspaces/corvia-workspace\ngit add tools/corvia-dashboard/src/components/Layout.tsx\ngit commit -m \"feat(dashboard): collapsible context-aware sidebar with auto-show\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456604470Z",
+  "valid_from": "2026-03-31T13:20:59.456604470Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1518,
+    "end_line": 1573,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

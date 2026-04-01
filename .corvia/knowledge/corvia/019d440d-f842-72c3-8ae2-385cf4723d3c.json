@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-385cf4723d3c",
+  "content": "## Task 13: Implement GrpcVllmEngine (vLLM gRPC client)\n\n## Task 14: Fill in candle chat implementation\n\n**Files:**\n- Modify: `crates/corvia-inference/src/chat_service.rs`\n\nThis task replaces the `todo!()` stubs from Task 10 with working candle GGUF inference.\n\n**Step 1: Implement model loading**\n\nUse `hf-hub` to download GGUF files, `candle_core::quantized::gguf_file` to parse them, and `candle_transformers::models::quantized_llama::ModelWeights` to load weights.\n\n**Step 2: Implement generate loop**\n\nStandard autoregressive generation:\n```\ntokenize → forward → sample logits → append token → repeat until EOS or max_tokens\n```\n\n**Step 3: Implement streaming via channel**\n\nFor `ChatStream`, use a `tokio::sync::mpsc::channel` and send `ChatChunk` messages as tokens are generated.\n\n**Step 4: Test with a small model**\n\nUse a small GGUF model (e.g., TinyLlama 1.1B Q4) for testing.\n\n**Step 5: Commit**\n\n```bash\ngit add crates/corvia-inference/src/chat_service.rs\ngit commit -m \"feat(d60): implement ChatService with candle GGUF generation\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458850918Z",
+  "valid_from": "2026-03-31T13:20:59.458850918Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1777,
+    "end_line": 1811,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

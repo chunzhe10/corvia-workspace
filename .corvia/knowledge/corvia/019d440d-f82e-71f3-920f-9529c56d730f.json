@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82e-71f3-920f-9529c56d730f",
+  "content": " }\n            })\n            .collect();\n\n        info!(\n            strategy = %strategy_name,\n            file = %meta.file_path,\n            chunks = processed.len(),\n            \"chunking_completed\"\n        );\n\n        Ok((processed, relations))\n    }\npub fn process_batch(\n        &self,\n        files: &[SourceFile],\n    ) -> Result<(Vec<ProcessedChunk>, Vec<ChunkRelation>, ProcessingReport)> {\n        let mut all_chunks = Vec::new();\n        let mut all_relations = Vec::new();\n        let mut report = ProcessingReport::default();\n\n        for file in files {\n            let (chunks, relations) = self.process(&file.content, &file.metadata)?;\n\n            let strategy_name = if let Some(first) = chunks.first() {\n                first.processing.strategy_name.clone()\n            } else {\n                self.registry.resolve(&file.metadata.extension).name().to_string()\n            };\n\n            let stats = report\n                .per_strategy\n                .entry(strategy_name)\n                .or_default();\n\n            stats.files += 1;\n\n            for chunk in &chunks {\n                stats.chunks += 1;\n                if chunk.processing.was_split {\n                    stats.splits += 1;\n                    report.chunks_split += 1;\n                }\n                if chunk.processing.was_merged {\n                    stats.merges += 1;\n                    report.chunks_merged += 1;\n                }\n            }\n\n            report.files_processed += 1;\n            report.total_chunks += chunks.len();\n            all_chunks.extend(chunks);\n            all_relations.extend(relations);\n        }\n\n        // After all files are processed, discover cross-file relations\n        let cross_file_relations = Self::discover_cross_file_relations(&all_chunks);\n        if !cross_file_relations.is_empty() {\n            tracing::info!(\n                count = cross_file_relations.len(),\n                \"discovered cross-file declaration→usage relations\"\n            );\n            all_relations.extend(cross_file_relations);\n        }\n\n        Ok((all_chunks, all_relations, report))\n    }",
+  "source_version": "crates/corvia-kernel/src/chunking_pipeline.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.438826609Z",
+  "valid_from": "2026-03-31T13:20:59.438826609Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_pipeline.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 244,
+    "end_line": 297,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

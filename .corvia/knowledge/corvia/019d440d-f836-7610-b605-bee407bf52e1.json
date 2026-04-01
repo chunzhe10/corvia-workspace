@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f836-7610-b605-bee407bf52e1",
+  "content": "       return true;\n    }\n\n    // Rule 4: High-confidence decisions\n    if let Some(role) = params.content_role\n        && role == \"decision\"\n        && let Some(conf) = params.confidence\n        && conf >= 0.9\n    {\n        return true;\n    }\n\n    false\n}\nmod tests {\n    use super::*;\n\n    // Helper: approximately equal within tolerance\n    fn approx_eq(a: f32, b: f32, tol: f32) -> bool {\n        (a - b).abs() < tol\n    }\n\n    // ── Invariant tests ─────────────────────────────────────────────────────\n\n    #[test]\n    fn test_weights_sum_to_one() {\n        let sum = W_DECAY + W_ACCESS + W_GRAPH + W_CONFIDENCE;\n        assert!((sum - 1.0).abs() < 1e-10, \"Weights sum to {sum}, expected 1.0\");\n    }\n\n    #[test]\n    fn test_freq_normalizer_matches_ln_101() {\n        assert!((FREQ_NORMALIZER - 101.0_f64.ln()).abs() < 1e-10);\n    }\n\n    // ── Alpha values ────────────────────────────────────────────────────────\n\n    #[test]\n    fn test_alpha_structural() {\n        assert_eq!(alpha_for_type(MemoryType::Structural, false), 0.0);\n    }\n\n    #[test]\n    fn test_alpha_procedural() {\n        assert_eq!(alpha_for_type(MemoryType::Procedural, false), 0.10);\n    }\n\n    #[test]\n    fn test_alpha_decisional() {\n        assert_eq!(alpha_for_type(MemoryType::Decisional, false), 0.15);\n    }",
+  "source_version": "crates/corvia-kernel/src/scoring.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.446444685Z",
+  "valid_from": "2026-03-31T13:20:59.446444685Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/scoring.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 298,
+    "end_line": 334,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

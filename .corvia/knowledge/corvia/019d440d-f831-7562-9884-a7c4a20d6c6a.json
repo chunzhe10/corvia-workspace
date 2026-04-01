@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f831-7562-9884-a7c4a20d6c6a",
+  "content": "ents.insert(\"test\".to_string(), score);\n        RankedCandidate {\n            entry: Arc::new(entry),\n            scores: CandidateScores {\n                components,\n                final_score: NormalizedScore::new(score),\n            },\n        }\n    }\nfn make_set(candidates: Vec<RankedCandidate>) -> RankedSet {\n        let count = candidates.len();\n        RankedSet {\n            candidates,\n            metrics: StageMetrics {\n                stage_name: \"test\".into(),\n                latency_ms: 0,\n                input_count: 0,\n                output_count: count,\n                warnings: Vec::new(),\n            },\n        }\n    }",
+  "source_version": "crates/corvia-kernel/src/pipeline/fusion.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.441026512Z",
+  "valid_from": "2026-03-31T13:20:59.441026512Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/fusion.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 273,
+    "end_line": 285,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

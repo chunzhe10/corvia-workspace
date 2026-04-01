@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83e-7ae3-ae47-a4fdf321a914",
+  "content": "\n        .map_err(|e| CorviaError::Config(format!(\"TOML serialize error: {e}\")))?;\n    std::fs::write(config_path, toml_str)\n        .map_err(|e| CorviaError::Config(format!(\"Failed to write config: {e}\")))?;\n\n    *config = updated.clone();\n    Ok(updated)\n}\n\n/// Suspend an agent.\npub fn agent_suspend(\n    coordinator: &AgentCoordinator,\n    agent_id: &str,\n) -> Result<()> {\n    coordinator.registry.set_status(agent_id, AgentStatus::Suspended)\n}\n\n/// Run garbage collection.\npub async fn gc_run(coordinator: &AgentCoordinator) -> Result<crate::agent_coordinator::GcReport> {\n    coordinator.gc().await\n}\n\n/// Rebuild HNSW index from knowledge files.\npub fn rebuild_index(data_dir: &std::path::Path, dimensions: usize) -> Result<usize> {\n    let store = crate::lite_store::LiteStore::open(data_dir, dimensions)?;\n    store.rebuild_from_files()\n}\n\n/// Retry failed merge entries by resetting retry_count and re-enqueuing.\npub fn merge_retry(\n    coordinator: &AgentCoordinator,\n    entry_ids: &[uuid::Uuid],\n) -> Result<usize> {\n    let mut retried = 0;\n    for entry_id in entry_ids {\n        // Get the current entry from queue\n        let entries = coordinator.merge_queue.list(1000)?;\n        if let Some(entry) = entries.iter().find(|e| e.entry_id == *entry_id) {\n            if entry.last_error.is_some() {\n                // Re-enqueue with reset retry count\n                coordinator.merge_queue.mark_complete(entry_id)?;\n                coordinator.merge_queue.enqueue(\n                    entry.entry_id,\n                    &entry.agent_id,\n                    &entry.session_id,\n                    &entry.scope_id,\n                )?;\n                retried += 1;\n            }\n        }\n    }\n    Ok(retried)\n}\n```\n\n-**Step 4: Run tests — verify they pass**\n\nRun: `cargo test -p corvia-kernel -- ops::tests`\nExpected: All ops tests pass.\n\n-**Step 5: Run full workspace tests**\n\nRun: `cargo test --workspace`\nExpected: All 385+ tests pass.\n\n-**Step 6: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/ops.rs\ngit commit -m \"feat(m4): add full ops module — agents_list, merge_queue_status, config_get/set, gc_run, rebuild, merge_retry\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.454879361Z",
+  "valid_from": "2026-03-31T13:20:59.454879361Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 645,
+    "end_line": 711,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

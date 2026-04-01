@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a13-75d1-bfe3-f75a5a43d424",
+  "content": "o cards use card-header (18px uppercase) + body (24px)\",\n        \"Total content must fit within ~780px after title+subtitle\"\n      ],\n      \"structure\": [\n        {\n          \"content\": \"Section label (e.g. 'The Setup')\",\n          \"element\": \"slide-label\"\n        },\n        {\n          \"element\": \"title\",\n          \"font\": \"slideTitle (58px)\",\n          \"heightBudget\": 210,\n          \"maxLines\": 3\n        },\n        {\n          \"element\": \"subtitle\",\n          \"font\": \"subtitle (28px)\",\n          \"heightBudget\": 90,\n          \"maxLines\": 2\n        },\n        {\n          \"element\": \"card-row\",\n          \"heightBudget\": 200,\n          \"layout\": \"flex row, equal width\",\n          \"maxItems\": 3\n        },\n        {\n          \"element\": \"info-cards\",\n          \"heightBudget\": 280,\n          \"layout\": \"stacked, border-left accent\",\n          \"maxItems\": 2\n        }\n      ]\n    },\n    \"solution\": {\n      \"description\": \"Present the fix. Pipeline diagram + code snippet + summary.\",\n      \"rules\": [\n        \"Pipeline steps: icon + label (20px bold) in accent-colored pills\",\n        \"Arrows between steps: 32px, accent-green\",\n        \"Terminal/code block: JetBrains Mono (20px), dark background (#0d1117)\",\n        \"Keep code to essential config only — no boilerplate\",\n        \"Summary card: border-left accent-green, body at 24px\"\n      ],",
+  "source_version": "marketing/design-system.json",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.027752197Z",
+  "valid_from": "2026-03-31T13:51:39.027752197Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/design-system.json",
+    "language": null,
+    "chunk_type": "section",
+    "start_line": 411,
+    "end_line": 446,
+    "content_role": "code",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

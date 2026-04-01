@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-8d55a216ea74",
+  "content": "rviaConfig::load(&config_path)?\n    } else {\n        let config = workspace::generate_workspace_config(&name, &repos, &local_overrides);\n        let root = PathBuf::from(&name);\n        workspace::scaffold_workspace(&root, &config)?;\n        config\n    };\n\n    let root = PathBuf::from(&name);\n    workspace::init_workspace(&root).await?;\n    println!(\"\\nWorkspace '{}' created at ./{}\", name, name);\n    if config.is_workspace() {\n        let ws = config.workspace.as_ref().unwrap();\n        for repo in &ws.repos {\n            println!(\"  repo: {} (namespace: {})\", repo.name, repo.namespace);\n        }\n    }\n    println!(\"\\nNext: cd {} && corvia workspace ingest\", name);\n    Ok(())\n}\n```\n\n**Step 4: Wire up the init handler**\n\nReplace `todo!()` in `WorkspaceCommands::Init`:\n\n```rust\nWorkspaceCommands::Init => {\n    let root = std::env::current_dir()?;\n    workspace::init_workspace(&root).await?;\n    Ok(())\n}\n```\n\n**Step 5: Verify it compiles**\n\nRun: `cargo build -p corvia-cli`\nExpected: compiles cleanly.\n\n**Step 6: Commit**\n\n```bash\ngit add crates/corvia-cli/src/main.rs crates/corvia-cli/src/workspace.rs crates/corvia-kernel/src/lib.rs\ngit commit -m \"feat(m2.1): implement corvia workspace create and init commands\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465172598Z",
+  "valid_from": "2026-03-31T13:20:59.465172598Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 748,
+    "end_line": 787,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

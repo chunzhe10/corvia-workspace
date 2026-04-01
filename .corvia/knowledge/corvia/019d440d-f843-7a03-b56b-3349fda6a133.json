@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f843-7a03-b56b-3349fda6a133",
+  "content": "## Context\n## Decision: Dual Runtime\n\n## Architecture\n\n```\ncorvia-inference (gRPC server, port 8030)\n├── EmbeddingService  — fastembed (ONNX Runtime), unchanged\n├── ChatService       — llama-cpp-2 (llama.cpp), NEW\n└── ModelManager      — loads both embedding + chat models\n```\n\nProto definitions (`ChatRequest`, `ChatResponse`, `ChatChunk`) are unchanged.\nThe `GrpcChatEngine` client in corvia-kernel is unchanged. Only the server-side\n`ChatServiceImpl` is rewritten.\n\n\n## Chat Request Flow\n\n1. Receive `ChatRequest` (model, messages, temperature, max_tokens)\n2. Format messages using llama.cpp's native chat template support —\n   `model.apply_chat_template()` extracts Jinja template from GGUF metadata\n3. Tokenize the formatted prompt\n4. Run inference on `tokio::task::spawn_blocking` (llama.cpp is synchronous)\n5. Sample token-by-token with temperature/top-p\n6. Return `ChatResponse` with generated text + token counts\n",
+  "source_version": "docs/rfcs/2026-03-09-chat-inference-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.459446559Z",
+  "valid_from": "2026-03-31T13:20:59.459446559Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-09-chat-inference-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 26,
+    "end_line": 48,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

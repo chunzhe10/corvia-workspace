@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f834-7df0-9fec-22dfe202e902",
+  "content": "rce_index: HashMap<(&str, u32), usize> = HashMap::with_capacity(processed.len());\n    for (i, pc) in processed.iter().enumerate() {\n        source_index\n            .entry((pc.metadata.source_file.as_str(), pc.start_line))\n            .or_insert(i);\n    }\n\n    let mut relations_stored = 0;\n    let mut source_miss = 0u64;\n    let mut target_miss = 0u64;\n    for rel in relations {\n        // O(1) source resolution via composite key index\n        let from_uuid = match source_index.get(&(rel.from_source_file.as_str(), rel.from_start_line)) {\n            Some(&idx) if idx < stored_ids.len() => stored_ids[idx],\n            _ => {\n                source_miss += 1;\n                tracing::debug!(\n                    source_file = %rel.from_source_file,\n                    start_line = rel.from_start_line,\n                    relation = %rel.relation,\n                    \"wire_pipeline_relations: source chunk not found\"\n                );\n                continue;\n            }\n        };\n\n        // Try direct file match first\n        let to_uuid = resolve_target(&file_index, stored_ids, &rel.to_file, &rel.to_name)\n            // Barrel file fallback: try index.ts/tsx/js/jsx variants\n            .or_else(|| {\n                for suffix in JS_TS_INDEX_EXTENSIONS {\n                    let candidate = format!(\"{}{}\", rel.to_file, suffix);\n                    if let Some(id) = resolve_target(&file_index, stored_ids, &candidate, &rel.to_name) {",
+  "source_version": "crates/corvia-kernel/src/ingest.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.444335802Z",
+  "valid_from": "2026-03-31T13:20:59.444335802Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ingest.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 284,
+    "end_line": 309,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

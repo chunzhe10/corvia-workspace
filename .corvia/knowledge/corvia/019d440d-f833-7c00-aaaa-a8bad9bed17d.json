@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f833-7c00-aaaa-a8bad9bed17d",
+  "content": "impl CanonicalQuery {\n    pub fn effective_min_score(&self, default: f64) -> f64 {\n        self.min_score.unwrap_or(default)\n    }\n}\npub fn effective_min_score(&self, default: f64) -> f64 {\n        self.min_score.unwrap_or(default)\n    }",
+  "source_version": "crates/corvia-kernel/src/introspect.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.443253168Z",
+  "valid_from": "2026-03-31T13:20:59.443253168Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/introspect.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 32,
+    "end_line": 34,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

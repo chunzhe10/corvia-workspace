@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-2306e93db928",
+  "content": "## Task Group D: Reasoner (Tasks 11-13)\n\n### Task 11: Reasoner module — algorithmic checks\n\n**Files:**\n- Create: `crates/corvia-kernel/src/reasoner.rs`\n- Modify: `crates/corvia-kernel/src/lib.rs`\n\n**Step 1:** Define `Finding` struct and `ReasonerCheck` enum.\n\n**Step 2:** Implement algorithmic checks:\n- `check_stale_entries()` — entries with `valid_to` but no `superseded_by` target\n- `check_broken_chains()` — `superseded_by` pointing to nonexistent entry\n- `check_orphaned_nodes()` — entries with zero graph edges\n- `check_dangling_imports()` — `imports` edges to nonexistent entries\n- `check_cycles()` — circular `depends_on` via petgraph cycle detection\n\n**Step 3:** Each check returns `Vec<Finding>`. Findings are converted to `KnowledgeEntry` with `chunk_type = \"finding\"`.\n\n**Step 4:** Test each check in isolation with crafted test data.\n\n**Step 5:** Commit.\n\n```\ngit commit -m \"feat(m3): reasoner module — stale, broken chains, orphans, dangling, cycles\"\n```\n\n---\n\n\n### Task 12: LLM-powered findings (opt-in)\n\n**Files:**\n- Modify: `crates/corvia-kernel/src/reasoner.rs`\n- Modify: `crates/corvia-common/src/config.rs`\n\n**Step 1:** Add `[reasoning]` config section (optional).\n\n**Step 2:** When configured, add LLM-based checks that call `InferenceEngine::embed()` for similarity analysis.\n\n**Step 3:** Ensure all LLM checks gracefully skip when `[reasoning]` is not configured.\n\n**Step 4:** Commit.\n\n```\ngit commit -m \"feat(m3): opt-in LLM reasoning — semantic gaps and contradiction detection\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-m3-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452688444Z",
+  "valid_from": "2026-03-31T13:20:59.452688444Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 924,
+    "end_line": 970,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

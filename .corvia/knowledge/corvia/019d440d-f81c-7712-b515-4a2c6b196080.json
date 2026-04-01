@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81c-7712-b515-4a2c6b196080",
+  "content": "          continue;\n        }\n\n        relations.push(CodeRelation {\n            from_chunk_index: owner_idx,\n            relation: \"extends\".to_string(),\n            to_file: file_path.to_string(),\n            to_name: Some(base_name),\n        });\n    }\n}\nfn extract_python_calls(\n    relations: &mut Vec<CodeRelation>,\n    source: &str,\n    root: &Node,\n    file_path: &str,\n    chunks: &[CodeChunk],\n) {\n    let mut call_nodes = Vec::new();\n    collect_python_calls(root, &mut call_nodes, 0);\n\n    for call_node in &call_nodes {\n        let Some(func_node) = call_node.child_by_field_name(\"function\") else {\n            continue;\n        };\n\n        let fn_name = extract_python_call_name(source, &func_node);\n\n        // Skip deny-listed builtins\n        if PYTHON_CALL_DENY_LIST.contains(&fn_name.as_str()) {\n            continue;\n        }\n        // Skip deny-listed dunders\n        if PYTHON_DUNDER_DENY_LIST.contains(&fn_name.as_str()) {\n            continue;\n        }\n        // Skip single-char or empty names\n        if fn_name.len() <= 1 {\n            continue;\n        }\n\n        let owner_idx = find_chunk_by_line(chunks, call_node.start_position().row as u32 + 1);\n\n        relations.push(CodeRelation {\n            from_chunk_index: owner_idx,\n            relation: \"calls\".to_string(),\n            to_file: file_path.to_string(),\n            to_name: Some(fn_name),\n        });\n    }\n}",
+  "source_version": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.420007073Z",
+  "valid_from": "2026-03-31T13:20:59.420007073Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1211,
+    "end_line": 1250,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

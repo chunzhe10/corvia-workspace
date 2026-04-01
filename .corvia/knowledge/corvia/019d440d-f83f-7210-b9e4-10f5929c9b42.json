@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83f-7210-b9e4-10f5929c9b42",
+  "content": "## 4. Monorepo Structure\n\n│   │       └── lib.rs                # Exposes core functions to Node.js\n│   │\n│   └── corvia-mcp/                     # MCP server — agent layer\n│       └── src/\n│           ├── server.rs             # MCP server setup (rmcp crate)\n│           ├── agents/\n│           │   ├── doc_gen.rs        # Documentation generation\n│           │   ├── distiller.rs      # Conversation → decision distillation\n│           │   ├── reviewer.rs       # Doc quality review\n│           │   ├── eval.rs           # Accuracy, freshness, completeness\n│           │   ├── narrator.rs       # Evolution narrative generator\n│           │   └── drift.rs          # Semantic drift detector\n│           ├── tools.rs              # MCP tool definitions\n│           ├── prompts.rs            # Structured prompts per agent\n│           └── history.rs            # Temporal queries over events + git\n│\n├── extension/                          # VS Code extension\n│   └── src/\n│       ├── extension.ts              # Activation, lifecycle\n│       ├── sidebar/                  # Tree views (docs, agents, decisions)\n│       ├── webview/                  # Dashboard, chat panel (React)\n│       ├── codelens/                 # Per-function doc status\n│       ├── statusbar/                # Live metrics\n│       └── mcp-client.ts            # MCP client connecting to corvia-mcp\n│\n├── scripts/fine-tune/                 # Python — M5c only\n├── test-projects/                      # Git-ignored, dual-mode testing\n├── docs/                               # Corvia's own living docs (dogfood)\n├── .corvia/                            # Corvia documenting itself\n└── corvia.toml                         # Default config template\n```\n",
+  "source_version": "docs/rfcs/2026-02-25-corvia-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.455896152Z",
+  "valid_from": "2026-03-31T13:20:59.455896152Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-25-corvia-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 119,
+    "end_line": 150,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

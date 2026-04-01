@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-c062acf49436",
+  "content": "## Overview\n## Architecture\n\n### Workspace Model (D46)\n\nA workspace is a purpose-built directory. Target repos are NOT polluted with Corvia artifacts.\n\n```\nmy-workspace/\n├── corvia.toml              ← has [workspace] section\n├── .corvia/                 ← knowledge store, indexes, coordination\n│   ├── .git/                ← knowledge git (source of truth)\n│   ├── knowledge/           ← git-tracked JSON knowledge files\n│   ├── hnsw_index/          ← LiteStore vector index\n│   ├── coordination.redb\n│   └── .gitignore\n├── repos/                   ← cloned or symlinked target repos\n│   ├── repo-a/\n│   └── repo-b/\n└── .devcontainer/           ← optional\n```\n\n\n### Config Format (D47)\n\nUnified `corvia.toml` with optional `[workspace]` section (Cargo-style):\n\n```toml\n[project]\nname = \"my-project\"\nscope_id = \"my-org\"\n\n[workspace]\nrepos_dir = \"repos\"\n\n[[workspace.repos]]\nname = \"backend\"\nurl = \"https://github.com/org/backend\"\nlocal = \"/home/dev/backend\"           # optional local override\nnamespace = \"backend\"\n\n[[workspace.repos]]\nname = \"frontend\"\nurl = \"https://github.com/org/frontend\"\nnamespace = \"frontend\"\n\n[storage]\nstore_type = \"lite\"\ndata_dir = \".corvia\"\n\n[embedding]\nprovider = \"ollama\"\nmodel = \"nomic-embed-text\"\nurl = \"http://127.0.0.1:11434\"\ndimensions = 768\n\n[server]\nhost = \"127.0.0.1\"\nport = 8020\n```\n\n**Detection**: If `corvia.toml` contains `[workspace]`, the directory is a workspace. If not, backward-compatible single-project mode.\n\n**Namespace mapping**: Each repo's `namespace` field maps to the `workstream` segment: `{org}:{scope_id}:{namespace}:{source}:{version_ref}`.\n\n**Local overrides**: If `local` path exists and is a valid git repo, use it directly (no clone). Otherwise clone from `url` into `{repos_dir}/{name}`.\n",
+  "source_version": "docs/rfcs/2026-03-01-m2.1-workspace-devcontainer-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462308690Z",
+  "valid_from": "2026-03-31T13:20:59.462308690Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2.1-workspace-devcontainer-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 19,
+    "end_line": 81,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

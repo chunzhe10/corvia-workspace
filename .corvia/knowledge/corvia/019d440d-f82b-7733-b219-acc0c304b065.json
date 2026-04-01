@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82b-7733-b219-acc0c304b065",
+  "content": "ted_extensions: vec![],\n                chunking_extensions: vec![],\n            },\n        }];\n\n        let resolved = resolve_adapter(\"/no/git/here\", &adapters, None, None);\n        assert_eq!(resolved.unwrap().metadata.name, \"basic\");\n    }\n\n    #[test]\n    fn test_resolve_returns_none_when_empty() {\n        let resolved = resolve_adapter(\"/any/path\", &[], None, None);\n        assert!(resolved.is_none());\n    }\n\n    #[test]\n    fn test_format_adapter_list_empty() {\n        let output = format_adapter_list(&[]);\n        assert!(output.contains(\"No adapters found\"));\n    }\n\n    #[test]\n    fn test_format_adapter_list() {\n        let adapters = vec![DiscoveredAdapter {\n            binary_path: PathBuf::from(\"/usr/local/bin/corvia-adapter-git\"),\n            metadata: AdapterMetadata {\n                name: \"git\".into(),\n                version: \"0.3.1\".into(),\n                domain: \"git\".into(),\n                protocol_version: 1,\n                description: \"Git + tree-sitter code ingestion\".into(),\n                supported_extensions: vec![],\n                chunking_extensions: vec![],\n            },\n        }];\n        let output = format_adapter_list(&adapters);\n        assert!(output.contains(\"git\"));\n        assert!(output.contains(\"0.3.1\"));\n        assert!(output.contains(\"/usr/local/bin/corvia-adapter-git\"));\n    }\n\n    #[test]\n    fn test_shellexpand_home() {\n        let expanded = shellexpand_home(\"~/test/path\");\n        // Should start with the home directory\n        if let Some(home) = home_dir() {\n            assert_eq!(expanded, home.join(\"test/path\"));\n        }\n    }\n\n    #[test]\n    fn test_shellexpand_no_tilde() {\n        let expanded = shellexpand_home(\"/absolute/path\");\n        assert_eq!(expanded, PathBuf::from(\"/absolute/path\"));\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/adapter_discovery.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.435962445Z",
+  "valid_from": "2026-03-31T13:20:59.435962445Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/adapter_discovery.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 350,
+    "end_line": 395,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

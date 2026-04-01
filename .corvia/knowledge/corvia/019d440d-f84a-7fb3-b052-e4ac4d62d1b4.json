@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84a-7fb3-b052-e4ac4d62d1b4",
+  "content": "### Task 3: Cargo.toml Changes\n\n# Direct ort dep with EP features — Cargo unifies with fastembed's internal ort.\n\n# CUDA and OpenVINO EPs are runtime-loaded (no toolkit needed at build time).\nort = { version = \"=2.0.0-rc.11\", features = [\"openvino\", \"cuda\"] }\n```\n\nKeep `llama-cpp-2 = \"0.1\"` as-is (CUDA is gated via `[features]` section below, not as a default feature).\n\nAdd a features section at the end of the file:\n\n```toml\n[features]\ndefault = []\ncuda = [\"llama-cpp-2/cuda\"]\n```\n\nNote: `llama-cpp-2/cuda` requires CUDA toolkit at build time, so it's opt-in. The ort CUDA/OpenVINO features are always available (runtime-loaded).\n\n-**Step 2: Verify compilation**\n\nRun: `cargo build -p corvia-inference 2>&1 | tail -10`\nExpected: compiles (first build may be slow as ort recompiles with new features)\n\n-**Step 3: Commit**\n\n```bash\ngit add crates/corvia-inference/Cargo.toml\ngit commit -m \"feat(inference): add ort EP features and cuda feature gate\n\nAdds direct ort dependency pinned at =2.0.0-rc.11 with cuda+openvino features\n(runtime-loaded, no toolkit at build). llama-cpp-2 cuda behind feature gate.\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-12-inference-gpu-device-control.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.466204504Z",
+  "valid_from": "2026-03-31T13:20:59.466204504Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-12-inference-gpu-device-control.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 459,
+    "end_line": 492,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

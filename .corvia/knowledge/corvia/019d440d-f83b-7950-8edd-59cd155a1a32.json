@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-59cd155a1a32",
+  "content": "### Step 1: Write failing tests\n\n### Step 2: Implement AgentCoordinator\n\nThe orchestrator that ties all components together:\n\n```rust\npub struct AgentCoordinator {\n    registry: Arc<AgentRegistry>,\n    sessions: Arc<SessionManager>,\n    writer: Arc<AgentWriter>,\n    commit_pipeline: Arc<CommitPipeline>,\n    merge_worker: Arc<MergeWorker>,\n    context: Arc<ContextBuilder>,\n    merge_queue: Arc<MergeQueue>,\n    staging: Arc<StagingManager>,\n    config: AgentLifecycleConfig,\n}\n```\n\nKey methods:\n- `async fn new(config, store, engine, data_dir) -> Result<Self>` — constructs all sub-components from shared coordination Redb\n- `async fn register_agent(identity: &AgentIdentity, ...) -> Result<AgentRecord>`\n- `async fn connect(agent_id) -> Result<ConnectResponse>` — returns active + recoverable sessions\n- `async fn create_session(agent_id) -> Result<SessionRecord>`\n- `async fn write_entry(session_id, content, scope_id, ...) -> Result<KnowledgeEntry>`\n- `async fn commit_session(session_id) -> Result<()>`\n- `async fn rollback_session(session_id) -> Result<()>`\n- `async fn heartbeat(session_id) -> Result<()>`\n- `async fn recover(session_id, action: RecoveryAction) -> Result<()>`\n- `async fn search(query, scope_id, limit, visibility, agent_id) -> Result<Vec<SearchResult>>`\n- `async fn gc(&self) -> Result<GcReport>` — garbage collection sweep\n- `async fn start_background_tasks(&self)` — spawns heartbeat monitor + GC timer + merge worker\n\n`ConnectResponse`:\n```rust\npub struct ConnectResponse {\n    pub agent_id: String,\n    pub recoverable_sessions: Vec<SessionRecord>,\n    pub active_sessions: Vec<SessionRecord>,\n}\n```\n\n\n### Step 3: Run tests, verify pass, commit\n\n```bash\ngit add crates/corvia-kernel/src/agent_coordinator.rs crates/corvia-kernel/src/lib.rs\ngit commit -m \"feat(m2): agent coordinator with lifecycle, recovery, and GC (D45)\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451959377Z",
+  "valid_from": "2026-03-31T13:20:59.451959377Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1554,
+    "end_line": 1603,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

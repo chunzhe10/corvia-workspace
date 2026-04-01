@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f822-7391-83ed-363714c476a7",
+  "content": "\n            inference: InferenceConfig::default(),\n            adapters: None,\n            sources: None,\n            scope: None,\n            forgetting: None,\n            hooks: None,\n            dashboard: DashboardSection::default(),\n        }\n    }\n}\nfn default() -> Self {\n        Self {\n            project: ProjectConfig {\n                name: \"default\".into(),\n                scope_id: \"default\".into(),\n            },\n            storage: StorageConfig {\n                store_type: StoreType::Lite,\n                data_dir: \".corvia\".into(),\n                postgres_url: None,\n            },\n            embedding: EmbeddingConfig {\n                provider: InferenceProvider::Ollama,\n                model: \"nomic-embed-text\".into(),\n                url: \"http://127.0.0.1:11434\".into(),\n                dimensions: 768,\n            },\n            server: ServerConfig {\n                host: \"127.0.0.1\".into(),\n                port: 8020,\n            },\n            agent_lifecycle: AgentLifecycleConfig::default(),\n            merge: None,\n            workspace: None,\n            reasoning: None,\n            rag: RagConfig::default(),\n            chunking: ChunkingConfig::default(),\n            telemetry: TelemetryConfig::default(),\n            inference: InferenceConfig::default(),\n            adapters: None,\n            sources: None,\n            scope: None,\n            forgetting: None,\n            hooks: None,\n            dashboard: DashboardSection::default(),\n        }\n    }",
+  "source_version": "crates/corvia-common/src/config.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.426594476Z",
+  "valid_from": "2026-03-31T13:20:59.426594476Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/config.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 971,
+    "end_line": 1007,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

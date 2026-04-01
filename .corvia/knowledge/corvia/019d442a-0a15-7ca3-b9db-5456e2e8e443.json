@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a15-7ca3-b9db-5456e2e8e443",
+  "content": "ont-size: 22px; margin-bottom: 32px;\">\n    I'm building an organizational memory system in Rust. An AI agent<br>\n    (Claude Code) writes the code, runs the tests, ships the commits.<br>\n    But when something is slow or broken, it's flying blind.\n  </div>\n  <div class=\"card\" style=\"border-left: 4px solid var(--accent-red); padding: 28px;\">\n    <div style=\"font-size: 15px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-red); margin-bottom: 16px;\">What the agent couldn't answer</div>\n    <div style=\"display: flex; flex-direction: column; gap: 20px;\">\n      <div style=\"display: flex; align-items: flex-start; gap: 16px;\">\n        <div style=\"font-size: 24px; flex-shrink: 0;\">&#10060;</div>\n        <div>\n          <div style=\"font-size: 20px; font-weight: 700;\">\"Why is search taking 120ms?\"</div>\n          <div style=\"font-size: 18px; color: var(--text-secondary); margin-top: 4px;\">Is it embedding? Vector search? Both? No way to tell without manual profiling.</div>\n        </div>\n      </div>\n      <div style=\"display: flex; align-items: flex-start; gap: 16px;\">\n        <div style=\"font-size: 24px; flex-shrink: 0;\">&#10060;</div>\n        <div>\n          <div style=\"font-size: 20px; font-weight: 700;\">\"Are there stale sessions accumulating?\"</div>\n          <div style=\"font-size: 18px; color: var(--text-secondary); margin-top: 4px;\">Agent sessions can go orphaned. No visibility into lifecycle state.</div>\n        </div>\n      </div>\n      <div style=\"display: flex; align-items: flex-start; gap: 16px;\">\n        <div style=\"font-size: 24px; flex-shrink: 0;\">&#10060;</div>\n        <div>\n          <div style=\"font-size: 20px; font-weight: 700;\">\"How many entries are in the knowledge store?\"</div>\n          <div style=\"font-size: 18px; color: var(--text-secondary); margin-top: 4px;\">The agent writes to the system constantly. No dashboard, no counters.</div>\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"insight-box\">\n    <p>The agent is both the builder and the first user. If it can't observe the system, it's debugging with println.</p>\n  </div>\n\n  <div class=\"flex-grow\"></div>\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">02 / 08</div>\n</div>",
+  "source_version": "marketing/linkedin/2026-03-28-observability-control-plane/observability-control-plane-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.029704424Z",
+  "valid_from": "2026-03-31T13:51:39.029704424Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-28-observability-control-plane/observability-control-plane-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 189,
+    "end_line": 223,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

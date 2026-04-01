@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f824-7280-b2ba-a727287aa697",
+  "content": "struct SearchRequest {\n    query: String,\n    scope_id: String,\n    limit: Option<usize>,\n}\nstruct ReasonRequest {\n    scope_id: String,\n    check: Option<String>,\n}\nimpl ServerClient {\n    /// Detect a running corvia-server by health-checking the configured endpoint.\n    /// Returns `Some(client)` if the server responds, `None` otherwise.\n    pub async fn detect(config: &CorviaConfig) -> Option<Self> {\n        let host = &config.server.host;\n        let port = config.server.port;\n        let base_url = format!(\"http://{}:{}\", host, port);\n\n        let client = reqwest::Client::builder()\n            .timeout(std::time::Duration::from_millis(500))\n            .build()\n            .ok()?;\n\n        let resp = client\n            .get(format!(\"{}/health\", base_url))\n            .send()\n            .await\n            .ok()?;\n\n        if resp.status().is_success() {\n            // Use a longer timeout for actual operations\n            let client = reqwest::Client::builder()\n                .timeout(std::time::Duration::from_secs(30))\n                .build()\n                .ok()?;\n            Some(Self { client, base_url })\n        } else {\n            None\n        }\n    }\n\n    /// Base URL of the connected server (for display).\n    pub fn url(&self) -> &str {\n        &self.base_url\n    }\n\n    /// Semantic search.\n    pub async fn search(\n        &self,\n        query: &str,\n        scope_id: &str,\n        limit: usize,\n    ) -> Result<SearchResponse> {\n        let resp = self\n            .client\n            .post(format!(\"{}/v1/memories/search\", self.base_url))\n            .json(&SearchRequest {\n                query: query.to_string(),\n                scope_id: scope_id.to_string(),",
+  "source_version": "crates/corvia-cli/src/server_client.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.428109753Z",
+  "valid_from": "2026-03-31T13:20:59.428109753Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/server_client.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 100,
+    "end_line": 148,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

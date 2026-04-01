@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81f-75e2-9415-abac5191ff4f",
+  "content": " guard.remove(&id);\n        tracing::debug!(session_id = %id, \"session evicted (stale/ended)\");\n        state.broadcast(HookSessionUpdate {\n            session_id: id,\n            event_type: \"evicted\".into(),\n            session: None,\n        });\n    }\n}\nfn sessions_dir() -> PathBuf {\n    let home = std::env::var(\"HOME\").unwrap_or_else(|_| \"/root\".into());\n    PathBuf::from(home).join(\".claude\").join(\"sessions\")\n}",
+  "source_version": "crates/corvia-server/src/dashboard/session_watcher.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.423610431Z",
+  "valid_from": "2026-03-31T13:20:59.423610431Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/session_watcher.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 616,
+    "end_line": 619,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

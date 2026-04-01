@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81e-7810-a8c3-62b72e62bc48",
+  "content": "           \"source_origin\": e.metadata.source_origin,\n                },\n            })\n        })\n        .collect();\n\n    Ok(Json(serde_json::json!({\n        \"entry_id\": entry_id,\n        \"chain\": chain_json,\n        \"count\": chain_json.len(),\n    })))\n}\nmod tests {\n    use super::*;\n    use corvia_kernel::agent_coordinator::AgentCoordinator;\n    use corvia_kernel::lite_store::LiteStore;\n    use corvia_kernel::traits::{\n        GenerationEngine, GenerationResult, GraphStore, InferenceEngine, QueryableStore,\n        TemporalStore,\n    };\n    use http_body_util::BodyExt;\n    use tower::ServiceExt;\n\n    struct MockEngine;\n    #[async_trait::async_trait]\n    impl InferenceEngine for MockEngine {\n        async fn embed(&self, _text: &str) -> corvia_common::errors::Result<Vec<f32>> {\n            Ok(vec![1.0, 0.0, 0.0])\n        }\n        async fn embed_batch(\n            &self,\n            texts: &[String],\n        ) -> corvia_common::errors::Result<Vec<Vec<f32>>> {\n            Ok(texts.iter().map(|_| vec![1.0, 0.0, 0.0]).collect())\n        }\n        fn dimensions(&self) -> usize {\n            3\n        }\n    }\n\n    struct MockGenerationEngine;\n    #[async_trait::async_trait]\n    impl GenerationEngine for MockGenerationEngine {\n        fn name(&self) -> &str {\n            \"mock\"\n        }",
+  "source_version": "crates/corvia-server/src/dashboard/mod.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.422592816Z",
+  "valid_from": "2026-03-31T13:20:59.422592816Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/mod.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 1724,
+    "end_line": 1757,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

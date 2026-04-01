@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-cb63e04f4995",
+  "content": "### Team Structure Entry\n### Task Entry\n\n### Message Thread Entry\n\n```\n[Messages: security-reviewer <-> perf-reviewer | Team: security-review]\n[10:05] security-reviewer -> perf-reviewer:\n  \"Found that the JWT validation skips expiry check on refresh tokens.\n   Does the refresh endpoint have rate limiting?\"\n[10:07] perf-reviewer -> security-reviewer:\n  \"No rate limiting on /api/refresh. The endpoint also doesn't log\n   failed attempts. Flagging both as high severity.\"\n[10:08] security-reviewer -> broadcast:\n  \"Consensus: refresh token handling needs a rewrite. See findings doc.\"\n```\n",
+  "source_version": "decisions/2026-03-28-adapter-agent-teams-exploration.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025552010Z",
+  "valid_from": "2026-03-31T13:51:39.025552010Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-adapter-agent-teams-exploration.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 181,
+    "end_line": 194,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

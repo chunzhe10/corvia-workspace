@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a16-7c43-b1c4-8cc331f337bb",
+  "content": "## Phase 1: Session Recording Hooks — SHIPPED\n## Phase 2: Adapter + Classification — SHIPPED\n\n## Phase 3: Live Dashboard + Session Manager — SHIPPED\n\n**Delivered in:** `session_watcher.rs` + `session_manager.rs`\n\n| Task | Status | Notes |\n|------|--------|-------|\n| inotify file watcher with polling fallback | Done | 2s poll interval, 200ms debounce |\n| Real-time session state tracking | Done | Turn count, active tool, tools used, duration |\n| SSE broadcast to frontend | Done | `HookSessionUpdate` events |\n| Stale detection (10min) and eviction (60min) | Done | LRU with MAX_SESSIONS=500 |\n| Session manager state machine | Done | Created→Active→Committing→Merging→Closed + Stale/Orphaned/Recoverable |\n| Redb persistence | Done | JSON serialization, query by agent |\n| 16 watcher tests + 10 manager tests | Done | State machines, symlink rejection, partial line handling |\n\n---\n\n\n## Phase 4: Graph Edges + Polish — PARTIALLY DONE\n\nWorkstream filter (originally Task 4.1) was shipped 2026-03-17. Env var spike (originally Task 4.3) is resolved — hooks use stdin `agent_id` field as primary detection, falling back to `CORVIA_AGENT_ID` env var. Remaining work: graph edges and workstream filter extension to `corvia_ask`/`corvia_context`.\n",
+  "source_version": "plans/2026-03-14-claude-session-history-impl.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.030993816Z",
+  "valid_from": "2026-03-31T13:51:39.030993816Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "plans/2026-03-14-claude-session-history-impl.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 74,
+    "end_line": 93,
+    "content_role": "plan",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

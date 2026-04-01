@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84a-7fb3-b052-e387879d3344",
+  "content": "cargo check -p corvia-server`\nExpected: Compiles with no errors\n\n-**Step 3: Commit**\n\n```bash\ncd repos/corvia\ngit add crates/corvia-server/src/dashboard/mod.rs\ngit commit -m \"feat(dashboard): implement /api/dashboard/logs endpoint with filtering\"\n```\n\n---\n\n### Task 10: Config endpoint (thin wrapper)\n\n**Files:**\n- Modify: `crates/corvia-server/src/dashboard/mod.rs`\n\n-**Step 1: Add config handler**\n\n```rust\n/// GET /api/dashboard/config\n/// Returns current server config summary (read-only).\nasync fn config_handler(\n    State(state): State<Arc<AppState>>,\n) -> Json<DashboardConfig> {\n    let cfg = state.config.read().unwrap();\n    let config = DashboardConfig {\n        embedding_provider: cfg.embedding.provider.clone(),\n        merge_provider: cfg\n            .merge\n            .as_ref()\n            .map(|m| m.provider.clone())\n            .unwrap_or_else(|| \"none\".to_string()),\n        storage: cfg.storage.backend.clone(),\n        workspace: cfg\n            .project\n            .as_ref()\n            .map(|p| p.name.clone())\n            .unwrap_or_else(|| \"unknown\".to_string()),\n    };\n    Json(config)\n}\n```\n\n-**Step 2: Verify compilation**\n\nRun: `cd repos/corvia && cargo check -p corvia-server`\nExpected: Compiles with no errors\n\n-**Step 3: Commit**\n\n```bash\ncd repos/corvia\ngit add crates/corvia-server/src/dashboard/mod.rs\ngit commit -m \"feat(dashboard): implement /api/dashboard/config endpoint\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.466012002Z",
+  "valid_from": "2026-03-31T13:20:59.466012002Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1453,
+    "end_line": 1499,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

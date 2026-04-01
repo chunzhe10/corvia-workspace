@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-416569264b11",
+  "content": " content = fs::read_to_string(staging.join(\"tasks.jsonl\")).unwrap();\n        let parsed: serde_json::Value = serde_json::from_str(content.trim()).unwrap();\n        assert_eq!(parsed[\"v\"], SCHEMA_VERSION);\n        assert_eq!(parsed[\"event\"], \"sweep\");\n    }\nfn test_team_sweep_skips_non_matching_team() {\n        let dir = TempDir::new().unwrap();\n        let dirs = test_dirs(dir.path());\n\n        // Set up matching team AND non-matching team\n        let matching_config = serde_json::json!({\"leadSessionId\": \"sess-abc\"});\n        setup_team(&dirs, \"my-team\", &matching_config, &[]);\n        setup_task(&dirs, \"my-team\", \"1\", &serde_json::json!({\"status\": \"done\"}));\n\n        let other_config = serde_json::json!({\"leadSessionId\": \"sess-other\"});\n        setup_team(&dirs, \"other-team\", &other_config, &[]);\n\n        team_sweep_inner(&dirs, \"sess-abc\").unwrap();\n\n        // Matching team staged, non-matching team NOT staged\n        assert!(dirs.staging_root.join(\"my-team/config.json\").exists());\n        assert!(!dirs.staging_root.join(\"other-team\").exists());\n    }",
+  "source_version": "crates/corvia-cli/src/hooks/agent_teams.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429558217Z",
+  "valid_from": "2026-03-31T13:20:59.429558217Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/agent_teams.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 805,
+    "end_line": 822,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

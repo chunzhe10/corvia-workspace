@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82f-7ca0-945f-ada7802dfbb5",
+  "content": "pub trait Reranker: Send + Sync {\n    /// Human-readable name for metrics.\n    fn name(&self) -> &str;\n\n    /// Re-rank the candidate set.\n    async fn rerank(&self, ctx: &SearchContext, set: RankedSet) -> Result<RankedSet>;\n}\nimpl Reranker for IdentityReranker {\n    fn name(&self) -> &str {\n        \"identity\"\n    }\n\n    async fn rerank(&self, _ctx: &SearchContext, set: RankedSet) -> Result<RankedSet> {\n        Ok(set)\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/pipeline/mod.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.439763700Z",
+  "valid_from": "2026-03-31T13:20:59.439763700Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/mod.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 193,
+    "end_line": 201,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

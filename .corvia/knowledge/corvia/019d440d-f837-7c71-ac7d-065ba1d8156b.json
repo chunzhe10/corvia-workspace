@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f837-7c71-ac7d-065ba1d8156b",
+  "content": "let mut e = make_entry(Tier::Hot, MemoryType::Structural);\n            e.scope_id = \"test\".into();\n            e\n        };\n        let scope_entries = vec![&entry];\n        let entry_map: HashMap<uuid::Uuid, &KnowledgeEntry> = [(entry.id, &entry)].into();\n        let score_map: HashMap<uuid::Uuid, f32> = [(entry.id, 0.01)].into();\n        let inbound_edge_map = HashMap::new();\n        let transitioned_ids = HashSet::new();\n        let chain_protected_ids = HashSet::new();\n\n        let forgetting = ForgettingConfig {\n            enabled: true,\n            defaults: corvia_common::config::ForgettingPolicyConfig {\n                max_inactive_days: 90,\n                budget_top_n: 0, // budget_top_n=0 means no limit\n            },\n            ..Default::default()\n        };\n\n        let transitions = apply_budget_policy(\n            &scope_entries, &entry_map, &score_map, &inbound_edge_map,\n            &transitioned_ids, &chain_protected_ids,\n            &forgetting, None,\n        );\n        assert!(transitions.is_empty(), \"budget_top_n=0 means no limit\");\n    }\n\n    #[test]\n    fn test_budget_policy_auto_protected_floor_at_warm() {\n        // 3 entries: 2 Structural (auto-protected), 1 Episodic. Budget = 1.\n        // Budget should demote Structural from Hot to Warm (floor), not Cold.\n        let mut structural1 = make_entry(Tier::Hot, MemoryType::Structural);\n        structural1.scope_id = \"test\".into();\n        let mut structural2 = make_entry(Tier::Hot, MemoryType::Structural);\n        structural2.scope_id = \"test\".into();\n        let mut episodic = make_entry(Tier::Hot, MemoryType::Episodic);\n        episodic.scope_id = \"test\".into();\n",
+  "source_version": "crates/corvia-kernel/src/gc_worker.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.447594401Z",
+  "valid_from": "2026-03-31T13:20:59.447594401Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/gc_worker.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 1786,
+    "end_line": 1818,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

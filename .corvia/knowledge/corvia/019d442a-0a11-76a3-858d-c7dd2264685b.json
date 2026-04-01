@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-c7dd2264685b",
+  "content": "## Corvia's Unique Dogfooding Advantage\n## Eval Suite Architecture\n\n### Tier 1: Assertion-Based (run on every build)\n\n**What**: Keyword and source matching against known-answer queries.\n**How**: `benchmarks/rag-retrieval/eval.py` (already built)\n**Metrics**: Source Recall@K, Keyword Recall, MRR\n**Baseline**: Recall@5=37.5%, KW=65%, MRR=0.544 (2026-03-19)\n**Regression gate**: Fail if Recall@5 drops below 30% or MRR below 0.4\n\n\n### Tier 2: Knowledge Health (run daily)\n\n**What**: Use corvia's own reasoner to check knowledge base consistency.\n**How**: `POST /v1/reason` → count findings, track over time\n**Metrics**: Finding count by type, coverage gaps, contradiction rate\n**Dogfooding**: corvia's reasoner evaluates corvia's own knowledge\n",
+  "source_version": "decisions/2026-03-19-benchmarking-design.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025178997Z",
+  "valid_from": "2026-03-31T13:51:39.025178997Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-19-benchmarking-design.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 62,
+    "end_line": 76,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81e-7810-a8c3-600e7d810a9c",
+  "content": " entry_id_str.parse::<uuid::Uuid>() {\n                            let entry_edges = state\n                                .graph\n                                .edges(&uuid, corvia_common::types::EdgeDirection::Both)\n                                .await\n                                .unwrap_or_default();\n                            for edge in &entry_edges {\n                                let other_id = if edge.from == uuid {\n                                    edge.to.to_string()\n                                } else {\n                                    edge.from.to_string()\n                                };\n                                if sc_b.entry_ids.contains(&other_id) {\n                                    cross_count += 1;\n                                }\n                            }\n                        }\n                    }\n                    if cross_count > 0 {\n                        edges.push(serde_json::json!({\n                            \"from\": sc_a.cluster_id,\n                            \"to\": sc_b.cluster_id,\n                            \"weight\": cross_count,\n                        }));\n                    }\n                }\n            }\n\n            Ok(Json(serde_json::json!({ \"nodes\": nodes, \"edges\": edges })).into_response())\n        }\n        1 => {\n            // Sub-clusters within a parent super-cluster\n            let parent_id = params.parent.as_deref().unwrap_or(\"\");\n            let nodes: Vec<serde_json::Value> = hierarchy.sub_clusters.iter()\n                .filter(|sc| sc.parent_id.as_deref() == Some(parent_id))\n                .map(|sc| serde_json::json!({\n                    \"id\": sc.cluster_id,\n                    \"label\": sc.label,\n                    \"level\": 1,\n                    \"entry_count\": sc.entry_ids.len(),\n                    \"parent_id\": sc.parent_id,\n                }))\n                .collect();\n            Ok(Json(serde_json::json!({ \"nodes\": nodes, \"edges\": [] })).into_response())\n        }",
+  "source_version": "crates/corvia-server/src/dashboard/mod.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.422245312Z",
+  "valid_from": "2026-03-31T13:20:59.422245312Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/mod.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 626,
+    "end_line": 665,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

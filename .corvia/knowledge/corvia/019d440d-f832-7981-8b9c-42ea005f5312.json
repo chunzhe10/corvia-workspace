@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f832-7981-8b9c-42ea005f5312",
+  "content": "ions.get(session_id)?\n            .ok_or_else(|| CorviaError::NotFound(format!(\"Session {session_id} not found\")))?;\n\n        // RBAC check: verify agent has write permission for this scope\n        if let Some(agent) = self.registry.get(&session.agent_id)?\n            && !agent.permissions.can_write_scope(scope_id) {\n                return Err(CorviaError::Agent(format!(\n                    \"Agent '{}' does not have write permission for scope '{scope_id}'\",\n                    session.agent_id\n                )));\n            }\n\n        let staging_dir = session.staging_dir.as_ref().map(|s| {\n            self.staging.resolve_staging_path(s)\n        });\n\n        let entry = self.writer.write(\n            content,\n            scope_id,\n            source_version,\n            &session.agent_id,\n            session_id,\n            staging_dir.as_deref(),\n            content_role,\n            source_origin,\n        ).await?;\n\n        self.sessions.increment_written(session_id)?;\n        Ok(entry)\n    }\n\n    /// Write a knowledge entry with semantic deduplication check.\n    /// Returns `WriteResult` which may be Written, WrittenWithWarning, or Blocked.\n    #[allow(clippy::too_many_arguments)]\n    #[tracing::instrument(name = \"corvia.entry.write_dedup\", skip(self, content, scope_id, source_version), fields(session_id))]\n    pub async fn write_entry_with_dedup(\n        &self,\n        session_id: &str,\n        content: &str,\n        scope_id: &str,\n        source_version: &str,\n        content_role: Option<String>,\n        source_origin: Option<String>,\n        force_write: bool,\n    ) -> Result<crate::agent_writer::WriteResult> {\n        let session = self.sessions.get(session_id)?\n            .ok_or_else(|| CorviaError::NotFound(format!(\"Session {session_id} not found\")))?;\n\n        // RBAC check\n        if let Some(agent) = self.registry.get(&session.agent_id)?\n            && !agent.permissions.can_write_scope(scope_id) {\n                return Err(CorviaError::Agent(format!(\n                    \"Agent '{}' does not have write permission for scope '{scope_id}'\",\n                    session.agent_id\n                )));\n            }\n",
+  "source_version": "crates/corvia-kernel/src/agent_coordinator.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.442146176Z",
+  "valid_from": "2026-03-31T13:20:59.442146176Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/agent_coordinator.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 210,
+    "end_line": 261,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

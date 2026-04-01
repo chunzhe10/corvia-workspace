@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f838-7ec1-a413-abb19fbb0439",
+  "content": "fn test_read_scope_empty() {\n        let dir = tempfile::tempdir().unwrap();\n        let entries = read_scope(dir.path(), \"nonexistent\").unwrap();\n        assert!(entries.is_empty());\n    }\nfn test_read_all() {\n        let dir = tempfile::tempdir().unwrap();\n        let e1 = KnowledgeEntry::new(\"a\".into(), \"scope-a\".into(), \"v1\".into())\n            .with_embedding(vec![0.1]);\n        let e2 = KnowledgeEntry::new(\"b\".into(), \"scope-b\".into(), \"v1\".into())\n            .with_embedding(vec![0.2]);\n        write_entry(dir.path(), &e1).unwrap();\n        write_entry(dir.path(), &e2).unwrap();\n        let all = read_all(dir.path()).unwrap();\n        assert_eq!(all.len(), 2);\n    }",
+  "source_version": "crates/corvia-kernel/src/knowledge_files.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.448097103Z",
+  "valid_from": "2026-03-31T13:20:59.448097103Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/knowledge_files.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 204,
+    "end_line": 214,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

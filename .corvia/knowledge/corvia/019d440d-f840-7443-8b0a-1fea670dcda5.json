@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-1fea670dcda5",
+  "content": "## 2. Architecture\n## 3. Session Log Format\n\n### File Location\n\n```\n~/.claude/sessions/\n  <session-id>.jsonl        # active session (append-only)\n  <session-id>.jsonl.gz     # closed session (gzipped by SessionEnd hook)\n  .current-session-id       # written by SessionStart hook; read by all hooks\n  .ingested                 # newline-delimited text; one session ID per line\n  .classify-queue           # newline-delimited entry IDs awaiting LLM classification\n  archive/                  # processed .jsonl.gz files moved here after ingestion\n```\n\nFiles are user-global — not per-workspace. The `workspace` field on\n`session_start` records which project each session belongs to.\n",
+  "source_version": "docs/rfcs/2026-03-14-claude-session-history-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456815986Z",
+  "valid_from": "2026-03-31T13:20:59.456815986Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-14-claude-session-history-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 75,
+    "end_line": 89,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

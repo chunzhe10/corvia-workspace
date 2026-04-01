@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f832-7981-8b9c-4903375ef713",
+  "content": "ady has access to everything — grant_scope is a no-op\n        reg.grant_scope(\"test::admin\", \"anything\").unwrap();\n        let agent = reg.get(\"test::admin\").unwrap().unwrap();\n        assert!(matches!(agent.permissions, AgentPermission::Admin));\n    }\n}\nfn test_registry() -> AgentRegistry {\n        let dir = tempfile::tempdir().unwrap();\n        AgentRegistry::open(dir.path()).unwrap()\n    }",
+  "source_version": "crates/corvia-kernel/src/agent_registry.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.442936473Z",
+  "valid_from": "2026-03-31T13:20:59.442936473Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/agent_registry.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 218,
+    "end_line": 221,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f835-7a40-9ae4-0e703930a3e8",
+  "content": "     if spoke_config.auth_mode == SpokeAuthMode::ApiKey {\n            let api_key = std::env::var(\"ANTHROPIC_API_KEY\").unwrap_or_default();\n            if !api_key.is_empty() {\n                env.push(format!(\"ANTHROPIC_API_KEY={api_key}\"));\n            }\n        }\n\n        // Labels for spoke identification\n        let labels: HashMap<String, String> = HashMap::from([\n            (\"corvia.spoke\".into(), \"true\".into()),\n            (\n                \"corvia.workspace\".into(),\n                config.project.name.clone(),\n            ),\n            (\"corvia.repo\".into(), repo_name.into()),\n            (\n                \"corvia.issue\".into(),\n                issue.map(|i| i.to_string()).unwrap_or_default(),\n            ),\n            (\"corvia.branch\".into(), branch_name.into()),\n            (\"corvia.agent_id\".into(), agent_id.into()),\n            (\"corvia.repo_url\".into(), repo_url.into()),\n        ]);\n\n        // Log config\n        let log_config = bollard::models::HostConfigLogConfig {\n            typ: Some(\"json-file\".into()),\n            config: Some(HashMap::from([\n                (\"max-size\".into(), \"50m\".into()),\n                (\"max-file\".into(), \"3\".into()),\n            ])),\n        };\n\n        let mem_bytes = parse_memory_limit(&spoke_config.memory_limit)?;\n\n        let host_config = HostConfig {\n            binds: if binds.is_empty() {\n                None\n            } else {\n                Some(binds)\n            },\n            network_mode: Some(network.into()),\n            memory: Some(mem_bytes),\n            memory_swap: Some(mem_bytes), // Equal to memory = no swap usage\n            cpu_shares: Some(spoke_config.cpu_shares.into()),",
+  "source_version": "crates/corvia-kernel/src/spoke.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.445177967Z",
+  "valid_from": "2026-03-31T13:20:59.445177967Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/spoke.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 423,
+    "end_line": 462,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81b-7e30-ace5-9da2c6e21841",
+  "content": "rap_or(&text).to_string()\n                })\n        }\n        _ => {\n            // Fallback: try last segment\n            let text = source[node.byte_range()].to_string();\n            text.rsplit('.').next().unwrap_or(&text).to_string()\n        }\n    }\n}\nfn collect_js_import_names(names: &mut Vec<String>, source: &str, node: &Node) {\n    for i in 0..node.child_count() {\n        let Some(child) = node.child(i as u32) else {\n            continue;\n        };\n        match child.kind() {\n            \"identifier\" => {\n                // Default import: `import foo from '...'`\n                names.push(source[child.byte_range()].to_string());\n            }\n            \"named_imports\" => {\n                // `{ foo, bar }` — extract each import_specifier\n                for j in 0..child.child_count() {\n                    let Some(spec) = child.child(j as u32) else {\n                        continue;\n                    };\n                    if spec.kind() == \"import_specifier\" {\n                        // The \"name\" field is the imported name\n                        if let Some(name_node) = spec.child_by_field_name(\"name\") {\n                            names.push(source[name_node.byte_range()].to_string());\n                        }\n                    }\n                }\n            }\n            \"namespace_import\" => {\n                // `* as name`\n                names.push(\"*\".to_string());\n            }\n            _ => {}\n        }\n    }\n}",
+  "source_version": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.419933387Z",
+  "valid_from": "2026-03-31T13:20:59.419933387Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 933,
+    "end_line": 964,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

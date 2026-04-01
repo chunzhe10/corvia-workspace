@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81d-7d20-aabb-c030a1584ade",
+  "content": "),\n                        message: format!(\"Invalid request: {e}\"),\n                    },\n                };\n                writeln!(out, \"{}\", serde_json::to_string(&err).unwrap()).ok();\n                out.flush().ok();\n            }\n        }\n    }\n}\nfn ingest_cli(source_path: &str) {\n    let stdout = io::stdout();\n    let mut out = io::BufWriter::new(stdout.lock());\n\n    let scope_id = Path::new(source_path)\n        .canonicalize()\n        .ok()\n        .and_then(|p| p.file_name().map(|n| n.to_string_lossy().to_string()))\n        .unwrap_or_else(|| \"unknown\".into());\n\n    ingest_to_writer(source_path, &scope_id, &mut out);\n}",
+  "source_version": "adapters/corvia-adapter-basic/rust/src/main.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.421491312Z",
+  "valid_from": "2026-03-31T13:20:59.421491312Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-basic/rust/src/main.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 191,
+    "end_line": 202,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

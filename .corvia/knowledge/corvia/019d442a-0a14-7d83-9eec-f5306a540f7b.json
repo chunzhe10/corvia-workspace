@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f5306a540f7b",
+  "content": "const { chromium } = require('playwright');\n\n(async () => {\n  const browser = await chromium.launch();\n  const context = await browser.newContext({\n    viewport: { width: 1080, height: 1350 },\n    deviceScaleFactor: 2,\n  });\n  const page = await context.newPage();\n  await page.goto('http://localhost:8099/docs/marketing/linkedin/2026-03-11-ai-blind-designer/ai-blind-designer-carousel.html');\n  await page.waitForTimeout(2000);\n\n  const slides = await page.$$('.slide');\n  const dir = '/workspaces/corvia-workspace/docs/marketing/linkedin/2026-03-11-ai-blind-designer';\n\n  for (let i = 0; i < slides.length; i++) {\n    const num = String(i + 1).padStart(2, '0');\n    await slides[i].screenshot({ path: `${dir}/slide-${num}.png` });\n    console.log(`Rendered slide-${num}.png`);\n  }\n\n  // PDF\n  const pdfPage = await context.newPage();\n  await pdfPage.goto('http://localhost:8099/docs/marketing/linkedin/2026-03-11-ai-blind-designer/ai-blind-designer-carousel.html');\n  await pdfPage.waitForTimeout(2000);\n  await pdfPage.pdf({\n    path: `${dir}/ai-blind-designer-carousel.pdf`,\n    width: '1080px',\n    height: '1350px',\n    margin: { top: 0, right: 0, bottom: 0, left: 0 },\n    printBackground: true,\n  });\n  console.log('Rendered PDF');\n\n  await browser.close();\n})();\n",
+  "source_version": "marketing/linkedin/2026-03-11-ai-blind-designer/render.js",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028067766Z",
+  "valid_from": "2026-03-31T13:51:39.028067766Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-11-ai-blind-designer/render.js",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 1,
+    "end_line": 37,
+    "content_role": "code",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

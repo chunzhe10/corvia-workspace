@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f833-7c00-aaaa-abc50f3c770d",
+  "content": "               \"text\"\n                    };\n                    let merge_group = section_depth.map(|d| format!(\"h{}\", d));\n\n                    chunks.push(RawChunk {\n                        content,\n                        chunk_type: chunk_type.into(),\n                        start_line: section_start,\n                        end_line: line_num - 1,\n                        metadata: ChunkMetadata {\n                            source_file: meta.file_path.clone(),\n                            language: meta.language.clone(),\n                            merge_group,\n                            ..Default::default()\n                        },\n                    });\n                }\n\n                // Start a new headed section.\n                section_lines = vec![line];\n                section_start = line_num;\n                section_is_headed = true;\n                section_depth = Some(depth);\n            } else {\n                section_lines.push(line);\n            }\n        }\n\n        // Emit the final accumulated section.\n        if !section_lines.is_empty() {\n            let content = section_lines.join(\"\\n\");\n            let chunk_type = if section_is_headed {\n                \"heading_section\"\n            } else {\n                \"text\"\n            };\n            let merge_group = section_depth.map(|d| format!(\"h{}\", d));\n            let end_line = lines.len() as u32;\n\n            chunks.push(RawChunk {\n                content,\n                chunk_type: chunk_type.into(),\n                start_line: section_start,\n                end_line,\n                metadata: ChunkMetadata {\n                    source_file: meta.file_path.clone(),\n                    language: meta.language.clone(),\n                    merge_group,",
+  "source_version": "crates/corvia-kernel/src/chunking_markdown.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.443670937Z",
+  "valid_from": "2026-03-31T13:20:59.443670937Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_markdown.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 259,
+    "end_line": 299,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

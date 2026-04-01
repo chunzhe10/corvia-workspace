@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-2f08782fcdf5",
+  "content": "### L7: Destroy --all Confirmation (QA, SWE)\n### L8: Agent ID Collision on Reuse (QA)\n\n### L9: Portability Documentation (DevOps)\n\nAdd \"Supported Environments\" section to spoke CLI design:\n\n```\nSupported:\n  - Linux with Docker Engine (primary)\n  - VS Code devcontainers with Docker socket mount\n  - GitHub Codespaces (Docker-in-Docker feature)\n\nLimited:\n  - macOS Docker Desktop (VM filesystem translation may fail)\n  - WSL2 (Docker socket at /var/run/docker.sock, works if exposed)\n\nNot Supported:\n  - Podman (different socket API, no compose network)\n  - Bare metal without Docker\n  - Windows native containers\n\nUse `corvia workspace spoke check` to validate your environment.\n```\n\n\n### L10: Spoke Image Versioning (DevOps)\n\n```dockerfile\nARG CLAUDE_CODE_VERSION=2.1.86\nLABEL corvia.spoke.claude_code_version=${CLAUDE_CODE_VERSION}\n```\n\nImage tag includes Claude Code version:\n```\ncorvia-spoke:latest\ncorvia-spoke:cc-2.1.86\n```\n",
+  "source_version": "decisions/2026-03-28-spoke-design-review-fixes.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026528475Z",
+  "valid_from": "2026-03-31T13:51:39.026528475Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-design-review-fixes.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 797,
+    "end_line": 831,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

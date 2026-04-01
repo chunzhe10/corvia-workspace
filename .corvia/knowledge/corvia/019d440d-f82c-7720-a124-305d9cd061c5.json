@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82c-7720-a124-305d9cd061c5",
+  "content": "ires at least 2 sentences in the group to establish a floor.\n        let sim = MockSimilarity {\n            matrix: vec![\n                vec![1.0, 0.1],\n                vec![0.1, 1.0],\n            ],\n        };\n        let groups = max_min_split(2, &sim);\n        assert_eq!(groups.len(), 1);\n        assert_eq!(groups[0], vec![0, 1]);\n    }\n\n    #[test]\n    fn test_max_min_topic_shift() {\n        // Sentences 0,1,2 are about topic A (high mutual similarity)\n        // Sentence 3 shifts to topic B (low similarity to A)\n        // Sentence 4 continues topic B\n        //\n        // Group starts: [0], sentence 1 joins (single-sentence group, always joins) -> [0,1]\n        // Sentence 2: min_sim_in_group = sim(0,1) = 0.90. max_sim_to_group = max(0.88, 0.91) = 0.91.\n        // 0.91 >= 0.90 -> joins -> [0,1,2]\n        // Sentence 3: min_sim_in_group = min(0.90, 0.88, 0.91) = 0.88.\n        // max_sim_to_group = max(0.10, 0.12, 0.15) = 0.15. 0.15 < 0.88 -> new group [3]\n        // Sentence 4: single-sentence group, always joins -> [3,4]\n        let sim = MockSimilarity {\n            matrix: vec![\n                //    0     1     2     3     4\n                vec![1.0,  0.90, 0.88, 0.10, 0.08], // 0: topic A\n                vec![0.90, 1.0,  0.91, 0.12, 0.09], // 1: topic A\n                vec![0.88, 0.91, 1.0,  0.15, 0.11], // 2: topic A\n                vec![0.10, 0.12, 0.15, 1.0,  0.92], // 3: topic B\n                vec![0.08, 0.09, 0.11, 0.92, 1.0],  // 4: topic B\n            ],\n        };\n        let groups = max_min_split(5, &sim);\n        assert_eq!(groups.len(), 2, \"Should split into 2 topic groups, got {:?}\", groups);\n        assert_eq!(groups[0], vec![0, 1, 2], \"First group should be topic A\");\n        assert_eq!(groups[1], vec![3, 4], \"Second group should be topic B\");",
+  "source_version": "crates/corvia-kernel/src/semantic_split.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.436163183Z",
+  "valid_from": "2026-03-31T13:20:59.436163183Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/semantic_split.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 326,
+    "end_line": 355,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

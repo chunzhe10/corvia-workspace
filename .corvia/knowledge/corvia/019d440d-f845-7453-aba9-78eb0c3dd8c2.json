@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-78eb0c3dd8c2",
+  "content": "-p corvia-kernel`\nExpected: compiles with no errors\n\n**Step 4: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/rag_types.rs crates/corvia-kernel/src/lib.rs\ngit commit -m \"feat(m3.2): rag_types module — pipeline types, metrics, trace structs\"\n```\n\n---\n\n## Task 2: RagConfig in corvia-common\n\nAdd the `[rag]` section to `CorviaConfig` so it can be read from `corvia.toml`.\n\n**Files:**\n- Modify: `crates/corvia-common/src/config.rs`\n\n**Step 1: Write the failing test**\n\nAdd to the `#[cfg(test)]` module at the bottom of `crates/corvia-common/src/config.rs`:\n\n```rust\n#[test]\nfn test_rag_config_defaults() {\n    let config = CorviaConfig::default();\n    assert_eq!(config.rag.default_limit, 10);\n    assert!(config.rag.graph_expand);\n    assert_eq!(config.rag.graph_depth, 2);\n    assert!((config.rag.graph_alpha - 0.3).abs() < f32::EPSILON);\n    assert!((config.rag.reserve_for_answer - 0.2).abs() < f32::EPSILON);\n    assert_eq!(config.rag.max_context_tokens, 0);\n    assert!(config.rag.system_prompt.is_none());\n}\n\n#[test]\nfn test_rag_config_from_toml() {\n    let toml_str = r#\"\n[project]\nname = \"test\"\norg = \"test-org\"\nscope_id = \"test\"\n\n[storage]\nstore_type = \"lite\"\ndata_dir = \".corvia\"\n\n[embedding]\nprovider = \"ollama\"\nurl = \"http://127.0.0.1:11434\"\nmodel = \"nomic-embed-text\"\ndimensions = 768\n\n[server]\nhost = \"127.0.0.1\"\nport = 8020\n\n[rag]\ndefault_limit = 20\ngraph_expand = false\ngraph_alpha = 0.5\nmax_context_tokens = 8192\nsystem_prompt = \"You are a Corvia assistant.\"\n\"#;\n    let config: CorviaConfig = toml::from_str(toml_str).unwrap();\n    assert_eq!(config.rag.default_limit, 20);\n    assert!(!config.rag.graph_expand);\n    assert!((config.rag.graph_alpha - 0.5).abs() < f32::EPSILON);\n    assert_eq!(config.rag.max_context_tokens, 8192);\n    assert_eq!(config.rag.system_prompt.as_deref(), Some(\"You are a Corvia assistant.\"));\n}\n```\n\n**Step 2: Run tests to verify they fail**\n\nRun: `cargo test -p corvia-common test_rag_config -- --nocapture`\nExpected: FAIL — `no field rag on type CorviaConfig`\n\n**Step 3: Add RagConfig to config.rs**\n\nAdd the `RagConfig` struct definition (before `CorviaConfig`):\n\n```rust\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct RagConfig {",
+  "source_version": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461726513Z",
+  "valid_from": "2026-03-31T13:20:59.461726513Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 207,
+    "end_line": 280,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-1e2ea21a91f6",
+  "content": "# Check for reconnectable agents\n\n### Task 11: Agent Description Display in Dashboard\n\n**Files:**\n- Modify: `tools/corvia-dashboard/src/components/AgentsView.tsx`\n- Modify: `tools/corvia-dashboard/src/types.ts`\n\n-**Step 1: Update types**\n\nIn `types.ts`, add `ActivitySummary` type and extend `AgentRecord`:\n\n```typescript\nexport interface ActivitySummary {\n  entry_count: number;\n  topic_tags: string[];\n  last_topics: string[];\n  last_active: string;\n  session_count: number;\n  drifted?: boolean;\n}\n\n// Add to existing AgentRecord:\nexport interface AgentRecord {\n  // ... existing fields ...\n  description?: string;\n  activity_summary?: ActivitySummary;\n}\n```\n\n-**Step 2: Update AgentsView to show description and topics**\n\nIn `AgentsView.tsx`, enhance each agent card:\n\n```tsx\n{/* After display_name */}\n{agent.description && (\n  <div class=\"agent-description\">{agent.description}</div>\n)}\n{agent.activity_summary && (\n  <div class=\"agent-topics\">\n    {agent.activity_summary.topic_tags.map(tag => (\n      <span class=\"topic-pill\">{tag}</span>\n    ))}\n    {agent.activity_summary.drifted && (\n      <span class=\"drift-indicator\" title={`Last session: ${agent.activity_summary.last_topics.join(', ')}`}>",
+  "source_version": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456564640Z",
+  "valid_from": "2026-03-31T13:20:59.456564640Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1372,
+    "end_line": 1415,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

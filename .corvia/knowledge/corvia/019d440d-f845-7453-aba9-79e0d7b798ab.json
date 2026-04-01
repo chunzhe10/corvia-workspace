@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-79e0d7b798ab",
+  "content": "andRetriever` not found\n\n**Step 3: Implement GraphExpandRetriever**\n\nAdd to `retriever.rs` (after `VectorRetriever`, before `visibility_filter`). Add these imports at the top:\n\n```rust\nuse crate::traits::GraphStore;\nuse corvia_common::types::EdgeDirection;\nuse std::collections::HashSet;\n```\n\nThen the implementation:\n\n```rust\n/// Vector + graph expansion retriever. Corvia's differentiator.\n/// 1. Vector search for initial top-k\n/// 2. For each result, follow graph edges up to graph_depth hops\n/// 3. Deduplicate and blend scores: final = (1-α)*cosine + α*(1/(hop+1))\npub struct GraphExpandRetriever {\n    store: Arc<dyn QueryableStore>,\n    engine: Arc<dyn InferenceEngine>,\n    graph: Arc<dyn GraphStore>,\n    alpha: f32,\n}\n\nimpl GraphExpandRetriever {\n    pub fn new(\n        store: Arc<dyn QueryableStore>,\n        engine: Arc<dyn InferenceEngine>,\n        graph: Arc<dyn GraphStore>,\n        alpha: f32,\n    ) -> Self {\n        Self { store, engine, graph, alpha }\n    }\n}\n\n#[async_trait]\nimpl Retriever for GraphExpandRetriever {\n    fn name(&self) -> &str { \"graph_expand\" }\n\n    async fn retrieve(\n        &self,\n        query: &str,",
+  "source_version": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461908692Z",
+  "valid_from": "2026-03-31T13:20:59.461908692Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 872,
+    "end_line": 906,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

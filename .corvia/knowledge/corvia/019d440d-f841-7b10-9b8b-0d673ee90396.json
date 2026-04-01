@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0d673ee90396",
+  "content": "### Task 10: CLI Ingestion Wiring\n\n        let source_files = adapter.ingest_sources(path).await?;\n        let total_files = source_files.len();\n\n        // Build pipeline with adapter strategies\n        let mut pipeline = corvia_kernel::create_chunking_pipeline(&config);\n        adapter.register_chunking(pipeline.registry_mut());\n\n        // Process through chunking pipeline\n        let (processed, report) = pipeline.process_batch(&source_files)?;\n        println!(\n            \"Chunked {} files → {} chunks ({} merged, {} split)\",\n            report.files_processed, report.total_chunks,\n            report.chunks_merged, report.chunks_split\n        );\n\n        // Also get relations via the old path (temporary — until relations\n        // are integrated into ChunkingStrategy)\n        let relation_result = adapter.ingest_with_relations(path).await?;\n\n        // Convert ProcessedChunks to KnowledgeEntries, embed, and store\n        let mut stored_ids: Vec<uuid::Uuid> = Vec::with_capacity(processed.len());\n        let mut stored = 0;\n        let entries: Vec<KnowledgeEntry> = processed.iter().map(|pc| {\n            let mut entry = KnowledgeEntry::new(\n                pc.content.clone(),\n                config.project.scope_id.clone(),\n                pc.metadata.source_file.clone(), // source_version\n            );\n            entry.metadata = corvia_common::types::EntryMetadata {\n                source_file: Some(pc.metadata.source_file.clone()),\n                language: pc.metadata.language.clone(),\n                chunk_type: Some(pc.chunk_type.clone()),\n                start_line: Some(pc.start_line),\n                end_line: Some(pc.end_line),\n            };\n            entry\n        }).collect();\n",
+  "source_version": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457626569Z",
+  "valid_from": "2026-03-31T13:20:59.457626569Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1574,
+    "end_line": 1611,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-49f7a314662a",
+  "content": "### SpanStats Enhancement\n### Graceful Degradation\n\n## New Files Summary\n\n| File | Purpose | ~Lines |\n|------|---------|--------|\n| `crates/corvia-telemetry/src/otel_context_layer.rs` | Custom Layer bridging OTEL→fmt | 120 |\n| `tools/corvia-dashboard/src/components/GcPanel.tsx` | GC operations panel | 150 |\n| `tools/corvia-dashboard/src/components/WaterfallView.tsx` | Span drill-down waterfall | 200 |\n| `tools/corvia-dashboard/src/components/LiveSessionsBar.tsx` | Active session pills bar | 80 |\n\n\n## Modified Files Summary\n\n| File | Changes |\n|------|---------|\n| `crates/corvia-telemetry/src/lib.rs` | Add `mod otel_context_layer`, compose new layer |\n| `crates/corvia-common/src/dashboard.rs` | Enhanced `SpanStats` (p50/p95/p99), `GcReport` (6 new fields), new response types |\n| `crates/corvia-kernel/src/ops.rs` | `GcHistory`, populate enhanced `GcReport`, timing |\n| `crates/corvia-server/src/dashboard/mod.rs` | 4 new routes + handlers (gc GET, gc/run POST, sessions/live, traces/recent) |\n| `crates/corvia-server/src/dashboard/traces.rs` | Trace tree parsing, `SpanNode`, `collect_trace_trees()`, percentile computation |\n| `tools/corvia-dashboard/src/api.ts` | 3 new fetch functions |\n| `tools/corvia-dashboard/src/types.ts` | New TypeScript interfaces |\n| `tools/corvia-dashboard/src/components/TracesView.tsx` | Import GcPanel + WaterfallView, percentile display |\n| `tools/corvia-dashboard/src/components/AgentsView.tsx` | Import LiveSessionsBar |\n| `crates/corvia-server/src/rest.rs` | Add `GcHistory` to `AppState` |\n",
+  "source_version": "docs/rfcs/2026-03-13-dashboard-completion-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460277584Z",
+  "valid_from": "2026-03-31T13:20:59.460277584Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-13-dashboard-completion-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 328,
+    "end_line": 351,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

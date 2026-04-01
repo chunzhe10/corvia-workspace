@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a16-7c43-b1c4-87c42962a5a4",
+  "content": "rsonal memory is table stakes</h3>\n          <p>CLAUDE.md, Cursor rules, Copilot memory. What's still open is the organizational layer. Memory across repos, over time, between agents.</p>\n        </div>\n      </div>\n    </div>\n\n    <hr class=\"cta-divider\">\n    <div class=\"cta\">\n      <p>What's the messiest part of your AI development workflow?</p>\n      <p class=\"small\">The part you'd fix if you had time.</p>\n      <p class=\"small\" style=\"margin-top: 16px; color: var(--accent-cyan);\">github.com/chunzhe10/corvia</p>\n    </div>\n\n    <div class=\"footer\">\n      <span>Lim Chun Zhe</span>\n      <span>10 / 10</span>\n    </div>\n  </div>\n</div>\n\n</body>\n</html>\n",
+  "source_version": "marketing/linkedin/2026-03-29-recursive-loop-reflection/recursive-loop-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.030184184Z",
+  "valid_from": "2026-03-31T13:51:39.030184184Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-29-recursive-loop-reflection/recursive-loop-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 1040,
+    "end_line": 1055,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

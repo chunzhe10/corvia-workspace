@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-3752ee14cf25",
+  "content": "rnel`\nExpected: All tests PASS.\n\n**Step 5: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/inference_provisioner.rs crates/corvia-kernel/src/lib.rs\ngit commit -m \"feat(d60): add InferenceProvisioner — auto-manages corvia-inference lifecycle\"\n```\n\n---\n\n## Task 8: Scaffold corvia-inference crate with health endpoint\n\n**Files:**\n- Create: `crates/corvia-inference/Cargo.toml`\n- Create: `crates/corvia-inference/src/main.rs`\n- Create: `crates/corvia-inference/src/model_manager.rs`\n- Modify: `Cargo.toml` (workspace)\n\n**Step 1: Create Cargo.toml**\n\nCreate `crates/corvia-inference/Cargo.toml`:\n```toml\n[package]\nname = \"corvia-inference\"\nversion.workspace = true\nedition.workspace = true\nlicense.workspace = true\n\n[[bin]]\nname = \"corvia-inference\"\npath = \"src/main.rs\"\n\n[dependencies]\ncorvia-proto.workspace = true\ntonic.workspace = true\nprost = \"0.13\"\ntokio.workspace = true\ntracing.workspace = true\ntracing-subscriber.workspace = true\nclap = { version = \"4\", features = [\"derive\"] }\nserde.workspace = true\nserde_json.workspace = true\n```\n\n**Step 2: Implement ModelManager service (health + list + load stubs)**\n\nCreate `crates/corvia-inference/src/model_manager.rs` with in-memory model registry:\n```rust\nuse corvia_proto::model_manager_server::ModelManager;\nuse corvia_proto::*;\nuse std::collections::HashMap;\nuse std::sync::Arc;\nuse tokio::sync::RwLock;\nuse tonic::{Request, Response, Status};\n\n#[derive(Clone)]\npub struct ModelEntry {",
+  "source_version": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458657826Z",
+  "valid_from": "2026-03-31T13:20:59.458657826Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1057,
+    "end_line": 1103,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

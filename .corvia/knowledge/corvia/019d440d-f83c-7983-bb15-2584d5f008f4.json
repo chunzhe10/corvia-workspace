@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-2584d5f008f4",
+  "content": "### Task 1: Add `RustModuleMap` to `corvia-adapter-git`\n\n/// Built by scanning workspace Cargo.toml files and `mod` declarations.\n/// Used by `resolve_rust_module_path()` to create cross-file import edges.\n#[derive(Debug, Clone)]\npub struct RustModuleMap {\n    /// Maps `\"crate_name::module::submodule\"` → `\"relative/path/to/file.rs\"`\n    /// Paths are relative to the workspace root.\n    module_to_file: HashMap<String, String>,\n    /// Maps crate package name → crate root module path prefix\n    /// e.g., `\"corvia-common\"` → `\"corvia_common\"`\n    crate_to_module: HashMap<String, String>,\n}\n\nimpl RustModuleMap {\n    /// Build a module map from a workspace or crate root directory.\n    ///\n    /// Scans for `Cargo.toml` files, finds crate roots, and walks `mod`\n    /// declarations to build the full module→file mapping.\n    pub fn build(workspace_root: &Path) -> Self {\n        let mut map = RustModuleMap {\n            module_to_file: HashMap::new(),\n            crate_to_module: HashMap::new(),\n        };\n\n        let cargo_toml = workspace_root.join(\"Cargo.toml\");\n        if !cargo_toml.exists() {\n            return map;\n        }\n\n        let Ok(content) = std::fs::read_to_string(&cargo_toml) else {\n            return map;",
+  "source_version": "docs/rfcs/2026-03-04-m3.4-graph-edge-improvements-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452926434Z",
+  "valid_from": "2026-03-31T13:20:59.452926434Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-04-m3.4-graph-edge-improvements-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 43,
+    "end_line": 72,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

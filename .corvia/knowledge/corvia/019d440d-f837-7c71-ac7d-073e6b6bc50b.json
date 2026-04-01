@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f837-7c71-ac7d-073e6b6bc50b",
+  "content": "mitted,\n            memory_type,\n            confidence: Some(0.7),\n            last_accessed: None,\n            access_count: 0,\n            tier,\n            tier_changed_at: None,\n            retention_score: None,\n            pin: None,\n        }\n    }\nfn default_policy() -> corvia_common::config::ResolvedPolicy {\n        corvia_common::config::ResolvedPolicy {\n            enabled: true,\n            max_inactive_days: 30,\n            budget_top_n: 10_000,\n        }\n    }",
+  "source_version": "crates/corvia-kernel/src/gc_worker.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.447693012Z",
+  "valid_from": "2026-03-31T13:20:59.447693012Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/gc_worker.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1014,
+    "end_line": 1020,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f827-7411-ad28-5c9555243e7e",
+  "content": "(\"CORVIA_LOG_DIR\")\n            .or_else(|_| std::env::var(\"XDG_RUNTIME_DIR\").map(|d| format!(\"{d}/corvia\")))\n            .map(PathBuf::from)\n            .unwrap_or_else(|_| PathBuf::from(\"/tmp/corvia-dev-logs\"));\n        dir.join(\"corvia-traces.log\")\n    }\nimpl<S> Layer<S> for DashboardTraceLayer\nwhere\n    S: Subscriber + for<'a> LookupSpan<'a>,\n{\n    fn on_new_span(&self, _attrs: &Attributes<'_>, id: &Id, ctx: Context<'_, S>) {\n        if let Some(span) = ctx.span(id) {\n            // Only track corvia.* spans\n            if span.metadata().name().starts_with(\"corvia.\") {\n                span.extensions_mut().insert(SpanCreatedAt(Instant::now()));\n            }\n        }\n    }\n\n    fn on_close(&self, id: Id, ctx: Context<'_, S>) {\n        let span = match ctx.span(&id) {\n            Some(s) => s,\n            None => return,\n        };\n\n        let metadata = span.metadata();\n        let span_name = metadata.name();\n\n        // Only emit lines for corvia.* spans (our instrumented spans)\n        if !span_name.starts_with(\"corvia.\") {\n            return;\n        }\n\n        let extensions = span.extensions();\n\n        // Read OTEL fields if available\n        let (trace_id, span_id, parent_span_id) =\n            if let Some(otel) = extensions.get::<OtelFields>() {\n                (\n                    Some(otel.trace_id.clone()),\n                    Some(otel.span_id.clone()),\n                    if otel.parent_span_id.is_empty() {\n                        None\n                    } else {\n                        Some(otel.parent_span_id.clone())\n                    },\n                )\n            } else {\n                (None, None, None)\n            };\n\n        // Compute elapsed time from span creation\n        let elapsed_ms = extensions\n            .get::<SpanCreatedAt>()\n            .map(|created| created.0.elapsed().as_secs_f64() * 1000.0)\n            .unwrap_or(0.0);\n\n        drop(extensions);",
+  "source_version": "crates/corvia-telemetry/src/dashboard_trace_layer.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.431272898Z",
+  "valid_from": "2026-03-31T13:20:59.431272898Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-telemetry/src/dashboard_trace_layer.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 64,
+    "end_line": 115,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

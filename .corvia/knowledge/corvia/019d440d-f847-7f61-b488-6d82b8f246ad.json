@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-6d82b8f246ad",
+  "content": "\": {\n    \"recall_at_5\": 0.67,\n    \"mrr\": 0.72,\n    \"latency_p50_ms\": 35,\n    \"latency_p95_ms\": 48,\n    \"latency_p99_ms\": 52,\n    \"by_category\": {\n      \"architecture\": { \"recall_at_5\": 0.8, \"mrr\": 0.9 },\n      \"feature\": { ... },\n      ...\n    }\n  }\n}\n```\n\n### 2. `benchmarks/rag-retrieval/compare.py`\n\nReads 2-3 eval result JSON files and produces a comparison report.\n\n**Input:** `python compare.py baseline.json hybrid.json [bm25-only.json]`\n**Output:** Printed table + ship gate verdict\n\n**Report includes:**\n- Side-by-side aggregate metrics (Recall@5, MRR, latency)\n- Per-category comparison\n- Per-query delta (which queries improved/regressed)\n- Ship gate pass/fail checklist\n- Recommendation: flip default or keep opt-in\n\n\n### 3. `benchmarks/rag-retrieval/run-benchmark.sh`\n\nOrchestrator script that:\n1. Records current config\n2. Hot-swaps to vector-only, runs eval.py\n3. Hot-swaps to hybrid (vector+BM25+RRF), runs eval.py\n4. Hot-swaps to BM25-only, runs eval.py\n5. Restores original config\n6. Runs compare.py on all 3 results\n\nUses MCP endpoint for hot-swap (with `_meta.confirmed`).\n",
+  "source_version": "docs/rfcs/2026-03-28-eval-default-flip-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463191198Z",
+  "valid_from": "2026-03-31T13:20:59.463191198Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-eval-default-flip-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 85,
+    "end_line": 110,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

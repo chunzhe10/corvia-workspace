@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a15-7ca3-b9db-53a891f6a627",
+  "content": ". Fix loop until clean.</div>\n      </div>\n    </div>\n    <div class=\"flow-arrow\">&#8595;</div>\n    <div class=\"flow-step\" style=\"border-left: 4px solid var(--accent-green);\">\n      <div style=\"font-size: 22px;\">&#128640;</div>\n      <div style=\"flex: 1;\">\n        <div style=\"font-size: 18px; font-weight: 700;\">E2E Test + PR + Merge</div>\n        <div style=\"font-size: 16px; color: var(--text-secondary);\">Integration tests, happy path, edge cases, then open and merge PR</div>\n      </div>\n    </div>\n  </div>",
+  "source_version": "marketing/linkedin/2026-03-28-dev-loop-exploration/dev-loop-exploration-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.029586461Z",
+  "valid_from": "2026-03-31T13:51:39.029586461Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-28-dev-loop-exploration/dev-loop-exploration-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 472,
+    "end_line": 476,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

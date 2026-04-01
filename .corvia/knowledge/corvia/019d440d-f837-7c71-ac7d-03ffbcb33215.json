@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f837-7c71-ac7d-03ffbcb33215",
+  "content": "  &entry_map,\n            &score_map,\n            &inbound_edge_map,\n            &transitioned_ids,\n            &chain_protected_ids,\n            forgetting,\n            scope_override,\n        );\n\n        report.budget_demoted += budget_transitions.len();\n        for bt in budget_transitions {\n            transitioned_ids.insert(bt.entry_id);\n            transitions.push(bt);\n        }\n    }\n\n    // Count transitions by type and emit structured transition logs\n    for t in &transitions {\n        match (t.old_tier, t.new_tier) {\n            (Tier::Hot, Tier::Warm) => report.hot_to_warm += 1,\n            (Tier::Warm, Tier::Cold) => report.warm_to_cold += 1,\n            (Tier::Cold, Tier::Forgotten) => report.cold_to_forgotten += 1,\n            (Tier::Warm, Tier::Hot) => report.warm_to_hot += 1,\n            (Tier::Cold, Tier::Warm) => report.cold_to_warm += 1,\n            _ => {}\n        }\n\n        // Structured transition log with full score breakdown\n        info!(\n            entry_id = %t.entry_id,\n            scope_id = %t.scope_id,\n            memory_type = %t.memory_type,\n            from_tier = ?t.old_tier,\n            to_tier = ?t.new_tier,\n            retention_score = t.retention_score,\n            d_score = t.d_score,\n            a_score = t.a_score,\n            g_score = t.g_score,\n            c_score = t.c_score,\n            superseded = t.superseded,\n            reason = t.reason,\n            \"tier_transition\"",
+  "source_version": "crates/corvia-kernel/src/gc_worker.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.447209779Z",
+  "valid_from": "2026-03-31T13:20:59.447209779Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/gc_worker.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 481,
+    "end_line": 512,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

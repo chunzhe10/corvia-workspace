@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82c-7720-a124-30abd0878b26",
+  "content": "  fn test_budget_enforcement_fits() {\n        let chunks = vec![\"Short chunk.\".to_string()];\n        let result = enforce_token_budget(chunks, 512);\n        assert_eq!(result.len(), 1);\n    }\n\n    #[test]\n    fn test_budget_enforcement_splits_oversized() {\n        // Create a chunk that is ~200 tokens (800 chars)\n        let long_text = \"A \".repeat(400); // 800 chars = ~200 tokens\n        let chunks = vec![long_text];\n        let result = enforce_token_budget(chunks, 100); // 100 token budget\n        assert!(result.len() >= 2, \"Should split oversized chunk, got {}\", result.len());\n        for chunk in &result {\n            let tokens = chunk.len() / 4;\n            assert!(tokens <= 100, \"Sub-chunk should fit budget: {} tokens\", tokens);\n        }\n    }\n\n    // -----------------------------------------------------------------------\n    // Reassembly tests\n    // -----------------------------------------------------------------------\n\n    #[test]\n    fn test_reassemble_groups() {\n        let segments = vec![\n            \"Sentence one.\".to_string(),\n            \"Sentence two.\".to_string(),\n            \"Sentence three.\".to_string(),\n            \"Sentence four.\".to_string(),\n        ];\n        let groups = vec![vec![0, 1], vec![2, 3]];\n        let result = reassemble_groups(&segments, &groups);\n        assert_eq!(result.len(), 2);\n        assert!(result[0].contains(\"one\") && result[0].contains(\"two\"));\n        assert!(result[1].contains(\"three\") && result[1].contains(\"four\"));\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/semantic_split.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.436215292Z",
+  "valid_from": "2026-03-31T13:20:59.436215292Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/semantic_split.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 476,
+    "end_line": 505,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

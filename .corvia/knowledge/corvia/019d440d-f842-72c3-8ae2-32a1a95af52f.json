@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-32a1a95af52f",
+  "content": "try_exporter || cfg.telemetry || 'stdout')) +\n  '</div></div>';\n\n  // Optional services\n  html += '<div class=\"sidebar-card\"><div class=\"sidebar-card-header\"><div class=\"sidebar-label\">Optional Services</div></div>' +\n    '<div class=\"sidebar-card-body\">';\n  if (optional.length === 0) {\n    html += '<div class=\"empty-state\"><p>No optional services configured</p>' +\n      '<button class=\"ghost-btn\" data-cmd=\"corvia-dev enable ollama\">Configure Services</button></div>';\n  } else {\n    for (const svc of optional) {\n      const meta = SVC_META[svc.name] || { desc: '' };\n      const isEnabled = enabled.has(svc.name);\n      const dc = svc.state === 'healthy' ? 'ok' : svc.state === 'stopped' ? 'stopped' : 'down';\n      html += '<div class=\"svc-item\">' +\n        '<div class=\"svc-dot ' + dc + '\"></div>' +\n        '<span class=\"svc-name\">' + esc(svc.name) + '</span>' +\n        '<span class=\"svc-state\">' + esc(svc.state) + '</span>' +\n        '<div class=\"switch' + (isEnabled ? ' on' : '') + '\" data-toggle=\"' + esc(svc.name) + '\" data-enabled=\"' + (isEnabled ? '1' : '0') + '\"></div>' +\n      '</div>';\n    }\n  }\n  html += '</div></div>';\n\n  html += '</div>'; // close sidebar\n  html += '</div>'; // close workspace\n\n  el.innerHTML = html;\n\n  // Post-render: bind events, auto-scroll\n  bindAll();\n  if (autoScroll) {\n    const output = document.getElementById('logOutput');\n    if (output) output.scrollTop = output.scrollHeight;\n  }\n}\n",
+  "source_version": "docs/rfcs/2026-03-10-dashboard-redesign.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458016302Z",
+  "valid_from": "2026-03-31T13:20:59.458016302Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-dashboard-redesign.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 856,
+    "end_line": 886,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

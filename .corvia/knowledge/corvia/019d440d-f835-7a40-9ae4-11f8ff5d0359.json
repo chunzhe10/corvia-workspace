@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f835-7a40-9ae4-11f8ff5d0359",
+  "content": " tokens.push(part.to_string());\n            }\n        }\n    } else {\n        // Plain version like 0.4.5\n        for part in lower.split('.') {\n            if !part.is_empty() {\n                tokens.push(part.to_string());\n            }\n        }\n    }\n}\nfn split_on_separators(lower: &str, tokens: &mut Vec<String>) {\n    let separators = ['_', '-', '/', '.'];\n    if lower.contains(separators) {\n        for part in lower.split(|c: char| separators.contains(&c)) {\n            if !part.is_empty() {\n                tokens.push(part.to_string());\n            }\n        }\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/tantivy_index.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.445561298Z",
+  "valid_from": "2026-03-31T13:20:59.445561298Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/tantivy_index.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 168,
+    "end_line": 177,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-4e4ef07224eb",
+  "content": "### ProcessChunkingStrategy\n\n## 4. Refactored cmd_ingest\n\n```\ncmd_ingest(path)\n  1. discover_adapters()\n  2. resolve_adapter(path, ...)\n  3. adapter.spawn()\n  4. adapter.ingest(path, scope)       → Vec<SourceFile> via JSONL\n  5. Register ProcessChunkingStrategy for adapter's chunking_extensions\n  6. pipeline.process_batch(&files)    → IPC calls for adapter-claimed exts\n  7. embed → store → wire relations\n  8. adapter.shutdown()\n```\n\nMulti-adapter workspace mode:\n```\ncmd_ingest_workspace()\n  1. discover_adapters()\n  2. For each source/repo:\n     a. resolve_adapter(repo.path) → pick adapter\n     b. spawn → ingest → pipeline → shutdown\n```\n\nSequential per source. No concurrent adapter processes (embedding is the bottleneck).\n\n\n## 5. Workspace Layout\n",
+  "source_version": "docs/rfcs/2026-03-03-adapter-plugin-system-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460634302Z",
+  "valid_from": "2026-03-31T13:20:59.460634302Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-03-adapter-plugin-system-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 162,
+    "end_line": 188,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f822-7391-83ed-38b4c0627d4c",
+  "content": "fn test_workspace_config_none_by_default() {\n        let config = CorviaConfig::default();\n        assert!(config.workspace.is_none());\n    }\nfn test_workspace_config_from_toml() {\n        let toml_str = r#\"\n[project]\nname = \"test-workspace\"\nscope_id = \"test\"\n\n[workspace]\nrepos_dir = \"repos\"\n\n[[workspace.repos]]\nname = \"backend\"\nurl = \"https://github.com/org/backend\"\nnamespace = \"backend\"\n\n[[workspace.repos]]\nname = \"frontend\"\nurl = \"https://github.com/org/frontend\"\nnamespace = \"frontend\"\nlocal = \"/home/dev/frontend\"\n\n[storage]\nstore_type = \"lite\"\ndata_dir = \".corvia\"\n\n[embedding]\nprovider = \"ollama\"\nmodel = \"nomic-embed-text\"\nurl = \"http://127.0.0.1:11434\"\ndimensions = 768\n\n[server]\nhost = \"127.0.0.1\"\nport = 8020\n\"#;\n        let config: CorviaConfig = toml::from_str(toml_str).unwrap();\n        let ws = config.workspace.as_ref().unwrap();\n        assert_eq!(ws.repos_dir, \"repos\");\n        assert_eq!(ws.repos.len(), 2);\n        assert_eq!(ws.repos[0].name, \"backend\");\n        assert_eq!(ws.repos[0].url, \"https://github.com/org/backend\");\n        assert_eq!(ws.repos[0].namespace, \"backend\");\n        assert!(ws.repos[0].local.is_none());\n        assert_eq!(ws.repos[1].name, \"frontend\");\n        assert_eq!(ws.repos[1].local.as_deref(), Some(\"/home/dev/frontend\"));\n    }",
+  "source_version": "crates/corvia-common/src/config.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.426978722Z",
+  "valid_from": "2026-03-31T13:20:59.426978722Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/config.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1165,
+    "end_line": 1209,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

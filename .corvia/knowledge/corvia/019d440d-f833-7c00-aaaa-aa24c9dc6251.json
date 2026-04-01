@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f833-7c00-aaaa-aa24c9dc6251",
+  "content": "ry_text: query.text.clone(),\n                expect_file: query.expect_file.clone(),\n                actual_file,\n                score,\n                min_score: query.effective_min_score(default_min),\n            });\n        }\n\n        Ok(results)\n    }\npub fn scope_id(&self) -> &str {\n        &self.config.config.scope_id\n    }",
+  "source_version": "crates/corvia-kernel/src/introspect.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.443425637Z",
+  "valid_from": "2026-03-31T13:20:59.443425637Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/introspect.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 299,
+    "end_line": 301,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

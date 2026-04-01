@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81e-7810-a8c3-5e6e89445b81",
+  "content": "0].group_id, items[1].group_id);\n        assert_eq!(items[0].group_count, Some(2));\n        assert_eq!(items[2].group_id, items[3].group_id);\n        assert_eq!(items[2].group_count, Some(2));\n        assert_ne!(items[0].group_id, items[2].group_id);\n    }\nfn test_single_item_no_group() {\n        let now = chrono::Utc::now();\n        let mut items = vec![make_item(\"a\", Some(\"agent1\"), Some(\"graph\"), now)];\n        group_activity_items(&mut items);\n        assert!(items[0].group_id.is_none());\n        assert!(items[0].group_count.is_none());\n    }",
+  "source_version": "crates/corvia-server/src/dashboard/activity.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.422011052Z",
+  "valid_from": "2026-03-31T13:20:59.422011052Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/activity.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 430,
+    "end_line": 436,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

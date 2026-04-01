@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-cea478ca95e8",
+  "content": "ning. Use --force to replace.\".into());\n       }\n       if force {\n           docker.remove_container(&existing.name, None).await?;\n       }\n   }\n   ```\n\n5. **Generate per-spoke auth token**\n   ```rust\n   let spoke_token = uuid::Uuid::new_v4().to_string();\n   let mcp_token = std::fs::read_to_string(data_dir.join(\"mcp-token\"))?;\n   ```\n\n6. **Create the container (with resource limits)**\n   ```rust\n   let spoke_config = config.spoke_config(); // helper, handles nested Options\n\n   let container = ContainerCreateBody {\n       image: Some(spoke_config.image.unwrap_or(\"corvia-spoke:latest\".into())),\n       host_config: Some(HostConfig {\n           binds: Some(vec![\n               format!(\"{}/.credentials.json:/spoke-config/.credentials.json:ro\",\n                       hub.host_path_or_err(\"/root/.claude\")?),\n               format!(\"{}:/spoke-config/AGENTS.md:ro\",\n                       hub.host_path_or_err(\"/workspaces/corvia-workspace/AGENTS.md\")?),\n               format!(\"{}:/spoke-config/CLAUDE.md:ro\",\n                       hub.host_path_or_err(\"/workspaces/corvia-workspace/CLAUDE.md\")?),\n               format!(\"{}:/spoke-config/skills:ro\",\n                       hub.host_path_or_err(\"/workspaces/corvia-workspace/.agents/skills\")?),\n           ]),\n           network_mode: Some(network.clone()),\n           memory: Some(parse_memory_limit(&spoke_config.memory_limit)),  // default 4GB\n           cpu_shares: Some(spoke_config.cpu_shares as i64),              // default 512\n           log_config: Some(LogConfig {\n               typ: Some(\"json-file\".into()),\n               config: Some(HashMap::from([\n                   (\"max-size\".into(), \"50m\".into()),\n                   (\"max-file\".into(), \"3\".into()),\n               ])),\n           }),\n           ..Default::default()\n       }),\n       env: Some(vec![\n           format!(\"CORVIA_AGENT_ID={}\", agent_id),\n           format!(\"CORVIA_SPOKE_TOKEN={}\", spoke_token),\n           format!(\"CORVIA_MCP_URL=http://app:8020/mcp\"),\n           format!(\"CORVIA_MCP_TOKEN={}\", mcp_token),\n           format!(\"CORVIA_REPO_URL={}\", repo.url),\n           format!(\"CORVIA_ISSUE={}\", issue.unwrap_or(0)),",
+  "source_version": "decisions/2026-03-28-spoke-cli-design.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025873452Z",
+  "valid_from": "2026-03-31T13:51:39.025873452Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-cli-design.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 106,
+    "end_line": 144,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

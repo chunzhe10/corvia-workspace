@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-c3fad08dc35c",
+  "content": "\n        }\n    }\n}\n\nfn handle_chunk<W: Write>(content: &str, metadata: &SourceMetadata, out: &mut W) {\n    let chunker = AstChunker;\n\n    match chunker.chunk(content, metadata) {\n        Ok(result) => {\n            let resp = AdapterResponse::ChunkResult {\n                chunks: result.chunks,\n                relations: result.relations,\n            };\n            writeln!(out, \"{}\", serde_json::to_string(&resp).unwrap()).ok();\n            out.flush().ok();\n        }\n        Err(e) => {\n            let resp = AdapterResponse::Error {\n                error: AdapterError {\n                    code: \"CHUNK_FAILED\".into(),\n                    message: format!(\"{e}\"),\n                    file: Some(metadata.file_path.clone()),\n                },\n            };\n            writeln!(out, \"{}\", serde_json::to_string(&resp).unwrap()).ok();\n            out.flush().ok();\n        }\n    }\n}\n```\n\n**Step 4: Add to workspace members**\n\nIn `Cargo.toml` (workspace root), add `\"crates/corvia-adapter-git\"`:\n\n```toml\nmembers = [\n    \"crates/corvia-common\",\n    \"crates/corvia-kernel\",\n    \"crates/corvia-server\",\n    \"crates/corvia-cli\",\n    \"crates/corvia-proto\",\n    \"crates/corvia-inference\",\n    \"crates/corvia-adapter-basic\",\n    \"crates/corvia-adapter-git\",\n]\n```\n\n**Step 5: Build and test**\n\n```bash\ncargo build -p corvia-adapter-git && cargo test -p corvia-adapter-git -- --nocapture\n```\n\nExpected: all existing library tests pass, binary builds.\n\n**Step 6: Test the binary**\n\n```bash\n./target/debug/corvia-adapter-git --corvia-metadata | python3 -m json.tool\n```\n\nExpected: valid JSON metadata with name \"git\", chunking_extensions listing code file extensions.\n\n**Step 7: Commit**\n\n```bash\ngit add crates/corvia-adapter-git/\ngit commit -m \"feat: move corvia-adapter-git into monorepo with JSONL wrapper (D79)\n\nExisting library code (GitAdapter, AstChunker, tree-sitter) preserved\nunchanged. New main.rs wraps the library with the JSONL process protocol.\nWorkspace path deps replace cross-repo git deps.\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462964251Z",
+  "valid_from": "2026-03-31T13:20:59.462964251Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 2117,
+    "end_line": 2183,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

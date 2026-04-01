@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f824-7280-b2ba-a85894cb3752",
+  "content": "\n    \"REMINDER: Have you called corvia_search or corvia_ask first? Per CLAUDE.md, \\\n     you MUST query corvia MCP tools before using Grep/Glob for any new task or \\\n     question. If you already called corvia this session, proceed.\"\n        .to_string()\n}\npub fn write_reminder(stdin: &serde_json::Value) -> Option<String> {\n    let command = stdin.get(\"tool_input\")\n        .and_then(|ti| ti.get(\"command\"))\n        .and_then(|c| c.as_str())\n        .unwrap_or(\"\");\n\n    if !command.contains(\"git commit \") {\n        return None;\n    }\n\n    // Extract exit code — tool_response may be string or object\n    let exit_code = stdin.get(\"tool_response\")\n        .and_then(|resp| {\n            // Try object with exitCode or exit_code field\n            resp.get(\"exitCode\").or_else(|| resp.get(\"exit_code\"))\n                .and_then(|c| c.as_i64())\n                .or_else(|| {\n                    // If response is a string, it succeeded if we got here\n                    if resp.is_string() { Some(0) } else { None }\n                })\n        })\n        .unwrap_or(0);\n\n    if exit_code != 0 {\n        return None;\n    }\n\n    Some(\n        \"REMINDER: You just committed code. If this commit contains a design decision, \\\n         architectural change, or notable learning, persist it with corvia_write \\\n         (scope_id: corvia, agent_id: claude-code). Skip if the commit is trivial \\\n         (typo fix, formatting, etc.).\"\n            .to_string()\n    )\n}",
+  "source_version": "crates/corvia-cli/src/hooks/reminders.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.428275490Z",
+  "valid_from": "2026-03-31T13:20:59.428275490Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/reminders.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 12,
+    "end_line": 46,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

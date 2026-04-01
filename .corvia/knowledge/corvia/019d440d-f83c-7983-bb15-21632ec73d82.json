@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-21632ec73d82",
+  "content": "# M3: Temporal + Graph + Reasoning — Implementation Plan\n\n> **Status:** Shipped (v0.3.0)\n\n**Goal:** Add bi-temporal queries, graph traversal, and algorithmic reasoning to Corvia's kernel — making knowledge time-aware, relationship-aware, and self-analyzing.\n\n**Architecture:** Three new traits (`TemporalStore`, `GraphStore`) implemented by both LiteStore and SurrealStore, plus a `Reasoner` compute module. Graph populated automatically from tree-sitter ingestion and manually via CLI/API. `corvia upgrade` provides LiteStore→FullStore migration.\n\n**Tech Stack:** Rust, petgraph (new dep), redb (existing), hnsw_rs (existing), surrealdb (existing), tree-sitter (via corvia-adapter-git)\n\n**Design doc:** `docs/rfcs/2026-03-02-m3-temporal-graph-reasoning-design.md`\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-m3-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452427143Z",
+  "valid_from": "2026-03-31T13:20:59.452427143Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1,
+    "end_line": 14,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

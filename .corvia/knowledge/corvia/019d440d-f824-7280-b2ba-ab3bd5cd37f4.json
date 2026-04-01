@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f824-7280-b2ba-ab3bd5cd37f4",
+  "content": "= hooks_obj.get(\"TaskCreated\").unwrap().as_array().unwrap();\n        assert_eq!(task_created.len(), 1);\n        let cmd = task_created[0][\"hooks\"][0][\"command\"].as_str().unwrap();\n        assert!(cmd.contains(\"corvia hooks run --event TaskCreated\"));\n    }\nfn test_agent_teams_hooks_omitted_when_disabled() {\n        let mut hooks_obj = serde_json::Map::new();\n        let config = HooksConfig::default(); // agent_teams defaults to false\n        add_hooks(&mut hooks_obj, &config);\n\n        assert!(!hooks_obj.contains_key(\"TaskCreated\"));\n        assert!(!hooks_obj.contains_key(\"TaskCompleted\"));\n        assert!(!hooks_obj.contains_key(\"TeammateIdle\"));\n    }",
+  "source_version": "crates/corvia-cli/src/hooks/settings.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.428594646Z",
+  "valid_from": "2026-03-31T13:20:59.428594646Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/settings.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 298,
+    "end_line": 306,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

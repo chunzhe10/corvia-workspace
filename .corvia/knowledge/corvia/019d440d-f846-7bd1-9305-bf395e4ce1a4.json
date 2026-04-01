@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-bf395e4ce1a4",
+  "content": "   scope_id: &str,\n        opts: Option<RetrievalOpts>,\n        generate: bool,\n    ) -> Result<RagResponse> {\n        let pipeline_start = Instant::now();\n        let trace_id = Uuid::now_v7();\n\n        let mode = if generate { \"ask\" } else { \"context\" };\n        let _span = tracing::info_span!(\"corvia.rag.query\",\n            %trace_id, scope_id, mode,\n        ).entered();\n        info!(query, scope_id, mode, \"rag_query_started\");\n\n        // Build opts from config defaults if not provided\n        let opts = opts.unwrap_or_else(|| RetrievalOpts {\n            limit: self.config.default_limit,\n            expand_graph: self.config.graph_expand,\n            graph_depth: self.config.graph_depth,\n            ..Default::default()\n        });\n\n        // Stage 1: Retrieve\n        let retrieval = self.retriever.retrieve(query, scope_id, &opts).await?;\n\n        // Stage 2: Augment\n        let budget = {\n            let max_tokens = if self.config.max_context_tokens > 0 {\n                Some(self.config.max_context_tokens)\n            } else {\n                // Model-aware auto-sizing (D64)\n                self.generator.as_ref().map(|g| {\n                    let window = g.context_window();\n                    (window as f32 * (1.0 - self.config.reserve_for_answer)) as usize\n                })\n            };\n            TokenBudget {\n                max_context_tokens: max_tokens,\n                reserve_for_answer: self.config.reserve_for_answer,\n            }\n        };\n\n        let augment_start = Instant::now();\n        let _as = tracing::info_span!(\"corvia.rag.augment\").entered();\n        let augmented = self.augmenter.augment(query, &retrieval.results, &budget)?;\n        let augment_ms = augment_start.elapsed().as_millis() as u64;\n\n        info!(\n            sources_included = augmented.metrics.sources_included,\n            token_estimate = augmented.metrics.token_estimate,\n            \"rag_augmented\"",
+  "source_version": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462102165Z",
+  "valid_from": "2026-03-31T13:20:59.462102165Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1516,
+    "end_line": 1557,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

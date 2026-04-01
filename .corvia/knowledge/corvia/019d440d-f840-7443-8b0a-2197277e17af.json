@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-2197277e17af",
+  "content": "### Goals\n### Non-Goals\n\n## 2. Architecture\n\n```\nClaude Code Agent Teams session\n  |\n  |-- TeamCreate            --> ~/.claude/teams/{team-name}/config.json\n  |-- Agent(teammate)       --> config.json members[] updated\n  |-- TaskCreate            --> ~/.claude/tasks/{team-name}/{id}.json\n  |-- TaskComplete          --> task status updated\n  |-- SendMessage           --> inboxes/{name}.json updated\n  |-- TeammateIdle          --> hook fires (lead process)\n  |-- Teammate SessionEnd   --> hook fires (teammate process)\n  |-- TeamDelete            --> both directories deleted\n  |\n  |----- Hooks capture to staging BEFORE deletion -----\n  |\n  v\n~/.corvia/staging/agent-teams/{team-name}/\n  config.json              # copied from teams dir\n  tasks.jsonl              # one line per task event (created, completed)\n  messages.jsonl           # one line per inbox snapshot\n  .capture-log             # which hooks fired, when\n  |\n  v\ncorvia-adapter-claude-sessions --domain agent-teams\n  (reads staging dir, emits D75 JSONL)\n  |\n  v\ncorvia kernel\n  embed --> store --> wire graph edges\n  scope: \"user-history\"\n```\n\n---\n\n\n## 3. Hook Scripts\n\nThree hooks capture team state incrementally. All hooks write to the staging\ndirectory at `~/.corvia/staging/agent-teams/{team-name}/`. Staging survives\nteam cleanup because it is outside `~/.claude/`.\n",
+  "source_version": "docs/rfcs/2026-03-28-agent-teams-adapter-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456989959Z",
+  "valid_from": "2026-03-31T13:20:59.456989959Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-agent-teams-adapter-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 40,
+    "end_line": 80,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

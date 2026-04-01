@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f826-79c1-b85f-3b7033ab487f",
+  "content": "conds (0 = disabled)\n        #[arg(long, default_value = \"60\")]\n        health_probe_interval: u64,\n        /// Drift percentage threshold for degraded status\n        #[arg(long, default_value = \"100.0\")]\n        health_probe_drift_threshold: f64,\n    },\n}\nfn accept_trace(\n    request: tonic::Request<()>,\n) -> std::result::Result<tonic::Request<()>, tonic::Status> {\n    let parent_cx = global::get_text_map_propagator(|propagator| {\n        propagator.extract(&MetadataExtractor(request.metadata()))\n    });\n    // Attach the parent context so spans created in this request inherit it.\n    // The guard is intentionally dropped — tracing-opentelemetry captures the\n    // current OTel context at span creation time, so child spans created\n    // immediately after will pick up the parent.\n    parent_cx.attach();\n    Ok(request)\n}",
+  "source_version": "crates/corvia-inference/src/main.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.430997966Z",
+  "valid_from": "2026-03-31T13:20:59.430997966Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/src/main.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 44,
+    "end_line": 56,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

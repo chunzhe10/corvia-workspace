@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f833-7c00-aaaa-aa3eaf0a52a6",
+  "content": "pub fn scope_id(&self) -> &str {\n        &self.config.config.scope_id\n    }\nmod tests {\n    use super::*;\n\n    #[test]\n    fn test_parse_introspect_config() {\n        let toml_str = r#\"\n[config]\ndefault_min_score = 0.70\nscope_id = \"corvia-introspect\"\n\n[[query]]\ntext = \"how does embedding work?\"\nexpect_file = \"src/embedding.rs\"\nmin_score = 0.75\n\n[[query]]\ntext = \"what commands exist?\"\nexpect_file = \"src/main.rs\"\n\"#;\n        let config: IntrospectConfig = toml::from_str(toml_str).unwrap();\n        assert_eq!(config.config.scope_id, \"corvia-introspect\");\n        assert_eq!(config.query.len(), 2);\n        assert_eq!(config.query[0].text, \"how does embedding work?\");\n        assert_eq!(config.query[0].expect_file, \"src/embedding.rs\");\n        assert_eq!(config.query[0].min_score, Some(0.75));\n        assert_eq!(config.query[1].min_score, None);\n    }\n\n    #[test]\n    fn test_effective_min_score_fallback() {\n        let q = CanonicalQuery {\n            text: \"test\".into(),\n            expect_file: \"test.rs\".into(),\n            min_score: None,\n        };\n        assert_eq!(q.effective_min_score(0.70), 0.70);\n\n        let q2 = CanonicalQuery {\n            text: \"test\".into(),\n            expect_file: \"test.rs\".into(),\n            min_score: Some(0.80),\n        };\n        assert_eq!(q2.effective_min_score(0.70), 0.80);\n    }\n\n    #[test]\n    fn test_query_result_pass() {\n        let result = QueryResult {\n            query_text: \"test query\".into(),\n            expect_file: \"src/main.rs\".into(),\n            actual_file: Some(\"src/main.rs\".into()),\n            score: 0.85,\n            min_score: 0.70,\n        };\n        assert!(result.passed());\n        assert!(result.file_matched());\n    }\n\n    #[test]\n    fn test_query_result_fail_score() {\n        let result = QueryResult {\n            query_text: \"test query\".into(),",
+  "source_version": "crates/corvia-kernel/src/introspect.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.443430540Z",
+  "valid_from": "2026-03-31T13:20:59.443430540Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/introspect.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 305,
+    "end_line": 366,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

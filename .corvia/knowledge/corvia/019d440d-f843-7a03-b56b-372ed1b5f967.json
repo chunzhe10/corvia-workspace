@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f843-7a03-b56b-372ed1b5f967",
+  "content": "          self.index_entry(entry, embedding)?;\n                count += 1;\n            }\n        }\n\n        self.persist_next_id()?;\n        self.flush_hnsw()?;\n        info!(\"Rebuilt LiteStore from {count} knowledge files\");\n        Ok(count)\n    }\n}\n```\n\n### Step 5: Implement QueryableStore trait\n\nAdd the trait implementation:\n\n```rust\n#[async_trait]\nimpl crate::traits::QueryableStore for LiteStore {\n    async fn init_schema(&self) -> Result<()> {\n        // Create all Redb tables (they're created on first open in a write txn)\n        let write_txn = self.db.begin_write()\n            .map_err(|e| CorviaError::Storage(format!(\"Redb write error: {e}\")))?;\n        {\n            write_txn.open_table(ENTRIES).map_err(|e| CorviaError::Storage(e.to_string()))?;\n            write_txn.open_table(SCOPE_INDEX).map_err(|e| CorviaError::Storage(e.to_string()))?;\n            write_txn.open_table(HNSW_TO_UUID).map_err(|e| CorviaError::Storage(e.to_string()))?;\n            write_txn.open_table(UUID_TO_HNSW).map_err(|e| CorviaError::Storage(e.to_string()))?;\n            write_txn.open_table(META).map_err(|e| CorviaError::Storage(e.to_string()))?;\n        }\n        write_txn.commit()\n            .map_err(|e| CorviaError::Storage(format!(\"Redb commit error: {e}\")))?;\n        info!(\"LiteStore schema initialized\");\n        Ok(())\n    }\n\n    async fn insert(&self, entry: &KnowledgeEntry) -> Result<()> {\n        let embedding = entry.embedding.as_ref()\n            .ok_or_else(|| CorviaError::Storage(\"Entry must have embedding for insert\".into()))?;\n\n        // Write knowledge JSON file (git-tracked source of truth)\n        crate::knowledge_files::write_entry(&self.data_dir, entry)?;\n\n        // Index into HNSW + Redb\n        self.index_entry(entry, embedding)?;\n\n        // Persist HNSW ID counter\n        self.persist_next_id()?;\n\n        Ok(())\n    }\n\n    async fn search(\n        &self,\n        embedding: &[f32],\n        scope_id: &str,\n        limit: usize,\n    ) -> Result<Vec<SearchResult>> {\n        // D36: Post-filter after KNN retrieval.\n        // Retrieve K×2 candidates, filter by scope, return top K.",
+  "source_version": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.459911751Z",
+  "valid_from": "2026-03-31T13:20:59.459911751Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1095,
+    "end_line": 1142,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

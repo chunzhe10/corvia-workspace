@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-3044e6e766dc",
+  "content": "### I1: GITHUB_TOKEN forwarded without validation (SWE, QA, DevOps)\n### I2: No resource limits on spoke containers (PM, QA, DevOps)\n\n### I3: Agent identity spoofing via env var (Security)\nAny MCP client can claim any agent_id. Generate per-spoke auth token at\ncreation, validate agent_id + token pair on writes.\n\n\n### I4: Supply chain risk - `npm install @latest` (Security)\nNo version pinning or integrity check. Compromised package runs with full\npermissions. Pin version in Dockerfile, never use `@latest` at runtime.\n",
+  "source_version": "decisions/2026-03-28-spoke-design-review-summary.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026657116Z",
+  "valid_from": "2026-03-31T13:51:39.026657116Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-design-review-summary.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 73,
+    "end_line": 80,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

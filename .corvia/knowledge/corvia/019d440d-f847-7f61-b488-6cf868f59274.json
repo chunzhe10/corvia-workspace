@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-6cf868f59274",
+  "content": "## Task Breakdown\n\n### Task 1: Create eval.py (eval framework)\n**Files:** `benchmarks/rag-retrieval/eval.py`\n**Acceptance:** Script runs against live server, outputs valid JSON with all metrics.\n\n- Define 15 known-answer queries with expected sources\n- Implement `/v1/context` query runner\n- Compute Source Recall@5 per query\n- Compute MRR (Mean Reciprocal Rank)\n- Extract latency from trace (including pipeline-mode fields)\n- Compute latency percentiles (p50, p95, p99)\n- Per-category aggregation\n- CLI args: `--url`, `--scope-id`, `--output`, `--limit`\n- Output structured JSON\n\n\n### Task 2: Create compare.py (comparison tool)\n**Files:** `benchmarks/rag-retrieval/compare.py`\n**Acceptance:** Takes 2-3 eval JSONs, prints comparison table, checks ship gates.\n\n- Load multiple result files\n- Side-by-side aggregate metrics table\n- Per-category comparison\n- Per-query deltas (improved/regressed)\n- Ship gate pass/fail checklist\n- Exit code 0 if all gates pass, 1 if any fail\n",
+  "source_version": "docs/rfcs/2026-03-28-eval-default-flip-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463134781Z",
+  "valid_from": "2026-03-31T13:20:59.463134781Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-eval-default-flip-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 7,
+    "end_line": 31,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

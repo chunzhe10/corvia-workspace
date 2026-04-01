@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-75f769572da9",
+  "content": "## Decisions Made\n\n### D2: Codebase Invariance Strategy\n- **Decision**: Drop-in for any project (Option A), powered by tree-sitter AST\n- **Alternatives considered**:\n  - (B) Adapter-based — ship core engine + per-ecosystem adapters (Python, React, Go, etc.)\n  - (C) Language-agnostic by design — treat all code as text, let LLM handle everything\n- **Why not B**: Per-language adapters create maintenance burden and slow down language support. Tree-sitter already provides 100+ grammars through one dependency — adapters are unnecessary overhead.\n- **Why not C**: Research shows pure-LLM chunking is 10-100x more expensive and produces inconsistent boundaries. AST gives deterministic, structurally-correct chunks that LLMs can then interpret.\n- **Evidence**: cAST paper (CMU, June 2025) showed +4.3 points Recall@5 on RepoEval, +2.67 Pass@1 on SWE-bench vs fixed-size chunking. Production experience on 300K LOC monorepo showed ~40% reduction in irrelevant retrieval with AST chunking.\n\n\n### D3: Code Understanding Approach\n- **Decision**: Tree-sitter AST chunking with path to LLM summarization\n- **Alternatives considered**:\n  - (A) Structure only — AST for boundaries, LLM interprets at query time (chosen as starting point)\n  - (B) Structure + Semantics — AST chunking + LLM pre-computes summaries per chunk (future path)\n  - (C) Semantics only — skip AST, chunk by token windows/heuristics\n- **Why not C**: Pure heuristic chunking (blank lines, indentation) loses structural integrity. Research shows it underperforms AST by 4-5 points on retrieval benchmarks.\n- **Why A→B phasing**: Start simple (AST only), add LLM summarization pass later when the pipeline is stable. Architecture supports both without changes.\n- **Key libraries identified**: supermemory/code-chunk (TS, tree-sitter), astchunk (Python), code-splitter\n",
+  "source_version": "docs/rfcs/2026-02-25-corvia-brainstorm.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461417736Z",
+  "valid_from": "2026-03-31T13:20:59.461417736Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-25-corvia-brainstorm.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 22,
+    "end_line": 40,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

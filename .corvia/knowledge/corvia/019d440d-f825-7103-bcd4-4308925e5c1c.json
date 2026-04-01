@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-4308925e5c1c",
+  "content": "intln!(\"Note: {} entries were written to the destination. Re-running the migration\", inserted);\n        eprintln!(\"after resolving the issue may require clearing the destination first.\");\n        anyhow::bail!(\"{} entries failed to insert\", failed);\n    }\n\n    // Insert edges\n    if !edges.is_empty() {\n        println!(\"\\nMigrating {} graph edges...\", edges.len());\n        let mut edges_inserted = 0;\n        let mut edges_failed = 0;\n        for edge in edges {\n            match graph\n                .relate(&edge.from, &edge.relation, &edge.to, edge.metadata.clone())\n                .await\n            {\n                Ok(()) => edges_inserted += 1,\n                Err(e) => {\n                    edges_failed += 1;\n                    eprintln!(\n                        \"  Failed to create edge {} --[{}]--> {}: {}\",\n                        edge.from, edge.relation, edge.to, e\n                    );\n                }\n            }\n        }\n        println!(\n            \"  {}/{} edges migrated ({} failed)\",\n            edges_inserted,\n            edges.len(),\n            edges_failed\n        );\n\n        if edges_failed > 0 {\n            eprintln!(\n                \"\\nWarning: {} edges failed to migrate. Config NOT updated.\",\n                edges_failed\n            );\n            anyhow::bail!(\"{} edges failed to migrate\", edges_failed);\n        }\n    }\n\n    // Verify counts\n    verify_counts(&queryable, &graph, entries_by_scope, scope_names, expected_edge_count).await?;\n\n    Ok(())\n}",
+  "source_version": "crates/corvia-cli/src/upgrade.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429741109Z",
+  "valid_from": "2026-03-31T13:20:59.429741109Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/upgrade.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 346,
+    "end_line": 386,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f832-7981-8b9c-49588d2934ef",
+  "content": ", IdentityType::Registered, AgentPermission::ReadOnly).unwrap();\n        reg.register(\"test::b\", \"B\", IdentityType::Registered, AgentPermission::ReadOnly).unwrap();\n        let agents = reg.list_active().unwrap();\n        assert_eq!(agents.len(), 2);\n    }\nfn test_suspend_agent() {\n        let reg = test_registry();\n        reg.register(\"test::agent\", \"Agent\", IdentityType::Registered,\n            AgentPermission::ReadOnly).unwrap();\n        reg.set_status(\"test::agent\", AgentStatus::Suspended).unwrap();\n        let agent = reg.get(\"test::agent\").unwrap().unwrap();\n        assert_eq!(agent.status, AgentStatus::Suspended);\n        // Suspended agents not in active list\n        assert_eq!(reg.list_active().unwrap().len(), 0);\n    }",
+  "source_version": "crates/corvia-kernel/src/agent_registry.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.442961387Z",
+  "valid_from": "2026-03-31T13:20:59.442961387Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/agent_registry.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 269,
+    "end_line": 278,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

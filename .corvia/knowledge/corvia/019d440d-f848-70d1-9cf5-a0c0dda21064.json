@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-a0c0dda21064",
+  "content": "## Phase 2: Integration Tasks\n\n### Task I1: Wire ask() Mode with GenerationEngine\n\n**Prerequisite:** Handoff H2 (M3.1 Task A4 — GrpcChatEngine lands)\n\n**Files:**\n- Modify: `crates/corvia-kernel/src/rag_pipeline.rs`\n- Modify: `crates/corvia-server/src/rest.rs`\n- Modify: `crates/corvia-server/src/mcp.rs`\n\n**Step 1: Add ask() to RagPipeline**\n\nThe `ask()` method calls `generator.generate()` with the augmented context.\nError if `generator` is None.\n\n**Step 2: Add REST endpoint POST /v1/ask**\n\n**Step 3: Add MCP tool corvia_ask**\n\n**Step 4: E2E test**\n\nTest with mock GenerationEngine, then optional e2e with Ollama (skip if unavailable).\n\n---\n\n\n### Task I2: Wire Ingestion Through ChunkingPipeline\n\n**Prerequisite:** Handoff H3 (M3.3 ChunkingPipeline + D69 adapter revision)\n\n**Files:**\n- Modify: `crates/corvia-cli/src/main.rs` (or wherever `ingest` command lives)\n- Modify: `crates/corvia-server/src/rest.rs` (if ingestion endpoint exists)\n\n**Step 1: Update ingestion flow**\n\nReplace:\n```\nadapter.ingest() → Vec<KnowledgeEntry> → embed → store\n```\nWith:\n```\nadapter.ingest_sources() → Vec<SourceFile>\n  → pipeline.process_batch() → Vec<ProcessedChunk>\n  → engine.embed_batch() → Vec<Vec<f32>>\n  → convert to KnowledgeEntry → store.insert()\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464918457Z",
+  "valid_from": "2026-03-31T13:20:59.464918457Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1745,
+    "end_line": 1792,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

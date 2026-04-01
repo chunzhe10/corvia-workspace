@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f829-7a43-a547-5d37048a041f",
+  "content": "ount = access_count + 1\n               WHERE id = ANY($1)\"#,\n        )\n        .bind(entry_ids)\n        .execute(&self.pool)\n        .await\n        {\n            warn!(error = %e, \"Failed to record access in PostgresStore\");\n        }\n\n        Ok(())\n    }\nfn as_any(&self) -> &dyn std::any::Any {\n        self\n    }",
+  "source_version": "crates/corvia-kernel/src/postgres_store.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.433891498Z",
+  "valid_from": "2026-03-31T13:20:59.433891498Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/postgres_store.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 560,
+    "end_line": 562,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

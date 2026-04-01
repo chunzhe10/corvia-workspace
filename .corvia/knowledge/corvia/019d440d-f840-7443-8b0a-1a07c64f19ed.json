@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-1a07c64f19ed",
+  "content": "## 10. Risks & Mitigations\n## 11. Success Criteria\n\n### Portfolio\n\n- A technical evaluator understands Corvia's architecture by reading its self-generated docs\n- Decision trail from brainstorm → implementation is visible (D1-D19 in Corvia's own decision tree)\n- All 12 LLM techniques are demonstrable via UI surfaces or commands\n- Indexing <5s for 10K-file repo, search <100ms, doc generation <30s\n- Clean Rust, idiomatic TypeScript, comprehensive tests, CI passing\n\n\n### OSS Adoption\n\n- Zero to indexed in <2 minutes (install → open → indexed)\n- Works on any language without config\n- Generated docs answer real questions correctly\n- <$1/day for active use with cloud LLM\n- Local-only mode fully functional\n\n---\n",
+  "source_version": "docs/rfcs/2026-02-25-corvia-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456003037Z",
+  "valid_from": "2026-03-31T13:20:59.456003037Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-25-corvia-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 444,
+    "end_line": 461,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

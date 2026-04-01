@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-8cb3a8af4bdc",
+  "content": "corvia-cli -- workspace create --help`\nExpected: shows create flags (name, --repo, --template, --local).\n\n**Step 3: Commit**\n\n```bash\ngit add crates/corvia-cli/src/main.rs\ngit commit -m \"feat(m2.1): scaffold corvia workspace CLI subcommand group\"\n```\n\n---\n\n### Task 3: Workspace Module — Repo Cloning and Directory Setup\n\nCreate a `workspace.rs` module in `corvia-cli` that handles the core workspace operations: directory scaffolding, repo cloning, config generation.\n\n**Files:**\n- Create: `crates/corvia-cli/src/workspace.rs`\n- Modify: `crates/corvia-cli/src/main.rs` (add `mod workspace;`)\n- Modify: `crates/corvia-cli/Cargo.toml` (add `git2` dependency if not present)\n\n**Step 1: Write failing tests for workspace directory scaffolding**\n\nCreate `crates/corvia-cli/src/workspace.rs` with test module first:\n\n```rust\nuse anyhow::Result;\nuse corvia_common::config::{CorviaConfig, WorkspaceConfig, RepoConfig};\nuse std::path::{Path, PathBuf};\n\n/// Derive a repo name from a URL (e.g., \"https://github.com/org/my-repo\" -> \"my-repo\")\npub fn repo_name_from_url(url: &str) -> String {\n    url.trim_end_matches('/')\n        .rsplit('/')\n        .next()\n        .unwrap_or(\"unknown\")\n        .trim_end_matches(\".git\")\n        .to_string()\n}\n\n/// Parse local overrides from \"name=path\" format\npub fn parse_local_overrides(locals: &[String]) -> Result<Vec<(String, String)>> {\n    locals\n        .iter()\n        .map(|s| {",
+  "source_version": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465060659Z",
+  "valid_from": "2026-03-31T13:20:59.465060659Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 361,
+    "end_line": 393,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

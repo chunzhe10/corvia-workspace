@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f827-7411-ad28-5ae9b1a32cf2",
+  "content": " let mut s = state.write().await;\n            s.status = ProbeStatus::Failed;\n            s.ep_name = ep_name.to_string();\n            s.ep_requested = ep_requested.to_string();\n            warn!(error = %e, \"inference self-test failed\");\n        }\n    }\n}\npub fn spawn_probe_loop(\n    embed_svc: EmbeddingServiceImpl,\n    state: SharedProbeState,\n    interval_secs: u64,\n    drift_threshold_pct: f64,\n) -> Option<tokio::task::JoinHandle<()>> {\n    if interval_secs == 0 {\n        info!(\"periodic health probe disabled (interval = 0)\");\n        return None;\n    }\n    Some(tokio::spawn(async move {\n        let interval = tokio::time::Duration::from_secs(interval_secs);\n        loop {\n            tokio::time::sleep(interval).await;\n            let start = std::time::Instant::now();\n            match embed_svc.embed_canary(\"corvia health probe\").await {\n                Ok(_) => {\n                    let elapsed_us = start.elapsed().as_micros() as u64;\n                    let now = Utc::now(); // capture before lock wait\n                    let mut s = state.write().await;\n                    let drift = ProbeState::calc_drift(s.baseline_us, elapsed_us);\n                    s.last_probe_us = elapsed_us;\n                    s.last_probe_at = Some(now);\n                    s.drift_pct = drift;\n                    s.status = ProbeState::status_from_drift(drift, drift_threshold_pct);\n                    if s.status == ProbeStatus::Degraded {\n                        warn!(\n                            last_us = elapsed_us,\n                            baseline_us = s.baseline_us,\n                            drift_pct = format!(\"{:.1}\", drift),\n                            \"inference latency drift detected\"\n                        );\n                    }\n                }\n                Err(e) => {\n                    let now = Utc::now(); // capture before lock wait\n                    let mut s = state.write().await;\n                    s.status = ProbeStatus::Failed;\n                    s.last_probe_at = Some(now);\n                    warn!(error = %e, \"periodic health probe failed\");\n                }\n            }\n        }\n    }))\n}",
+  "source_version": "crates/corvia-inference/src/probe.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.431071828Z",
+  "valid_from": "2026-03-31T13:20:59.431071828Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/src/probe.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 106,
+    "end_line": 150,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

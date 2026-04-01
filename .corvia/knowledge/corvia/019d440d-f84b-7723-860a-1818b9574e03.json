@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84b-7723-860a-1818b9574e03",
+  "content": "kspace\".into();\n    config.project.scope_id = \"test\".into();\n    config.embedding.dimensions = 3;\n    config.workspace = Some(WorkspaceConfig {\n        repos_dir: \"repos\".into(),\n        repos,\n        docs: None,\n        spokes: None,\n    });\n    config\n}\nasync fn test_workspace_config_roundtrip_and_detection() {\n    let dir = tempdir().unwrap();\n    let config = make_workspace_config(vec![RepoConfig {\n        name: \"repo-a\".into(),\n        url: \"https://github.com/org/repo-a\".into(),\n        local: None,\n        namespace: \"alpha\".into(),\n    }]);\n\n    assert!(config.is_workspace());\n    let path = dir.path().join(\"corvia.toml\");\n    config.save(&path).unwrap();\n\n    let loaded = CorviaConfig::load(&path).unwrap();\n    assert!(loaded.is_workspace());\n    let ws = loaded.workspace.unwrap();\n    assert_eq!(ws.repos.len(), 1);\n    assert_eq!(ws.repos[0].namespace, \"alpha\");\n}",
+  "source_version": "tests/integration/workspace_e2e_test.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.467054332Z",
+  "valid_from": "2026-03-31T13:20:59.467054332Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "tests/integration/workspace_e2e_test.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 29,
+    "end_line": 47,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

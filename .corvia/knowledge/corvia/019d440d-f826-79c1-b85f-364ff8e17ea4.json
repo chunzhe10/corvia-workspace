@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f826-79c1-b85f-364ff8e17ea4",
+  "content": "fn build_execution_providers(backend: &ResolvedBackend) -> Vec<ExecutionProviderDispatch> {\n    match backend.backend {\n        BackendKind::Cuda => vec![CUDAExecutionProvider::default().build()],\n        BackendKind::OpenVino => vec![\n            OpenVINOExecutionProvider::default()\n                .with_device_type(\"GPU\")\n                .build(),\n        ],\n        BackendKind::Cpu => vec![], // ort defaults to CPU EP\n    }\n}",
+  "source_version": "crates/corvia-inference/src/embedding_service.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.430406389Z",
+  "valid_from": "2026-03-31T13:20:59.430406389Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/src/embedding_service.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 10,
+    "end_line": 20,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

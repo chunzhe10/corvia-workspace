@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84b-7723-860a-1b8bf3cc7a18",
+  "content": "# Vector-only + graph expansion (default)\n# Hybrid: vector + BM25 with RRF fusion\n\n# BM25-only (fast, lexical matching)\n[rag.pipeline]\nsearchers = [\"bm25\"]\nfusion = \"passthrough\"\nexpander = \"noop\"\n```\n\n**Components:** Searchers (`vector`, `bm25`), Fusion (`passthrough`, `rrf`),\nExpander (`graph`, `noop`), Reranker (`identity`).\n\n**Note:** BM25 requires a tantivy index. Run `corvia rebuild` after enabling BM25\nto populate the full-text index from existing entries. The index is a cache at\n`.corvia/cache/tantivy/` and is rebuilt automatically on `corvia rebuild`.\n\n**Benchmark results** (2026-03-28, self-ingested corvia codebase, 4,888 entries):\n\n| Config | Source Recall@5 | MRR | Keyword Recall | Latency p50 |\n|--------|----------|-----|----------------|-------------|\n| Vector + graph | 0.59 | 0.73 | 0.78 | 1121ms |\n| Hybrid (RRF) + graph | 0.52 | 0.58 | 0.86 | 2236ms |\n| BM25-only | 0.26 | 0.29 | 0.83 | 26ms |\n\nVector + graph remains the default. BM25 improves keyword recall but RRF fusion\ncurrently degrades source-level precision. Hybrid search is available as opt-in\nfor workloads that benefit from lexical matching.\n",
+  "source_version": "README.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.467418348Z",
+  "valid_from": "2026-03-31T13:20:59.467418348Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "README.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 201,
+    "end_line": 226,
+    "content_role": "instruction",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "procedural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

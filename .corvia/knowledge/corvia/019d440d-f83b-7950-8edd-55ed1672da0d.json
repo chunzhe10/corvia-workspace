@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-55ed1672da0d",
+  "content": "### Unit tests (`coverage.rs`)\n### Config tests (`config.rs`)\n\n### Integration tests (`dashboard/mod.rs`)\n\n| Test | What it verifies |\n|------|-----------------|\n| `test_status_includes_coverage_fields` | all 7 new fields present with correct types |\n| `test_status_coverage_values` | create N knowledge files, index M → coverage=M/N, stale matches |\n| `test_refresh_endpoint_returns_fresh_values` | POST refresh returns computed snapshot, not empty |\n| `test_refresh_forces_recompute` | POST refresh then GET status → updated `checked_at` |\n\n\n### LiteStore tests (`lite_store.rs`)\n\n| Test | What it verifies |\n|------|-----------------|\n| `test_hnsw_entry_count` | count matches inserted entries |\n| `test_hnsw_entry_count_after_delete` | count decreases after entry removal |\n",
+  "source_version": "docs/rfcs/2026-03-26-dashboard-index-coverage-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451448190Z",
+  "valid_from": "2026-03-31T13:20:59.451448190Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-26-dashboard-index-coverage-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 338,
+    "end_line": 353,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

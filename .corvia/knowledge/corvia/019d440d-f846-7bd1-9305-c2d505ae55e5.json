@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-c2d505ae55e5",
+  "content": "## Task 5: Add ProcessChunkingStrategy to Pipeline\n\n        let mut adapter = self.adapter.lock().map_err(|e| {\n            corvia_common::errors::CorviaError::Internal(format!(\"Adapter lock poisoned: {e}\"))\n        })?;\n\n        let (chunks, relations) = adapter.chunk(source, meta).map_err(|e| {\n            corvia_common::errors::CorviaError::Internal(format!(\"Adapter chunk failed: {e}\"))\n        })?;\n\n        Ok(crate::chunking_strategy::ChunkResult { chunks, relations })\n    }\n}\n```\n\n**Step 2: Add helper to register adapter chunking strategies**\n\nAdd this function to `chunking_pipeline.rs` (after `ProcessChunkingStrategy`):\n\n```rust\n/// Register an adapter's chunking extensions in the format registry.\n///\n/// For each extension in `chunking_extensions`, registers a\n/// [`ProcessChunkingStrategy`] as an override in the registry.\npub fn register_adapter_chunking(\n    registry: &mut FormatRegistry,\n    adapter: Arc<Mutex<ProcessAdapter>>,\n    chunking_extensions: &[String],\n) {\n    if chunking_extensions.is_empty() {\n        return;\n    }\n    let strategy = Arc::new(ProcessChunkingStrategy::new(\n        adapter,\n        chunking_extensions.to_vec(),\n    ));\n    for ext in chunking_extensions {\n        registry.register_override(ext, strategy.clone());\n    }\n}\n```\n\n**Step 3: Run existing tests**\n\n```bash\ncargo test -p corvia-kernel chunking_pipeline -- --nocapture\n```\n\nExpected: all existing tests pass (no breakage).\n\n**Step 4: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/chunking_pipeline.rs\ngit commit -m \"feat: add ProcessChunkingStrategy for adapter IPC chunking (D77)\n\nDelegates chunking to adapter process via JSONL for extensions the\nadapter claims. Registered as overrides in FormatRegistry, preserving\nthe three-tier priority: adapter > kernel default > fallback.\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462728320Z",
+  "valid_from": "2026-03-31T13:20:59.462728320Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1223,
+    "end_line": 1283,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

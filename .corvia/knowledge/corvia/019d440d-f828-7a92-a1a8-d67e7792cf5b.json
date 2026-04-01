@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f828-7a92-a1a8-d67e7792cf5b",
+  "content": "HNSW).\n        // We insert it as Hot first, then update its tier to Cold in Redb.\n        let mut cold_entry = KnowledgeEntry::new(\n            \"cold knowledge: secret sauce\".to_string(),\n            \"scope-cold\".to_string(),\n            \"v1\".to_string(),\n        );\n        cold_entry.embedding = Some(vec![1.0, 0.0, 0.0]); // exact match to query\n        cold_entry.tier = Tier::Cold;\n        // Insert via store (adds to HNSW), then we'll test cold scan directly\n        store.insert(&cold_entry).await.unwrap();\n\n        // Test: scan_cold_entries should find the cold entry.\n        let cold_results = store\n            .scan_cold_entries(&[1.0, 0.0, 0.0], \"scope-cold\", 10)\n            .unwrap();\n        assert_eq!(cold_results.len(), 1, \"should find exactly 1 cold entry\");\n        assert_eq!(cold_results[0].entry.content, \"cold knowledge: secret sauce\");\n        assert!(cold_results[0].score > 0.99, \"exact match should have score ~1.0\");\n\n        // Test via retriever with include_cold=true.\n        // Note: store.insert() adds Cold entries to HNSW too (production tier demotion\n        // would remove from HNSW). So the entry is found via HNSW; cold_results may be 0\n        // after dedup. The key assertion is that the entry appears in results.\n        let retriever = VectorRetriever::new(store.clone() as Arc<dyn QueryableStore>, engine);\n        let opts = RetrievalOpts {\n            limit: 15,\n            include_cold: true,\n            visibility: VisibilityMode::All,\n            ..Default::default()\n        };\n        let result = retriever.retrieve(\"test\", \"scope-cold\", &opts).await.unwrap();\n        // Cold entry should appear in results (may come from HNSW or cold scan).\n        let has_cold = result.results.iter().any(|r| r.entry.content.contains(\"cold knowledge\"));\n        assert!(has_cold, \"cold entry should be in results when include_cold=true\");\n    }",
+  "source_version": "crates/corvia-kernel/src/retriever.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.432533113Z",
+  "valid_from": "2026-03-31T13:20:59.432533113Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/retriever.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1427,
+    "end_line": 1456,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

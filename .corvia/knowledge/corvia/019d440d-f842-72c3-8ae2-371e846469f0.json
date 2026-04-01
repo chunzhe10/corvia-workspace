@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-371e846469f0",
+  "content": " `cargo test -p corvia-kernel`\nExpected: All tests PASS.\n\n**Step 6: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/grpc_chat.rs crates/corvia-kernel/src/lib.rs\ngit commit -m \"feat(d60): add GrpcChatEngine — gRPC client for ChatEngine trait\"\n```\n\n---\n\n## Task 7: Implement InferenceProvisioner\n\n**Files:**\n- Create: `crates/corvia-kernel/src/inference_provisioner.rs`\n- Modify: `crates/corvia-kernel/src/lib.rs`\n\n**Step 1: Write failing test**\n\n```rust\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    #[test]\n    fn test_provisioner_is_installed_check() {\n        // Just verifies the check doesn't panic\n        let _ = InferenceProvisioner::is_installed();\n    }\n}\n```\n\n**Step 2: Implement InferenceProvisioner**\n\nCreate `crates/corvia-kernel/src/inference_provisioner.rs`:\n```rust\nuse corvia_common::errors::{CorviaError, Result};\nuse corvia_proto::model_manager_client::ModelManagerClient;\nuse corvia_proto::{HealthRequest, LoadModelRequest};\nuse tonic::transport::Channel;\nuse tracing::info;\n\n/// Provisions the corvia-inference gRPC server.\n/// Consistent with OllamaProvisioner: install → start → wait → load models.\npub struct InferenceProvisioner {\n    grpc_addr: String,\n}\n\nimpl InferenceProvisioner {\n    pub fn new(grpc_addr: &str) -> Self {\n        Self { grpc_addr: grpc_addr.to_string() }\n    }\n",
+  "source_version": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458612069Z",
+  "valid_from": "2026-03-31T13:20:59.458612069Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 887,
+    "end_line": 928,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

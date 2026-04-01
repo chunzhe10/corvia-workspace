@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0997d7f51c33",
+  "content": "### 3.1 `capture-task-created.sh`\n### 3.2 `capture-task-completed.sh`\n\n### 3.3 `capture-teammate-idle.sh`\n\nTriggered by: `TeammateIdle`\n\nReads stdin JSON:\n```json\n{\n  \"session_id\": \"lead-session-id\",\n  \"hook_event_name\": \"TeammateIdle\",\n  \"teammate_name\": \"researcher\",\n  \"team_name\": \"my-team\"\n}\n```\n\nAction:\n1. Copy `~/.claude/teams/{team-name}/config.json` to staging via atomic rename\n   (`cp source tmp && mv tmp target`). Two concurrent TeammateIdle hooks may\n   both copy config.json; atomic rename ensures neither produces a partial file.\n2. Snapshot the teammate's inbox: copy\n   `~/.claude/teams/{team-name}/inboxes/{teammate-name}.json` to staging\n   (same atomic pattern). Each teammate writes to a different inbox file, so\n   there is no cross-teammate write contention on inbox snapshots.\n3. Snapshot the lead's inbox (to capture messages FROM the teammate):\n   copy `inboxes/team-lead.json` to staging. This file IS subject to concurrent\n   writes from multiple TeammateIdle hooks; atomic rename resolves this (last\n   writer wins, which is correct since the latest snapshot is the most complete).\n4. Append to `.capture-log` via `flock` (shared with task hooks).\n\nTeammateIdle fires every time a teammate's LLM turn ends. To avoid redundant\ncopies, the hook checks file mtimes: only copy if the source is newer than the\nstaging copy.\n\nTarget latency: < 200ms (may be slower on WSL2/NFS; hooks are non-blocking\nto the Claude Code session via the async hook mechanism).\n",
+  "source_version": "docs/rfcs/2026-03-28-agent-teams-adapter-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457021809Z",
+  "valid_from": "2026-03-31T13:20:59.457021809Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-agent-teams-adapter-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 168,
+    "end_line": 202,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

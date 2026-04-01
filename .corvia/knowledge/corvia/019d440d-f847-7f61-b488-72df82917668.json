@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-72df82917668",
+  "content": "## Schema Changes\n\n### New fields on KnowledgeEntry\n\n```rust\npub enum MemoryType {\n    Structural,\n    Decisional,\n    Episodic,\n    Analytical,\n    Procedural,\n}\n\npub enum Tier {\n    Hot,\n    Warm,\n    Cold,\n    Forgotten,\n}\n\n// Added to KnowledgeEntry:\npub memory_type: MemoryType,          // inferred from content_role if not set\npub confidence: Option<f32>,          // 0.0-1.0, defaults to 0.7 in scoring\npub last_accessed: Option<DateTime<Utc>>,\npub access_count: u32,                // saturating increment\npub tier: Tier,                       // computed by GC worker, stored for fast filtering\npub tier_changed_at: Option<DateTime<Utc>>,  // when tier last transitioned\npub retention_score: Option<f32>,     // last computed score, for debugging/dashboard\npub pinned: bool,                     // explicit pin, skips all forgetting\npub pinned_by: Option<String>,        // agent or user who pinned\npub pinned_at: Option<DateTime<Utc>>, // when pinned\n```\n\n\n### Backward Compatibility\n\nExisting entries without the new fields get defaults via `#[serde(default)]`:\n- `memory_type`: inferred from `content_role` (see mapping table). Default: `Episodic`\n- `confidence`: None (scored as 0.7). Default: `None`\n- `last_accessed`: None (scored as never-accessed). Default: `None`\n- `access_count`: 0. Default: `0`\n- `tier`: Hot (all existing entries start Hot, GC worker reclassifies on first run). Default: `Hot`\n- `tier_changed_at`: None. Default: `None`\n- `retention_score`: None (computed on first GC cycle). Default: `None`\n- `pinned`: false. Default: `false`\n- `pinned_by`: None. Default: `None`\n- `pinned_at`: None. Default: `None`\n\nAll new fields use `#[serde(default)]` with explicit `Default` impls to ensure\nbackward-compatible deserialization of existing Redb entries and JSON knowledge files.\nThe first GC cycle after upgrade may take longer as it reclassifies all entries.\n",
+  "source_version": "docs/rfcs/2026-03-27-tiered-knowledge-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463721250Z",
+  "valid_from": "2026-03-31T13:20:59.463721250Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-27-tiered-knowledge-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 261,
+    "end_line": 309,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

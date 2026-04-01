@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-384d2fc83584",
+  "content": "\nExpected: PASS (downloads bge-small-en-v1.5 ONNX model ~50MB on first run).\n\n**Step 4: Commit**\n\n```bash\ngit add tests/integration/grpc_inference_test.rs crates/corvia-cli/Cargo.toml\ngit commit -m \"test(d60): add gRPC inference integration test\"\n```\n\n---\n\n## Task 13: Implement GrpcVllmEngine (vLLM gRPC client)\n\n**Files:**\n- Create: `crates/corvia-proto/proto/vllm/vllm_engine.proto` (imported from vLLM repo)\n- Modify: `crates/corvia-proto/build.rs`\n- Modify: `crates/corvia-proto/src/lib.rs`\n- Create: `crates/corvia-kernel/src/grpc_vllm_engine.rs`\n- Modify: `crates/corvia-kernel/src/lib.rs`\n\n**Step 1: Import vLLM proto**\n\nDownload the proto from vLLM v0.14.0 repo:\n`vllm/grpc/vllm_engine.proto` → `crates/corvia-proto/proto/vllm/vllm_engine.proto`\n\nNote: The exact proto contents must be sourced from the vLLM repository at tag v0.14.0. If the proto is not publicly documented, this task should be deferred until the proto is confirmed.\n\n**Step 2: Add to tonic-build**\n\nIn `crates/corvia-proto/build.rs`, add:\n```rust\ntonic_build::configure()\n    .build_server(false)  // client only for vLLM\n    .build_client(true)\n    .compile_protos(\n        &[\"proto/vllm/vllm_engine.proto\"],\n        &[\"proto/\"],\n    )?;\n```\n\n**Step 3: Implement GrpcVllmEngine**\n\nCreate `crates/corvia-kernel/src/grpc_vllm_engine.rs` implementing `InferenceEngine` using vLLM's gRPC embedding endpoint.\n\n**Step 4: Update create_engine for Vllm provider**\n\nIn `crates/corvia-kernel/src/lib.rs`, update:\n```rust\nInferenceProvider::Vllm => Box::new(grpc_vllm_engine::GrpcVllmEngine::new(\n    &config.embedding.url,\n    &config.embedding.model,\n    config.embedding.dimensions,\n)),\n```\n\n**Step 5: Run tests, commit**\n\nRun: `cargo test -p corvia-kernel`\nExpected: All tests PASS.\n\n```bash\ngit add crates/corvia-proto/ crates/corvia-kernel/\ngit commit -m \"feat(d60): add GrpcVllmEngine — vLLM gRPC client for InferenceEngine\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458836370Z",
+  "valid_from": "2026-03-31T13:20:59.458836370Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1721,
+    "end_line": 1776,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

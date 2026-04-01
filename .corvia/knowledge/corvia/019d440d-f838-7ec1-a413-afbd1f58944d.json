@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f838-7ec1-a413-afbd1f58944d",
+  "content": "Merged.\n    async fn auto_merge(&self, entry: &KnowledgeEntry, session_id: &str) -> Result<()> {\n        // Move staging file to knowledge/\n        self.move_to_knowledge_if_staged(entry, session_id)?;\n\n        // Update entry status to Merged in the store\n        let mut updated = entry.clone();\n        updated.entry_status = EntryStatus::Merged;\n        self.store.insert(&updated).await?;\n\n        Ok(())\n    }\n\n    /// Move a staging file to the knowledge directory if the session has staging.\n    fn move_to_knowledge_if_staged(&self, entry: &KnowledgeEntry, session_id: &str) -> Result<()> {\n        if let Ok(Some(session)) = self.session_mgr.get(session_id)\n            && let Some(ref staging_dir_str) = session.staging_dir {\n                let staging_dir = self.staging.resolve_staging_path(staging_dir_str);\n                // Ignore errors — file may already have been moved (idempotent)\n                let _ = self.staging.move_to_knowledge(&staging_dir, &entry.id, &entry.scope_id);\n            }\n        Ok(())\n    }\n\n    /// LLM merge: use GenerationEngine to merge two conflicting entries.\n    #[tracing::instrument(name = \"corvia.merge.llm_resolve\", skip(self, new_entry, existing), fields(new_id = %new_entry.id, existing_id = %existing.id))]\n    async fn llm_merge(\n        &self,\n        new_entry: &KnowledgeEntry,\n        existing: &KnowledgeEntry,\n    ) -> Result<KnowledgeEntry> {\n        let system_prompt = \"You are merging two knowledge entries that conflict. \\\n             Produce a single merged entry that preserves all important information from both.\";\n\n        let user_message = format!(\n            \"Entry A (existing):\\n{}\\n\\nEntry B (new):\\n{}\\n\\nMerged entry:\",\n            existing.content, new_entry.content\n        );\n\n        let result = self.gen_engine.generate(system_prompt, &user_message).await?;",
+  "source_version": "crates/corvia-kernel/src/merge_worker.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.448704309Z",
+  "valid_from": "2026-03-31T13:20:59.448704309Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/merge_worker.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 199,
+    "end_line": 232,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

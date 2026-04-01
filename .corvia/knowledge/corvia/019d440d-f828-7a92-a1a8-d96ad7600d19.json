@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f828-7a92-a1a8-d96ad7600d19",
+  "content": ".iter()\n                    .map(|s| (s.id.clone(), s.forgetting.clone()))\n                    .collect()\n            })\n            .unwrap_or_default();\n\n    crate::gc_worker::run_gc_cycle(store, graph, data_dir, forgetting, &scope_configs, None).await\n}\npub struct GcHistory {\n    reports: std::sync::Mutex<std::collections::VecDeque<GcReport>>,\n    max_size: usize,\n}",
+  "source_version": "crates/corvia-kernel/src/ops.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.432888812Z",
+  "valid_from": "2026-03-31T13:20:59.432888812Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ops.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 327,
+    "end_line": 330,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-6c50a2401e50",
+  "content": "## Task 10: Remove [patch] Section and Clean Up Workspace Cargo.toml\n\n## Task 11: Update Release Workflow\n\nBuild all four binaries in the release workflow.\n\n**Files:**\n- Modify: `.github/workflows/release.yml`\n\n**Step 1: Update the build and asset steps**\n\nReplace the build and prepare steps in `.github/workflows/release.yml`:\n\n```yaml\n      - name: Build release binaries\n        run: cargo build --release -p corvia-cli -p corvia-inference -p corvia-adapter-basic -p corvia-adapter-git\n\n      - name: Prepare release assets\n        run: |\n          cp target/release/corvia corvia-cli-linux-amd64\n          cp target/release/corvia-inference corvia-inference-linux-amd64\n          cp target/release/corvia-adapter-basic corvia-adapter-basic-linux-amd64\n          cp target/release/corvia-adapter-git corvia-adapter-git-linux-amd64\n          chmod +x corvia-cli-linux-amd64 corvia-inference-linux-amd64 corvia-adapter-basic-linux-amd64 corvia-adapter-git-linux-amd64\n\n      - name: Create GitHub release\n        uses: softprops/action-gh-release@v2\n        with:\n          files: |\n            corvia-cli-linux-amd64\n            corvia-inference-linux-amd64\n            corvia-adapter-basic-linux-amd64\n            corvia-adapter-git-linux-amd64\n          generate_release_notes: true\n```\n\n**Step 2: Commit**\n\n```bash\ngit add .github/workflows/release.yml\ngit commit -m \"ci: build all four binaries in release workflow\n\nRelease now produces corvia, corvia-inference, corvia-adapter-basic,\nand corvia-adapter-git — all from the same workspace tag.\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463064418Z",
+  "valid_from": "2026-03-31T13:20:59.463064418Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 2479,
+    "end_line": 2524,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

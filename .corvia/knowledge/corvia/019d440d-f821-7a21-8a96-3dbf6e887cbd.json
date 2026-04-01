@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f821-7a21-8a96-3dbf6e887cbd",
+  "content": "rmatter<'_>) -> fmt::Result {\n        match self {\n            Self::Hot => write!(f, \"hot\"),\n            Self::Warm => write!(f, \"warm\"),\n            Self::Cold => write!(f, \"cold\"),\n            Self::Forgotten => write!(f, \"forgotten\"),\n        }\n    }\n}\nfn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {\n        match self {\n            Self::Hot => write!(f, \"hot\"),\n            Self::Warm => write!(f, \"warm\"),\n            Self::Cold => write!(f, \"cold\"),\n            Self::Forgotten => write!(f, \"forgotten\"),\n        }\n    }",
+  "source_version": "crates/corvia-common/src/types.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.425210748Z",
+  "valid_from": "2026-03-31T13:20:59.425210748Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/types.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 86,
+    "end_line": 93,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

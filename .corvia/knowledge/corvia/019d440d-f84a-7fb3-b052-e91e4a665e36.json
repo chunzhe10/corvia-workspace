@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84a-7fb3-b052-e91e4a665e36",
+  "content": "y should be second\");\n\n    // history(entry_c) should return just itself (no chain)\n    let history_c = store.history(&entry_c_id).await.unwrap();\n    assert_eq!(\n        history_c.len(),\n        1,\n        \"Unrelated entry should have history of 1\"\n    );\n\n    // --- Verify evolution ---\n    // All entries were inserted in the time range [before_insert, after_insert]\n    let evolution = store\n        .evolution(\"project\", before_insert, after_insert)\n        .await\n        .unwrap();\n    assert!(\n        evolution.len() >= 3,\n        \"Expected at least 3 entries in evolution, got {}\",\n        evolution.len()\n    );\n\n    // Query a range before any insertion — should be empty\n    let old_evolution = store\n        .evolution(\n            \"project\",\n            before_insert - Duration::hours(2),\n            before_insert - Duration::hours(1),\n        )\n        .await\n        .unwrap();\n    assert_eq!(\n        old_evolution.len(),\n        0,\n        \"Evolution before insertions should be empty\"\n    );\n\n    // --- Verify as_of ---\n    // Query at a point after all insertions — should see non-superseded entries\n    let as_of_results = store\n        .as_of(\"project\", after_insert, 10)\n        .await\n        .unwrap();\n    // entry_a has valid_to set (superseded), so it may be excluded depending\n    // on the timestamp precision. entry_b and entry_c should be present.\n    let result_ids: Vec<Uuid> = as_of_results.iter().map(|e| e.id).collect();\n    assert!(\n        result_ids.contains(&entry_b_id),\n        \"as_of should include the current (superseding) entry\"\n    );\n    assert!(\n        result_ids.contains(&entry_c_id),\n        \"as_of should include the unrelated entry\"\n    );\n}",
+  "source_version": "tests/integration/m3_e2e_test.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.466850416Z",
+  "valid_from": "2026-03-31T13:20:59.466850416Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "tests/integration/m3_e2e_test.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 75,
+    "end_line": 120,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

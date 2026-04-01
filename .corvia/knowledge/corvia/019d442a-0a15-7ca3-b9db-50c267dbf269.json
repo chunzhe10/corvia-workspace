@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a15-7ca3-b9db-50c267dbf269",
+  "content": "\">Don't Tell You</span>\n  </div>\n  <div class=\"slide-subtitle\" style=\"font-size: 19px; margin-bottom: 36px;\">\n    A benchmark is only as honest as its caveats. Here are the things I'd want to know\n    before drawing conclusions from these numbers.\n  </div>\n  <div style=\"display: flex; flex-direction: column; gap: 28px; flex: 1;\">\n    <!-- Caveat 1 -->\n    <div style=\"display: flex; align-items: flex-start; gap: 24px;\">\n      <div style=\"width: 64px; height: 64px; border-radius: 50%; background: rgba(239, 68, 68, 0.15); display: flex; align-items: center; justify-content: center; font-size: 32px; flex-shrink: 0;\">&#9888;</div>\n      <div>\n        <div style=\"font-size: 22px; font-weight: 800; margin-bottom: 8px;\">CPU short-text anomaly is <span class=\"highlight-red\">misleading</span></div>\n        <div style=\"font-size: 18px; color: var(--text-secondary); line-height: 1.65;\">\n          527ms looks terrible, but it's ORT's batch startup cost spread over only 5 items.\n          With 10+ items, CPU drops to 56ms/embed — nearly matching GPU backends.\n        </div>\n      </div>\n    </div>\n\n    <div class=\"divider\" style=\"margin: 0;\"></div>\n\n    <!-- Caveat 2 -->\n    <div style=\"display: flex; align-items: flex-start; gap: 24px;\">\n      <div style=\"width: 64px; height: 64px; border-radius: 50%; background: rgba(59, 130, 246, 0.15); display: flex; align-items: center; justify-content: center; font-size: 32px; flex-shrink: 0;\">&#128203;</div>\n      <div>\n        <div style=\"font-size: 22px; font-weight: 800; margin-bottom: 8px;\">Pipeline overhead <span class=\"highlight\">dominates</span></div>\n        <div style=\"font-size: 18px; color: var(--text-secondary); line-height: 1.65;\">\n          ~45-50ms of every request is CLI + HTTP + gRPC + HNSW search. Pure inference\n          time is only ~5-10ms on GPU. The backend matters less than you'd think.\n        </div>\n      </div>\n    </div>\n\n    <div class=\"divider\" style=\"margin: 0;\"></div>",
+  "source_version": "marketing/linkedin/2026-03-16-embedding-benchmark/embedding-benchmark-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.029135564Z",
+  "valid_from": "2026-03-31T13:51:39.029135564Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-16-embedding-benchmark/embedding-benchmark-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 669,
+    "end_line": 696,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

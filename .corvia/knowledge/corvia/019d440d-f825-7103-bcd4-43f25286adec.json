@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-43f25286adec",
+  "content": "[features]\npostgres = [\"corvia-kernel/postgres\"]\n\n[dev-dependencies]\ntempfile = \"3\"\nasync-trait = \"0.1\"\ncorvia-proto.workspace = true\ntonic = \"0.12\"\ntokio-stream = \"0.1\"\n\n[[test]]\nname = \"e2e_test\"\npath = \"../../tests/integration/e2e_test.rs\"\n\n[[test]]\nname = \"agent_e2e_test\"\npath = \"../../tests/integration/agent_e2e_test.rs\"\n",
+  "source_version": "crates/corvia-cli/Cargo.toml",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429833544Z",
+  "valid_from": "2026-03-31T13:20:59.429833544Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/Cargo.toml",
+    "language": "toml",
+    "chunk_type": "section",
+    "start_line": 52,
+    "end_line": 59,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

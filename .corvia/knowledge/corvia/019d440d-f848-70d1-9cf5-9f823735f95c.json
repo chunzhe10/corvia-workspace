@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9f823735f95c",
+  "content": "#### Task C2: FormatRegistry\n\n    }\n\n    /// Adapter overrides a kernel default strategy.\n    pub fn override_default(&mut self, ext: &str, strategy: Arc<dyn ChunkingStrategy>) {\n        self.overrides.insert(ext.to_lowercase(), strategy);\n    }\n\n    /// Resolve the strategy for a file extension.\n    /// Priority: override > default > fallback.\n    pub fn resolve(&self, ext: &str) -> Arc<dyn ChunkingStrategy> {\n        let ext_lower = ext.to_lowercase();\n        if let Some(s) = self.overrides.get(&ext_lower) {\n            return s.clone();\n        }\n        if let Some(s) = self.defaults.get(&ext_lower) {\n            return s.clone();\n        }\n        self.fallback.clone()\n    }\n}\n\n/// Per-strategy statistics for the processing report.\n#[derive(Debug, Clone, Default)]\npub struct StrategyStats {\n    pub files: usize,\n    pub chunks: usize,\n    pub splits: usize,\n    pub merges: usize,\n}\n\n/// Token distribution statistics.\n#[derive(Debug, Clone, Default)]\npub struct TokenStats {\n    pub min: usize,\n    pub max: usize,\n    pub mean: usize,\n    pub median: usize,\n}\n\n/// Report returned from batch processing.\n#[derive(Debug, Clone, Default)]\npub struct ProcessingReport {\n    pub files_processed: usize,\n    pub total_chunks: usize,\n    pub chunks_split: usize,\n    pub chunks_merged: usize,\n    pub token_stats: TokenStats,\n    pub per_strategy: HashMap<String, StrategyStats>,",
+  "source_version": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464702865Z",
+  "valid_from": "2026-03-31T13:20:59.464702865Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 994,
+    "end_line": 1041,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

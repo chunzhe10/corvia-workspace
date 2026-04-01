@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-4d14528c6e75",
+  "content": "# Multi-Spoke Phase 0: Foundation & Security — Design\n\n## Goal\n\nImplement the security and infrastructure foundation required before any spoke\ncontainer management. These are blockers identified by the 5-persona design review.\n\n\n## Scope\n\n5 deliverables:\n\n1. **Anthropic usage terms verification** (investigation, documented)\n2. **MCP bearer token auth** on write operations\n3. **Spoke Dockerfile** with pinned Claude Code version\n4. **Server bind address** verification (0.0.0.0 support)\n5. **Concurrent MCP connection** verification under load\n",
+  "source_version": "docs/rfcs/2026-03-28-multi-spoke-phase0-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460528882Z",
+  "valid_from": "2026-03-31T13:20:59.460528882Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-multi-spoke-phase0-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 10,
+    "end_line": 24,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

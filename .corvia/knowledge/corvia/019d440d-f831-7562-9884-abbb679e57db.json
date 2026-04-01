@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f831-7562-9884-abbb679e57db",
+  "content": "ata_dir, config.embedding.dimensions)?);\n            Ok((store.clone() as Arc<dyn traits::QueryableStore>, store as Arc<dyn traits::GraphStore>))\n        }\n        StoreType::Postgres => {\n            create_store_with_graph(config).await\n        }\n    }\n}\nfn build_legacy_retriever(\n    store: Arc<dyn traits::QueryableStore>,\n    engine: Arc<dyn traits::InferenceEngine>,\n    graph: Option<Arc<dyn traits::GraphStore>>,\n    config: &CorviaConfig,\n) -> Arc<dyn retriever::Retriever> {\n    match config.rag.retriever.as_str() {\n        \"vector\" => Arc::new(retriever::VectorRetriever::new(store, engine)),\n        \"graph_expand\" => {\n            match graph {\n                Some(g) => Arc::new(retriever::GraphExpandRetriever::new(\n                    store, engine, g, config.rag.graph_alpha,\n                )),\n                None => {\n                    info!(fallback = \"vector\", \"graph store unavailable, falling back to vector retriever\");\n                    Arc::new(retriever::VectorRetriever::new(store, engine))\n                }\n            }\n        }\n        other => {\n            warn!(\n                retriever = other,\n                \"unknown retriever '{other}', falling back to graph_expand. \\\n                 Valid options: \\\"vector\\\", \\\"graph_expand\\\"\"\n            );\n            match graph {\n                Some(g) => Arc::new(retriever::GraphExpandRetriever::new(\n                    store, engine, g, config.rag.graph_alpha,\n                )),\n                None => Arc::new(retriever::VectorRetriever::new(store, engine)),\n            }\n        }\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/lib.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.441514199Z",
+  "valid_from": "2026-03-31T13:20:59.441514199Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/lib.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 366,
+    "end_line": 399,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

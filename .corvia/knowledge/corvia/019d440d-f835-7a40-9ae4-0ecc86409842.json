@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f835-7a40-9ae4-0ecc86409842",
+  "content": "\n                }),\n            )\n            .await\n            .map_err(|e| {\n                CorviaError::Docker(format!(\"Failed to remove spoke '{spoke_name}': {e}\"))\n            })?;\n\n        info!(spoke_name, \"Spoke destroyed\");\n        Ok(())\n    }\npub async fn destroy_all(&self, force: bool) -> Result<(u32, Vec<String>)> {\n        let spokes = self.list(true).await?;\n        let mut success = 0u32;\n        let mut failures = Vec::new();\n        for spoke in &spokes {\n            match self.destroy(&spoke.name, force).await {\n                Ok(()) => success += 1,\n                Err(e) => {\n                    warn!(spoke = %spoke.name, error = %e, \"Failed to destroy spoke\");\n                    failures.push(spoke.name.clone());\n                }\n            }\n        }\n        Ok((success, failures))\n    }",
+  "source_version": "crates/corvia-kernel/src/spoke.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.445219921Z",
+  "valid_from": "2026-03-31T13:20:59.445219921Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/spoke.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 558,
+    "end_line": 572,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

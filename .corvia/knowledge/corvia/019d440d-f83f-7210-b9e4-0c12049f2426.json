@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83f-7210-b9e4-0c12049f2426",
+  "content": "## Overview\n## Architecture\n\n### Page Structure\n- Replaces the current \"Traces\" placeholder in the view tab system\n- Uses the existing 70/30 workspace layout but replaces log panel + sidebar with graph panel + detail panel\n- Graph panel (left, flex: 1) contains mode switcher + canvas\n- Detail panel (right, 280px) contains 3 stacked cards\n\n\n### Rendering Modes\n1. **Map** — static node-graph topology. Nodes display live stats. Click to inspect.\n2. **Data Flow** — same topology with animated dots flowing along edges showing data movement direction and volume.\n3. **Heat** — same topology with nodes pulsing/glowing based on derived load (span frequency, queue depth, error rate).\n",
+  "source_version": "docs/rfcs/2026-03-10-telemetry-traces-page-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.455192946Z",
+  "valid_from": "2026-03-31T13:20:59.455192946Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-telemetry-traces-page-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 18,
+    "end_line": 28,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

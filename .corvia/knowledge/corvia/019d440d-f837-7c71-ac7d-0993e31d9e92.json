@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f837-7c71-ac7d-0993e31d9e92",
+  "content": "mpty\".into()));\n    }\n    if scope_id.contains('/') || scope_id.contains('\\\\') || scope_id.contains(\"..\") {\n        return Err(CorviaError::Validation(format!(\n            \"scope_id contains invalid characters: {scope_id:?}\"\n        )));\n    }\n    Ok(())\n}\nfn entry_path(data_dir: &Path, scope_id: &str, entry_id: &Uuid) -> PathBuf {\n    data_dir\n        .join(\"knowledge\")\n        .join(scope_id)\n        .join(format!(\"{}.json\", entry_id))\n}",
+  "source_version": "crates/corvia-kernel/src/knowledge_files.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.447994549Z",
+  "valid_from": "2026-03-31T13:20:59.447994549Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/knowledge_files.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 20,
+    "end_line": 25,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

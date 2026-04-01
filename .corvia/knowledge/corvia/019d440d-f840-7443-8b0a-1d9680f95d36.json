@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-1d9680f95d36",
+  "content": "r(\n    State(state): State<Arc<AppState>>,\n) -> impl IntoResponse {\n    match state.coordinator.list_reconnectable() {\n        Ok(agents) => Json(agents).into_response(),\n        Err(e) => (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()).into_response(),\n    }\n}\n```\n\nWire as `GET /api/dashboard/agents/reconnectable`.\n\n-**Step 5: Add `POST /api/dashboard/agents/{agent_id}/connect` endpoint**\n\n```rust\n#[derive(Deserialize)]\npub struct ConnectAgentRequest {\n    pub description: Option<String>,\n}\n\nasync fn connect_agent_handler(\n    State(state): State<Arc<AppState>>,\n    Path(agent_id): Path<String>,\n    Json(body): Json<ConnectAgentRequest>,\n) -> impl IntoResponse {\n    // Update description if provided\n    if let Some(desc) = &body.description {\n        let _ = state.coordinator.registry.set_description(&agent_id, desc);\n    }\n    match state.coordinator.connect(&agent_id) {\n        Ok(resp) => Json(resp).into_response(),\n        Err(e) => (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()).into_response(),\n    }\n}\n```\n\nWire as `POST /api/dashboard/agents/{agent_id}/connect`.\n\n-**Step 6: Add `POST /api/dashboard/agents/{agent_id}/refresh-summary` endpoint**\n\n```rust\nasync fn refresh_summary_handler(\n    State(state): State<Arc<AppState>>,\n    Path(agent_id): Path<String>,\n) -> impl IntoResponse {\n    // Recompute activity summary for this agent using ClusterStore\n    let hierarchy = state.cluster_store.current();\n    // Get entries written by this agent (query knowledge store)\n    // Compute topic tags and update summary\n    // (implementation details in Task 7)\n    Json(serde_json::json!({ \"status\": \"refreshed\" })).into_response()\n}\n```\n\nWire as `POST /api/dashboard/agents/{agent_id}/refresh-summary`.\n\n-**Step 7: Test endpoints**\n\nRun: `curl -s http://localhost:8020/api/dashboard/agents/reconnectable | jq`\nRun: `curl -s -X POST http://localhost:8020/api/dashboard/agents/test::agent/connect -H 'Content-Type: application/json' -d '{\"description\":\"test\"}' | jq`\n\n-**Step 8: Commit**\n\n```bash\ncd /workspaces/corvia-workspace/repos/corvia\ngit add crates/corvia-kernel/src/agent_coordinator.rs crates/corvia-server/src/dashboard/mod.rs\ngit commit -m \"feat(agent): add reconnectable, connect, and refresh-summary endpoints\"\n```\n",
+  "source_version": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456474414Z",
+  "valid_from": "2026-03-31T13:20:59.456474414Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1033,
+    "end_line": 1095,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

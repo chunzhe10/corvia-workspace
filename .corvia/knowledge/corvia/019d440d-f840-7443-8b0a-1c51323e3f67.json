@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-1c51323e3f67",
+  "content": "0], vec![10.1, 10.0], vec![10.0, 10.1],\n    ];\n    let assignments = vec![0, 0, 0, 1, 1, 1];\n    let score = silhouette_score(&data, &assignments, 2);\n    assert!(score > 0.9, \"Well-separated clusters should have silhouette > 0.9, got {score}\");\n}\n\n#[test]\nfn test_best_k_finds_obvious_clusters() {\n    let data: Vec<Vec<f32>> = vec![\n        vec![0.0, 0.0], vec![0.1, 0.0], vec![0.0, 0.1], vec![0.05, 0.05],\n        vec![10.0, 10.0], vec![10.1, 10.0], vec![10.0, 10.1], vec![10.05, 10.05],\n        vec![20.0, 0.0], vec![20.1, 0.0], vec![20.0, 0.1], vec![20.05, 0.05],\n    ];\n    let best = find_best_k(&data, 2, 6, 500);\n    assert_eq!(best, 3, \"Should find 3 clusters, got {best}\");\n}\n```\n\n-**Step 6: Implement silhouette and find_best_k**\n\n```rust\n/// Compute silhouette score for a clustering. Samples up to max_sample points.\npub fn silhouette_score(data: &[Vec<f32>], assignments: &[usize], k: usize) -> f32 {\n    use rand::seq::SliceRandom;\n    let n = data.len();\n    if n <= 1 || k <= 1 { return 0.0; }\n\n    let indices: Vec<usize> = (0..n).collect();\n    let sample: Vec<usize> = if n > 500 {\n        let mut rng = rand::thread_rng();\n        let mut shuffled = indices.clone();\n        shuffled.shuffle(&mut rng);\n        shuffled.into_iter().take(500).collect()\n    } else {\n        indices\n    };\n\n    let mut total = 0.0f32;",
+  "source_version": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456256173Z",
+  "valid_from": "2026-03-31T13:20:59.456256173Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 246,
+    "end_line": 276,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

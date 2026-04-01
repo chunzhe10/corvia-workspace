@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-921c20c17eea",
+  "content": "       (\"corvia.rag.\", \"rag\"),\n        (\"corvia.gc.\", \"gc\"),\n    ];\n\n    for (prefix, module) in PREFIX_MAP {\n        if span.starts_with(prefix) {\n            return module;\n        }\n    }\n\n    \"unknown\"\n}\n```\n\n-**Step 4: Run tests to verify they pass**\n\nRun: `cd repos/corvia && cargo test -p corvia-server dashboard::traces`\nExpected: 3 tests PASS\n\n-**Step 5: Write tests for `target_to_module`**\n\nAdd to the `tests` module:\n\n```rust\n    #[test]\n    fn target_to_module_matches_rust_paths() {\n        assert_eq!(target_to_module(\"corvia_kernel::agent_coordinator\"), \"agent\");\n        assert_eq!(target_to_module(\"corvia_kernel::merge_worker\"), \"merge\");\n        assert_eq!(target_to_module(\"corvia_kernel::lite_store::write\"), \"storage\");\n        assert_eq!(target_to_module(\"corvia_kernel::knowledge_store\"), \"storage\");\n        assert_eq!(target_to_module(\"corvia_kernel::rag_pipeline\"), \"rag\");\n        assert_eq!(target_to_module(\"corvia_kernel::graph_store\"), \"storage\");\n        assert_eq!(target_to_module(\"corvia_inference::embedding_service\"), \"inference\");\n        assert_eq!(target_to_module(\"corvia_inference::chat_service\"), \"inference\");\n        assert_eq!(target_to_module(\"corvia_inference::model_manager\"), \"inference\");\n        assert_eq!(target_to_module(\"corvia_kernel::chunking\"), \"entry\");\n    }\n\n    #[test]\n    fn target_to_module_unknown() {\n        assert_eq!(target_to_module(\"some::other::module\"), \"unknown\");\n    }\n```\n\n-**Step 6: Run tests to verify they fail**\n\nRun: `cd repos/corvia && cargo test -p corvia-server dashboard::traces`\nExpected: FAIL — `target_to_module` not found\n\n-**Step 7: Implement `target_to_module`**\n\nAdd below `span_to_module`:\n\n```rust\n/// Classify a Rust module target path into a dashboard module.",
+  "source_version": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465790571Z",
+  "valid_from": "2026-03-31T13:20:59.465790571Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 637,
+    "end_line": 675,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

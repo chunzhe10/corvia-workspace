@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a15-7ca3-b9db-55baaa47c53c",
+  "content": "-transform: uppercase;\n    margin-bottom: 12px;\n  }\n\n  .stat-value {\n    font-size: 56px;\n    font-weight: 800;\n    line-height: 1.2;\n  }\n\n  .stat-label {\n    font-size: 18px;\n    font-weight: 500;\n    color: var(--text-secondary);\n    margin-top: 4px;\n  }\n  /* ════════════════════════════════════════════════════ */\n  /* SLIDE 1 — COVER                                    */\n  /* ════════════════════════════════════════════════════ */\n  .slide-1 {\n    background: linear-gradient(160deg, #0f172a 0%, #1a1a3e 50%, #0f172a 100%);\n  }\n  .slide-1 .slide-label { color: var(--accent-cyan); }\n  .slide-1 .cover-emoji { font-size: 80px; margin-bottom: 32px; }\n  .slide-1 .cover-title {\n    font-size: 66px;\n    font-weight: 800;\n    line-height: 1.12;\n    color: var(--text-primary);\n    margin-bottom: 28px;\n  }\n  .slide-1 .cover-subtitle {\n    font-size: 28px;\n    font-weight: 500;\n    line-height: 1.5;\n    color: var(--text-secondary);\n    margin-bottom: 40px;\n  }\n  .slide-1 .tags { display: flex; flex-wrap: wrap; gap: 10px; }\n  .slide-1 .tag-blue { background: rgba(59,130,246,0.15); color: var(--accent-blue); border: 1px solid rgba(59,130,246,0.3); }\n  .slide-1 .tag-cyan { background: rgba(6,182,212,0.15); color: var(--accent-cyan); border: 1px solid rgba(6,182,212,0.3); }\n  .slide-1 .tag-green { background: rgba(16,185,129,0.15); color: var(--accent-green); border: 1px solid rgba(16,185,129,0.3); }\n  .slide-1 .tag-amber { background: rgba(245,158,11,0.15); color: var(--accent-amber); border: 1px solid rgba(245,158,11,0.3); }\n  .slide-1 .tag-purple { background: rgba(139,92,246,0.15); color: var(--accent-purple); border: 1px solid rgba(139,92,246,0.3); }",
+  "source_version": "marketing/linkedin/2026-03-29-recursive-loop-reflection/recursive-loop-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.029912620Z",
+  "valid_from": "2026-03-31T13:51:39.029912620Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-29-recursive-loop-reflection/recursive-loop-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 161,
+    "end_line": 188,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

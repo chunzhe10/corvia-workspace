@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a15-7ca3-b9db-5474b657b386",
+  "content": "color: var(--accent-green);\">GC_RUN</span>: &amp;str = <span style=\"color: var(--accent-amber);\">\"corvia.gc.run\"</span>;</div>\n    <div style=\"color: var(--text-muted); margin-top: 8px;\">// ... 25 more across agent, session, inference, hooks</div>\n  </div>\n  <div style=\"display: flex; gap: 16px;\">\n    <div class=\"stat-box\" style=\"flex: 1; border-top: 4px solid var(--accent-cyan);\">\n      <div style=\"font-size: 48px; font-weight: 800; color: var(--accent-cyan);\">30</div>\n      <div style=\"font-size: 18px; color: var(--text-secondary); margin-top: 8px;\">Span constants</div>\n    </div>\n    <div class=\"stat-box\" style=\"flex: 1; border-top: 4px solid var(--accent-green);\">\n      <div style=\"font-size: 48px; font-weight: 800; color: var(--accent-green);\">7</div>\n      <div style=\"font-size: 18px; color: var(--text-secondary); margin-top: 8px;\">Subsystems traced</div>\n    </div>\n    <div class=\"stat-box\" style=\"flex: 1; border-top: 4px solid var(--accent-purple);\">\n      <div style=\"font-size: 48px; font-weight: 800; color: var(--accent-purple);\">p50-99</div>\n      <div style=\"font-size: 18px; color: var(--text-secondary); margin-top: 8px;\">Latency percentiles</div>\n    </div>\n  </div>\n\n  <div class=\"flex-grow\"></div>\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">03 / 08</div>\n</div>\n\n<!-- SLIDE 4: LIVE DATA -->\n<div class=\"slide\">\n  <div class=\"slide-label\">Real Data</div>\n  <div class=\"slide-title\" style=\"margin-bottom: 20px;\">\n    From a<br>\n    <span class=\"highlight-green\">Live Session</span>\n  </div>\n  <div class=\"slide-subtitle\" style=\"font-size: 20px; margin-bottom: 24px;\">\n    Real trace data from the running system. Every search, every embedding,<br>\n    every store operation. The agent reads these to understand performance.\n  </div>",
+  "source_version": "marketing/linkedin/2026-03-28-observability-control-plane/observability-control-plane-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.029724272Z",
+  "valid_from": "2026-03-31T13:51:39.029724272Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-28-observability-control-plane/observability-control-plane-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 247,
+    "end_line": 277,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

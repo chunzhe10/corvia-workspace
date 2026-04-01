@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-2b80eefb0dbe",
+  "content": "### E2E Tests\n### Negative Tests\n\n### Platform Matrix\n- Linux with Docker Engine (primary, CI)\n- GitHub Codespaces (Docker-in-Docker feature)\n- macOS Docker Desktop (document limitations)\n- WSL2 (Docker socket exposure)\n\n---\n",
+  "source_version": "decisions/2026-03-28-spoke-cli-design.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026093955Z",
+  "valid_from": "2026-03-31T13:51:39.026093955Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-cli-design.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 775,
+    "end_line": 782,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

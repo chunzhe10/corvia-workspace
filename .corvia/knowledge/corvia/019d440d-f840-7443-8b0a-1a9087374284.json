@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-1a9087374284",
+  "content": "### D5: Batched commit strategy\n### D6: Write-generation staleness detection\n\n### D7: First-run bootstrap\n\n- Missing `.corvia/cache/tantivy/` directory + BM25 in config -> synchronous rebuild\n- `< 50K entries`: synchronous (expected < 10s)\n- `>= 50K entries`: async background rebuild, BM25 returns empty until done\n- Progress logging every 10K entries\n\n\n### D8: LiteStore integration\n\n```rust\npub struct LiteStore {\n    // ... existing fields ...\n    tantivy: Option<TantivyIndex>,  // None when BM25 not configured\n}\n```\n\n- `insert()` mirrors to `tantivy.index_entry()` when present\n- `delete_scope()` mirrors scope removal to tantivy\n- `rebuild_from_files()` rebuilds tantivy in parallel via `tokio::join!`\n- Zero overhead when BM25 disabled (Option is None)\n",
+  "source_version": "docs/rfcs/2026-03-28-bm25-tantivy-litestore-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456059458Z",
+  "valid_from": "2026-03-31T13:20:59.456059458Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-bm25-tantivy-litestore-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 109,
+    "end_line": 129,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

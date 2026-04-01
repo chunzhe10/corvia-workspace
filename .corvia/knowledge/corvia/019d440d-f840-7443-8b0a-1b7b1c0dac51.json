@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-1b7b1c0dac51",
+  "content": "## Components\n\n### Header Ribbon\n- Frosted glass: `background: rgba(18,20,26,0.8)` + `backdrop-filter: blur(16px)`\n- Sticky top, z-index 10\n- **Brand:** 30px gold gradient icon + \"Corvia\" (17px/700)\n- **Status pills:** card bg + border, containing:\n  - 8px dot with glow shadow + pulse animation (2.5s) when healthy\n  - Uppercase label (10px/600)\n  - Restart SVG icon: opacity 0, fades to 1 on pill hover, turns gold on icon hover\n- **Right side:** mono timestamp + scope badge (pill with border)\n\n\n### Metric Cards (4-up grid)\nEach card contains:\n- **Colored icon badge** (38px, radius-sm) with accent-soft background\n- **Label** (uppercase, dim)\n- **Value** (30px/800, text-bright)\n- **Trend pill** (rounded, accent-soft bg): e.g., \"↑ 12\", \"stable\", \"clear\", \"active\"\n- **Top accent bar** (3px gradient, positioned absolute): gold, peach, mint, lavender\n- **Hover:** translateY(-2px) + shadow-hover + border-bright\n\nCard color assignments:\n| Metric | Color | Data Source |\n|--------|-------|-------------|\n| Entries | gold | Store entry count |\n| Active Agents | peach | Active agent count |\n| Merge Queue | mint | Queue depth (value colored mint when 0) |\n| Sessions | lavender | Open session count |\n\nTrend values computed by diffing current vs previous poll.\n",
+  "source_version": "docs/rfcs/2026-03-10-dashboard-redesign-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456125359Z",
+  "valid_from": "2026-03-31T13:20:59.456125359Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-dashboard-redesign-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 94,
+    "end_line": 122,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f832-7981-8b9c-4477a6fd2a35",
+  "content": "etup_coordinator(dir: &Path) -> AgentCoordinator {\n        let store = Arc::new(LiteStore::open(dir, 3).unwrap()) as Arc<dyn QueryableStore>;\n        let engine = Arc::new(MockEngine) as Arc<dyn InferenceEngine>;\n        store.init_schema().await.unwrap();\n        let gen_engine = Arc::new(MockGenerationEngine) as Arc<dyn GenerationEngine>;\n\n        AgentCoordinator::new(\n            store,\n            engine,\n            dir,\n            AgentLifecycleConfig::default(),\n            MergeConfig::default(),\n            gen_engine,\n        ).unwrap()\n    }\n\n    #[tokio::test]\n    async fn test_full_agent_lifecycle() {\n        let dir = tempfile::tempdir().unwrap();\n        let coord = setup_coordinator(dir.path()).await;\n\n        // 1. Register agent\n        let identity = AgentIdentity::Registered {\n            agent_id: \"test::indexer\".into(),\n            api_key: None,\n        };\n        let record = coord.register_agent(\n            &identity,\n            \"Code Indexer\",\n            AgentPermission::ReadWrite { scopes: vec![\"test\".into()] },\n        ).unwrap();\n        assert_eq!(record.agent_id, \"test::indexer\");\n\n        // 2. Create session\n        let session = coord.create_session(\"test::indexer\", true).unwrap();\n        assert!(session.staging_dir.is_some());\n\n        // 3. Write 2 entries\n        let e1 = coord.write_entry(&session.session_id, \"knowledge one\", \"test\", \"v1\", None, None).await.unwrap();",
+  "source_version": "crates/corvia-kernel/src/agent_coordinator.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.442366640Z",
+  "valid_from": "2026-03-31T13:20:59.442366640Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/agent_coordinator.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 505,
+    "end_line": 539,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

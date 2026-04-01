@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a16-7c43-b1c4-8c8ddf7591f2",
+  "content": "# Claude Session History — Implementation Plan\n\n> **Status:** Complete\n\n**Goal:** Record every Claude Code session as structured history, ingest into a personal `user-history` scope, and auto-promote product-relevant entries to `corvia` scope via LLM classification. Includes workstream (git branch) filtering as a kernel prerequisite.\n\n**Architecture:** Five hook events → JSONL append log → gzip on session end → adapter ingests to `user-history` scope → classify-queue heuristic → LLM classifier promotes to `corvia` scope. Live dashboard visibility via inotify session watcher. Graph edges link subagent sessions to parents.\n\n**Tech Stack:** Rust (hooks, adapter, kernel, server), JSONL (event log), gRPC (embedding), REST (classification trigger)\n\n**Spec:** `repos/corvia/docs/rfcs/2026-03-14-claude-session-history-design.md`\n\n---\n",
+  "source_version": "plans/2026-03-14-claude-session-history-impl.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.030965987Z",
+  "valid_from": "2026-03-31T13:51:39.030965987Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "plans/2026-03-14-claude-session-history-impl.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 1,
+    "end_line": 14,
+    "content_role": "plan",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

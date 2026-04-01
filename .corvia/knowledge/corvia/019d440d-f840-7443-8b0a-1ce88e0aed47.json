@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-1ce88e0aed47",
+  "content": "### Task 3: Add ClusterStore to AppState and Clustered Graph Endpoint\n\n                    tracing::info!(\"Cluster hierarchy recomputed ({} entries)\", pairs.len());\n                }\n            }\n            Err(e) => tracing::warn!(\"Cluster recompute failed: {e}\"),\n        }\n    }\n});\n```\n\nNote: Entry IDs are `uuid::Uuid` in the codebase. Convert to `String` via `.to_string()` when passing to ClusterStore. The ClusterStore uses String IDs internally for simplicity.\n\n-**Step 3: Add clustered graph handler**\n\nIn `dashboard/mod.rs`, add a query params struct and handler:\n\n```rust\n#[derive(Debug, Deserialize)]\npub struct ClusteredGraphParams {\n    pub level: Option<u8>,\n    pub parent: Option<String>,\n    pub content_role: Option<String>,\n    pub source_origin: Option<String>,\n}\n\npub async fn clustered_graph_handler(\n    State(state): State<Arc<AppState>>,\n    Query(params): Query<ClusteredGraphParams>,\n) -> impl IntoResponse {\n    let level = params.level.unwrap_or(255); // 255 = no level = legacy behavior\n\n    if level == 255 {\n        // Legacy: return existing graph_scope_handler behavior\n        return graph_scope_handler(State(state), Query(/* forward existing params */)).await;\n    }\n\n    let hierarchy = match state.cluster_store.current() {\n        Some(h) => h,\n        None => {\n            // Degraded mode: return legacy path-based grouping\n            return Json(serde_json::json!({\n                \"nodes\": [], \"edges\": [], \"degraded\": true\n            })).into_response();\n        }\n    };\n\n    match level {\n        0 => {",
+  "source_version": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456360073Z",
+  "valid_from": "2026-03-31T13:20:59.456360073Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 624,
+    "end_line": 670,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

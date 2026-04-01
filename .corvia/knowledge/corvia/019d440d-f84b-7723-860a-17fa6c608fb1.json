@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84b-7723-860a-17fa6c608fb1",
+  "content": "\n    coord.commit_session(&session_id).await.unwrap();\n    coord.process_merge_queue().await.unwrap();\n\n    // Session closed\n    let session = coord.sessions.get(&session_id).unwrap().unwrap();\n    assert!(matches!(session.state, SessionState::Closed));\n}\nasync fn test_crash_recovery_rollback() {\n    let dir = tempfile::tempdir().unwrap();\n    let (coord, store) = setup_coordinator(dir.path()).await;\n\n    // Register and create session\n    let identity = AgentIdentity::Registered { agent_id: \"test::roller\".into(), api_key: None };\n    coord.register_agent(&identity, \"Roller\", AgentPermission::ReadWrite { scopes: vec![\"rollback\".into()] }).unwrap();\n    let session = coord.create_session(\"test::roller\", true).unwrap();\n    let session_id = session.session_id.clone();\n\n    coord.write_entry(&session_id, \"Data to be rolled back\", \"rollback\", \"v1\", None, None).await.unwrap();\n\n    // Mark as orphaned\n    coord.sessions.transition(&session_id, SessionState::Stale).unwrap();\n    coord.sessions.transition(&session_id, SessionState::Orphaned).unwrap();\n\n    // Recover with rollback\n    coord.recover(&session_id, RecoveryAction::Rollback).await.unwrap();\n\n    // Session should be Closed\n    let session = coord.sessions.get(&session_id).unwrap().unwrap();\n    assert!(matches!(session.state, SessionState::Closed));\n\n    // The rolled-back entries remain in the store with Pending status\n    // (LiteStore doesn't support physical deletion of individual entries yet)\n    // But no new entries should appear as Merged\n    let embedding = vec![1.0, 0.0, 0.0];\n    let results = store.search(&embedding, \"rollback\", 10).await.unwrap();\n    let merged = results.iter().filter(|r| r.entry.entry_status == EntryStatus::Merged).count();\n    assert_eq!(merged, 0, \"No entries should be merged after rollback\");\n}",
+  "source_version": "tests/integration/agent_e2e_test.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.467039846Z",
+  "valid_from": "2026-03-31T13:20:59.467039846Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "tests/integration/agent_e2e_test.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 216,
+    "end_line": 246,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

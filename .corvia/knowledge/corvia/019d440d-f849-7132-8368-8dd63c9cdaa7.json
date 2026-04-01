@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-8dd63c9cdaa7",
+  "content": "ath argument, change the clap definition to make path optional:\n\nChange the Ingest variant in `Commands`:\n```rust\n    /// Ingest a repository (or all workspace repos if no path given)\n    Ingest {\n        /// Path to repository (optional in workspace mode)\n        path: Option<String>,\n    },\n```\n\nUpdate `cmd_ingest`:\n```rust\nasync fn cmd_ingest(path: Option<&str>) -> Result<()> {\n    if let Some(p) = path {\n        // Existing single-repo ingest logic (unchanged)\n        // ...existing code...\n    } else {\n        // Workspace mode: ingest all repos\n        let root = std::env::current_dir()?;\n        let config_path = root.join(\"corvia.toml\");\n        let config = CorviaConfig::load(&config_path)?;\n        if config.is_workspace() {\n            workspace::ingest_workspace(&root, None, false).await?;\n        } else {\n            anyhow::bail!(\"No path provided and not in a workspace. Usage: corvia ingest <path>\");\n        }\n    }\n    Ok(())\n}\n```\n\n**Step 4: Verify it compiles**\n\nRun: `cargo build -p corvia-cli`\nExpected: compiles cleanly.\n\n**Step 5: Commit**\n\n```bash\ngit add crates/corvia-cli/src/workspace.rs crates/corvia-cli/src/main.rs\ngit commit -m \"feat(m2.1): implement corvia workspace ingest with namespace isolation\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465265653Z",
+  "valid_from": "2026-03-31T13:20:59.465265653Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1088,
+    "end_line": 1126,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

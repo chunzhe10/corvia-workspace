@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82e-71f3-920f-9389200eec25",
+  "content": "pub fn register_default(&mut self, ext: &str, strategy: Arc<dyn ChunkingStrategy>) {\n        self.defaults.insert(ext.to_string(), strategy);\n    }\npub fn register_override(&mut self, ext: &str, strategy: Arc<dyn ChunkingStrategy>) {\n        self.overrides.insert(ext.to_string(), strategy);\n    }",
+  "source_version": "crates/corvia-kernel/src/chunking_pipeline.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.438608621Z",
+  "valid_from": "2026-03-31T13:20:59.438608621Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_pipeline.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 64,
+    "end_line": 66,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f828-7a92-a1a8-d386fc3d058d",
+  "content": "      entry_a.embedding = Some(next_emb());\n        entry_a.agent_id = Some(\"agent-A\".to_string());\n        entry_a.session_id = Some(\"sess-A\".to_string());\n        entry_a.entry_status = EntryStatus::Pending;\n        store.insert(&entry_a).await.unwrap();\n\n        // Agent-B pending entry.\n        let mut entry_b = KnowledgeEntry::new(\n            \"agent-B pending work\".to_string(),\n            \"vis-scope\".to_string(),\n            \"v1\".to_string(),\n        );\n        entry_b.embedding = Some(next_emb());\n        entry_b.agent_id = Some(\"agent-B\".to_string());\n        entry_b.session_id = Some(\"sess-B\".to_string());\n        entry_b.entry_status = EntryStatus::Pending;\n        store.insert(&entry_b).await.unwrap();\n\n        let retriever = VectorRetriever::new(store.clone() as Arc<dyn QueryableStore>, engine);\n\n        // Agent-A with Own visibility.\n        let opts = RetrievalOpts {\n            limit: 20,\n            visibility: VisibilityMode::Own,\n            agent_id: Some(\"agent-A\".to_string()),\n            ..Default::default()\n        };\n\n        let result = retriever.retrieve(\"work\", \"vis-scope\", &opts).await.unwrap();\n\n        // Should see merged entries + agent-A's pending, but NOT agent-B's pending.\n        let has_agent_a = result.results.iter().any(|sr| {\n            sr.entry.agent_id.as_deref() == Some(\"agent-A\")\n                && sr.entry.entry_status == EntryStatus::Pending\n        });\n        let has_agent_b = result.results.iter().any(|sr| {\n            sr.entry.agent_id.as_deref() == Some(\"agent-B\")\n                && sr.entry.entry_status == EntryStatus::Pending\n        });\n        let merged_count = result.results.iter().filter(|sr| sr.entry.entry_status == EntryStatus::Merged).count();\n\n        // At least some merged entries should be visible (HNSW approximate, use >=).",
+  "source_version": "crates/corvia-kernel/src/retriever.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.432071594Z",
+  "valid_from": "2026-03-31T13:20:59.432071594Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/retriever.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 1029,
+    "end_line": 1065,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

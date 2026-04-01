@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f839-77c3-913e-182a89eeb844",
+  "content": "pub fn metadata(&self) -> &AdapterMetadata {\n        &self.metadata\n    }\npub fn spawn(&mut self) -> Result<(), String> {\n        let child = Command::new(&self.binary_path)\n            .stdin(Stdio::piped())\n            .stdout(Stdio::piped())\n            .stderr(Stdio::inherit())\n            .spawn()\n            .map_err(|e| format!(\"Failed to spawn {}: {e}\", self.binary_path.display()))?;\n\n        child.stdin.as_ref().ok_or(\"no stdin\")?;\n        child.stdout.as_ref().ok_or(\"no stdout\")?;\n\n        let mut child = child;\n        let stdin = BufWriter::new(child.stdin.take().unwrap());\n        let stdout = BufReader::new(child.stdout.take().unwrap());\n\n        self.child = Some(child);\n        self.stdin = Some(stdin);\n        self.stdout = Some(stdout);\n\n        debug!(\"Spawned adapter {} (pid {:?})\", self.metadata.name,\n            self.child.as_ref().map(|c| c.id()));\n        Ok(())\n    }",
+  "source_version": "crates/corvia-kernel/src/process_adapter.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.449375005Z",
+  "valid_from": "2026-03-31T13:20:59.449375005Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/process_adapter.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 45,
+    "end_line": 67,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

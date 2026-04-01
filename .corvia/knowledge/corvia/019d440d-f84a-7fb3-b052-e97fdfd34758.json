@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84a-7fb3-b052-e97fdfd34758",
+  "content": "heck for a single type\n    let single = reasoner\n        .run_check(&entries, \"reason\", CheckType::StaleEntry)\n        .await\n        .unwrap();\n    assert_eq!(\n        single.len(),\n        1,\n        \"run_check(StaleEntry) should find exactly 1\"\n    );\n}\nasync fn test_ingest_and_reason() {\n    use corvia_adapter_git::git::GitAdapter;\n    use corvia_kernel::traits::IngestionAdapter;\n\n    // 1. Create a small temp \"repo\" with 2 Rust files\n    let repo_dir = tempdir().unwrap();\n    let src_dir = repo_dir.path().join(\"src\");\n    std::fs::create_dir_all(&src_dir).unwrap();\n\n    std::fs::write(\n        src_dir.join(\"lib.rs\"),\n        r#\"\nuse std::collections::HashMap;\n\npub trait Store {\n    fn get(&self, key: &str) -> Option<String>;\n}\n\npub struct MemStore {\n    data: HashMap<String, String>,\n}\n\nimpl Store for MemStore {\n    fn get(&self, key: &str) -> Option<String> {\n        self.data.get(key).cloned()\n    }\n}\n\"#,\n    )\n    .unwrap();\n\n    std::fs::write(\n        src_dir.join(\"main.rs\"),\n        r#\"\nuse crate::lib::MemStore;\n\nfn main() {\n    let store = MemStore { data: Default::default() };\n    println!(\"{:?}\", store.get(\"hello\"));\n}\n\"#,\n    )\n    .unwrap();",
+  "source_version": "tests/integration/m3_e2e_test.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.466914685Z",
+  "valid_from": "2026-03-31T13:20:59.466914685Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "tests/integration/m3_e2e_test.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 326,
+    "end_line": 368,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

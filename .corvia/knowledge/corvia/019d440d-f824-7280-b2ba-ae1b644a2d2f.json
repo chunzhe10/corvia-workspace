@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f824-7280-b2ba-ae1b644a2d2f",
+  "content": "pub fn generate_hooks(root: &Path, config: &CorviaConfig) -> Result<()> {\n    let ws = config.workspace.as_ref()\n        .ok_or_else(|| corvia_common::errors::CorviaError::Config(\"Not a workspace\".into()))?;\n\n    let rules = ws.docs.as_ref()\n        .and_then(|d| d.rules.as_ref())\n        .cloned()\n        .unwrap_or_default();\n\n    let allowed_subdirs = ws.docs.as_ref()\n        .map(|d| d.allowed_workspace_subdirs.clone())\n        .unwrap_or_default();\n\n    generate_placement_hook(root, &rules, &allowed_subdirs)?;\n    generate_post_commit_hooks(root, ws)?;\n    merge_claude_settings(root)?;\n\n    println!(\"Generated enforcement hooks from corvia.toml\");\n    Ok(())\n}",
+  "source_version": "crates/corvia-cli/src/hooks/legacy.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.428894418Z",
+  "valid_from": "2026-03-31T13:20:59.428894418Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/legacy.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 17,
+    "end_line": 36,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

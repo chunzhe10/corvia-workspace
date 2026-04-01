@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-42f6b653d5f8",
+  "content": ".await?;\n\n    let store = Arc::new(store);\n    bulk_insert_and_verify(\n        store.clone() as Arc<dyn QueryableStore>,\n        store as Arc<dyn GraphStore>,\n        entries,\n        edges,\n        entries_by_scope,\n        scope_names,\n    )\n    .await\n}\nasync fn bulk_insert_and_verify(\n    queryable: Arc<dyn QueryableStore>,\n    graph: Arc<dyn GraphStore>,\n    entries: &[KnowledgeEntry],\n    edges: &[GraphEdge],\n    entries_by_scope: &HashMap<String, Vec<&KnowledgeEntry>>,\n    scope_names: &[String],\n) -> Result<()> {\n    let expected_edge_count = edges.len();\n    // Insert entries\n    println!(\"Migrating {} entries...\", entries.len());\n    let mut inserted = 0;\n    let mut failed = 0;\n    for entry in entries {\n        match queryable.insert(entry).await {\n            Ok(()) => {\n                inserted += 1;\n                if inserted % 100 == 0 {\n                    println!(\"  {}/{} entries inserted\", inserted, entries.len());\n                }\n            }\n            Err(e) => {\n                failed += 1;\n                eprintln!(\"  Failed to insert entry {}: {}\", entry.id, e);\n            }\n        }\n    }\n    println!(\n        \"  {}/{} entries inserted ({} failed)\",\n        inserted,\n        entries.len(),\n        failed\n    );\n\n    if failed > 0 {\n        eprintln!(\"\\nWarning: {} entries failed to insert. Config NOT updated.\", failed);\n        eprintln!(\"Note: {} entries were written to the destination. Re-running the migration\", inserted);\n        eprintln!(\"after resolving the issue may require clearing the destination first.\");\n        anyhow::bail!(\"{} entries failed to insert\", failed);\n    }\n",
+  "source_version": "crates/corvia-cli/src/upgrade.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429728498Z",
+  "valid_from": "2026-03-31T13:20:59.429728498Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/upgrade.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 305,
+    "end_line": 345,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

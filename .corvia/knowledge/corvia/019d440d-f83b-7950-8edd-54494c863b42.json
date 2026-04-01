@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-54494c863b42",
+  "content": "# Multi-Spoke Phase 0: Implementation Plan\n\n## Task 1: Add `mcp_token` to AppState and generate on startup\n\n**Files:** `crates/corvia-server/src/rest.rs`, `crates/corvia-cli/src/main.rs`\n\n1. Add `pub mcp_token: Option<String>` field to `AppState`\n2. In `cmd_serve()`, after loading config, check if `config.server.host` is NOT\n   loopback (`127.0.0.1` or `::1`). If so:\n   - Generate `uuid::Uuid::new_v4().to_string()`\n   - Write token to `{data_dir}/mcp-token`\n   - Pass `Some(token)` to AppState\n3. If loopback: pass `None` to AppState\n4. Print token file location on startup when generated\n\n**Verify:** `cargo build`\n\n---\n\n\n## Task 2: Add bearer token validation to MCP write operations\n\n**Files:** `crates/corvia-server/src/mcp.rs`\n\n1. Define a `const WRITE_TOOLS` array listing all write tool names:\n   `corvia_write`, `corvia_gc_run`, `corvia_config_set`, `corvia_rebuild_index`,\n   `corvia_agent_suspend`, `corvia_merge_retry`, `corvia_pin`, `corvia_unpin`\n2. In `handle_mcp_post()`, extract the Bearer token from the `Authorization` header\n3. Pass the extracted token (Option<&str>) through to `handle_tools_call()`\n4. In `handle_tools_call()`, after extracting `tool_name`, check:\n   - If `state.mcp_token` is `Some(expected)` AND `tool_name` is in `WRITE_TOOLS`:\n     - If provided token doesn't match: return JSON-RPC error (-32000, \"Authorization required\")\n5. Return a clear error message distinguishing missing vs invalid token\n\n**Verify:** `cargo test --workspace`\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-28-multi-spoke-phase0-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451244999Z",
+  "valid_from": "2026-03-31T13:20:59.451244999Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-multi-spoke-phase0-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 9,
+    "end_line": 43,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

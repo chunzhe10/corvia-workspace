@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f823-7d80-90e7-320bde4e2dff",
+  "content": "     };\n            if ft.is_file() || ft.is_symlink() {\n                total += entry.metadata().map(|m| m.len()).unwrap_or(0);\n            } else if ft.is_dir() {\n                total += walkdir(&entry.path());\n            }\n        }\n    }\n    total\n}\npub fn human_bytes(bytes: u64) -> String {\n    const GB: u64 = 1_073_741_824;\n    const MB: u64 = 1_048_576;\n    const KB: u64 = 1_024;\n    if bytes >= GB {\n        format!(\"{:.1} GB\", bytes as f64 / GB as f64)\n    } else if bytes >= MB {\n        format!(\"{:.1} MB\", bytes as f64 / MB as f64)\n    } else if bytes >= KB {\n        format!(\"{:.1} KB\", bytes as f64 / KB as f64)\n    } else {\n        format!(\"{} B\", bytes)\n    }\n}",
+  "source_version": "crates/corvia-cli/src/workspace.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.427821614Z",
+  "valid_from": "2026-03-31T13:20:59.427821614Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/workspace.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 479,
+    "end_line": 492,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

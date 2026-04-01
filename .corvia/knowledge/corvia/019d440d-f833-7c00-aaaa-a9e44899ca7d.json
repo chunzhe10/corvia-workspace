@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f833-7c00-aaaa-a9e44899ca7d",
+  "content": "isplay());\n                IntrospectConfig::default_queries()\n            })\n        } else {\n            info!(\"No introspect.toml found, using built-in queries\");\n            IntrospectConfig::default_queries()\n        };\n        Self::new(config)\n    }\npub async fn check_env_lite(\n        &self,\n        ollama_url: &str,\n    ) -> Vec<(&'static str, bool)> {\n        let ollama = crate::ollama_engine::OllamaEngine::check_health(ollama_url).await;\n        vec![\n            (\"Ollama\", ollama),\n        ]\n    }",
+  "source_version": "crates/corvia-kernel/src/introspect.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.443385456Z",
+  "valid_from": "2026-03-31T13:20:59.443385456Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/introspect.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 151,
+    "end_line": 159,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

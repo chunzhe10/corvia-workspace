@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-53758345b354",
+  "content": "## Shared Kernel Pattern\n## Files to Create\n\n## Files to Modify\n\n| File | Changes |\n|------|---------|\n| `Cargo.toml` (workspace) | Add `corvia-telemetry` member |\n| `crates/corvia-common/src/config.rs` | Add `TelemetryConfig` struct + `telemetry` field to `CorviaConfig` |\n| `crates/corvia-kernel/src/lib.rs` | Add `pub mod ops;` |\n| `crates/corvia-kernel/src/merge_queue.rs` | Rename `dequeue_batch()` to `list()` for clarity |\n| `crates/corvia-kernel/Cargo.toml` | Add `corvia-telemetry` dependency |\n| `crates/corvia-kernel/src/agent_coordinator.rs` | Add `#[tracing::instrument]` spans |\n| `crates/corvia-kernel/src/merge_worker.rs` | Add spans |\n| `crates/corvia-kernel/src/lite_store.rs` | Add spans |\n| `crates/corvia-kernel/src/ollama_engine.rs` | Add spans |\n| `crates/corvia-kernel/src/grpc_engine.rs` | Add spans |\n| `crates/corvia-kernel/src/rag_pipeline.rs` | Add spans |\n| `crates/corvia-server/src/rest.rs` | Add `config` + `config_path` to `AppState` |\n| `crates/corvia-server/src/mcp.rs` | Add 10 tool definitions + dispatch + handlers + safety tier. Update test helpers (`test_state`) for new `AppState` fields |\n| `crates/corvia-server/Cargo.toml` | Add `corvia-telemetry` dependency |\n| `crates/corvia-cli/src/main.rs` | Refactor to use `ops::*`, add `--metrics`, wire `init_telemetry()` |\n| `crates/corvia-cli/Cargo.toml` | Add `corvia-telemetry` dependency |\n",
+  "source_version": "docs/rfcs/2026-03-10-m4-observability-control-plane-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451168472Z",
+  "valid_from": "2026-03-31T13:20:59.451168472Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-m4-observability-control-plane-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 293,
+    "end_line": 313,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

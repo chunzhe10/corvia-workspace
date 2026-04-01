@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f828-7a92-a1a8-d910a75df372",
+  "content": "'. Valid sections: {}\",\n                    all.join(\", \")\n                )));\n            }\n            full.get(s)\n                .cloned()\n                .ok_or_else(|| CorviaError::Config(format!(\"Config section '{s}' not found\")))\n        }\n    }\n}\npub fn config_set(\n    config_path: &std::path::Path,\n    config: &mut CorviaConfig,\n    section: &str,\n    key: &str,\n    value: serde_json::Value,\n) -> Result<CorviaConfig> {\n    if RESTART_REQUIRED_SECTIONS.contains(&section) {\n        return Err(CorviaError::Config(format!(\n            \"Section '{section}' is not hot-reloadable; requires server restart\"\n        )));\n    }\n    let all = all_sections();\n    if !all.contains(&section) {\n        return Err(CorviaError::Config(format!(\n            \"Unknown config section '{section}'. Valid sections: {}\",\n            all.join(\", \")\n        )));\n    }\n\n    // Read the existing TOML file (or start with a serialized version of current config)\n    let toml_str = std::fs::read_to_string(config_path)\n        .map_err(|e| CorviaError::Config(format!(\"Failed to read config file: {e}\")))?;\n\n    let mut toml_value: toml::Value = toml::from_str(&toml_str)\n        .map_err(|e| CorviaError::Config(format!(\"Failed to parse config TOML: {e}\")))?;\n\n    // Navigate to section.key and update\n    let section_table = toml_value\n        .as_table_mut()\n        .ok_or_else(|| CorviaError::Config(\"Config root is not a table\".into()))?\n        .entry(section)\n        .or_insert_with(|| toml::Value::Table(toml::map::Map::new()));\n\n    let section_table = section_table\n        .as_table_mut()\n        .ok_or_else(|| CorviaError::Config(format!(\"Config section '{section}' is not a table\")))?;",
+  "source_version": "crates/corvia-kernel/src/ops.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.432844193Z",
+  "valid_from": "2026-03-31T13:20:59.432844193Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ops.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 180,
+    "end_line": 216,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

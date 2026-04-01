@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-71c88cab832b",
+  "content": "## Problem\n## Proposed Abstraction\n\n## Deployment Modes\n\n| Mode | StoreClient impl | Transport | Process management |\n|------|------------------|-----------|-------------------|\n| **Devcontainer** | RemoteStore | TCP (localhost:8020) | Server pre-started by post-start.sh |\n| **Solo dev (macOS/Linux)** | RemoteStore | Unix domain socket (.corvia/server.sock) | Auto-start server on first CLI command, idle timeout |\n| **Team / shared server** | RemoteStore | TCP/gRPC (remote host) | External process management (systemd, k8s) |\n| **CI/CD** | DirectStore | None (in-process) | Single process, no server needed |\n\n\n## Unix Domain Socket Notes\n\nUDS is IPC via a file path instead of TCP host:port. ~4x throughput, ~10x lower latency\nthan TCP for local communication. No port conflicts between workspaces (each gets its own\nsocket file). Supported on Linux, macOS, and Windows 10+.\n\nKey advantage: detection is `stat .corvia/server.sock` (instant) vs TCP health check (500ms timeout).\n",
+  "source_version": "docs/rfcs/store-client-abstraction.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463616870Z",
+  "valid_from": "2026-03-31T13:20:59.463616870Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/store-client-abstraction.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 30,
+    "end_line": 46,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

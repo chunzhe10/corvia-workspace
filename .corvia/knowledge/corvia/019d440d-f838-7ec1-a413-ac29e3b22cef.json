@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f838-7ec1-a413-ac29e3b22cef",
+  "content": "pub struct AgentWriter {\n    pub store: Arc<dyn QueryableStore>,\n    pub engine: Arc<dyn InferenceEngine>,\n    pub staging: StagingManager,\n}\nimpl AgentWriter {\n    pub fn new(\n        store: Arc<dyn QueryableStore>,\n        engine: Arc<dyn InferenceEngine>,\n        staging: StagingManager,\n    ) -> Self {\n        Self { store, engine, staging }\n    }\n\n    /// Write a knowledge entry with agent attribution.\n    ///\n    /// - Creates a `KnowledgeEntry` tagged with agent_id/session_id and `EntryStatus::Pending`\n    /// - Embeds the content\n    /// - Writes to staging dir (if provided — Registered agents only)\n    /// - Inserts into the shared store (immediately searchable via HNSW)\n    #[allow(clippy::too_many_arguments)] // Agent write params are all semantically distinct\n    pub async fn write(\n        &self,\n        content: &str,\n        scope_id: &str,\n        source_version: &str,\n        agent_id: &str,\n        session_id: &str,\n        staging_dir: Option<&Path>,\n        content_role: Option<String>,\n        source_origin: Option<String>,\n    ) -> Result<KnowledgeEntry> {\n        // 1. Create entry with agent attribution\n        let mut entry = KnowledgeEntry::new(\n            content.to_string(),\n            scope_id.to_string(),\n            source_version.to_string(),\n        )",
+  "source_version": "crates/corvia-kernel/src/agent_writer.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.448140904Z",
+  "valid_from": "2026-03-31T13:20:59.448140904Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/agent_writer.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 43,
+    "end_line": 75,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

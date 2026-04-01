@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a17-7981-a483-6e8c4f6ff422",
+  "content": "## Task 6: Initialize cache at server startup\n## Task 7: Add `dashboard` to hot-reload allowlist\n\n## Task 8: Add config validation call\n\n**Files:**\n- Modify: wherever config is loaded/parsed (search for `toml::from_str` or\n  `CorviaConfig` deserialization in CLI)\n\n**Step 1: Find config load site**\n\n```bash\ngrep -rn \"toml::from_str\\|from_str.*CorviaConfig\\|load_config\" crates/corvia-cli/src/\n```\n\n**Step 2: After deserializing, call validate**\n\n```rust\nconfig.dashboard.validate()?;\n```\n\n- [ ] Validation wired into config load path\n\n---\n\n\n## Task 9: Update test_state helper\n\n**Files:**\n- Modify: `crates/corvia-server/src/dashboard/mod.rs` (test module, ~line 1459)\n\n**Step 1: Add `coverage_cache` to `test_state` (after `hook_sessions`)**\n\n```rust\ncoverage_cache: Arc::new(tokio::sync::Mutex::new(\n    crate::dashboard::coverage::IndexCoverageCache::new(0.9, 60),\n)),\n```\n\n- [ ] test_state helper updated\n\n---\n",
+  "source_version": "plans/2026-03-26-index-coverage-plan.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.031242157Z",
+  "valid_from": "2026-03-31T13:51:39.031242157Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "plans/2026-03-26-index-coverage-plan.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 525,
+    "end_line": 563,
+    "content_role": "plan",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

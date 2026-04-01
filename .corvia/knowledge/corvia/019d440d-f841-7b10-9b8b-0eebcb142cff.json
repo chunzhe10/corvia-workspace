@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0eebcb142cff",
+  "content": " 400px;\n}\n\n/* ===== Log Panel ===== */\n.log-panel {\n  background: var(--bg-card); border: 1px solid var(--border);\n  border-radius: var(--radius-xl); box-shadow: var(--shadow-card);\n  display: flex; flex-direction: column; overflow: hidden;\n}\n\n.view-tabs {\n  display: flex; gap: 0; padding: 0 24px;\n  border-bottom: 1px solid var(--border-subtle);\n  background: var(--bg-elevated); border-radius: var(--radius-xl) var(--radius-xl) 0 0;\n}\n.view-tab {\n  padding: 14px 18px; font-size: 12px; font-weight: 500;\n  color: var(--text-dim); background: none; border: none;\n  border-bottom: 2.5px solid transparent; cursor: pointer;\n  font-family: var(--font-ui); transition: all var(--transition);\n  display: flex; align-items: center; gap: 8px;\n}\n.view-tab:hover { color: var(--text-muted); }\n.view-tab.active { color: var(--gold); border-bottom-color: var(--gold); font-weight: 600; }\n.view-tab-icon { width: 15px; height: 15px; opacity: 0.4; }\n.view-tab.active .view-tab-icon { opacity: 1; }\n\n.log-toolbar {\n  display: flex; align-items: center; justify-content: space-between;\n  padding: 10px 24px; border-bottom: 1px solid var(--border-subtle); gap: 12px;\n}\n.log-filters {\n  display: flex; gap: 3px; background: var(--bg-input);\n  border-radius: var(--radius-xs); padding: 3px;\n}\n.log-filter {\n  padding: 5px 14px; border: none; border-radius: var(--radius-xs);\n  background: transparent; color: var(--text-dim);\n  font-family: var(--font-ui); font-size: 11px; font-weight: 500;\n  cursor: pointer; transition: all var(--transition);",
+  "source_version": "docs/rfcs/2026-03-10-dashboard-redesign.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457831074Z",
+  "valid_from": "2026-03-31T13:20:59.457831074Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-dashboard-redesign.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 289,
+    "end_line": 317,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

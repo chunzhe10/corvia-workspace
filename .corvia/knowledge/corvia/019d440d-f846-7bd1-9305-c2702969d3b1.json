@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-c2702969d3b1",
+  "content": "\"))?;\n\n        match resp {\n            AdapterResponse::ChunkResult { chunks, relations } => Ok((chunks, relations)),\n            AdapterResponse::Error { error } => {\n                Err(format!(\"Adapter chunk error [{}]: {}\", error.code, error.message))\n            }\n            _ => Err(\"Unexpected response to chunk request\".into()),\n        }\n    }\n\n    /// Gracefully shut down the adapter process.\n    ///\n    /// Closes stdin (adapter sees EOF and exits), then waits for process.\n    pub fn shutdown(&mut self) -> Result<(), String> {\n        // Drop stdin to send EOF\n        self.stdin.take();\n\n        if let Some(mut child) = self.child.take() {\n            match child.wait() {\n                Ok(status) => {\n                    if !status.success() {\n                        warn!(\"Adapter {} exited with {}\", self.metadata.name, status);\n                    }\n                    debug!(\"Adapter {} shut down\", self.metadata.name);\n                }\n                Err(e) => {\n                    warn!(\"Failed to wait for adapter {}: {e}\", self.metadata.name);\n                }\n            }\n        }\n        self.stdout.take();\n        Ok(())\n    }\n",
+  "source_version": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462651927Z",
+  "valid_from": "2026-03-31T13:20:59.462651927Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 941,
+    "end_line": 969,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

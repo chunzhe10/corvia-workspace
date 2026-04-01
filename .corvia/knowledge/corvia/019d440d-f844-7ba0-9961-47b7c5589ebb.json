@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-47b7c5589ebb",
+  "content": "### Step 5: Commit\n\n## Task 6: CLI Updates — Init Modes, Rebuild, Updated Commands\n\n**Files:**\n- Modify: `crates/corvia-cli/src/main.rs`\n\nThis task updates the CLI to use factory functions instead of hardcoded SurrealStore/VllmEngine. Adds `--full` flag to `init`, adds `rebuild` command, and updates `status`/`test`/`demo` for LiteStore.\n",
+  "source_version": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460008991Z",
+  "valid_from": "2026-03-31T13:20:59.460008991Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1433,
+    "end_line": 1439,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

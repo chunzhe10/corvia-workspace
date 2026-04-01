@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a13-75d1-bfe3-f658426aef5d",
+  "content": "der: 3px solid rgba(6, 182, 212, 0.4); border-radius: 6px 6px 0 0; background: transparent;\"></div>\n    </div>\n  </div>\n\n  <!-- Camera cards (glass-morphism) -->\n  <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 28px;\">\n    <div class=\"glass-card\" style=\"text-align: center;\">\n      <div style=\"font-size: 32px; margin-bottom: 8px;\">📷</div>\n      <div style=\"font-size: 22px; font-weight: 700; color: var(--text-primary);\">DJI Action 4</div>\n      <div style=\"font-size: 16px; color: var(--text-secondary);\">Underwater action cam</div>\n    </div>\n    <div class=\"glass-card\" style=\"text-align: center;\">\n      <div style=\"font-size: 32px; margin-bottom: 8px;\">🔮</div>\n      <div style=\"font-size: 22px; font-weight: 700; color: var(--text-primary);\">Insta360 X5</div>\n      <div style=\"font-size: 16px; color: var(--text-secondary);\">360° underwater footage</div>\n    </div>\n  </div>\n\n  <!-- Teaser pipeline -->\n  <div style=\"display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 24px; opacity: 0.6;\">\n    <span style=\"font-size: 20px; color: var(--accent-cyan); font-weight: 600;\">footage</span>\n    <span style=\"font-size: 18px; color: var(--text-muted);\">- - →</span>\n    <span style=\"font-size: 20px; color: var(--accent-cyan); font-weight: 600;\">AI</span>\n    <span style=\"font-size: 18px; color: var(--text-muted);\">- - →</span>\n    <span style=\"font-size: 20px; color: var(--accent-cyan); font-weight: 600;\">timeline</span>\n  </div>\n\n  <div style=\"font-size: 22px; color: var(--text-secondary); line-height: 1.5; text-align: center;\">\n    I love editing, but the repetitive parts eat time I'd rather spend diving.<br>\n    Found a <span style=\"color: var(--accent-cyan); font-weight: 600;\">DaVinci Resolve MCP</span>. Still brainstorming.\n  </div>\n\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">07 / 08</div>\n</div>\n```\n\n- [ ] **Step 2: Visual check**\n\nVerify: underwater gradient (dark at bottom, teal/cyan at top), bubble particles scattered, diving mask icon centered, glass-morphism camera cards, dotted pipeline teaser faded, text readable against gradient.\n",
+  "source_version": "marketing/2026-03-14-resolve-linux-carousel.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.027582441Z",
+  "valid_from": "2026-03-31T13:51:39.027582441Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/2026-03-14-resolve-linux-carousel.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 690,
+    "end_line": 724,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

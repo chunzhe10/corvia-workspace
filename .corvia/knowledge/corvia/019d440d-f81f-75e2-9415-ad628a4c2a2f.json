@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81f-75e2-9415-ad628a4c2a2f",
+  "content": ".=MAX_SESSIONS)\n            .map(|i| dir.path().join(format!(\"ses-{i}.jsonl\")))\n            .collect();\n        process_file_changes(&state, paths).await;\n\n        let guard = state.sessions.read().await;\n        assert!(guard.len() <= MAX_SESSIONS);\n    }\nfn test_symlink_rejected() {\n        let dir = tempfile::tempdir().unwrap();\n        let target = dir.path().join(\"real.jsonl\");\n        let link = dir.path().join(\"link.jsonl\");\n\n        // Create a real file.\n        {\n            let mut f = std::fs::File::create(&target).unwrap();\n            writeln!(f, \"{}\", make_session_start(\"ses-real\")).unwrap();\n        }\n\n        // Create symlink.\n        #[cfg(unix)]\n        std::os::unix::fs::symlink(&target, &link).unwrap();\n\n        #[cfg(unix)]\n        {\n            let meta = std::fs::symlink_metadata(&link).unwrap();\n            assert!(meta.file_type().is_symlink());\n        }\n    }",
+  "source_version": "crates/corvia-server/src/dashboard/session_watcher.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.423825632Z",
+  "valid_from": "2026-03-31T13:20:59.423825632Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/session_watcher.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 912,
+    "end_line": 932,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

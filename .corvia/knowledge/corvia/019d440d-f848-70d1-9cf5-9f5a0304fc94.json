@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9f5a0304fc94",
+  "content": "## Phase 0 Completion Checkpoint\n## Phase 1: Parallel Workstreams\n\n### Workstream A: M3.1 — gRPC Inference Server\n\n**Detailed plan:** `docs/rfcs/2026-03-02-grpc-inference-server-impl.md`\n**Tasks:** 14 (numbered 1-14 in that plan)\n**Produces:** corvia-proto crate, corvia-inference binary, GrpcInferenceEngine,\n  GrpcChatEngine, GrpcVllmEngine, InferenceProvisioner\n\n**Phase 1 scope (Tasks A1-A12):**\n\n| Task | Description | Deps | Files |\n|------|-------------|------|-------|\n| A1 | Create corvia-proto crate + 3 proto files | F1, F6 | `crates/corvia-proto/**` |\n| A2 | Refactor MergeWorker to use GenerationEngine trait | F1 | `merge_worker.rs` |\n| A3 | GrpcInferenceEngine client (InferenceEngine impl) | A1 | `engines/grpc_inference_engine.rs` |\n| A4 | GrpcChatEngine client (GenerationEngine impl) | A1, F1 | `engines/grpc_chat_engine.rs` |\n| A5 | InferenceProvisioner lifecycle manager | A1 | `provisioners/inference_provisioner.rs` |\n| A6 | Scaffold corvia-inference binary + health endpoint | A1 | `crates/corvia-inference/**` |\n| A7 | EmbeddingService (fastembed/ONNX) | A6 | `corvia-inference/src/embedding.rs` |\n| A8 | ChatService scaffold (candle stub) | A6 | `corvia-inference/src/chat.rs` |\n| A9 | Wire Corvia provider into create_engine() | A3, A4, A5, F6 | `lib.rs` |\n| A10 | gRPC integration tests | A3, A4, A7 | `tests/` |\n| A11 | GrpcVllmEngine (vLLM gRPC client) | A1 | `engines/grpc_vllm_engine.rs` |\n| A12 | Candle chat implementation | A8 | `corvia-inference/src/chat.rs` |\n\n**Handoff H1 produced:** After A4, `GrpcChatEngine` implements `GenerationEngine`.\nM3.2 can now wire `ask()` mode.\n\nFollow the M3.1 impl plan for detailed step-by-step instructions per task.\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464672299Z",
+  "valid_from": "2026-03-31T13:20:59.464672299Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 876,
+    "end_line": 906,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

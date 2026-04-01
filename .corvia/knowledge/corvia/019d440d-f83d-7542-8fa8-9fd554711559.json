@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83d-7542-8fa8-9fd554711559",
+  "content": "### Task 3: Add `pulldown-cmark` and extract markdown cross-references\n\n        chunks: &[RawChunk],\n        meta: &SourceMetadata,\n    ) -> Vec<ChunkRelation> {\n        use pulldown_cmark::{Event, Parser, Tag, TagEnd};\n\n        let mut relations = Vec::new();\n        let parser = Parser::new(source);\n\n        let mut current_line: u32 = 1;\n        let mut in_code_block = false;\n\n        for (event, range) in parser.into_offset_iter() {\n            // Track line number from byte offset\n            current_line = source[..range.start].matches('\\n').count() as u32 + 1;\n\n            match event {\n                Event::Code(code) => {\n                    // Inline code span: `QueryableStore`, `LiteStore`, etc.\n                    let text = code.as_ref().trim();\n                    if Self::is_meaningful_symbol(text) {\n                        if let Some(chunk) = Self::find_chunk_for_line(chunks, current_line) {\n                            relations.push(ChunkRelation {\n                                from_source_file: meta.file_path.clone(),\n                                from_start_line: chunk.start_line,\n                                relation: \"references\".to_string(),\n                                to_file: String::new(),\n                                to_name: Some(text.to_string()),\n                            });\n                        }\n                    }\n                }\n                Event::Start(Tag::Link { dest_url, .. }) => {\n                    let url = dest_url.as_ref();\n                    if Self::is_file_path_reference(url) {",
+  "source_version": "docs/rfcs/2026-03-04-m3.4-graph-edge-improvements-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.453521223Z",
+  "valid_from": "2026-03-31T13:20:59.453521223Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-04-m3.4-graph-edge-improvements-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 762,
+    "end_line": 795,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

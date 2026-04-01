@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84a-7fb3-b052-e88cab2df264",
+  "content": "rn sources\"\n    );\n    assert_eq!(response.trace.retrieval.retriever_name, \"graph_expand\");\n\n    // Trace should record the graph_expanded metric.\n    eprintln!(\n        \"graph_expanded: {} entries\",\n        response.trace.retrieval.graph_expanded\n    );\n}\nasync fn test_rag_pipeline_ask_without_generator_e2e() {\n    let dir = tempdir().unwrap();\n    let config = CorviaConfig::default();\n\n    let store = Arc::new(LiteStore::open(dir.path(), 3).unwrap());\n    store.init_schema().await.unwrap();\n\n    let engine = Arc::new(MockEngine) as Arc<dyn InferenceEngine>;\n\n    let pipeline = corvia_kernel::create_rag_pipeline(\n        store.clone() as Arc<dyn QueryableStore>,\n        engine,\n        None,\n        None,\n        &config,\n    ).await;\n\n    let result = pipeline.ask(\"question\", \"empty-scope\", None).await;\n    assert!(result.is_err(), \"ask() without generator should fail\");\n    let err = format!(\"{}\", result.unwrap_err());\n    assert!(\n        err.contains(\"GenerationEngine\"),\n        \"error should mention GenerationEngine, got: {err}\"\n    );\n}",
+  "source_version": "tests/integration/rag_e2e_test.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.466765297Z",
+  "valid_from": "2026-03-31T13:20:59.466765297Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "tests/integration/rag_e2e_test.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 179,
+    "end_line": 203,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

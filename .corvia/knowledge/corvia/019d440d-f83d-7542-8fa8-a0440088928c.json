@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83d-7542-8fa8-a0440088928c",
+  "content": "-workspace/repos/corvia && cargo test -p corvia-kernel chunking_markdown`\nExpected: All existing + 4 new tests pass.\n\n**Step 6: Commit**\n\n```bash\ngit add -A && git commit -m \"feat(m3.4): extract markdown cross-references via pulldown-cmark (D73)\"\n```\n\n---\n\n### Task 4: Add `discover_cross_file_relations()` to the chunking pipeline\n\n**Files:**\n- Modify: `corvia-kernel/src/chunking_pipeline.rs`\n\n**Step 1: Add the discovery function**\n\nAdd to `ChunkingPipeline` impl block in `chunking_pipeline.rs`, after `process_batch()` (after line 285):\n\n```rust\n    /// Discover cross-file relations by tracking type/trait definitions and usages.\n    ///\n    /// Pass 1: Collect definitions (structs, traits, enums) from chunk metadata.\n    /// Pass 2: Find cross-file usages of those definitions in chunk content.\n    /// Returns additional `ChunkRelation` entries with relation type `\"uses\"`.\n    pub fn discover_cross_file_relations(\n        chunks: &[ProcessedChunk],\n    ) -> Vec<ChunkRelation> {\n        use std::collections::{HashMap, HashSet};\n\n        // Standard library types to skip\n        const SKIP_TYPES: &[&str] = &[\n            \"String\", \"Vec\", \"HashMap\", \"HashSet\", \"BTreeMap\", \"BTreeSet\",\n            \"Option\", \"Result\", \"Box\", \"Arc\", \"Mutex\", \"RwLock\", \"Rc\",\n            \"Cell\", \"RefCell\", \"Pin\", \"Future\", \"Stream\", \"Iterator\",\n            \"Display\", \"Debug\", \"Clone\", \"Copy\", \"Send\", \"Sync\", \"Default\",\n            \"From\", \"Into\", \"TryFrom\", \"TryInto\", \"AsRef\", \"AsMut\",\n            \"Deref\", \"DerefMut\", \"Drop\", \"Fn\", \"FnMut\", \"FnOnce\",\n            \"Error\", \"Ord\", \"PartialOrd\", \"Eq\", \"PartialEq\", \"Hash\",\n            \"Sized\", \"Unpin\", \"Serialize\", \"Deserialize\",\n            \"None\", \"Some\", \"Ok\", \"Err\", \"Self\", \"TRUE\", \"FALSE\",\n            \"Path\", \"PathBuf\", \"File\", \"Read\", \"Write\", \"Seek\",\n            \"Command\", \"Output\", \"ExitStatus\",\n        ];\n        let skip_set: HashSet<&str> = SKIP_TYPES.iter().copied().collect();\n\n        // Pass 1: Collect definitions\n        // Maps symbol_name → Vec<(source_file, start_line)>\n        let mut definitions: HashMap<String, Vec<(String, u32)>> = HashMap::new();\n\n        for chunk in chunks {\n            let chunk_type = &chunk.chunk_type;\n            // Only look at definition-like chunk types\n            if !matches!(",
+  "source_version": "docs/rfcs/2026-03-04-m3.4-graph-edge-improvements-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.453592446Z",
+  "valid_from": "2026-03-31T13:20:59.453592446Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-04-m3.4-graph-edge-improvements-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1000,
+    "end_line": 1043,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84b-7723-860a-1c818e955781",
+  "content": "## Layered Architecture\n\n│  Embedding Pipeline · Chunking Pipeline · Context Builder          │\n│  Merge Worker  ·  Reasoner  ·  Graph Store                         │\n├─────────────────────────────────────────────────────────────────────┤\n│  Telemetry                                                          │\n│  corvia-telemetry (tracing init, span contracts, exporters)        │\n├─────────────────────────────────────────────────────────────────────┤\n│  Storage                                                            │\n│  LiteStore ─── hnsw_rs · petgraph · Redb · Git (JSON files)       │\n│  PostgresStore ─── pgvector · PostgreSQL                           │\n└─────────────────────────────────────────────────────────────────────┘\n```\n\n**Dependency rules:**\n\n- The kernel never imports from frontends, adapters, or the integration surface.\n- Adapters depend on `corvia-kernel` for the `IngestionAdapter` trait and `corvia-common` for shared types.\n- Storage implementations live inside the kernel crate and implement kernel traits.\n- `corvia-common` is the shared foundation — types, config, errors — imported by all layers.\n",
+  "source_version": "ARCHITECTURE.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.467520861Z",
+  "valid_from": "2026-03-31T13:20:59.467520861Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "ARCHITECTURE.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 29,
+    "end_line": 47,
+    "content_role": null,
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

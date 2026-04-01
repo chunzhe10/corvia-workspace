@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-4c0e3206c2c0",
+  "content": "## Section 3: History UX — Activity Feed with Semantic Grouping\n\n### 3.1 Activity Feed (New Default View)\n\nThe History tab landing page becomes a reverse-chronological activity feed. The UUID lookup moves to a search bar within the feed.\n\n**Feed item anatomy:**\n- Agent color dot + name\n- Action verb: \"wrote\", \"superseded\", \"merged\"\n- Entry title (source_file or content preview, 80 chars)\n- Topic tags as pills (e.g., `[graph store]` `[edge handling]`)\n- Content delta indicator: `+427` / `-203` bytes (green/red, inspired by Wikipedia)\n- Relative timestamp (\"3m ago\", \"2h ago\")\n\n**Semantic grouping:** Related items auto-cluster using embedding similarity of the involved entries. Starting threshold: cosine similarity > 0.8 (to be calibrated against actual embedding distribution — nomic-embed-text-v1.5 may need adjustment; use 90th percentile of pairwise similarity as calibration target). Grouped items collapse into a single row: \"Agent claude-chunzhe updated graph store documentation (5 entries)\" with an expand chevron. Rapid same-agent edits within 5 minutes always collapse regardless of similarity.\n\n**Topic tags as filter facets:** A filter bar at the top shows discovered topics as toggleable pills. Topics derived from the shared cluster vocabulary (Section 1.3). Clicking a topic filters the feed. Multiple topics combine as OR. An agent dropdown filters by contributor.\n\n\n### 3.2 Entry Detail (Existing, Enhanced)\n\nClicking any feed item opens the existing timeline + diff view in the right panel (using the collapsible sidebar from Section 4). UUID lookup bar available here as secondary entry point.\n\nEnhancements to existing view:\n- Agent color dot next to each version in the timeline\n- Content delta indicator per version\n- Breadcrumb back to feed\n",
+  "source_version": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460441289Z",
+  "valid_from": "2026-03-31T13:20:59.460441289Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 141,
+    "end_line": 165,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

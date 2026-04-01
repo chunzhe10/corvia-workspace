@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83a-78e0-bb2b-db5e7d59470d",
+  "content": "# /root/corvia/Cargo.toml\n\ncorvia-common.workspace = true\ncorvia-kernel.workspace = true\nserde.workspace = true\nserde_json.workspace = true\ntokio.workspace = true\nuuid.workspace = true\nanyhow.workspace = true\ntracing.workspace = true\naxum = \"0.8\"\ntower-http = { version = \"0.6\", features = [\"cors\", \"trace\"] }\n```\n\n`crates/corvia-cli/Cargo.toml`:\n```toml\n[package]\nname = \"corvia\"\nversion.workspace = true\nedition.workspace = true\nlicense.workspace = true\n\n[[bin]]\nname = \"corvia\"\npath = \"src/main.rs\"\n\n[dependencies]\ncorvia-common.workspace = true\ncorvia-kernel.workspace = true\ncorvia-server.workspace = true\nserde.workspace = true\nserde_json.workspace = true\ntokio.workspace = true\nanyhow.workspace = true\ntracing.workspace = true\ntracing-subscriber.workspace = true\nclap = { version = \"4\", features = [\"derive\"] }\n```\n\n`crates/corvia-cli/src/main.rs`:\n```rust\nfn main() {\n    println!(\"corvia — code memory for AI agents\");\n}\n```\n\n**Step 4: Create Docker Compose for SurrealDB**\n\n`docker/docker-compose.yml`:\n```yaml\nservices:\n  surrealdb:\n    image: surrealdb/surrealdb:v3\n    container_name: corvia-surrealdb\n    command: start --log=info --user root --pass root\n    ports:\n      - \"8000:8000\"\n    volumes:\n      - corvia-surreal-data:/data\n    restart: unless-stopped\n\nvolumes:\n  corvia-surreal-data:\n```\n\n**Step 5: Create .gitignore**\n\n```\n/target\n.env\n*.swp\n*.swo\n*~\n.DS_Store\n```\n\n**Step 6: Verify workspace compiles**\n\nRun: `cargo check`\nExpected: Compiles with no errors (only warnings about unused modules)\n\n**Step 7: Commit**\n\n```bash\ngit add -A\ngit commit -m \"feat: initialize cargo workspace with 4 crates and docker config\n\nCorvia M1 scaffold: corvia-common, corvia-kernel, corvia-server, corvia-cli.\nExisting design docs moved to docs/rfcs/.\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-02-28-m1-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.450511545Z",
+  "valid_from": "2026-03-31T13:20:59.450511545Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-m1-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 137,
+    "end_line": 227,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

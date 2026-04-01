@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-36f8d644e143",
+  "content": "ts PASS.\n\n**Step 7: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/grpc_engine.rs crates/corvia-kernel/Cargo.toml \\\n  crates/corvia-kernel/src/lib.rs\ngit commit -m \"feat(d60): add GrpcInferenceEngine — gRPC client for InferenceEngine trait\"\n```\n\n---\n\n## Task 6: Implement GrpcChatEngine client\n\n**Files:**\n- Create: `crates/corvia-kernel/src/grpc_chat.rs`\n- Modify: `crates/corvia-kernel/src/lib.rs`\n\n**Step 1: Write failing test**\n\n```rust\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    #[test]\n    fn test_grpc_chat_engine_creates() {\n        let engine = GrpcChatEngine::new(\"http://127.0.0.1:8030\");\n        // Just verify construction doesn't panic\n        assert!(true);\n    }\n}\n```\n\n**Step 2: Run test to verify it fails**\n\nRun: `cargo test -p corvia-kernel test_grpc_chat_engine_creates`\nExpected: FAIL — module doesn't exist.\n\n**Step 3: Implement GrpcChatEngine**\n\nCreate `crates/corvia-kernel/src/grpc_chat.rs`:\n```rust\nuse async_trait::async_trait;\nuse corvia_common::errors::{CorviaError, Result};\nuse corvia_common::types::ChatMessage;\nuse corvia_proto::chat_service_client::ChatServiceClient;\nuse corvia_proto::ChatRequest;\nuse tonic::transport::Channel;\n\npub struct GrpcChatEngine {\n    endpoint: String,\n}\n\nimpl GrpcChatEngine {\n    pub fn new(endpoint: &str) -> Self {\n        Self { endpoint: endpoint.to_string() }\n    }\n\n    async fn connect(&self) -> Result<ChatServiceClient<Channel>> {\n        let url = if self.endpoint.starts_with(\"http\") {\n            self.endpoint.clone()\n        } else {\n            format!(\"http://{}\", self.endpoint)\n        };\n        ChatServiceClient::connect(url)",
+  "source_version": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458585018Z",
+  "valid_from": "2026-03-31T13:20:59.458585018Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 779,
+    "end_line": 832,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

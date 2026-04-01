@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f827-7411-ad28-5cedc5945a29",
+  "content": ":fs::OpenOptions::new()\n                    .create(true)\n                    .append(true)\n                    .open(&self.path)\n                {\n                    *writer = std::io::BufWriter::new(file);\n                }\n            }\n        }\n    }\nfn unix_to_utc(epoch: u64) -> (u64, u64, u64, u64, u64, u64) {\n    let s = epoch % 86400;\n    let h = s / 3600;\n    let mi = (s % 3600) / 60;\n    let sec = s % 60;\n\n    let mut days = epoch / 86400;\n    let mut y = 1970u64;\n\n    loop {\n        let days_in_year = if y.is_multiple_of(4) && (!y.is_multiple_of(100) || y.is_multiple_of(400)) {\n            366\n        } else {\n            365\n        };\n        if days < days_in_year {\n            break;\n        }\n        days -= days_in_year;\n        y += 1;\n    }\n\n    let leap = y.is_multiple_of(4) && (!y.is_multiple_of(100) || y.is_multiple_of(400));\n    let month_days: [u64; 12] = if leap {\n        [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]\n    } else {\n        [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]\n    };\n\n    let mut mo = 0u64;\n    for (i, &md) in month_days.iter().enumerate() {\n        if days < md {\n            mo = i as u64 + 1;\n            break;\n        }\n        days -= md;\n    }\n    if mo == 0 {\n        mo = 12;\n    }\n\n    (y, mo, days + 1, h, mi, sec)\n}",
+  "source_version": "crates/corvia-telemetry/src/dashboard_trace_layer.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.431331713Z",
+  "valid_from": "2026-03-31T13:20:59.431331713Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-telemetry/src/dashboard_trace_layer.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 172,
+    "end_line": 214,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

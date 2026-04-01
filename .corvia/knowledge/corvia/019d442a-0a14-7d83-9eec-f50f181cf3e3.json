@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f50f181cf3e3",
+  "content": "r>\n    Give AI the right tools to close the feedback loop,<br>\n    and it goes from frustrating to genuinely useful.</p>\n  </div>\n\n  <div class=\"flex-grow\"></div>\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">07 / 08</div>\n</div>\n<!-- ════════════════════════════════════════════════ -->\n<!-- SLIDE 8: TAKEAWAYS                              -->\n<!-- ════════════════════════════════════════════════ -->\n<div class=\"slide\" style=\"background: linear-gradient(160deg, #0f172a 0%, #1a2332 50%, #0f172a 100%);\">\n  <div class=\"slide-label\">Key Takeaways</div>\n  <div class=\"slide-title\">\n    What I Learned<br>\n    <span class=\"highlight-green\">Building UI with AI</span>\n  </div>\n\n  <div class=\"takeaway-list\">\n    <div class=\"takeaway-item\">\n      <div class=\"takeaway-icon\">&#128065;</div>\n      <div class=\"takeaway-text\">\n        <strong>AI can code UI. It can't see UI.</strong><br>\n        <span style=\"color: var(--text-secondary);\">Valid CSS doesn't mean correct layout.<br>The rendering gap is real.</span>\n      </div>\n    </div>\n    <div class=\"takeaway-item\">\n      <div class=\"takeaway-icon\">&#128196;</div>\n      <div class=\"takeaway-text\">\n        <strong>Alignment is the failure mode.</strong><br>\n        <span style=\"color: var(--text-secondary);\">Text overflow, element overlap, misalignment<br>&mdash; the same issues every time.</span>\n      </div>\n    </div>\n    <div class=\"takeaway-item\">\n      <div class=\"takeaway-icon\">&#128295;</div>\n      <div class=\"takeaway-text\">\n        <strong>Tools beat prompts.</strong><br>\n        <span style=\"color: var(--text-secondary);\">No amount of \"be careful with alignment\"<br>in a prompt fixes this. A screenshot helps.</span>\n      </div>\n    </div>\n    <div class=\"takeaway-item\">\n      <div class=\"takeaway-icon\">&#128161;</div>\n      <div class=\"takeaway-text\">\n        <strong>Context engineering &gt; prompt engineering.</strong><br>\n        <span style=\"color: var(--text-secondary);\">Don't ask AI to be better. Give it the right<br>tools to close the loop.</span>\n      </div>\n    </div>\n  </div>",
+  "source_version": "marketing/linkedin/2026-03-11-ai-blind-designer/ai-blind-designer-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028041403Z",
+  "valid_from": "2026-03-31T13:51:39.028041403Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-11-ai-blind-designer/ai-blind-designer-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 715,
+    "end_line": 754,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

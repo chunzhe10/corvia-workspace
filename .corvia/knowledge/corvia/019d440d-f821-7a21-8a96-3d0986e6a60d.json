@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f821-7a21-8a96-3d0986e6a60d",
+  "content": "        .append(true)\n        .open(path)\n        .map_err(|e| CorviaError::Storage(format!(\"Failed to open events file: {e}\")))?;\n    writeln!(file, \"{line}\")\n        .map_err(|e| CorviaError::Storage(format!(\"Failed to write event: {e}\")))?;\n    Ok(())\n}\nmod tests {\n    use super::*;\n\n    #[test]\n    fn test_event_serialization() {\n        let event = Event::new(EventType::ChunksIndexed, serde_json::json!({\"count\": 42}));\n        let json = serde_json::to_string(&event).unwrap();\n        assert!(json.contains(\"ChunksIndexed\"));\n        assert!(json.contains(\"42\"));\n    }\n\n    #[test]\n    fn test_append_event() {\n        let path = std::path::Path::new(\"/tmp/corvia-test-events.jsonl\");\n        let _ = std::fs::remove_file(path); // clean up from previous runs\n        let event = Event::new(EventType::SearchPerformed, serde_json::json!({\"query\": \"test\"}));\n        append_event(path, &event).unwrap();\n        let content = std::fs::read_to_string(path).unwrap();\n        assert!(content.contains(\"SearchPerformed\"));\n    }\n}",
+  "source_version": "crates/corvia-common/src/events.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.425126136Z",
+  "valid_from": "2026-03-31T13:20:59.425126136Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/events.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 55,
+    "end_line": 75,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-383d44c38f6f",
+  "content": "## Task 12: gRPC Integration Tests\n\n    let resp = mgr.load_model(tonic::Request::new(LoadModelRequest {\n        name: \"bge-small-en-v1.5\".into(), // small model for fast test\n        model_type: \"embedding\".into(),\n    })).await.unwrap();\n    assert!(resp.into_inner().success);\n\n    // Embed single text\n    let mut embed = EmbeddingServiceClient::connect(url.clone()).await.unwrap();\n    let resp = embed.embed(tonic::Request::new(EmbedRequest {\n        model: \"bge-small-en-v1.5\".into(),\n        text: \"hello world\".into(),\n    })).await.unwrap();\n    let resp = resp.into_inner();\n    assert_eq!(resp.dimensions, 384); // bge-small-en-v1.5 = 384 dims\n    assert_eq!(resp.embedding.len(), 384);\n\n    // Embed batch\n    let resp = embed.embed_batch(tonic::Request::new(EmbedBatchRequest {\n        model: \"bge-small-en-v1.5\".into(),\n        texts: vec![\"hello\".into(), \"world\".into()],\n    })).await.unwrap();\n    let resp = resp.into_inner();\n    assert_eq!(resp.embeddings.len(), 2);\n    assert_eq!(resp.embeddings[0].index, 0);\n    assert_eq!(resp.embeddings[1].index, 1);\n\n    // Cleanup\n    child.kill().ok();\n}\n```\n\n**Step 2: Register test in Cargo.toml**\n\nAdd to `crates/corvia-cli/Cargo.toml`:\n```toml\n[[test]]\nname = \"grpc_inference_test\"\npath = \"../../tests/integration/grpc_inference_test.rs\"\n```\n\n**Step 3: Run test (manually, requires model download)**\n\nRun: `cargo test --test grpc_inference_test -- --ignored`\nExpected: PASS (downloads bge-small-en-v1.5 ONNX model ~50MB on first run).\n\n**Step 4: Commit**\n\n```bash\ngit add tests/integration/grpc_inference_test.rs crates/corvia-cli/Cargo.toml\ngit commit -m \"test(d60): add gRPC inference integration test\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458823891Z",
+  "valid_from": "2026-03-31T13:20:59.458823891Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1667,
+    "end_line": 1720,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

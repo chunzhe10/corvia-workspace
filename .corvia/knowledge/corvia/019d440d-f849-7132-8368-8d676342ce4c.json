@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-8d676342ce4c",
+  "content": "cli`\nExpected: compiles cleanly.\n\n**Step 6: Commit**\n\n```bash\ngit add crates/corvia-cli/src/main.rs crates/corvia-cli/src/workspace.rs crates/corvia-kernel/src/lib.rs\ngit commit -m \"feat(m2.1): implement corvia workspace create and init commands\"\n```\n\n---\n\n### Task 5: Implement `corvia workspace add` and `remove`\n\nConfig manipulation commands — add/remove repos from `corvia.toml`.\n\n**Files:**\n- Modify: `crates/corvia-cli/src/workspace.rs` (add functions)\n- Modify: `crates/corvia-cli/src/main.rs` (wire handlers)\n\n**Step 1: Write failing tests for add/remove**\n\nAdd to the test module in `workspace.rs`:\n\n```rust\n#[test]\nfn test_add_repo_to_config() {\n    let mut config = generate_workspace_config(\"test\", &[\"https://github.com/org/a\".into()], &[]);\n    add_repo_to_config(\n        &mut config,\n        \"https://github.com/org/b\",\n        Some(\"b\"),\n        Some(\"b-ns\"),\n        None,\n    ).unwrap();\n    let ws = config.workspace.as_ref().unwrap();\n    assert_eq!(ws.repos.len(), 2);\n    assert_eq!(ws.repos[1].name, \"b\");\n    assert_eq!(ws.repos[1].namespace, \"b-ns\");\n}\n\n#[test]\nfn test_add_repo_duplicate_fails() {\n    let mut config = generate_workspace_config(\"test\", &[\"https://github.com/org/a\".into()], &[]);\n    let result = add_repo_to_config(&mut config, \"https://github.com/org/other\", Some(\"a\"), None, None);\n    assert!(result.is_err());\n}\n\n#[test]\nfn test_remove_repo_from_config() {\n    let mut config = generate_workspace_config(\n        \"test\",\n        &[\"https://github.com/org/a\".into(), \"https://github.com/org/b\".into()],\n        &[],\n    );\n    remove_repo_from_config(&mut config, \"a\").unwrap();\n    let ws = config.workspace.as_ref().unwrap();\n    assert_eq!(ws.repos.len(), 1);",
+  "source_version": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465183865Z",
+  "valid_from": "2026-03-31T13:20:59.465183865Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 788,
+    "end_line": 833,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-a03d0163429e",
+  "content": "tegy_name: strategy_name.clone(),\n                    was_split: original.metadata.parent_chunk_id.is_some(),\n                    was_merged: false, // TODO: track merge flag\n                    overlap_tokens,\n                },\n            });\n        }\n\n        Ok(final_chunks)\n    }\n\n    pub fn process_batch(\n        &self,\n        files: &[SourceFile],\n    ) -> Result<(Vec<ProcessedChunk>, ProcessingReport)> {\n        let mut all_chunks = Vec::new();\n        let mut report = ProcessingReport::default();\n\n        for file in files {\n            let chunks = self.process(&file.content, &file.metadata)?;\n            let strategy_name = if let Some(first) = chunks.first() {\n                first.processing.strategy_name.clone()\n            } else {\n                \"unknown\".into()\n            };\n\n            let stats = report.per_strategy.entry(strategy_name).or_default();\n            stats.files += 1;\n            stats.chunks += chunks.len();\n            stats.splits += chunks.iter().filter(|c| c.processing.was_split).count();\n\n            report.files_processed += 1;\n            report.total_chunks += chunks.len();\n            report.chunks_split += chunks.iter().filter(|c| c.processing.was_split).count();\n\n            all_chunks.extend(chunks);\n        }\n\n        // Compute token stats\n        if !all_chunks.is_empty() {\n            let mut token_counts: Vec<usize> = all_chunks.iter()\n                .map(|c| c.token_estimate)\n                .collect();",
+  "source_version": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464831128Z",
+  "valid_from": "2026-03-31T13:20:59.464831128Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1458,
+    "end_line": 1492,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

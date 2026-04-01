@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-fabfe72fd61a",
+  "content": "nd;\n    padding-right: 16px; font-size: 16px; font-weight: 800;\n    transition: width 0.3s ease;\n  }\n  .bar-value {\n    font-size: 17px; font-weight: 800; min-width: 80px; text-align: left;\n    margin-left: 12px; flex-shrink: 0;\n  }\n</style>\n</head>\n<body>\n<!-- SLIDE 1: COVER -->\n<div class=\"slide\" style=\"background: linear-gradient(160deg, #0f172a 0%, #1a1a3e 50%, #0f172a 100%);\">\n  <div class=\"slide-label\">A Developer's Discovery</div>\n  <div class=\"cover-center\">\n    <div style=\"font-size: 72px; margin-bottom: 32px;\">&#128202;</div>\n    <div class=\"slide-title\" style=\"font-size: 54px; line-height: 1.12;\">\n      I Benchmarked<br>\n      3 Compute Backends.<br>\n      <span class=\"highlight-cyan\">The Results Were Interesting.</span>\n    </div>\n    <div class=\"slide-subtitle\" style=\"font-size: 22px;\">\n      CPU vs Intel iGPU vs NVIDIA dGPU for embedding inference<br>\n      in <span class=\"corvia-wm\">corvia</span>'s real-world RAG pipeline — and why the<br>\n      backend mattered less than I expected.\n    </div>\n    <div class=\"cover-tags\">\n      <span class=\"tag\">ONNX Runtime</span>\n      <span class=\"tag\">OpenVINO</span>\n      <span class=\"tag\">CUDA</span>\n      <span class=\"tag\">Rust</span>\n      <span class=\"tag\">nomic-embed-text-v1.5</span>\n    </div>\n    <div style=\"margin-top: 24px; font-size: 17px; color: var(--text-muted);\">\n      github.com/chunzhe10/corvia\n    </div>\n  </div>\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">01 / 08</div>\n</div>\n\n<!-- SLIDE 2: THE SETUP -->\n<div class=\"slide\">\n  <div class=\"slide-label\">The Setup</div>\n  <div class=\"slide-title\" style=\"margin-bottom: 24px;\">\n    One Laptop.<br>\n    <span class=\"highlight\">Three Backends.</span>\n  </div>\n  <div class=\"slide-subtitle\" style=\"font-size: 20px; margin-bottom: 32px;\">\n    <span class=\"corvia-wm\">corvia</span> is organizational memory for AI agents. Its inference server\n    embeds text into vectors for semantic search. I wanted to know which\n    hardware backend to default to.\n  </div>",
+  "source_version": "marketing/linkedin/2026-03-16-embedding-benchmark/embedding-benchmark-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028971718Z",
+  "valid_from": "2026-03-31T13:51:39.028971718Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-16-embedding-benchmark/embedding-benchmark-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 168,
+    "end_line": 209,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82f-7ca0-945f-abc300499d10",
+  "content": "BM25 requested but no FTS available, skipping\"));\n                    }\n                }\n                other => {\n                    warnings.push(format!(\"{mt} channel: unknown strategy '{other}', skipping\"));\n                }\n            }\n        }\n\n        // Collect results with timeout. Channels that timeout or error are skipped.\n        let mut channel_sets: Vec<RankedSet> = Vec::new();\n\n        for (mt, handle) in handles {\n            match tokio::time::timeout(timeout, handle).await {\n                Ok(Ok(Ok(results))) => {\n                    let candidates = VectorSearcher::to_candidates(results, &mt.to_string());\n                    channel_sets.push(RankedSet {\n                        candidates,\n                        metrics: StageMetrics {\n                            stage_name: format!(\"channel:{mt}\"),\n                            latency_ms: 0,\n                            input_count: 0,\n                            output_count: 0,\n                            warnings: Vec::new(),\n                        },\n                    });\n                }\n                Ok(Ok(Err(e))) => {\n                    warnings.push(format!(\"{mt} channel error: {e}\"));\n                }\n                Ok(Err(e)) => {\n                    warnings.push(format!(\"{mt} channel join error: {e}\"));\n                }\n                Err(_) => {\n                    warnings.push(format!(\"{mt} channel timed out after {}ms\", self.timeout_ms));\n                }\n            }\n        }\n\n        // Fuse via RRF\n        let fusion = RRFusion::new(self.rrf_k);\n        let mut fused = fusion.fuse(channel_sets).await?;\n\n        let output_count = fused.candidates.len();\n        let latency_ms = start.elapsed().as_millis() as u64;\n\n        fused.metrics = StageMetrics {\n            stage_name: self.name().to_string(),\n            latency_ms,\n            input_count: 0,\n            output_count,\n            warnings,\n        };\n\n        info!(\n            searcher = self.name(),\n            output_count,\n            latency_ms,\n            \"multichannel search complete\"\n        );\n\n        Ok(fused)\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/pipeline/searcher.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.439566024Z",
+  "valid_from": "2026-03-31T13:20:59.439566024Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/searcher.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 378,
+    "end_line": 433,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

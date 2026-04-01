@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84b-7723-860a-1a1f6a5d7536",
+  "content": "t lower = text.to_lowercase();\n    assert!(\n        lower.contains(\"jwt\") || lower.contains(\"auth\") || lower.contains(\"session\") || lower.contains(\"rsa\"),\n        \"Context should contain auth-related content, got: {}\", &text[..text.len().min(300)]\n    );\n}\nasync fn test_multi_agent_writes() {\n    skip_if_unavailable!();\n    skip_if_not_extended!();\n    let env = get_or_init_env().await;\n\n    let (r1, r2) = tokio::join!(\n        async {\n            let a = mcp_write(env, \"corvia\", \"Alpha agent: distributed tracing design\", \"e2e-alpha\").await;\n            let b = mcp_write(env, \"corvia\", \"Alpha agent: metrics collection patterns\", \"e2e-alpha\").await;\n            (a, b)\n        },\n        async {\n            let a = mcp_write(env, \"corvia\", \"Beta agent: load testing methodology\", \"e2e-beta\").await;\n            let b = mcp_write(env, \"corvia\", \"Beta agent: performance benchmarking results\", \"e2e-beta\").await;\n            (a, b)\n        }\n    );\n\n    // mcp_write already asserts !isError, so if we get here all 4 succeeded\n    assert!(r1.0.contains(\"written\"), \"Alpha write 1: {}\", r1.0);\n    assert!(r1.1.contains(\"written\"), \"Alpha write 2: {}\", r1.1);\n    assert!(r2.0.contains(\"written\"), \"Beta write 1: {}\", r2.0);\n    assert!(r2.1.contains(\"written\"), \"Beta write 2: {}\", r2.1);\n}",
+  "source_version": "tests/integration/docker_mcp_e2e_test.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.467296267Z",
+  "valid_from": "2026-03-31T13:20:59.467296267Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "tests/integration/docker_mcp_e2e_test.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 689,
+    "end_line": 712,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

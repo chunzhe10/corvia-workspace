@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-79ccbe86efe4",
+  "content": "## Task 5: GraphExpandRetriever\n\n        // Create graph edge: A --depends_on--> B\n        use crate::traits::GraphStore;\n        store.relate(&ea.id, \"depends_on\", &eb.id, None).await.unwrap();\n\n        // Filler\n        for i in 0..8 {\n            let mut f = KnowledgeEntry::new(format!(\"filler-{i}\"), \"proj\".into(), \"v1\".into())\n                .with_embedding(next_emb());\n            f.entry_status = EntryStatus::Merged;\n            store.insert(&f).await.unwrap();\n        }\n\n        let graph = Arc::new(store.clone()) as Arc<dyn GraphStore>;\n        let retriever = GraphExpandRetriever::new(store.clone(), engine, graph, 0.3);\n        assert_eq!(retriever.name(), \"graph_expand\");\n\n        let opts = RetrievalOpts { limit: 5, expand_graph: true, graph_depth: 1, ..Default::default() };\n        let result = retriever.retrieve(\"auth query\", \"proj\", &opts).await.unwrap();\n\n        assert_eq!(result.metrics.retriever_name, \"graph_expand\");\n        // Graph expansion should have found at least some neighbors\n        // (HNSW may find both entries anyway via vector search, but graph_expanded count\n        // should reflect edges traversed that added new entries)\n        assert!(result.results.len() >= 2, \"Expected at least 2 results, got {}\", result.results.len());\n    }\n\n    #[tokio::test]\n    async fn test_graph_expand_retriever_falls_back_when_disabled() {\n        let dir = tempfile::tempdir().unwrap();\n        let store = Arc::new(LiteStore::open(dir.path(), 3).unwrap()) as Arc<dyn QueryableStore>;\n        let engine = Arc::new(MockEngine) as Arc<dyn InferenceEngine>;\n        store.init_schema().await.unwrap();\n\n        let mut idx = 0_usize;\n        let mut next_emb = || { idx += 1; vec![1.0, idx as f32 * 0.001, 0.0] };",
+  "source_version": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461889452Z",
+  "valid_from": "2026-03-31T13:20:59.461889452Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 802,
+    "end_line": 836,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

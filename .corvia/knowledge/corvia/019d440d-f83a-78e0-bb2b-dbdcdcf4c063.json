@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83a-78e0-bb2b-dbdcdcf4c063",
+  "content": "56\".into()));\n        let s = ns.to_string();\n        let parsed = Namespace::parse(&s).unwrap();\n        assert_eq!(ns, parsed);\n    }\n\n    #[test]\n    fn test_namespace_parse_invalid() {\n        assert!(Namespace::parse(\"only:two:parts\").is_err());\n    }\n}\n```\n\n**Step 2: Write config**\n\n`crates/corvia-common/src/config.rs`:\n```rust\nuse serde::{Deserialize, Serialize};\nuse std::path::{Path, PathBuf};\nuse crate::errors::{CorviaError, Result};\n\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct CorviaConfig {\n    pub project: ProjectConfig,\n    pub storage: StorageConfig,\n    pub embedding: EmbeddingConfig,\n    pub server: ServerConfig,\n}\n\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct ProjectConfig {\n    pub name: String,\n    pub scope_id: String,\n}\n\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct StorageConfig {\n    pub surrealdb_url: String,\n    pub surrealdb_ns: String,\n    pub surrealdb_db: String,\n    pub surrealdb_user: String,\n    pub surrealdb_pass: String,\n}\n\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct EmbeddingConfig {\n    pub provider: String,\n    pub model: String,\n    pub url: String,\n    pub dimensions: usize,\n}\n\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct ServerConfig {\n    pub host: String,\n    pub port: u16,\n}\n\nimpl Default for CorviaConfig {\n    fn default() -> Self {\n        Self {\n            project: ProjectConfig {\n                name: \"default\".into(),\n                scope_id: \"default\".into(),\n            },\n            storage: StorageConfig {\n                surrealdb_url: \"ws://localhost:8000\".into(),\n                surrealdb_ns: \"corvia\".into(),\n                surrealdb_db: \"main\".into(),\n                surrealdb_user: \"root\".into(),\n                surrealdb_pass: \"root\".into(),\n            },\n            embedding: EmbeddingConfig {",
+  "source_version": "docs/rfcs/2026-02-28-m1-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.450614185Z",
+  "valid_from": "2026-03-31T13:20:59.450614185Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-m1-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 530,
+    "end_line": 592,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

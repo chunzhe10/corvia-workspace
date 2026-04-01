@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f843-7a03-b56b-3037283223eb",
+  "content": "### Task 2: Extend TelemetryConfig\n\n    pub otlp_endpoint: String,\n    #[serde(default = \"default_telemetry_otlp_protocol\")]\n    pub otlp_protocol: String,\n    #[serde(default = \"default_telemetry_service_name\")]\n    pub service_name: String,\n    #[serde(default = \"default_telemetry_log_format\")]\n    pub log_format: String,\n    #[serde(default = \"default_telemetry_metrics_enabled\")]\n    pub metrics_enabled: bool,\n}\n```\n\nAdd default functions after the existing ones (after line 295):\n\n```rust\nfn default_telemetry_otlp_protocol() -> String { \"grpc\".into() }\nfn default_telemetry_service_name() -> String { \"corvia\".into() }\n```\n\nUpdate `Default` impl (line 297-305):\n\n```rust\nimpl Default for TelemetryConfig {\n    fn default() -> Self {\n        Self {\n            exporter: default_telemetry_exporter(),\n            otlp_endpoint: String::new(),\n            otlp_protocol: default_telemetry_otlp_protocol(),\n            service_name: default_telemetry_service_name(),\n            log_format: default_telemetry_log_format(),\n            metrics_enabled: default_telemetry_metrics_enabled(),\n        }\n    }\n}\n```\n\n-**Step 4: Run tests to verify they pass**\n\nRun: `cd /workspaces/corvia-workspace/repos/corvia && cargo test -p corvia-common -- --nocapture`\nExpected: All tests PASS\n\n-**Step 5: Commit**\n\n```bash\ngit add crates/corvia-common/src/config.rs\ngit commit -m \"feat(config): add service_name and otlp_protocol to TelemetryConfig\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-11-otel-standardization.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.459026704Z",
+  "valid_from": "2026-03-31T13:20:59.459026704Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-otel-standardization.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 96,
+    "end_line": 145,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

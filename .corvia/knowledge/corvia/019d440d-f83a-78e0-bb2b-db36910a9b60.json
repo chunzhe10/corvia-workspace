@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83a-78e0-bb2b-db36910a9b60",
+  "content": "# M1: \"Point it at your repo, search your code\" — Implementation Plan\n\n## Task 1: Project Scaffold\n\n**Files:**\n- Create: `Cargo.toml` (workspace root)\n- Create: `crates/corvia-common/Cargo.toml`\n- Create: `crates/corvia-common/src/lib.rs`\n- Create: `crates/corvia-kernel/Cargo.toml`\n- Create: `crates/corvia-kernel/src/lib.rs`\n- Create: `crates/corvia-server/Cargo.toml`\n- Create: `crates/corvia-server/src/lib.rs`\n- Create: `crates/corvia-cli/Cargo.toml`\n- Create: `crates/corvia-cli/src/main.rs`\n- Create: `docker/docker-compose.yml`\n- Create: `.gitignore`\n- Move: brainstorm/design files into `docs/rfcs/`\n\n**Step 1: Initialize git repo and move design docs**\n\n```bash\ncd /root/corvia\ngit init\nmv 2026-02-25-corvia-brainstorm.md docs/rfcs/\nmv 2026-02-25-corvia-design.md docs/rfcs/\nmv 2026-02-27-corvia-v0.2.0-brainstorm.md docs/rfcs/\nmv \"organizational reasoning memory system v3.pdf\" docs/rfcs/\n```\n\n**Step 2: Create workspace Cargo.toml**\n\n```toml",
+  "source_version": "docs/rfcs/2026-02-28-m1-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.450464310Z",
+  "valid_from": "2026-03-31T13:20:59.450464310Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-m1-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 17,
+    "end_line": 46,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

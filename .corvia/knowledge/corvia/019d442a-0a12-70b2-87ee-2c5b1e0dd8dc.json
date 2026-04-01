@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-2c5b1e0dd8dc",
+  "content": "### AgentsView Enhancement\n\n#### 1. Merge spoke data with agent data\n\n```typescript\nfunction AgentsView() {\n    const agents = usePoll(fetchAgents, 5000);\n    const spokes = usePoll(fetchSpokes, 15000); // 15s: container state changes slowly\n\n    // Merge: attach spoke metadata to matching agents\n    const enriched: EnrichedAgent[] = useMemo(() => {\n        const spokeMap = new Map(spokes.map(s => [s.agent_id, s]));\n        return agents.map(a => ({\n            ...a,\n            spoke: spokeMap.get(a.agent_id),\n        }));\n    }, [agents, spokes]);\n\n    // Sort: spokes first (active work), then other agents\n    const sorted = useMemo(() =>\n        [...enriched].sort((a, b) => {\n            if (a.spoke && !b.spoke) return -1;\n            if (!a.spoke && b.spoke) return 1;\n            return 0;\n        }),\n    [enriched]);\n}\n```\n",
+  "source_version": "decisions/2026-03-28-spoke-dashboard-design.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026191313Z",
+  "valid_from": "2026-03-31T13:51:39.026191313Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-dashboard-design.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 171,
+    "end_line": 197,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

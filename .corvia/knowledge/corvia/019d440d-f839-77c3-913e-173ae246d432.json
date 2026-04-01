@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f839-77c3-913e-173ae246d432",
+  "content": "       ];\n        let budget = TokenBudget {\n            max_context_tokens: Some(100),\n            ..Default::default()\n        };\n\n        let ctx = augment_compact(&results, &budget).unwrap();\n        assert!(ctx.metrics.sources_truncated >= 1);\n    }\n}\nfn mock_result(content: &str, score: f32, source_file: Option<&str>) -> SearchResult {\n        let mut entry = KnowledgeEntry::new(content.into(), \"proj\".into(), \"v1\".into());\n        entry.entry_status = EntryStatus::Merged;\n        entry.metadata = EntryMetadata {\n            source_file: source_file.map(|s| s.into()),\n            language: Some(\"rust\".into()),\n            chunk_type: Some(\"function\".into()),\n            ..Default::default()\n        };\n        SearchResult { entry, score, tier: Tier::Hot, retention_score: None }\n    }",
+  "source_version": "crates/corvia-kernel/src/augmenter.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.449252078Z",
+  "valid_from": "2026-03-31T13:20:59.449252078Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/augmenter.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 335,
+    "end_line": 345,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

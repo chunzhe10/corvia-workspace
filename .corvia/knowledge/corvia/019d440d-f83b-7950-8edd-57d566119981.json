@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-57d566119981",
+  "content": " agents with Active status.\n    pub fn list_active(&self) -> Result<Vec<AgentRecord>> {\n        self.list_all()?\n            .into_iter()\n            .filter(|a| a.status == AgentStatus::Active)\n            .collect::<Vec<_>>()\n            .pipe(Ok)\n    }\n\n    /// List all agent records.\n    pub fn list_all(&self) -> Result<Vec<AgentRecord>> {\n        let read_txn = self.db.begin_read()\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to begin read txn: {e}\")))?;\n        let table = read_txn.open_table(AGENTS)\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to open agents table: {e}\")))?;\n\n        let mut agents = Vec::new();\n        let iter = table.iter()\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to iterate agents: {e}\")))?;\n        for item in iter {\n            let (_, val) = item\n                .map_err(|e| CorviaError::Agent(format!(\"Failed to read agent: {e}\")))?;\n            let record: AgentRecord = serde_json::from_slice(val.value())\n                .map_err(|e| CorviaError::Agent(format!(\"Failed to deserialize agent: {e}\")))?;\n            agents.push(record);\n        }\n        Ok(agents)\n    }\n\n    /// Internal: write an agent record.\n    fn put(&self, record: &AgentRecord) -> Result<()> {\n        let bytes = serde_json::to_vec(record)\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to serialize agent: {e}\")))?;\n        let write_txn = self.db.begin_write()\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to begin write txn: {e}\")))?;\n        {\n            let mut table = write_txn.open_table(AGENTS)\n                .map_err(|e| CorviaError::Agent(format!(\"Failed to open agents table: {e}\")))?;\n            table.insert(record.agent_id.as_str(), bytes.as_slice())\n                .map_err(|e| CorviaError::Agent(format!(\"Failed to update agent: {e}\")))?;\n        }\n        write_txn.commit()\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to commit agent update: {e}\")))?;\n        Ok(())\n    }\n}\n\n// Helper trait for piping values (avoids separate variable)\ntrait Pipe: Sized {\n    fn pipe<F, R>(self, f: F) -> R where F: FnOnce(Self) -> R { f(self) }\n}\nimpl<T> Pipe for T {}\n```\n",
+  "source_version": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451704640Z",
+  "valid_from": "2026-03-31T13:20:59.451704640Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 706,
+    "end_line": 750,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

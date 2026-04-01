@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82f-7ca0-945f-ac5bd6ab9f69",
+  "content": ")) }\n        async fn remove_entry(&self, _entry_id: &uuid::Uuid) -> Result<()> { Ok(()) }\n        async fn rebuild_from_store(&self, _entries: &[KnowledgeEntry]) -> Result<usize> { Ok(0) }\n        async fn entry_count(&self) -> Result<u64> { Ok(0) }\n    }\nasync fn search_text(\n            &self,\n            _query: &str,\n            _scope_id: &str,\n            _limit: usize,\n        ) -> Result<Vec<SearchResult>> {\n            Ok(self.results.clone())\n        }",
+  "source_version": "crates/corvia-kernel/src/pipeline/searcher.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.439653735Z",
+  "valid_from": "2026-03-31T13:20:59.439653735Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/searcher.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 451,
+    "end_line": 458,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

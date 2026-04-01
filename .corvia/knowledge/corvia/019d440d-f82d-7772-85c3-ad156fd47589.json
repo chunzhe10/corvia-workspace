@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82d-7772-85c3-ad156fd47589",
+  "content": "\n                break;\n            }\n            continue;\n        }\n        if line.is_empty() {\n            if !lines.is_empty() {\n                break;\n            }\n            continue;\n        }\n        lines.push(line);\n    }\n    lines.join(\" \")\n}\nmod tests {\n    use super::*;\n    use async_trait::async_trait;\n\n    /// Mock engine that returns fixed embeddings for testing.\n    struct MockEngine {\n        dimensions: usize,\n    }\n\n    #[async_trait]\n    impl InferenceEngine for MockEngine {\n        async fn embed(&self, _text: &str) -> Result<Vec<f32>> {\n            Ok(vec![1.0, 0.0, 0.0])\n        }\n        async fn embed_batch(&self, texts: &[String]) -> Result<Vec<Vec<f32>>> {\n            // Return distinct embeddings so we can test matching.\n            Ok(texts\n                .iter()\n                .enumerate()\n                .map(|(i, _)| {\n                    let mut v = vec![0.0; self.dimensions];\n                    v[i % self.dimensions] = 1.0;\n                    v\n                })\n                .collect())\n        }\n        fn dimensions(&self) -> usize {\n            self.dimensions\n        }\n    }\n\n    #[test]\n    fn test_parse_skill_with_frontmatter() {\n        let raw = r#\"---\ndescription: Guide debugging and root cause analysis\n---\n\n# Debugging Skill\n\nWhen debugging, always ask about error messages first.\n\"#;\n        let (desc, content) = parse_skill_file(raw);\n        assert_eq!(desc, \"Guide debugging and root cause analysis\");\n        assert!(content.contains(\"# Debugging Skill\"));\n        assert!(content.contains(\"error messages\"));\n    }\n\n    #[test]\n    fn test_parse_skill_without_frontmatter() {\n        let raw = r#\"# Architecture Patterns\n\nGuide the LLM to reference high-level patterns.\n\nExplain component relationships clearly.",
+  "source_version": "crates/corvia-kernel/src/skill_registry.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.437892869Z",
+  "valid_from": "2026-03-31T13:20:59.437892869Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/skill_registry.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 236,
+    "end_line": 289,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

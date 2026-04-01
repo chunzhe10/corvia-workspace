@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-74380ec98fa8",
+  "content": "## RAG Integration Points\n## Forward Compatibility: Multi-Channel RAG\n\n## Deferred Work\n\n| Item | Reason | Tracked |\n|------|--------|---------|\n| Buffered access writes (DashMap) | Premature optimization at current scale | chunzhe10/corvia#12 |\n| Multi-channel RAG | Separate feature, forward-compatible | chunzhe10/corvia#13 |\n| Agent breadth tracking (`access_agents`) | No consumer in v1, add when multi-channel RAG needs it | — |\n| Age-based forgetting policy | Redundant with power-law decay | — |\n| Supersession chain compaction | Knowledge loss risk, needs LLM dependency | v2 |\n| Cluster compaction | Research problem, poor risk/reward | — |\n| Secondary cold HNSW index | Only needed above 50K cold entries | — |\n| PageRank for graph scoring | O(E×iterations), degree centrality sufficient | — |\n| Outbound edge scoring | Inbound-only captures structural importance | — |\n| TIER_INDEX Redb table | GC already does full scan; use in-memory counters instead | — |\n\n\n## Research References\n\n| System/Paper | Key Contribution |\n|---|---|\n| Redis Agent Memory Server | 5-stage lifecycle, 4 forgetting policies, background compaction |\n| Hindsight (arxiv 2512.12818) | 4-network architecture, TEMPR parallel retrieval, 91.4% LongMemEval |\n| MAGMA (arxiv 2601.03236) | Multi-graph decomposition (semantic/temporal/causal/entity) |\n| SAGE (arxiv 2409.00872) | Ebbinghaus curve as active pruning policy |\n| Knowledge Objects (arxiv 2603.17781) | Anti-compaction: 60% knowledge loss from cascading summarization |\n| Kahana & Adler (2002, UPenn) | Human aggregate forgetting follows power-law, not exponential |\n| Tsinghua Memory Survey (arxiv 2512.13564) | 4-tier cognitive taxonomy (working/episodic/semantic/procedural) |\n| Caffeine/Moka | W-TinyLFU, striped ring buffer, lossy access tracking |",
+  "source_version": "docs/rfcs/2026-03-27-tiered-knowledge-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463863553Z",
+  "valid_from": "2026-03-31T13:20:59.463863553Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-27-tiered-knowledge-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 700,
+    "end_line": 726,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

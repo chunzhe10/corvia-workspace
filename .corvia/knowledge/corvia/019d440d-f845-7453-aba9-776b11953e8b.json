@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-776b11953e8b",
+  "content": "#### Implementation Architecture\n\n**Component breakdown:**\n\n| Component | What it actually is | Complexity |\n|-----------|-------------------|------------|\n| Event log | Append JSON line to `.corvia/events.jsonl` | Trivial — `serde_json::to_string() >> file` |\n| Event types | Rust enum: `FileChanged`, `DocGenerated`, `DecisionCaptured`, etc. | Low — Rust enums |\n| Provenance | `caused_by: [decision_id, conversation_id]` field on events | Low — just metadata |\n| Snapshots | Git tags on commits (text tracked by git, binary by DVC) | Trivial — git tags, not custom directories |\n| Semantic diff | LLM prompt comparing two doc versions, run on-demand | Medium — but only runs when asked |\n| Temporal queries | Load git-tagged state, or filter events.jsonl by timestamp | Low — git checkout tag or grep JSONL |\n| Evolution narratives | Filter events by topic, walk chronologically, LLM narrates | Low — query pattern over event log |\n| Drift detection | Compare current doc embedding vs current code embedding | Medium — cosine similarity + LLM verification |\n| Event rotation | Cap at 10MB or 10K lines, rotate old file | Trivial — log rotation |\n\n**No graph database. No complex projections. No event replay for state derivation.** Just a JSONL file, git tags, and smart LLM queries.\n\n**Event schema example:**\n```jsonl\n{\"ts\":\"2026-02-25T10:30:00Z\",\"type\":\"FileChanged\",\"path\":\"src/auth.rs\",\"diff_hash\":\"abc123\"}\n{\"ts\":\"2026-02-25T10:30:01Z\",\"type\":\"ChunksIndexed\",\"file\":\"src/auth.rs\",\"chunks\":3}\n{\"ts\":\"2026-02-25T10:31:00Z\",\"type\":\"DocGenerated\",\"doc\":\"docs/auth.md\",\"source_chunks\":[\"auth.rs:1\",\"auth.rs:2\"],\"caused_by\":[\"D7\"]}\n{\"ts\":\"2026-02-25T10:35:00Z\",\"type\":\"DecisionCaptured\",\"id\":\"D8\",\"summary\":\"Use JWT over sessions\",\"conversation\":\"C12\"}\n```\n",
+  "source_version": "docs/rfcs/2026-02-25-corvia-brainstorm.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461548098Z",
+  "valid_from": "2026-03-31T13:20:59.461548098Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-25-corvia-brainstorm.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 390,
+    "end_line": 413,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

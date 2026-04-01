@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-3e6f325a7ae2",
+  "content": ".append(true)\n        .open(path)?;\n    file.write_all(line.as_bytes())?;\n    if !line.ends_with('\\n') {\n        file.write_all(b\"\\n\")?;\n    }\n    file.flush()?;\n    // file is dropped here (closed), then lock_file is dropped (flock released)\n\n    Ok(())\n}\nfn atomic_copy(source: &Path, target: &Path) -> Result<()> {\n    let tmp = target.with_file_name(format!(\n        \"{}.{}.tmp\",\n        target.file_name().unwrap_or_default().to_string_lossy(),\n        std::process::id()\n    ));\n    if let Err(e) = fs::copy(source, &tmp).and_then(|_| fs::rename(&tmp, target)) {\n        let _ = fs::remove_file(&tmp); // best-effort cleanup\n        return Err(e.into());\n    }\n    Ok(())\n}",
+  "source_version": "crates/corvia-cli/src/hooks/agent_teams.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429093876Z",
+  "valid_from": "2026-03-31T13:20:59.429093876Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/agent_teams.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 115,
+    "end_line": 126,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

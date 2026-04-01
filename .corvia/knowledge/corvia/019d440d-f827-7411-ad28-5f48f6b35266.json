@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f827-7411-ad28-5f48f6b35266",
+  "content": "pub(crate) const fn tier_weight(tier: Tier) -> f32 {\n    match tier {\n        Tier::Hot => 1.0,\n        Tier::Warm => 0.7,\n        Tier::Cold => 0.3,\n        Tier::Forgotten => 0.0,\n    }\n}\npub(crate) fn check_rbac_scope(\n    opts: &RetrievalOpts,\n    scope_id: &str,\n    retriever_name: &str,\n    start: &Instant,\n) -> Option<RetrievalResult> {\n    if let Some(ref perms) = opts.permissions\n        && let AgentPermission::ReadWrite { scopes } = perms\n            && !scopes.iter().any(|s| s == scope_id || s == \"*\") {\n                info!(\n                    retriever = retriever_name,\n                    scope_id,\n                    \"RBAC denied: agent lacks scope access\"\n                );\n                return Some(RetrievalResult {\n                    results: Vec::new(),\n                    metrics: RetrievalMetrics {\n                        latency_ms: start.elapsed().as_millis() as u64,\n                        embed_latency_ms: 0,\n                        search_latency_ms: 0,\n                        hnsw_latency_ms: 0,\n                        graph_latency_ms: 0,\n                        filter_latency_ms: 0,\n                        cold_scan_latency_ms: 0,\n                        vector_results: 0,\n                        cold_results: 0,\n                        graph_expanded: 0,\n                        graph_reinforced: 0,\n                        post_filter_count: 0,\n                        retriever_name: retriever_name.to_string(),\n                        bm25_latency_ms: None,\n                        bm25_results: None,\n                        fusion_method: None,\n                        fusion_latency_ms: None,\n                        stages: None,\n                    },\n                    query_embedding: None,\n                });\n            }\n    None\n}",
+  "source_version": "crates/corvia-kernel/src/retriever.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.431595573Z",
+  "valid_from": "2026-03-31T13:20:59.431595573Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/retriever.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 49,
+    "end_line": 89,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

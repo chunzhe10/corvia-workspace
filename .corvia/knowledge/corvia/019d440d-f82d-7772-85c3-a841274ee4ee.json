@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82d-7772-85c3-a841274ee4ee",
+  "content": "pub struct OllamaProvisioner {\n    url: String,\n}\nimpl OllamaProvisioner {\n    pub fn new(url: &str) -> Self {\n        Self {\n            url: url.to_string(),\n        }\n    }\n\n    /// Check if the `ollama` binary is installed.\n    pub fn is_installed() -> bool {\n        std::process::Command::new(\"ollama\")\n            .arg(\"--version\")\n            .stdout(std::process::Stdio::null())\n            .stderr(std::process::Stdio::null())\n            .status()\n            .map(|s| s.success())\n            .unwrap_or(false)\n    }\n\n    /// Check if Ollama is reachable (serving requests).\n    pub async fn is_running(&self) -> bool {\n        crate::ollama_engine::OllamaEngine::check_health(&self.url).await\n    }\n\n    /// Install Ollama using the official install script.\n    pub fn install() -> Result<()> {\n        info!(\"Installing Ollama...\");\n\n        let status = std::process::Command::new(\"sh\")\n            .arg(\"-c\")\n            .arg(\"curl -fsSL https://ollama.com/install.sh | sh\")\n            .stdout(std::process::Stdio::inherit())\n            .stderr(std::process::Stdio::inherit())\n            .status()",
+  "source_version": "crates/corvia-kernel/src/ollama_provisioner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.437293112Z",
+  "valid_from": "2026-03-31T13:20:59.437293112Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ollama_provisioner.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 10,
+    "end_line": 42,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

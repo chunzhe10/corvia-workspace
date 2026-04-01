@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81b-7e30-ace5-9d6eefa42ccd",
+  "content": " i in 0..clause.child_count() {\n        let Some(child) = clause.child(i as u32) else {\n            continue;\n        };\n        if !child.is_named() {\n            continue;\n        }\n        return extract_type_identifier(source, &child);\n    }\n    None\n}\nfn extract_type_identifier(source: &str, node: &Node) -> Option<String> {\n    match node.kind() {\n        \"identifier\" | \"type_identifier\" => {\n            Some(source[node.byte_range()].to_string())\n        }\n        \"generic_type\" => {\n            // Extract the name part before type arguments\n            node.child_by_field_name(\"name\")\n                .map(|n| source[n.byte_range()].to_string())\n        }\n        \"member_expression\" => {\n            // e.g., `module.ClassName` -> extract \"ClassName\"\n            node.child_by_field_name(\"property\")\n                .map(|p| source[p.byte_range()].to_string())\n        }\n        _ => {\n            // Fallback: try raw text, strip anything after '<'\n            let text = source[node.byte_range()].to_string();\n            let name = text.split('<').next().unwrap_or(&text).trim();\n            if name.is_empty() {\n                None\n            } else {\n                Some(name.to_string())\n            }\n        }\n    }\n}",
+  "source_version": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.419894732Z",
+  "valid_from": "2026-03-31T13:20:59.419894732Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 808,
+    "end_line": 834,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

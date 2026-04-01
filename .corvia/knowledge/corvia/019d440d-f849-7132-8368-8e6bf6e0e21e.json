@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-8e6bf6e0e21e",
+  "content": "### Task 10: Create `corvia-workspace` Repository Structure\n\n# Cloned repos (created by corvia workspace init)\nrepos/corvia/\nrepos/corvia-adapter-git/\n\n\n# Ephemeral indexes (rebuilt from knowledge files)\n.corvia/hnsw_index/\n.corvia/coordination.redb\n.corvia/coordination.redb.lock\n.corvia/staging/\n```\n\n**Step 4: Write README.md**\n\n```markdown",
+  "source_version": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465370942Z",
+  "valid_from": "2026-03-31T13:20:59.465370942Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1487,
+    "end_line": 1500,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f836-7610-b605-be55d20b544c",
+  "content": "+ g + c;\n    if params.is_superseded {\n        total *= SUPERSESSION_PENALTY as f32;\n    }\n    if total.is_nan() {\n        total = 0.0;\n    }\n    total = total.clamp(0.0, 1.0);\n\n    ScoreBreakdown { d_score: d, a_score: a, g_score: g, c_score: c, total }\n}\npub fn compute_retention_score(params: &RetentionParams) -> f32 {\n    compute_retention_score_breakdown(params).total\n}",
+  "source_version": "crates/corvia-kernel/src/scoring.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.446396984Z",
+  "valid_from": "2026-03-31T13:20:59.446396984Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/scoring.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 162,
+    "end_line": 164,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

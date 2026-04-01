@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82a-7783-b9af-79dddeaebc19",
+  "content": "try.id\n                    ),\n                ));\n            }\n        }\n        Ok(findings)\n    }\n\n    /// Import edges where the target does not exist in the store.\n    async fn check_dangling_imports(\n        &self,\n        entries: &[KnowledgeEntry],\n        scope_id: &str,\n    ) -> Result<Vec<Finding>> {\n        let all_ids: HashSet<Uuid> = entries.iter().map(|e| e.id).collect();\n        let scoped: Vec<&KnowledgeEntry> = entries\n            .iter()\n            .filter(|e| e.scope_id == scope_id)\n            .collect();\n\n        let mut findings = Vec::new();\n        for entry in &scoped {\n            let edges = self\n                .graph\n                .edges(&entry.id, EdgeDirection::Outgoing)\n                .await?;\n            for edge in edges {\n                if edge.relation == \"imports\" && !all_ids.contains(&edge.to) {\n                    // Double-check the store\n                    let exists = self.store.get(&edge.to).await?.is_some();\n                    if !exists {\n                        findings.push(Finding::new(\n                            CheckType::DanglingImport,\n                            scope_id,\n                            vec![entry.id, edge.to],\n                            1.0,\n                            format!(\n                                \"Entry {} imports nonexistent entry {}\",\n                                entry.id, edge.to\n                            ),",
+  "source_version": "crates/corvia-kernel/src/reasoner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.434978164Z",
+  "valid_from": "2026-03-31T13:20:59.434978164Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/reasoner.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 335,
+    "end_line": 362,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f835-7a40-9ae4-0ebcdb3aad3b",
+  "content": "pub async fn destroy(&self, spoke_name: &str, force: bool) -> Result<()> {\n        let span = info_span!(\"corvia.spoke.destroy\", spoke_name, force);\n        self.destroy_inner(spoke_name, force).instrument(span).await\n    }\nasync fn destroy_inner(&self, spoke_name: &str, force: bool) -> Result<()> {\n        if !force {\n            // Graceful: send SIGTERM, wait 10s, then SIGKILL\n            self.docker\n                .stop_container(spoke_name, Some(StopContainerOptions { t: Some(10), signal: None }))\n                .await\n                .map_err(|e| {\n                    CorviaError::Docker(format!(\"Failed to stop spoke '{spoke_name}': {e}\"))\n                })?;\n        }\n\n        self.docker\n            .remove_container(\n                spoke_name,\n                Some(RemoveContainerOptions {\n                    force,\n                    ..Default::default()\n                }),\n            )\n            .await\n            .map_err(|e| {\n                CorviaError::Docker(format!(\"Failed to remove spoke '{spoke_name}': {e}\"))\n            })?;\n\n        info!(spoke_name, \"Spoke destroyed\");\n        Ok(())\n    }",
+  "source_version": "crates/corvia-kernel/src/spoke.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.445211715Z",
+  "valid_from": "2026-03-31T13:20:59.445211715Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/spoke.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 529,
+    "end_line": 555,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81d-7d20-aabb-bf14c88696ba",
+  "content": "fn test_timestamp_diff_ms_same() {\n        let a = \"2026-03-28T10:00:00Z\";\n        assert_eq!(timestamp_diff_ms(a, a), Some(0));\n    }\nfn t8_description_based_correlation() {\n        let dir = tempfile::tempdir().unwrap();\n        let sessions_dir = dir.path();\n\n        let lead_session_id = \"ses-lead-001\";\n\n        // Create lead transcript with Agent tool calls\n        let lead_jsonl = format!(\n            concat!(\n                r#\"{{\"type\":\"session_start\",\"session_id\":\"{}\",\"timestamp\":\"2026-03-28T10:00:00Z\",\"workspace\":\"/tmp\",\"git_branch\":\"main\",\"agent_type\":\"main\",\"parent_session_id\":null}}\"#, \"\\n\",\n                r#\"{{\"type\":\"tool_start\",\"session_id\":\"{}\",\"turn\":1,\"timestamp\":\"2026-03-28T10:00:01Z\",\"tool\":\"Agent\",\"input\":{{\"name\":\"researcher\",\"description\":\"Research auth patterns\",\"prompt\":\"...\"}}}}\"#, \"\\n\",\n                r#\"{{\"type\":\"tool_start\",\"session_id\":\"{}\",\"turn\":1,\"timestamp\":\"2026-03-28T10:00:02Z\",\"tool\":\"Agent\",\"input\":{{\"name\":\"reviewer\",\"description\":\"Review code quality\",\"prompt\":\"...\"}}}}\"#, \"\\n\",\n                r#\"{{\"type\":\"session_end\",\"session_id\":\"{}\",\"timestamp\":\"2026-03-28T10:30:00Z\",\"total_turns\":1}}\"#\n            ),\n            lead_session_id, lead_session_id, lead_session_id, lead_session_id\n        );\n\n        let lead_gz = sessions_dir.join(format!(\"{lead_session_id}.jsonl.gz\"));\n        let file = std::fs::File::create(&lead_gz).unwrap();\n        let mut encoder = flate2::write::GzEncoder::new(file, flate2::Compression::fast());\n        encoder.write_all(lead_jsonl.as_bytes()).unwrap();\n        encoder.finish().unwrap();\n\n        // Create subagent directory with two transcripts\n        let subagent_dir = sessions_dir.join(lead_session_id).join(\"subagents\");\n        std::fs::create_dir_all(&subagent_dir).unwrap();",
+  "source_version": "adapters/corvia-adapter-claude-sessions/rust/src/correlation.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.421376871Z",
+  "valid_from": "2026-03-31T13:20:59.421376871Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-claude-sessions/rust/src/correlation.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 450,
+    "end_line": 475,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

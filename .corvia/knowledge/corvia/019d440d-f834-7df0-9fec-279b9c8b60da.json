@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f834-7df0-9fec-279b9c8b60da",
+  "content": "ork: &str,\n        repo_name: &str,\n        repo_url: &str,\n        issue: Option<u32>,\n        branch_name: &str,\n        workspace_root: &str,\n    ) -> Result<()> {\n        let span = info_span!(\n            \"corvia.spoke.create\",\n            spoke_name,\n            agent_id,\n            repo = repo_name,\n            issue = issue.unwrap_or(0),\n        );\n        self.create_inner(\n            spoke_name, agent_id, hub, config, spoke_config, network,\n            repo_name, repo_url, issue, branch_name, workspace_root,\n        )\n        .instrument(span)\n        .await\n    }\n\n    #[allow(clippy::too_many_arguments)]\n    async fn create_inner(\n        &self,\n        spoke_name: &str,\n        agent_id: &str,\n        hub: &HubContext,\n        config: &CorviaConfig,\n        spoke_config: &SpokeConfig,\n        network: &str,\n        repo_name: &str,\n        repo_url: &str,\n        issue: Option<u32>,\n        branch_name: &str,\n        workspace_root: &str,\n    ) -> Result<()> {\n        // Read the MCP token from data dir\n        let data_dir = std::path::Path::new(&config.storage.data_dir);\n        let mcp_token_path = data_dir.join(\"mcp-token\");\n        let mcp_token = match std::fs::read_to_string(&mcp_token_path) {",
+  "source_version": "crates/corvia-kernel/src/spoke.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.444989842Z",
+  "valid_from": "2026-03-31T13:20:59.444989842Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/spoke.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 329,
+    "end_line": 359,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

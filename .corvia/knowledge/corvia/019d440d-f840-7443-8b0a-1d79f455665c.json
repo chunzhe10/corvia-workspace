@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-1d79f455665c",
+  "content": "ss**\n\n-**Step 6: Commit**\n\n```bash\ncd /workspaces/corvia-workspace/repos/corvia\ngit add crates/corvia-common/src/agent_types.rs crates/corvia-kernel/src/agent_registry.rs\ngit commit -m \"feat(agent): add description and activity_summary to AgentRecord\"\n```\n\n### Task 6: Reconnectable Agents Endpoint\n\n**Files:**\n- Modify: `crates/corvia-kernel/src/agent_coordinator.rs`\n- Modify: `crates/corvia-server/src/dashboard/mod.rs` or `crates/corvia-server/src/rest.rs`\n\n-**Step 1: Write failing test for reconnectable logic**\n\nIn `agent_coordinator.rs` tests (or inline):\n\n```rust\n#[test]\nfn test_reconnectable_agents() {\n    // Setup: create agent, create session, make session stale\n    let coord = test_coordinator();\n    let identity = AgentIdentity::Registered { agent_id: \"test::agent\".into(), api_key: None };\n    coord.register_agent(&identity, \"Test Agent\", AgentPermission::ReadWrite { scopes: vec![\"test\".into()] }).unwrap();\n    let session = coord.create_session(\"test::agent\", false).unwrap();\n\n    // Transition to stale\n    coord.sessions.transition(&session.session_id, SessionState::Stale).unwrap();\n\n    let reconnectable = coord.list_reconnectable().unwrap();\n    assert_eq!(reconnectable.len(), 1);\n    assert_eq!(reconnectable[0].agent_id, \"test::agent\");\n}\n```\n\n-**Step 2: Implement `list_reconnectable` on AgentCoordinator**\n\n```rust",
+  "source_version": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456455983Z",
+  "valid_from": "2026-03-31T13:20:59.456455983Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 971,
+    "end_line": 1001,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

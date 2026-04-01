@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9f02e996fdd7",
+  "content": "### Task F5: Config Additions (RagConfig + ChunkingConfig)\n\n        }\n    }\n}\n```\n\n**Step 2: Add ChunkingConfig**\n\n```rust\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct ChunkingConfig {\n    #[serde(default = \"default_max_chunk_tokens\")]\n    pub max_tokens: usize,\n    #[serde(default = \"default_min_chunk_tokens\")]\n    pub min_tokens: usize,\n    #[serde(default = \"default_overlap_tokens\")]\n    pub overlap_tokens: usize,\n    #[serde(default = \"default_chunking_strategy\")]\n    pub strategy: String, // \"auto\" = format registry\n}\n\nfn default_max_chunk_tokens() -> usize { 512 }\nfn default_min_chunk_tokens() -> usize { 32 }\nfn default_overlap_tokens() -> usize { 64 }\nfn default_chunking_strategy() -> String { \"auto\".into() }\n\nimpl Default for ChunkingConfig {\n    fn default() -> Self {\n        Self {\n            max_tokens: default_max_chunk_tokens(),\n            min_tokens: default_min_chunk_tokens(),\n            overlap_tokens: default_overlap_tokens(),\n            strategy: default_chunking_strategy(),\n        }\n    }\n}\n```\n\n**Step 3: Add fields to CorviaConfig**\n\nAdd to the `CorviaConfig` struct:\n```rust\n#[serde(default)]\npub rag: RagConfig,\n#[serde(default)]\npub chunking: ChunkingConfig,\n```\n",
+  "source_version": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464614439Z",
+  "valid_from": "2026-03-31T13:20:59.464614439Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 661,
+    "end_line": 707,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

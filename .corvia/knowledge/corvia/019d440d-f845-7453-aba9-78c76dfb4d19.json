@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-78c76dfb4d19",
+  "content": "{\n    pub system_prompt: String,\n    pub context: String,\n    pub sources: Vec<SearchResult>,\n    pub metrics: AugmentationMetrics,\n}\n\n/// Metrics from the augmentation stage.\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct AugmentationMetrics {\n    pub latency_ms: u64,\n    pub token_estimate: usize,\n    pub token_budget: usize,\n    pub sources_included: usize,\n    pub sources_truncated: usize,\n    pub augmenter_name: String,\n}\n\n/// Output of the generation stage.\n#[derive(Debug, Clone)]\npub struct GenerationResult {\n    pub text: String,\n    pub model: String,\n    pub input_tokens: usize,\n    pub output_tokens: usize,\n}\n\n/// Metrics from the generation stage.\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct GenerationMetrics {\n    pub latency_ms: u64,\n    pub model: String,\n    pub input_tokens: usize,\n    pub output_tokens: usize,\n}\n\n/// Full pipeline trace for observability and eval (D62 Layer B).\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct PipelineTrace {\n    pub trace_id: Uuid,\n    pub retrieval: RetrievalMetrics,\n    pub augmentation: AugmentationMetrics,\n    pub generation: Option<GenerationMetrics>,\n    pub total_latency_ms: u64,\n}\n\n/// Complete RAG response returned to callers.\n#[derive(Debug, Clone)]\npub struct RagResponse {\n    /// Generated answer. None in context-only mode.\n    pub answer: Option<String>,\n    /// Assembled context with sources.\n    pub context: AugmentedContext,\n    /// Full pipeline trace for eval/observability.\n    pub trace: PipelineTrace,\n}\n\n/// RAG pipeline configuration.",
+  "source_version": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461700969Z",
+  "valid_from": "2026-03-31T13:20:59.461700969Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 111,
+    "end_line": 158,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

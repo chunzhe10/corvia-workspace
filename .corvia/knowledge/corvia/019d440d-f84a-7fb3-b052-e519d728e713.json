@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84a-7fb3-b052-e519d728e713",
+  "content": "ync fn load_model(&self, name: &str, backend: ResolvedBackend) -> Result<(), Status> {\n    let resolved = resolve_model(name)?;\n    let name_owned = name.to_string();\n    tracing::info!(model = %name_owned, repo = %resolved.repo, file = %resolved.filename,\n        device = %backend.device, backend_kind = %backend.backend, \"Loading chat model...\");\n\n    let backend_clone = backend.clone();\n    let model = tokio::task::spawn_blocking(move || -> Result<Arc<LlamaModel>, Status> {\n        let api = hf_hub::api::sync::Api::new()\n            .map_err(|e| Status::internal(format!(\"hf-hub API init failed: {e}\")))?;\n        let repo = api.model(resolved.repo.clone());\n        let model_path: PathBuf = repo\n            .get(&resolved.filename)\n            .map_err(|e| Status::internal(format!(\"Model download failed: {e}\")))?;\n\n        tracing::info!(path = %model_path.display(), \"GGUF file ready, loading into llama.cpp...\");\n\n        let model_params = build_model_params(&backend_clone);\n        let model = LlamaModel::load_from_file(llama_backend(), &model_path, &model_params)\n            .map_err(|e| Status::internal(format!(\"Model load failed: {e}\")))?;\n\n        Ok(Arc::new(model))\n    })\n    .await\n    .map_err(|e| Status::internal(format!(\"spawn_blocking failed: {e}\")))??;\n\n    let mut models = self.models.write().await;\n    models.insert(\n        name.to_string(),\n        ChatModelEntry { model, backend },\n    );\n    tracing::info!(model = %name, \"Chat model loaded successfully\");\n    Ok(())\n}\n```\n\nRename the existing `backend()` function (which returns `&'static LlamaBackend`) to `llama_backend()` to avoid name collision with the `backend` module:\n\n```rust\nfn llama_backend() -> &'static LlamaBackend {\n    BACKEND.get_or_init(|| {\n        let backend = LlamaBackend::init().expect(\"Failed to initialize llama.cpp backend\");\n        llama_cpp_2::send_logs_to_tracing(llama_cpp_2::LogOptions::default());",
+  "source_version": "docs/rfcs/2026-03-12-inference-gpu-device-control.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.466278217Z",
+  "valid_from": "2026-03-31T13:20:59.466278217Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-12-inference-gpu-device-control.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 731,
+    "end_line": 769,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83e-7ae3-ae47-a496ae4e63bc",
+  "content": "tus(\n            store as Arc<dyn QueryableStore>,\n            &coord,\n            \"test-scope\",\n        ).await.unwrap();\n\n        assert_eq!(status.entry_count, 0);\n        assert_eq!(status.active_agents, 0);\n        assert_eq!(status.open_sessions, 0);\n        assert_eq!(status.merge_queue_depth, 0);\n    }\n}\n```\n\n-**Step 2: Run the test — verify it fails**\n\nRun: `cargo test -p corvia-kernel -- ops::tests::test_system_status_empty_store`\nExpected: FAIL — module `ops` doesn't exist yet.\n\n-**Step 3: Add `pub mod ops;` to `lib.rs`**\n\nIn `crates/corvia-kernel/src/lib.rs`, add after the last `pub mod` line:\n```rust\npub mod ops;\n```\n\n-**Step 4: Implement `system_status` in `ops.rs`**\n\n```rust\nuse crate::agent_coordinator::AgentCoordinator;\nuse crate::adapter_discovery::discover_adapters;\nuse crate::traits::QueryableStore;\nuse corvia_common::errors::Result;\nuse std::sync::Arc;\n\n/// System status snapshot — returned by both CLI and MCP.\n#[derive(Debug, Clone, serde::Serialize)]\npub struct SystemStatus {\n    pub entry_count: u64,\n    pub active_agents: usize,\n    pub open_sessions: usize,\n    pub merge_queue_depth: u64,\n    pub scope_id: String,\n}\n\n/// Get a snapshot of system status.\npub async fn system_status(\n    store: Arc<dyn QueryableStore>,\n    coordinator: &AgentCoordinator,\n    scope_id: &str,\n) -> Result<SystemStatus> {\n    let entry_count = store.count(scope_id).await.unwrap_or(0);\n    let active_agents = coordinator.registry.list_active()?.len();\n    let open_sessions = coordinator.sessions.list_open()?.len();\n    let merge_queue_depth = coordinator.merge_queue.depth()?;\n\n    Ok(SystemStatus {\n        entry_count,\n        active_agents,\n        open_sessions,\n        merge_queue_depth,\n        scope_id: scope_id.to_string(),\n    })\n}\n```\n\n-**Step 5: Run the test — verify it passes**\n\nRun: `cargo test -p corvia-kernel -- ops::tests::test_system_status_empty_store`\nExpected: PASS\n\n-**Step 6: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/ops.rs crates/corvia-kernel/src/lib.rs\ngit commit -m \"feat(m4): add ops::system_status — shared kernel operation for CLI and MCP\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.454805750Z",
+  "valid_from": "2026-03-31T13:20:59.454805750Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 376,
+    "end_line": 446,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

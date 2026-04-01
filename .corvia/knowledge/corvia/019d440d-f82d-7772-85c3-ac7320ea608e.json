@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82d-7772-85c3-ac7320ea608e",
+  "content": "pub struct SkillRegistry {\n    skills: Vec<Skill>,\n    dimensions: usize,\n}\npub struct SkillMatch<'a> {\n    pub skill: &'a Skill,\n    pub score: f32,\n}\nimpl SkillRegistry {\n    /// Load skills from one or more directories.\n    ///\n    /// Globs `*.md` from each directory. If multiple directories contain a\n    /// file with the same stem, the later directory wins (user overrides bundled).\n    /// Each skill's description is embedded using the provided engine.\n    pub async fn load(\n        dirs: &[String],\n        engine: Arc<dyn InferenceEngine>,\n    ) -> Result<Self> {\n        let dimensions = engine.dimensions();\n\n        // Collect skill files, later dirs override same-named earlier ones.\n        let mut skill_files: HashMap<String, (String, String)> = HashMap::new(); // name -> (description, content)\n\n        for dir in dirs {\n            let dir_path = Path::new(dir);\n            if !dir_path.is_dir() {\n                info!(dir = dir, \"skills directory not found, skipping\");\n                continue;\n            }\n\n            let pattern = dir_path.join(\"*.md\");\n            let pattern_str = pattern.to_string_lossy();\n            let entries: Vec<_> = glob::glob(&pattern_str)\n                .map_err(|e| CorviaError::Config(format!(\"invalid skills glob: {e}\")))?\n                .filter_map(|r| r.ok())\n                .collect();\n\n            for path in entries {\n                let name = match path.file_stem() {\n                    Some(s) => s.to_string_lossy().to_string(),\n                    None => continue,",
+  "source_version": "crates/corvia-kernel/src/skill_registry.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.437796720Z",
+  "valid_from": "2026-03-31T13:20:59.437796720Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/skill_registry.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 44,
+    "end_line": 76,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

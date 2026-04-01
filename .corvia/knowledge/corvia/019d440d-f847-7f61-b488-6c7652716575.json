@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-6c7652716575",
+  "content": "## Task 12: Protocol Conformance Test with Python Adapter\n\n        };\n\n        // The Python adapter uses CLI mode (ingest <path>), not session mode,\n        // so we test metadata probing instead\n        let output = std::process::Command::new(&adapter_path)\n            .arg(\"--corvia-metadata\")\n            .output()\n            .expect(\"Failed to run Python adapter\");\n\n        assert!(output.status.success());\n        let parsed: AdapterMetadata = serde_json::from_slice(&output.stdout)\n            .expect(\"Failed to parse Python adapter metadata\");\n        assert_eq!(parsed.name, \"basic\");\n        assert_eq!(parsed.protocol_version, 1);\n        assert!(parsed.chunking_extensions.is_empty());\n    }\n```\n\n**Step 2: Run the test**\n\n```bash\ncargo test -p corvia-kernel test_python_adapter_protocol_conformance -- --nocapture\n```\n\nExpected: passes (or skips gracefully if Python not available).\n\n**Step 3: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/process_adapter.rs\ngit commit -m \"test: add cross-language protocol conformance test (D75)\n\nValidates that the Python reference adapter's metadata output parses\ncorrectly into Rust AdapterMetadata types.\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463085010Z",
+  "valid_from": "2026-03-31T13:20:59.463085010Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 2562,
+    "end_line": 2599,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

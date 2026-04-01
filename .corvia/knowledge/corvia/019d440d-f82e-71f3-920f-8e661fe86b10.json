@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82e-71f3-920f-8e661fe86b10",
+  "content": "s = vec![dir.path().to_string_lossy().to_string()];\n        let registry = SkillRegistry::load(&dirs, engine).await.unwrap();\n\n        assert_eq!(registry.len(), 1);\n        assert!(!registry.is_empty());\n        assert_eq!(registry.dimensions(), 3);\n    }\nasync fn test_load_later_dir_overrides() {\n        let dir1 = tempfile::tempdir().unwrap();\n        let dir2 = tempfile::tempdir().unwrap();\n\n        // Same filename in both dirs.\n        std::fs::write(\n            dir1.path().join(\"skill.md\"),\n            \"---\\ndescription: Version 1\\n---\\n\\nContent v1.\",\n        )\n        .unwrap();\n        std::fs::write(\n            dir2.path().join(\"skill.md\"),\n            \"---\\ndescription: Version 2\\n---\\n\\nContent v2.\",\n        )\n        .unwrap();\n\n        let engine = Arc::new(MockEngine { dimensions: 3 }) as Arc<dyn InferenceEngine>;\n        let dirs = vec![\n            dir1.path().to_string_lossy().to_string(),\n            dir2.path().to_string_lossy().to_string(),\n        ];\n        let registry = SkillRegistry::load(&dirs, engine).await.unwrap();\n\n        assert_eq!(registry.len(), 1);\n        assert_eq!(registry.skills[0].description, \"Version 2\");\n    }",
+  "source_version": "crates/corvia-kernel/src/skill_registry.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.438035650Z",
+  "valid_from": "2026-03-31T13:20:59.438035650Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/skill_registry.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 419,
+    "end_line": 444,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

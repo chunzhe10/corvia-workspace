@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f832-7981-8b9c-44a13943ec48",
+  "content": "egister_agent(&identity, \"Agent\", AgentPermission::ReadOnly).unwrap();\n        let session = coord.create_session(\"test::agent\", true).unwrap();\n\n        // Verify staging dir was created\n        let staging_dir_str = session.staging_dir.as_ref().unwrap();\n        let staging_dir = coord.staging.resolve_staging_path(staging_dir_str);\n        assert!(staging_dir.exists());\n\n        // Simulate crash\n        coord.sessions.transition(&session.session_id, SessionState::Stale).unwrap();\n        coord.sessions.transition(&session.session_id, SessionState::Orphaned).unwrap();\n\n        // Recover: rollback\n        coord.recover(&session.session_id, RecoveryAction::Rollback).await.unwrap();\n\n        let updated = coord.sessions.get(&session.session_id).unwrap().unwrap();\n        assert_eq!(updated.state, SessionState::Closed);\n        assert!(!staging_dir.exists());\n    }\n\n    #[tokio::test]\n    async fn test_gc_cleans_old_orphans() {\n        let dir = tempfile::tempdir().unwrap();\n        // Use a config with 0-second GC orphan timeout for testing\n        let store = Arc::new(LiteStore::open(dir.path(), 3).unwrap()) as Arc<dyn QueryableStore>;\n        let engine = Arc::new(MockEngine) as Arc<dyn InferenceEngine>;\n        store.init_schema().await.unwrap();\n\n        let mut lifecycle_config = AgentLifecycleConfig::default();\n        lifecycle_config.gc_orphan_after_secs = 0; // Instant orphan cleanup\n\n        let gen_engine = Arc::new(MockGenerationEngine) as Arc<dyn GenerationEngine>;\n        let coord = AgentCoordinator::new(\n            store, engine, dir.path(),\n            lifecycle_config,\n            MergeConfig::default(),\n            gen_engine,\n        ).unwrap();\n\n        let identity = AgentIdentity::Registered {",
+  "source_version": "crates/corvia-kernel/src/agent_coordinator.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.442396885Z",
+  "valid_from": "2026-03-31T13:20:59.442396885Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/agent_coordinator.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 611,
+    "end_line": 645,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

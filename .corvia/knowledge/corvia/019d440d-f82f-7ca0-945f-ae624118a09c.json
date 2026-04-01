@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82f-7ca0-945f-ae624118a09c",
+  "content": "eryableStore>,\n        searcher_timeout_ms: u64,\n    ) -> Self {\n        Self {\n            searchers,\n            fusion,\n            expander,\n            reranker,\n            engine,\n            store,\n            searcher_timeout_ms,\n        }\n    }\n}\npub fn new(\n        searchers: Vec<Arc<dyn Searcher>>,\n        fusion: Arc<dyn Fusion>,\n        expander: Arc<dyn Expander>,\n        reranker: Arc<dyn Reranker>,\n        engine: Arc<dyn InferenceEngine>,\n        store: Arc<dyn crate::traits::QueryableStore>,\n        searcher_timeout_ms: u64,\n    ) -> Self {\n        Self {\n            searchers,\n            fusion,\n            expander,\n            reranker,\n            engine,\n            store,\n            searcher_timeout_ms,\n        }\n    }",
+  "source_version": "crates/corvia-kernel/src/pipeline/core.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.439824550Z",
+  "valid_from": "2026-03-31T13:20:59.439824550Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/core.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 46,
+    "end_line": 64,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

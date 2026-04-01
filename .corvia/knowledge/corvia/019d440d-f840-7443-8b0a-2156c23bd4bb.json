@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-2156c23bd4bb",
+  "content": "## 10. Deletion and Lifecycle\n## 11. Open Questions / Future Work\n\n## 12. Deliverables\n\n| # | Deliverable | Type |\n|---|---|---|\n| 1 | `SourceMetadata` extension + `ChunkingPipeline` propagation PR | `corvia-kernel` |\n| 2 | Workstream filter PR | `corvia-kernel` + `corvia-server` |\n| 3 | 5 hook scripts + settings.json update | Workspace |\n| 4 | `corvia-adapter-claude-sessions` crate | New adapter |\n| 5 | `corvia.toml` `user-history` scope entry | Config |\n| 6 | Claude Code hook env var names spike | Research |",
+  "source_version": "docs/rfcs/2026-03-14-claude-session-history-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456970190Z",
+  "valid_from": "2026-03-31T13:20:59.456970190Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-14-claude-session-history-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 589,
+    "end_line": 598,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

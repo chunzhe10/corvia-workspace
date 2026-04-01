@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a15-7ca3-b9db-55504203c1d4",
+  "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<title>LinkedIn Post - Observability + Control Plane for AI Agents</title>\n<style>\n  body {\n    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n    max-width: 680px;\n    margin: 40px auto;\n    padding: 24px;\n    font-size: 16px;\n    line-height: 1.6;\n    color: #1a1a1a;\n    background: #fff;\n  }\n  .instructions {\n    background: #f0f4ff;\n    border: 1px solid #c0d0ff;\n    border-radius: 8px;\n    padding: 16px;\n    margin-bottom: 24px;\n    font-size: 14px;\n    color: #445;\n  }\n  hr { border: none; border-top: 1px solid #ddd; margin: 24px 0; }\n  #post {\n    cursor: text;\n    white-space: pre-line;\n  }\n</style>\n</head>\n<body>\n\n<div class=\"instructions\">\n  <strong>How to use:</strong> Select all text below the line, copy (Ctrl+C), and paste directly into LinkedIn's post editor. Line breaks will be preserved.\n</div>\n\n<hr>\n\n<div id=\"post\">My AI agent builds the product. Tests it. Makes the commits. But until recently, it couldn't tell me why a search took 120ms instead of 40ms.\n\nSo I wired OpenTelemetry traces into every kernel operation. 30 span constants, defined before the code existed. Every RAG query, embedding, and store operation gets a parent-child trace tree with p50/p95/p99 latency. Slide 4 has the raw data from a live session.\n\nThe first thing the agent found: 60-85% of RAG pipeline time was in vector retrieval, not embedding. I had been assuming the model was the bottleneck. The traces said otherwise.\n\nBut observability alone is a dashboard with no buttons. I wanted to operate the system, not just watch it.\n\nSo I added 10 control plane tools to the same MCP server. Three safety tiers built on MCP's existing primitives. Read freely. Mutate with confirmation. Destructive ops need a dry-run first. Slide 6 has the full breakdown.",
+  "source_version": "marketing/linkedin/2026-03-28-observability-control-plane/post.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.029834493Z",
+  "valid_from": "2026-03-31T13:51:39.029834493Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-28-observability-control-plane/post.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 1,
+    "end_line": 49,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f843-7a03-b56b-308403d5975c",
+  "content": "r(&metadata);\n        assert_eq!(extractor.get(\"traceparent\"), Some(\"00-trace-span-01\"));\n    }\n\n    #[test]\n    fn test_extractor_missing_key_returns_none() {\n        let metadata = MetadataMap::new();\n        let extractor = MetadataExtractor(&metadata);\n        assert_eq!(extractor.get(\"traceparent\"), None);\n    }\n}\n```\n\n-**Step 2: Add module declaration to lib.rs**\n\nAdd at the top of `crates/corvia-telemetry/src/lib.rs` (before line 1):\n\n```rust\npub mod propagation;\n```\n\n-**Step 3: Run test to verify it fails**\n\nRun: `cd /workspaces/corvia-workspace/repos/corvia && cargo test -p corvia-telemetry test_metadata -- --nocapture`\nExpected: FAIL — `MetadataInjector` and `MetadataExtractor` not found\n\n-**Step 4: Implement MetadataInjector and MetadataExtractor**\n\nAdd to `propagation.rs` before the `#[cfg(test)]` block:\n\n```rust\n/// Injects OpenTelemetry context into tonic `MetadataMap` for outgoing gRPC calls.\npub struct MetadataInjector<'a>(pub &'a mut MetadataMap);\n\nimpl Injector for MetadataInjector<'_> {\n    fn set(&mut self, key: &str, value: String) {\n        if let Ok(val) = value.parse() {\n            self.0.insert(key, val);\n        }\n    }\n}\n\n/// Extracts OpenTelemetry context from tonic `MetadataMap` for incoming gRPC calls.\npub struct MetadataExtractor<'a>(pub &'a MetadataMap);\n\nimpl Extractor for MetadataExtractor<'_> {\n    fn get(&self, key: &str) -> Option<&str> {\n        self.0.get(key).and_then(|v| v.to_str().ok())\n    }\n\n    fn keys(&self) -> Vec<&str> {\n        self.0.keys().filter_map(|k| match k {\n            tonic::metadata::KeyRef::Ascii(key) => Some(key.as_str()),\n            _ => None,\n        }).collect()\n    }\n}\n```\n\n-**Step 5: Run tests to verify they pass**\n\nRun: `cd /workspaces/corvia-workspace/repos/corvia && cargo test -p corvia-telemetry -- --nocapture`\nExpected: All tests PASS\n\n-**Step 6: Commit**\n\n```bash\ngit add crates/corvia-telemetry/src/propagation.rs crates/corvia-telemetry/src/lib.rs\ngit commit -m \"feat(telemetry): add W3C trace context propagation adapters for tonic\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-11-otel-standardization.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.459071176Z",
+  "valid_from": "2026-03-31T13:20:59.459071176Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-otel-standardization.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 249,
+    "end_line": 313,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

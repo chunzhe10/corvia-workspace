@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f828-7a92-a1a8-d7b62adb0aa9",
+  "content": "     \"Outgoing calls ({}) should score higher than incoming ({})\",\n            outgoing,\n            incoming\n        );\n    }\n\n    #[test]\n    fn test_direction_bias_references_incoming_higher() {\n        let outgoing = direction_bias(\"references\", true);\n        let incoming = direction_bias(\"references\", false);\n        assert!(\n            incoming > outgoing,\n            \"Incoming references ({}) should score higher than outgoing ({})\",\n            incoming,\n            outgoing\n        );\n    }\n\n    #[test]\n    fn test_direction_bias_symmetric_types() {\n        for rel in &[\"implements\", \"extends\", \"contains\", \"uses\"] {\n            let outgoing = direction_bias(rel, true);\n            let incoming = direction_bias(rel, false);\n            assert_eq!(\n                outgoing, incoming,\n                \"{rel} should be symmetric (outgoing={outgoing}, incoming={incoming})\"\n            );\n        }\n    }\n\n    #[test]\n    fn test_reinforcement_scaled_by_relation_weight() {\n        let alpha = 0.3;\n        let decay = 1.0; // first hit\n        let implements_bonus = alpha * 0.25 * decay * relation_weight(\"implements\");\n        let imports_bonus = alpha * 0.25 * decay * relation_weight(\"imports\");\n        assert!(\n            implements_bonus > imports_bonus,\n            \"implements reinforcement ({}) should be higher than imports ({})\",\n            implements_bonus,\n            imports_bonus\n        );\n    }\n\n    #[test]\n    fn test_edge_score_combines_weight_and_direction() {\n        let rel = \"calls\";\n        let outgoing_score = relation_weight(rel) * direction_bias(rel, true);\n        let incoming_score = relation_weight(rel) * direction_bias(rel, false);\n        assert_eq!(outgoing_score, 0.7 * 1.0);\n        assert_eq!(incoming_score, 0.7 * 0.8);\n        assert!(outgoing_score > incoming_score);\n    }\n\n    #[test]\n    fn test_max_edges_per_node_constant() {\n        assert_eq!(MAX_EDGES_PER_NODE, 50);\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/retriever.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.432723661Z",
+  "valid_from": "2026-03-31T13:20:59.432723661Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/retriever.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 2128,
+    "end_line": 2177,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

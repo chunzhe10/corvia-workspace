@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-8e9086eb3335",
+  "content": "## Quick Start\n\n### Option 1: Devcontainer (recommended)\n\nOpen in GitHub Codespaces, VS Code Dev Containers, or DevPod:\n\n[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/anthropics/corvia-workspace)\n\n\n### Option 2: Local\n\n```bash\ngit clone https://github.com/anthropics/corvia-workspace\ncd corvia-workspace\ncorvia workspace init    # clones repos, provisions Ollama\ncorvia workspace ingest  # indexes both repos (or use pre-ingested knowledge)\ncorvia serve --mcp &     # start server\ncorvia search \"how does chunking work\"\n```\n",
+  "source_version": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465382203Z",
+  "valid_from": "2026-03-31T13:20:59.465382203Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1509,
+    "end_line": 1525,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

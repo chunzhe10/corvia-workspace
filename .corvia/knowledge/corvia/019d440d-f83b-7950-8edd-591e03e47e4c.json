@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-591e03e47e4c",
+  "content": "## Task 6: Merge Queue + Commit Pipeline\n\n### Step 1: Write failing tests for merge queue\n\n```rust\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    fn test_queue() -> MergeQueue {\n        let dir = tempfile::tempdir().unwrap();\n        let db = std::sync::Arc::new(\n            redb::Database::create(dir.path().join(\"coordination.redb\")).unwrap()\n        );\n        MergeQueue::from_db(db).unwrap()\n    }\n\n    #[test]\n    fn test_enqueue_and_dequeue() {\n        let queue = test_queue();\n        let id = uuid::Uuid::now_v7();\n        queue.enqueue(id, \"test::agent\", \"test::agent/sess-abc\", \"scope\").unwrap();\n        let entries = queue.dequeue_batch(10).unwrap();\n        assert_eq!(entries.len(), 1);\n        assert_eq!(entries[0].entry_id, id);\n    }\n\n    #[test]\n    fn test_dequeue_empty() {\n        let queue = test_queue();\n        let entries = queue.dequeue_batch(10).unwrap();\n        assert!(entries.is_empty());\n    }\n\n    #[test]\n    fn test_mark_complete() {\n        let queue = test_queue();\n        let id = uuid::Uuid::now_v7();\n        queue.enqueue(id, \"test::agent\", \"sess\", \"scope\").unwrap();\n        queue.mark_complete(&id).unwrap();\n        assert!(queue.dequeue_batch(10).unwrap().is_empty());\n    }\n\n    #[test]\n    fn test_mark_failed_with_retry() {\n        let queue = test_queue();\n        let id = uuid::Uuid::now_v7();\n        queue.enqueue(id, \"test::agent\", \"sess\", \"scope\").unwrap();\n        queue.mark_failed(&id, \"Ollama down\").unwrap();\n        let entries = queue.dequeue_batch(10).unwrap();\n        assert_eq!(entries.len(), 1);\n        assert_eq!(entries[0].retry_count, 1);\n        assert_eq!(entries[0].last_error, Some(\"Ollama down\".into()));\n    }\n\n    #[test]\n    fn test_queue_depth() {\n        let queue = test_queue();\n        for _ in 0..5 {\n            queue.enqueue(uuid::Uuid::now_v7(), \"a\", \"s\", \"scope\").unwrap();\n        }\n        assert_eq!(queue.depth().unwrap(), 5);\n    }\n}\n```\n",
+  "source_version": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451860268Z",
+  "valid_from": "2026-03-31T13:20:59.451860268Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1195,
+    "end_line": 1258,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

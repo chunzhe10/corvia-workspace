@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82a-7783-b9af-75d1e6556d28",
+  "content": "t unpinned_entry = KnowledgeEntry::new(\n            \"unpinned content\".into(),\n            \"test-tiered\".into(),\n            \"v2\".into(),\n        )\n        .with_embedding(test_embedding(0.0, 1.0, 0.0));\n\n        store.insert(&pinned_entry).await.unwrap();\n        store.insert(&unpinned_entry).await.unwrap();\n\n        let pinned = store.get_pinned(\"test-tiered\").await.unwrap();\n        assert_eq!(pinned.len(), 1);\n        assert_eq!(pinned[0].content, \"pinned content\");\n        assert_eq!(pinned[0].pin.as_ref().unwrap().by, \"admin\");\n\n        store.delete_scope(\"test-tiered\").await.unwrap();\n        cleanup_test_db(\"pinned\").await;\n    }\n\n    #[tokio::test]\n    async fn test_pg_record_access_updates() {\n        let store = match connect_test_store(\"access_track\").await {\n            Ok(s) => s,\n            Err(_) => {\n                eprintln!(\"Skipping: PostgreSQL not available\");\n                return;\n            }\n        };\n\n        let entry = KnowledgeEntry::new(\"access test\".into(), \"test-tiered\".into(), \"v1\".into())\n            .with_embedding(test_embedding(1.0, 0.0, 0.0));\n        let id = entry.id;\n        store.insert(&entry).await.unwrap();\n\n        // Verify initial state\n        let got = store.get(&id).await.unwrap().unwrap();\n        assert_eq!(got.access_count, 0);\n        assert!(got.last_accessed.is_none());\n\n        // Record access\n        store.record_access(&[id]).await.unwrap();\n\n        let got = store.get(&id).await.unwrap().unwrap();\n        assert_eq!(got.access_count, 1);\n        assert!(got.last_accessed.is_some());",
+  "source_version": "crates/corvia-kernel/src/postgres_store.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.434327296Z",
+  "valid_from": "2026-03-31T13:20:59.434327296Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/postgres_store.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 1614,
+    "end_line": 1650,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

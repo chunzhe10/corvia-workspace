@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-c7bacc5fdd2e",
+  "content": "### RAG Evaluation Frameworks\n### Embedding Benchmarks\n\n### Key Insight: Eval-Driven Development\n\nFrom Hamel Husain (LLM reliability guru) and Jason Liu (instructor):\n- **Evals are tests, not benchmarks** — run them on every PR\n- **Start with assertion-based evals** — expected keywords, source matching\n- **Graduate to LLM-as-judge** — for semantic quality assessment\n- **Track over time** — regression detection is more valuable than absolute scores\n",
+  "source_version": "decisions/2026-03-19-benchmarking-design.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025165427Z",
+  "valid_from": "2026-03-31T13:51:39.025165427Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-19-benchmarking-design.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 26,
+    "end_line": 33,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

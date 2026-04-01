@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83d-7542-8fa8-a13a5cd3cd95",
+  "content": "## Section 1: API Contract\n## Section 2: Rust Migration — corvia-dev → corvia-server\n\n### What moves into Rust\n\n1. **Service health checking** (`cli.py` — process detection, port probing) → `corvia-server::dashboard::health`\n2. **Trace/log collection** (`traces.py` — JSON structured log parsing, span aggregation, module classification) → `corvia-server::dashboard::traces`\n3. **Status aggregation** (combines health + traces + store metrics) → `/api/dashboard/status` handler\n\n\n### Disposition of corvia-dev features\n\n| Feature | Action |\n|---|---|\n| `status --json` | Port to Rust (dashboard endpoints) |\n| `collect_traces()` / log parsing | Port to Rust |\n| `corvia-dev serve` (starts server) | Keep as thin shell script or remove |\n| `corvia-dev workspace ingest` | Already calls Rust CLI — becomes `corvia workspace ingest` |\n| MCP server startup | Already Rust |\n",
+  "source_version": "docs/rfcs/2026-03-11-standalone-dashboard-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.453735891Z",
+  "valid_from": "2026-03-31T13:20:59.453735891Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-standalone-dashboard-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 67,
+    "end_line": 82,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

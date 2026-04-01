@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84a-7fb3-b052-e58f47098f32",
+  "content": "## Chunk 3: Infrastructure\n\n### Task 7: Devcontainer + Dockerfile\n\n**Files:**\n- Modify: `.devcontainer/devcontainer.json`\n- Modify: `.devcontainer/Dockerfile`\n\n-**Step 1: Add Intel GPU opt-in comments to devcontainer.json**\n\nAfter the existing GPU passthrough comment, add Intel GPU documentation:\n\n```jsonc\n// GPU passthrough: uncomment the next line if you have NVIDIA GPU + nvidia-container-toolkit.\n// \"runArgs\": [\"--gpus\", \"all\"],\n//\n// Intel GPU passthrough (iGPU): uncomment the lines below if Intel GPU is available.\n// Required for OpenVINO execution provider on Intel integrated/discrete GPUs.\n// \"runArgs\": [\n//     \"--device=/dev/dri\",\n//     \"--device=/dev/dxg\",\n//     \"--group-add\", \"video\",\n//     \"--group-add\", \"render\"\n// ],\n```\n\nAlso add the WSL GPU driver mount as a comment in the mounts section:\n\n```jsonc\n// Uncomment for WSL2 GPU driver passthrough (Intel + NVIDIA):\n// \"source=/usr/lib/wsl,target=/usr/lib/wsl,type=bind,readonly\",\n```\n\n-**Step 2: Add Intel GPU runtime packages to Dockerfile (opt-in section)**\n\nAdd after the system dependencies `RUN` block:\n\n```dockerfile",
+  "source_version": "docs/rfcs/2026-03-12-inference-gpu-device-control.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.466351148Z",
+  "valid_from": "2026-03-31T13:20:59.466351148Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-12-inference-gpu-device-control.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 988,
+    "end_line": 1023,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

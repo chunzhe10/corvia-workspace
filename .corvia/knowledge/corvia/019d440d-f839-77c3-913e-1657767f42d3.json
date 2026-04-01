@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f839-77c3-913e-1657767f42d3",
+  "content": "_ms: start.elapsed().as_millis() as u64,\n                    token_estimate: estimate_tokens(\"No relevant context found.\"),\n                    token_budget: context_budget,\n                    sources_included: 0,\n                    sources_truncated: 0,\n                    augmenter_name: self.name().to_string(),\n                    skills_used,\n                },\n            });\n        }\n\n        // Build context with numbered citations, enforcing token budget.\n        let mut context_parts: Vec<String> = Vec::new();\n        let mut included_sources: Vec<SearchResult> = Vec::new();\n        let mut tokens_used: usize = 0;\n        let mut sources_truncated: usize = 0;\n\n        // Pre-compute footer tokens so we reserve space for it.\n        let footer = format!(\n            \"\\n---\\nAnswer the following question using ONLY the context above. \\\n             Cite sources using [N] notation.\\nQuestion: {query}\"\n        );\n        let footer_tokens = estimate_tokens(&footer);\n\n        for (i, sr) in results.iter().enumerate() {\n            let citation_num = i + 1;\n\n            // Build the citation header.\n            let source_info = sr\n                .entry\n                .metadata\n                .source_file\n                .as_deref()\n                .unwrap_or(\"unknown\");\n            let type_info = sr\n                .entry\n                .metadata\n                .chunk_type\n                .as_deref()\n                .unwrap_or(\"unknown\");\n\n            let header = format!(",
+  "source_version": "crates/corvia-kernel/src/augmenter.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.449101590Z",
+  "valid_from": "2026-03-31T13:20:59.449101590Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/augmenter.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 170,
+    "end_line": 206,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

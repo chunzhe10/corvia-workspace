@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-cdefb6ea3729",
+  "content": "### Open: Spoke Image\n### Usage Agreement (Phase 0 Blocker)\n\n## Resolved Open Questions (Post-Review)\n\n1. **Auth**: `.credentials.json` alone is sufficient. Verified 2026-03-28.\n2. **Spoke count**: Default resource limits (4GB/spoke). Documented recommendations\n   by machine size. Docker handles hard limits.\n3. **Knowledge conflict**: Accepted risk for now. Semantic contradiction detection\n   is future work. Agents check corvia before deciding, which mitigates most conflicts.\n4. **Worktree**: Abandoned. Fresh shallow clone instead. No cleanup needed.\n5. **Spoke naming**: Auto-generated `corvia-{workspace}-spoke-{issue}-{timestamp}`.\n   Includes workspace name (cross-workspace collision prevention) and timestamp\n   (reuse collision prevention). Override via `--name`.\n\n---\n\n\n## Decision Record\n\nDecisions made 2026-03-28:\n\n- [x] **Spoke lifecycle**: Product CLI (`corvia workspace spoke create/list/destroy`)\n- [x] **Auth model**: Mounted subscription credentials (both `.credentials.json` +\n  `.claude.json`). `ANTHROPIC_API_KEY` as fallback.\n- [x] **Session monitoring**: MCP heartbeat via `corvia_agent_status`\n- [x] **Docker access**: Docker socket access from hub is acceptable\n- [x] **Spoke identity**: Unique `CORVIA_AGENT_ID` per spoke (not shared owner ID)\n- [x] **Repo strategy**: Fresh shallow clone (worktrees break in DinD due to absolute paths)\n- [x] **Workspace as product**: Yes. `corvia workspace spoke` is a product feature.\n- [x] **Term \"spoke\"**: Adopted\n",
+  "source_version": "decisions/2026-03-28-multi-spoke-workspace-brainstorm.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025793330Z",
+  "valid_from": "2026-03-31T13:51:39.025793330Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-multi-spoke-workspace-brainstorm.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 536,
+    "end_line": 563,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

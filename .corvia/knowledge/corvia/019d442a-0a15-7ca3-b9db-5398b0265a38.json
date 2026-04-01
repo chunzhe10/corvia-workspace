@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a15-7ca3-b9db-5398b0265a38",
+  "content": "ospace; background: #0d1117; padding: 4px 10px; border-radius: 6px; font-size: 18px; color: var(--accent-green);\">/dev-loop 14</span> and it runs autonomously. The dev-loop is a skill file that Claude Code reads. It orchestrates the full pipeline.\n  </div>\n  <div style=\"display: flex; flex-direction: column; gap: 8px;\">\n    <div class=\"flow-step\" style=\"border-left: 4px solid var(--accent-blue);\">\n      <div style=\"font-size: 22px;\">&#128196;</div>\n      <div style=\"flex: 1;\">\n        <div style=\"font-size: 18px; font-weight: 700;\">Fetch Issue + Context</div>\n        <div style=\"font-size: 16px; color: var(--text-secondary);\">Pull GitHub issue, query knowledge base for prior decisions</div>\n      </div>\n    </div>\n    <div class=\"flow-arrow\">&#8595;</div>\n    <div class=\"flow-step\" style=\"border-left: 4px solid var(--accent-amber);\">\n      <div style=\"font-size: 22px;\">&#9989;</div>\n      <div style=\"flex: 1;\">\n        <div style=\"font-size: 18px; font-weight: 700;\">Validate Design</div>\n        <div style=\"font-size: 16px; color: var(--text-secondary);\">Usually confirms \"well-defined, proceeding.\" Acts as a safety gate.</div>\n      </div>\n    </div>\n    <div class=\"flow-arrow\">&#8595;</div>\n    <div class=\"flow-step\" style=\"border-left: 4px solid var(--accent-cyan);\">\n      <div style=\"font-size: 22px;\">&#128221;</div>\n      <div style=\"flex: 1;\">\n        <div style=\"font-size: 18px; font-weight: 700;\">Plan + Implement</div>\n        <div style=\"font-size: 16px; color: var(--text-secondary);\">Break into tasks, implement with subagents, commit after each task</div>\n      </div>\n    </div>\n    <div class=\"flow-arrow\">&#8595;</div>\n    <div class=\"flow-step\" style=\"border-left: 4px solid var(--accent-purple);\">\n      <div style=\"font-size: 22px;\">&#128269;</div>\n      <div style=\"flex: 1;\">\n        <div style=\"font-size: 18px; font-weight: 700;\">5-Persona Review on Code</div>\n        <div style=\"font-size: 16px; color: var(--text-secondary);\">Same review system from previous post. Fix loop until clean.</div>\n      </div>\n    </div>\n    <div class=\"flow-arrow\">&#8595;</div>\n    <div class=\"flow-step\" style=\"border-left: 4px solid var(--accent-green);\">\n      <div style=\"font-size: 22px;\">&#128640;</div>\n      <div style=\"flex: 1;\">",
+  "source_version": "marketing/linkedin/2026-03-28-dev-loop-exploration/dev-loop-exploration-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.029575707Z",
+  "valid_from": "2026-03-31T13:51:39.029575707Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-28-dev-loop-exploration/dev-loop-exploration-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 436,
+    "end_line": 471,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

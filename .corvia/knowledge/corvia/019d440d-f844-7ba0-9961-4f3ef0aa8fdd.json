@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-4f3ef0aa8fdd",
+  "content": "## Output Structure\n\n### metadata.json\n\n```json\n{\n  \"run_at\": \"2026-03-03T14:30:00Z\",\n  \"corvia_version\": \"0.3.0\",\n  \"git_sha\": \"abc1234\",\n  \"storage_backend\": \"lite\",\n  \"inference_provider\": \"corvia\",\n  \"inference_model\": \"nomic-embed-text-v1.5\",\n  \"graph_alpha\": 0.3,\n  \"graph_depth\": 2,\n  \"scope_id\": \"corvia-introspect\"\n}\n```\n\n\n### summary.json\n\n```json\n{\n  \"run_at\": \"2026-03-03T14:30:00Z\",\n  \"queries\": [\n    {\n      \"id\": 1,\n      \"query\": \"How do I configure the embedding model and what dimensions does it use?\",\n      \"expected_winner\": \"vector\",\n      \"vector\": {\n        \"sources_count\": 5,\n        \"top_score\": 0.89,\n        \"top_source_file\": \"config.rs\",\n        \"source_files\": [\"config.rs\", \"embedding_pipeline.rs\", \"...\"],\n        \"latency_ms\": 12,\n        \"vector_results\": 10,\n        \"graph_expanded\": 0\n      },\n      \"graph\": {\n        \"sources_count\": 5,\n        \"top_score\": 0.91,\n        \"top_source_file\": \"config.rs\",\n        \"source_files\": [\"config.rs\", \"embedding_pipeline.rs\", \"...\"],\n        \"latency_ms\": 28,\n        \"vector_results\": 10,\n        \"graph_expanded\": 3\n      }\n    }\n  ]\n}\n```\n",
+  "source_version": "docs/rfcs/2026-03-03-benchmark-script-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460721482Z",
+  "valid_from": "2026-03-31T13:20:59.460721482Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-03-benchmark-script-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 130,
+    "end_line": 178,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

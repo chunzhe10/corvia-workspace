@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-2ecf32813bbb",
+  "content": "## Low Issues\n\n### L1: Cache Docker Client in AppState (SWE)\n\n```rust\n// In AppState:\npub struct AppState {\n    // ... existing fields\n    pub docker: Option<Docker>,  // None if Docker unavailable\n}\n\n// At server startup:\nlet docker = Docker::connect_with_local_defaults().ok();\n```\n\n\n### L2: SpokeConfig Helper (SWE)\n\n```rust\nimpl CorviaConfig {\n    pub fn spoke_config(&self) -> SpokeConfig {\n        self.workspace.as_ref()\n            .and_then(|w| w.spokes.clone())\n            .unwrap_or_default()\n    }\n}\n```\n",
+  "source_version": "decisions/2026-03-28-spoke-design-review-fixes.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026491198Z",
+  "valid_from": "2026-03-31T13:51:39.026491198Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-design-review-fixes.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 668,
+    "end_line": 692,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

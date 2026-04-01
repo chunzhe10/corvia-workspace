@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f827-7411-ad28-5de239950425",
+  "content": "impl Injector for MetadataInjector<'_> {\n    fn set(&mut self, key: &str, value: String) {\n        if let Ok(name) = tonic::metadata::MetadataKey::from_bytes(key.as_bytes())\n            && let Ok(val) = value.parse() {\n                self.0.insert(name, val);\n            }\n    }\n}",
+  "source_version": "crates/corvia-telemetry/src/propagation.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.431463478Z",
+  "valid_from": "2026-03-31T13:20:59.431463478Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-telemetry/src/propagation.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 9,
+    "end_line": 16,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

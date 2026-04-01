@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-595996ed8926",
+  "content": "## Task 7: Merge Worker\n\n### Step 1: Write failing tests\n\n```rust\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    #[tokio::test]\n    async fn test_no_conflict_auto_merges() {\n        // Insert entry A (embedding [1,0,0]) as Merged in store\n        // Queue entry B (embedding [0,1,0]) — very different\n        // Run merge_worker.process_one()\n        // Assert: B status → Merged, staging file moved to knowledge/\n    }\n\n    #[tokio::test]\n    async fn test_conflict_detected_above_threshold() {\n        // Insert entry A (embedding [1,0,0]) as Merged\n        // Queue entry B (embedding [0.95,0.05,0]) — very similar, same scope\n        // Run merge_worker.detect_conflict()\n        // Assert: conflict detected (similarity > 0.85)\n    }\n\n    #[tokio::test]\n    async fn test_failed_merge_retries() {\n        // Queue entry with unreachable LLM\n        // Run merge_worker.process_one()\n        // Assert: entry still in queue with retry_count=1\n    }\n\n    #[tokio::test]\n    async fn test_max_retries_exhausted() {\n        // Queue entry with retry_count = max_retries\n        // Run merge_worker.process_one()\n        // Assert: entry marked as failed, logged, not retried\n    }\n}\n```\n",
+  "source_version": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451898102Z",
+  "valid_from": "2026-03-31T13:20:59.451898102Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1334,
+    "end_line": 1372,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

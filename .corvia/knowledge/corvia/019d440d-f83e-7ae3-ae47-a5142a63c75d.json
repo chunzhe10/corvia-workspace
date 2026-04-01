@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83e-7ae3-ae47-a5142a63c75d",
+  "content": "## Chunk 2: Instrumentation + Config Infrastructure (D81 + D87 + D89)\n\n### Task 5: Add `#[tracing::instrument]` spans to kernel\n\n**Files:**\n- Modify: `crates/corvia-kernel/Cargo.toml`\n- Modify: `crates/corvia-kernel/src/agent_coordinator.rs`\n- Modify: `crates/corvia-kernel/src/merge_worker.rs`\n- Modify: `crates/corvia-kernel/src/lite_store.rs`\n- Modify: `crates/corvia-kernel/src/ollama_engine.rs`\n- Modify: `crates/corvia-kernel/src/grpc_engine.rs`\n- Modify: `crates/corvia-kernel/src/rag_pipeline.rs`\n\n-**Step 1: Add `corvia-telemetry` dependency to kernel**\n\nIn `crates/corvia-kernel/Cargo.toml`, add:\n```toml\ncorvia-telemetry = { workspace = true }\n```\n\n-**Step 2: Add spans to `agent_coordinator.rs`**\n\nAdd `use corvia_telemetry::spans;` at the top. Add `#[tracing::instrument]` to key methods. Use actual signatures from the codebase:\n\n```rust",
+  "source_version": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.454900335Z",
+  "valid_from": "2026-03-31T13:20:59.454900335Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 714,
+    "end_line": 736,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

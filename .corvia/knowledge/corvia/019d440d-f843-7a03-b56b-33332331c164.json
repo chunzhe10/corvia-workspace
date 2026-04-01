@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f843-7a03-b56b-33332331c164",
+  "content": "# Chat Inference for corvia-inference\n\n## Context\n\ncorvia-inference serves embeddings via fastembed (ONNX Runtime) but its ChatService\nis a stub returning placeholder text. The RAG pipeline's `ask()` mode and the merge\nworker's conflict resolution both depend on a working GenerationEngine. The gRPC\nclient (`GrpcChatEngine` in corvia-kernel) and proto definitions are already wired —\nonly the server-side implementation is missing.\n\n\n## Decision: Dual Runtime\n\n- **Embeddings**: fastembed (ONNX Runtime) — unchanged, production-proven\n- **Chat/generation**: llama-cpp-2 (llama.cpp) — new, best-in-class for GGUF inference\n\nRationale: fastembed is purpose-built for embeddings with ergonomic model management.\nllama.cpp is the standard for local LLM inference with native chat template support.\nConsolidating to a single runtime would sacrifice embedding ergonomics for marginal\nsimplification.\n",
+  "source_version": "docs/rfcs/2026-03-09-chat-inference-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.459440457Z",
+  "valid_from": "2026-03-31T13:20:59.459440457Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-09-chat-inference-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 8,
+    "end_line": 25,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

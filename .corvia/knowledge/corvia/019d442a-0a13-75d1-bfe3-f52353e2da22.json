@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a13-75d1-bfe3-f52353e2da22",
+  "content": "size: 20px; font-weight: 600; padding: 8px 18px;\n  border-radius: 8px; background: rgba(59, 130, 246, 0.15);\n  color: var(--accent-blue);\n}\n\n/* Cover gradient */\n.slide.cover {\n  background: linear-gradient(160deg, #0f172a 0%, #1a1a3e 50%, #0f172a 100%);\n}\n/* Closing gradient */\n.slide.closing {\n  background: linear-gradient(160deg, #0f172a 0%, #1a2332 50%, #0f172a 100%);\n}\n\n/* Green glow for breakthroughs */\n.green-glow {\n  box-shadow: 0 0 60px rgba(16, 185, 129, 0.15), 0 0 120px rgba(16, 185, 129, 0.05);\n}\n\n/* Underwater gradient for slide 7 */\n.slide.underwater {\n  background: linear-gradient(\n    180deg,\n    #22d3ee 0%,\n    #1a8a8a 15%,\n    #0d3b66 50%,\n    #0a1628 100%\n  );\n}\n\n/* Bubble particles */\n.bubble {\n  position: absolute; border-radius: 50%;\n  background: rgba(255, 255, 255, 0.08);\n  border: 1px solid rgba(255, 255, 255, 0.1);\n}\n\n/* Glass card */\n.glass-card {\n  background: rgba(255, 255, 255, 0.06);\n  backdrop-filter: blur(10px);\n  border: 1px solid rgba(255, 255, 255, 0.12);\n  border-radius: 16px; padding: 24px 28px;\n}\n\n/* VRAM bar */\n.vram-bar {\n  height: 32px; border-radius: 8px; overflow: hidden;\n  background: var(--bg-card); border: 1px solid var(--border);\n  display: flex;\n}\n.vram-used {\n  background: rgba(239, 68, 68, 0.4); height: 100%;\n}\n.vram-free {\n  background: rgba(16, 185, 129, 0.2); height: 100%; flex: 1;\n}\n```\n\n- [ ] **Step 2: Verify file loads in browser**\n\nRun:\n```bash\ncd /workspaces/corvia-workspace && npx http-server -p 8099 -c-1 &\n```\nOpen: `http://localhost:8099/docs/marketing/linkedin/2026-03-14-resolve-linux-setup/resolve-linux-carousel.html`\nExpected: blank dark page (no slides yet)\n",
+  "source_version": "marketing/2026-03-14-resolve-linux-carousel.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.027419917Z",
+  "valid_from": "2026-03-31T13:51:39.027419917Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/2026-03-14-resolve-linux-carousel.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 216,
+    "end_line": 274,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

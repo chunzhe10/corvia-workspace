@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-1fc76757159e",
+  "content": "## 1. Overview\n\n### Goals\n\n- Record user prompts, tool calls (name + inputs + full outputs), agent responses,\n  and failures for every Claude Code session\n- Store in a personal scope (`user-history`) isolated from product knowledge\n- Support multi-agent conversations: main agents, parallel subagents, and their\n  research findings, all traceable via graph edges\n- Enable cross-session queries: \"what did I research on feat/auth last week?\"\n- Auto-promote product decisions/findings to the `corvia` scope\n- Zero ongoing maintenance: hooks + adapter runs automatically at session end\n\n\n### Non-Goals\n\n- Real-time indexing within a session (intra-session context is available natively)\n- Recording sessions from non-Claude-Code tools\n- Centralised multi-user history (this is per-user, local-first)\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-14-claude-session-history-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456800412Z",
+  "valid_from": "2026-03-31T13:20:59.456800412Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-14-claude-session-history-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 21,
+    "end_line": 39,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

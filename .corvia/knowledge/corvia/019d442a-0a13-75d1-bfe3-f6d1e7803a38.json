@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a13-75d1-bfe3-f6d1e7803a38",
+  "content": " there: '(Slide 5 has the full breakdown.)'\",\n        \"Keep technical detail light — enough to intrigue, not enough to explain. The slides do the explaining.\",\n        \"Tone: down to earth, developer journey, honest. Not a press release, not a tutorial.\"\n      ],\n      \"role\": \"guide\",\n      \"targetWordCount\": \"250-350\"\n    },\n    \"slides\": {\n      \"principles\": [\n        \"Slides MUST tell the complete story standalone. Many readers never read the post description.\",\n        \"Each slide must have enough context to be understood without the previous slide or the post text.\",\n        \"Include 'what is this project?' context on the cover slide — don't assume the reader knows.\",\n        \"Use subtitles and insight boxes to add the context that would otherwise be in the post.\",\n        \"Jargon must be explained on the slide where it first appears (e.g., 'OpenVINO EP' → 'hardware backend').\",\n        \"Diagrams and visuals carry better than paragraphs. Prefer flow charts, split layouts, and stat boxes over blocks of text.\",\n        \"Slides should have a visual:text ratio that favors visual. If a slide looks like a wall of text, redesign it.\"\n      ],\n      \"role\": \"primary\"\n    },\n    \"tone\": {\n      \"do\": [\n        \"Share failures and messes\",\n        \"Be specific about what went wrong\",\n        \"Credit tools and approaches fairly\",\n        \"Acknowledge what's still early/incomplete\"\n      ],\n      \"dont\": [\n        \"Sound like a press release\",\n        \"Overclaim ('game-changer', 'revolutionary')\",\n        \"Hide behind jargon\",\n        \"Present everything as polished/easy\"\n      ],\n      \"voice\": \"Developer journal — first person, honest, specific\"\n    }\n  },\n  \"description\": \"Structural patterns shared across both brands. Same layout rules, typography scale, and component patterns — only colors differ.\",\n  \"formats\": {\n    \"linkedin-carousel\": {\n      \"aspectRatio\": \"4:5\",\n      \"deviceScaleFactor\": 2,",
+  "source_version": "marketing/design-system.json",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.027657221Z",
+  "valid_from": "2026-03-31T13:51:39.027657221Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/design-system.json",
+    "language": null,
+    "chunk_type": "section",
+    "start_line": 82,
+    "end_line": 118,
+    "content_role": "code",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

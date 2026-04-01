@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-bf1facc52ab9",
+  "content": "k(\"what is entry 0?\", \"proj\", None).await.unwrap();\n\n        assert!(response.answer.is_some());\n        let answer = response.answer.unwrap();\n        assert!(answer.contains(\"Generated answer for:\"));\n        assert!(response.trace.generation.is_some());\n        let gen = response.trace.generation.unwrap();\n        assert_eq!(gen.model, \"mock-v1\");\n    }\n\n    #[tokio::test]\n    async fn test_ask_without_generator_returns_error() {\n        let dir = tempfile::tempdir().unwrap();\n        let pipeline = setup_pipeline(dir.path(), false).await;\n\n        let result = pipeline.ask(\"query\", \"proj\", None).await;\n        assert!(result.is_err());\n    }\n\n    #[tokio::test]\n    async fn test_pipeline_trace_has_uuid() {\n        let dir = tempfile::tempdir().unwrap();\n        let pipeline = setup_pipeline(dir.path(), false).await;\n\n        let r1 = pipeline.context(\"q1\", \"proj\", None).await.unwrap();\n        let r2 = pipeline.context(\"q2\", \"proj\", None).await.unwrap();\n\n        // Each query should get a unique trace ID\n        assert_ne!(r1.trace.trace_id, r2.trace.trace_id);\n    }\n}\n```\n\n**Step 2: Run tests to verify they fail**\n\nRun: `cargo test -p corvia-kernel -- rag_pipeline::tests --nocapture`\nExpected: FAIL — `RagPipeline::new` and methods not found\n\n**Step 3: Implement RagPipeline**\n\nAdd between the struct definition and `#[cfg(test)]`:\n\n```rust\nimpl RagPipeline {\n    pub fn new(\n        retriever: Arc<dyn Retriever>,\n        augmenter: Arc<dyn Augmenter>,\n        generator: Option<Arc<dyn GenerationEngine>>,",
+  "source_version": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462077484Z",
+  "valid_from": "2026-03-31T13:20:59.462077484Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1432,
+    "end_line": 1473,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

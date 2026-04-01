@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f832-7981-8b9c-49433ee7790e",
+  "content": ":ReadOnly).unwrap();\n        std::thread::sleep(std::time::Duration::from_millis(10));\n        reg.touch(\"test::agent\").unwrap();\n        let updated = reg.get(\"test::agent\").unwrap().unwrap();\n        assert!(updated.last_seen > original.last_seen);\n    }\nfn test_list_active_agents() {\n        let reg = test_registry();\n        reg.register(\"test::a\", \"A\", IdentityType::Registered, AgentPermission::ReadOnly).unwrap();\n        reg.register(\"test::b\", \"B\", IdentityType::Registered, AgentPermission::ReadOnly).unwrap();\n        let agents = reg.list_active().unwrap();\n        assert_eq!(agents.len(), 2);\n    }",
+  "source_version": "crates/corvia-kernel/src/agent_registry.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.442956750Z",
+  "valid_from": "2026-03-31T13:20:59.442956750Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/agent_registry.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 260,
+    "end_line": 266,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

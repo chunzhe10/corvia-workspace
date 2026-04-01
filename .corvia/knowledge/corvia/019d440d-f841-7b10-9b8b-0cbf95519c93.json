@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0cbf95519c93",
+  "content": "rgo test -p corvia-kernel chunking_pipeline -- --nocapture`\nExpected: All tests PASS\n\n**Step 5: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/chunking_pipeline.rs\ngit commit -m \"feat(m3.3): wire kernel default strategies into FormatRegistry\"\n```\n\n---\n\n### Task 7: Revise IngestionAdapter Trait (D69)\n\nReplace `ingest() -> Vec<KnowledgeEntry>` with `register_chunking()` + `ingest_sources()`.\n\n**Files:**\n- Modify: `crates/corvia-kernel/src/traits.rs` (revise trait)\n- Modify: `crates/corvia-kernel/src/chunking_strategy.rs` (ensure SourceFile is pub)\n\n**Step 1: Write the failing test**\n\nAdd a compile-time object-safety test to `traits.rs`:\n\n```rust\n// Compile-time test: verify revised IngestionAdapter is object-safe\nfn _assert_ingestion_adapter_object_safe(_: &dyn IngestionAdapter) {}\n```\n\n**Step 2: Implement the trait revision**\n\nReplace the IngestionAdapter trait in `crates/corvia-kernel/src/traits.rs`:\n\n```rust\n/// Ingestion adapter for domain-specific sources (D11/D69).\n///\n/// D69 clean break: adapters return raw [`SourceFile`]s and register\n/// [`ChunkingStrategy`]s. The kernel's [`ChunkingPipeline`] handles\n/// splitting, merging, and token budget enforcement.\n#[async_trait]\npub trait IngestionAdapter: Send + Sync {\n    /// Domain name (e.g., \"git\", \"general\").\n    fn domain(&self) -> &str;\n\n    /// Register chunking strategies this adapter provides.\n    /// Called once during pipeline setup. The adapter registers",
+  "source_version": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457506484Z",
+  "valid_from": "2026-03-31T13:20:59.457506484Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1149,
+    "end_line": 1182,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

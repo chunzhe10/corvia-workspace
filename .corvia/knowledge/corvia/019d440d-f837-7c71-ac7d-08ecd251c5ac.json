@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f837-7c71-ac7d-08ecd251c5ac",
+  "content": "fresh and high-scoring\n                entry.recorded_at = Utc::now() - chrono::Duration::days(1);\n                entry.access_count = 50;\n                entry.last_accessed = Some(Utc::now());\n                entry.confidence = Some(0.9);\n            }\n\n            crate::knowledge_files::write_entry(dir.path(), &entry).unwrap();\n            store.insert(&entry).await.unwrap();\n            entries.push(entry);\n        }\n\n        let graph: Arc<dyn GraphStore> = store.clone();\n        let store_q: Arc<dyn QueryableStore> = store.clone();\n\n        // budget_top_n = 10, but 4 will already transition from scoring\n        let mut config = ForgettingConfig {\n            enabled: true,\n            ..Default::default()\n        };\n        config.defaults.budget_top_n = 10;\n\n        let report = run_gc_cycle(&store_q, &graph, dir.path(), Some(&config), &HashMap::new(), None)\n            .await\n            .unwrap();\n\n        // The budget should not double-count already-transitioned entries\n        // 4 transitioned by scoring, remaining 8 active Hot — under budget of 10\n        // So budget_demoted should be minimal (0 or very few)\n        assert!(report.budget_demoted <= 2,\n            \"Budget should skip already-transitioned entries, got {} budget demotions\", report.budget_demoted);\n    }",
+  "source_version": "crates/corvia-kernel/src/gc_worker.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.447900971Z",
+  "valid_from": "2026-03-31T13:20:59.447900971Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/gc_worker.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1680,
+    "end_line": 1704,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

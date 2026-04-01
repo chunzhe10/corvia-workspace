@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-6ee4112c59cd",
+  "content": "## Verification\n## Impact on Other Milestones\n\n### M5 (revised)\n- **Gains:** Grafana/Docker Compose dashboards (moved from M4)\n- **Gains:** Pre-built dashboards feed from telemetry data wired in M4\n- **VS Code extension** can now use both existing 8 knowledge tools AND 10 new control tools\n\n\n### M6 (unchanged)\n- Evals can now measure control plane latency and safety model effectiveness\n",
+  "source_version": "docs/rfcs/2026-03-04-m4-revised-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463330716Z",
+  "valid_from": "2026-03-31T13:20:59.463330716Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-04-m4-revised-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 251,
+    "end_line": 258,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82b-7733-b219-aa0426bbf7d7",
+  "content": "fn test_cosine_similarity_opposite() {\n        let a = vec![1.0, 0.0, 0.0];\n        let b = vec![-1.0, 0.0, 0.0];\n        let sim = cosine_similarity(&a, &b);\n        assert!((sim + 1.0).abs() < 1e-6, \"opposite vectors should have similarity -1.0\");\n    }\nfn test_cosine_similarity_zero_vector() {\n        let a = vec![0.0, 0.0, 0.0];\n        let b = vec![1.0, 0.0, 0.0];\n        let sim = cosine_similarity(&a, &b);\n        assert_eq!(sim, 0.0, \"zero vector should yield similarity 0.0\");\n    }",
+  "source_version": "crates/corvia-kernel/src/reasoner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.435608782Z",
+  "valid_from": "2026-03-31T13:20:59.435608782Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/reasoner.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1198,
+    "end_line": 1203,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

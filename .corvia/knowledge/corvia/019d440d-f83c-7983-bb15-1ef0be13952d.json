@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-1ef0be13952d",
+  "content": "### Step 1: Update `corvia status` to show agent info\n### Step 2: Update `corvia serve` with `--mcp` flag\n\n### Step 3: Add `corvia agent` subcommand\n\n```\ncorvia agent list           — list registered agents\ncorvia agent sessions <id>  — list sessions for an agent\n```\n\n\n### Step 4: Run tests, verify pass, commit\n\n```bash\ngit add crates/corvia-cli/src/main.rs\ngit commit -m \"feat(m2): CLI updates for agent status and MCP serve mode\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452032054Z",
+  "valid_from": "2026-03-31T13:20:59.452032054Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1781,
+    "end_line": 1796,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

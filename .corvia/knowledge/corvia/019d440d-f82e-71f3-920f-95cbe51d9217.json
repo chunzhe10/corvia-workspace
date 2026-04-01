@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82e-71f3-920f-95cbe51d9217",
+  "content": "line,\n                        relation: \"uses\".to_string(),\n                        to_file: def_file.clone(),\n                        to_name: Some(symbol.clone()),\n                    });\n                }\n            }\n        }\n\n        relations\n    }\nfn extract_definition_name(content: &str) -> Option<String> {\n    let first_line = content.lines().next()?;\n    let trimmed = first_line.trim();\n    let keywords = [\"struct \", \"trait \", \"enum \"];\n    for keyword in &keywords {\n        if let Some(pos) = trimmed.find(keyword) {\n            let after = &trimmed[pos + keyword.len()..];\n            let name: String = after\n                .chars()\n                .take_while(|c| c.is_alphanumeric() || *c == '_')\n                .collect();\n            if !name.is_empty() {\n                return Some(name);\n            }\n        }\n    }\n    None\n}",
+  "source_version": "crates/corvia-kernel/src/chunking_pipeline.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.438930247Z",
+  "valid_from": "2026-03-31T13:20:59.438930247Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_pipeline.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 609,
+    "end_line": 626,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

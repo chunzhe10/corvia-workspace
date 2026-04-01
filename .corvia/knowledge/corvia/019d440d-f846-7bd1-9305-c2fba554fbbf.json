@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-c2fba554fbbf",
+  "content": "## Task 6: Add Adapter Config Types\n\nhost = \"127.0.0.1\"\nport = 8020\n\n[adapters]\nsearch_dirs = [\"~/.config/corvia/adapters\", \"/opt/corvia/adapters\"]\ndefault = \"git\"\n\n[[sources]]\npath = \"./backend\"\nadapter = \"git\"\n\n[[sources]]\npath = \"https://company.atlassian.net/wiki/spaces/ENG\"\nadapter = \"confluence\"\n\"#;\n        let config: CorviaConfig = toml::from_str(toml_str).unwrap();\n        let adapters = config.adapters.unwrap();\n        assert_eq!(adapters.search_dirs.len(), 2);\n        assert_eq!(adapters.default, Some(\"git\".into()));\n\n        let sources = config.sources.unwrap();\n        assert_eq!(sources.len(), 2);\n        assert_eq!(sources[0].path, \"./backend\");\n        assert_eq!(sources[0].adapter, Some(\"git\".into()));\n        assert_eq!(sources[1].adapter, Some(\"confluence\".into()));\n    }\n\n    #[test]\n    fn test_adapters_config_optional() {\n        let config = CorviaConfig::default();\n        assert!(config.adapters.is_none());\n        assert!(config.sources.is_none());\n    }\n\n    #[test]\n    fn test_adapters_config_roundtrip() {\n        let mut config = CorviaConfig::default();",
+  "source_version": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462760141Z",
+  "valid_from": "2026-03-31T13:20:59.462760141Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1358,
+    "end_line": 1394,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

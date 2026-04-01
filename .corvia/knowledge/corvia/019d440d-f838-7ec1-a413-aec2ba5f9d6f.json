@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f838-7ec1-a413-aec2ba5f9d6f",
+  "content": "ges[0].relation, \"imports\");\n        assert_eq!(out_edges[0].to, b);\n\n        let in_edges = store.edges(&b, EdgeDirection::Incoming).await.unwrap();\n        assert_eq!(in_edges.len(), 1);\n        assert_eq!(in_edges[0].from, a);\n\n        // Both direction\n        let both = store.edges(&a, EdgeDirection::Both).await.unwrap();\n        assert_eq!(both.len(), 1);\n    }\n\n    #[tokio::test]\n    async fn test_traverse_bfs() {\n        let db = test_db();\n        let store = LiteGraphStore::new(db).unwrap();\n\n        let a = Uuid::now_v7();\n        let b = Uuid::now_v7();\n        let c = Uuid::now_v7();\n        store.relate(&a, \"imports\", &b, None).await.unwrap();\n        store.relate(&b, \"imports\", &c, None).await.unwrap();\n\n        // Traverse from a, depth 2 — should reach b and c\n        let results = store.traverse_ids(&a, None, EdgeDirection::Outgoing, 2).unwrap();\n        assert_eq!(results.len(), 2); // b and c (not a itself)\n    }\n\n    #[tokio::test]\n    async fn test_shortest_path_ids() {\n        let db = test_db();\n        let store = LiteGraphStore::new(db).unwrap();\n\n        let a = Uuid::now_v7();\n        let b = Uuid::now_v7();\n        let c = Uuid::now_v7();\n        store.relate(&a, \"imports\", &b, None).await.unwrap();\n        store.relate(&b, \"calls\", &c, None).await.unwrap();\n\n        let path = store.shortest_path_ids(&a, &c).unwrap();\n        assert!(path.is_some());\n        let path = path.unwrap();\n        assert_eq!(path.len(), 3); // a -> b -> c\n        assert_eq!(path[0], a);\n        assert_eq!(path[1], b);\n        assert_eq!(path[2], c);",
+  "source_version": "crates/corvia-kernel/src/graph_store.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.448569682Z",
+  "valid_from": "2026-03-31T13:20:59.448569682Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/graph_store.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 445,
+    "end_line": 482,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

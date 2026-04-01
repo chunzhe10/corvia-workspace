@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f828-7a92-a1a8-d7651452e34a",
+  "content": "  store.insert(&entry).await.unwrap();\n        }\n\n        let results = store\n            .scan_cold_entries(&[1.0, 0.0, 0.0], \"scope-empty\", 10)\n            .unwrap();\n        assert!(results.is_empty(), \"no cold entries should mean empty results\");\n    }\nasync fn test_cold_scan_excludes_forgotten_entries() {\n        use corvia_common::types::Tier;\n\n        let dir = tempfile::tempdir().unwrap();\n        let store = Arc::new(LiteStore::open(dir.path(), 3).unwrap());\n        store.init_schema().await.unwrap();\n\n        // Insert a Cold entry with embedding.\n        let mut cold_with_emb = KnowledgeEntry::new(\n            \"cold with embedding\".to_string(),\n            \"scope-forgotten\".to_string(),\n            \"v1\".to_string(),\n        );\n        cold_with_emb.embedding = Some(vec![1.0, 0.0, 0.0]);\n        cold_with_emb.tier = Tier::Cold;\n        store.insert(&cold_with_emb).await.unwrap();\n\n        // Insert a Forgotten entry (Cold tier but embedding=None conceptually).\n        // In practice Forgotten entries have tier=Forgotten, not Cold.\n        let mut forgotten = KnowledgeEntry::new(\n            \"forgotten entry\".to_string(),\n            \"scope-forgotten\".to_string(),\n            \"v1\".to_string(),\n        );\n        forgotten.embedding = Some(vec![1.0, 0.0, 0.0]); // need embedding to insert\n        forgotten.tier = Tier::Forgotten;\n        store.insert(&forgotten).await.unwrap();\n\n        let results = store\n            .scan_cold_entries(&[1.0, 0.0, 0.0], \"scope-forgotten\", 10)\n            .unwrap();\n        assert_eq!(results.len(), 1, \"only Cold tier entries should be returned\");\n        assert_eq!(results[0].entry.content, \"cold with embedding\");\n    }",
+  "source_version": "crates/corvia-kernel/src/retriever.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.432673481Z",
+  "valid_from": "2026-03-31T13:20:59.432673481Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/retriever.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1939,
+    "end_line": 1972,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

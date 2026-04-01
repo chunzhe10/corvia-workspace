@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f832-7981-8b9c-42cbd506a639",
+  "content": "sessions = self.sessions.list_by_agent(agent_id)?;\n\n        let active_sessions: Vec<SessionRecord> = all_sessions.iter()\n            .filter(|s| matches!(s.state, SessionState::Active | SessionState::Created))\n            .cloned()\n            .collect();\n\n        let recoverable_sessions: Vec<SessionRecord> = all_sessions.iter()\n            .filter(|s| matches!(s.state, SessionState::Orphaned | SessionState::Stale))\n            .cloned()\n            .collect();\n\n        Ok(ConnectResponse {\n            agent_id: agent_id.into(),\n            active_sessions,\n            recoverable_sessions,\n        })\n    }\n\n    /// Create a new session for an agent.\n    #[tracing::instrument(name = \"corvia.session.create\", skip(self), fields(agent_id, with_staging))]\n    pub fn create_session(&self, agent_id: &str, with_staging: bool) -> Result<SessionRecord> {\n        let session = self.sessions.create(agent_id, with_staging)?;\n        self.sessions.transition(&session.session_id, SessionState::Active)?;\n\n        // Create staging directory if needed\n        if let Some(ref staging_dir_str) = session.staging_dir {\n            let staging_dir = self.staging.resolve_staging_path(staging_dir_str);\n            std::fs::create_dir_all(&staging_dir)\n                .map_err(|e| CorviaError::Agent(format!(\"Failed to create staging dir: {e}\")))?;\n        }",
+  "source_version": "crates/corvia-kernel/src/agent_coordinator.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.442128269Z",
+  "valid_from": "2026-03-31T13:20:59.442128269Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/agent_coordinator.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 159,
+    "end_line": 183,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

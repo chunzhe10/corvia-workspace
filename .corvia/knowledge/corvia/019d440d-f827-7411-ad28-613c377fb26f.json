@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f827-7411-ad28-613c377fb26f",
+  "content": "fn name(&self) -> &str {\n        \"graph_expand\"\n    }\nasync fn retrieve(\n        &self,\n        query: &str,\n        scope_id: &str,\n        opts: &RetrievalOpts,\n    ) -> Result<RetrievalResult> {\n        let start = Instant::now();\n\n        if let Some(denied) = check_rbac_scope(opts, scope_id, self.name(), &start) {\n            return Ok(denied);\n        }\n\n        // Embed the query (timed separately for per-stage metrics).\n        let embed_start = Instant::now();\n        let embedding = self.engine.embed(query).await?;\n        let embed_latency_ms = embed_start.elapsed().as_millis() as u64;\n\n        // Search + graph expansion + filtering (timed separately).\n        let search_start = Instant::now();\n\n        // Oversample (min 10) to allow for post-filter elimination.\n        // When metadata filters are active, over-fetch by 3x to compensate for post-filter.\n        let search_limit = if opts.content_role.is_some() || opts.source_origin.is_some() || opts.workstream.is_some() {\n            opts.limit * 3\n        } else {\n            opts.limit\n        };\n        let fetch_limit = (search_limit * opts.oversample_factor).max(10);\n        let hnsw_start = Instant::now();\n        let raw_results = self\n            .store\n            .search(&embedding, scope_id, fetch_limit)\n            .await?;\n        let hnsw_latency_ms = hnsw_start.elapsed().as_millis() as u64;\n        let vector_results = raw_results.len();\n\n        // Track seen IDs and scored (score, SearchResult) pairs.\n        let mut seen: HashSet<uuid::Uuid> = HashSet::new();",
+  "source_version": "crates/corvia-kernel/src/retriever.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.431861672Z",
+  "valid_from": "2026-03-31T13:20:59.431861672Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/retriever.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 450,
+    "end_line": 487,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

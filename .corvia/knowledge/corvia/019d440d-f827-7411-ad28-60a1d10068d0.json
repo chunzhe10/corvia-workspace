@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f827-7411-ad28-60a1d10068d0",
+  "content": "e_factor).max(10);\n        let hnsw_start = Instant::now();\n        let raw_results = self\n            .store\n            .search(&embedding, scope_id, fetch_limit)\n            .await?;\n        let hnsw_latency_ms = hnsw_start.elapsed().as_millis() as u64;\n        let vector_results = raw_results.len();\n\n        // Track seen IDs and scored (score, SearchResult) pairs.\n        let mut seen: HashSet<uuid::Uuid> = HashSet::new();\n        let mut scored: Vec<(f32, SearchResult)> = Vec::new();\n\n        // Score direct vector hits: final = ((1-α)*cosine + α*1.0) * tier_weight\n        // Forgotten entries are excluded entirely.\n        for sr in &raw_results {\n            seen.insert(sr.entry.id);\n            if sr.entry.tier == Tier::Forgotten {\n                continue;\n            }\n            let blended = ((1.0 - self.alpha) * sr.score + self.alpha * 1.0) * tier_weight(sr.entry.tier);\n            scored.push((blended, SearchResult { entry: sr.entry.clone(), score: blended, tier: sr.entry.tier, retention_score: sr.entry.retention_score }));\n        }\n\n        // Graph expansion (timed separately).\n        let graph_start = Instant::now();\n        let mut graph_expanded: usize = 0;\n        let mut graph_reinforced: usize = 0;\n        // Track reinforcement count per result for diminishing returns.\n        let mut reinforcement_counts: std::collections::HashMap<uuid::Uuid, u32> = std::collections::HashMap::new();\n\n        if opts.expand_graph {\n            // Hop 1: follow edges from each vector result.\n            for sr in &raw_results {\n                let mut edges = self\n                    .graph\n                    .edges(&sr.entry.id, EdgeDirection::Both)\n                    .await?;\n\n                // Max-edges-per-node guard: when a node has many edges, expand only\n                // the top MAX_EDGES_PER_NODE sorted by relation_weight * direction_bias.\n                if edges.len() > MAX_EDGES_PER_NODE {\n                    edges.sort_unstable_by(|a, b| {\n                        let score_a = relation_weight(&a.relation)\n                            * direction_bias(&a.relation, a.from == sr.entry.id);\n                        let score_b = relation_weight(&b.relation)",
+  "source_version": "crates/corvia-kernel/src/retriever.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.431773640Z",
+  "valid_from": "2026-03-31T13:20:59.431773640Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/retriever.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 484,
+    "end_line": 522,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

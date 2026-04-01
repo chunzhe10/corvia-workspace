@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-751af82dffe5",
+  "content": "## Chunk 3: Frontend — Rendering Functions\n\n### Task 6: Implement Traces rendering in the `render()` function\n\n**Files:**\n- Modify: `.devcontainer/extensions/corvia-services/extension.js`\n\n-**Step 1: Add `renderTraces()` function**\n\nAfter the existing `applyLogFilters()` function, add:\n\n```javascript\n// --- Traces rendering ---\nfunction renderTraces(data) {\n  var traces = (data && data.traces) || { spans: {}, recent_events: [] };\n  var spans = traces.spans || {};\n\n  // Aggregate per-module stats\n  var modStats = {};\n  for (var mod in MODULES) { modStats[mod] = { count: 0, count_1h: 0, avg_ms: 0, errors: 0, spanCount: 0 }; }\n  var maxCount = 1;\n  for (var sname in spans) {\n    var mod = spanToModule(sname);\n    if (!modStats[mod]) continue;\n    var s = spans[sname];\n    modStats[mod].count += s.count;\n    modStats[mod].count_1h += (s.count_1h || 0);\n    modStats[mod].avg_ms += s.avg_ms * s.count;\n    modStats[mod].errors += s.errors;\n    modStats[mod].spanCount++;\n  }\n  for (var mod in modStats) {\n    var ms = modStats[mod];\n    ms.avg_ms = ms.count > 0 ? Math.round(ms.avg_ms / ms.count) : 0;\n    if (ms.count > maxCount) maxCount = ms.count;\n  }",
+  "source_version": "docs/rfcs/2026-03-10-telemetry-traces-page.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461303094Z",
+  "valid_from": "2026-03-31T13:20:59.461303094Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-telemetry-traces-page.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 724,
+    "end_line": 757,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

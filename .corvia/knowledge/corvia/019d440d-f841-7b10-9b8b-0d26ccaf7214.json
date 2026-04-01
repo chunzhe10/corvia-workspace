@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0d26ccaf7214",
+  "content": "### Task 9: Update GitAdapter for D69 Trait\n\n    use corvia_kernel::chunking_fallback::FallbackChunker;\n    use std::sync::Arc;\n\n    let fallback = Arc::new(FallbackChunker::new(512));\n    let mut registry = FormatRegistry::new(fallback);\n\n    let adapter = GitAdapter::new();\n    adapter.register_chunking(&mut registry);\n\n    // After registration, .rs should resolve to \"ast\" not \"fallback\"\n    let strategy = registry.resolve(\"rs\");\n    assert_eq!(strategy.name(), \"ast\");\n}\n```\n\n**Step 2: Run tests to verify they fail**\n\nRun: `cargo test -p corvia-adapter-git test_ingest_sources -- --nocapture`\nExpected: FAIL (method doesn't exist)\n\n**Step 3: Implement the new trait methods**\n\nReplace the `IngestionAdapter` impl on `GitAdapter`:\n\n```rust\n#[async_trait]\nimpl IngestionAdapter for GitAdapter {\n    fn domain(&self) -> &str {\n        \"git\"\n    }\n\n    fn register_chunking(&self, registry: &mut corvia_kernel::chunking_pipeline::FormatRegistry) {\n        use std::sync::Arc;\n        let ast = Arc::new(crate::ast_chunker::AstChunker::new());\n        for ext in ast.supported_extensions() {\n            registry.register_override(ext, ast.clone());\n        }",
+  "source_version": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457583897Z",
+  "valid_from": "2026-03-31T13:20:59.457583897Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1425,
+    "end_line": 1461,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

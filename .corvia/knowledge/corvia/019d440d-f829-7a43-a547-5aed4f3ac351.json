@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f829-7a43-a547-5aed4f3ac351",
+  "content": "0);\n        assert!(!gaps.is_empty());\n        // HNSW topic should be first (highest frequency = 3)\n        assert_eq!(gaps[0].frequency, 3, \"expected HNSW group to have frequency 3, got {:?}\", gaps);\n        assert!(gaps[0].query.contains(\"HNSW\"));\n    }\nfn test_top_gaps_empty() {\n        let detector = GapDetector::new();\n        let gaps = detector.top_gaps(10);\n        assert!(gaps.is_empty());\n    }",
+  "source_version": "crates/corvia-kernel/src/gap_detector.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.433560196Z",
+  "valid_from": "2026-03-31T13:20:59.433560196Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/gap_detector.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 194,
+    "end_line": 198,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

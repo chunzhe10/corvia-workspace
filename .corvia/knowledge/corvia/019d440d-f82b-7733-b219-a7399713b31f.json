@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82b-7733-b219-a7399713b31f",
+  "content": "map(|(x, y)| x * y).sum();\n    let norm_a: f32 = a.iter().map(|x| x * x).sum::<f32>().sqrt();\n    let norm_b: f32 = b.iter().map(|x| x * x).sum::<f32>().sqrt();\n    if norm_a == 0.0 || norm_b == 0.0 {\n        return 0.0;\n    }\n    dot / (norm_a * norm_b)\n}\nmod tests {\n    use super::*;\n    use crate::lite_store::LiteStore;\n    use crate::traits::{GraphStore, QueryableStore};\n    use corvia_common::types::KnowledgeEntry;\n\n    /// Helper: create a LiteStore in a tempdir with schema initialized.\n    async fn test_store() -> (tempfile::TempDir, LiteStore) {\n        let dir = tempfile::tempdir().unwrap();\n        let store = LiteStore::open(dir.path(), 3).unwrap();\n        store.init_schema().await.unwrap();\n        (dir, store)\n    }\n\n    /// Helper: create a KnowledgeEntry with a dummy 3-dim embedding.\n    fn entry(content: &str, scope_id: &str) -> KnowledgeEntry {\n        KnowledgeEntry::new(content.into(), scope_id.into(), \"v1\".into())\n            .with_embedding(vec![1.0, 0.0, 0.0])\n    }\n\n    // ---- Check 1: Stale entries ----\n\n    #[tokio::test]\n    async fn test_check_stale_entries() {\n        let (_dir, store) = test_store().await;\n\n        let mut e = entry(\"stale knowledge\", \"scope\");\n        e.valid_to = Some(Utc::now());\n        // No superseded_by — this is stale\n        store.insert(&e).await.unwrap();\n\n        let reasoner = Reasoner::new(&store, &store);\n        let findings = reasoner\n            .check_stale_entries(&[e.clone()], \"scope\")\n            .await\n            .unwrap();\n        assert_eq!(findings.len(), 1);\n        assert_eq!(findings[0].check_type, CheckType::StaleEntry);\n        assert_eq!(findings[0].target_ids, vec![e.id]);\n        assert_eq!(findings[0].confidence, 1.0);\n    }\n\n    #[tokio::test]\n    async fn test_check_stale_entries_not_stale() {\n        let (_dir, store) = test_store().await;\n\n        let mut e = entry(\"superseded knowledge\", \"scope\");\n        e.valid_to = Some(Utc::now());\n        e.superseded_by = Some(Uuid::now_v7()); // Has replacement — not stale\n        store.insert(&e).await.unwrap();\n",
+  "source_version": "crates/corvia-kernel/src/reasoner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.435231718Z",
+  "valid_from": "2026-03-31T13:20:59.435231718Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/reasoner.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 795,
+    "end_line": 845,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

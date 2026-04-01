@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83e-7ae3-ae47-a5b6f1935478",
+  "content": "      \"inputSchema\": { \"type\": \"object\", \"properties\": {} },\n            \"annotations\": { \"tier\": \"ReadOnly\" }\n        }),\n        json!({\n            \"name\": \"corvia_agents_list\",\n            \"description\": \"List all registered agents with their status.\",\n            \"inputSchema\": { \"type\": \"object\", \"properties\": {} },\n            \"annotations\": { \"tier\": \"ReadOnly\" }\n        }),\n        json!({\n            \"name\": \"corvia_merge_queue\",\n            \"description\": \"Inspect the merge queue: depth and top entries.\",\n            \"inputSchema\": {\n                \"type\": \"object\",\n                \"properties\": {\n                    \"limit\": { \"type\": \"integer\", \"description\": \"Max entries to return (default 10)\" }\n                }\n            },\n            \"annotations\": { \"tier\": \"ReadOnly\" }\n        }),\n```\n\n-**Step 4: Add tool handler functions**\n\n```rust\nasync fn tool_corvia_system_status(\n    state: &AppState,\n    args: &Value,\n) -> Result<Value, (i32, String)> {\n    let scope_id = resolve_scope_id(args, state)?;\n    let status = corvia_kernel::ops::system_status(\n        state.store.clone(),\n        &state.coordinator,\n        &scope_id,\n    ).await.map_err(|e| (INTERNAL_ERROR, format!(\"{e}\")))?;",
+  "source_version": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.454995854Z",
+  "valid_from": "2026-03-31T13:20:59.454995854Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1058,
+    "end_line": 1086,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-20841fc6c60f",
+  "content": "f.results.iter().all(|r| r.passed())\n    }\n\n    pub fn pass_count(&self) -> usize {\n        self.results.iter().filter(|r| r.passed()).count()\n    }\n\n    pub fn fail_count(&self) -> usize {\n        self.results.iter().filter(|r| !r.passed()).count()\n    }\n\n    pub fn avg_score(&self) -> f64 {\n        if self.results.is_empty() {\n            return 0.0;\n        }\n        let sum: f64 = self.results.iter().map(|r| r.score).sum();\n        sum / self.results.len() as f64\n    }\n\n    /// Exit code per POSIX convention.\n    pub fn exit_code(&self) -> i32 {\n        if self.all_passed() { 0 } else { 1 }\n    }\n}\n\n/// The Introspect pipeline. Orchestrates env check, self-ingest, self-query, and report.\npub struct Introspect {\n    config: IntrospectConfig,\n}\n\nimpl Introspect {\n    pub fn new(config: IntrospectConfig) -> Self {\n        Self { config }\n    }\n\n    /// Load config from file, falling back to built-in defaults.\n    pub fn from_file_or_default(path: &Path) -> Self {\n        let config = if path.exists() {\n            IntrospectConfig::load(path).unwrap_or_else(|e| {\n                tracing::warn!(\"Failed to load {}: {e}, using defaults\", path.display());\n                IntrospectConfig::default_queries()\n            })\n        } else {\n            info!(\"No introspect.toml found, using built-in queries\");\n            IntrospectConfig::default_queries()\n        };",
+  "source_version": "docs/rfcs/2026-02-28-introspect-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452252475Z",
+  "valid_from": "2026-03-31T13:20:59.452252475Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-introspect-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 608,
+    "end_line": 642,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

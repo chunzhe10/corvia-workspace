@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82e-71f3-920f-8e9e5fa143c1",
+  "content": "pub struct AdapterMetadata {\n    pub name: String,\n    pub version: String,\n    pub domain: String,\n    pub protocol_version: u32,\n    pub description: String,\n    pub supported_extensions: Vec<String>,\n    pub chunking_extensions: Vec<String>,\n}\npub enum AdapterRequest {\n    /// Walk the source path and stream back source files.\n    #[serde(rename = \"ingest\")]\n    Ingest {\n        source_path: String,\n        scope_id: String,\n    },\n    /// Chunk the given file content using adapter-specific intelligence.\n    #[serde(rename = \"chunk\")]\n    Chunk {\n        content: String,\n        metadata: SourceMetadata,\n    },\n}",
+  "source_version": "crates/corvia-kernel/src/adapter_protocol.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.438053493Z",
+  "valid_from": "2026-03-31T13:20:59.438053493Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/adapter_protocol.rs",
+    "language": "rs",
+    "chunk_type": "enum_item",
+    "start_line": 34,
+    "end_line": 47,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

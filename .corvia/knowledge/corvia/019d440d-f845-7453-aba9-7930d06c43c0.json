@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-7930d06c43c0",
+  "content": "a-kernel -- traits::tests::test_generation_engine_mock --nocapture`\nExpected: PASS\n\n**Step 5: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/traits.rs\ngit commit -m \"feat(m3.2): GenerationEngine trait (D63) — name, generate, context_window\"\n```\n\n---\n\n## Task 4: Retriever Trait + VectorRetriever\n\nDefine the `Retriever` trait and implement `VectorRetriever` — pure vector search with visibility filtering. This is the baseline retriever, equivalent to what `ContextBuilder` does today.\n\n**Files:**\n- Create: `crates/corvia-kernel/src/retriever.rs`\n- Modify: `crates/corvia-kernel/src/lib.rs` (add module)\n\n**Step 1: Write the failing test**\n\nCreate `crates/corvia-kernel/src/retriever.rs` with the test module first:\n\n```rust\nuse async_trait::async_trait;\nuse corvia_common::agent_types::{AgentPermission, EntryStatus, VisibilityMode};\nuse corvia_common::errors::Result;\nuse corvia_common::types::SearchResult;\nuse std::sync::Arc;\nuse std::time::Instant;\nuse tracing::info;\n\nuse crate::rag_types::{RetrievalMetrics, RetrievalOpts, RetrievalResult};\nuse crate::traits::{InferenceEngine, QueryableStore};\n\n/// Retrieval stage trait (D61). Pluggable for benchmarking.\n#[async_trait]\npub trait Retriever: Send + Sync {\n    fn name(&self) -> &str;\n    async fn retrieve(\n        &self,\n        query: &str,\n        scope_id: &str,\n        opts: &RetrievalOpts,\n    ) -> Result<RetrievalResult>;\n}\n\n#[cfg(test)]\nmod tests {\n    use super::*;",
+  "source_version": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461789150Z",
+  "valid_from": "2026-03-31T13:20:59.461789150Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 448,
+    "end_line": 486,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

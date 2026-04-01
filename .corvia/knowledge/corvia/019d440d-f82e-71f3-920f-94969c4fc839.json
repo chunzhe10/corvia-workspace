@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82e-71f3-920f-94969c4fc839",
+  "content": "    }\n                        i\n                    };\n                    &prev_content[start..]\n                } else {\n                    prev_content.as_str()\n                };\n                let overlap_est = self.estimator.estimate(overlap_text);\n                let with_overlap = format!(\"{}\\n{}\", overlap_text, chunk.content);\n                contents.push(with_overlap);\n                overlap_tokens_vec.push(overlap_est);\n            }\n        }\n\n        (contents, overlap_tokens_vec)\n    }\n\n    /// Discover cross-file relations by tracking type/trait definitions and usages.\n    ///\n    /// Pass 1: Collect definitions (structs, traits, enums) from chunk metadata.\n    /// Pass 2: Find cross-file usages of those definitions in chunk content.\n    /// Returns additional `ChunkRelation` entries with relation type `\"uses\"`.\n    pub fn discover_cross_file_relations(\n        chunks: &[ProcessedChunk],\n    ) -> Vec<ChunkRelation> {\n        // Types to skip — common standard library / serde / language primitives.\n        let skip_types: HashSet<&str> = [\n            \"String\", \"Vec\", \"HashMap\", \"HashSet\", \"BTreeMap\", \"BTreeSet\",\n            \"Option\", \"Result\", \"Box\", \"Arc\", \"Mutex\", \"RwLock\", \"Rc\", \"Cell\",\n            \"RefCell\", \"Pin\", \"Future\", \"Stream\", \"Iterator\", \"Display\", \"Debug\",\n            \"Clone\", \"Copy\", \"Send\", \"Sync\", \"Default\", \"From\", \"Into\",\n            \"TryFrom\", \"TryInto\", \"AsRef\", \"AsMut\", \"Deref\", \"DerefMut\", \"Drop\",\n            \"Fn\", \"FnMut\", \"FnOnce\", \"Error\", \"Ord\", \"PartialOrd\", \"Eq\",\n            \"PartialEq\", \"Hash\", \"Sized\", \"Unpin\", \"Serialize\", \"Deserialize\",\n            \"None\", \"Some\", \"Ok\", \"Err\", \"Self\", \"TRUE\", \"FALSE\", \"Path\",\n            \"PathBuf\", \"File\", \"Read\", \"Write\", \"Seek\", \"Command\", \"Output\",\n            \"ExitStatus\",\n        ]",
+  "source_version": "crates/corvia-kernel/src/chunking_pipeline.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.438748883Z",
+  "valid_from": "2026-03-31T13:20:59.438748883Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_pipeline.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 485,
+    "end_line": 514,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

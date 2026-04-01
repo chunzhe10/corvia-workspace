@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-cbeafd41d4ed",
+  "content": "### Current State\n### Design Options\n\n#### Option A: Docker Compose sidecar spokes\n\nHub is the main devcontainer (corvia server + inference). Spokes are lightweight\nDocker containers defined in a compose file. `corvia workspace spoke` CLI command\nmanages them.\n\n```\ncorvia workspace spoke create --repo corvia --issue 42\ncorvia workspace spoke list\ncorvia workspace spoke destroy spoke-42\n```\n\nUnder the hood:\n- Generates a Docker container from a spoke template\n- Connects to hub's Docker network\n- Mounts the repo (git worktree or fresh clone)\n- Injects `.mcp.json` pointing to hub's corvia server\n- Starts Claude Code with `/dev-loop <issue>`\n\n**Pros:** corvia controls the full lifecycle. Clean product surface.\n**Cons:** Requires Docker-in-Docker or host Docker socket access from the hub container.\n\n\n#### Option B: corvia provisions, user starts Claude Code\n\ncorvia handles environment setup (container, network, repo, auth) but does not\nstart Claude Code itself. The user (or a shell script) starts Claude Code in each\nspoke.\n\n```\ncorvia workspace spoke create --repo corvia --branch feat/42-bm25",
+  "source_version": "decisions/2026-03-28-multi-spoke-workspace-brainstorm.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025603163Z",
+  "valid_from": "2026-03-31T13:51:39.025603163Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-multi-spoke-workspace-brainstorm.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 42,
+    "end_line": 71,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

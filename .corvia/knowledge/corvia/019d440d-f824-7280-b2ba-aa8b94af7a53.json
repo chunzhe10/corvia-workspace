@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f824-7280-b2ba-aa8b94af7a53",
+  "content": "fn has_agent_teams_env(settings: &serde_json::Value) -> bool {\n    settings.get(\"env\")\n        .and_then(|env| env.get(\"CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS\"))\n        .and_then(|v| v.as_str())\n        .map(|v| v == \"1\")\n        .unwrap_or(false)\n}\nmod tests {\n    use super::*;\n\n    #[test]\n    fn test_is_corvia_hook_bash() {\n        let entry = json!({\n            \"hooks\": [{\"command\": \"bash .claude/hooks/record-session-start.sh\"}]\n        });\n        assert!(is_corvia_hook(&entry));\n    }\n\n    #[test]\n    fn test_is_corvia_hook_rust() {\n        let entry = json!({\n            \"hooks\": [{\"command\": \"corvia hooks run --event SessionStart\"}]\n        });\n        assert!(is_corvia_hook(&entry));\n    }\n\n    #[test]\n    fn test_is_not_corvia_hook() {\n        let entry = json!({\n            \"hooks\": [{\"command\": \"bash my-custom-hook.sh\"}]\n        });\n        assert!(!is_corvia_hook(&entry));\n    }\n\n    #[test]\n    fn test_hook_entry_with_matcher() {\n        let entry = hook_entry(Some(\"Write|Edit\"), \"corvia hooks run --event PreToolUse --handler doc-placement\", 5000);\n        assert_eq!(entry[\"matcher\"], \"Write|Edit\");\n        let cmd = entry[\"hooks\"][0][\"command\"].as_str().unwrap();\n        assert!(cmd.contains(\"corvia hooks run --event PreToolUse --handler doc-placement\"), \"command should contain the corvia hooks call\");",
+  "source_version": "crates/corvia-cli/src/hooks/settings.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.428518009Z",
+  "valid_from": "2026-03-31T13:20:59.428518009Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/settings.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 208,
+    "end_line": 240,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

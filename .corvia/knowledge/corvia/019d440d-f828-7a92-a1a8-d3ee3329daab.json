@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f828-7a92-a1a8-d3ee3329daab",
+  "content": ":new(MockEngine);\n\n        let mut idx: usize = 0;\n        let mut next_emb = || {\n            idx += 1;\n            vec![1.0, idx as f32 * 0.1, 0.0]\n        };\n\n        // Entry A — close to query vector [1,0,0]\n        let mut ea = KnowledgeEntry::new(\n            \"auth module\".to_string(),\n            \"reinforce-scope\".to_string(),\n            \"v1\".to_string(),\n        );\n        ea.embedding = Some(next_emb());\n        queryable.insert(&ea).await.unwrap();\n\n        // Entry B — also close (both in top-N vector results)\n        let mut eb = KnowledgeEntry::new(\n            \"auth middleware\".to_string(),\n            \"reinforce-scope\".to_string(),\n            \"v1\".to_string(),\n        );\n        eb.embedding = Some(next_emb());\n        queryable.insert(&eb).await.unwrap();\n\n        // 8 filler entries for HNSW connectivity\n        for i in 0..8 {\n            let mut filler = KnowledgeEntry::new(\n                format!(\"filler {i}\"),\n                \"reinforce-scope\".to_string(),\n                \"v1\".to_string(),\n            );\n            filler.embedding = Some(next_emb());\n            queryable.insert(&filler).await.unwrap();\n        }\n\n        // Create edge A→B. Both A and B should be in vector results,\n        // so B should get reinforced when we follow A's edges.\n        graph.relate(&ea.id, \"imports\", &eb.id, None).await.unwrap();\n\n        let retriever = GraphExpandRetriever::new(\n            queryable,\n            engine,\n            graph,\n            0.3, // alpha\n        );",
+  "source_version": "crates/corvia-kernel/src/retriever.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.432138995Z",
+  "valid_from": "2026-03-31T13:20:59.432138995Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/retriever.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 1252,
+    "end_line": 1288,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82a-7783-b9af-786fa436efde",
+  "content": "         .search_text(\"quantum physics thermodynamics\", \"test-fts\", 10)\n            .await\n            .unwrap();\n        assert!(results.is_empty());\n\n        store.delete_scope(\"test-fts\").await.unwrap();\n        cleanup_test_db(\"fts_empty\").await;\n    }\nasync fn test_pg_fts_respects_limit() {\n        let store = match connect_test_store(\"fts_limit\").await {\n            Ok(s) => s,\n            Err(_) => {\n                eprintln!(\"Skipping: PostgreSQL not available\");\n                return;\n            }\n        };\n\n        // Insert 5 entries all matching \"programming\"\n        for i in 0..5 {\n            let entry = KnowledgeEntry::new(\n                format!(\"programming language tutorial part {i}\"),\n                \"test-fts\".into(),\n                format!(\"v{i}\"),\n            )\n            .with_embedding(test_embedding(i as f32, 0.0, 0.0));\n            store.insert(&entry).await.unwrap();\n        }\n\n        // Limit to 2 results\n        let results = store.search_text(\"programming\", \"test-fts\", 2).await.unwrap();\n        assert_eq!(results.len(), 2);\n\n        // Limit to 10 — should get all 5\n        let results = store.search_text(\"programming\", \"test-fts\", 10).await.unwrap();\n        assert_eq!(results.len(), 5);\n\n        store.delete_scope(\"test-fts\").await.unwrap();\n        cleanup_test_db(\"fts_limit\").await;\n    }",
+  "source_version": "crates/corvia-kernel/src/postgres_store.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.434754321Z",
+  "valid_from": "2026-03-31T13:20:59.434754321Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/postgres_store.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1896,
+    "end_line": 1926,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

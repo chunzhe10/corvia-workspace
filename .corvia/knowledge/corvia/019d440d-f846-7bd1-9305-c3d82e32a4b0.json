@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-c3d82e32a4b0",
+  "content": "e tokio runtime\");\n    let stdin = io::stdin();\n    let stdout = io::stdout();\n    let mut out = io::BufWriter::new(stdout.lock());\n\n    for line in stdin.lock().lines() {\n        let line = match line {\n            Ok(l) => l,\n            Err(_) => break,\n        };\n        let line = line.trim().to_string();\n        if line.is_empty() {\n            continue;\n        }\n\n        match serde_json::from_str::<AdapterRequest>(&line) {\n            Ok(AdapterRequest::Ingest { source_path, scope_id }) => {\n                handle_ingest(&rt, &source_path, &scope_id, &mut out);\n            }\n            Ok(AdapterRequest::Chunk { content, metadata }) => {\n                handle_chunk(&content, &metadata, &mut out);\n            }\n            Err(e) => {\n                let resp = AdapterResponse::Error {\n                    error: AdapterError {\n                        code: \"PARSE_ERROR\".into(),\n                        message: format!(\"Invalid request: {e}\"),\n                        file: None,\n                    },\n                };\n                writeln!(out, \"{}\", serde_json::to_string(&resp).unwrap()).ok();\n                out.flush().ok();\n            }\n        }\n    }\n}\n\nfn handle_ingest<W: Write>(rt: &tokio::runtime::Runtime, source_path: &str, scope_id: &str, out: &mut W) {\n    let adapter = GitAdapter::new();\n\n    match rt.block_on(adapter.ingest_sources(source_path)) {\n        Ok(files) => {",
+  "source_version": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462941971Z",
+  "valid_from": "2026-03-31T13:20:59.462941971Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 2050,
+    "end_line": 2082,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

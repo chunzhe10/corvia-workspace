@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f830-7a51-9391-46e9febea469",
+  "content": ",\n        // but BM25 can surface it via full-text search.\n        let mut cold_entry = KnowledgeEntry::new(\n            \"cold archived API reference documentation\".to_string(),\n            \"cold-scope\".to_string(),\n            \"v1\".to_string(),\n        );\n        cold_entry.tier = Tier::Cold;\n        cold_entry.embedding = Some(vec![1.0, 0.0, 0.0]);\n        queryable.insert(&cold_entry).await.unwrap();\n\n        // Insert some hot entries for HNSW connectivity.\n        for i in 0..5 {\n            let mut entry = KnowledgeEntry::new(\n                format!(\"hot entry about topic {i}\"),\n                \"cold-scope\".to_string(),\n                \"v1\".to_string(),\n            );\n            entry.embedding = Some(vec![1.0, i as f32 * 0.1, 0.0]);\n            entry.tier = Tier::Hot;\n            queryable.insert(&entry).await.unwrap();\n        }\n\n        // Mock BM25 searcher that returns the cold entry (simulates tantivy finding it).\n        let cold_candidate = crate::pipeline::RankedCandidate {\n            entry: Arc::new(cold_entry.clone()),\n            scores: crate::pipeline::CandidateScores {\n                components: HashMap::from([(\"bm25\".to_string(), 0.9 * 0.3)]), // score * cold weight\n                final_score: crate::pipeline::NormalizedScore::new(0.8),\n            },\n        };\n\n        let pipeline = RetrievalPipeline::new(\n            vec![\n                Arc::new(VectorSearcher::new(queryable.clone(), engine.clone())),\n                Arc::new(MockBM25Searcher {\n                    results: vec![cold_candidate],\n                }),\n            ],",
+  "source_version": "crates/corvia-kernel/src/pipeline/core.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.440294289Z",
+  "valid_from": "2026-03-31T13:20:59.440294289Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/core.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 1271,
+    "end_line": 1302,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

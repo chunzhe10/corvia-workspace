@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f839-77c3-913e-1931ff505bee",
+  "content": " None,\n                    parent_session_id: None,\n                    edge_hints: vec![],\n        };\n        let (chunks, _) = adapter.chunk(\"test content\", &meta).unwrap();\n        assert_eq!(chunks.len(), 1);\n\n        adapter.shutdown().unwrap();\n    }\nfn test_drop_shuts_down() {\n        let dir = tempfile::tempdir().unwrap();\n        let binary = create_session_adapter(dir.path());\n        let mut adapter = ProcessAdapter::new(binary, mock_metadata());\n        adapter.spawn().unwrap();\n        // Drop without explicit shutdown — should not panic\n        drop(adapter);\n    }",
+  "source_version": "crates/corvia-kernel/src/process_adapter.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.449519930Z",
+  "valid_from": "2026-03-31T13:20:59.449519930Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/process_adapter.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 319,
+    "end_line": 326,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f837-7c71-ac7d-038778b74b80",
+  "content": "*E) redundant scans\n    let all_entries = lite_store.fetch_all_entries()?;\n\n    // Discover scopes from knowledge directory\n    let knowledge_dir = data_dir.join(\"knowledge\");\n    let scopes = list_scope_dirs(&knowledge_dir);\n\n    for scope_id in &scopes {\n        let scope_override = scope_configs\n            .get(scope_id.as_str())\n            .and_then(|o| o.as_ref());\n\n        process_scope(\n            lite_store,\n            graph,\n            scope_id,\n            &all_entries,\n            forgetting,\n            scope_override,\n            &mut report,\n        )\n        .await?;\n        report.scopes_processed += 1;\n    }\n\n    report.cycle_duration_ms = start.elapsed().as_millis() as u64;\n\n    // Take the forgotten_access_attempts counter (reset to 0 for next cycle)\n    let forgotten_attempts = forgotten_counter.map(|c| c.take()).unwrap_or(0);\n\n    // Record all metrics into the span\n    let span = tracing::Span::current();\n    span.record(\"entries_scanned\", report.entries_scanned as u64);\n    span.record(\"transitions_hot_warm\", report.hot_to_warm as u64);\n    span.record(\"transitions_warm_cold\", report.warm_to_cold as u64);\n    span.record(\"transitions_cold_forgotten\", report.cold_to_forgotten as u64);\n    span.record(\"promotions_cold_warm\", report.cold_to_warm as u64);\n    span.record(\"promotions_warm_hot\", report.warm_to_hot as u64);\n    span.record(\"rebuild_triggered\", report.hnsw_rebuild_triggered);\n    span.record(\"rebuild_duration_ms\", report.rebuild_duration_ms);\n    span.record(\"forgotten_access_attempts\", forgotten_attempts);\n    span.record(\"cycle_duration_ms\", report.cycle_duration_ms);\n\n    Ok(report)\n}",
+  "source_version": "crates/corvia-kernel/src/gc_worker.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.447140051Z",
+  "valid_from": "2026-03-31T13:20:59.447140051Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/gc_worker.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 242,
+    "end_line": 278,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

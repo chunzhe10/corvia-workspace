@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82a-7783-b9af-789afe0beab9",
+  "content": "rt!(\n            results[0].score > results[1].score,\n            \"results should have strictly different scores for different densities\"\n        );\n\n        store.delete_scope(\"test-fts\").await.unwrap();\n        cleanup_test_db(\"fts_ranking\").await;\n    }\nasync fn test_pg_fts_empty_query() {\n        let store = match connect_test_store(\"fts_empty_q\").await {\n            Ok(s) => s,\n            Err(_) => {\n                eprintln!(\"Skipping: PostgreSQL not available\");\n                return;\n            }\n        };\n\n        let e1 = KnowledgeEntry::new(\n            \"Rust programming language\".into(),\n            \"test-fts\".into(),\n            \"v1\".into(),\n        )\n        .with_embedding(test_embedding(1.0, 0.0, 0.0));\n        store.insert(&e1).await.unwrap();\n\n        // Empty and whitespace-only queries return empty without hitting PG\n        let results = store.search_text(\"\", \"test-fts\", 10).await.unwrap();\n        assert!(results.is_empty());\n        let results = store.search_text(\"   \", \"test-fts\", 10).await.unwrap();\n        assert!(results.is_empty());\n\n        store.delete_scope(\"test-fts\").await.unwrap();\n        cleanup_test_db(\"fts_empty_q\").await;\n    }",
+  "source_version": "crates/corvia-kernel/src/postgres_store.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.434786456Z",
+  "valid_from": "2026-03-31T13:20:59.434786456Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/postgres_store.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 2001,
+    "end_line": 2026,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

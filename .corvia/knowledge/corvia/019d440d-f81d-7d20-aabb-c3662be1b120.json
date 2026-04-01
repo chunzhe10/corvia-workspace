@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81d-7d20-aabb-c3662be1b120",
+  "content": "rams.limit.unwrap_or(50))\n        .map(|entry| {\n            let entry_id_str = entry.id.to_string();\n\n            // Topic tags from ClusterStore — resolve UUID labels via entry_labels map\n            let topic_tags = hierarchy\n                .as_ref()\n                .and_then(|h| {\n                    h.cluster_for_entry(&entry_id_str)\n                        .map(|sc| {\n                            let label = entry_labels\n                                .get(&sc.label)\n                                .cloned()\n                                .unwrap_or_else(|| sc.label.clone());\n                            vec![label]\n                        })\n                })\n                .unwrap_or_default();\n\n            // Action verb\n            let action = if entry.superseded_by.is_some() {\n                \"superseded\"\n            } else {\n                \"wrote\"\n            };\n\n            // Title: prefer source_file, fall back to content preview\n            let title = entry\n                .metadata\n                .source_file\n                .clone()\n                .unwrap_or_else(|| entry.content.chars().take(80).collect());\n\n            // Content delta: UTF-8 byte diff vs predecessor\n            let current_bytes = entry.content.len() as i64;\n            let delta_bytes = match predecessor_content_len.get(&entry_id_str) {\n                Some(&prev) => current_bytes - prev as i64,\n                None => current_bytes, // New entry — full content is the delta\n            };\n\n            ActivityItem {\n                entry_id: entry_id_str,\n                action: action.to_string(),\n                title,\n                agent_id: entry.agent_id.clone(),\n                agent_name: None, // Could be enriched from registry in the future\n                topic_tags,\n                delta_bytes: Some(delta_bytes),\n                recorded_at: entry.recorded_at.to_rfc3339(),",
+  "source_version": "crates/corvia-server/src/dashboard/activity.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.421874704Z",
+  "valid_from": "2026-03-31T13:20:59.421874704Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/activity.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 146,
+    "end_line": 187,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0d5ab76d9fd6",
+  "content": "PASS (new + existing)\n\nRun: `cargo check --workspace`\nExpected: PASS\n\n**Step 5: Commit**\n\n```bash\ngit add corvia-adapter-git/src/git.rs corvia-adapter-git/src/lib.rs\ngit commit -m \"feat(m3.3): GitAdapter implements revised IngestionAdapter (D69)\"\n```\n\n---\n\n### Task 10: CLI Ingestion Wiring\n\nUpdate `cmd_ingest` and `ingest_workspace` to use `ChunkingPipeline`.\n\n**Files:**\n- Modify: `crates/corvia-cli/src/main.rs` (update `cmd_ingest`)\n- Modify: `crates/corvia-cli/src/workspace.rs` (update `ingest_workspace`)\n- Modify: `crates/corvia-kernel/src/lib.rs` (add `create_chunking_pipeline` factory)\n\n**Step 1: Add kernel factory function**\n\nAdd to `crates/corvia-kernel/src/lib.rs`:\n\n```rust\n/// Create a ChunkingPipeline with kernel defaults.\n///\n/// Adapter strategies can be registered via `register_chunking()` on the\n/// returned pipeline's registry.\npub fn create_chunking_pipeline(config: &CorviaConfig) -> chunking_pipeline::ChunkingPipeline {\n    chunking_pipeline::ChunkingPipeline::with_kernel_defaults(config.chunking.clone())\n}\n```\n\n**Step 2: Update cmd_ingest in main.rs**\n\nRefactor the ingestion flow in `cmd_ingest`:\n\n```rust\nasync fn cmd_ingest(path: Option<&str>) -> Result<()> {\n    if let Some(path) = path {\n        let config = load_config()?;\n        let (store, graph) = connect_store_with_graph(&config).await?;\n        let engine = connect_engine(&config);\n\n        let adapter = GitAdapter::new();\n        println!(\"Ingesting {}...\", path);\n\n        // D69 flow: get source files",
+  "source_version": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457614974Z",
+  "valid_from": "2026-03-31T13:20:59.457614974Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1536,
+    "end_line": 1573,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

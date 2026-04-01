@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-c107d172e4d4",
+  "content": "# Adapter Plugin System — Implementation Plan\n\n## Task 1: Add Serde Derives to Chunking Types\n\nAdd `Serialize`/`Deserialize` to all chunking types so they can cross the JSONL wire. No structural changes — purely additive derives.\n\n**Files:**\n- Modify: `crates/corvia-kernel/src/chunking_strategy.rs`\n- Modify: `crates/corvia-kernel/Cargo.toml` (ensure serde is available — already is)\n\n**Step 1: Add serde derives to all data types**\n\nIn `crates/corvia-kernel/src/chunking_strategy.rs`, add `Serialize, Deserialize` to all six public structs. Add the serde import at the top:\n\n```rust\nuse corvia_common::errors::Result;\nuse serde::{Deserialize, Serialize};\nuse uuid::Uuid;\n```\n\nThen change each struct's derives:\n- `SourceMetadata`: `#[derive(Debug, Clone, Serialize, Deserialize)]`\n- `RawChunk`: `#[derive(Debug, Clone, Serialize, Deserialize)]`\n- `ChunkMetadata`: `#[derive(Debug, Clone, Default, Serialize, Deserialize)]`\n- `ProcessedChunk`: `#[derive(Debug, Clone, Serialize, Deserialize)]`\n- `ProcessingInfo`: `#[derive(Debug, Clone, Serialize, Deserialize)]`\n- `ChunkRelation`: `#[derive(Debug, Clone, Serialize, Deserialize)]`\n- `ChunkResult`: `#[derive(Debug, Clone, Default, Serialize, Deserialize)]`\n- `SourceFile`: `#[derive(Debug, Clone, Serialize, Deserialize)]`\n\n**Step 2: Add serde roundtrip test**\n\nAdd to the existing `#[cfg(test)] mod tests` block:\n\n```rust\n#[test]\nfn test_source_file_serde_roundtrip() {\n    let sf = SourceFile {\n        content: \"fn main() {}\".into(),\n        metadata: SourceMetadata {\n            file_path: \"src/main.rs\".into(),\n            extension: \"rs\".into(),\n            language: Some(\"rust\".into()),\n            scope_id: \"test\".into(),\n            source_version: \"abc123\".into(),\n        },\n    };\n    let json = serde_json::to_string(&sf).unwrap();\n    let parsed: SourceFile = serde_json::from_str(&json).unwrap();\n    assert_eq!(parsed.content, sf.content);\n    assert_eq!(parsed.metadata.file_path, sf.metadata.file_path);\n    assert_eq!(parsed.metadata.language, sf.metadata.language);\n}",
+  "source_version": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462388742Z",
+  "valid_from": "2026-03-31T13:20:59.462388742Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 16,
+    "end_line": 66,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

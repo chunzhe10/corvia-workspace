@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a13-75d1-bfe3-f62f1869806d",
+  "content": "layback\" stat in green, insight box.\n\n- [ ] **Step 3: Commit slides 5-6**\n\n```bash\ngit add docs/marketing/linkedin/2026-03-14-resolve-linux-setup/resolve-linux-carousel.html\ngit commit -m \"feat(carousel): add slides 5-6 (the big one, the reveal)\"\n```\n\n---\n\n## Chunk 4: Slides 7-8 (What's Next + Takeaways)\n",
+  "source_version": "marketing/2026-03-14-resolve-linux-carousel.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.027563622Z",
+  "valid_from": "2026-03-31T13:51:39.027563622Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/2026-03-14-resolve-linux-carousel.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 654,
+    "end_line": 655,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

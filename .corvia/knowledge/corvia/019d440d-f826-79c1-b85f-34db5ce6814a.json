@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f826-79c1-b85f-34db5ce6814a",
+  "content": "struct GenerateResult {\n    text: String,\n    prompt_tokens: u32,\n    completion_tokens: u32,\n}\nfn build_prompt(model: &LlamaModel, messages: &[ChatMessage]) -> Result<String, Status> {\n    let template = model\n        .chat_template(None)\n        .map_err(|e| Status::internal(format!(\"Failed to get chat template: {e}\")))?;\n\n    let llama_messages: Vec<LlamaChatMessage> = messages\n        .iter()\n        .map(|m| {\n            LlamaChatMessage::new(m.role.clone(), m.content.clone())\n                .map_err(|e| Status::internal(format!(\"Invalid chat message: {e}\")))\n        })\n        .collect::<Result<Vec<_>, _>>()?;\n\n    model\n        .apply_chat_template(&template, &llama_messages, true)\n        .map_err(|e| Status::internal(format!(\"Failed to apply chat template: {e}\")))\n}",
+  "source_version": "crates/corvia-inference/src/chat_service.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.430216383Z",
+  "valid_from": "2026-03-31T13:20:59.430216383Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/src/chat_service.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 192,
+    "end_line": 208,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

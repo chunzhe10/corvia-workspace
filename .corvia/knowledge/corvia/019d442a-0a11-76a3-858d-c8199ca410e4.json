@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-c8199ca410e4",
+  "content": "# JSON Embedding Exclusion Design\n\n## Problem\n\nEach `.corvia/knowledge/{scope}/{uuid}.json` file stores:\n- `content`: the actual text (small, human-readable, git-diffable)\n- `metadata`: source_file, language, chunk_type, etc. (small)\n- `embedding`: `Option<Vec<f32>>` — 768 floats × 4 bytes = 3KB per entry\n\nFor 8,769 entries: ~26MB of embedding data in JSON files. The embeddings:\n- Create massive git diffs (every number changes on re-embed)\n- Are always recomputable from `content` via the inference engine\n- Are already stored in HNSW index and Redb metadata\n\n\n## Proposed Change\n\nStop writing `embedding` to JSON files. Store it only in HNSW + Redb.\n",
+  "source_version": "decisions/2026-03-19-json-embedding-exclusion-design.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025204208Z",
+  "valid_from": "2026-03-31T13:51:39.025204208Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-19-json-embedding-exclusion-design.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 7,
+    "end_line": 22,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

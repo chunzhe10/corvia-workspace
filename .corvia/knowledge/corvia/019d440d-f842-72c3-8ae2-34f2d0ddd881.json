@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-34f2d0ddd881",
+  "content": "## Implementation Order\n## Testing Strategy\n\n### Regression Tests\n\nBefore P1/P2 ship, add a snapshot regression test:\n- Ingest the corvia repo (or representative subset)\n- Assert Rust relation counts are within tight tolerance of the known baseline (552 relations)\n- Run after P1/P2 to verify no cross-language contamination\n\n\n### Integration Tests\n\nEach priority must include a pipeline integration test:\n1. Create a temp `LiteStore` + `LiteGraphStore`\n2. Chunk a multi-file test fixture (specific to the priority's language)\n3. Run `wire_pipeline_relations()` against the chunked output\n4. Assert graph edges exist with correct relation types and endpoints\n5. Run a retriever query and verify scoring order (for P4)\n",
+  "source_version": "docs/rfcs/2026-03-28-structural-intelligence-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458298235Z",
+  "valid_from": "2026-03-31T13:20:59.458298235Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-structural-intelligence-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 583,
+    "end_line": 598,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

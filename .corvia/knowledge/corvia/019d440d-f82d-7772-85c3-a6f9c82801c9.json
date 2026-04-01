@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82d-7772-85c3-a6f9c82801c9",
+  "content": "fn test_default_overlap_returns_none() {\n        let strategy = TestStrategy;\n        let chunks = strategy.chunk(\"a\\nb\", &test_meta()).unwrap().chunks;\n        let a = &chunks[0];\n        assert!(strategy.overlap_context(a, a).is_none());\n    }\nfn test_source_file_serde_roundtrip() {\n        let sf = SourceFile {\n            content: \"fn main() {}\".into(),\n            metadata: SourceMetadata {\n                file_path: \"src/main.rs\".into(),\n                extension: \"rs\".into(),\n                language: Some(\"rust\".into()),\n                scope_id: \"test\".into(),\n                source_version: \"abc123\".into(),\n                workstream: None,\n                content_role: None,\n                source_origin: None,\n                    parent_session_id: None,\n                    edge_hints: vec![],\n            },\n        };\n        let json = serde_json::to_string(&sf).unwrap();\n        let parsed: SourceFile = serde_json::from_str(&json).unwrap();\n        assert_eq!(parsed.content, sf.content);\n        assert_eq!(parsed.metadata.file_path, sf.metadata.file_path);\n        assert_eq!(parsed.metadata.language, sf.metadata.language);\n    }",
+  "source_version": "crates/corvia-kernel/src/chunking_strategy.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.437106565Z",
+  "valid_from": "2026-03-31T13:20:59.437106565Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_strategy.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 385,
+    "end_line": 406,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

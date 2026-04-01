@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82f-7ca0-945f-a9d4a2ce97fc",
+  "content": "kernel_defaults(config);\n        let source = \"some random content\";\n        let meta = test_meta(\"xyz\");\n        let (chunks, _relations) = pipeline.process(source, &meta).unwrap();\n        assert_eq!(chunks[0].processing.strategy_name, \"fallback\");\n    }\nfn test_e2e_mixed_format_batch() {\n        use crate::chunking_strategy::SourceFile;\n\n        let config = ChunkingConfig {\n            max_tokens: 100,\n            min_tokens: 5,\n            overlap_tokens: 4,\n            strategy: \"auto\".into(),\n            ..Default::default()\n        };\n        let pipeline = ChunkingPipeline::with_kernel_defaults(config);\n\n        let files = vec![\n            SourceFile {\n                content: \"# Title\\n\\nIntro paragraph.\\n\\n## Section\\n\\nContent here.\".into(),\n                metadata: SourceMetadata {\n                    file_path: \"README.md\".into(),\n                    extension: \"md\".into(),\n                    language: Some(\"markdown\".into()),\n                    scope_id: \"test\".into(),\n                    source_version: \"v1\".into(),\n                    workstream: None,\n                    content_role: None,\n                    source_origin: None,\n                    parent_session_id: None,\n                    edge_hints: vec![],",
+  "source_version": "crates/corvia-kernel/src/chunking_pipeline.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.439313616Z",
+  "valid_from": "2026-03-31T13:20:59.439313616Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_pipeline.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1062,
+    "end_line": 1087,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

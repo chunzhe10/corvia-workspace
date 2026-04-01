@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-2ee00d585710",
+  "content": "### L3: Label Key Consistency (SWE)\n### L4: Reconcile Credential Mounting (SWE)\n\n### L5: AGENTS.md Mount Fallback (QA)\n\nIf `host_path_or_err()` fails for AGENTS.md (e.g., workspace on Docker volume),\nfall back to `docker cp`:\n\n```rust\n// Try bind mount first, fall back to docker cp\nmatch hub.host_path_or_err(\"/workspaces/corvia-workspace/AGENTS.md\") {\n    Ok(host_path) => binds.push(format!(\"{}:/spoke-config/AGENTS.md:ro\", host_path)),\n    Err(_) => {\n        // After container creation, copy files in\n        post_create_copies.push((\"/workspaces/corvia-workspace/AGENTS.md\", \"/spoke-config/AGENTS.md\"));\n    }\n}\n```\n\n\n### L6: Graceful Docker Unavailability in Dashboard (QA)\n\n```rust\nasync fn spokes_handler(State(state): State<Arc<AppState>>) -> Json<SpokesResponse> {\n    match &state.docker {\n        Some(docker) => {\n            match list_spokes(docker).await {\n                Ok(spokes) => Json(SpokesResponse { spokes, warning: None }),\n                Err(e) => Json(SpokesResponse {\n                    spokes: vec![],\n                    warning: Some(format!(\"Docker unavailable: {}\", e)),\n                }),\n            }\n        }\n        None => Json(SpokesResponse {\n            spokes: vec![],\n            warning: Some(\"Docker not connected\".into()),\n        }),\n    }\n}\n```\n\nFrontend shows banner: \"Spoke data unavailable - Docker not connected\"\n",
+  "source_version": "decisions/2026-03-28-spoke-design-review-fixes.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026507286Z",
+  "valid_from": "2026-03-31T13:51:39.026507286Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-design-review-fixes.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 719,
+    "end_line": 758,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

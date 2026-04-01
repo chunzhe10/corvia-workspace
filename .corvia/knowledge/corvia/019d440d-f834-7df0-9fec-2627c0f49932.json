@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f834-7df0-9fec-2627c0f49932",
+  "content": "         token_estimate: 100,\n            processing: ProcessingInfo {\n                strategy_name: \"test\".to_string(),\n                was_split: false,\n                was_merged: false,\n                overlap_tokens: 0,\n            },\n        }\n    }\nfn test_resolve_target_direct_match() {\n        let chunks = vec![\n            make_processed_chunk(\"src/utils.ts\", 1, \"export function helper() {}\"),\n        ];\n        let ids = vec![uuid::Uuid::now_v7()];\n        let mut file_index: HashMap<&str, Vec<(usize, &ProcessedChunk)>> =\n            HashMap::new();\n        for (i, pc) in chunks.iter().enumerate() {\n            file_index.entry(pc.metadata.source_file.as_str()).or_default().push((i, pc));\n        }\n\n        let result = resolve_target(&file_index, &ids, \"src/utils.ts\", &Some(\"helper\".into()));\n        assert_eq!(result, Some(ids[0]));\n    }",
+  "source_version": "crates/corvia-kernel/src/ingest.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.444797739Z",
+  "valid_from": "2026-03-31T13:20:59.444797739Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ingest.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1522,
+    "end_line": 1535,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

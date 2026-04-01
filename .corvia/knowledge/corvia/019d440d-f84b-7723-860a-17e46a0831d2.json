@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84b-7723-860a-17e46a0831d2",
+  "content": " sessions should be Closed\n    let sa = coord.sessions.get(sess_a).unwrap().unwrap();\n    let sb = coord.sessions.get(sess_b).unwrap().unwrap();\n    assert!(matches!(sa.state, SessionState::Closed));\n    assert!(matches!(sb.state, SessionState::Closed));\n}\nasync fn test_crash_recovery_resume() {\n    let dir = tempfile::tempdir().unwrap();\n    let (coord, _store) = setup_coordinator(dir.path()).await;\n\n    // Register agent, create session, write entries\n    let identity = AgentIdentity::Registered { agent_id: \"test::crasher\".into(), api_key: None };\n    coord.register_agent(&identity, \"Crasher\", AgentPermission::ReadWrite { scopes: vec![\"recovery\".into()] }).unwrap();\n    let session = coord.create_session(\"test::crasher\", true).unwrap();\n    let session_id = session.session_id.clone();\n\n    coord.write_entry(&session_id, \"Important data before crash\", \"recovery\", \"v1\", None, None).await.unwrap();\n    coord.write_entry(&session_id, \"More data before crash\", \"recovery\", \"v1\", None, None).await.unwrap();\n\n    // Simulate crash: mark session Stale then Orphaned\n    coord.sessions.transition(&session_id, SessionState::Stale).unwrap();\n    coord.sessions.transition(&session_id, SessionState::Orphaned).unwrap();\n\n    // Connect again — should see recoverable session\n    let reconnect = coord.connect(\"test::crasher\").unwrap();\n    assert_eq!(reconnect.recoverable_sessions.len(), 1);\n    assert_eq!(reconnect.recoverable_sessions[0].session_id, session_id);\n\n    // Resume the orphaned session\n    coord.recover(&session_id, RecoveryAction::Resume).await.unwrap();\n\n    // Session should be Active again\n    let session = coord.sessions.get(&session_id).unwrap().unwrap();\n    assert!(matches!(session.state, SessionState::Active));\n\n    // Can continue writing\n    coord.write_entry(&session_id, \"New data after recovery\", \"recovery\", \"v1\", None, None).await.unwrap();\n\n    // Commit and merge\n    coord.commit_session(&session_id).await.unwrap();\n    coord.process_merge_queue().await.unwrap();\n\n    // Session closed\n    let session = coord.sessions.get(&session_id).unwrap().unwrap();\n    assert!(matches!(session.state, SessionState::Closed));\n}",
+  "source_version": "tests/integration/agent_e2e_test.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.467029112Z",
+  "valid_from": "2026-03-31T13:20:59.467029112Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "tests/integration/agent_e2e_test.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 174,
+    "end_line": 213,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

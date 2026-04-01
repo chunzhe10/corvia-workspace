@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-8e093078cab8",
+  "content": "64>\n        } else {\n            None\n        };\n\n        let count_str = count\n            .map(|c| format!(\" ({} entries)\", c))\n            .unwrap_or_default();\n\n        println!(\"  {} [{}] namespace:{}{}\", repo.name, source, repo.namespace, count_str);\n        println!(\"    url: {}\", repo.url);\n        if let Some(local) = &repo.local {\n            println!(\"    local: {}\", local);\n        }\n        println!(\"    path: {}\", repo_path.display());\n    }\n\n    if let Some(ref store) = store {\n        let total = store.count(&config.project.scope_id).await.unwrap_or(0);\n        println!(\"\\nTotal knowledge entries: {}\", total);\n    }\n\n    Ok(())\n}\n```\n\n**Step 2: Wire the handler in main.rs**\n\nReplace `todo!()` in `WorkspaceCommands::Status`:\n\n```rust\nWorkspaceCommands::Status => {\n    let root = std::env::current_dir()?;\n    workspace::workspace_status(&root).await?;\n    Ok(())\n}\n```\n\n**Step 3: Make existing `corvia status` workspace-aware**\n\nIn `cmd_status`, add workspace detection at the top:\n\n```rust\nasync fn cmd_status() -> Result<()> {\n    let config = load_config()?;\n    if config.is_workspace() {\n        let root = std::env::current_dir()?;\n        return workspace::workspace_status(&root).await;\n    }\n    // ...existing single-project status logic...\n}\n```\n\n**Step 4: Verify it compiles**\n\nRun: `cargo build -p corvia-cli`\nExpected: compiles cleanly.\n\n**Step 5: Commit**\n\n```bash\ngit add crates/corvia-cli/src/workspace.rs crates/corvia-cli/src/main.rs\ngit commit -m \"feat(m2.1): implement corvia workspace status command\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465294403Z",
+  "valid_from": "2026-03-31T13:20:59.465294403Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1183,
+    "end_line": 1239,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

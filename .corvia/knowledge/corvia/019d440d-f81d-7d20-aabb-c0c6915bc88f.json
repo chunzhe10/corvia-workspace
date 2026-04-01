@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81d-7d20-aabb-c0c6915bc88f",
+  "content": "e.rs\"), &large).unwrap();\n\n        let mut output = Vec::new();\n        ingest_to_writer(&dir.path().to_string_lossy(), \"test\", &mut output);\n\n        let text = String::from_utf8(output).unwrap();\n        assert!(text.contains(\"\\\"total_files\\\":0\"));\n    }\nfn test_ingest_skips_dot_dirs() {\n        let dir = tempfile::tempdir().unwrap();\n        let hidden = dir.path().join(\".hidden\");\n        fs::create_dir(&hidden).unwrap();\n        fs::write(hidden.join(\"secret.rs\"), \"secret\").unwrap();\n        fs::write(dir.path().join(\"visible.rs\"), \"visible\").unwrap();\n\n        let mut output = Vec::new();\n        ingest_to_writer(&dir.path().to_string_lossy(), \"test\", &mut output);\n\n        let text = String::from_utf8(output).unwrap();\n        assert!(text.contains(\"\\\"total_files\\\":1\"));\n        assert!(text.contains(\"visible.rs\"));\n        assert!(!text.contains(\"secret.rs\"));\n    }",
+  "source_version": "adapters/corvia-adapter-basic/rust/src/main.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.421574614Z",
+  "valid_from": "2026-03-31T13:20:59.421574614Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-basic/rust/src/main.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 368,
+    "end_line": 382,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

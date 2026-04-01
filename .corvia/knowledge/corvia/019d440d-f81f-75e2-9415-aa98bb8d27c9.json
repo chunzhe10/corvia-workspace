@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81f-75e2-9415-aa98bb8d27c9",
+  "content": "blocking_send(path);\n                        }\n                    }\n                    _ => {}\n                }\n            }\n        },\n        Config::default(),\n    )?;\n    watcher.watch(dir, RecursiveMode::NonRecursive)?;\n    Ok(Box::new(watcher))\n}\nfn start_poll_watcher(\n    dir: &Path,\n    tx: tokio::sync::mpsc::Sender<PathBuf>,\n) -> Result<BoxedWatcher, notify::Error> {\n    use notify::{Config, PollWatcher, RecursiveMode, Watcher};\n\n    let config = Config::default()\n        .with_poll_interval(std::time::Duration::from_secs(2));\n\n    let mut watcher = PollWatcher::new(\n        move |res: Result<notify::Event, notify::Error>| {\n            if let Ok(event) = res {\n                for path in event.paths {\n                    let _ = tx.blocking_send(path);\n                }\n            }\n        },\n        config,\n    )?;\n    watcher.watch(dir, RecursiveMode::NonRecursive)?;\n    tracing::info!(\"session watcher using polling fallback (2s interval)\");\n    Ok(Box::new(watcher))\n}",
+  "source_version": "crates/corvia-server/src/dashboard/session_watcher.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.423464123Z",
+  "valid_from": "2026-03-31T13:20:59.423464123Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/session_watcher.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 173,
+    "end_line": 195,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

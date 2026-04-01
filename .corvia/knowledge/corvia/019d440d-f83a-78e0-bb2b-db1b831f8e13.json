@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83a-78e0-bb2b-db1b831f8e13",
+  "content": "# 3. If spokes are unresponsive, restart them all\n\n## Long-Running Session Considerations\n\nFor spokes running dev-loop on large issues (hours), credential expiry is a\nrisk with mounted subscription credentials. Mitigations:\n\n1. **Prefer ANTHROPIC_API_KEY** for long sessions. API keys don't expire.\n2. **Use apiKeyHelper** with a TTL-based refresh for enterprise deployments.\n3. **Monitor spoke health** via the dashboard. Unhealthy spokes may indicate\n   credential issues.\n4. The entrypoint validates credentials before starting Claude Code. If\n   validation fails, the spoke exits with a clear error message.",
+  "source_version": "docs/spoke-credentials.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.450452036Z",
+  "valid_from": "2026-03-31T13:20:59.450452036Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/spoke-credentials.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 124,
+    "end_line": 134,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

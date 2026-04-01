@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f832-7981-8b9c-478a48208bb0",
+  "content": "pub struct AgentRegistry {\n    db: std::sync::Arc<Database>,\n}\nimpl AgentRegistry {\n    /// Open or create the coordination database.\n    pub fn open(data_dir: &Path) -> Result<Self> {\n        let db_path = data_dir.join(\"coordination.redb\");\n        let db = Database::create(&db_path)\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to open coordination db: {e}\")))?;\n\n        // Ensure table exists\n        let write_txn = db.begin_write()\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to begin write txn: {e}\")))?;\n        { let _ = write_txn.open_table(AGENTS); }\n        write_txn.commit()\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to init agents table: {e}\")))?;\n\n        Ok(Self { db: std::sync::Arc::new(db) })\n    }\n\n    /// Create from an existing shared database handle.\n    pub fn from_db(db: std::sync::Arc<Database>) -> Result<Self> {\n        let write_txn = db.begin_write()\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to begin write txn: {e}\")))?;\n        { let _ = write_txn.open_table(AGENTS); }\n        write_txn.commit()\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to init agents table: {e}\")))?;",
+  "source_version": "crates/corvia-kernel/src/agent_registry.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.442753572Z",
+  "valid_from": "2026-03-31T13:20:59.442753572Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/agent_registry.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 15,
+    "end_line": 38,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

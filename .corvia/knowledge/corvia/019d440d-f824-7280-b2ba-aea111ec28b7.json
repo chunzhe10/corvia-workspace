@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f824-7280-b2ba-aea111ec28b7",
+  "content": "hes under memory pressure\n    drop_caches_if_needed(quiet);\n\n    if !quiet {\n        if killed > 0 {\n            eprintln!(\"cleaned up {killed} orphaned process(es)\");\n        } else {\n            eprintln!(\"no orphaned processes found\");\n        }\n    }\n}\nfn parse_stat(stat: &str) -> Option<(i32, u64)> {\n    // Format: pid (comm) state ppid ...\n    // comm can contain spaces/parens, so find the last ')' first\n    let close_paren = stat.rfind(')')?;\n    let fields: Vec<&str> = stat[close_paren + 2..].split_whitespace().collect();\n    // fields[0] = state, fields[1] = ppid, ..., fields[19] = starttime\n    if fields.len() < 20 { return None; }\n    let ppid: i32 = fields[1].parse().ok()?;\n    let start_time: u64 = fields[19].parse().ok()?;\n    Some((ppid, start_time))\n}",
+  "source_version": "crates/corvia-cli/src/hooks/cleanup.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.428984213Z",
+  "valid_from": "2026-03-31T13:20:59.428984213Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/cleanup.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 134,
+    "end_line": 144,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

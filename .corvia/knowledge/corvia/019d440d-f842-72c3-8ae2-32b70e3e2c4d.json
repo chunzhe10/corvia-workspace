@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-32b70e3e2c4d",
+  "content": "tml += '</div>'; // close workspace\n\n  el.innerHTML = html;\n\n  // Post-render: bind events, auto-scroll\n  bindAll();\n  if (autoScroll) {\n    const output = document.getElementById('logOutput');\n    if (output) output.scrollTop = output.scrollHeight;\n  }\n}\n\n// --- Component builders ---\nfunction metricCard(color, icon, label, value, trendObj, valueAttr) {\n  return '<div class=\"metric-card ' + color + '\">' +\n    '<div class=\"metric-icon ' + color + '\">' + icon + '</div>' +\n    '<div class=\"metric-label\">' + esc(label) + '</div>' +\n    '<div class=\"metric-row\">' +\n      '<span class=\"metric-value\"' + valueAttr + '>' + value + '</span>' +\n      '<span class=\"metric-trend ' + trendObj.cls + '\">' + esc(trendObj.label) + '</span>' +\n    '</div></div>';\n}\n\nfunction viewTab(id, icon, label) {\n  return '<button class=\"view-tab' + (activeView === id ? ' active' : '') + '\" data-view=\"' + id + '\">' +\n    icon + ' ' + esc(label) + '</button>';\n}\n\nfunction cfgRow(key, valueHtml) {\n  return '<div class=\"cfg-row\"><span class=\"cfg-key\">' + esc(key) + '</span>' +\n    '<span class=\"cfg-val\">' + valueHtml + '</span></div>';\n}\n\n// --- Update header pills ---\nfunction updatePills(server, inference) {\n  const pills = document.getElementById('statusPills');\n  if (!pills) return;\n  const sState = server ? server.state : 'stopped';\n  const iState = inference ? inference.state : 'stopped';\n\n  pills.innerHTML =\n    pill('API Server', sState, 'corvia-server') +\n    pill('Inference', iState, 'corvia-inference');\n",
+  "source_version": "docs/rfcs/2026-03-10-dashboard-redesign.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458025719Z",
+  "valid_from": "2026-03-31T13:20:59.458025719Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-dashboard-redesign.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 887,
+    "end_line": 918,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

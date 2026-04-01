@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f827-7411-ad28-602ed4bb20b1",
+  "content": "mp::Ordering::Equal));\n            weighted\n        } else {\n            merged\n        };\n\n        // Visibility post-filter (no take yet — metadata filter runs after).\n        let vis_filtered: Vec<SearchResult> = tier_weighted\n            .into_iter()\n            .filter(|sr| visibility_filter(&sr.entry, &opts.visibility, opts.agent_id.as_deref()))\n            .collect();\n\n        // Metadata post-filter.\n        let meta_filtered = post_filter_metadata(\n            vis_filtered,\n            opts.content_role.as_deref(),\n            opts.source_origin.as_deref(),\n            opts.workstream.as_deref(),\n        );\n\n        // Truncate to requested limit.\n        let mut filtered = meta_filtered;\n        filtered.truncate(opts.limit);\n\n        let search_latency_ms = search_start.elapsed().as_millis() as u64;\n        let post_filter_count = filtered.len();\n\n        // Record access (fire-and-forget, non-blocking).\n        spawn_access_recording(Arc::clone(&self.store), &filtered);\n\n        info!(\n            retriever = self.name(),\n            scope_id,\n            vector_results,\n            cold_results,\n            post_filter_count,\n            embed_latency_ms,\n            search_latency_ms,\n            cold_scan_latency_ms,\n            latency_ms = start.elapsed().as_millis() as u64,\n            \"retrieval complete\"\n        );\n\n        Ok(RetrievalResult {\n            results: filtered,\n            metrics: RetrievalMetrics {\n                latency_ms: start.elapsed().as_millis() as u64,\n                embed_latency_ms,\n                search_latency_ms,\n                hnsw_latency_ms,\n                graph_latency_ms: 0,\n                filter_latency_ms: 0,\n                cold_scan_latency_ms,\n                vector_results,\n                cold_results,\n                graph_expanded: 0,\n                graph_reinforced: 0,\n                post_filter_count,\n                retriever_name: self.name().to_string(),\n                bm25_latency_ms: None,\n                bm25_results: None,\n                fusion_method: None,\n                fusion_latency_ms: None,\n                stages: None,\n            },\n            query_embedding: Some(embedding),\n        })\n    }",
+  "source_version": "crates/corvia-kernel/src/retriever.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.431705950Z",
+  "valid_from": "2026-03-31T13:20:59.431705950Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/retriever.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 270,
+    "end_line": 328,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

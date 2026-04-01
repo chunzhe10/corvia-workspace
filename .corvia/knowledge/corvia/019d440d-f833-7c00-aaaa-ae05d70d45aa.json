@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f833-7c00-aaaa-ae05d70d45aa",
+  "content": "at fit the budget.\n        let mut result: Vec<String> = Vec::new();\n        let mut accumulator = String::new();\n\n        for (i, piece) in pieces.iter().enumerate() {\n            // Build the candidate: accumulator + sep + piece (or just piece if empty).\n            let candidate = if accumulator.is_empty() {\n                piece.to_string()\n            } else {\n                format!(\"{}{}{}\", accumulator, sep, piece)\n            };\n\n            if Self::estimate_tokens(&candidate) <= max_tokens {\n                accumulator = candidate;\n            } else {\n                // Flush whatever we accumulated so far.\n                if !accumulator.is_empty() {\n                    result.push(accumulator);\n                    accumulator = String::new();\n                }\n\n                // Try this piece alone.\n                if Self::estimate_tokens(piece) <= max_tokens {\n                    accumulator = piece.to_string();\n                } else {\n                    // Piece itself is too large — recurse with the next separator.\n                    let sub = Self::recursive_split(piece, max_tokens, sep_index + 1);\n                    result.extend(sub);\n                }\n            }\n\n            // If this is the last piece, flush the accumulator.\n            if i == pieces.len() - 1 && !accumulator.is_empty() {\n                result.push(accumulator.clone());\n                accumulator.clear();\n            }\n        }\n\n        // Safety flush (should not be needed, but just in case).\n        if !accumulator.is_empty() {\n            result.push(accumulator);\n        }\n\n        result\n    }\n\n    /// Count the number of `\\n` characters in a string.\n    fn newline_count(s: &str) -> u32 {\n        s.bytes().filter(|&b| b == b'\\n').count() as u32\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/chunking_fallback.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.443992698Z",
+  "valid_from": "2026-03-31T13:20:59.443992698Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_fallback.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 74,
+    "end_line": 118,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

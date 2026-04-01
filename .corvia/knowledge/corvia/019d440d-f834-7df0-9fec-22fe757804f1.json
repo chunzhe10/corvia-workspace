@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f834-7df0-9fec-22fe757804f1",
+  "content": "ing::info!(\n                total,\n                stored = relations_stored,\n                source_miss,\n                target_miss,\n                \"wire_pipeline_relations: relation wiring summary\"\n            );\n        }\n    }\n    relations_stored\n}\nfn resolve_target(\n    file_index: &HashMap<&str, Vec<(usize, &ProcessedChunk)>>,\n    stored_ids: &[uuid::Uuid],\n    target_file: &str,\n    target_name: &Option<String>,\n) -> Option<uuid::Uuid> {\n    let chunks = file_index.get(target_file)?;\n    for &(idx, pc) in chunks {\n        if idx >= stored_ids.len() {\n            continue;\n        }\n        if let Some(name) = target_name {\n            if pc.content.contains(name.as_str()) {\n                return Some(stored_ids[idx]);\n            }\n        } else {\n            return Some(stored_ids[idx]);\n        }\n    }\n    None\n}",
+  "source_version": "crates/corvia-kernel/src/ingest.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.444357576Z",
+  "valid_from": "2026-03-31T13:20:59.444357576Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ingest.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 367,
+    "end_line": 387,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

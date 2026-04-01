@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-8ea38f4143f6",
+  "content": "### Option 1: Devcontainer (recommended)\n### Option 2: Local\n\n## What's Inside\n\n- **corvia** (namespace: `kernel`) — the core knowledge store, agent coordination, embedding pipeline\n- **corvia-adapter-git** (namespace: `adapter`) — git repository ingestion with tree-sitter AST chunking\n\n\n## Try These Searches\n\n```bash\ncorvia search \"IngestionAdapter\"          # finds trait + implementation across repos\ncorvia search \"how does embedding work\"   # surfaces pipeline from kernel\ncorvia search \"tree-sitter chunking\"      # finds adapter's AST parsing logic\ncorvia workspace status                   # see workspace state\n```\n",
+  "source_version": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465387874Z",
+  "valid_from": "2026-03-31T13:20:59.465387874Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1526,
+    "end_line": 1539,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

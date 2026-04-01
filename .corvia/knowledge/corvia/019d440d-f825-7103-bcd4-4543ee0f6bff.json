@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-4543ee0f6bff",
+  "content": "self.embed_svc.get_backend(&entry.name) {\n                            (real_backend.device.to_string(), real_backend.backend.to_string())\n                        } else {\n                            (actual_device, actual_backend)\n                        }\n                    } else {\n                        (actual_device, actual_backend)\n                    };\n\n                    let mut models = self.models.write().await;\n                    models.insert(\n                        entry.name.clone(),\n                        ModelEntry {\n                            name: entry.name.clone(),\n                            model_type: entry.model_type.clone(),\n                            loaded: true,\n                            device: actual_device.clone(),\n                            backend: actual_backend.clone(),\n                            kv_quant: req.kv_quant.clone(),\n                            flash_attention: req.flash_attention,\n                            hf_repo: entry.hf_repo.clone(),\n                            hf_filename: entry.hf_filename.clone(),\n                        },\n                    );\n                    results.push(ModelReloadResult {\n                        name: entry.name.clone(),\n                        model_type: entry.model_type.clone(),\n                        success: true,\n                        error: String::new(),\n                        actual_device,\n                        actual_backend,\n                    });\n                }\n                Err(status) => {\n                    all_success = false;\n                    results.push(ModelReloadResult {\n                        name: entry.name.clone(),\n                        model_type: entry.model_type.clone(),\n                        success: false,\n                        error: status.message().to_string(),\n                        actual_device,\n                        actual_backend,\n                    });\n                }\n            }\n        }\n\n        Ok(Response::new(ReloadModelsResponse {\n            success: all_success,\n            error: if all_success { String::new() } else { \"Some models failed to reload\".into() },\n            results,\n        }))\n    }\n}",
+  "source_version": "crates/corvia-inference/src/model_manager.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429998657Z",
+  "valid_from": "2026-03-31T13:20:59.429998657Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/src/model_manager.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 422,
+    "end_line": 470,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

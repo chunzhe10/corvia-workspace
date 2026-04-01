@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-c90d51aea011",
+  "content": "## Current State Summary\n## Milestone Status\n\n### M1: Index & Understand — COMPLETE\nAll deliverables shipped. Rust AST indexer, vector search, LiteStore.\n\n\n### M2: Agent Coordination — COMPLETE\nAgent coordinator, staging hybrid, MCP server, REST sessions, merge pipeline,\ncrash recovery, GC, visibility modes.\n",
+  "source_version": "decisions/2026-03-19-milestone-evaluation.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025284870Z",
+  "valid_from": "2026-03-31T13:51:39.025284870Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-19-milestone-evaluation.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 23,
+    "end_line": 29,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

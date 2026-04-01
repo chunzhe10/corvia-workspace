@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84a-7fb3-b052-e4ea66e552fd",
+  "content": "tatus::internal(format!(\"Model load failed: {e}\")))?;\n\n    self.models\n        .lock()\n        .map_err(|e| Status::internal(format!(\"Lock poisoned: {e}\")))?\n        .insert(\n            name_owned.clone(),\n            LoadedModel {\n                engine,\n                variant: model_enum,\n                backend,\n            },\n        );\n    tracing::info!(model = %name_owned, \"Embedding model loaded\");\n    Ok(())\n}\n```\n\nAdd a getter for the loaded model's backend:\n\n```rust\n/// Get the resolved backend for a loaded model.\npub fn get_backend(&self, name: &str) -> Option<ResolvedBackend> {\n    self.models\n        .lock()\n        .ok()?\n        .get(name)\n        .map(|m| m.backend.clone())\n}\n```\n\n-**Step 4: Run tests to verify they pass**\n\nRun: `cargo test -p corvia-inference embedding_service::tests 2>&1 | tail -10`\nExpected: all 3 tests pass\n\n-**Step 5: Commit**\n\n```bash\ngit add crates/corvia-inference/src/embedding_service.rs\ngit commit -m \"feat(inference): add EP selection to embedding service\n\nbuild_execution_providers() maps ResolvedBackend to CUDA/OpenVINO/CPU EPs.\nload_model() now accepts ResolvedBackend and passes EPs to fastembed.\nLoadedModel tracks which backend was used for reporting.\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-12-inference-gpu-device-control.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.466246303Z",
+  "valid_from": "2026-03-31T13:20:59.466246303Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-12-inference-gpu-device-control.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 613,
+    "end_line": 652,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f843-7a03-b56b-31fdabf438c8",
+  "content": "nel -- --nocapture`\nExpected: All tests PASS\n\n-**Step 4: Commit**\n\n```bash\ngit add crates/corvia-server/src/rest.rs crates/corvia-kernel/src/docker.rs\ngit commit -m \"refactor(server,kernel): standardize logging in REST handlers and docker module\"\n```\n\n---\n\n### Task 11: Structured logging sweep — adapters\n\n**Files:**\n- Modify: `adapters/corvia-adapter-git/rust/src/git.rs` (lines 67, 95, 103, 129)\n- Modify: `adapters/corvia-adapter-basic/rust/Cargo.toml`\n- Modify: `adapters/corvia-adapter-basic/rust/src/main.rs`\n\n-**Step 1: Fix corvia-adapter-git logging**\n\n```rust\n// Lines 67-70 — replace:\n// info!(\"Ingesting sources from {} (version: {}, scope: {})\", source_path, source_version, scope_id);\ninfo!(source_path, source_version, scope_id, \"ingestion_started\");\n\n// Lines 95-98 — replace:\n// debug!(\"Skipping binary or unreadable file: {}\", file_path.display());\ndebug!(file = %file_path.display(), \"file_skipped_binary_or_unreadable\");\n\n// Lines 103-107 — replace:\n// warn!(\"Skipping large file ({}KB): {}\", content.len() / 1024, file_path.display());\nwarn!(file = %file_path.display(), size_kb = content.len() / 1024, \"file_skipped_too_large\");\n\n// Line 129 — replace:\n// info!(\"Collected {} source files from {}\", files.len(), source_path);\ninfo!(file_count = files.len(), source_path, \"ingestion_files_collected\");\n```\n\n-**Step 2: Add tracing to corvia-adapter-basic**\n\nAdd to `adapters/corvia-adapter-basic/rust/Cargo.toml` under `[dependencies]`:",
+  "source_version": "docs/rfcs/2026-03-11-otel-standardization.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.459304351Z",
+  "valid_from": "2026-03-31T13:20:59.459304351Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-otel-standardization.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1064,
+    "end_line": 1093,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

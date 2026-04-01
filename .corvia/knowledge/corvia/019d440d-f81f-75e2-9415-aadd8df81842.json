@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81f-75e2-9415-aadd8df81842",
+  "content": "ap(|fs| fs.offset).unwrap_or(0)\n        };\n\n        let path_clone = path.clone();\n        let new_data = tokio::task::spawn_blocking(move || {\n            read_new_lines(&path_clone, current_offset)\n        })\n        .await\n        .unwrap_or_default();\n\n        if new_data.lines.is_empty() {\n            continue;\n        }\n\n        // Update session state.\n        let mut guard = state.sessions.write().await;\n\n        // Enforce max sessions limit — evict oldest if at capacity.\n        if !guard.contains_key(&session_id)\n            && guard.len() >= MAX_SESSIONS\n            && let Some(oldest_id) = find_oldest_session(&guard)\n        {\n            let evicted_id = oldest_id.clone();\n            guard.remove(&evicted_id);\n            tracing::warn!(session_id = %evicted_id, \"evicted oldest session (max {} reached)\", MAX_SESSIONS);\n            state.broadcast(HookSessionUpdate {\n                session_id: evicted_id,\n                event_type: \"evicted\".into(),\n                session: None,\n            });\n        }\n\n        let fs = guard\n            .entry(session_id.clone())\n            .or_insert_with(|| FileState::new(&session_id));\n        fs.offset = new_data.new_offset;\n\n        for line in &new_data.lines {\n            apply_event(fs, line);\n        }\n\n        let update = HookSessionUpdate {\n            session_id: session_id.clone(),\n            event_type: new_data\n                .last_event_type\n                .clone()\n                .unwrap_or_else(|| \"unknown\".into()),\n            session: Some(fs.session.clone()),\n        };\n        drop(guard);\n\n        state.broadcast(update);\n    }\n}",
+  "source_version": "crates/corvia-server/src/dashboard/session_watcher.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.423505407Z",
+  "valid_from": "2026-03-31T13:20:59.423505407Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/session_watcher.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 312,
+    "end_line": 355,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

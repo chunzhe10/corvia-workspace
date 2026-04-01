@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-92c581c409b4",
+  "content": "h File::open(path) {\n        Ok(f) => f,\n        Err(_) => return Vec::new(),\n    };\n    let reader = BufReader::new(file);\n    let all_lines: Vec<String> = reader.lines().filter_map(|l| l.ok()).collect();\n    let start = all_lines.len().saturating_sub(n);\n    all_lines[start..].to_vec()\n}\n\n/// Resolve the log directory — checks env var, then default path\npub fn log_dir() -> std::path::PathBuf {\n    std::env::var(\"CORVIA_LOG_DIR\")\n        .map(std::path::PathBuf::from)\n        .unwrap_or_else(|_| std::path::PathBuf::from(\"/tmp/corvia-dev-logs\"))\n}\n\n/// Collect traces from all .log files in a directory.\n/// Reads last 500 lines per file to bound memory.\npub fn collect_traces(log_dir: &Path) -> TracesData {\n    let mut all_lines = Vec::new();\n\n    if let Ok(entries) = std::fs::read_dir(log_dir) {\n        for entry in entries.filter_map(|e| e.ok()) {\n            let path = entry.path();\n            if path.extension().is_some_and(|ext| ext == \"log\") {\n                let lines = tail_lines(&path, 500);\n                all_lines.extend(lines);\n            }\n        }\n    }\n\n    let line_refs: Vec<&str> = all_lines.iter().map(|s| s.as_str()).collect();\n    collect_traces_from_lines(&line_refs)\n}\n```\n\n-**Step 4: Run tests to verify they pass**\n\nRun: `cd repos/corvia && cargo test -p corvia-server dashboard::traces`\nExpected: 13 tests PASS\n\n-**Step 5: Write test for `tail_lines` with a temp file**\n\nAdd to the `tests` module:",
+  "source_version": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465916874Z",
+  "valid_from": "2026-03-31T13:20:59.465916874Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1081,
+    "end_line": 1118,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

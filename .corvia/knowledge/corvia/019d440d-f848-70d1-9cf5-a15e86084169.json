@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-a15e86084169",
+  "content": "## Stream 1: Workspace CLI (corvia monorepo)\n\n### Task 1: Workspace Config Structs\n\nAdd `WorkspaceConfig` and `RepoConfig` structs to `corvia-common`, with serde support and an optional `[workspace]` section in `CorviaConfig`.\n\n**Files:**\n- Modify: `crates/corvia-common/src/config.rs`\n- Test: same file (`#[cfg(test)]` module)\n\n**Step 1: Write failing tests for workspace config parsing**\n\nAdd these tests to the existing `#[cfg(test)]` module in `config.rs`:\n\n```rust\n#[test]\nfn test_workspace_config_none_by_default() {\n    let config = CorviaConfig::default();\n    assert!(config.workspace.is_none());\n}\n\n#[test]\nfn test_workspace_config_from_toml() {\n    let toml_str = r#\"\n[project]\nname = \"test-workspace\"\nscope_id = \"test\"\n\n[workspace]\nrepos_dir = \"repos\"\n\n[[workspace.repos]]\nname = \"backend\"\nurl = \"https://github.com/org/backend\"\nnamespace = \"backend\"\n\n[[workspace.repos]]\nname = \"frontend\"\nurl = \"https://github.com/org/frontend\"\nnamespace = \"frontend\"\nlocal = \"/home/dev/frontend\"\n\n[storage]\nstore_type = \"lite\"\ndata_dir = \".corvia\"\n\n[embedding]\nprovider = \"ollama\"\nmodel = \"nomic-embed-text\"\nurl = \"http://127.0.0.1:11434\"\ndimensions = 768\n\n[server]\nhost = \"127.0.0.1\"",
+  "source_version": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464976284Z",
+  "valid_from": "2026-03-31T13:20:59.464976284Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 18,
+    "end_line": 69,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

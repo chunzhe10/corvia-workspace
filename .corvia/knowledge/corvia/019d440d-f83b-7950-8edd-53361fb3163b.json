@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-53361fb3163b",
+  "content": "#### D84: Tier 1 MCP tools — read-only (5 tools)\n#### D85: Tier 2 MCP tools — low-risk mutation (3 tools)\n\n#### D86: Tier 3 MCP tools — medium-risk mutation (2 tools)\n\n| Tool | Calls | Confirmation |\n|------|-------|-------------|\n| `corvia_agent_suspend` | `ops::agent_suspend()` | Supports `dry_run`, requires `_meta.confirmed` |\n| `corvia_merge_retry` | `ops::merge_retry()` | Supports `dry_run`, requires `_meta.confirmed` |\n\nThese additionally support `dry_run: true` in arguments for preview without mutation.\n\n**Gate:** `tools/list` returns 18 tools (8 existing + 10 new), all existing tools unchanged.\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-10-m4-observability-control-plane-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451146190Z",
+  "valid_from": "2026-03-31T13:20:59.451146190Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-m4-observability-control-plane-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 236,
+    "end_line": 248,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

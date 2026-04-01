@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f831-7562-9884-ae7cfee1c427",
+  "content": ".id));\n            let vec_bytes: &[u8] = bytemuck::cast_slice(embedding);\n            std::fs::write(&vec_path, vec_bytes)\n                .map_err(|e| CorviaError::Agent(format!(\"Failed to write staging vec file: {e}\")))?;\n        }\n        Ok(())\n    }\n\n    /// Read a knowledge entry from a staging file.\n    /// Also reads the companion `.vec` file to restore the embedding,\n    /// since the embedding field is skip_serializing in JSON.\n    pub fn read_staging_file(&self, staging_dir: &Path, entry_id: &Uuid) -> Result<KnowledgeEntry> {\n        let path = staging_dir.join(format!(\"{entry_id}.json\"));\n        let content = std::fs::read_to_string(&path)\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to read staging file: {e}\")))?;\n        let mut entry: KnowledgeEntry = serde_json::from_str(&content)\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to deserialize staging entry: {e}\")))?;\n\n        // Restore embedding from companion .vec file\n        let vec_path = staging_dir.join(format!(\"{entry_id}.vec\"));\n        if let Ok(bytes) = std::fs::read(&vec_path)\n            && let Ok(floats) = bytemuck::try_cast_slice::<u8, f32>(&bytes)\n        {\n            entry.embedding = Some(floats.to_vec());\n        }\n        Ok(entry)\n    }\n\n    /// List all entry IDs in a staging directory (from `*.json` filenames).\n    pub fn list_staging_files(&self, staging_dir: &Path) -> Result<Vec<Uuid>> {\n        if !staging_dir.exists() {\n            return Ok(Vec::new());",
+  "source_version": "crates/corvia-kernel/src/staging.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.441882858Z",
+  "valid_from": "2026-03-31T13:20:59.441882858Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/staging.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 64,
+    "end_line": 87,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

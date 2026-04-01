@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-1b451512305b",
+  "content": "### Colors (warm charcoal base)\n### Typography\n\n### Border Radius Scale\n| Token | Value |\n|-------|-------|\n| `--radius-xs` | 6px |\n| `--radius-sm` | 8px |\n| `--radius-md` | 12px |\n| `--radius-lg` | 16px |\n| `--radius-xl` | 20px |\n\n\n### Shadows\n- **Card:** `0 4px 20px rgba(0,0,0,0.2)` + `0 0 1px rgba(255,255,255,0.03) inset`\n- **Hover:** `0 8px 32px rgba(0,0,0,0.3)`\n- **Gold glow:** `0 4px 20px rgba(240,201,76,0.10)`\n",
+  "source_version": "docs/rfcs/2026-03-10-dashboard-redesign-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456112376Z",
+  "valid_from": "2026-03-31T13:20:59.456112376Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-dashboard-redesign-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 73,
+    "end_line": 86,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

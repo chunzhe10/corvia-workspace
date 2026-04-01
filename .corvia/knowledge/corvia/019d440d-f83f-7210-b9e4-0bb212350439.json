@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83f-7210-b9e4-0bb212350439",
+  "content": "## Chunk 4: CLI Observability + Refactor (D88)\n\n### Task 11: Refactor CLI to use `ops::*` and add `--metrics`\n\n**Files:**\n- Modify: `crates/corvia-cli/src/main.rs`\n\n-**Step 1: Refactor `cmd_status` to use `ops::system_status`**\n\nReplace the inline store queries in `cmd_status` with a call to `ops::system_status()`. The function needs a coordinator, so for the CLI path (where no server is running), construct a minimal coordinator from the data dir.\n\nKeep the existing output format unchanged — just replace the data source.\n\n-**Step 2: Refactor `cmd_agent list` to use `ops::agents_list`**\n\nReplace the inline `AgentRegistry::open()` + `list_all()` in `cmd_agent` with constructing a coordinator and calling `ops::agents_list()`. Or, since `agents_list` takes `&AgentCoordinator` and the CLI may not have a full coordinator for simple list operations, keep the direct registry call and have `ops::agents_list` be the shared path for when a coordinator IS available (MCP + CLI serve mode). The CLI's direct-open path stays for the non-serve case.\n\nNote: This is a pragmatic choice. The CLI opens Redb directly for `agent list` because it doesn't need a full coordinator. The MCP server uses `ops::agents_list(&coordinator)`. Both produce the same data.\n\n-**Step 3: Add `--metrics` flag to status command**\n\nIn the CLI's `StatusArgs` (or wherever status subcommand args are defined), add:\n```rust\n#[clap(long, help = \"Show extended metrics\")]\nmetrics: bool,\n```\n\nWhen `--metrics` is passed, print additional info after the standard status:\n```rust\nif args.metrics {\n    println!(\"\\n--- Metrics ---\");\n    println!(\"Store type: {}\", config.storage.store_type);\n    println!(\"Inference: {} ({})\", config.embedding.provider, config.embedding.url);\n    println!(\"Telemetry exporter: {}\", config.telemetry.exporter);\n    // Agent lifecycle stats from coordinator\n    if let Ok(agents) = registry.list_all() {\n        println!(\"Registered agents: {}\", agents.len());",
+  "source_version": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.455148118Z",
+  "valid_from": "2026-03-31T13:20:59.455148118Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1556,
+    "end_line": 1590,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

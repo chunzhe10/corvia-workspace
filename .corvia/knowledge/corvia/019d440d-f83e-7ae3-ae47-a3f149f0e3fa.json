@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83e-7ae3-ae47-a3f149f0e3fa",
+  "content": "## File Structure\n\n### New files\n\n| File | Responsibility |\n|------|---------------|\n| `crates/corvia-telemetry/Cargo.toml` | Crate manifest — depends on `corvia-common`, `tracing`, `tracing-subscriber`, `tracing-appender` |\n| `crates/corvia-telemetry/src/lib.rs` | `init_telemetry()` function + `pub mod spans` with D45 span name constants |\n| `crates/corvia-kernel/src/ops.rs` | Shared kernel operations callable from CLI and MCP |\n\n\n### Modified files\n\n| File | Changes |\n|------|---------|\n| `Cargo.toml` (workspace) | Add `corvia-telemetry` member + `tracing-appender` workspace dep |\n| `crates/corvia-common/src/config.rs` | Add `TelemetryConfig` struct + `telemetry` field to `CorviaConfig` |\n| `crates/corvia-kernel/src/lib.rs` | Add `pub mod ops;` |\n| `crates/corvia-kernel/src/merge_queue.rs` | Rename `dequeue_batch` → `list`, update callers |\n| `crates/corvia-kernel/Cargo.toml` | Add `corvia-telemetry` dep |\n| `crates/corvia-kernel/src/agent_coordinator.rs` | Add `#[tracing::instrument]` spans |\n| `crates/corvia-kernel/src/merge_worker.rs` | Add spans |\n| `crates/corvia-kernel/src/lite_store.rs` | Add spans |\n| `crates/corvia-kernel/src/ollama_engine.rs` | Add span to `embed` |\n| `crates/corvia-kernel/src/grpc_engine.rs` | Add span to `embed` |\n| `crates/corvia-kernel/src/rag_pipeline.rs` | Add spans to `context`, `ask` |\n| `crates/corvia-server/src/rest.rs` | Add `config`, `config_path` to `AppState` |\n| `crates/corvia-server/src/mcp.rs` | Add 10 tools + safety tier dispatch + handlers + update test helpers |\n| `crates/corvia-server/Cargo.toml` | Add `corvia-telemetry` dep |\n| `crates/corvia-cli/src/main.rs` | Refactor to `ops::*`, add `--metrics`, wire `init_telemetry()` |\n| `crates/corvia-cli/Cargo.toml` | Add `corvia-telemetry` dep |\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.454707096Z",
+  "valid_from": "2026-03-31T13:20:59.454707096Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 17,
+    "end_line": 47,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

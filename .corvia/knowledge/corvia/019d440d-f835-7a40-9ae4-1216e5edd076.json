@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f835-7a40-9ae4-1216e5edd076",
+  "content": "[start..].iter().collect();\n    if !part.is_empty() {\n        parts.push(part.to_lowercase());\n    }\n\n    // Only emit sub-parts if we actually split something.\n    if parts.len() > 1 {\n        for p in parts {\n            tokens.push(p);\n        }\n    }\n}\npub struct TantivyIndex {\n    index: Index,\n    reader: IndexReader,\n    writer: Mutex<IndexWriter>,\n    /// Store reference for looking up full entries by ID in search_text.\n    store: Arc<dyn crate::traits::QueryableStore>,\n    // Schema field handles.\n    field_content: Field,\n    field_entry_id: Field,\n    field_scope_id: Field,\n    field_content_role: Field,\n    field_source_origin: Field,\n    // Batched commit state.\n    pending_count: AtomicU64,\n    // Redb database (shared with LiteStore) for write generation.\n    db: Arc<Database>,\n    // Path to generation metadata file.\n    gen_meta_path: PathBuf,\n}",
+  "source_version": "crates/corvia-kernel/src/tantivy_index.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.445579806Z",
+  "valid_from": "2026-03-31T13:20:59.445579806Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/tantivy_index.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 225,
+    "end_line": 243,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

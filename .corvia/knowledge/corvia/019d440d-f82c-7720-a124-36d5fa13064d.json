@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82c-7720-a124-36d5fa13064d",
+  "content": "pub struct ChunkResult {\n    pub chunks: Vec<RawChunk>,\n    pub relations: Vec<ChunkRelation>,\n}\npub struct SourceFile {\n    pub content: String,\n    pub metadata: SourceMetadata,\n}\npub trait ChunkingStrategy: Send + Sync {\n    /// Human-readable name for metrics attribution (D62).\n    fn name(&self) -> &str;\n\n    /// File extensions this strategy handles (e.g. `[\"rs\", \"go\", \"py\"]`).\n    fn supported_extensions(&self) -> &[&str];\n\n    /// Split source text into [`RawChunk`]s, optionally with discovered relations.\n    fn chunk(&self, source: &str, meta: &SourceMetadata) -> Result<ChunkResult>;\n\n    /// Split a chunk that exceeds `max_tokens` into smaller pieces.\n    ///\n    /// Default: binary-split at nearest newline to the midpoint, linking the\n    /// children back to the original via `parent_chunk_id`.\n    fn split_oversized(&self, chunk: &RawChunk, max_tokens: usize) -> Result<Vec<RawChunk>> {\n        let _ = max_tokens; // used conceptually; split is by line count\n        let lines: Vec<&str> = chunk.content.split('\\n').collect();\n        if lines.len() <= 1 {\n            // Cannot split a single line further — return as-is.\n            return Ok(vec![chunk.clone()]);\n        }\n\n        let mid = lines.len() / 2;\n\n        // Find the nearest newline boundary to the midpoint.\n        let first_half = lines[..mid].join(\"\\n\");\n        let second_half = lines[mid..].join(\"\\n\");\n\n        let parent_id = Uuid::now_v7();\n        let mid_line = chunk.start_line + mid as u32;\n\n        let mut meta_a = chunk.metadata.clone();\n        meta_a.parent_chunk_id = Some(parent_id);\n",
+  "source_version": "crates/corvia-kernel/src/chunking_strategy.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.436938273Z",
+  "valid_from": "2026-03-31T13:20:59.436938273Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_strategy.rs",
+    "language": "rs",
+    "chunk_type": "trait_item",
+    "start_line": 145,
+    "end_line": 178,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

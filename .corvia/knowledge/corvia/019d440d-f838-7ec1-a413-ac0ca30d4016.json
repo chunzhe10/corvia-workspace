@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f838-7ec1-a413-ac0ca30d4016",
+  "content": "pub enum WriteResult {\n    /// Entry written successfully.\n    Written(KnowledgeEntry),\n    /// Entry written with a warning about similar existing entry.\n    WrittenWithWarning {\n        entry: KnowledgeEntry,\n        similar_id: uuid::Uuid,\n        similarity: f32,\n    },\n    /// Write blocked due to near-duplicate.\n    Blocked {\n        existing_id: uuid::Uuid,\n        similarity: f32,\n        existing_preview: String,\n    },\n}",
+  "source_version": "crates/corvia-kernel/src/agent_writer.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.448129477Z",
+  "valid_from": "2026-03-31T13:20:59.448129477Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/agent_writer.rs",
+    "language": "rs",
+    "chunk_type": "enum_item",
+    "start_line": 16,
+    "end_line": 31,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

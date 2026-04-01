@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f824-7280-b2ba-aaa392b2a643",
+  "content": "    .and_then(|a| a.first())\n                .and_then(|h| h.get(\"command\"))\n                .and_then(|c| c.as_str())\n                .map(|c| c.contains(\"doc-placement\"))\n                .unwrap_or(false)\n        });\n        assert!(!has_doc_placement);\n\n        // PostToolUse should have session-recording but NOT write-reminder\n        let post = hooks_obj.get(\"PostToolUse\").unwrap().as_array().unwrap();\n        assert_eq!(post.len(), 1); // session-recording only\n    }\n\n    #[test]\n    fn test_agent_teams_hooks_added_when_enabled() {\n        let mut hooks_obj = serde_json::Map::new();\n        let mut config = HooksConfig::default();\n        config.agent_teams = true;\n        add_hooks(&mut hooks_obj, &config);\n\n        assert!(hooks_obj.contains_key(\"TaskCreated\"));\n        assert!(hooks_obj.contains_key(\"TaskCompleted\"));\n        assert!(hooks_obj.contains_key(\"TeammateIdle\"));\n\n        let task_created = hooks_obj.get(\"TaskCreated\").unwrap().as_array().unwrap();\n        assert_eq!(task_created.len(), 1);\n        let cmd = task_created[0][\"hooks\"][0][\"command\"].as_str().unwrap();\n        assert!(cmd.contains(\"corvia hooks run --event TaskCreated\"));\n    }\n\n    #[test]\n    fn test_agent_teams_hooks_omitted_when_disabled() {\n        let mut hooks_obj = serde_json::Map::new();\n        let config = HooksConfig::default(); // agent_teams defaults to false\n        add_hooks(&mut hooks_obj, &config);\n\n        assert!(!hooks_obj.contains_key(\"TaskCreated\"));\n        assert!(!hooks_obj.contains_key(\"TaskCompleted\"));\n        assert!(!hooks_obj.contains_key(\"TeammateIdle\"));\n    }\n",
+  "source_version": "crates/corvia-cli/src/hooks/settings.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.428537143Z",
+  "valid_from": "2026-03-31T13:20:59.428537143Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/settings.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 275,
+    "end_line": 307,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

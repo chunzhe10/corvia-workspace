@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f835-7a40-9ae4-0e6cf2415630",
+  "content": "  // Resolve GitHub token from env\n        let github_token = std::env::var(\"GITHUB_TOKEN\").unwrap_or_default();\n\n        // Build bind mounts for credentials and workspace instruction files\n        let mut binds = Vec::new();\n\n        // Credentials mount\n        let creds_path = format!(\"{workspace_root}/.claude/.credentials.json\");\n        if let Some(host_path) = hub.host_path(&creds_path) {\n            binds.push(format!(\"{host_path}:/spoke-config/.credentials.json:ro\"));\n        }\n\n        // Workspace instruction files\n        let agents_md = format!(\"{workspace_root}/AGENTS.md\");\n        if let Some(host_path) = hub.host_path(&agents_md) {\n            binds.push(format!(\"{host_path}:/spoke-config/AGENTS.md:ro\"));\n        }\n\n        let claude_md = format!(\"{workspace_root}/CLAUDE.md\");\n        if let Some(host_path) = hub.host_path(&claude_md) {\n            binds.push(format!(\"{host_path}:/spoke-config/CLAUDE.md:ro\"));\n        }\n\n        let skills_dir = format!(\"{workspace_root}/.agents/skills\");\n        if let Some(host_path) = hub.host_path(&skills_dir) {\n            binds.push(format!(\"{host_path}:/spoke-config/skills:ro\"));\n        }\n\n        // Build environment variables\n        let mut env = vec![\n            format!(\"CORVIA_AGENT_ID={agent_id}\"),\n            format!(\"CORVIA_SPOKE_TOKEN={spoke_token}\"),\n            format!(\"CORVIA_MCP_URL=http://app:8020/mcp\"),\n            format!(\"CORVIA_MCP_TOKEN={mcp_token}\"),\n            format!(\"CORVIA_REPO_URL={repo_url}\"),\n            format!(\"CORVIA_ISSUE={}\", issue.unwrap_or(0)),\n            format!(\"CORVIA_BRANCH={branch_name}\"),\n        ];\n        if !github_token.is_empty() {\n            env.push(format!(\"GITHUB_TOKEN={github_token}\"));\n        }\n\n        // API key auth mode\n        if spoke_config.auth_mode == SpokeAuthMode::ApiKey {\n            let api_key = std::env::var(\"ANTHROPIC_API_KEY\").unwrap_or_default();\n            if !api_key.is_empty() {\n                env.push(format!(\"ANTHROPIC_API_KEY={api_key}\"));\n            }",
+  "source_version": "crates/corvia-kernel/src/spoke.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.445166564Z",
+  "valid_from": "2026-03-31T13:20:59.445166564Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/spoke.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 382,
+    "end_line": 422,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-c22386579957",
+  "content": "   name: \"git\".into(),\n                version: \"0.3.1\".into(),\n                domain: \"git\".into(),\n                protocol_version: 1,\n                description: \"Git + tree-sitter code ingestion\".into(),\n                supported_extensions: vec![],\n                chunking_extensions: vec![],\n            },\n        }];\n        let output = format_adapter_list(&adapters);\n        assert!(output.contains(\"git\"));\n        assert!(output.contains(\"0.3.1\"));\n        assert!(output.contains(\"/usr/local/bin/corvia-adapter-git\"));\n    }\n\n    #[test]\n    fn test_shellexpand_home() {\n        let expanded = shellexpand_home(\"~/test/path\");\n        // Should start with the home directory\n        if let Some(home) = home_dir() {\n            assert_eq!(expanded, home.join(\"test/path\"));\n        }\n    }\n\n    #[test]\n    fn test_shellexpand_no_tilde() {\n        let expanded = shellexpand_home(\"/absolute/path\");\n        assert_eq!(expanded, PathBuf::from(\"/absolute/path\"));\n    }\n}\n```\n\n**Step 2: Export the module**\n\nIn `crates/corvia-kernel/src/lib.rs`, add after the `adapter_protocol` line:\n\n```rust\npub mod adapter_discovery;\n```\n\n**Step 3: Run tests**\n\n```bash\ncargo test -p corvia-kernel adapter_discovery -- --nocapture\n```\n\nExpected: 10 tests pass (mock adapter tests spawn real shell scripts).\n\n**Step 4: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/adapter_discovery.rs crates/corvia-kernel/src/lib.rs\ngit commit -m \"feat: add adapter discovery with PATH scan and metadata probing (D74)\n\nDiscovers corvia-adapter-* binaries from config dirs and PATH, probes\neach with --corvia-metadata, and resolves which adapter to use via\nexplicit config, .git/ auto-detection, or basic fallback (D76).\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462595285Z",
+  "valid_from": "2026-03-31T13:20:59.462595285Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 745,
+    "end_line": 799,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

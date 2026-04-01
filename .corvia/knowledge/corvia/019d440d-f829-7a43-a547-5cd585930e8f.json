@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f829-7a43-a547-5cd585930e8f",
+  "content": "      .bind(retention_score_f64)\n        .bind(pinned)\n        .bind(&pinned_by)\n        .bind(pinned_at)\n        .execute(&self.pool)\n        .await\n        .map_err(|e| CorviaError::Storage(format!(\"Failed to insert entry: {e}\")))?;\n\n        Ok(())\n    }\nasync fn search(\n        &self,\n        embedding: &[f32],\n        scope_id: &str,\n        limit: usize,\n    ) -> Result<Vec<SearchResult>> {\n        // Default search: only Hot + Warm entries (uses partial HNSW index).\n        let query_vec = Vector::from(embedding.to_vec());\n\n        let rows = sqlx::query(\n            r#\"SELECT *, embedding <=> $1 AS distance\n               FROM knowledge\n               WHERE scope_id = $2 AND embedding IS NOT NULL\n                 AND tier IN ('hot', 'warm')\n               ORDER BY embedding <=> $1\n               LIMIT $3\"#,\n        )\n        .bind(&query_vec)\n        .bind(scope_id)\n        .bind(limit as i64)\n        .fetch_all(&self.pool)\n        .await\n        .map_err(|e| CorviaError::Storage(format!(\"Search failed: {e}\")))?;\n\n        let results = rows\n            .iter()\n            .filter_map(|row| {\n                let distance: f64 = row.try_get(\"distance\").ok()?;\n                let score = 1.0 - distance as f32;\n                let entry = row_to_entry(row)?;\n                let tier = entry.tier;\n                let retention_score = entry.retention_score;\n                Some(SearchResult { entry, score, tier, retention_score })\n            })\n            .collect();\n\n        Ok(results)\n    }",
+  "source_version": "crates/corvia-kernel/src/postgres_store.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.433844735Z",
+  "valid_from": "2026-03-31T13:20:59.433844735Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/postgres_store.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 435,
+    "end_line": 472,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81e-7810-a8c3-6282a8db1a9a",
+  "content": " std::collections::HashMap<uuid::Uuid, (String, String)> =\n        std::collections::HashMap::new();\n    for edge in &edges {\n        if edge.from == uuid {\n            edge_info.insert(edge.to, (edge.relation.clone(), \"outgoing\".into()));\n        } else {\n            edge_info.insert(edge.from, (edge.relation.clone(), \"incoming\".into()));\n        }\n    }\n\n    let mut neighbors = Vec::new();\n    for entry in &traversed {\n        if entry.id == uuid {\n            continue;\n        }\n        let (relation, direction) = edge_info\n            .get(&entry.id)\n            .cloned()\n            .unwrap_or((\"transitive\".into(), \"outgoing\".into()));\n        neighbors.push(NeighborDto {\n            id: entry.id.to_string(),\n            content: entry.content.chars().take(200).collect(),\n            relation,\n            direction,\n            score: None,\n            source_file: entry.metadata.source_file.clone(),\n            content_role: entry.metadata.content_role.clone(),\n            source_origin: entry.metadata.source_origin.clone(),\n        });\n    }\n\n    let count = neighbors.len();\n    Ok(Json(serde_json::json!({\n        \"neighbors\": neighbors,\n        \"count\": count,\n    })))\n}",
+  "source_version": "crates/corvia-server/src/dashboard/mod.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.422560581Z",
+  "valid_from": "2026-03-31T13:20:59.422560581Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/mod.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1609,
+    "end_line": 1639,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

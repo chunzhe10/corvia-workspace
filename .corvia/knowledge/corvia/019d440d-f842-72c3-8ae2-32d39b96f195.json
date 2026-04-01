@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-32d39b96f195",
+  "content": "s = {};\n  if (managerLogs && managerLogs.length > 0) tabs['manager'] = managerLogs;\n  if (serviceLogs) {\n    for (const [name, lines] of Object.entries(serviceLogs)) {\n      if (lines && lines.length > 0) tabs[name] = lines;\n    }\n  }\n  lastLogData = tabs;\n  return tabs;\n}\n\nfunction parseLine(line) {\n  // Try to extract timestamp and level from common log formats\n  // Format: \"2026-03-10T12:34:05 INFO message\" or \"12:34:05 INFO message\" or just \"message\"\n  let ts = '', level = 'info', levelLabel = 'INFO', msg = line;\n\n  const m = line.match(/^(\\\\d{2}:\\\\d{2}:\\\\d{2}|\\\\d{4}-\\\\d{2}-\\\\d{2}T\\\\d{2}:\\\\d{2}:\\\\d{2})\\\\s+(\\\\w+)\\\\s+(.*)/);\n  if (m) {\n    ts = m[1].includes('T') ? m[1].split('T')[1] : m[1];\n    const lvl = m[2].toUpperCase();\n    if (lvl === 'ERROR' || lvl === 'ERR') { level = 'error'; levelLabel = 'ERR'; }\n    else if (lvl === 'WARN' || lvl === 'WARNING') { level = 'warn'; levelLabel = 'WARN'; }\n    else if (lvl === 'DEBUG' || lvl === 'DBUG' || lvl === 'TRACE') { level = 'debug'; levelLabel = 'DBUG'; }\n    else { level = 'info'; levelLabel = 'INFO'; }\n    msg = m[3];\n  } else {\n    // No timestamp — try level only\n    const m2 = line.match(/^(\\\\w+):\\\\s+(.*)/);\n    if (m2) {\n      const lvl = m2[1].toUpperCase();\n      if (['ERROR', 'ERR', 'WARN', 'WARNING', 'DEBUG', 'INFO'].includes(lvl)) {\n        if (lvl === 'ERROR' || lvl === 'ERR') { level = 'error'; levelLabel = 'ERR'; }\n        else if (lvl === 'WARN' || lvl === 'WARNING') { level = 'warn'; levelLabel = 'WARN'; }\n        else if (lvl === 'DEBUG') { level = 'debug'; levelLabel = 'DBUG'; }\n        msg = m2[2];\n      }\n    }\n  }\n\n  return { ts, level, levelLabel, msg };",
+  "source_version": "docs/rfcs/2026-03-10-dashboard-redesign.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458045895Z",
+  "valid_from": "2026-03-31T13:20:59.458045895Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-dashboard-redesign.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 950,
+    "end_line": 981,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

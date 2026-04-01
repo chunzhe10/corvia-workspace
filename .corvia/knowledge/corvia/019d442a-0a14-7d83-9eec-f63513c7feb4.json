@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f63513c7feb4",
+  "content": "iv class=\"slide-title\">\n    Your Monitor Cable<br>\n    <span class=\"highlight-purple\">Chooses Your GPU</span>\n  </div>\n  <div class=\"slide-subtitle\" style=\"font-size: 20px;\">\n    I discovered my laptop's ports are wired to <em>different</em> GPUs.\n  </div>\n  <div style=\"display: flex; gap: 20px; margin-bottom: 24px;\">\n    <div class=\"card\" style=\"flex: 1; margin-bottom: 0; text-align: center; border: 2px solid var(--accent-amber);\">\n      <div style=\"font-size: 40px; margin-bottom: 12px;\">&#128268;</div>\n      <h3 style=\"font-size: 22px; color: var(--accent-amber); margin-bottom: 8px;\">HDMI Port</h3>\n      <p style=\"font-size: 18px; color: var(--text-secondary); line-height: 1.5;\">\n        Wired to <strong>NVIDIA RTX 3060</strong><br>\n        GPU stays active at all times<br>\n        <span style=\"color: var(--accent-red);\">More heat, more power draw</span>\n      </p>\n    </div>\n    <div style=\"display: flex; align-items: center; font-size: 40px; color: var(--accent-green);\">&#10132;</div>\n    <div class=\"card\" style=\"flex: 1; margin-bottom: 0; text-align: center; border: 2px solid var(--accent-green);\">\n      <div style=\"font-size: 40px; margin-bottom: 12px;\">&#9889;</div>\n      <h3 style=\"font-size: 22px; color: var(--accent-green); margin-bottom: 8px;\">USB-C Port</h3>\n      <p style=\"font-size: 18px; color: var(--text-secondary); line-height: 1.5;\">\n        Wired to <strong>Intel iGPU</strong><br>\n        NVIDIA can fully power down<br>\n        <span style=\"color: var(--accent-green);\">Less heat, GPU free for work</span>\n      </p>\n    </div>\n  </div>\n\n  <div class=\"terminal\">\n    <span class=\"prompt\">$</span> <span class=\"cmd\">ls -lh /sys/class/drm/card*</span><br>\n    <span class=\"output\">card0 <span class=\"highlight-val\">NVIDIA</span> &rarr; HDMI-A-1, eDP-2</span><br>\n    <span class=\"output\">card1 <span class=\"highlight-val\">Intel</span>&nbsp; &rarr; DP-1, DP-2, eDP-1</span>\n  </div>",
+  "source_version": "marketing/linkedin/2026-03-11-linux-discovery/linux-discovery-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028293933Z",
+  "valid_from": "2026-03-31T13:51:39.028293933Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-11-linux-discovery/linux-discovery-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 763,
+    "end_line": 789,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

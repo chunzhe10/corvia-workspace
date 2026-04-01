@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f836-7610-b605-c0f6962519ce",
+  "content": "ams = RetentionParams {\n            days_since_creation: f64::INFINITY,\n            ..Default::default()\n        };\n        let score = compute_retention_score(&params);\n        assert!(!score.is_nan());\n        assert!(score >= 0.0 && score <= 1.0);\n    }\nfn test_u32_max_access_count_stays_clamped() {\n        let params = RetentionParams {\n            access_count: u32::MAX,\n            days_since_access: Some(0.0),\n            ..Default::default()\n        };\n        let score = compute_retention_score(&params);\n        assert!(score <= 1.0, \"Score {score} exceeds 1.0 with u32::MAX access_count\");\n        assert!(score >= 0.0);\n    }",
+  "source_version": "crates/corvia-kernel/src/scoring.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.446708980Z",
+  "valid_from": "2026-03-31T13:20:59.446708980Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/scoring.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 541,
+    "end_line": 550,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83f-7210-b9e4-0b12d0eae8d9",
+  "content": "### Task 9: Add Tier 2 low-risk mutation tools (D85)\n\n        let text = result[\"content\"][0][\"text\"].as_str().unwrap();\n        let parsed: serde_json::Value = serde_json::from_str(text).unwrap();\n        assert_eq!(parsed[\"confirmation_required\"], true);\n    }\n\n    #[tokio::test]\n    async fn test_config_set_with_confirmation() {\n        let dir = tempfile::tempdir().unwrap();\n        let config = corvia_common::config::CorviaConfig::default();\n        let toml_str = toml::to_string_pretty(&config).unwrap();\n        std::fs::write(dir.path().join(\"corvia.toml\"), &toml_str).unwrap();\n        let state = test_state(dir.path()).await;\n\n        let params = json!({\n            \"name\": \"corvia_config_set\",\n            \"arguments\": {\n                \"section\": \"rag\",\n                \"key\": \"default_limit\",\n                \"value\": 20\n            },\n            \"_meta\": { \"confirmed\": true }\n        });\n        let result = handle_tools_call(&state, &params).await.unwrap();\n        let text = result[\"content\"][0][\"text\"].as_str().unwrap();\n        let parsed: serde_json::Value = serde_json::from_str(text).unwrap();\n        // Should have succeeded, not asked for confirmation\n        assert!(parsed.get(\"confirmation_required\").is_none());",
+  "source_version": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.455042147Z",
+  "valid_from": "2026-03-31T13:20:59.455042147Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1200,
+    "end_line": 1226,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

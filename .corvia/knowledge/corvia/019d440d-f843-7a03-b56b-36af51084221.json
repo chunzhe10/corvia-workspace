@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f843-7a03-b56b-36af51084221",
+  "content": "s.len(), 1);\n        assert!(results[0].entry.content.contains(\"scope A\"));\n    }\n\n    #[tokio::test]\n    async fn test_lite_store_delete_scope() {\n        let dir = tempfile::tempdir().unwrap();\n        let store = LiteStore::open(dir.path(), 3).unwrap();\n        store.init_schema().await.unwrap();\n\n        let entry = KnowledgeEntry::new(\"temp data\".into(), \"temp\".into(), \"v1\".into())\n            .with_embedding(vec![0.1, 0.2, 0.3]);\n        store.insert(&entry).await.unwrap();\n        assert_eq!(store.count(\"temp\").await.unwrap(), 1);\n\n        store.delete_scope(\"temp\").await.unwrap();\n        assert_eq!(store.count(\"temp\").await.unwrap(), 0);\n    }\n\n    #[tokio::test]\n    async fn test_lite_store_knowledge_files_written() {\n        let dir = tempfile::tempdir().unwrap();\n        let store = LiteStore::open(dir.path(), 3).unwrap();\n        store.init_schema().await.unwrap();\n\n        let entry = KnowledgeEntry::new(\"file test\".into(), \"files\".into(), \"v1\".into())\n            .with_embedding(vec![0.1, 0.2, 0.3]);\n        store.insert(&entry).await.unwrap();\n\n        // Verify JSON file was created\n        let file_path = dir.path()\n            .join(\"knowledge\").join(\"files\").join(format!(\"{}.json\", entry.id));\n        assert!(file_path.exists());\n    }\n}\n```\n",
+  "source_version": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.459842168Z",
+  "valid_from": "2026-03-31T13:20:59.459842168Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 867,
+    "end_line": 895,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

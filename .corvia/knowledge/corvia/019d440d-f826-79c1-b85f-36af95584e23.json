@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f826-79c1-b85f-36af95584e23",
+  "content": "struct LoadedModel {\n    engine: fastembed::TextEmbedding,\n    variant: fastembed::EmbeddingModel,\n    backend: ResolvedBackend,\n}\npub struct EmbeddingServiceImpl {\n    // std::sync::Mutex (not tokio) so we can hold the lock inside spawn_blocking.\n    // fastembed's embed() is CPU-bound and requires &mut self.\n    models: Arc<std::sync::Mutex<HashMap<String, LoadedModel>>>,\n}",
+  "source_version": "crates/corvia-inference/src/embedding_service.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.430446582Z",
+  "valid_from": "2026-03-31T13:20:59.430446582Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/src/embedding_service.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 120,
+    "end_line": 124,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

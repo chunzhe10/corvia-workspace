@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9f745fb6c860",
+  "content": "### Workstream B: M3.2 — RAG Pipeline (context mode)\n### Workstream C: M3.3 — Chunking Framework\n\n#### Task C2: FormatRegistry\n\n**Files:**\n- Create: `crates/corvia-kernel/src/chunking_pipeline.rs`\n- Modify: `crates/corvia-kernel/src/lib.rs`\n\n**Step 1: Write FormatRegistry + ProcessingReport types**\n\nCreate `crates/corvia-kernel/src/chunking_pipeline.rs`:\n\n```rust\nuse std::collections::HashMap;\nuse std::sync::Arc;\n\nuse corvia_common::config::ChunkingConfig;\nuse corvia_common::errors::Result;\n\nuse crate::chunking_strategy::{\n    ChunkingStrategy, ProcessedChunk, ProcessingInfo, RawChunk, SourceFile, SourceMetadata,\n};\nuse crate::token_estimator::{CharDivFourEstimator, TokenEstimator};\n\n/// Routes file extensions to chunking strategies.\n///\n/// Resolution priority: adapter override > adapter register > kernel default > fallback.\npub struct FormatRegistry {\n    defaults: HashMap<String, Arc<dyn ChunkingStrategy>>,\n    overrides: HashMap<String, Arc<dyn ChunkingStrategy>>,\n    fallback: Arc<dyn ChunkingStrategy>,\n}\n\nimpl FormatRegistry {\n    pub fn new(fallback: Arc<dyn ChunkingStrategy>) -> Self {\n        Self {\n            defaults: HashMap::new(),\n            overrides: HashMap::new(),\n            fallback,\n        }\n    }\n\n    /// Register a kernel default strategy for an extension.\n    pub fn register_default(&mut self, ext: &str, strategy: Arc<dyn ChunkingStrategy>) {\n        self.defaults.insert(ext.to_lowercase(), strategy);\n    }\n\n    /// Adapter registers a strategy for formats it handles.\n    pub fn register(&mut self, ext: &str, strategy: Arc<dyn ChunkingStrategy>) {\n        self.defaults.insert(ext.to_lowercase(), strategy);",
+  "source_version": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464691137Z",
+  "valid_from": "2026-03-31T13:20:59.464691137Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 946,
+    "end_line": 993,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

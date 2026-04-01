@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0df17eba7c90",
+  "content": "### gRPC Protocol Changes\n### Backend Resolution Logic\n\n### \"auto\" Behavior\n\nWhen both NVIDIA and Intel GPUs are present, `\"auto\"` (and `\"gpu\"`) prefer\nNVIDIA/CUDA. Intel GPU is only used when explicitly requested via\n`backend: \"openvino\"` (embeddings) or `backend: \"vulkan\"` (chat, future).\n\nPower users who want to split workloads (e.g., embeddings on Intel, chat on\nNVIDIA) achieve this by passing explicit `backend` per `load_model` call.\n\n\n### Embedding Service Changes (fastembed)\n\nSwitch from `fastembed::InitOptions` to `InitOptionsUserDefined` to unlock\n`with_execution_providers()` for per-model EP control.\n\nDefine a model registry mapping friendly names to `UserDefinedEmbeddingModel`\nstructs (ONNX paths, tokenizer config, dimensions).\n\nBuild execution providers based on resolved backend:\n\n```rust\nfn build_execution_providers(backend: &ResolvedBackend) -> Vec<ExecutionProviderDispatch> {\n    match backend.backend {\n        BackendKind::Cuda => vec![CUDAExecutionProvider::default().build()],\n        BackendKind::OpenVino => vec![\n            OpenVINOExecutionProvider::default()\n                .with_device_type(\"GPU_FP16\")\n                .build()\n        ],\n        BackendKind::Cpu => vec![],  // ort defaults to CPU EP\n    }\n}\n```\n\n`LoadedModel` gains a `backend: ResolvedBackend` field for reporting.\n",
+  "source_version": "docs/rfcs/2026-03-11-inference-gpu-device-control-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457712433Z",
+  "valid_from": "2026-03-31T13:20:59.457712433Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-inference-gpu-device-control-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 78,
+    "end_line": 112,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

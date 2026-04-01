@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0c09479b5414",
+  "content": ")).unwrap();\n        assert_eq!(chunks.len(), 1);\n        assert_eq!(chunks[0].chunk_type, \"text\");\n    }\n\n    #[test]\n    fn test_chunk_type_is_heading_section() {\n        let source = \"# Title\\n\\nBody text.\";\n        let chunker = MarkdownChunker::new();\n        let chunks = chunker.chunk(source, &meta()).unwrap();\n        assert_eq!(chunks[0].chunk_type, \"heading_section\");\n    }\n\n    #[test]\n    fn test_empty_source() {\n        let chunker = MarkdownChunker::new();\n        let chunks = chunker.chunk(\"\", &meta()).unwrap();\n        assert!(chunks.is_empty());\n    }\n\n    #[test]\n    fn test_overlap_carries_heading_hierarchy() {\n        let chunker = MarkdownChunker::new();\n        let prev = RawChunk {\n            content: \"## Auth\\n\\n### JWT\\n\\nJWT details.\".into(),\n            chunk_type: \"heading_section\".into(),\n            start_line: 1,\n            end_line: 5,\n            metadata: ChunkMetadata::default(),\n        };\n        let next = RawChunk {\n            content: \"### OAuth\\n\\nOAuth details.\".into(),\n            chunk_type: \"heading_section\".into(),\n            start_line: 6,\n            end_line: 8,\n            metadata: ChunkMetadata::default(),\n        };\n        let overlap = chunker.overlap_context(&prev, &next);\n        // Should carry heading hierarchy as context\n        assert!(overlap.is_some(), \"markdown overlap should carry heading context\");\n    }\n\n    #[test]\n    fn test_name_and_extensions() {\n        let chunker = MarkdownChunker::new();\n        assert_eq!(chunker.name(), \"markdown\");\n        assert_eq!(chunker.supported_extensions(), &[\"md\"]);\n    }",
+  "source_version": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457383825Z",
+  "valid_from": "2026-03-31T13:20:59.457383825Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 691,
+    "end_line": 729,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

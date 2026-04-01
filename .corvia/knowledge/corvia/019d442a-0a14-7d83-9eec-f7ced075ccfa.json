@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f7ced075ccfa",
+  "content": "r: var(--text-secondary);\">llama.cpp (GGUF)</td>\n      <td style=\"padding: 18px 20px; font-size: 17px; font-weight: 700; background: var(--bg-card); border-bottom: 1px solid var(--border); color: var(--accent-purple);\">NVIDIA (CUDA)</td>\n    </tr>\n    <tr>\n      <td style=\"padding: 18px 20px; font-size: 17px; font-weight: 600; background: var(--bg-card);\">Protocol</td>\n      <td style=\"padding: 18px 20px; font-size: 17px; background: var(--bg-card); color: var(--text-secondary);\">gRPC &bull; per-model routing</td>\n      <td style=\"padding: 18px 20px; font-size: 17px; font-weight: 700; background: var(--bg-card); color: var(--accent-amber);\">Fallback-with-signal</td>\n    </tr>\n  </table>",
+  "source_version": "marketing/linkedin/2026-03-13-dual-gpu-inference/dual-gpu-inference-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028522429Z",
+  "valid_from": "2026-03-31T13:51:39.028522429Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-13-dual-gpu-inference/dual-gpu-inference-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 526,
+    "end_line": 530,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

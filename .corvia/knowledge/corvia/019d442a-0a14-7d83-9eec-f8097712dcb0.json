@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f8097712dcb0",
+  "content": "g OpenVINO onto Debian Trixie was messier than expected. Wrong drivers installed, missing dependency chain, library in the wrong path. The kind of stuff that used to take an afternoon, but Claude handled it in minutes. (Slide 5 has the full breakdown.)</p>\n<p>The part I'm proud of is the devcontainer. Open the project and both GPUs are ready. A host-side script detects hardware before the container builds, generates the right Docker Compose override, and the inference server auto-assigns backends at startup. Falls back to CPU if something's missing, but tells you. No silent degradation.</p>\n\n<p>And it all dogfoods itself. Corvia is organizational memory for AI agents, and the AI assistant building it uses corvia's own knowledge base from the first keystroke.</p>\n\n<p>Anyone else running local inference on heterogeneous hardware? Curious what setups people have landed on.</p>\n</div>\n\n</body>\n</html>\n",
+  "source_version": "marketing/linkedin/2026-03-13-dual-gpu-inference/post.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028559490Z",
+  "valid_from": "2026-03-31T13:51:39.028559490Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-13-dual-gpu-inference/post.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 48,
+    "end_line": 57,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

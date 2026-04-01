@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81b-7e30-ace5-9d033dda65bf",
+  "content": "(\"CRATE_REF::{mod_suffix}\")\n            } else {\n                format!(\"CRATE_REF:{grandparent}:{mod_suffix}\")\n            }\n        }\n    } else {\n        // External crate or std — record the module path itself\n        module_path.to_string()\n    }\n}\nfn extract_js_ts_relations(\n    file_path: &str,\n    source: &str,\n    extension: &str,\n    chunks: &[CodeChunk],\n) -> Vec<CodeRelation> {\n    let lang_fn: LanguageFn = match extension {\n        \"ts\" => tree_sitter_typescript::LANGUAGE_TYPESCRIPT,\n        \"tsx\" => tree_sitter_typescript::LANGUAGE_TSX,\n        _ => tree_sitter_javascript::LANGUAGE,\n    };\n    let ts_language: tree_sitter::Language = lang_fn.into();\n    let mut parser = Parser::new();\n    if parser.set_language(&ts_language).is_err() {\n        return vec![];\n    }\n    let Some(tree) = parser.parse(source, None) else {\n        return vec![];\n    };\n\n    let mut relations = Vec::new();\n    let root = tree.root_node();\n    let mut cursor = root.walk();\n\n    // Pass 1: Walk top-level children for imports and class declarations\n    if cursor.goto_first_child() {\n        loop {\n            let node = cursor.node();\n            if node.is_named() {\n                match node.kind() {\n                    \"import_statement\" => {\n                        extract_js_ts_import(&mut relations, source, &node, chunks);",
+  "source_version": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.419830280Z",
+  "valid_from": "2026-03-31T13:20:59.419830280Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 593,
+    "end_line": 624,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f830-7a51-9391-4546431a905a",
+  "content": "etrics {\n                    stage_name: \"slow\".into(),\n                    latency_ms: 0,\n                    input_count: 0,\n                    output_count: 0,\n                    warnings: Vec::new(),\n                },\n            })\n        }\n    }\n\n    /// Helper: insert entries into store with varied embeddings.\n    async fn insert_entries(\n        store: &Arc<LiteStore>,\n        scope: &str,\n        count: usize,\n    ) -> Vec<KnowledgeEntry> {\n        let mut entries = Vec::new();\n        for i in 0..count {\n            let mut entry = KnowledgeEntry::new(\n                format!(\"knowledge entry {i} about topic {}\", i % 5),\n                scope.to_string(),\n                \"v1\".to_string(),\n            );\n            entry.embedding = Some(vec![1.0, i as f32 * 0.01, 0.0]);\n            store.insert(&entry).await.unwrap();\n            entries.push(entry);\n        }\n        entries\n    }\n\n    // -----------------------------------------------------------------------\n    // TEST 1: Compatibility -- legacy GraphExpandRetriever vs new pipeline\n    // -----------------------------------------------------------------------\n\n    #[tokio::test]\n    async fn test_pipeline_compatibility_with_legacy_retriever() {\n        let dir = tempfile::tempdir().unwrap();\n        let store = Arc::new(LiteStore::open(dir.path(), 3).unwrap());\n        store.init_schema().await.unwrap();\n\n        let queryable = store.clone() as Arc<dyn QueryableStore>;\n        let graph = store.clone() as Arc<dyn GraphStore>;",
+  "source_version": "crates/corvia-kernel/src/pipeline/core.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.440001146Z",
+  "valid_from": "2026-03-31T13:20:59.440001146Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/core.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 375,
+    "end_line": 406,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

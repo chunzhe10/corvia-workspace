@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83f-7210-b9e4-1014cf7d8308",
+  "content": "anNode[], depth: number) => {\n    const elements: any[] = [];\n    for (const span of spans) {\n      elements.push(\n        <WaterfallBar key={span.span_id} span={span} totalMs={trace.total_ms} depth={depth} />\n      );\n      if (span.children.length > 0) {\n        elements.push(...renderSpans(span.children, depth + 1));\n      }\n    }\n    return elements;\n  };\n\n  return (\n    <div class=\"waterfall-detail\">\n      <div class=\"waterfall-header\">\n        <span class=\"waterfall-root\">{trace.root_span.replace(\"corvia.\", \"\")}</span>\n        <span class=\"waterfall-total\">{trace.total_ms.toFixed(1)}ms</span>\n        <span class=\"waterfall-count\">{trace.span_count} spans</span>\n      </div>\n      <div class=\"waterfall-chart\">\n        {renderSpans(trace.spans, 0)}\n      </div>\n    </div>\n  );\n}\n\nexport function WaterfallView() {\n  const [selectedTrace, setSelectedTrace] = useState<string | null>(null);\n  const fetcher = useCallback(() => fetchRecentTraces(20), []);\n  const { data } = usePoll(fetcher, 10000);\n\n  if (!data || data.traces.length === 0) {\n    return (\n      <div class=\"trace-card\">\n        <div style={{ fontSize: \"12px\", color: \"var(--text-dim)\", textAlign: \"center\", padding: \"16px 0\" }}>\n          Enable OTEL exporter to see trace trees.\n        </div>\n      </div>\n    );\n  }\n\n  const active = data.traces.find((t) => t.trace_id === selectedTrace) ?? data.traces[0];",
+  "source_version": "docs/rfcs/2026-03-14-dashboard-completion-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.455787328Z",
+  "valid_from": "2026-03-31T13:20:59.455787328Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-14-dashboard-completion-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1816,
+    "end_line": 1851,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f824-7280-b2ba-accaaaca34bb",
+  "content": "p_or(\"\");\n            let input = stdin.get(\"tool_input\").cloned().unwrap_or_default();\n            let input = strip_tool_input(&input);\n            let turn = current_turn(session_id);\n\n            serde_json::json!({\n                \"v\": SCHEMA_VERSION,\n                \"type\": \"tool_start\",\n                \"session_id\": session_id,\n                \"turn\": turn,\n                \"timestamp\": ts,\n                \"tool\": tool,\n                \"input\": input,\n                \"hook_duration_ms\": start.elapsed().as_millis() as u64,\n                \"hook_name\": \"session_record\",\n            })\n        }\n        HookEvent::PostToolUse => {\n            let tool = stdin.get(\"tool_name\").and_then(|v| v.as_str()).unwrap_or(\"\");\n            let input = stdin.get(\"tool_input\").cloned().unwrap_or_default();\n            let input = strip_tool_input(&input);\n            let turn = current_turn(session_id);\n\n            // Extract and truncate output\n            let output_raw = stdin.get(\"tool_response\")\n                .map(|v| match v {\n                    serde_json::Value::String(s) => s.clone(),\n                    other => other.to_string(),\n                })\n                .unwrap_or_default();\n            let (output, truncated) = truncate_str(&output_raw, MAX_OUTPUT_CHARS);\n\n            serde_json::json!({\n                \"v\": SCHEMA_VERSION,\n                \"type\": \"tool_end\",\n                \"session_id\": session_id,\n                \"turn\": turn,\n                \"timestamp\": ts,\n                \"tool\": tool,\n                \"input\": input,\n                \"output\": output,\n                \"truncated\": truncated,\n                \"success\": true,\n                \"hook_duration_ms\": start.elapsed().as_millis() as u64,\n                \"hook_name\": \"session_record\",\n            })\n        }\n        HookEvent::SessionEnd => {\n            // session_end event is appended by finalize_session()\n            return Ok(());\n        }\n        // Agent Teams events are handled by agent_teams.rs, not session recording\n        HookEvent::TaskCreated | HookEvent::TaskCompleted | HookEvent::TeammateIdle => {\n            return Ok(());\n        }\n    };\n\n    append_event(session_id, &json_event)\n}",
+  "source_version": "crates/corvia-cli/src/hooks/session.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.428743538Z",
+  "valid_from": "2026-03-31T13:20:59.428743538Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/session.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 179,
+    "end_line": 230,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

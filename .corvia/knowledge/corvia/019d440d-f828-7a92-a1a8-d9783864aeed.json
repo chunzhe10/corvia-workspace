@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f828-7a92-a1a8-d9783864aeed",
+  "content": "pub struct GcHistory {\n    reports: std::sync::Mutex<std::collections::VecDeque<GcReport>>,\n    max_size: usize,\n}\nimpl GcHistory {\n    pub fn new(max_size: usize) -> Self {\n        Self {\n            reports: std::sync::Mutex::new(std::collections::VecDeque::with_capacity(max_size)),\n            max_size,\n        }\n    }\n\n    pub fn push(&self, report: GcReport) {\n        let mut reports = self.reports.lock().unwrap();\n        if reports.len() >= self.max_size {\n            reports.pop_front();\n        }\n        reports.push_back(report);\n    }\n\n    pub fn last(&self) -> Option<GcReport> {\n        self.reports.lock().unwrap().back().cloned()\n    }\n\n    pub fn all(&self) -> Vec<GcReport> {\n        self.reports.lock().unwrap().iter().cloned().collect()\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/ops.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.432893294Z",
+  "valid_from": "2026-03-31T13:20:59.432893294Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ops.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 332,
+    "end_line": 355,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

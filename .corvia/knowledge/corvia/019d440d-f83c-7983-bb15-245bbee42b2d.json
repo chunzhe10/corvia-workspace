@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-245bbee42b2d",
+  "content": "### Agentic Retrieval Protocol\n\n## Dependencies\n\n- Issue #12 (buffered access tracking): IMPLEMENTED. Area 4 extends it.\n- Issue #37 (BM25 hybrid search): improves retrieval quality baseline.\n  Not blocking. Thresholds may need re-tuning after BM25 lands.\n\n\n## Deliverables\n\n1. [x] Protocol specification (this document)\n2. [ ] Quality signals in `corvia_search` (Area 1)\n3. [ ] `corvia_context` max_tokens + compact format (Area 2)\n4. [ ] Gap detector module + dashboard endpoint (Area 3)\n5. [ ] Session search log + feedback signals (Area 4)\n6. [ ] Write deduplication (Area 5)\n7. [ ] AGENTS.md update (~15-20 lines)\n8. [ ] Tests for all new functionality\n",
+  "source_version": "docs/rfcs/2026-03-31-agentic-retrieval-protocol-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452825469Z",
+  "valid_from": "2026-03-31T13:20:59.452825469Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-31-agentic-retrieval-protocol-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 235,
+    "end_line": 251,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

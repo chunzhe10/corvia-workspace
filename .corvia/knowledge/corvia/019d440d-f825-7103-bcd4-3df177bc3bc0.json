@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-3df177bc3bc0",
+  "content": "tration\n    let settings_path = std::env::current_dir()\n        .unwrap_or_default()\n        .join(\".claude/settings.json\");\n\n    println!();\n    if settings_path.exists() {\n        let content = std::fs::read_to_string(&settings_path).unwrap_or_default();\n        let corvia_hooks = content.matches(\"corvia hooks run\").count();\n        if corvia_hooks > 0 {\n            println!(\"Settings: {} ({} hook entries registered)\", settings_path.display(), corvia_hooks);\n        } else {\n            println!(\"Settings: {} (no corvia hooks registered — run 'corvia hooks init')\", settings_path.display());\n        }\n    } else {\n        println!(\"Settings: .claude/settings.json not found — run 'corvia hooks init'\");\n    }\n\n    // Check for stale sessions\n    let home = std::env::var(\"HOME\").unwrap_or_else(|_| \"/root\".into());\n    let sessions_dir = std::path::PathBuf::from(&home).join(\".claude/sessions\");\n    if sessions_dir.exists() {\n        let jsonl_count = std::fs::read_dir(&sessions_dir)\n            .map(|entries| {\n                entries.flatten()\n                    .filter(|e| e.path().extension().and_then(|x| x.to_str()) == Some(\"jsonl\"))\n                    .count()\n            })\n            .unwrap_or(0);\n        let gz_count = std::fs::read_dir(&sessions_dir)\n            .map(|entries| {\n                entries.flatten()\n                    .filter(|e| {\n                        e.path().to_string_lossy().ends_with(\".jsonl.gz\")\n                    })\n                    .count()\n            })\n            .unwrap_or(0);\n\n        if jsonl_count > 0 || gz_count > 0 {\n            println!(\"\\nSessions: {jsonl_count} active, {gz_count} pending ingest\");\n            if jsonl_count > 5 {\n                println!(\"  Hint: {jsonl_count} stale sessions detected — run 'corvia hooks sweep'\");\n            }\n        }\n    }\n\n    Ok(())\n}",
+  "source_version": "crates/corvia-cli/src/hooks/status.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429042527Z",
+  "valid_from": "2026-03-31T13:20:59.429042527Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/status.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 58,
+    "end_line": 98,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

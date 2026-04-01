@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f5b2191e2df5",
+  "content": "<p>Instead of throwing hardware at the problem, I decided to<br>understand <strong>why</strong> 40 GB wasn't enough.</p>\n  </div>\n\n  <div class=\"flex-grow\"></div>\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">02 / 08</div>\n</div>\n<!-- ════════════════════════════════════════════════ -->\n<!-- SLIDE 3: MEMORY COMPARISON                      -->\n<!-- ════════════════════════════════════════════════ -->\n<div class=\"slide\">\n  <div class=\"slide-label\">The Discovery</div>\n  <div class=\"slide-title\">\n    Not All OS Memory<br>\n    Is <span class=\"highlight-amber\">Created Equal</span>\n  </div>\n\n  <div style=\"margin-bottom: 16px; font-size: 18px; color: var(--text-secondary); font-weight: 500;\">\n    Idle RAM usage &mdash; before opening any apps\n  </div>\n\n  <div class=\"bar-chart\">\n    <div class=\"bar-row\">\n      <div class=\"bar-label highlight-green\">Linux</div>\n      <div class=\"bar-track\">\n        <div class=\"bar-fill\" style=\"width: 20%; background: linear-gradient(90deg, #10b981, #059669);\">\n          ~1.0 GB\n        </div>\n      </div>\n    </div>\n    <div class=\"bar-row\">\n      <div class=\"bar-label highlight-amber\">macOS</div>\n      <div class=\"bar-track\">\n        <div class=\"bar-fill\" style=\"width: 60%; background: linear-gradient(90deg, #f59e0b, #d97706);\">\n          3.5 &ndash; 4.5 GB\n        </div>\n      </div>\n    </div>\n    <div class=\"bar-row\">\n      <div class=\"bar-label highlight-red\">Windows</div>\n      <div class=\"bar-track\">\n        <div class=\"bar-fill\" style=\"width: 78%; background: linear-gradient(90deg, #ef4444, #dc2626);\">\n          2.2 &ndash; 5.0+ GB\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"divider\"></div>",
+  "source_version": "marketing/linkedin/2026-03-11-linux-discovery/linux-discovery-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028212259Z",
+  "valid_from": "2026-03-31T13:51:39.028212259Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-11-linux-discovery/linux-discovery-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 524,
+    "end_line": 565,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

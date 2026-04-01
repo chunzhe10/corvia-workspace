@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82a-7783-b9af-78f297d58010",
+  "content": "eckType::MisplacedDoc => \"misplaced_doc\",\n            CheckType::TemporalContradiction => \"temporal_contradiction\",\n            CheckType::CoverageGap => \"coverage_gap\",\n            CheckType::UnmappedContentRole => \"unmapped_content_role\",\n        }\n    }\nimpl std::str::FromStr for CheckType {\n    type Err = String;\n\n    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {\n        match s {\n            \"stale\" | \"stale_entry\" => Ok(CheckType::StaleEntry),\n            \"broken\" | \"broken_chain\" => Ok(CheckType::BrokenChain),\n            \"orphan\" | \"orphaned_node\" => Ok(CheckType::OrphanedNode),\n            \"dangling\" | \"dangling_import\" => Ok(CheckType::DanglingImport),\n            \"cycle\" | \"dependency_cycle\" => Ok(CheckType::DependencyCycle),\n            \"gap\" | \"semantic_gap\" => Ok(CheckType::SemanticGap),\n            \"contradiction\" => Ok(CheckType::Contradiction),\n            \"misplaced\" | \"misplaced_doc\" => Ok(CheckType::MisplacedDoc),\n            \"temporal\" | \"temporal_contradiction\" => Ok(CheckType::TemporalContradiction),\n            \"coverage\" | \"coverage_gap\" => Ok(CheckType::CoverageGap),\n            \"unmapped\" | \"unmapped_content_role\" => Ok(CheckType::UnmappedContentRole),\n            _ => Err(format!(\n                \"Unknown check type: {s}. Valid: stale, broken, orphan, dangling, cycle, gap, contradiction, misplaced, temporal, coverage, unmapped\"\n            )),\n        }\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/reasoner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.434839375Z",
+  "valid_from": "2026-03-31T13:20:59.434839375Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/reasoner.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 58,
+    "end_line": 79,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

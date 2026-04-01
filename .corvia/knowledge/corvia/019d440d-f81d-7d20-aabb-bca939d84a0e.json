@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81d-7d20-aabb-bca939d84a0e",
+  "content": "ter = GitAdapter::new();\n        let result = adapter\n            .ingest_with_relations(dir.path().to_str().unwrap())\n            .await\n            .unwrap();\n        assert!(result.entries.is_empty());\n        assert!(result.relations.is_empty());\n    }\nasync fn test_ingest_sources_returns_source_files() {\n        let dir = TempDir::new().unwrap();\n\n        // Create a .rs file\n        fs::write(\n            dir.path().join(\"main.rs\"),\n            \"fn main() {\\n    println!(\\\"hello\\\");\\n}\\n\",\n        )\n        .unwrap();\n\n        // Create a .md file\n        fs::write(dir.path().join(\"README.md\"), \"# Hello\\n\\nWorld.\\n\").unwrap();\n\n        // Create a .txt file (not in SUPPORTED_EXTENSIONS, should be ignored)\n        fs::write(dir.path().join(\"notes.txt\"), \"some notes\").unwrap();\n\n        let adapter = GitAdapter::new();\n        let files = adapter\n            .ingest_sources(dir.path().to_str().unwrap())\n            .await\n            .unwrap();\n\n        // Should include .rs and .md but not .txt\n        assert_eq!(files.len(), 2, \"expected 2 source files (.rs + .md), got {}\", files.len());\n\n        let rs_file = files.iter().find(|f| f.metadata.extension == \"rs\");\n        assert!(rs_file.is_some(), \"expected a .rs SourceFile\");\n        let rs = rs_file.unwrap();\n        assert_eq!(rs.metadata.language.as_deref(), Some(\"rust\"));\n        assert!(rs.content.contains(\"fn main()\"));\n        assert!(!rs.metadata.source_version.is_empty());\n\n        let md_file = files.iter().find(|f| f.metadata.extension == \"md\");\n        assert!(md_file.is_some(), \"expected a .md SourceFile\");\n        let md = md_file.unwrap();\n        assert_eq!(md.metadata.language.as_deref(), Some(\"markdown\"));\n        assert!(md.content.contains(\"# Hello\"));\n    }",
+  "source_version": "adapters/corvia-adapter-git/rust/src/git.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.421065171Z",
+  "valid_from": "2026-03-31T13:20:59.421065171Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-git/rust/src/git.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 390,
+    "end_line": 427,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

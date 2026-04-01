@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f8be2cd17323",
+  "content": "0; color: var(--accent-amber); margin-bottom: 6px;\">Video Editing?</div>\n        <div style=\"font-size: 20px; color: var(--text-secondary); line-height: 1.4;\">Can the engineering stack handle a full creative workflow?</div>\n      </div>\n    </div>\n  </div>\n  <div style=\"font-size: 24px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 24px;\">\n    A few days ago I moved to Linux for engineering. The benefits were clear. Now the real test.\n  </div>",
+  "source_version": "marketing/linkedin/2026-03-14-resolve-linux-setup/resolve-linux-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028681288Z",
+  "valid_from": "2026-03-31T13:51:39.028681288Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-14-resolve-linux-setup/resolve-linux-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 362,
+    "end_line": 364,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

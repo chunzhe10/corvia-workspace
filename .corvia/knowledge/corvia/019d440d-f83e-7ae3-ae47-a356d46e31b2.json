@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83e-7ae3-ae47-a356d46e31b2",
+  "content": " it compiles**\n\nRun: `cargo check --package corvia-inference`\nExpected: compiles.\n\n**Step 5: Commit**\n\n```bash\ngit add crates/corvia-inference/src/chat_service.rs\ngit commit -m \"feat(corvia-inference): implement real chat inference via llama.cpp\"\n```\n\n---\n\n### Task 5: Implement chat_stream() with real streaming\n\n**Files:**\n- Modify: `crates/corvia-inference/src/chat_service.rs`\n\n**Step 1: Replace the stub chat_stream() implementation**\n\nThe streaming version uses the same generation logic but sends tokens through an mpsc channel:\n\n```rust\n    async fn chat_stream(\n        &self,\n        req: Request<ChatRequest>,\n    ) -> Result<Response<Self::ChatStreamStream>, Status> {\n        let req = req.into_inner();\n        let model = {\n            let models = self.models.read().await;\n            models\n                .get(&req.model)\n                .map(|e| e.model.clone())\n                .ok_or_else(|| Status::not_found(format!(\"Chat model '{}' not loaded\", req.model)))?\n        };\n\n        let temperature = if req.temperature > 0.0 { req.temperature } else { 0.7 };\n        let max_tokens = if req.max_tokens > 0 { req.max_tokens } else { 2048 };\n\n        let messages: Vec<(String, String)> = req\n            .messages\n            .iter()\n            .map(|m| (m.role.clone(), m.content.clone()))\n            .collect();",
+  "source_version": "docs/rfcs/2026-03-09-chat-inference.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.454630483Z",
+  "valid_from": "2026-03-31T13:20:59.454630483Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-09-chat-inference.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 418,
+    "end_line": 448,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f843-7a03-b56b-33a2ab41d1f5",
+  "content": "## Error Handling\n## Testing\n\n## Files Changed\n\n| File | Change |\n|------|--------|\n| `corvia-inference/Cargo.toml` | Add `llama-cpp-2`, `hf-hub` |\n| `corvia-inference/src/chat_service.rs` | Rewrite stub with llama-cpp-2 |\n| `corvia-inference/src/model_manager.rs` | Minor: download progress logging |\n\n\n## Out of Scope\n\n- Embedding service changes (none)\n- Proto changes (none)\n- GrpcChatEngine client changes (none)\n- Config changes (none)\n- GPU acceleration (CPU-only for v1, llama.cpp supports CUDA/Metal via feature flags later)\n- Model eviction / memory management\n- Request queuing / rate limiting",
+  "source_version": "docs/rfcs/2026-03-09-chat-inference-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.459476626Z",
+  "valid_from": "2026-03-31T13:20:59.459476626Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-09-chat-inference-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 106,
+    "end_line": 122,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

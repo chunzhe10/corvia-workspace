@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f829-7a43-a547-5b3e6cd5f14e",
+  "content": "        Ok(results)\n    }\n\n    /// Transition an entry to a new tier, updating tier_changed_at.\n    /// Returns an error if the entry does not exist.\n    pub async fn update_tier(&self, entry_id: &Uuid, new_tier: corvia_common::types::Tier) -> Result<()> {\n        let tier_str = new_tier.to_string();\n        let result = sqlx::query(\n            \"UPDATE knowledge SET tier = $1, tier_changed_at = NOW() WHERE id = $2\",\n        )\n        .bind(&tier_str)\n        .bind(entry_id)\n        .execute(&self.pool)\n        .await\n        .map_err(|e| CorviaError::Storage(format!(\"Failed to update tier: {e}\")))?;\n\n        if result.rows_affected() == 0 {\n            return Err(CorviaError::Storage(format!(\"Entry {entry_id} not found for tier update\")));\n        }\n\n        Ok(())\n    }\n\n    /// Query pinned entries in a scope, ordered by pin time (most recent first).\n    pub async fn get_pinned(&self, scope_id: &str) -> Result<Vec<KnowledgeEntry>> {\n        let rows = sqlx::query(\n            \"SELECT * FROM knowledge WHERE scope_id = $1 AND pinned = true ORDER BY pinned_at DESC\",\n        )\n        .bind(scope_id)\n        .fetch_all(&self.pool)\n        .await\n        .map_err(|e| CorviaError::Storage(format!(\"Failed to query pinned entries: {e}\")))?;\n\n        Ok(rows.iter().filter_map(row_to_entry).collect())\n    }\n\n    /// Fetch all graph edges (used for migration export).\n    pub async fn fetch_all_edges(&self) -> Result<Vec<GraphEdge>> {\n        let rows = sqlx::query(\"SELECT from_id, to_id, relation, metadata FROM edges\")",
+  "source_version": "crates/corvia-kernel/src/postgres_store.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.433592916Z",
+  "valid_from": "2026-03-31T13:20:59.433592916Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/postgres_store.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 81,
+    "end_line": 113,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

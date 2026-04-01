@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82f-7ca0-945f-a85f5f6d0914",
+  "content": "sion: \"v1\".into(),\n                    workstream: None,\n                    content_role: None,\n                    source_origin: None,\n                    parent_session_id: None,\n                    edge_hints: vec![],\n                },\n            },\n        ];\n\n        let (chunks, _relations, report) = pipeline.process_batch(&files).unwrap();\n\n        // Verify strategy routing\n        let strategies: Vec<&str> = chunks\n            .iter()\n            .map(|c| c.processing.strategy_name.as_str())\n            .collect();\n        assert!(\n            strategies.contains(&\"markdown\"),\n            \"should route .md to MarkdownChunker, got: {:?}\",\n            strategies\n        );\n        assert!(\n            strategies.contains(&\"config\"),\n            \"should route .toml to ConfigChunker, got: {:?}\",\n            strategies\n        );\n        assert!(\n            strategies.contains(&\"fallback\"),\n            \"should route .txt to FallbackChunker, got: {:?}\",\n            strategies\n        );\n\n        // Verify token budget enforcement\n        for chunk in &chunks {\n            assert!(\n                chunk.token_estimate <= 120,\n                \"chunk from {} has {} tokens, exceeds budget\",\n                chunk.metadata.source_file,\n                chunk.token_estimate\n            );\n        }\n\n        // Verify report\n        assert_eq!(report.files_processed, 3);\n        assert!(",
+  "source_version": "crates/corvia-kernel/src/chunking_pipeline.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.439100515Z",
+  "valid_from": "2026-03-31T13:20:59.439100515Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_pipeline.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 1120,
+    "end_line": 1157,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

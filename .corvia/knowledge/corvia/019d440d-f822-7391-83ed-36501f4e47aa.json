@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f822-7391-83ed-36501f4e47aa",
+  "content": "   fg.validate()?;\n        }\n        // Validate scope-level forgetting overrides\n        if let Some(ref scopes) = config.scope {\n            for scope in scopes {\n                if scope.forgetting.as_ref().and_then(|f| f.max_inactive_days) == Some(0) {\n                    return Err(CorviaError::Config(format!(\n                        \"scope.{}.forgetting.max_inactive_days must be > 0\",\n                        scope.id\n                    )));\n                }\n            }\n        }\n        Ok(config)\n    }\n\n    pub fn save(&self, path: &Path) -> Result<()> {\n        let content = toml::to_string_pretty(self)\n            .map_err(|e| CorviaError::Config(format!(\"Failed to serialize config: {e}\")))?;\n        std::fs::write(path, content)\n            .map_err(|e| CorviaError::Config(format!(\"Failed to write {}: {}\", path.display(), e)))?;\n        Ok(())\n    }\n\n    pub fn config_path() -> PathBuf {\n        PathBuf::from(\"corvia.toml\")\n    }\n\n    /// Apply environment variable overrides. Checks CORVIA_* vars\n    /// and overrides the corresponding config fields if set.\n    pub fn with_env_overrides(mut self) -> Self {\n        if let Ok(val) = std::env::var(\"CORVIA_VLLM_URL\") {\n            self.embedding.url = val;\n        }\n        if let Ok(val) = std::env::var(\"CORVIA_OLLAMA_URL\") {\n            self.embedding.url = val;\n        }\n        if let Ok(val) = std::env::var(\"CORVIA_POSTGRES_URL\") {\n            self.storage.postgres_url = Some(val);\n        }\n        if let Ok(val) = std::env::var(\"CORVIA_STORE_TYPE\") {\n            match val.as_str() {\n                \"lite\" => self.storage.store_type = StoreType::Lite,\n                \"postgres\" => self.storage.store_type = StoreType::Postgres,\n                _ => {}\n            }\n        }\n        self\n    }\n}",
+  "source_version": "crates/corvia-common/src/config.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.426618074Z",
+  "valid_from": "2026-03-31T13:20:59.426618074Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/config.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 1054,
+    "end_line": 1097,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

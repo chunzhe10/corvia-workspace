@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81f-75e2-9415-a75c90fc607a",
+  "content": "odule = target_to_module(&target);\n                    events.push(TraceEvent {\n                        ts: short_timestamp(&timestamp),\n                        level: normalize_level(&level).to_string(),\n                        module: module.to_string(),\n                        msg,\n                    });\n                }\n            }\n        }\n    }\n\n    // Build SpanStats\n    let mut spans = HashMap::new();\n    for (name, timings) in &span_all {\n        let count = timings.len() as u64;\n        let avg_ms = timings.iter().sum::<f64>() / count as f64;\n        let last_ms = *timings.last().unwrap_or(&0.0);\n        let count_1h = span_1h.get(name).map(|v| v.len() as u64).unwrap_or(0);\n        let errors = span_errors.get(name).copied().unwrap_or(0);\n\n        let mut sorted = timings.clone();\n        sorted.sort_by(|a, b| a.partial_cmp(b).unwrap_or(std::cmp::Ordering::Equal));\n        let pct = |p: f64| -> f64 {\n            if sorted.is_empty() { return 0.0; }\n            let idx = ((p / 100.0) * (sorted.len() - 1) as f64).round() as usize;\n            sorted[idx.min(sorted.len() - 1)]\n        };\n        let p50_ms = pct(50.0);\n        let p95_ms = pct(95.0);\n        let p99_ms = pct(99.0);\n\n        spans.insert(\n            name.clone(),\n            SpanStats {\n                count,\n                count_1h,\n                avg_ms,\n                last_ms,\n                errors,\n                p50_ms,\n                p95_ms,\n                p99_ms,\n            },\n        );\n    }\n\n    // Keep last 50 events\n    let recent_events = if events.len() > 50 {\n        events[events.len() - 50..].to_vec()\n    } else {\n        events\n    };\n\n    TracesData {\n        spans,\n        recent_events,\n    }\n}",
+  "source_version": "crates/corvia-server/src/dashboard/traces.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.423055329Z",
+  "valid_from": "2026-03-31T13:20:59.423055329Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/traces.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 239,
+    "end_line": 292,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

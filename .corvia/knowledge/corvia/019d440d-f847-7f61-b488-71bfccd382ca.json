@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-71bfccd382ca",
+  "content": "# StoreClient Trait Abstraction — Future Work\n\n## Problem\n\nThe CLI and server both call `QueryableStore` directly, which opens the underlying database.\nWith LiteStore (Redb), only one process can hold the write lock. This creates conflicts when\nthe CLI and server need to run concurrently (the primary dogfooding pain point).\n\nPhase 1 (v0.3.4) introduced CLI server-aware routing as a workaround: the CLI detects a\nrunning server via health check and routes read-only operations through REST. This works\nbut introduces two code paths per command.\n\n\n## Proposed Abstraction\n\nIntroduce a `StoreClient` trait that implements the same `QueryableStore` interface but\nroutes operations through the server when one is available.\n\n```\nCLI ───→ StoreClient trait ───→ DirectStore (opens DB directly)\n                            ├─→ RemoteStore (talks to server via REST/gRPC/UDS)\nServer ───→ DirectStore (owns the DB)\n```\n\nThe CLI doesn't know or care whether it's talking to Redb, SurrealDB, PostgreSQL, or a\nremote server — it just calls `store.search()`.\n",
+  "source_version": "docs/rfcs/store-client-abstraction.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463609762Z",
+  "valid_from": "2026-03-31T13:20:59.463609762Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/store-client-abstraction.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 6,
+    "end_line": 29,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

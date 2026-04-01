@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-4861cc8de55d",
+  "content": "plete.\");\n        }\n    }\n\n    if ci && report.exit_code() != 0 {\n        std::process::exit(report.exit_code());\n    } else if !report.all_passed() {\n        println!(\"\\n  Some queries failed. Use --ci to fail with exit code 1.\");\n    }\n\n    Ok(())\n}\n```\n\n### Step 11: Update cmd_demo similarly\n\nApply the same store-type branching pattern as cmd_test. For LiteStore:\n- No Docker check\n- Use temp dir for demo data\n- Same REPL loop (already uses `dyn QueryableStore` via `store.search()`)\n\n\n### Step 12: Verify full workspace compiles\n\nRun: `cargo build --workspace`\nExpected: Compiles\n",
+  "source_version": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460118872Z",
+  "valid_from": "2026-03-31T13:20:59.460118872Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1871,
+    "end_line": 1882,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

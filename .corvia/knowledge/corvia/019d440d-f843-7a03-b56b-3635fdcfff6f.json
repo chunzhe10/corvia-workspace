@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f843-7a03-b56b-3635fdcfff6f",
+  "content": "h, scope_id: &str) -> Result<()> {\n    let dir = scope_dir(data_dir, scope_id);\n    if dir.exists() {\n        std::fs::remove_dir_all(&dir)\n            .map_err(|e| CorviaError::Storage(format!(\"Failed to delete scope dir: {e}\")))?;\n    }\n    Ok(())\n}\n```\n\n### Step 5: Register module in lib.rs\n\nAdd to `crates/corvia-kernel/src/lib.rs`:\n\n```rust\npub mod knowledge_files;\n```\n\n\n### Step 6: Run tests to verify they pass\n\nRun: `cargo test -p corvia-kernel -- knowledge_files`\nExpected: ALL PASS\n",
+  "source_version": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.459796989Z",
+  "valid_from": "2026-03-31T13:20:59.459796989Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 730,
+    "end_line": 742,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83a-78e0-bb2b-dc7f97d75164",
+  "content": "ep 3: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/docker.rs crates/corvia-kernel/Cargo.toml\ngit commit -m \"feat(kernel): add Docker auto-provisioning for SurrealDB via bollard\n\nHandles pull, create, start, stop. Checks if already running.\"\n```\n\n---\n\n## Task 6: corvia-kernel — SurrealDB QueryableStore\n\n**Files:**\n- Create: `crates/corvia-kernel/src/knowledge_store.rs`\n- Test: `tests/integration/store_test.rs` (requires running SurrealDB)\n\n**Step 1: Write the SurrealDB implementation**\n\n`crates/corvia-kernel/src/knowledge_store.rs`:\n```rust\nuse async_trait::async_trait;\nuse corvia_common::errors::{CorviaError, Result};\nuse corvia_common::types::{KnowledgeEntry, SearchResult};\nuse surrealdb::engine::remote::ws::{Client, Ws};\nuse surrealdb::opt::auth::Root;\nuse surrealdb::Surreal;\nuse tracing::info;\n\npub struct SurrealStore {\n    db: Surreal<Client>,\n    dimensions: usize,\n}\n\nimpl SurrealStore {\n    pub async fn connect(url: &str, ns: &str, db_name: &str, user: &str, pass: &str, dimensions: usize) -> Result<Self> {\n        let db = Surreal::new::<Ws>(url).await\n            .map_err(|e| CorviaError::Storage(format!(\"Failed to connect to SurrealDB: {e}\")))?;\n\n        db.signin(Root { username: user, password: pass }).await\n            .map_err(|e| CorviaError::Storage(format!(\"Failed to sign in: {e}\")))?;\n\n        db.use_ns(ns).use_db(db_name).await\n            .map_err(|e| CorviaError::Storage(format!(\"Failed to select namespace/db: {e}\")))?;\n\n        info!(\"Connected to SurrealDB at {url} (ns={ns}, db={db_name})\");\n\n        Ok(Self { db, dimensions })\n    }\n}\n\n#[async_trait]",
+  "source_version": "docs/rfcs/2026-02-28-m1-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.450736270Z",
+  "valid_from": "2026-03-31T13:20:59.450736270Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-m1-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1004,
+    "end_line": 1044,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

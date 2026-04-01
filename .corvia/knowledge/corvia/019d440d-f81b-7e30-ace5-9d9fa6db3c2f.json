@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81b-7e30-ace5-9d9fa6db3c2f",
+  "content": "start_position().row as u32 + 1);\n\n        relations.push(CodeRelation {\n            from_chunk_index: owner_idx,\n            relation: \"calls\".to_string(),\n            to_file: file_path.to_string(),\n            to_name: Some(fn_name),\n        });\n    }\n}\nfn extract_js_call_name(source: &str, node: &Node) -> String {\n    match node.kind() {\n        \"identifier\" => source[node.byte_range()].to_string(),\n        \"member_expression\" => {\n            // Extract the last property: `this.foo` -> \"foo\", `a.b.c` -> \"c\"\n            // Also handles optional chaining (`obj?.method`) -- same AST structure.\n            node.child_by_field_name(\"property\")\n                .map(|p| source[p.byte_range()].to_string())\n                .unwrap_or_else(|| {\n                    // Fallback: last segment after '.'\n                    let text = source[node.byte_range()].to_string();\n                    text.rsplit('.').next().unwrap_or(&text).to_string()\n                })\n        }\n        _ => {\n            // Fallback: try last segment\n            let text = source[node.byte_range()].to_string();\n            text.rsplit('.').next().unwrap_or(&text).to_string()\n        }\n    }\n}",
+  "source_version": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.419924957Z",
+  "valid_from": "2026-03-31T13:20:59.419924957Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 910,
+    "end_line": 930,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

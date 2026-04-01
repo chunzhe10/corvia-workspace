@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f843-7a03-b56b-34ae1f774754",
+  "content": "## Task 1: Config — Add StoreType and InferenceProvider Enums\n\n### Step 1: Write failing tests for new config types\n\nAdd these tests to the existing `#[cfg(test)] mod tests` block at the bottom of `crates/corvia-common/src/config.rs`:\n\n```rust\n#[test]\nfn test_lite_config_defaults() {\n    let config = CorviaConfig::default();\n    assert_eq!(config.storage.store_type, StoreType::Lite);\n    assert_eq!(config.embedding.provider, InferenceProvider::Ollama);\n    assert_eq!(config.storage.data_dir, \".corvia\");\n    assert_eq!(config.embedding.url, \"http://127.0.0.1:11434\");\n    assert_eq!(config.embedding.model, \"nomic-embed-text\");\n    assert!(config.storage.surrealdb_url.is_none());\n}\n\n#[test]\nfn test_full_config_defaults() {\n    let config = CorviaConfig::full_default();\n    assert_eq!(config.storage.store_type, StoreType::Surrealdb);\n    assert_eq!(config.embedding.provider, InferenceProvider::Vllm);\n    assert_eq!(config.storage.surrealdb_url, Some(\"127.0.0.1:8000\".into()));\n    assert_eq!(config.embedding.url, \"http://127.0.0.1:8001\");\n    assert_eq!(config.embedding.model, \"nomic-ai/nomic-embed-text-v1.5\");\n}\n",
+  "source_version": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.459567559Z",
+  "valid_from": "2026-03-31T13:20:59.459567559Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 24,
+    "end_line": 49,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

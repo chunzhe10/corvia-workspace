@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-2089f05d9ee6",
+  "content": "aude:main\" | \"claude:subagent\"\nfile_path:      \"<claude-session-id>\"   (reused as session identifier)\n```\n\n`agent_id` on `KnowledgeEntry` is not set by this adapter (it carries the\ncorvia write-agent identity, not the recording agent). The Claude Code user\nidentity is recoverable from `source_origin` and `file_path`.\n\n**5. Graph edges**\n\nAfter ingesting all turns of a session, if `parent_session_id` is set:\n```\nrelate(\n  from: first_turn_entry_id_of_this_subagent_session,\n  relation: \"spawned_by\",\n  to:   first_turn_entry_id_of_parent_session\n)\n```\n\nEdge direction: **subagent → `spawned_by` → parent**. To find all subagents\nspawned from a main-agent session, call:\n```rust\nstore.traverse(\n    start: &main_session_first_turn_entry_id,\n    relation: Some(\"spawned_by\"),\n    direction: EdgeDirection::Incoming,   // entries that point TO this node\n    max_depth: 3,\n)\n```\n`Incoming` returns all entries whose `spawned_by` edge points to the start node,\ni.e., the subagent sessions. `Outgoing` from a subagent entry reaches its parent.\n\n**6. State update**\n\nAppends the session ID to `.ingested` after successful processing.\n",
+  "source_version": "docs/rfcs/2026-03-14-claude-session-history-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456892409Z",
+  "valid_from": "2026-03-31T13:20:59.456892409Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-14-claude-session-history-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 351,
+    "end_line": 380,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

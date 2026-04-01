@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-49d52f5bf0c6",
+  "content": "### Problem\n### Solution\n\n### Backend — Trace Tree Parsing\n\n```rust\npub struct SpanNode {\n    pub span_id: String,\n    pub parent_span_id: String,\n    pub trace_id: String,\n    pub span_name: String,\n    pub elapsed_ms: f64,\n    pub start_offset_ms: f64,  // relative to trace root\n    pub depth: usize,\n    pub fields: serde_json::Value,\n    pub children: Vec<SpanNode>,\n}\n```\n\n`collect_trace_trees(lines) -> Vec<TraceTree>` groups spans by `trace_id`, sorts by\ntimestamp, builds parent-child trees via `parent_span_id` linkage. Returns most\nrecent N traces (default 20).\n\n**`start_offset_ms` computation:** Each log line has an RFC 3339 `timestamp` field.\nFor each trace group, find the earliest timestamp (root span) and compute\n`start_offset_ms` as the delta from root to each span's timestamp in milliseconds.\nLog lines may arrive out of order; the algorithm sorts by timestamp before building\nthe tree.\n\n**New endpoint:** `GET /api/dashboard/traces/recent?limit=20`\n```json\n{\n  \"traces\": [\n    {\n      \"trace_id\": \"abc123...\",\n      \"root_span\": \"kernel.write\",\n      \"total_ms\": 145.2,\n      \"span_count\": 8,\n      \"started_at\": \"2026-03-13T...\",\n      \"spans\": [ ...SpanNode tree... ]\n    }\n  ]\n}\n```\n\n\n### Frontend — Waterfall View\n\nTriggered by clicking a span row or \"Recent Traces\" button:\n\n1. **Trace list** — left column: root span name, total duration, span count, timestamp\n2. **Waterfall chart** — nested horizontal bars:\n   - X-axis = time (0ms to total_ms)\n   - Each bar = one span at `start_offset_ms`, width = `elapsed_ms`\n   - Indented by `depth` for parent-child nesting\n   - Color-coded by module (same palette as topology nodes)\n   - Hover shows span name, duration, fields\n3. **Percentile indicators** — p50/p95/p99 vertical lines overlaid\n",
+  "source_version": "docs/rfcs/2026-03-13-dashboard-completion-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460256510Z",
+  "valid_from": "2026-03-31T13:20:59.460256510Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-13-dashboard-completion-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 243,
+    "end_line": 297,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

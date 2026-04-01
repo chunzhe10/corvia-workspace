@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83e-7ae3-ae47-a1799ab80f7e",
+  "content": "tring[]> = {\n      agent: [\"corvia.agent.\", \"corvia.session.\"],\n      entry: [\"corvia.entry.\"],\n      merge: [\"corvia.merge.\"],\n      storage: [\"corvia.store.\"],\n      rag: [\"corvia.rag.\"],\n      gc: [\"corvia.gc.\"],\n      inference: [\"corvia.entry.embed\"],\n    };\n    const prefixes = spanPrefixes[module] ?? [];\n    return prefixes.some((p) => name.startsWith(p));\n  });\n}\n\nconst latencyColor = (ms: number): string => {\n  if (ms < 50) return \"var(--mint)\";\n  if (ms < 150) return \"var(--peach)\";\n  return \"var(--coral)\";\n};\n\nexport const TracesView: FunctionComponent<TracesViewProps> = ({ traces }) => {\n  const [selected, setSelected] = useState<string | null>(null);\n\n  const spans = traces?.spans ?? {};\n  const events = traces?.recent_events ?? [];\n\n  const selectedModule = MODULES.find((m) => m.name === selected);\n  const selectedSpans = selected ? moduleSpans(selected, spans) : [];\n  const selectedEvents = selected\n    ? events.filter((e) => e.module === selected)\n    : [];\n\n  return (\n    <div class=\"traces-view\">\n      <div class=\"topology-graph\">\n        {MODULES.map((mod) => {\n          const modSpans = moduleSpans(mod.name, spans);\n          const totalCount = modSpans.reduce((s, [, st]) => s + st.count, 0);\n\n          return (\n            <div\n              key={mod.name}\n              class={`tnode ${selected === mod.name ? \"selected\" : \"\"}`}\n              style={{ left: mod.x, top: mod.y }}\n              onClick={() => setSelected(selected === mod.name ? null : mod.name)}\n            >\n              <div class=\"tnode-header\">\n                <span class=\"tnode-emoji\">{mod.emoji}</span>\n                <span class=\"tnode-label\">{mod.label}</span>\n              </div>\n              <div class=\"tnode-count\" style={{ color: `var(--${mod.color})` }}>\n                {totalCount > 0 ? totalCount.toLocaleString() : \"—\"}\n              </div>\n            </div>\n          );\n        })}\n      </div>\n\n      {selectedModule && (\n        <div class=\"traces-detail\">\n          <div class=\"detail-header\">",
+  "source_version": "docs/rfcs/2026-03-11-dashboard-ui-standalone.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.454223672Z",
+  "valid_from": "2026-03-31T13:20:59.454223672Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-dashboard-ui-standalone.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 986,
+    "end_line": 1038,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83d-7542-8fa8-a2e34d4473f0",
+  "content": "    # 2. Set flag and restart\n\n### Task 3: Wire CUDA into the main case statement and usage text\n\n**Files:**\n- Modify: `.devcontainer/scripts/corvia-workspace.sh`\n\nThe file is at: `/root/corvia-project/corvia-workspace/.devcontainer/scripts/corvia-workspace.sh`\n\n**Step 1: Update the enable/disable case blocks**\n\nChange the `enable` case (around line 205-209) from:\n\n```bash\n    enable)\n        case \"${2:-}\" in\n            ollama)    enable_ollama ;;\n            surrealdb) enable_surrealdb ;;\n            *)         echo \"Usage: corvia-workspace enable {ollama|surrealdb}\"; exit 1 ;;\n        esac\n        ;;\n```\n\nTo:\n\n```bash\n    enable)\n        case \"${2:-}\" in\n            ollama)    enable_ollama ;;\n            surrealdb) enable_surrealdb ;;\n            cuda)      enable_cuda ;;\n            *)         echo \"Usage: corvia-workspace enable {ollama|surrealdb|cuda}\"; exit 1 ;;\n        esac\n        ;;\n```\n\nChange the `disable` case similarly:\n\n```bash\n    disable)\n        case \"${2:-}\" in\n            ollama)    disable_ollama ;;\n            surrealdb) disable_surrealdb ;;\n            cuda)      disable_cuda ;;\n            *)         echo \"Usage: corvia-workspace disable {ollama|surrealdb|cuda}\"; exit 1 ;;\n        esac\n        ;;\n```\n\n**Step 2: Update the usage text**\n\nChange the usage block (around line 225-233) from:\n\n```bash\n        echo \"Usage:\"\n        echo \"  corvia-workspace enable {ollama|surrealdb}\"\n        echo \"  corvia-workspace disable {ollama|surrealdb}\"\n```\n\nTo:\n\n```bash\n        echo \"Usage:\"\n        echo \"  corvia-workspace enable {ollama|surrealdb|cuda}\"\n        echo \"  corvia-workspace disable {ollama|surrealdb|cuda}\"\n```\n\n**Step 3: Verify the script parses correctly**\n\nRun: `bash -n /root/corvia-project/corvia-workspace/.devcontainer/scripts/corvia-workspace.sh`\nExpected: no output (success)\n\n**Step 4: Commit**\n\n```bash\ncd /root/corvia-project/corvia-workspace\ngit add .devcontainer/scripts/corvia-workspace.sh\ngit commit -m \"feat: wire cuda into corvia-workspace enable/disable commands\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-04-m4.5-cuda-toggle-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.453907952Z",
+  "valid_from": "2026-03-31T13:20:59.453907952Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-04-m4.5-cuda-toggle-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 211,
+    "end_line": 290,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

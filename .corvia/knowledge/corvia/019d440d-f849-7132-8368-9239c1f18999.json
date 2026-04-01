@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-9239c1f18999",
+  "content": " cargo test -p corvia-server dashboard::traces`\nExpected: 5 tests PASS\n\n-**Step 9: Commit**\n\n```bash\ncd repos/corvia\ngit add crates/corvia-server/src/dashboard/traces.rs\ngit commit -m \"feat(dashboard): implement span/target module classification\"\n```\n\n---\n\n### Task 5: Trace line parsing\n\n**Files:**\n- Modify: `crates/corvia-server/src/dashboard/traces.rs`\n\n-**Step 1: Write tests for `parse_trace_line`**\n\nAdd to the `tests` module:\n\n```rust\n    #[test]\n    fn parse_span_with_timing() {\n        let line = r#\"{\"timestamp\":\"2026-03-10T14:31:52Z\",\"level\":\"INFO\",\"span\":{\"name\":\"corvia.entry.write\"},\"fields\":{\"session_id\":\"s1\"},\"elapsed_ms\":12.5}\"#;\n        let result = parse_trace_line(line).unwrap();\n        match result {\n            ParsedTrace::Span { level, span_name, elapsed_ms, .. } => {\n                assert_eq!(level, \"INFO\");\n                assert_eq!(span_name, \"corvia.entry.write\");\n                assert!((elapsed_ms - 12.5).abs() < 0.01);\n            }\n            _ => panic!(\"expected Span variant\"),\n        }\n    }\n\n    #[test]\n    fn parse_structured_event() {\n        let line = r#\"{\"timestamp\":\"2026-03-10T14:31:52Z\",\"level\":\"WARN\",\"fields\":{\"message\":\"Slow embed: 210ms\"},\"target\":\"corvia_kernel::agent_coordinator\"}\"#;\n        let result = parse_trace_line(line).unwrap();\n        match result {\n            ParsedTrace::Event { level, msg, target, .. } => {\n                assert_eq!(level, \"WARN\");\n                assert_eq!(msg, \"Slow embed: 210ms\");\n                assert_eq!(target, \"corvia_kernel::agent_coordinator\");",
+  "source_version": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465814430Z",
+  "valid_from": "2026-03-31T13:20:59.465814430Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 716,
+    "end_line": 748,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

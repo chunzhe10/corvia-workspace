@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83f-7210-b9e4-0c7cd3df152a",
+  "content": "- Hot (score 0.7–1.0 or errors > 0): coral glow — `box-shadow: 0 0 20px rgba(255,138,128,0.6)`\n- Glow pulses via CSS animation: `2s ease-in-out infinite` alternating shadow intensity\n- Mini activity bar color also reflects heat level (same thresholds)\n\n### Detail Panel (right 280px)\n\nThree stacked cards, updating reactively on node selection:\n\n**1. Module Summary:**\n- Header: color dot (10px) + module name (13px/700) + description\n- 2x2 mini-stat grid:\n  - Total count\n  - Last hour count\n  - Avg latency (ms)\n  - Error count\n- Mini-stat style: bg-input rounded container, 18px/800 value, 9px uppercase label\n\n**2. Instrumented Spans:**\n- List of span rows with bottom borders\n- Each row: mono span name (11px), field names below (10px, text-dim)\n- Right-aligned timing pill (rounded, 11px mono):\n  - Fast (< 50ms): mint text, mint-soft background\n  - Medium (50–150ms): peach text, peach-soft background\n  - Slow (> 150ms): coral text, coral-soft background\n\n**3. Recent Events:**\n- Last 10 structured log events for the selected module\n- Each row: level dot (6px: mint=info, amber=warn, coral=error) + message + timestamp\n- Scrollable if overflow\n\n**Empty State:**\nWhen no node is selected: centered text \"Select a module to inspect its telemetry\" (text-dim)\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-10-telemetry-traces-page-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.455233688Z",
+  "valid_from": "2026-03-31T13:20:59.455233688Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-telemetry-traces-page-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 145,
+    "end_line": 175,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

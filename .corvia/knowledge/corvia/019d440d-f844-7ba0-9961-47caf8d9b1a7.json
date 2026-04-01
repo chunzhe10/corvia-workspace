@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-47caf8d9b1a7",
+  "content": "## Task 6: CLI Updates — Init Modes, Rebuild, Updated Commands\n\n### Step 1: Update command definitions\n\nAdd `--full` to Init, add Rebuild command:\n\n```rust\n#[derive(Subcommand)]\nenum Commands {\n    /// Initialize Corvia (LiteStore by default, --full for SurrealDB+vLLM)\n    Init {\n        /// Use FullStore: SurrealDB + vLLM (requires Docker)\n        #[arg(long)]\n        full: bool,\n    },\n\n    /// Start the REST API server\n    Serve,\n\n    /// Ingest a Git repository\n    Ingest {\n        path: String,\n    },\n\n    /// Search ingested knowledge\n    Search {\n        query: String,\n        #[arg(short, long, default_value = \"5\")]\n        limit: usize,\n    },\n\n    /// Show status of Corvia services\n    Status,\n\n    /// Run Introspect: self-ingest + self-query validation\n    Test {\n        #[arg(long)]\n        check_only: bool,\n        #[arg(long)]\n        keep: bool,\n        #[arg(long)]\n        ci: bool,\n    },\n\n    /// Interactive demo: ingest Corvia's own code, then search it\n    Demo {\n        #[arg(long)]\n        keep: bool,\n    },\n\n    /// Rebuild LiteStore indexes from knowledge files\n    Rebuild,\n}\n```\n\n\n### Step 2: Update main() match\n\n```rust\nmatch cli.command {\n    Commands::Init { full } => cmd_init(full).await?,\n    Commands::Serve => cmd_serve().await?,\n    Commands::Ingest { path } => cmd_ingest(&path).await?,\n    Commands::Search { query, limit } => cmd_search(&query, limit).await?,\n    Commands::Status => cmd_status().await?,\n    Commands::Test { check_only, keep, ci } => cmd_test(check_only, keep, ci).await?,\n    Commands::Demo { keep } => cmd_demo(keep).await?,\n    Commands::Rebuild => cmd_rebuild().await?,\n}\n```\n",
+  "source_version": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460012578Z",
+  "valid_from": "2026-03-31T13:20:59.460012578Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1440,
+    "end_line": 1507,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

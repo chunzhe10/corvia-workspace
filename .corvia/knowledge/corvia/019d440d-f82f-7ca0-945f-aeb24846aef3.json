@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82f-7ca0-945f-aeb24846aef3",
+  "content": "nings.push(format!(\"searcher '{name}' panicked: {e}\"));\n                    }\n                }\n            }\n        }\n\n        if !search_warnings.is_empty() {\n            warn!(warnings = ?search_warnings, \"searcher warnings during pipeline execution\");\n        }\n\n        // All searchers failed: return error instead of empty results.\n        if searcher_results.is_empty() && !active_searchers.is_empty() {\n            error!(\n                warnings = ?search_warnings,\n                \"all searchers failed, cannot produce results\"\n            );\n            return Err(CorviaError::Infra(format!(\n                \"all searchers failed: {}\",\n                search_warnings.join(\"; \")\n            )));\n        }\n\n        let hnsw_latency_ms = search_start.elapsed().as_millis() as u64;\n        let vector_results: usize = searcher_results.iter().map(|s| s.candidates.len()).sum();\n\n        // Step 3: Fuse.\n        let fused = self.fusion.fuse(searcher_results).await?;\n        let fusion_latency_ms = fused.metrics.latency_ms;\n\n        // Step 4: Expand.\n        let expanded = self.expander.expand(&ctx, fused).await?;\n        let graph_latency_ms = expanded.metrics.latency_ms;\n        let graph_expanded = expanded.metrics.output_count.saturating_sub(expanded.metrics.input_count);\n\n        // Step 5: Rerank.\n        let reranked = self.reranker.rerank(&ctx, expanded).await?;\n\n        // Step 6: Convert to SearchResult, apply visibility + metadata filters.",
+  "source_version": "crates/corvia-kernel/src/pipeline/core.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.439871960Z",
+  "valid_from": "2026-03-31T13:20:59.439871960Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/core.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 189,
+    "end_line": 218,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

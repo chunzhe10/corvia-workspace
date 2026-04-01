@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f828-7a92-a1a8-d736ae681972",
+  "content": "ine\".to_string(),\n            \"rank-scope\".to_string(),\n            \"v1\".to_string(),\n        );\n        warm.embedding = Some(vec![0.4, 0.9, 0.0]); // moderate similarity to query\n        warm.tier = Tier::Warm;\n        store.insert(&warm).await.unwrap();\n\n        // Cold entry with HIGH cosine similarity to query [1,0,0].\n        let mut cold = KnowledgeEntry::new(\n            \"cold high cosine\".to_string(),\n            \"rank-scope\".to_string(),\n            \"v1\".to_string(),\n        );\n        cold.embedding = Some(vec![1.0, 0.0, 0.0]); // exact match → cosine ~1.0\n        cold.tier = Tier::Cold;\n        store.insert(&cold).await.unwrap();\n\n        let retriever = VectorRetriever::new(store.clone() as Arc<dyn QueryableStore>, engine);\n        let opts = RetrievalOpts {\n            limit: 20,\n            include_cold: true,\n            visibility: VisibilityMode::All,\n            ..Default::default()\n        };\n        let result = retriever.retrieve(\"test\", \"rank-scope\", &opts).await.unwrap();\n\n        let cold_pos = result.results.iter().position(|r| r.entry.content == \"cold high cosine\");\n        let warm_pos = result.results.iter().position(|r| r.entry.content == \"warm low cosine\");\n\n        assert!(cold_pos.is_some(), \"cold entry should be in results\");\n        assert!(warm_pos.is_some(), \"warm entry must be in results for ranking comparison\");\n        assert!(\n            cold_pos.unwrap() < warm_pos.unwrap(),\n            \"cold entry (1.0*0.3=0.3) should rank above warm entry (~0*0.7≈0)\"\n        );\n    }",
+  "source_version": "crates/corvia-kernel/src/retriever.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.432644381Z",
+  "valid_from": "2026-03-31T13:20:59.432644381Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/retriever.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1827,
+    "end_line": 1856,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

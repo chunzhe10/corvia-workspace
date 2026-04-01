@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a13-75d1-bfe3-f7f06f1027fc",
+  "content": "span class=\"highlight-amber\">Beautiful Code.</span><br>\n    So What's Wrong?\n  </div>\n  <div class=\"slide-subtitle\">\n    I've been using Claude Code to build visual outputs &mdash;<br>\n    LinkedIn carousels, a VS Code dashboard, brand guidelines.\n  </div>\n  <div style=\"display: flex; gap: 20px; margin-bottom: 28px;\">\n    <div class=\"card\" style=\"flex: 1; margin-bottom: 0; border-top: 4px solid var(--accent-blue); text-align: center;\">\n      <div style=\"font-size: 36px; margin-bottom: 12px;\">&#128196;</div>\n      <h3 style=\"font-size: 22px; color: var(--accent-blue); margin-bottom: 8px;\">Carousels</h3>\n      <div style=\"font-size: 18px; color: var(--text-secondary); line-height: 1.5;\">\n        PDF slides with<br>charts &amp; diagrams\n      </div>\n    </div>\n    <div class=\"card\" style=\"flex: 1; margin-bottom: 0; border-top: 4px solid var(--accent-purple); text-align: center;\">\n      <div style=\"font-size: 36px; margin-bottom: 12px;\">&#128187;</div>\n      <h3 style=\"font-size: 22px; color: var(--accent-purple); margin-bottom: 8px;\">Dashboard</h3>\n      <div style=\"font-size: 18px; color: var(--text-secondary); line-height: 1.5;\">\n        React + TypeScript<br>multi-panel layout\n      </div>\n    </div>\n    <div class=\"card\" style=\"flex: 1; margin-bottom: 0; border-top: 4px solid var(--accent-amber); text-align: center;\">\n      <div style=\"font-size: 36px; margin-bottom: 12px;\">&#127912;</div>\n      <h3 style=\"font-size: 22px; color: var(--accent-amber); margin-bottom: 8px;\">Brand Guide</h3>\n      <div style=\"font-size: 18px; color: var(--text-secondary); line-height: 1.5;\">\n        Color, typography,<br>logo placement\n      </div>\n    </div>\n  </div>\n\n  <div class=\"card\" style=\"border-left: 4px solid var(--accent-green);\">\n    <div class=\"card-header\" style=\"color: var(--accent-green);\">What AI does well</div>\n    <div style=\"font-size: 24px; line-height: 1.6;\">\n      Understands flexbox, grid, CSS variables. Writes clean HTML.\n      <strong>Technically fluent.</strong>\n    </div>\n  </div>",
+  "source_version": "marketing/linkedin/2026-03-11-ai-blind-designer/ai-blind-designer-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.027888955Z",
+  "valid_from": "2026-03-31T13:51:39.027888955Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-11-ai-blind-designer/ai-blind-designer-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 291,
+    "end_line": 321,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

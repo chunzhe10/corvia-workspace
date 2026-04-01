@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f843-7a03-b56b-3759bd2c8312",
+  "content": "{\n            count += 1;\n        }\n\n        Ok(count)\n    }\n\n    async fn delete_scope(&self, scope_id: &str) -> Result<()> {\n        let prefix = format!(\"{scope_id}:\");\n        let prefix_end = format!(\"{scope_id};\");\n\n        // Collect UUIDs to delete\n        let uuids_to_delete: Vec<String> = {\n            let read_txn = self.db.begin_read()\n                .map_err(|e| CorviaError::Storage(e.to_string()))?;\n            let table = read_txn.open_table(SCOPE_INDEX)\n                .map_err(|e| CorviaError::Storage(e.to_string()))?;\n            table.range(prefix.as_str()..prefix_end.as_str())\n                .map_err(|e| CorviaError::Storage(e.to_string()))?\n                .filter_map(|r| r.ok().map(|(_, v)| v.value().to_string()))\n                .collect()\n        };\n\n        if uuids_to_delete.is_empty() {\n            return Ok(());\n        }\n\n        // Delete from Redb tables\n        let write_txn = self.db.begin_write()\n            .map_err(|e| CorviaError::Storage(e.to_string()))?;\n        {\n            let mut entries_table = write_txn.open_table(ENTRIES)\n                .map_err(|e| CorviaError::Storage(e.to_string()))?;\n            let mut scope_table = write_txn.open_table(SCOPE_INDEX)\n                .map_err(|e| CorviaError::Storage(e.to_string()))?;\n            let mut u2h_table = write_txn.open_table(UUID_TO_HNSW)",
+  "source_version": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.459949654Z",
+  "valid_from": "2026-03-31T13:20:59.459949654Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1240,
+    "end_line": 1263,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f828-7a92-a1a8-d418fdae30af",
+  "content": "for entry {}\", id);\n        }\n\n        // Search again — access_count should increment to 2.\n        let _result2 = retriever.retrieve(\"test\", \"access-scope\", &opts).await.unwrap();\n        tokio::time::sleep(std::time::Duration::from_millis(250)).await;\n        store.flush_access_buffer();\n\n        for id in &returned_ids {\n            let entry = store.get(id).await.unwrap().unwrap();\n            assert!(entry.access_count >= 2, \"access_count should be >= 2 after second search, got {}\", entry.access_count);\n        }\n    }\n\n    /// Verify that record_access is graceful on empty input.\n    #[tokio::test]\n    async fn test_access_tracking_empty_results_noop() {\n        let dir = tempfile::tempdir().unwrap();\n        let store = Arc::new(LiteStore::open(dir.path(), 3).unwrap());\n        store.init_schema().await.unwrap();\n\n        // record_access with empty slice should not panic or error.\n        store.record_access(&[]).await.unwrap();\n    }\n\n    /// Verify that record_access is graceful with non-existent entry IDs.\n    #[tokio::test]\n    async fn test_access_tracking_nonexistent_entry_graceful() {\n        let dir = tempfile::tempdir().unwrap();\n        let store = Arc::new(LiteStore::open(dir.path(), 3).unwrap());\n        store.init_schema().await.unwrap();\n\n        let fake_id = uuid::Uuid::now_v7();\n        // Should not panic or error — just skip the missing entry.\n        store.record_access(&[fake_id]).await.unwrap();\n    }\n\n    /// Cold entry found when include_cold=true.\n    #[tokio::test]\n    async fn test_cold_entry_found_when_include_cold_true() {\n        use corvia_common::types::Tier;\n\n        let dir = tempfile::tempdir().unwrap();",
+  "source_version": "crates/corvia-kernel/src/retriever.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.432171225Z",
+  "valid_from": "2026-03-31T13:20:59.432171225Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/retriever.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 1364,
+    "end_line": 1400,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

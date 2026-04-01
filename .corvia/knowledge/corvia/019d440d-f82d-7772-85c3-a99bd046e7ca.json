@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82d-7772-85c3-a99bd046e7ca",
+  "content": "pub fn generator(&self) -> Option<&Arc<dyn GenerationEngine>> {\n        self.generator.as_ref()\n    }\npub fn retriever_name(&self) -> &str {\n        self.retriever.name()\n    }\npub async fn context(\n        &self,\n        query: &str,\n        scope_id: &str,\n        opts: Option<RetrievalOpts>,\n    ) -> Result<RagResponse> {\n        self.run_pipeline(query, scope_id, opts, false).await\n    }",
+  "source_version": "crates/corvia-kernel/src/rag_pipeline.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.437469129Z",
+  "valid_from": "2026-03-31T13:20:59.437469129Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/rag_pipeline.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 64,
+    "end_line": 71,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

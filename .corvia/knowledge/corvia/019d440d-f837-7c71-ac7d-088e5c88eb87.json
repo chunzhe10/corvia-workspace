@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f837-7c71-ac7d-088e5c88eb87",
+  "content": "y (no supersession chain)\n        let entry = make_entry(Tier::Cold, MemoryType::Episodic);\n        let entries: Vec<&KnowledgeEntry> = vec![&entry];\n        let protected = build_chain_protected_set(&entries);\n\n        assert!(protected.is_empty());\n    }\nasync fn test_gc_chain_protection_blocks_forgotten() {\n        let dir = tempfile::tempdir().unwrap();\n        let store = Arc::new(crate::lite_store::LiteStore::open(dir.path(), 768).unwrap());\n        store.init_schema().await.unwrap();\n\n        // Chain: A → B → C where C is Warm (active HEAD)\n        // A and B are Cold with very low scores — would be Forgotten without protection\n        let mut c = make_entry(Tier::Warm, MemoryType::Structural);\n        c.scope_id = \"test-scope\".into();\n        c.recorded_at = Utc::now();\n        c.embedding = Some(vec![0.1; 768]);\n        c.access_count = 50;\n        c.last_accessed = Some(Utc::now());\n        c.confidence = Some(0.9);\n        c.superseded_by = None;\n\n        let mut b = make_entry(Tier::Cold, MemoryType::Episodic);\n        b.scope_id = \"test-scope\".into();\n        b.recorded_at = Utc::now() - chrono::Duration::days(365);\n        b.embedding = Some(vec![0.2; 768]);\n        b.confidence = Some(0.0);\n        b.superseded_by = Some(c.id);\n\n        let mut a = make_entry(Tier::Cold, MemoryType::Episodic);\n        a.scope_id = \"test-scope\".into();\n        a.recorded_at = Utc::now() - chrono::Duration::days(365);\n        a.embedding = Some(vec![0.3; 768]);\n        a.confidence = Some(0.0);",
+  "source_version": "crates/corvia-kernel/src/gc_worker.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.447844053Z",
+  "valid_from": "2026-03-31T13:20:59.447844053Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/gc_worker.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1472,
+    "end_line": 1499,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

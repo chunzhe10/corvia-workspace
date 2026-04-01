@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f821-7a21-8a96-3fa275aabe9a",
+  "content": "lts\n        let json = r#\"{\"source_file\":\"lib.rs\",\"language\":\"rust\",\"chunk_type\":\"function\",\"start_line\":1,\"end_line\":10}\"#;\n        let meta: EntryMetadata = serde_json::from_str(json).unwrap();\n        assert_eq!(meta.source_file, Some(\"lib.rs\".into()));\n        assert!(meta.content_role.is_none());\n        assert!(meta.source_origin.is_none());\n    }\n\n    #[test]\n    fn test_entry_metadata_new_fields_roundtrip() {\n        let meta = EntryMetadata {\n            source_file: Some(\"design.md\".into()),\n            language: Some(\"markdown\".into()),\n            chunk_type: Some(\"section\".into()),\n            start_line: Some(1),\n            end_line: Some(50),\n            content_role: Some(\"design\".into()),\n            source_origin: Some(\"repo:corvia\".into()),\n        };\n        let json = serde_json::to_string(&meta).unwrap();\n        let roundtrip: EntryMetadata = serde_json::from_str(&json).unwrap();\n        assert_eq!(roundtrip.content_role, Some(\"design\".into()));\n        assert_eq!(roundtrip.source_origin, Some(\"repo:corvia\".into()));\n    }\n\n    #[test]\n    fn test_memory_type_default() {\n        assert_eq!(MemoryType::default(), MemoryType::Episodic);\n    }\n\n    #[test]\n    fn test_tier_default() {\n        assert_eq!(Tier::default(), Tier::Hot);\n    }\n\n    #[test]\n    fn test_memory_type_display() {\n        assert_eq!(MemoryType::Structural.to_string(), \"structural\");\n        assert_eq!(MemoryType::Decisional.to_string(), \"decisional\");\n        assert_eq!(MemoryType::Episodic.to_string(), \"episodic\");\n        assert_eq!(MemoryType::Analytical.to_string(), \"analytical\");\n        assert_eq!(MemoryType::Procedural.to_string(), \"procedural\");\n    }\n\n    #[test]\n    fn test_tier_display() {\n        assert_eq!(Tier::Hot.to_string(), \"hot\");\n        assert_eq!(Tier::Warm.to_string(), \"warm\");\n        assert_eq!(Tier::Cold.to_string(), \"cold\");\n        assert_eq!(Tier::Forgotten.to_string(), \"forgotten\");\n    }\n\n    #[test]",
+  "source_version": "crates/corvia-common/src/types.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.425404856Z",
+  "valid_from": "2026-03-31T13:20:59.425404856Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/types.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 437,
+    "end_line": 485,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

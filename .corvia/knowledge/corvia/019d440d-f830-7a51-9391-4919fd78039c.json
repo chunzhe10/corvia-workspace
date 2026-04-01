@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f830-7a51-9391-4919fd78039c",
+  "content": "fn dimensions(&self) -> usize {\n            3\n        }\nstruct MockBM25Searcher {\n        results: Vec<crate::pipeline::RankedCandidate>,\n    }\nimpl crate::pipeline::searcher::Searcher for MockBM25Searcher {\n        fn name(&self) -> &str {\n            \"mock_bm25\"\n        }\n        fn needs_embedding(&self) -> bool {\n            false\n        }\n        async fn search(\n            &self,\n            _ctx: &SearchContext,\n        ) -> Result<crate::pipeline::RankedSet> {\n            Ok(crate::pipeline::RankedSet {\n                candidates: self.results.clone(),\n                metrics: crate::pipeline::StageMetrics {\n                    stage_name: \"mock_bm25\".into(),\n                    latency_ms: 1,\n                    input_count: 0,\n                    output_count: self.results.len(),\n                    warnings: Vec::new(),\n                },\n            })\n        }\n    }",
+  "source_version": "crates/corvia-kernel/src/pipeline/core.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.440568503Z",
+  "valid_from": "2026-03-31T13:20:59.440568503Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/core.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 991,
+    "end_line": 1013,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

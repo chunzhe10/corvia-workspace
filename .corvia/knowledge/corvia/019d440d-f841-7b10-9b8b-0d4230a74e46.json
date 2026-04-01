@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0d4230a74e46",
+  "content": " else { continue; };\n            if content.len() > 100_000 { continue; }\n\n            let relative_path = file_path\n                .strip_prefix(path)\n                .unwrap_or(file_path)\n                .to_string_lossy()\n                .to_string();\n\n            files.push(SourceFile {\n                content,\n                metadata: SourceMetadata {\n                    file_path: relative_path,\n                    extension: extension.to_string(),\n                    language: lang_for_ext(extension),\n                    scope_id: scope_id.clone(),\n                    source_version: source_version.clone(),\n                },\n            });\n        }\n        Ok(files)\n    }\n}\n```\n\nAdd helper `fn lang_for_ext(ext: &str) -> Option<String>` that maps known extensions to language names.\n\nKeep `ingest_with_relations()` as a separate inherent method (not part of the trait) for backward compatibility during the transition period. The CLI's relation wiring still needs it.\n\n**Step 4: Run tests to verify they pass**\n\nRun: `cargo test -p corvia-adapter-git -- --nocapture`\nExpected: All tests PASS (new + existing)\n\nRun: `cargo check --workspace`\nExpected: PASS\n\n**Step 5: Commit**\n\n```bash\ngit add corvia-adapter-git/src/git.rs corvia-adapter-git/src/lib.rs\ngit commit -m \"feat(m3.3): GitAdapter implements revised IngestionAdapter (D69)\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457604356Z",
+  "valid_from": "2026-03-31T13:20:59.457604356Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1499,
+    "end_line": 1535,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

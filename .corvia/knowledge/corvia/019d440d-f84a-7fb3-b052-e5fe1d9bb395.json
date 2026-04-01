@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84a-7fb3-b052-e5fe1d9bb395",
+  "content": "# Buffered Access Tracking (DashMap + Periodic Flush)\n\n## Problem\n\nLiteStore's `record_access()` performs a Redb write transaction on every retrieval\ncall. Each write does a full entry deserialize-modify-serialize round-trip costing\n~1-5ms. Under high concurrency (many agents, hundreds of searches per minute), this\nbecomes a measurable bottleneck on search p99 latency.\n\n\n## Design\n\nReplace direct Redb writes with an in-memory `DashMap` buffer that accumulates access\nevents and flushes them to Redb periodically.\n",
+  "source_version": "docs/superpowers/specs/2026-03-28-buffered-access-tracking-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.466388834Z",
+  "valid_from": "2026-03-31T13:20:59.466388834Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/superpowers/specs/2026-03-28-buffered-access-tracking-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 7,
+    "end_line": 18,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

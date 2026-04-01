@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84a-7fb3-b052-e66786e956b5",
+  "content": "### Files Changed\n### Approach Rejected\n\n## Verification Criteria\n\n1. `cargo test --workspace` passes (all existing tests)\n2. `cargo clippy -- -D warnings` clean\n3. New unit tests for AccessBuffer (accumulation, flush triggers, concurrency, lossy drop)\n4. Existing `test_record_access_*` tests in lite_store.rs continue to pass\n5. Drop handler flushes pending events (verified by test)\n6. Memory overhead stays under 25KB at max_pending=256",
+  "source_version": "docs/superpowers/specs/2026-03-28-buffered-access-tracking-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.466448444Z",
+  "valid_from": "2026-03-31T13:20:59.466448444Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/superpowers/specs/2026-03-28-buffered-access-tracking-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 194,
+    "end_line": 201,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

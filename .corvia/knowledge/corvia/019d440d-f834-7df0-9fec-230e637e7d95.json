@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f834-7df0-9fec-230e637e7d95",
+  "content": "tinue;\n        }\n        if let Some(name) = target_name {\n            if pc.content.contains(name.as_str()) {\n                return Some(stored_ids[idx]);\n            }\n        } else {\n            return Some(stored_ids[idx]);\n        }\n    }\n    None\n}\nasync fn semantic_subsplit(\n    processed: &[ProcessedChunk],\n    stored_ids: &[uuid::Uuid],\n    engine: &dyn crate::traits::InferenceEngine,\n    store: &dyn crate::traits::QueryableStore,\n    graph: &dyn crate::traits::GraphStore,\n    scope_id: &str,\n    threshold_tokens: usize,\n    max_tokens: usize,\n) -> usize {\n    use crate::semantic_split::{\n        split_into_segments, max_min_split, EmbeddingSimilarity,\n        reassemble_groups, enforce_token_budget, MAX_SEGMENTS_PER_CHUNK,\n    };\n\n    let mut sub_chunks_created = 0usize;\n\n    for (i, pc) in processed.iter().enumerate() {\n        // Only sub-split oversized heading_section chunks from Markdown\n        if pc.chunk_type != \"heading_section\" {\n            continue;\n        }\n        if pc.token_estimate <= threshold_tokens {\n            continue;\n        }\n        if i >= stored_ids.len() {\n            continue;\n        }\n\n        let original_id = stored_ids[i];\n\n        // Split into Markdown-aware segments (code blocks atomic, paragraph-first)\n        let segments = split_into_segments(&pc.content);",
+  "source_version": "crates/corvia-kernel/src/ingest.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.444365916Z",
+  "valid_from": "2026-03-31T13:20:59.444365916Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ingest.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 404,
+    "end_line": 436,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

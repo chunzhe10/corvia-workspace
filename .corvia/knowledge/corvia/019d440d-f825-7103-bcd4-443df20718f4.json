@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-443df20718f4",
+  "content": "pub struct ModelEntry {\n    pub name: String,\n    pub model_type: String,\n    pub loaded: bool,\n    pub device: String,\n    pub backend: String,\n    pub kv_quant: String,\n    pub flash_attention: bool,\n    /// HF repo for config-driven resolution (empty = use server-side resolve on reload).\n    pub hf_repo: String,\n    /// HF GGUF filename for config-driven resolution.\n    pub hf_filename: String,\n}",
+  "source_version": "crates/corvia-inference/src/model_manager.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429853888Z",
+  "valid_from": "2026-03-31T13:20:59.429853888Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/src/model_manager.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 13,
+    "end_line": 25,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

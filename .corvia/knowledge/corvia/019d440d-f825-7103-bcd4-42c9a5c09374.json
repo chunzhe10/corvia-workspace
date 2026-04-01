@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-42c9a5c09374",
+  "content": "pe == StoreType::Lite {\n        println!(\n            \"\\nNote: LiteStore files in {}/ are preserved as backup.\",\n            data_dir.display()\n        );\n        println!(\"You can remove them manually after confirming the migration.\");\n    }\n\n    Ok(())\n}\nasync fn write_to_lite(\n    config: &CorviaConfig,\n    data_dir: &Path,\n    entries: &[KnowledgeEntry],\n    edges: &[GraphEdge],\n    entries_by_scope: &HashMap<String, Vec<&KnowledgeEntry>>,\n    scope_names: &[String],\n) -> Result<()> {\n    // Step 1: Write JSON files for each entry\n    println!(\"\\nWriting {} knowledge files to {}...\", entries.len(), data_dir.display());\n    for entry in entries {\n        knowledge_files::write_entry(data_dir, entry)?;\n    }\n    println!(\"  {} JSON files written.\", entries.len());\n\n    // Step 2: Open LiteStore (rebuilds HNSW + Redb indexes from files)\n    println!(\"Opening LiteStore and rebuilding indexes...\");\n    let lite = corvia_kernel::lite_store::LiteStore::open(data_dir, config.embedding.dimensions)?;\n    let rebuilt = lite.rebuild_from_files()?;\n    println!(\"  Rebuilt index with {} entries.\", rebuilt);\n\n    // Step 3: Recreate graph edges\n    if !edges.is_empty() {\n        println!(\"Migrating {} graph edges...\", edges.len());\n        let mut edges_inserted = 0;\n        let mut edges_failed = 0;\n        for edge in edges {\n            match lite.relate(&edge.from, &edge.relation, &edge.to, edge.metadata.clone()).await {\n                Ok(()) => edges_inserted += 1,\n                Err(e) => {\n                    edges_failed += 1;\n                    eprintln!(",
+  "source_version": "crates/corvia-cli/src/upgrade.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429699065Z",
+  "valid_from": "2026-03-31T13:20:59.429699065Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/upgrade.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 206,
+    "end_line": 237,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

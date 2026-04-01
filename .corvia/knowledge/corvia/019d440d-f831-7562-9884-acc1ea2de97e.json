@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f831-7562-9884-acc1ea2de97e",
+  "content": "onfig.embedding.model,\n                config.embedding.dimensions,\n            ),\n        );\n\n        let pipeline = create_rag_pipeline(store, engine, Some(graph), None, &config).await;\n        assert_eq!(pipeline.retriever_name(), \"graph_expand\");\n    }\nasync fn test_rebuild_pipeline_reuses_existing_tantivy() {\n        use corvia_common::config::PipelineConfig;\n\n        let dir = tempfile::tempdir().unwrap();\n        let mut config = CorviaConfig::default();\n        config.storage.data_dir = dir.path().to_string_lossy().to_string();\n\n        // Set up pipeline config with both vector and bm25 searchers.\n        let mut pipeline_cfg = PipelineConfig::default();\n        pipeline_cfg.searchers = vec![\"vector\".into(), \"bm25\".into()];\n        pipeline_cfg.fusion = \"rrf\".into();\n        config.rag.pipeline = Some(pipeline_cfg);\n\n        // Create a LiteStore and initialize it.\n        let store = create_store(&config).await.unwrap();\n        store.init_schema().await.unwrap();\n        let store: Arc<dyn traits::QueryableStore> = Arc::from(store);\n\n        // Open a TantivyIndex and wire it into LiteStore via set_tantivy().\n        let ls = store.as_any().downcast_ref::<lite_store::LiteStore>().unwrap();\n        let cache_dir = dir.path().join(\"cache\").join(\"tantivy\");\n        let tantivy = tantivy_index::TantivyIndex::open(&cache_dir, ls.db().clone(), store.clone()).unwrap();\n        ls.set_tantivy(Arc::new(tantivy));\n\n        let engine: Arc<dyn traits::InferenceEngine> = Arc::new(\n            ollama_engine::OllamaEngine::new(",
+  "source_version": "crates/corvia-kernel/src/lib.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.441662199Z",
+  "valid_from": "2026-03-31T13:20:59.441662199Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/lib.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 700,
+    "end_line": 725,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

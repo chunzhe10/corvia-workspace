@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f830-7a51-9391-47c9d6c84f32",
+  "content": "n reorder entries with very similar\n        // embeddings. The entry ID overlap check above is the meaningful comparison.\n        // We just log the top-1 match rate for diagnostics.\n        let _top1_pct = top1_matches as f64 / queries.len() as f64;\n    }\nasync fn test_pipeline_integration_full_flow() {\n        let dir = tempfile::tempdir().unwrap();\n        let store = Arc::new(LiteStore::open(dir.path(), 3).unwrap());\n        store.init_schema().await.unwrap();\n\n        let queryable = store.clone() as Arc<dyn QueryableStore>;\n        let graph = store.clone() as Arc<dyn GraphStore>;\n        let engine: Arc<dyn InferenceEngine> = Arc::new(MockEngine);\n\n        // Insert entries with varied metadata for filtering tests.\n        let mut idx: usize = 0;\n        let mut next_emb = || {\n            idx += 1;\n            vec![1.0, idx as f32 * 0.01, 0.0]\n        };\n\n        // 5 entries with content_role=\"design\"\n        let mut design_ids = Vec::new();\n        for i in 0..5 {\n            let mut entry = KnowledgeEntry::new(\n                format!(\"design document {i}\"),\n                \"flow-scope\".to_string(),\n                \"v1\".to_string(),\n            );\n            entry.embedding = Some(next_emb());\n            entry.metadata.content_role = Some(\"design\".to_string());\n            entry.metadata.source_origin = Some(\"repo:corvia\".to_string());\n            queryable.insert(&entry).await.unwrap();\n            design_ids.push(entry.id);\n        }",
+  "source_version": "crates/corvia-kernel/src/pipeline/core.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.440399603Z",
+  "valid_from": "2026-03-31T13:20:59.440399603Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/core.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 527,
+    "end_line": 556,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

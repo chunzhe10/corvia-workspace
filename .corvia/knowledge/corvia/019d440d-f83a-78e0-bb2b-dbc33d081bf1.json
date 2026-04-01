@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83a-78e0-bb2b-dbc33d081bf1",
+  "content": "ts\", s\n            )));\n        }\n        let version_ref = if parts[4].starts_with('@') {\n            VersionRef::Immutable(parts[4][1..].to_string())\n        } else if parts[4].starts_with(':') {\n            VersionRef::Mutable(parts[4][1..].to_string())\n        } else {\n            VersionRef::Mutable(parts[4].to_string())\n        };\n        Ok(Self {\n            org: parts[0].to_string(),\n            scope: parts[1].to_string(),\n            workstream: parts[2].to_string(),\n            source: parts[3].to_string(),\n            version_ref,\n        })\n    }\n}\n\nimpl fmt::Display for Namespace {\n    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {\n        let ref_str = match &self.version_ref {\n            VersionRef::Immutable(hash) => format!(\"@{hash}\"),\n            VersionRef::Mutable(label) => format!(\":{label}\"),\n        };\n        write!(f, \"{}:{}:{}:{}{}\", self.org, self.scope, self.workstream, self.source, ref_str)\n    }\n}\n\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    #[test]\n    fn test_namespace_local_default() {\n        let ns = Namespace::local(\"my-repo\", \"code\");\n        assert_eq!(ns.org, \"local\");\n        assert_eq!(ns.workstream, \"main\");\n        assert_eq!(ns.version_ref, VersionRef::Mutable(\"latest\".into()));\n    }\n\n    #[test]\n    fn test_namespace_parse_immutable() {\n        let ns = Namespace::parse(\"local:project-alpha:main:my-repo:@abc123\").unwrap();\n        assert_eq!(ns.org, \"local\");\n        assert_eq!(ns.scope, \"project-alpha\");\n        assert_eq!(ns.workstream, \"main\");\n        assert_eq!(ns.source, \"my-repo\");\n        assert_eq!(ns.version_ref, VersionRef::Immutable(\"abc123\".into()));\n    }\n\n    #[test]\n    fn test_namespace_parse_mutable() {\n        let ns = Namespace::parse(\"local:project-alpha:main:my-repo::latest\").unwrap();\n        assert_eq!(ns.version_ref, VersionRef::Mutable(\"latest\".into()));\n    }\n\n    #[test]\n    fn test_namespace_display_roundtrip() {\n        let ns = Namespace::new(\"acme\", \"prod\", \"feature-x\", \"contracts\", VersionRef::Immutable(\"def456\".into()));\n        let s = ns.to_string();\n        let parsed = Namespace::parse(&s).unwrap();\n        assert_eq!(ns, parsed);\n    }\n\n    #[test]\n    fn test_namespace_parse_invalid() {\n        assert!(Namespace::parse(\"only:two:parts\").is_err());\n    }",
+  "source_version": "docs/rfcs/2026-02-28-m1-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.450598870Z",
+  "valid_from": "2026-03-31T13:20:59.450598870Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-m1-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 467,
+    "end_line": 529,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

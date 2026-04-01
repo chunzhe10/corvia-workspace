@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-729a80944e41",
+  "content": "## Retention Score\n\n### Composite Formula (Additive)\n\n```\nretention_score = 0.35 × D(t, α_type)\n               + 0.30 × A(access_count, days_since_access)\n               + 0.20 × G(inbound_edge_count)\n               + 0.15 × C(confidence)\n```\n\n\n### Component Definitions\n\n**D(t, α) — Time Decay (power-law)**\n```\nD(t) = (1 + t_days)^(-α)\n```\nWhere `t_days` = days since entry creation (UTC). Negative `t_days` values from clock\nskew are clamped to 0. Power-law chosen over exponential for its fat tail — old entries\nretain nonzero scores, enabling Cold tier reversibility.\n\n**A(access_count, days_since_access) — Access Signal**\n```\nA = frequency × recency\nfrequency = log(1 + access_count) / FREQ_NORMALIZER\nrecency   = (1 + days_since_last_access)^(-0.3)\n\nwhere FREQ_NORMALIZER = log(101.0) = 4.615  (precomputed constant)\n```\nLog-scaled frequency with diminishing returns — an entry accessed ~50 times reaches\n~85% of maximum frequency signal. The normalizer of 100 means an entry accessed 100+\ntimes saturates at 1.0. Power-law recency with its own fat tail.\nFor never-accessed entries: A = 0.\n\n**G(inbound_edges) — Graph Connectivity**\n```\nG = min(inbound_edges / 10, 1.0)\n```\nInbound edges only (entries that point TO this entry). Entries with ≥10 inbound edges\nscore maximum. Uses degree centrality (O(1) per entry), not PageRank.\n\n**C(confidence) — Confidence Signal**\n```\nC = confidence if set, else 0.7 (default)\n```\nApplies to all entry types. Decisional and Analytical entries should set explicit values.\nThe 0.7 default reflects that most entries pass through ingestion or agent merge pipelines\nwhich provide baseline quality assurance — we prefer false retention over false forgetting\nin v1.\n",
+  "source_version": "docs/rfcs/2026-03-27-tiered-knowledge-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463686657Z",
+  "valid_from": "2026-03-31T13:20:59.463686657Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-27-tiered-knowledge-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 138,
+    "end_line": 185,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f834-7df0-9fec-271b03187f52",
+  "content": "Error::Config(format!(\n                \"Cannot resolve host path for '{}'. \\\n                 Hub mount table: {:?}. \\\n                 Ensure the devcontainer mounts cover this path.\",\n                container_path, mounts\n            ))\n        })\n    }\npub fn host_path(&self, container_path: &str) -> Option<String> {\n        let mut best_match: Option<(&str, &str)> = None;\n        for (cpath, hpath) in &self.host_mounts {\n            let cpath = cpath.trim_end_matches('/');\n            // Enforce path boundary: exact match or followed by '/'\n            let is_match = container_path == cpath\n                || container_path.starts_with(&format!(\"{cpath}/\"));\n            if is_match && best_match.is_none_or(|(bp, _)| cpath.len() > bp.len()) {\n                best_match = Some((cpath, hpath.as_str()));\n            }\n        }\n        best_match.map(|(cpath, hpath)| {\n            let hpath = hpath.trim_end_matches('/');\n            let suffix = &container_path[cpath.len()..];\n            format!(\"{hpath}{suffix}\")\n        })\n    }",
+  "source_version": "crates/corvia-kernel/src/spoke.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.444916223Z",
+  "valid_from": "2026-03-31T13:20:59.444916223Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/spoke.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 118,
+    "end_line": 134,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

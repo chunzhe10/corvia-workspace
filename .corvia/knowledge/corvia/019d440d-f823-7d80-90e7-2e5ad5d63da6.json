@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f823-7d80-90e7-2e5ad5d63da6",
+  "content": "t_name,\n                agent_hint: Some(hint),\n                ..\n            } => format!(\"{client_name}::{hint}\"),\n            Self::McpClient { client_name, .. } => client_name.clone(),\n            Self::Anonymous => \"anonymous\".into(),\n        }\n    }\npub fn can_write(&self) -> bool {\n        matches!(\n            self,\n            Self::Registered { .. }\n                | Self::McpClient {\n                    agent_hint: Some(_),\n                    ..\n                }\n        )\n    }",
+  "source_version": "crates/corvia-common/src/agent_types.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.427404852Z",
+  "valid_from": "2026-03-31T13:20:59.427404852Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/agent_types.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 48,
+    "end_line": 57,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81e-7810-a8c3-5ff11328d5e2",
+  "content": "() {\n                Some(h) => h,\n                None => {\n                    return Ok(Json(serde_json::json!({\n                        \"nodes\": [], \"edges\": [], \"degraded\": true\n                    })).into_response());\n                }\n            }\n        }\n    };\n\n    match level {\n        0 => {\n            // Super-clusters as nodes\n            let scope_id = state.default_scope_id.as_deref().unwrap_or(DEFAULT_SCOPE_ID);\n            let entries = load_scope_entries(&state.data_dir, scope_id).await.unwrap_or_default();\n            let entry_map: std::collections::HashMap<String, &corvia_common::types::KnowledgeEntry> =\n                entries.iter().map(|e| (e.id.to_string(), e)).collect();\n\n            let nodes: Vec<serde_json::Value> = hierarchy.super_clusters.iter().map(|sc| {\n                // Find best label from the nearest-centroid entry\n                let label = sc.entry_ids.iter()\n                    .find_map(|id| entry_map.get(id.as_str()))\n                    .and_then(|e| {\n                        e.metadata.source_file.clone()\n                            .or_else(|| Some(e.content.chars().take(60).collect()))\n                    })\n                    .unwrap_or_else(|| sc.label.clone());\n\n                serde_json::json!({\n                    \"id\": sc.cluster_id,\n                    \"label\": label,\n                    \"level\": 0,\n                    \"entry_count\": sc.entry_ids.len(),\n                })\n            }).collect();\n\n            // Compute inter-cluster edge counts\n            let mut edges = Vec::new();\n            for (i, sc_a) in hierarchy.super_clusters.iter().enumerate() {\n                for sc_b in hierarchy.super_clusters.iter().skip(i + 1) {\n                    // Count graph edges that cross between these two clusters\n                    let mut cross_count = 0u32;\n                    for entry_id_str in &sc_a.entry_ids {\n                        if let Ok(uuid) = entry_id_str.parse::<uuid::Uuid>() {\n                            let entry_edges = state\n                                .graph\n                                .edges(&uuid, corvia_common::types::EdgeDirection::Both)\n                                .await",
+  "source_version": "crates/corvia-server/src/dashboard/mod.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.422233642Z",
+  "valid_from": "2026-03-31T13:20:59.422233642Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/mod.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 585,
+    "end_line": 625,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

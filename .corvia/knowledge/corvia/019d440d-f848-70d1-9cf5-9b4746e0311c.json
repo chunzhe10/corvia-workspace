@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9b4746e0311c",
+  "content": "### Tier 3: Medium-risk (confirmation + dry-run preview)\n### Tier 4: High-risk (double confirmation + audit log)\n\n## Config Management Design\n\n**Hybrid approach — config file stays canonical, MCP wraps operations:**\n\n1. **`corvia.toml` is the source of truth** — LLMs know TOML well from pretraining\n2. **`corvia_config_get`** reads and returns structured sections\n3. **`corvia_config_set`** validates against schema → writes TOML → triggers hot-reload\n4. **Hot-reload** — config changes take effect without restart (file watch or signal-based)\n5. **Git-tracked** — config changes appear in `git diff`, rollback is `git revert`\n6. **Validation** — server-side schema validation catches invalid values before they persist\n",
+  "source_version": "docs/rfcs/2026-03-04-m4-control-plane-research.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464135334Z",
+  "valid_from": "2026-03-31T13:20:59.464135334Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-04-m4-control-plane-research.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 125,
+    "end_line": 135,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

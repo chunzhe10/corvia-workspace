@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f831-7562-9884-abce2e3f378d",
+  "content": "   Some(g) => Arc::new(retriever::GraphExpandRetriever::new(\n                    store, engine, g, config.rag.graph_alpha,\n                )),\n                None => Arc::new(retriever::VectorRetriever::new(store, engine)),\n            }\n        }\n    }\n}\npub fn rebuild_pipeline_retriever(\n    store: Arc<dyn traits::QueryableStore>,\n    engine: Arc<dyn traits::InferenceEngine>,\n    graph: Option<Arc<dyn traits::GraphStore>>,\n    generator: Option<Arc<dyn traits::GenerationEngine>>,\n    config: &CorviaConfig,\n) -> Result<rag_pipeline::RagPipeline> {\n    let pipeline_cfg = config.rag.pipeline.as_ref().ok_or_else(|| {\n        corvia_common::errors::CorviaError::Config(\n            \"[rag.pipeline] section not found in config\".into(),\n        )\n    })?;\n\n    // Reuse existing tantivy from LiteStore if already initialized (OnceLock),\n    // otherwise open a new one. Reusing avoids tantivy file lock conflicts when\n    // the old pipeline's tantivy is being dropped in a background thread.\n    let fts: Option<Arc<dyn traits::FullTextSearchable>> =\n        if pipeline_cfg.searchers.iter().any(|s| s == \"bm25\") {\n            if let Some(ls) = store.as_any().downcast_ref::<lite_store::LiteStore>() {\n                if let Some(existing) = ls.tantivy() {",
+  "source_version": "crates/corvia-kernel/src/lib.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.441524774Z",
+  "valid_from": "2026-03-31T13:20:59.441524774Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/lib.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 406,
+    "end_line": 425,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

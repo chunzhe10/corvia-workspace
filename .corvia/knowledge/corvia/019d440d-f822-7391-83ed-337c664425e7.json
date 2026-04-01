@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f822-7391-83ed-337c664425e7",
+  "content": "efault = \"default_gc_inactive_agent_after_secs\")]\n    pub gc_inactive_agent_after_secs: u64,\n    /// Capacity of the kernel event bus broadcast channel (default 256).\n    #[serde(default = \"default_event_bus_capacity\")]\n    pub event_bus_capacity: usize,\n}\nimpl Default for AgentLifecycleConfig {\n    fn default() -> Self {\n        Self {\n            heartbeat_interval_secs: default_heartbeat_interval_secs(),\n            stale_timeout_secs: default_stale_timeout_secs(),\n            orphan_grace_secs: default_orphan_grace_secs(),\n            gc_orphan_after_secs: default_gc_orphan_after_secs(),\n            gc_closed_session_after_secs: default_gc_closed_session_after_secs(),\n            gc_inactive_agent_after_secs: default_gc_inactive_agent_after_secs(),\n            event_bus_capacity: default_event_bus_capacity(),\n        }\n    }\n}",
+  "source_version": "crates/corvia-common/src/config.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.426308936Z",
+  "valid_from": "2026-03-31T13:20:59.426308936Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/config.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 411,
+    "end_line": 423,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

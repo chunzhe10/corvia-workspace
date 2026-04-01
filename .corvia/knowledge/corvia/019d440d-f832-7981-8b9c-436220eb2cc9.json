@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f832-7981-8b9c-436220eb2cc9",
+  "content": "e::event_bus::KernelEvent::SessionClosed {\n                        session_id: session_id.clone(),\n                        scope_id: String::new(), // Sessions span multiple scopes\n                    });\n                }\n        }\n\n        Ok(())\n    }\n}\npub fn new(\n        store: Arc<dyn QueryableStore>,\n        engine: Arc<dyn InferenceEngine>,\n        data_dir: &Path,\n        lifecycle_config: AgentLifecycleConfig,\n        merge_config: MergeConfig,\n        gen_engine: Arc<dyn GenerationEngine>,\n    ) -> Result<Self> {\n        // Open or create the shared coordination database\n        let registry = AgentRegistry::open(data_dir)?;\n        let db = registry.db().clone();\n\n        let sessions = Arc::new(SessionManager::from_db(db.clone())?);\n        let merge_queue = Arc::new(MergeQueue::from_db(db)?);\n        let staging = Arc::new(StagingManager::new(data_dir));\n\n        let event_bus = Arc::new(EventBus::new(lifecycle_config.event_bus_capacity));\n\n        let writer = Arc::new(AgentWriter::new(\n            store.clone(),\n            engine.clone(),\n            StagingManager::new(data_dir),\n        ));\n\n        let commit_pipeline = Arc::new(CommitPipeline::new(\n            sessions.clone(),\n            merge_queue.clone(),\n            staging.clone(),\n            store.clone(),\n            event_bus.clone(),\n        ));\n\n        let merge_worker = Arc::new(MergeWorker::new(\n            store.clone(),\n            engine.clone(),\n            merge_queue.clone(),\n            staging.clone(),\n            sessions.clone(),\n            merge_config,\n            gen_engine,\n            event_bus.clone(),\n        ));\n\n        let context = Arc::new(ContextBuilder::new(store, engine));\n        let registry = Arc::new(registry);\n\n        Ok(Self {\n            registry,\n            sessions,\n            writer,\n            commit_pipeline,\n            merge_worker,\n            context,\n            merge_queue,\n            staging,\n            config: lifecycle_config,\n            event_bus,\n        })\n    }",
+  "source_version": "crates/corvia-kernel/src/agent_coordinator.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.442223380Z",
+  "valid_from": "2026-03-31T13:20:59.442223380Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/agent_coordinator.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 59,
+    "end_line": 117,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

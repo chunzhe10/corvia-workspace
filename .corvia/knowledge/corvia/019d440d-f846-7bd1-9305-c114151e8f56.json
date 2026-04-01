@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-c114151e8f56",
+  "content": "## Task 1: Add Serde Derives to Chunking Types\n\n\n#[test]\nfn test_chunk_result_serde_roundtrip() {\n    let cr = ChunkResult {\n        chunks: vec![RawChunk {\n            content: \"fn main() {}\".into(),\n            chunk_type: \"function\".into(),\n            start_line: 1,\n            end_line: 3,\n            metadata: ChunkMetadata {\n                source_file: \"src/main.rs\".into(),\n                language: Some(\"rust\".into()),\n                ..Default::default()\n            },\n        }],\n        relations: vec![ChunkRelation {\n            from_source_file: \"src/main.rs\".into(),\n            from_start_line: 1,\n            relation: \"imports\".into(),\n            to_file: \"src/lib.rs\".into(),\n            to_name: Some(\"MyStruct\".into()),\n        }],\n    };\n    let json = serde_json::to_string(&cr).unwrap();\n    let parsed: ChunkResult = serde_json::from_str(&json).unwrap();\n    assert_eq!(parsed.chunks.len(), 1);\n    assert_eq!(parsed.relations.len(), 1);\n    assert_eq!(parsed.chunks[0].content, \"fn main() {}\");\n    assert_eq!(parsed.relations[0].to_name, Some(\"MyStruct\".into()));\n}\n```\n\n**Step 3: Run tests**\n\n```bash\ncargo test -p corvia-kernel chunking_strategy -- --nocapture\n```\n\nExpected: all existing tests pass + 2 new serde tests pass.\n\n**Step 4: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/chunking_strategy.rs\ngit commit -m \"feat: add Serialize/Deserialize derives to all chunking types\n\nEnables JSONL serialization for the adapter plugin protocol (D75).\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462401133Z",
+  "valid_from": "2026-03-31T13:20:59.462401133Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 67,
+    "end_line": 117,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

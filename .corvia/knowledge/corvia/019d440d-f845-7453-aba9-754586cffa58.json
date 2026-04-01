@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-754586cffa58",
+  "content": " '</div>';\n    html += '<div class=\"module-desc\">' + esc(sm.desc) + '</div></div>';\n    html += '</div>';\n    html += '<div class=\"mini-stats\">';\n    html += miniStat(formatNum(ss.count), 'Total');\n    html += miniStat(formatNum(ss.count_1h), 'Last hour');\n    var avgColor = ss.avg_ms < 50 ? 'var(--mint)' : ss.avg_ms < 150 ? 'var(--peach)' : 'var(--coral)';\n    html += miniStat('<span style=\"color:' + avgColor + '\">' + ss.avg_ms + '<span style=\"font-size:11px;font-weight:500\">ms</span></span>', 'Avg latency');\n    var errColor = ss.errors === 0 ? 'var(--mint)' : 'var(--coral)';\n    html += miniStat('<span style=\"color:' + errColor + '\">' + ss.errors + '</span>', 'Errors');\n    html += '</div></div>';\n\n    // Spans card\n    var moduleSpans = [];\n    for (var sn in spans) {\n      if (spanToModule(sn) === selectedModule) {\n        moduleSpans.push({ name: sn, stats: spans[sn] });\n      }\n    }\n\n    html += '<div class=\"trace-card\"><div class=\"trace-card-hdr\"><div class=\"trace-label\">Instrumented Spans</div></div>';\n    html += '<div class=\"trace-card-body\">';\n    if (moduleSpans.length === 0) {\n      html += '<div style=\"font-size:12px;color:var(--text-dim);padding:8px 0;\">No span data available</div>';\n    } else {\n      for (var sp of moduleSpans) {\n        var shortName = sp.name.replace('corvia.', '');\n        var fields = SPAN_FIELDS[sp.name] || '';\n        var ms = sp.stats.avg_ms;\n        var pillCls = ms < 50 ? 'span-fast' : ms < 150 ? 'span-medium' : 'span-slow';\n        html += '<div class=\"span-row\"><div>';\n        html += '<div class=\"span-name\">' + esc(shortName) + '</div>';\n        if (fields) html += '<div class=\"span-fields\">' + esc(fields) + '</div>';\n        html += '</div><span class=\"span-pill ' + pillCls + '\">' + Math.round(ms) + 'ms</span></div>';\n      }\n    }\n    html += '</div></div>';\n\n    // Events card\n    var modEvents = (traces.recent_events || []).filter(function(ev) { return ev.module === selectedModule; }).slice(0, 10);\n    html += '<div class=\"trace-card\"><div class=\"trace-card-hdr\"><div class=\"trace-label\">Recent Events</div></div>';",
+  "source_version": "docs/rfcs/2026-03-10-telemetry-traces-page.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461332026Z",
+  "valid_from": "2026-03-31T13:20:59.461332026Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-telemetry-traces-page.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 828,
+    "end_line": 862,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

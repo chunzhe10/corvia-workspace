@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a15-7ca3-b9db-4fd8b4ed24e2",
+  "content": ": 0 180px 0 160px;\">\n      <span style=\"font-size: 15px; color: var(--text-muted);\">0ms</span>\n      <span style=\"font-size: 15px; color: var(--text-muted);\">50ms</span>\n      <span style=\"font-size: 15px; color: var(--text-muted);\">106ms</span>\n    </div>\n    <!-- HTTP overhead — tiny sliver at start -->\n    <div style=\"display: flex; align-items: center; gap: 16px; margin-bottom: 16px;\">\n      <div style=\"width: 140px; text-align: right; font-size: 16px; font-weight: 700; color: var(--text-secondary); flex-shrink: 0;\">HTTP round trip</div>\n      <div style=\"flex: 1; height: 40px; background: var(--bg-card); border-radius: 8px; position: relative; border: 1px solid var(--border);\">\n        <div style=\"position: absolute; left: 0; top: 0; height: 100%; width: 2%; background: rgba(100,116,139,0.4); border-radius: 8px 0 0 8px;\"></div>\n        <div style=\"position: absolute; left: 97%; top: 0; height: 100%; width: 2%; background: rgba(100,116,139,0.4); border-radius: 0 8px 8px 0;\"></div>\n      </div>\n      <div style=\"width: 70px; font-size: 18px; font-weight: 800; color: var(--text-muted); flex-shrink: 0;\">~2ms</div>\n    </div>\n\n    <!-- Embedding inference — small block near start -->\n    <div style=\"display: flex; align-items: center; gap: 16px; margin-bottom: 16px;\">\n      <div style=\"width: 140px; text-align: right; font-size: 16px; font-weight: 700; color: var(--accent-blue); flex-shrink: 0;\">Embed inference</div>\n      <div style=\"flex: 1; height: 40px; background: var(--bg-card); border-radius: 8px; position: relative; border: 1px solid var(--border);\">\n        <div style=\"position: absolute; left: 1%; top: 0; height: 100%; width: 9%; background: linear-gradient(90deg, rgba(59,130,246,0.5), rgba(59,130,246,0.8)); border-radius: 6px; display: flex; align-items: center; justify-content: center;\">\n          <span style=\"font-size: 15px; font-weight: 700; color: white;\">gRPC</span>\n        </div>\n      </div>\n      <div style=\"width: 70px; font-size: 18px; font-weight: 800; color: var(--accent-blue); flex-shrink: 0;\">~10ms</div>\n    </div>",
+  "source_version": "marketing/linkedin/2026-03-16-embedding-benchmark/embedding-benchmark-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.029003975Z",
+  "valid_from": "2026-03-31T13:51:39.029003975Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-16-embedding-benchmark/embedding-benchmark-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 275,
+    "end_line": 294,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f832-7981-8b9c-488022eaf159",
+  "content": "ption: &str) -> Result<()> {\n        let mut record = self.get(agent_id)?\n            .ok_or_else(|| CorviaError::NotFound(format!(\"Agent {agent_id} not found\")))?;\n        record.description = Some(description.to_string());\n        self.put(&record)\n    }\npub fn set_activity_summary(&self, agent_id: &str, summary: &ActivitySummary) -> Result<()> {\n        let mut record = self.get(agent_id)?\n            .ok_or_else(|| CorviaError::NotFound(format!(\"Agent {agent_id} not found\")))?;\n        record.activity_summary = Some(summary.clone());\n        self.put(&record)\n    }",
+  "source_version": "crates/corvia-kernel/src/agent_registry.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.442871199Z",
+  "valid_from": "2026-03-31T13:20:59.442871199Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/agent_registry.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 160,
+    "end_line": 165,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

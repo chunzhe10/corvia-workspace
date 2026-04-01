@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-72406081b3a7",
+  "content": "## Memory Types\n\n### Auto-classification\n\nExisting entries without `memory_type` are auto-classified from `content_role` using the\nmapping above. Unrecognized `content_role` values (including `None`) default to Episodic\n(fastest decay — safe default for unclassified knowledge).\n\nA `corvia_reason` health check (\"unmapped_content_role\") warns when entries have\n`content_role` values not in the mapping table, so operators can detect and reclassify\nthem. Log a `warn!()` on first encounter:\n\n```rust\nwarn!(\n    entry_id = %entry.id,\n    content_role = %role,\n    default_type = \"Episodic\",\n    \"unmapped_content_role\"\n);\n```\n",
+  "source_version": "docs/rfcs/2026-03-27-tiered-knowledge-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463662930Z",
+  "valid_from": "2026-03-31T13:20:59.463662930Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-27-tiered-knowledge-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 81,
+    "end_line": 99,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

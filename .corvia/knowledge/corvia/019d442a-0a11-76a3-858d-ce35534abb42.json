@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-ce35534abb42",
+  "content": "### D9: ArcSwap Hot-Swap\n### D12: Graceful Degradation\n\n### D13: Cold Tier Interaction\n\n**Current state:** VectorSearcher uses `store.search()` which respects HNSW indexing\n(cold entries not in HNSW). BM25Searcher uses `fts.search()` which searches all\nindexed tantivy documents (including cold entries).\n\n**Verification needed:** Confirm BM25 does NOT filter by tier, so cold entries surface.\nWhen cold entry is returned via BM25, access recording triggers tier promotion.\n\n\n### D14: MCP Tool Behavior\n\n**Current state:** All MCP tools (corvia_search, corvia_context, corvia_ask) route\nthrough `RagPipeline` which calls `Retriever::retrieve()`. `RetrievalPipeline`\nimplements `Retriever`. Score field is `final_score` (normalized [0,1]).\n\n**Change:** None. Verify all tools work end-to-end with hybrid search. No response\nformat changes.\n",
+  "source_version": "decisions/2026-03-28-phase3-integration-hot-swap-design.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025824168Z",
+  "valid_from": "2026-03-31T13:51:39.025824168Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-phase3-integration-hot-swap-design.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 44,
+    "end_line": 61,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

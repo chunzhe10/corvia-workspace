@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f822-7391-83ed-32b219b6f9dd",
+  "content": "pub struct ReasoningConfig {\n    /// Inference provider for reasoning (reuses the embedding provider enum).\n    #[serde(default)]\n    pub provider: InferenceProvider,\n    /// Model for reasoning tasks (e.g., \"llama3.2:3b\").\n    pub model: String,\n}\npub struct CorviaConfig {\n    pub project: ProjectConfig,\n    pub storage: StorageConfig,\n    pub embedding: EmbeddingConfig,\n    pub server: ServerConfig,\n    #[serde(default)]\n    pub agent_lifecycle: AgentLifecycleConfig,\n    #[serde(default, skip_serializing_if = \"Option::is_none\")]\n    pub merge: Option<MergeConfig>,\n    #[serde(default, skip_serializing_if = \"Option::is_none\")]\n    pub workspace: Option<WorkspaceConfig>,\n    #[serde(default, skip_serializing_if = \"Option::is_none\")]\n    pub reasoning: Option<ReasoningConfig>,\n    #[serde(default)]\n    pub rag: RagConfig,\n    #[serde(default)]\n    pub chunking: ChunkingConfig,\n    #[serde(default)]\n    pub telemetry: TelemetryConfig,\n    #[serde(default)]\n    pub inference: InferenceConfig,\n    #[serde(default, skip_serializing_if = \"Option::is_none\")]\n    pub adapters: Option<AdaptersConfig>,\n    #[serde(default, skip_serializing_if = \"Option::is_none\")]\n    pub sources: Option<Vec<SourceConfig>>,\n    #[serde(default, skip_serializing_if = \"Option::is_none\")]\n    pub scope: Option<Vec<ScopeConfig>>,\n    #[serde(default, skip_serializing_if = \"Option::is_none\")]\n    pub forgetting: Option<ForgettingConfig>,\n    #[serde(default, skip_serializing_if = \"Option::is_none\")]\n    pub hooks: Option<HooksConfig>,\n    #[serde(default)]\n    pub dashboard: DashboardSection,\n}",
+  "source_version": "crates/corvia-common/src/config.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.426232201Z",
+  "valid_from": "2026-03-31T13:20:59.426232201Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/config.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 228,
+    "end_line": 261,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

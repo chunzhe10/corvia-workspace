@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-6d2ff74b0651",
+  "content": "### Task 5: Flip defaults (conditional on ship gates)\n### Task 6: Update documentation\n\n### Task 7: Commit and verify\n- Commit after each logical unit\n- Run full test suite (cargo test + clippy)\n- Verify hot-swap still works with new defaults\n",
+  "source_version": "docs/rfcs/2026-03-28-eval-default-flip-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463155463Z",
+  "valid_from": "2026-03-31T13:20:59.463155463Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-eval-default-flip-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 69,
+    "end_line": 73,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

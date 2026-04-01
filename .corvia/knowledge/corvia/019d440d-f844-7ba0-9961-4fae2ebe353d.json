@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-4fae2ebe353d",
+  "content": "# Inference Config & KV Cache Quantization Implementation Plan\n\n> **Status:** Shipped (v0.4.2)\n\n**Goal:** Add KV cache quantization, flash attention, and a unified `[inference]` config section with config-is-truth reload semantics.\n\n**Architecture:** New `InferenceConfig` struct in `corvia-common` with `device`, `backend`, `kv_quant`, `flash_attention` fields. Proto gets new fields on existing messages. Chat service applies KV quant/flash attention at context creation time. CLI writes config then triggers gRPC reload (`--no-persist` for ephemeral).\n\n**Tech Stack:** Rust, tonic/prost (gRPC), llama-cpp-2 (llama.cpp bindings), ONNX Runtime (via fastembed), TOML config.\n\n**Spec:** `2026-03-12-inference-kv-cache-config-design.md`\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-12-inference-kv-cache-config.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460760326Z",
+  "valid_from": "2026-03-31T13:20:59.460760326Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-12-inference-kv-cache-config.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1,
+    "end_line": 14,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

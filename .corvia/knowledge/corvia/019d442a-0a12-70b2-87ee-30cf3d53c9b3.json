@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-30cf3d53c9b3",
+  "content": "## Consensus Strengths (All Reviewers Agree)\n## Recommended Fix Priority\n\n### Phase 0 blockers (before any implementation)\n- **I9**: Verify usage agreement with Anthropic\n- **C7**: Design MCP auth token mechanism\n- **I4**: Pin Claude Code version, never use `@latest`\n\n\n### Phase 1 blockers (before spoke CLI ships)\n- **C1**: HubContext error handling (no panics)\n- **C2**: Duplicate spoke name guard\n- **C5**: Container detection check\n- **C6**: Network selection logic\n- **C8**: Failure UX (prerequisite validation, startup health gate)\n- **I1**: GITHUB_TOKEN validation\n- **I2**: Default resource limits\n- **I6**: Test plan\n- **I7**: Startup error reporting\n- **I10**: Branch naming strategy\n",
+  "source_version": "decisions/2026-03-28-spoke-design-review-summary.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026699276Z",
+  "valid_from": "2026-03-31T13:51:39.026699276Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-design-review-summary.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 167,
+    "end_line": 183,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

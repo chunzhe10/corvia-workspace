@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f7a7d83baaa2",
+  "content": "\n  <div class=\"slide-number\">06 / 08</div>\n</div>\n\n<!-- SLIDE 7: THE STACK -->\n<div class=\"slide\">\n  <div class=\"slide-label\">The Full Stack</div>\n  <div class=\"slide-title\">\n    What's Actually<br>\n    <span class=\"highlight-amber\">Running</span>\n  </div>\n  <div style=\"display: flex; gap: 16px; margin-bottom: 20px;\">\n    <div class=\"stat-box\" style=\"flex: 1;\">\n      <div style=\"font-size: 36px; font-weight: 800; color: var(--accent-green);\">RTX 3060</div>\n      <div style=\"font-size: 16px; font-weight: 500; color: var(--text-secondary);\">6 GB VRAM<br>CUDA 13.0</div>\n    </div>\n    <div class=\"stat-box\" style=\"flex: 1;\">\n      <div style=\"font-size: 36px; font-weight: 800; color: var(--accent-cyan);\">Iris Xe</div>\n      <div style=\"font-size: 16px; font-weight: 500; color: var(--text-secondary);\">Alder Lake-P GT2<br>OpenVINO 2025.3</div>\n    </div>\n  </div>",
+  "source_version": "marketing/linkedin/2026-03-13-dual-gpu-inference/dual-gpu-inference-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028508169Z",
+  "valid_from": "2026-03-31T13:51:39.028508169Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-13-dual-gpu-inference/dual-gpu-inference-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 498,
+    "end_line": 507,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

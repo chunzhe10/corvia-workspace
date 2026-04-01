@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-7532087dbdaf",
+  "content": "### Server Startup\n\n## Error Handling\n\n| Scenario              | gRPC Status          | Client behavior                                  |\n|-----------------------|----------------------|--------------------------------------------------|\n| Model not loaded      | `NOT_FOUND`          | InferenceProvisioner calls LoadModel, retries     |\n| Model download fails  | `UNAVAILABLE`        | Return CorviaError::Embedding with context        |\n| Input too long        | `INVALID_ARGUMENT`   | Client truncation + server validation             |\n| Server overloaded     | `RESOURCE_EXHAUSTED` | Backoff + retry                                   |\n| Server crashed        | `UNAVAILABLE`        | InferenceProvisioner restarts, reconnects         |\n| OOM during inference  | `INTERNAL`           | Return error, log memory usage                    |\n\nReconnection: tonic Channel handles automatic reconnection on server restart.\n\n\n## Testing Strategy\n\n1. **Unit tests (corvia-inference):** model loading, output shape validation, tokenization\n2. **gRPC integration tests:** start server on random port, round-trip embed/chat calls, verify packed float encoding\n3. **Existing tests unaffected:** all 117 tests use MockEngine\n4. **Real model e2e tests:** CI-gated behind `--features real-inference`\n",
+  "source_version": "docs/rfcs/2026-03-02-grpc-inference-server-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463961394Z",
+  "valid_from": "2026-03-31T13:20:59.463961394Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-grpc-inference-server-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 289,
+    "end_line": 308,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

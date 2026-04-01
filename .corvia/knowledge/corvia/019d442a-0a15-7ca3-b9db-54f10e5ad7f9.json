@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a15-7ca3-b9db-54f10e5ad7f9",
+  "content": "\n    <span class=\"highlight-purple\">A Lab Bench.</span>\n  </div>\n  <div class=\"slide-subtitle\" style=\"font-size: 20px; margin-bottom: 24px;\">\n    Observe, hypothesize, change, measure. All through MCP.<br>\n    All without leaving the conversation.\n  </div>\n  <!-- The loop -->\n  <div style=\"display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;\">\n    <div class=\"card\" style=\"border-left: 4px solid var(--accent-cyan); padding: 20px 24px;\">\n      <div style=\"display: flex; align-items: center; gap: 16px;\">\n        <div style=\"font-size: 15px; font-weight: 800; color: var(--accent-cyan); min-width: 28px;\">1</div>\n        <div>\n          <div style=\"font-size: 20px; font-weight: 700;\">Observe</div>\n          <div style=\"font-size: 18px; color: var(--text-secondary); margin-top: 4px;\">Traces show retrieval is 60-85% of RAG latency. Graph expansion adds significant cost.</div>\n        </div>\n      </div>\n    </div>\n    <div class=\"card\" style=\"border-left: 4px solid var(--accent-amber); padding: 20px 24px;\">\n      <div style=\"display: flex; align-items: center; gap: 16px;\">\n        <div style=\"font-size: 15px; font-weight: 800; color: var(--accent-amber); min-width: 28px;\">2</div>\n        <div>\n          <div style=\"font-size: 20px; font-weight: 700;\">Hypothesize</div>\n          <div style=\"font-size: 18px; color: var(--text-secondary); margin-top: 4px;\">\"What if I disable graph expansion and increase top_k instead?\"</div>\n        </div>\n      </div>\n    </div>\n    <div class=\"card\" style=\"border-left: 4px solid var(--accent-green); padding: 20px 24px;\">\n      <div style=\"display: flex; align-items: center; gap: 16px;\">\n        <div style=\"font-size: 15px; font-weight: 800; color: var(--accent-green); min-width: 28px;\">3</div>\n        <div>\n          <div style=\"font-size: 20px; font-weight: 700;\">Act</div>\n          <div style=\"font-size: 18px; color: var(--text-secondary); margin-top: 4px;\"><span style=\"font-family: 'JetBrains Mono', monospace; font-size: 16px; color: var(--accent-green);\">config_set rag.graph_expansion_depth = 0</span>. Hot-reload. No restart.</div>\n        </div>\n      </div>\n    </div>\n    <div class=\"card\" style=\"border-left: 4px solid var(--accent-purple); padding: 20px 24px;\">",
+  "source_version": "marketing/linkedin/2026-03-28-observability-control-plane/observability-control-plane-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.029788717Z",
+  "valid_from": "2026-03-31T13:51:39.029788717Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-28-observability-control-plane/observability-control-plane-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 410,
+    "end_line": 439,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

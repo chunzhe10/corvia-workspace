@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-1012bbab2bcc",
+  "content": "rmatNum(queue), tQueue,\n    queue === 0 ? ' style=\"color:var(--mint)\"' : '');\n  html += metricCard('lavender', METRIC_ICONS.sessions, 'Sessions', formatNum(sessions), tSessions, '');\n  html += '</div>';\n\n  // Workspace\n  html += '<div class=\"workspace\">';\n\n  // --- Log panel ---\n  html += '<div class=\"log-panel\">';\n\n  // View tabs\n  html += '<div class=\"view-tabs\">';\n  html += viewTab('logs', SVG_LOGS, 'Logs');\n  html += viewTab('graph', SVG_GRAPH, 'Graph');\n  html += viewTab('traces', SVG_TRACES, 'Traces');\n  html += '</div>';\n\n  if (activeView === 'logs') {\n    // Toolbar\n    html += '<div class=\"log-toolbar\">';\n    html += '<div class=\"log-filters\">';\n    for (const f of ['all', 'info', 'warn', 'error']) {\n      html += '<button class=\"log-filter' + (activeFilter === f ? ' active' : '') + '\" data-filter=\"' + f + '\">' +\n        f.charAt(0).toUpperCase() + f.slice(1) + '</button>';\n    }\n    html += '</div>';\n    html += '<div class=\"log-actions\">' +\n      '<input class=\"log-search\" type=\"text\" placeholder=\"Search logs...\" value=\"' + esc(searchQuery) + '\" id=\"logSearchInput\">' +\n      '<button class=\"log-btn' + (autoScroll ? ' active' : '') + '\" id=\"autoScrollBtn\">\\\\u2193 Auto</button>' +\n      '<button class=\"log-btn\" data-action=\"clear-logs\">Clear</button>' +\n    '</div></div>';\n\n    // Source tabs\n    const tabs = buildLogTabs(data.logs || [], data.service_logs || {});\n    const tabNames = Object.keys(tabs);\n    if (tabNames.length > 0 && (!activeLogTab || !tabs[activeLogTab])) {\n      activeLogTab = tabNames[0];\n    }\n",
+  "source_version": "docs/rfcs/2026-03-10-dashboard-redesign.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457987063Z",
+  "valid_from": "2026-03-31T13:20:59.457987063Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-dashboard-redesign.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 761,
+    "end_line": 792,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

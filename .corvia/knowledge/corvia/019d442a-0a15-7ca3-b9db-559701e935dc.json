@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a15-7ca3-b9db-559701e935dc",
+  "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<title>Carousel — Building Memory</title>\n<link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap\" rel=\"stylesheet\">\n<style>\n  * { margin: 0; padding: 0; box-sizing: border-box; }\n\n  body {\n    background: #1a1a2e;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    gap: 40px;\n    padding: 40px 20px;\n    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;\n    overflow-x: auto;\n  }\n\n  /* Scale down for narrow viewports (VS Code preview, small screens) */\n  @media (max-width: 1120px) {\n    .slide {\n      transform: scale(0.45);\n      transform-origin: top center;\n      margin-bottom: -740px; /* compensate for scaled whitespace */\n    }\n  }\n  @media (min-width: 1121px) and (max-width: 1400px) {\n    .slide {\n      transform: scale(0.7);\n      transform-origin: top center;\n      margin-bottom: -400px;\n    }\n  }\n\n  .slide {\n    width: 1080px;\n    height: 1350px;\n    position: relative;\n    overflow: hidden;\n    flex-shrink: 0;\n  }\n\n  .slide-inner {\n    width: 100%;\n    height: 100%;\n    padding: 72px;\n    display: flex;\n    flex-direction: column;\n    position: relative;\n  }\n\n  :root {\n    --bg-dark:       #0f172a;\n    --bg-card:       #1e293b;\n    --bg-card-alt:   #334155;\n    --accent-blue:   #3b82f6;\n    --accent-cyan:   #06b6d4;\n    --accent-green:  #10b981;\n    --accent-amber:  #f59e0b;\n    --accent-red:    #ef4444;\n    --accent-purple: #8b5cf6;\n    --text-primary:  #f1f5f9;\n    --text-secondary:#94a3b8;\n    --text-muted:    #64748b;\n    --border:        #334155;\n  }\n\n  /* ── Shared ── */\n  .slide-label {\n    font-size: 18px;\n    font-weight: 700;\n    letter-spacing: 2px;\n    text-transform: uppercase;\n    margin-bottom: 24px;\n  }\n\n  .slide-title {\n    font-size: 58px;\n    font-weight: 800;\n    line-height: 1.15;\n    letter-spacing: -1px;\n    color: var(--text-primary);\n    margin-bottom: 16px;\n  }",
+  "source_version": "marketing/linkedin/2026-03-29-recursive-loop-reflection/recursive-loop-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.029872173Z",
+  "valid_from": "2026-03-31T13:51:39.029872173Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-29-recursive-loop-reflection/recursive-loop-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 1,
+    "end_line": 86,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

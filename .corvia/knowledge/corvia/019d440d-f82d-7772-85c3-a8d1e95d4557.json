@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82d-7772-85c3-a8d1e95d4557",
+  "content": " .stdout(std::process::Stdio::null())\n            .stderr(std::process::Stdio::null())\n            .spawn()\n            .map_err(|e| CorviaError::Infra(format!(\"Failed to start Ollama: {e}\")))?;\n\n        info!(\"Ollama server started\");\n        Ok(())\n    }\npub async fn wait_ready(&self, timeout_secs: u64) -> Result<()> {\n        let deadline =\n            tokio::time::Instant::now() + std::time::Duration::from_secs(timeout_secs);\n\n        while tokio::time::Instant::now() < deadline {\n            if self.is_running().await {\n                return Ok(());\n            }\n            tokio::time::sleep(std::time::Duration::from_millis(500)).await;\n        }\n\n        Err(CorviaError::Infra(format!(\n            \"Ollama did not become ready within {timeout_secs}s at {}\",\n            self.url\n        )))\n    }",
+  "source_version": "crates/corvia-kernel/src/ollama_provisioner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.437363467Z",
+  "valid_from": "2026-03-31T13:20:59.437363467Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ollama_provisioner.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 72,
+    "end_line": 87,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

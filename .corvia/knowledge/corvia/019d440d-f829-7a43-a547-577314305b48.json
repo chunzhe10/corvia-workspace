@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f829-7a43-a547-577314305b48",
+  "content": "ord = AgentCoordinator::new(\n            store.clone(),\n            engine,\n            dir,\n            AgentLifecycleConfig::default(),\n            MergeConfig::default(),\n            gen_engine,\n        )\n        .unwrap();\n\n        (store, coord)\n    }\nasync fn test_system_status_empty() {\n        let dir = tempfile::tempdir().unwrap();\n        let (store, coord) = setup_coordinator(dir.path()).await;\n\n        let status = system_status(store, &coord, \"test\").await.unwrap();\n        assert_eq!(status.entry_count, 0);\n        assert_eq!(status.active_agents, 0);\n        assert_eq!(status.open_sessions, 0);\n        assert_eq!(status.merge_queue_depth, 0);\n        assert_eq!(status.scope_id, \"test\");\n        assert_eq!(status.tier_distribution.hot, 0);\n        assert_eq!(status.tier_distribution.warm, 0);\n        assert_eq!(status.tier_distribution.cold, 0);\n        assert_eq!(status.tier_distribution.forgotten, 0);\n    }",
+  "source_version": "crates/corvia-kernel/src/ops.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.433192933Z",
+  "valid_from": "2026-03-31T13:20:59.433192933Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ops.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 621,
+    "end_line": 635,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

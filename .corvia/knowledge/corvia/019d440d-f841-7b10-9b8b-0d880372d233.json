@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0d880372d233",
+  "content": " chunking strategy. The key change is that **chunking now goes through the pipeline** with proper token budget enforcement, merging, and splitting.\n\n**Step 3: Update ingest_workspace in workspace.rs**\n\nApply the same pipeline pattern to `ingest_workspace`:\n\n```rust\n// In ingest_workspace, replace the adapter.ingest_with_relations() flow:\nlet adapter = GitAdapter::new();\nlet source_files = adapter.ingest_sources(repo_path_str).await?;\nlet mut pipeline = corvia_kernel::create_chunking_pipeline(&config);\nadapter.register_chunking(pipeline.registry_mut());\nlet (processed, report) = pipeline.process_batch(&source_files)?;\n// ... convert, embed, store (same pattern as cmd_ingest)\n```\n\n**Step 4: Add `registry_mut()` accessor to ChunkingPipeline**\n\nAdd to `chunking_pipeline.rs`:\n```rust\n/// Get a mutable reference to the registry for adapter registration.\npub fn registry_mut(&mut self) -> &mut FormatRegistry {\n    &mut self.registry\n}\n```\n\n**Step 5: Verify compilation and tests**\n\nRun: `cargo build --workspace`\nExpected: PASS\n\nRun: `cargo test --workspace`\nExpected: All tests PASS\n\n**Step 6: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/lib.rs crates/corvia-kernel/src/chunking_pipeline.rs crates/corvia-cli/src/main.rs crates/corvia-cli/src/workspace.rs\ngit commit -m \"feat(m3.3): wire ChunkingPipeline into CLI ingestion flow (D69)\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457647509Z",
+  "valid_from": "2026-03-31T13:20:59.457647509Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1650,
+    "end_line": 1687,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

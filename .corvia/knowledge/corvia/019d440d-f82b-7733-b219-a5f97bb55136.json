@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82b-7733-b219-a5f97bb55136",
+  "content": "dings from stored entries (does NOT call the\n    /// InferenceEngine). Grouped with LLM checks because it relies on\n    /// embedding quality, which is an LLM-dependent property.\n    ///\n    /// Compares embeddings pairwise. If two entries have high cosine\n    /// similarity (>0.85) but different `source_version` values (suggesting\n    /// different time periods), they are flagged as potential contradictions.\n    async fn check_contradictions(\n        &self,\n        entries: &[KnowledgeEntry],\n        scope_id: &str,\n    ) -> Result<Vec<Finding>> {\n        let scoped: Vec<&KnowledgeEntry> = entries\n            .iter()\n            .filter(|e| e.scope_id == scope_id && e.embedding.is_some())\n            .collect();\n\n        let mut findings = Vec::new();\n        // Cap pairwise comparisons to avoid O(n^2) explosion on large scopes.\n        // With 1000 pairs, scopes up to ~45 entries get full coverage.\n        // For larger scopes, findings are not exhaustive.\n        let max_pairs = 1000;\n        let mut pair_count = 0;\n\n        for i in 0..scoped.len() {\n            if pair_count >= max_pairs {\n                break;\n            }\n            for j in (i + 1)..scoped.len() {\n                if pair_count >= max_pairs {\n                    break;\n                }",
+  "source_version": "crates/corvia-kernel/src/reasoner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.435030309Z",
+  "valid_from": "2026-03-31T13:20:59.435030309Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/reasoner.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 526,
+    "end_line": 552,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

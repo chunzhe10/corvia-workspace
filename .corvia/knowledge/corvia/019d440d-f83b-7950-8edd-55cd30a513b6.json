@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-55cd30a513b6",
+  "content": "### Response Example\n\n## Files Changed\n\n| File | Change |\n|------|--------|\n| `crates/corvia-common/src/config.rs` | Add `DashboardSection` struct with defaults and validation, wire into `CorviaConfig` |\n| `crates/corvia-common/src/dashboard.rs` | Add 7 new fields to `DashboardStatusResponse` |\n| `crates/corvia-server/src/dashboard/coverage.rs` | New file: `IndexCoverageCache`, `CoverageSnapshot` |\n| `crates/corvia-server/src/dashboard/mod.rs` | Wire cache into `status_handler`, add refresh route |\n| `crates/corvia-server/src/rest.rs` | Add `coverage_cache` field to `AppState` |\n| `crates/corvia-server/src/mcp.rs` | Add `\"dashboard\"` to hot-reload allowlist |\n| `crates/corvia-kernel/src/lite_store.rs` | Add `hnsw_entry_count()` method (count `HNSW_TO_UUID` table) |\n\n\n## Tests\n",
+  "source_version": "docs/rfcs/2026-03-26-dashboard-index-coverage-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451434787Z",
+  "valid_from": "2026-03-31T13:20:59.451434787Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-26-dashboard-index-coverage-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 297,
+    "end_line": 310,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

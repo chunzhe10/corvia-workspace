@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f828-7a92-a1a8-d713156f9800",
+  "content": " hot_score (embeddings nearly identical).\n        let ratio = warm_score / hot_score;\n        assert!(\n            (ratio - 0.7).abs() < 0.01,\n            \"tier weight ratio should be ~0.7, got {ratio} (hot={hot_score}, warm={warm_score})\"\n        );\n    }\nasync fn test_all_forgotten_returns_empty() {\n        use corvia_common::types::Tier;\n\n        let dir = tempfile::tempdir().unwrap();\n        let store = Arc::new(LiteStore::open(dir.path(), 3).unwrap());\n        store.init_schema().await.unwrap();\n        let engine: Arc<dyn InferenceEngine> = Arc::new(MockEngine);\n\n        // Insert only Forgotten entries.\n        for i in 0..5 {\n            let mut entry = KnowledgeEntry::new(\n                format!(\"forgotten {i}\"),\n                \"all-forgotten\".to_string(),\n                \"v1\".to_string(),\n            );\n            entry.embedding = Some(vec![1.0, i as f32 * 0.1, 0.0]);\n            entry.tier = Tier::Forgotten;\n            store.insert(&entry).await.unwrap();\n        }\n\n        let retriever = VectorRetriever::new(store.clone() as Arc<dyn QueryableStore>, engine);\n        let opts = RetrievalOpts {\n            limit: 10,\n            visibility: VisibilityMode::All,\n            ..Default::default()\n        };\n        let result = retriever.retrieve(\"test\", \"all-forgotten\", &opts).await.unwrap();\n        assert!(result.results.is_empty(), \"all-Forgotten scope should return empty results\");\n    }",
+  "source_version": "crates/corvia-kernel/src/retriever.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.432626413Z",
+  "valid_from": "2026-03-31T13:20:59.432626413Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/retriever.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1765,
+    "end_line": 1793,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

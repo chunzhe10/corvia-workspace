@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-34ed2570f06b",
+  "content": "### Where GitNexus Remains Ahead\n### Strategic Position\n\n## Implementation Order\n\n| Phase | Depends On | Estimated Scope |\n|-------|-----------|-----------------|\n| P5 (HashMap optimization) | None | ~60 lines in ingest.rs |\n| P1 (JS/TS relations) | None | ~300 lines in treesitter.rs |\n| P2 (Python relations) | None | ~250 lines in treesitter.rs |\n| P3 (JS/TS + Python resolution) | P1+P2 (more relations to resolve) | ~150 lines in ingest.rs |\n| P4 (edge weights) | P1+P2 (more relation types to weight) | ~80 lines in retriever.rs |\n| Observability | P1 (something to observe) | ~100 lines across CLI, server, MCP |\n\nP5 ships first (prevents perf regression when P1/P2 land). P1 and P2 can be done in parallel.\nP3 and P4 benefit from P1+P2 shipping first but are not blocked. Observability can ship\nincrementally alongside any priority.\n\n---\n\n\n## Testing Strategy\n",
+  "source_version": "docs/rfcs/2026-03-28-structural-intelligence-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458291605Z",
+  "valid_from": "2026-03-31T13:20:59.458291605Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-structural-intelligence-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 564,
+    "end_line": 582,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83f-7210-b9e4-0ad7f059aa3e",
+  "content": " (i32, String)> {\n    let scope_id = resolve_scope_id(args, state)?;\n    let status = corvia_kernel::ops::system_status(\n        state.store.clone(),\n        &state.coordinator,\n        &scope_id,\n    ).await.map_err(|e| (INTERNAL_ERROR, format!(\"{e}\")))?;\n\n    let text = serde_json::to_string_pretty(&status)\n        .map_err(|e| (INTERNAL_ERROR, format!(\"{e}\")))?;\n    Ok(json!({ \"content\": [{ \"type\": \"text\", \"text\": text }] }))\n}\n\nfn tool_corvia_config_get(\n    state: &AppState,\n    args: &Value,\n) -> Result<Value, (i32, String)> {\n    let section = args.get(\"section\").and_then(|v| v.as_str());\n    let config = state.config.read()\n        .map_err(|e| (INTERNAL_ERROR, format!(\"Config lock: {e}\")))?;\n    let result = corvia_kernel::ops::config_get(&config, section)\n        .map_err(|e| (INVALID_PARAMS, format!(\"{e}\")))?;\n    let text = serde_json::to_string_pretty(&result)\n        .map_err(|e| (INTERNAL_ERROR, format!(\"{e}\")))?;\n    Ok(json!({ \"content\": [{ \"type\": \"text\", \"text\": text }] }))\n}\n\nfn tool_corvia_adapters_list(\n    state: &AppState,\n) -> Result<Value, (i32, String)> {\n    let config = state.config.read()\n        .map_err(|e| (INTERNAL_ERROR, format!(\"Config lock: {e}\")))?;\n    let extra_dirs = config.adapters.as_ref()\n        .map(|a| a.search_dirs.clone())\n        .unwrap_or_default();\n    drop(config); // release lock before potentially slow disk scan",
+  "source_version": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.455005074Z",
+  "valid_from": "2026-03-31T13:20:59.455005074Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1087,
+    "end_line": 1115,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

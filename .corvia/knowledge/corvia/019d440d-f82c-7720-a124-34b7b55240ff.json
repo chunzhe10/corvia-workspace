@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82c-7720-a124-34b7b55240ff",
+  "content": "ssert!(buf.pending.get(&id3).is_none());\n\n        buf.record(&[id1]); // existing key also dropped\n        let ba1 = buf.pending.get(&id1).unwrap();\n        assert_eq!(ba1.count, 1); // unchanged\n\n        buf.flushing.store(false, Ordering::Relaxed);\n    }\nfn test_flush_updates_redb_entries() {\n        let dir = tempfile::tempdir().unwrap();\n        let db = Arc::new(Database::create(dir.path().join(\"test.redb\")).unwrap());\n\n        // Create ENTRIES table and insert a test entry.\n        let entry =\n            KnowledgeEntry::new(\"test content\".into(), \"scope\".into(), \"v1\".into());\n        let entry_id = entry.id;\n        {\n            let txn = db.begin_write().unwrap();\n            {\n                let mut table = txn.open_table(ENTRIES).unwrap();\n                let bytes = serde_json::to_vec(&entry).unwrap();\n                table\n                    .insert(entry_id.to_string().as_str(), bytes.as_slice())\n                    .unwrap();\n            }\n            txn.commit().unwrap();\n        }\n\n        let buf = AccessBuffer::new(3600, 1000);\n        buf.record(&[entry_id]);\n        buf.record(&[entry_id]);\n        buf.record(&[entry_id]);\n\n        let flushed = buf.flush_sync(&db);\n        assert_eq!(flushed, 1); // 1 unique entry successfully written\n\n        // Read entry back from Redb and verify.\n        let read_txn = db.begin_read().unwrap();\n        let table = read_txn.open_table(ENTRIES).unwrap();\n        let val = table.get(entry_id.to_string().as_str()).unwrap().unwrap();\n        let updated: KnowledgeEntry = serde_json::from_slice(val.value()).unwrap();\n\n        assert_eq!(updated.access_count, 3);\n        assert!(updated.last_accessed.is_some());\n    }",
+  "source_version": "crates/corvia-kernel/src/access_buffer.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.436685386Z",
+  "valid_from": "2026-03-31T13:20:59.436685386Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/access_buffer.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 466,
+    "end_line": 502,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

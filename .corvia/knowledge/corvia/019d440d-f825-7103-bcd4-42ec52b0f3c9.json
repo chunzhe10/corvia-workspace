@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-42ec52b0f3c9",
+  "content": "p 4: Verify counts\n    let lite = Arc::new(lite);\n    verify_counts(\n        &(lite.clone() as Arc<dyn QueryableStore>),\n        &(lite as Arc<dyn GraphStore>),\n        entries_by_scope,\n        scope_names,\n        edges.len(),\n    ).await?;\n\n    Ok(())\n}\nasync fn write_to_postgres(\n    config: &CorviaConfig,\n    entries: &[KnowledgeEntry],\n    edges: &[GraphEdge],\n    entries_by_scope: &HashMap<String, Vec<&KnowledgeEntry>>,\n    scope_names: &[String],\n) -> Result<()> {\n    let pg_url = config\n        .storage\n        .postgres_url\n        .as_deref()\n        .unwrap_or(\"postgres://corvia:corvia@127.0.0.1:5432/corvia\");\n\n    println!(\"\\nConnecting to PostgreSQL at {}...\", pg_url);\n    let store = connect_postgres(config).await?;\n    println!(\"Initializing PostgreSQL schema...\");\n    store.init_schema().await?;\n\n    let store = Arc::new(store);\n    bulk_insert_and_verify(\n        store.clone() as Arc<dyn QueryableStore>,\n        store as Arc<dyn GraphStore>,\n        entries,\n        edges,\n        entries_by_scope,\n        scope_names,\n    )\n    .await\n}",
+  "source_version": "crates/corvia-cli/src/upgrade.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429718732Z",
+  "valid_from": "2026-03-31T13:20:59.429718732Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/upgrade.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 273,
+    "end_line": 301,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

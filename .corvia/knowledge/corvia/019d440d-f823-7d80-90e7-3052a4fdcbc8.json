@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f823-7d80-90e7-3052a4fdcbc8",
+  "content": "# corvia-common\n\n## Modules\n\n- **types** — `KnowledgeEntry`, `SearchResult`, `GraphEdge`, and other core data structures\n- **config** — `CorviaConfig` loaded from `corvia.toml`, storage, embedding, and telemetry settings (`TelemetryConfig`)\n- **namespace** — Five-segment namespace model (`org:scope:workstream:source:version`)\n- **errors** — Unified error types and `Result` alias\n- **events** — Domain events for inter-subsystem communication\n- **agent_types** — Agent identity, session state, and coordination types\n\n\n## License\n\nAGPL-3.0-only — see [LICENSE](../../LICENSE) for details.",
+  "source_version": "crates/corvia-common/README.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.427633409Z",
+  "valid_from": "2026-03-31T13:20:59.427633409Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/README.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 9,
+    "end_line": 20,
+    "content_role": "instruction",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "procedural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f836-7610-b605-bf2ae6adc11b",
+  "content": "tention_score(&base);\n        let super_score = compute_retention_score(&superseded);\n\n        assert!(\n            approx_eq(super_score, base_score * 0.5, 0.01),\n            \"Expected {}, got {super_score}\",\n            base_score * 0.5\n        );\n    }\n\n    #[test]\n    fn test_structural_superseded_uses_episodic_alpha() {\n        let fresh = RetentionParams {\n            memory_type: MemoryType::Structural,\n            ..Default::default()\n        };\n        let old_superseded = RetentionParams {\n            memory_type: MemoryType::Structural,\n            days_since_creation: 365.0,\n            is_superseded: true,\n            ..Default::default()\n        };\n\n        let fresh_score = compute_retention_score(&fresh);\n        let old_score = compute_retention_score(&old_superseded);\n\n        assert!(\n            old_score < fresh_score * 0.3,\n            \"Old superseded structural ({old_score}) should be much lower than fresh ({fresh_score})\"\n        );\n    }\n\n    // ── Edge cases ──────────────────────────────────────────────────────────\n\n    #[test]\n    fn test_negative_days_clamps_to_zero() {\n        let params = RetentionParams {\n            memory_type: MemoryType::Episodic,\n            days_since_creation: -5.0,\n            confidence: Some(0.7),\n            ..Default::default()\n        };\n        let score = compute_retention_score(&params);\n        // D = (1+0)^(-0.6) = 1.0, A = 0, G = 0, C = 0.7\n        // score = 0.35*1.0 + 0 + 0 + 0.15*0.7 = 0.455\n        assert!(approx_eq(score, 0.455, 0.01), \"Expected ~0.455, got {score}\");\n    }",
+  "source_version": "crates/corvia-kernel/src/scoring.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.446489621Z",
+  "valid_from": "2026-03-31T13:20:59.446489621Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/scoring.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 447,
+    "end_line": 483,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

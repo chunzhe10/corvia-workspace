@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f843-7a03-b56b-30b60e018719",
+  "content": "RE_INSERT: &str = \"corvia.store.insert\";\n    pub const STORE_SEARCH: &str = \"corvia.store.search\";\n    pub const STORE_GET: &str = \"corvia.store.get\";\n    pub const RAG_CONTEXT: &str = \"corvia.rag.context\";\n    pub const RAG_ASK: &str = \"corvia.rag.ask\";\n}\n\n/// Opaque handle that keeps the telemetry pipeline alive.\n/// Hold this in your top-level scope (e.g. `main`); dropping it flushes\n/// any buffered output and shuts down the OTel tracer provider.\npub struct TelemetryGuard {\n    _file_guard: Option<tracing_appender::non_blocking::WorkerGuard>,\n    _tracer_provider: Option<opentelemetry_sdk::trace::SdkTracerProvider>,\n}\n\n/// Initialize the tracing subscriber pipeline based on config.\n///\n/// Returns a [`TelemetryGuard`] that **must** be held for the lifetime of\n/// the process. Dropping the guard flushes buffered output and shuts down\n/// the OpenTelemetry tracer provider.\n///\n/// ## OTLP Export\n///\n/// OTLP export is additive. If `config.otlp_endpoint` is non-empty, an\n/// OpenTelemetry layer is added to the subscriber regardless of the\n/// `exporter` setting. This means you always get local output plus\n/// optional OTLP export.\n///\n/// ## Environment Overrides\n///\n/// - `OTEL_EXPORTER_OTLP_ENDPOINT` overrides `config.otlp_endpoint`\n/// - `OTEL_SERVICE_NAME` overrides `config.service_name`\n/// - `RUST_LOG` overrides the default log level filter\npub fn init_telemetry(config: &TelemetryConfig) -> anyhow::Result<TelemetryGuard> {\n    use tracing_subscriber::{fmt, EnvFilter, prelude::*};",
+  "source_version": "docs/rfcs/2026-03-11-otel-standardization.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.459104833Z",
+  "valid_from": "2026-03-31T13:20:59.459104833Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-otel-standardization.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 373,
+    "end_line": 401,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-cb287bd54eee",
+  "content": "### Binary\n### Metadata\n\n### Ingestion Flow\n\n```\n1. Scan ~/.claude/teams/ for team directories\n2. For each team:\n   a. Read config.json -> one SourceFile (team structure entry)\n   b. Read tasks/*.json -> one SourceFile per task\n   c. Read inboxes/*.json -> one SourceFile per message thread\n   d. Check .ingested state file to skip already-processed teams\n3. Return Vec<SourceFile> via JSONL\n4. Kernel embeds and stores\n5. Wire graph edges (team -> members, tasks -> owners, task deps)\n```\n\n\n### SourceMetadata Mapping\n\n| Field | Value |\n|-------|-------|\n| `scope_id` | `\"user-history\"` (same as session history) |\n| `content_role` | `\"memory\"` for team config, `\"finding\"` for messages, `\"plan\"` for tasks |\n| `source_origin` | `\"claude:team:{team-name}\"` |\n| `source_version` | `\"{team-name}:{artifact-type}:{id}\"` |\n| `workstream` | Git branch from lead's spawn context (if available) |\n",
+  "source_version": "decisions/2026-03-28-adapter-agent-teams-exploration.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025526560Z",
+  "valid_from": "2026-03-31T13:51:39.025526560Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-adapter-agent-teams-exploration.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 112,
+    "end_line": 135,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

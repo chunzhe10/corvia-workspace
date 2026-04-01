@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82a-7783-b9af-77b2c2e9d4f6",
+  "content": "t.retention_score.unwrap() - 0.72).abs() < 0.01);\n        assert!(got.pin.is_some());\n        assert_eq!(got.pin.unwrap().by, \"test-agent\");\n\n        store.delete_scope(\"test-tiered\").await.unwrap();\n        cleanup_test_db(\"tiered_roundtrip\").await;\n    }\nasync fn test_pg_search_filters_by_tier() {\n        let store = match connect_test_store(\"tier_search\").await {\n            Ok(s) => s,\n            Err(_) => {\n                eprintln!(\"Skipping: PostgreSQL not available\");\n                return;\n            }\n        };\n\n        // Insert a hot entry and a cold entry\n        let mut hot_entry = KnowledgeEntry::new(\n            \"hot content\".into(),\n            \"test-tiered\".into(),\n            \"v1\".into(),\n        )\n        .with_embedding(test_embedding(1.0, 0.0, 0.0));\n        hot_entry.tier = corvia_common::types::Tier::Hot;\n\n        let mut cold_entry = KnowledgeEntry::new(\n            \"cold content\".into(),\n            \"test-tiered\".into(),\n            \"v2\".into(),\n        )\n        .with_embedding(test_embedding(0.9, 0.1, 0.0));\n        cold_entry.tier = corvia_common::types::Tier::Cold;\n\n        store.insert(&hot_entry).await.unwrap();\n        store.insert(&cold_entry).await.unwrap();\n\n        // Default search should only return the hot entry\n        let results = store\n            .search(&test_embedding(1.0, 0.0, 0.0), \"test-tiered\", 10)\n            .await\n            .unwrap();\n        assert_eq!(results.len(), 1);\n        assert_eq!(results[0].entry.content, \"hot content\");\n\n        // Cold search should return both\n        let results = store\n            .search_with_cold(&test_embedding(1.0, 0.0, 0.0), \"test-tiered\", 10)\n            .await\n            .unwrap();\n        assert_eq!(results.len(), 2);\n\n        store.delete_scope(\"test-tiered\").await.unwrap();\n        cleanup_test_db(\"tier_search\").await;\n    }",
+  "source_version": "crates/corvia-kernel/src/postgres_store.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.434631274Z",
+  "valid_from": "2026-03-31T13:20:59.434631274Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/postgres_store.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1483,
+    "end_line": 1529,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

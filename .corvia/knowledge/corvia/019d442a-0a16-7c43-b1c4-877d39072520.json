@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a16-7c43-b1c4-877d39072520",
+  "content": "entally different from reading about it. You have to feel it break, watch it recover, and build intuition from there.</p>\n      </div>\n    </div>\n\n    <div class=\"footer\">\n      <span>Lim Chun Zhe</span>\n      <span>6 / 10</span>\n    </div>\n  </div>\n</div>\n<!-- ═══════════════════════════════════════════════════ -->\n<!-- SLIDE 7 — STAYING ON EDGE                         -->\n<!-- ═══════════════════════════════════════════════════ -->\n<div class=\"slide slide-wave\">\n  <div class=\"slide-inner\">\n    <div class=\"slide-label\">The Mindset</div>\n    <div class=\"slide-title\">Staying on <span class=\"hl-amber\">Edge</span></div>\n    <div class=\"slide-subtitle\">When the space moves, move with it.</div>\n\n    <div class=\"wave-events\">\n      <div class=\"wave-event\" style=\"border-left-color: var(--accent-green);\">\n        <div class=\"wave-trigger\"><strong>Claude ships memory, Agent Teams, session persistence</strong>Personal memory becomes table stakes.</div>\n        <div class=\"wave-arrow\">→</div>\n        <div class=\"wave-response hl-green\">Exciting, not threatening. The organizational layer is still open.</div>\n      </div>\n      <div class=\"wave-event\" style=\"border-left-color: var(--accent-cyan);\">\n        <div class=\"wave-trigger\"><strong>Claude Agent Teams launches</strong>Teams of agents solving problems together.</div>\n        <div class=\"wave-arrow\">→</div>\n        <div class=\"wave-response hl-cyan\">Built an adapter. How can corvia capture what teams discover?</div>\n      </div>\n      <div class=\"wave-event\" style=\"border-left-color: var(--accent-amber);\">\n        <div class=\"wave-trigger\"><strong>GitNexus shows structural intelligence</strong>Most codebases aren't started from scratch.</div>\n        <div class=\"wave-arrow\">→</div>\n        <div class=\"wave-response hl-amber\">Started building structural code analysis into corvia's adapter.</div>\n      </div>\n    </div>\n\n    <div class=\"wave-insight\">\n      AI is moving fast. Grab every emerging capability and build on it. That's how you stay on edge.\n    </div>",
+  "source_version": "marketing/linkedin/2026-03-29-recursive-loop-reflection/recursive-loop-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.030125847Z",
+  "valid_from": "2026-03-31T13:51:39.030125847Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-29-recursive-loop-reflection/recursive-loop-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 864,
+    "end_line": 893,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

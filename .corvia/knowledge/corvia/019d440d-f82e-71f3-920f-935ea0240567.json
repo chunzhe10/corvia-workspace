@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82e-71f3-920f-935ea0240567",
+  "content": "pub struct FormatRegistry {\n    defaults: HashMap<String, Arc<dyn ChunkingStrategy>>,\n    overrides: HashMap<String, Arc<dyn ChunkingStrategy>>,\n    fallback: Arc<dyn ChunkingStrategy>,\n}\nimpl FormatRegistry {\n    /// Create a new registry with the given fallback strategy.\n    ///\n    /// The fallback is used when no default or override matches the extension.\n    pub fn new(fallback: Arc<dyn ChunkingStrategy>) -> Self {\n        Self {\n            defaults: HashMap::new(),\n            overrides: HashMap::new(),\n            fallback,\n        }\n    }\n\n    /// Register a kernel default strategy for an extension.\n    ///\n    /// Kernel defaults are overridden by adapter overrides.\n    pub fn register_default(&mut self, ext: &str, strategy: Arc<dyn ChunkingStrategy>) {\n        self.defaults.insert(ext.to_string(), strategy);\n    }\n\n    /// Register an adapter override strategy for an extension.\n    ///\n    /// Adapter overrides take highest priority in resolution.\n    pub fn register_override(&mut self, ext: &str, strategy: Arc<dyn ChunkingStrategy>) {\n        self.overrides.insert(ext.to_string(), strategy);\n    }\n\n    /// Resolve the strategy for a file extension.\n    ///\n    /// Priority: adapter override > kernel default > fallback.\n    pub fn resolve(&self, ext: &str) -> Arc<dyn ChunkingStrategy> {\n        if let Some(s) = self.overrides.get(ext) {\n            return Arc::clone(s);\n        }\n        if let Some(s) = self.defaults.get(ext) {\n            return Arc::clone(s);\n        }\n        Arc::clone(&self.fallback)\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/chunking_pipeline.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.438587920Z",
+  "valid_from": "2026-03-31T13:20:59.438587920Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_pipeline.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 42,
+    "end_line": 80,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

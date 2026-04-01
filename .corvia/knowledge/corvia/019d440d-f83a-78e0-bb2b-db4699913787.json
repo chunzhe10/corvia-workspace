@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83a-78e0-bb2b-db4699913787",
+  "content": "## Task 1: Project Scaffold\n\n# /root/corvia/Cargo.toml\n[workspace]\nresolver = \"2\"\nmembers = [\n    \"crates/corvia-common\",\n    \"crates/corvia-kernel\",\n    \"crates/corvia-server\",\n    \"crates/corvia-cli\",\n]\n\n[workspace.package]\nversion = \"0.1.0\"\nedition = \"2024\"\nlicense = \"AGPL-3.0-only\"\nrepository = \"https://github.com/corvia/corvia\"\n\n[workspace.dependencies]\ncorvia-common = { path = \"crates/corvia-common\" }\ncorvia-kernel = { path = \"crates/corvia-kernel\" }\ncorvia-server = { path = \"crates/corvia-server\" }\nserde = { version = \"1.0\", features = [\"derive\"] }\nserde_json = \"1.0\"\ntokio = { version = \"1\", features = [\"full\"] }\nuuid = { version = \"1\", features = [\"v7\", \"serde\"] }\nanyhow = \"1\"\nthiserror = \"2\"\ntracing = \"0.1\"\ntracing-subscriber = { version = \"0.3\", features = [\"env-filter\"] }\n```\n\n**Step 3: Create crate skeletons**\n\nEach crate gets a minimal `Cargo.toml` and `src/lib.rs` (or `src/main.rs` for CLI).\n\n`crates/corvia-common/Cargo.toml`:\n```toml\n[package]\nname = \"corvia-common\"\nversion.workspace = true\nedition.workspace = true\nlicense.workspace = true\n\n[dependencies]\nserde.workspace = true\nserde_json.workspace = true\nuuid.workspace = true\nthiserror.workspace = true\nchrono = { version = \"0.4\", features = [\"serde\"] }\n```\n\n`crates/corvia-common/src/lib.rs`:\n```rust\npub mod types;\npub mod namespace;\npub mod config;\npub mod errors;\npub mod events;\n```\n\n`crates/corvia-kernel/Cargo.toml`:\n```toml\n[package]\nname = \"corvia-kernel\"\nversion.workspace = true\nedition.workspace = true\nlicense.workspace = true\n\n[dependencies]\ncorvia-common.workspace = true\nserde.workspace = true\nserde_json.workspace = true\ntokio.workspace = true\nuuid.workspace = true\nanyhow.workspace = true\nthiserror.workspace = true\ntracing.workspace = true\nasync-trait = \"0.1\"\nsurrealdb = { version = \"3\", features = [\"protocol-ws\"] }\nbollard = \"0.19\"\n```\n\n`crates/corvia-server/Cargo.toml`:\n```toml\n[package]\nname = \"corvia-server\"\nversion.workspace = true\nedition.workspace = true\nlicense.workspace = true\n\n[dependencies]",
+  "source_version": "docs/rfcs/2026-02-28-m1-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.450492675Z",
+  "valid_from": "2026-03-31T13:20:59.450492675Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-m1-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 47,
+    "end_line": 136,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

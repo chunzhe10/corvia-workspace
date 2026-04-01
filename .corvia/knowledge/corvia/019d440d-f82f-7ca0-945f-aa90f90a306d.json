@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82f-7ca0-945f-aa90f90a306d",
+  "content": "rc::new(sr.entry),\n                    scores: CandidateScores {\n                        components,\n                        final_score: NormalizedScore::new(weighted),\n                    },\n                }\n            })\n            .collect()\n    }\n}\npub fn new(store: Arc<dyn QueryableStore>, _engine: Arc<dyn InferenceEngine>) -> Self {\n        // engine is accepted for API compatibility but not stored;\n        // embedding is provided via SearchContext.query_embedding.\n        Self { store }\n    }",
+  "source_version": "crates/corvia-kernel/src/pipeline/searcher.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.439410519Z",
+  "valid_from": "2026-03-31T13:20:59.439410519Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/searcher.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 68,
+    "end_line": 72,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

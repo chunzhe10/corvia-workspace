@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f835-7a40-9ae4-129a1ec6034d",
+  "content": "e,\n            field_content,\n            field_entry_id,\n            field_scope_id,\n            field_content_role,\n            field_source_origin,\n            pending_count: AtomicU64::new(0),\n            db,\n            gen_meta_path,\n        })\n    }\npub fn is_stale(&self) -> Result<bool> {\n        let redb_gen = self.read_redb_generation()?;\n        let synced_gen = self.read_synced_generation();\n        Ok(redb_gen != synced_gen)\n    }",
+  "source_version": "crates/corvia-kernel/src/tantivy_index.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.445660630Z",
+  "valid_from": "2026-03-31T13:20:59.445660630Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/tantivy_index.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 317,
+    "end_line": 321,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

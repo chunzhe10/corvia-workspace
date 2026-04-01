@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-a0127f5ee637",
+  "content": "#### Task C4: ChunkingPipeline Orchestrator\n\n        &self,\n        source: &str,\n        meta: &SourceMetadata,\n    ) -> Result<Vec<ProcessedChunk>> {\n        // Step 1: Resolve strategy\n        let strategy = self.registry.resolve(&meta.extension);\n        let strategy_name = strategy.name().to_string();\n\n        // Step 2: Domain chunking\n        let raw_chunks = strategy.chunk(source, meta)?;\n\n        // Step 3: Merge small chunks\n        let merged = match strategy.merge_small(&raw_chunks, self.config.max_tokens) {\n            Some(custom_merged) => custom_merged,\n            None => self.default_merge(&raw_chunks),\n        };\n\n        // Step 4 + 5: Enforce budget, split oversized\n        let mut budget_ok = Vec::new();\n        for chunk in &merged {\n            let tokens = self.estimator.estimate(&chunk.content);\n            if tokens > self.config.max_tokens {\n                let splits = strategy.split_oversized(chunk, self.config.max_tokens)?;\n                // Recurse: split results might still be oversized\n                for split in splits {\n                    self.recursive_split_until_fit(&strategy, &split, &mut budget_ok)?;\n                }\n            } else {\n                budget_ok.push(chunk.clone());\n            }\n        }\n\n        // Step 6: Add overlap context\n        let mut final_chunks = Vec::new();\n        for i in 0..budget_ok.len() {",
+  "source_version": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464810588Z",
+  "valid_from": "2026-03-31T13:20:59.464810588Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1389,
+    "end_line": 1423,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

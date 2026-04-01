@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a13-75d1-bfe3-f70155e6b89f",
+  "content": "s\": 1\n        },\n        {\n          \"element\": \"comparison-cards\",\n          \"heightBudget\": 380,\n          \"layout\": \"flex row, 2 equal cards\"\n        },\n        {\n          \"element\": \"divider\"\n        },\n        {\n          \"element\": \"related-topics\",\n          \"heightBudget\": 100,\n          \"layout\": \"flex row, 3 items\",\n          \"optional\": true\n        },\n        {\n          \"element\": \"insight-box\",\n          \"heightBudget\": 100\n        }\n      ]\n    },\n    \"category-grid\": {\n      \"description\": \"Show 4 categories/types in a 2x2 grid with supporting stats.\",\n      \"rules\": [\n        \"Cards: emoji (36px) + heading (22px bold) + description (18px secondary, 2 lines)\",\n        \"Each card has a distinct accent color on left border\",\n        \"Stat row: stat-value (48px bold, colored) + stat-label (18px secondary)\",\n        \"Use grid-template-columns, NOT flex, for stat row\",\n        \"If including both quote-card and stat-row, reduce card padding to 24px\"\n      ],\n      \"structure\": [\n        {\n          \"element\": \"slide-label\"\n        },\n        {\n          \"element\": \"title\",\n          \"font\": \"slideTitle (58px)\",\n          \"heightBudget\": 140,\n          \"maxLines\": 2\n        },\n        {\n          \"element\": \"subtitle\",\n          \"font\": \"subtitle (28px)\",\n          \"heightBudget\": 90,\n          \"maxLines\": 2\n        },\n        {\n          \"element\": \"card-grid\",",
+  "source_version": "marketing/design-system.json",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.027695683Z",
+  "valid_from": "2026-03-31T13:51:39.027695683Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/design-system.json",
+    "language": null,
+    "chunk_type": "section",
+    "start_line": 228,
+    "end_line": 264,
+    "content_role": "code",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

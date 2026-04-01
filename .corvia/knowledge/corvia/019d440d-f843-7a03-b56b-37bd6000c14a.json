@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f843-7a03-b56b-37bd6000c14a",
+  "content": "### Step 1: Write failing test for factory functions\n### Step 2: Run tests to verify they fail\n\n### Step 3: Implement factory functions\n\nAdd to `crates/corvia-kernel/src/lib.rs`:\n\n```rust\nuse corvia_common::config::{CorviaConfig, InferenceProvider, StoreType};\nuse corvia_common::errors::Result;\n\n/// Create the appropriate InferenceEngine based on config.\npub fn create_engine(config: &CorviaConfig) -> Box<dyn traits::InferenceEngine> {\n    match config.embedding.provider {\n        InferenceProvider::Ollama => Box::new(ollama_engine::OllamaEngine::new(\n            &config.embedding.url,\n            &config.embedding.model,\n            config.embedding.dimensions,\n        )),\n        InferenceProvider::Vllm => Box::new(embedding_pipeline::VllmEngine::new(\n            &config.embedding.url,\n            &config.embedding.model,\n            config.embedding.dimensions,\n        )),\n    }\n}\n\n/// Create the appropriate QueryableStore based on config.\npub async fn create_store(config: &CorviaConfig) -> Result<Box<dyn traits::QueryableStore>> {\n    match config.storage.store_type {\n        StoreType::Lite => {\n            let store = lite_store::LiteStore::open(\n                std::path::Path::new(&config.storage.data_dir),\n                config.embedding.dimensions,\n            )?;\n            Ok(Box::new(store))\n        }\n        StoreType::Surrealdb => {\n            let store = knowledge_store::SurrealStore::connect(\n                config.storage.surrealdb_url.as_deref().unwrap_or(\"127.0.0.1:8000\"),\n                config.storage.surrealdb_ns.as_deref().unwrap_or(\"corvia\"),\n                config.storage.surrealdb_db.as_deref().unwrap_or(\"main\"),\n                config.storage.surrealdb_user.as_deref().unwrap_or(\"root\"),\n                config.storage.surrealdb_pass.as_deref().unwrap_or(\"root\"),\n                config.embedding.dimensions,\n            ).await?;\n            Ok(Box::new(store))\n        }\n    }\n}\n```\n\n\n### Step 4: Run tests to verify they pass\n\nRun: `cargo test -p corvia-kernel -- test_create_engine test_create_store`\nExpected: PASS\n",
+  "source_version": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.459992228Z",
+  "valid_from": "2026-03-31T13:20:59.459992228Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1370,
+    "end_line": 1423,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

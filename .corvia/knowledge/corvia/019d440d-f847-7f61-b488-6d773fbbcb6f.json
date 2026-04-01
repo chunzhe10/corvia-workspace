@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-6d773fbbcb6f",
+  "content": "### 1. `benchmarks/rag-retrieval/eval.py`\n\n\n**Output JSON schema:**\n```json\n{\n  \"config\": { \"url\": \"...\", \"scope_id\": \"...\", \"searchers\": [...], \"fusion\": \"...\" },\n  \"timestamp\": \"ISO8601\",\n  \"queries\": [\n    {\n      \"id\": 1,\n      \"query\": \"...\",\n      \"category\": \"config\",\n      \"expected_sources\": [\"config.rs\"],\n      \"found_sources\": [\"config.rs\", \"traits.rs\", ...],\n      \"recall_at_5\": 1.0,\n      \"reciprocal_rank\": 1.0,\n      \"latency_ms\": 42,\n      \"top_5_files\": [\"config.rs\", \"lite_store.rs\", ...],\n      \"bm25_latency_ms\": null,\n      \"fusion_latency_ms\": null\n    }\n  ],\n  \"aggregate\": {\n    \"recall_at_5\": 0.67,\n    \"mrr\": 0.72,\n    \"latency_p50_ms\": 35,\n    \"latency_p95_ms\": 48,\n    \"latency_p99_ms\": 52,\n    \"by_category\": {\n      \"architecture\": { \"recall_at_5\": 0.8, \"mrr\": 0.9 },\n      \"feature\": { ... },\n      ...\n    }\n  }\n}\n```\n",
+  "source_version": "docs/rfcs/2026-03-28-eval-default-flip-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463181342Z",
+  "valid_from": "2026-03-31T13:20:59.463181342Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-eval-default-flip-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 49,
+    "end_line": 84,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

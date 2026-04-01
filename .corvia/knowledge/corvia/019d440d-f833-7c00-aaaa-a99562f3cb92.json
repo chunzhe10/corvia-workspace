@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f833-7c00-aaaa-a99562f3cb92",
+  "content": "gPipeline` for now (each source\n    /// file becomes one entry). Task 10 will wire full pipeline chunking.\n    pub async fn ingest_self(\n        &self,\n        source_path: &str,\n        adapter: &dyn IngestionAdapter,\n        engine: &dyn InferenceEngine,\n        store: &dyn QueryableStore,\n    ) -> Result<usize> {\n        let source_files = adapter.ingest_sources(source_path).await?;\n        let total = source_files.len();\n        info!(\"{total} source files extracted from {source_path}\");\n\n        // Convert SourceFiles to KnowledgeEntries (one entry per file for now).\n        let entries: Vec<KnowledgeEntry> = source_files\n            .iter()\n            .map(|sf| {\n                let mut entry = KnowledgeEntry::new(\n                    sf.content.clone(),\n                    self.config.config.scope_id.clone(),\n                    sf.metadata.source_version.clone(),\n                );\n                entry.metadata = EntryMetadata {\n                    source_file: Some(sf.metadata.file_path.clone()),\n                    language: sf.metadata.language.clone(),\n                    chunk_type: Some(\"file\".into()),\n                    ..Default::default()\n                };\n                entry\n            })\n            .collect();\n\n        let mut stored = 0;\n        for batch in entries.chunks(EMBED_BATCH_SIZE) {\n            let texts: Vec<String> = batch.iter().map(|e| e.content.clone()).collect();\n            let embeddings = engine.embed_batch(&texts).await?;\n\n            for (entry, embedding) in batch.iter().zip(embeddings) {\n                let mut entry = entry.clone();\n                entry.embedding = Some(embedding);\n                store.insert(&entry).await?;\n                stored += 1;\n            }\n        }\n        info!(\"{stored}/{total} source files embedded and stored\");\n        Ok(stored)\n    }\n\n    /// Phase 2 (alternative): Ingest pre-collected source files.\n    ///",
+  "source_version": "crates/corvia-kernel/src/introspect.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.443338980Z",
+  "valid_from": "2026-03-31T13:20:59.443338980Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/introspect.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 174,
+    "end_line": 216,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

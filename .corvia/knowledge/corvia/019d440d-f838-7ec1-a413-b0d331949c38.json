@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f838-7ec1-a413-b0d331949c38",
+  "content": "try in the store\n        let entry = KnowledgeEntry::new(\"test\".into(), \"scope\".into(), \"v1\".into())\n            .with_embedding(vec![1.0, 0.0, 0.0])\n            .with_agent(\"test::agent\".into(), \"sess\".into());\n        store.insert(&entry).await.unwrap();\n\n        // Enqueue and manually set retry_count to max\n        queue.enqueue(entry.id, \"test::agent\", \"sess\", \"scope\").unwrap();\n        // Mark failed 3 times to reach max_retries (default 3)\n        queue.mark_failed(&entry.id, \"fail 1\").unwrap();\n        queue.mark_failed(&entry.id, \"fail 2\").unwrap();\n        queue.mark_failed(&entry.id, \"fail 3\").unwrap();\n\n        let queue_entry = queue.list(1).unwrap().into_iter().next().unwrap();\n        assert_eq!(queue_entry.retry_count, 3);\n\n        worker.process_one(&queue_entry).await.unwrap();\n\n        // Queue should be empty (entry removed after max retries)\n        assert_eq!(queue.depth().unwrap(), 0);\n\n        // Entry should be Rejected in store\n        let updated = store.get(&entry.id).await.unwrap().unwrap();\n        assert_eq!(updated.entry_status, EntryStatus::Rejected);\n    }\n\n    #[tokio::test]\n    async fn test_auto_merge_publishes_merge_completed_event() {\n        let dir = tempfile::tempdir().unwrap();\n        let (worker, store, queue, session_mgr, event_bus) = setup(dir.path());\n        store.init_schema().await.unwrap();\n\n        // Subscribe BEFORE the action\n        let mut rx = event_bus.subscribe();\n\n        // Insert entry A as Merged (different embedding direction)\n        let mut entry_a = KnowledgeEntry::new(\"auth system design\".into(), \"scope-a\".into(), \"v1\".into())\n            .with_embedding(vec![1.0, 0.0, 0.0]);\n        entry_a.entry_status = EntryStatus::Merged;\n        store.insert(&entry_a).await.unwrap();\n\n        // Create a session and write entry B (very different embedding)\n        let session = session_mgr.create(\"test::agent\", true).unwrap();",
+  "source_version": "crates/corvia-kernel/src/merge_worker.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.448885087Z",
+  "valid_from": "2026-03-31T13:20:59.448885087Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/merge_worker.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 493,
+    "end_line": 530,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

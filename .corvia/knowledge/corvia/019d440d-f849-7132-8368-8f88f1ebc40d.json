@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-8f88f1ebc40d",
+  "content": "# M3.3: Embedding & Chunking Strategy Design\n\n**Date:** 2026-03-02\n**Status:** Shipped (v0.3.0)\n**Depends on:** None (can build in parallel with M3.1/M3.2; shares TokenEstimator with D64)\n**Decisions:** D65 (chunking architecture), D66 (format routing), D67 (sibling merging), D68 (scope), D69 (trait clean break)\n",
+  "source_version": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465472085Z",
+  "valid_from": "2026-03-31T13:20:59.465472085Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1,
+    "end_line": 7,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

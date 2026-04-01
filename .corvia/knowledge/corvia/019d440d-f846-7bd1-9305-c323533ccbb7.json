@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-c323533ccbb7",
+  "content": "## Task 7: Create corvia-adapter-basic Rust Crate\n\n        \".git\", \"target\", \"node_modules\", \"__pycache__\", \".venv\",\n        \"dist\", \"build\", \"vendor\", \".corvia\", \".tox\", \".mypy_cache\",\n        \".pytest_cache\", \"venv\", \"env\", \".env\", \".idea\", \".vscode\",\n    ]\n    .into_iter()\n    .collect()\n}\n\nfn text_extensions() -> HashSet<&'static str> {\n    [\n        \"rs\", \"py\", \"js\", \"jsx\", \"ts\", \"tsx\", \"go\", \"java\", \"rb\", \"php\",\n        \"c\", \"cpp\", \"h\", \"hpp\", \"cs\", \"swift\", \"kt\", \"scala\", \"ex\", \"exs\",\n        \"sh\", \"bash\", \"zsh\", \"fish\",\n        \"md\", \"txt\", \"rst\", \"adoc\",\n        \"toml\", \"yaml\", \"yml\", \"json\", \"xml\", \"csv\",\n        \"html\", \"css\", \"scss\", \"less\", \"sql\",\n        \"dockerfile\", \"makefile\", \"justfile\",\n    ]\n    .into_iter()\n    .collect()\n}\n\n// -- Protocol types (matches corvia-kernel/src/adapter_protocol.rs) ----------\n\n#[derive(Serialize)]\nstruct Metadata {\n    name: &'static str,\n    version: String,\n    domain: &'static str,\n    protocol_version: u32,\n    description: &'static str,\n    supported_extensions: Vec<String>,\n    chunking_extensions: Vec<String>,\n}\n\n#[derive(Serialize)]\nstruct SourceFileMsg {\n    source_file: SourceFilePayload,\n}\n\n#[derive(Serialize)]\nstruct SourceFilePayload {\n    content: String,\n    metadata: SourceMetadata,\n}\n\n#[derive(Serialize)]\nstruct SourceMetadata {\n    file_path: String,\n    extension: String,\n    language: Option<String>,\n    scope_id: String,\n    source_version: String,\n}\n\n#[derive(Serialize)]\nstruct DoneMsg {\n    done: bool,\n    total_files: usize,\n}",
+  "source_version": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462796965Z",
+  "valid_from": "2026-03-31T13:20:59.462796965Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1493,
+    "end_line": 1552,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

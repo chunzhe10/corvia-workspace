@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-22094fedd994",
+  "content": "### Task 3: LiteStore TemporalStore — history + evolution\n\n    ).await.unwrap();\n    assert_eq!(old_results.len(), 0);\n}\n```\n\n**Step 2: Run tests to verify they fail**\n\nRun: `cargo test -p corvia-kernel -- test_temporal_history test_temporal_evolution`\nExpected: FAIL — `supersede` doesn't exist, `history`/`evolution` are `todo!()`.\n\n**Step 3: Implement `supersede` helper**\n\nAdd a public method on `LiteStore`:\n\n```rust\n/// Mark an entry as superseded by another. Updates valid_to, superseded_by,\n/// and the temporal index for the old entry.\npub async fn supersede(&self, old_id: &Uuid, new_id: &Uuid) -> Result<()> {\n    let now = chrono::Utc::now();\n\n    // Read old entry, update fields, write back\n    let mut old_entry = self.get(old_id).await?\n        .ok_or_else(|| CorviaError::Storage(format!(\"Entry {} not found\", old_id)))?;\n\n    old_entry.valid_to = Some(now);\n    old_entry.superseded_by = Some(*new_id);\n\n    // Update ENTRIES table\n    let entry_json = serde_json::to_vec(&old_entry)\n        .map_err(|e| CorviaError::Storage(format!(\"Failed to serialize: {e}\")))?;\n    let write_txn = self.db.begin_write()\n        .map_err(|e| CorviaError::Storage(format!(\"Failed to begin write txn: {e}\")))?;\n    {\n        let mut table = write_txn.open_table(ENTRIES)\n            .map_err(|e| CorviaError::Storage(format!(\"Failed to open ENTRIES: {e}\")))?;\n        table.insert(old_id.to_string().as_str(), entry_json.as_slice())\n            .map_err(|e| CorviaError::Storage(format!(\"Failed to update entry: {e}\")))?;\n    }\n    write_txn.commit()\n        .map_err(|e| CorviaError::Storage(format!(\"Failed to commit supersede: {e}\")))?;\n\n    // Update temporal index for old entry\n    self.write_temporal_index(&old_entry)?;\n\n    // Update knowledge file\n    knowledge_files::write_entry(&self.data_dir, &old_entry)?;\n\n    Ok(())\n}\n```\n\n**Step 4: Implement `history`**\n\nReplace the `todo!()` in the `TemporalStore` impl:\n\n```rust\nasync fn history(&self, entry_id: &uuid::Uuid) -> Result<Vec<KnowledgeEntry>> {\n    let mut chain = Vec::new();",
+  "source_version": "docs/rfcs/2026-03-02-m3-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452529076Z",
+  "valid_from": "2026-03-31T13:20:59.452529076Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 379,
+    "end_line": 436,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

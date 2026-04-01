@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-48e07a36225b",
+  "content": "# Dashboard Completion — Features 7, 9, 10\n\n> **Status:** Shipped (v0.4.3)\n\n> Design spec for the three remaining dashboard roadmap features:\n> Live Session State (#7), OTEL Span Drill-Down (#9), GC Operations Dashboard (#10).\n\n**Goal:** Complete the dashboard roadmap (10/10 features) with proper OTEL trace context,\nlive session monitoring, and GC operations visibility.\n\n**Scope:** Roadmap-faithful — full feature depth, not minimal stubs.\n\n**Build order:** Shared infrastructure first (trace context layer + enhanced GcReport),\nthen Live Sessions, GC Dashboard, Span Drill-Down.\n\n**Decisions locked in:**\n- Real OTEL trace context via custom tracing Layer (not shortcut/approximation)\n- Poll-based live sessions (consistent with dashboard architecture, no WebSocket)\n- Enhanced GcReport with 6 new fields + in-memory history ring\n- Shared infrastructure first, then features\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-13-dashboard-completion-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460174268Z",
+  "valid_from": "2026-03-31T13:20:59.460174268Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-13-dashboard-completion-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1,
+    "end_line": 23,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

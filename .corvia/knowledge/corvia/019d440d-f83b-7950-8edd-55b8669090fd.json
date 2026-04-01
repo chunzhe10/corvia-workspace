@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-55b8669090fd",
+  "content": "### Refresh Endpoint\n### Integration Points\n\n### Response Example\n\n**Healthy (fully indexed):**\n```json\n{\n  \"services\": [...],\n  \"entry_count\": 100,\n  \"index_coverage\": 1.0,\n  \"index_stale\": false,\n  \"index_disk_count\": 100,\n  \"index_store_count\": 100,\n  \"index_hnsw_count\": 100,\n  \"index_stale_threshold\": 0.9,\n  \"index_coverage_checked_at\": \"2026-03-26T12:34:56Z\",\n  ...\n}\n```\n\n**Stale (partial ingest):**\n```json\n{\n  \"index_coverage\": 0.73,\n  \"index_stale\": true,\n  \"index_disk_count\": 100,\n  \"index_store_count\": 73,\n  \"index_hnsw_count\": 73,\n  \"index_stale_threshold\": 0.9,\n  \"index_coverage_checked_at\": \"2026-03-26T12:34:56Z\"\n}\n```\n\n**HNSW divergence (index corruption):**\n```json\n{\n  \"index_coverage\": 0.0,\n  \"index_stale\": true,\n  \"index_disk_count\": 100,\n  \"index_store_count\": 100,\n  \"index_hnsw_count\": 0,\n  \"index_stale_threshold\": 0.9,\n  \"index_coverage_checked_at\": \"2026-03-26T12:34:56Z\"\n}\n```\n\n**Fresh workspace (no data):**\n```json\n{\n  \"index_coverage\": null,\n  \"index_stale\": null,\n  \"index_disk_count\": 0,\n  \"index_store_count\": 0,\n  \"index_hnsw_count\": 0,\n  \"index_stale_threshold\": 0.9,\n  \"index_coverage_checked_at\": \"2026-03-26T12:34:56Z\"\n}\n```\n\n**Orphaned entries (store > disk):**\n```json\n{\n  \"index_coverage\": 1.0,\n  \"index_stale\": false,\n  \"index_disk_count\": 80,\n  \"index_store_count\": 100,\n  \"index_hnsw_count\": 100,\n  \"index_stale_threshold\": 0.9,\n  \"index_coverage_checked_at\": \"2026-03-26T12:34:56Z\"\n}\n```\nNote: coverage is clamped to 1.0 but `store_count > disk_count` signals orphans.\nA server-side `tracing::warn!` is also emitted.\n",
+  "source_version": "docs/rfcs/2026-03-26-dashboard-index-coverage-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451419256Z",
+  "valid_from": "2026-03-31T13:20:59.451419256Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-26-dashboard-index-coverage-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 225,
+    "end_line": 296,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

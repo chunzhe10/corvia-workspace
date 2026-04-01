@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9d529fef1d49",
+  "content": "&KnowledgeEntry, session: &Session) -> Result<()> {\n    let span = tracing::info_span!(\"corvia.entry.write\",\n        entry_id = %entry.id,\n        agent_id = %session.agent_id,\n        session_id = %session.session_id,\n    );\n    let _guard = span.enter();\n\n    // Step 1: staging file\n    self.write_staging_file(entry, session).await?;\n\n    // Step 2: embed (sub-span with timing)\n    let embedding = {\n        let _s = tracing::info_span!(\"corvia.entry.embed\").entered();\n        let start = std::time::Instant::now();\n        let result = self.engine.embed(&entry.content).await?;\n        metrics::histogram!(\"corvia.embed.duration_ms\").record(start.elapsed().as_millis() as f64);\n        result\n    };\n\n    // Step 3: atomic insert (sub-span with timing)\n    {\n        let _s = tracing::info_span!(\"corvia.entry.insert\").entered();\n        self.store.atomic_insert(entry, &embedding).await?;\n    }\n\n    metrics::counter!(\"corvia.entries.pending\").increment(1);\n    tracing::info!(entry_id = %entry.id, agent_id = %session.agent_id, \"entry_written\");\n    Ok(())\n}\n```\n\n**What M4 adds on top**: M4 does NOT add instrumentation — it configures the export pipeline:\n- LiteStore: `tracing-subscriber` → stdout/file, `corvia status --metrics` reads Redb counters\n- FullStore: OTLP exporter → Grafana Tempo (traces) + Prometheus (metrics), pre-built dashboards\n\n**Alerting thresholds** (configurable, FullStore only):\n- `corvia.sessions.orphaned > 0` for > 1hr → alert\n- `corvia.merge.queue_depth > 100` → alert\n- `corvia.merge.conflict_rate > 0.3` → alert (30%+ conflicts suggests stale knowledge)\n- `corvia.embed.duration_ms P99 > 5000` → alert (embedding service degraded)\n\n---\n",
+  "source_version": "docs/rfcs/milestone-revision-notes.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464378727Z",
+  "valid_from": "2026-03-31T13:20:59.464378727Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/milestone-revision-notes.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 613,
+    "end_line": 649,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

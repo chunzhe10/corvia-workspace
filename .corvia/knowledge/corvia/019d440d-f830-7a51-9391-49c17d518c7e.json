@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f830-7a51-9391-49c17d518c7e",
+  "content": "pub trait Expander: Send + Sync {\n    /// Human-readable name for metrics.\n    fn name(&self) -> &str;\n\n    /// Expand the candidate set.\n    async fn expand(&self, ctx: &SearchContext, set: RankedSet) -> Result<RankedSet>;\n}",
+  "source_version": "crates/corvia-kernel/src/pipeline/expander.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.440675522Z",
+  "valid_from": "2026-03-31T13:20:59.440675522Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/expander.rs",
+    "language": "rs",
+    "chunk_type": "trait_item",
+    "start_line": 25,
+    "end_line": 31,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

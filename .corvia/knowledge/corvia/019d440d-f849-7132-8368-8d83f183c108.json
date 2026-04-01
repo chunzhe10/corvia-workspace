@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-8d83f183c108",
+  "content": ".push(RepoConfig {\n        name: repo_name.clone(),\n        url: url.to_string(),\n        local: local.map(String::from),\n        namespace: namespace.map(String::from).unwrap_or(repo_name),\n    });\n    Ok(())\n}\n\n/// Remove a repo from the workspace config\npub fn remove_repo_from_config(config: &mut CorviaConfig, name: &str) -> Result<()> {\n    let ws = config.workspace.as_mut()\n        .ok_or_else(|| anyhow::anyhow!(\"Not a workspace config\"))?;\n\n    let before = ws.repos.len();\n    ws.repos.retain(|r| r.name != name);\n    if ws.repos.len() == before {\n        anyhow::bail!(\"Repo '{}' not found in workspace\", name);\n    }\n    Ok(())\n}\n```\n\n**Step 4: Run tests to verify they pass**\n\nRun: `cargo test -p corvia-cli -- test_add_repo test_remove_repo`\nExpected: all 4 tests PASS.\n\n**Step 5: Wire handlers in main.rs**\n\nReplace `todo!()`s:\n\n```rust\nWorkspaceCommands::Add { url, name, namespace, local } => {\n    let root = std::env::current_dir()?;\n    let config_path = root.join(\"corvia.toml\");\n    let mut config = CorviaConfig::load(&config_path)?;\n    workspace::add_repo_to_config(\n        &mut config,\n        &url,\n        name.as_deref(),\n        namespace.as_deref(),\n        local.as_deref(),\n    )?;\n    config.save(&config_path)?;\n\n    let ws = config.workspace.as_ref().unwrap();\n    let repo = ws.repos.last().unwrap();\n    println!(\"Added repo '{}' (namespace: {})\", repo.name, repo.namespace);\n\n    // Clone if needed\n    let repo_path = workspace::resolve_repo_path(&root, &ws.repos_dir, repo);\n    if !repo_path.exists() {\n        workspace::clone_repo(&repo.url, &repo_path)?;\n    }\n    println!(\"Next: corvia workspace ingest --repo {}\", repo.name);",
+  "source_version": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465208217Z",
+  "valid_from": "2026-03-31T13:20:59.465208217Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 881,
+    "end_line": 926,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

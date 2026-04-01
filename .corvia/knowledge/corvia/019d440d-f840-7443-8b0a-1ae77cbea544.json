@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-1ae77cbea544",
+  "content": "# Corvia Dashboard Redesign — Design Spec\n\n## Overview\n\nRedesign the Corvia VS Code extension dashboard from the current card-based layout to a high-density, Figma-inspired warm dark theme with Navy & Gold aesthetic. Surfaces M4 observability data (entry counts, agents, merge queue, sessions) and introduces a view-tab system for future Graph and Traces pages.\n\n\n## Design Direction\n\nWarm charcoal dark mode (not navy) with gold as the dominant accent. Figma-inspired: large border radius, elevated cards with soft shadows, generous spacing, bold metric numbers, vivid multi-color accents. The mockup (layout-v5.html) informed the shipped implementation.\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-10-dashboard-redesign-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456086157Z",
+  "valid_from": "2026-03-31T13:20:59.456086157Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-dashboard-redesign-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 10,
+    "end_line": 19,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

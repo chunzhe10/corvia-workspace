@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a13-75d1-bfe3-f8a9bb45295b",
+  "content": "green);\">&#8635;</div>\n        <div style=\"font-size: 24px; color: var(--accent-green); font-weight: 600;\">Feedback loop</div>\n      </div>\n    </div>\n\n    <div style=\"display: flex; align-items: center; font-size: 48px; color: var(--text-muted);\">vs</div>\n    <div style=\"flex: 1; text-align: center;\">\n      <div style=\"font-size: 56px; margin-bottom: 16px;\">&#129302;</div>\n      <h3 style=\"font-size: 24px; font-weight: 700; margin-bottom: 16px;\">AI Code Agent</h3>\n      <div style=\"display: flex; flex-direction: column; align-items: center; gap: 14px;\">\n        <div style=\"background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.3); border-radius: 12px; padding: 16px 28px; font-size: 20px; font-weight: 600; width: 90%;\">Write CSS</div>\n        <div style=\"font-size: 28px; color: var(--accent-red);\">&#8595;</div>\n        <div style=\"background: rgba(239,68,68,0.15); border: 2px dashed var(--accent-red); border-radius: 12px; padding: 16px 28px; font-size: 20px; font-weight: 600; width: 90%; color: var(--accent-red);\">&#128683; Can't see output</div>\n        <div style=\"font-size: 28px; color: var(--accent-red);\">&#8595;</div>\n        <div style=\"background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); border-radius: 12px; padding: 16px 28px; font-size: 20px; font-weight: 600; width: 90%; color: var(--text-muted);\">Hope it works?</div>\n        <div style=\"font-size: 28px; color: var(--accent-red);\">&#10060;</div>\n        <div style=\"font-size: 24px; color: var(--accent-red); font-weight: 600;\">No feedback loop</div>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"insight-box\">\n    <p>A human designer's superpower isn't better CSS &mdash;<br>\n    it's the ability to <strong>look at the screen and react</strong>.</p>\n  </div>\n\n  <div class=\"flex-grow\"></div>\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">05 / 08</div>\n</div>",
+  "source_version": "marketing/linkedin/2026-03-11-ai-blind-designer/ai-blind-designer-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.027982098Z",
+  "valid_from": "2026-03-31T13:51:39.027982098Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-11-ai-blind-designer/ai-blind-designer-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 552,
+    "end_line": 575,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

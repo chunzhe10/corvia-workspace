@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0a8e04b1ac9b",
+  "content": "## 7. Optional: LLM Extraction Pass\n\n## 8. Staging Directory Layout\n\n```\n~/.corvia/staging/agent-teams/\n  {team-name}/\n    config.json            # Latest team config (overwritten on each TeammateIdle)\n    tasks.jsonl            # Append-only: one JSON line per task event\n    tasks.jsonl.lock       # flock file for concurrent append serialization\n    inboxes/\n      {agent-name}.json    # Latest inbox snapshot per teammate\n      team-lead.json       # Lead's inbox\n    .capture-log           # Hook event log (debugging only, not consumed by adapter)\n    .pending-edges         # Deferred graph edges awaiting session history entries\n  .ingested                # Global: newline-delimited team names already processed\n```\n\n**`.capture-log` format** (for debugging, not consumed by the adapter):\n```jsonl\n{\"event\":\"TeammateIdle\",\"teammate\":\"researcher\",\"team\":\"my-team\",\"timestamp\":\"...\"}\n{\"event\":\"TaskCompleted\",\"task_id\":\"1\",\"team\":\"my-team\",\"timestamp\":\"...\"}\n```\n\n**Cleanup policy.** After a team is marked in `.ingested` and all `.pending-edges`\nare resolved (or the team is older than 7 days), the adapter deletes the staging\ndirectory during the next ingest run. This is controlled by a config option\n(default: delete after ingest, option: retain for N days). Users who need to\nexplicitly purge staging data can run `rm -rf ~/.corvia/staging/agent-teams/{team}/`.\n\nFiles in staging are small (KB range). A month of daily team use produces\n~100-500 KB of staging data.\n\n---\n\n\n## 9. Implementation Plan\n",
+  "source_version": "docs/rfcs/2026-03-28-agent-teams-adapter-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457144576Z",
+  "valid_from": "2026-03-31T13:20:59.457144576Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-agent-teams-adapter-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 598,
+    "end_line": 632,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

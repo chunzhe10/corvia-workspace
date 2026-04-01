@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82d-7772-85c3-a63e84ca4290",
+  "content": "rap();\n        assert_eq!(parsed.content, sf.content);\n        assert_eq!(parsed.metadata.file_path, sf.metadata.file_path);\n        assert_eq!(parsed.metadata.language, sf.metadata.language);\n    }\n\n    #[test]\n    fn test_chunk_result_serde_roundtrip() {\n        let cr = ChunkResult {\n            chunks: vec![RawChunk {\n                content: \"fn main() {}\".into(),\n                chunk_type: \"function\".into(),\n                start_line: 1,\n                end_line: 3,\n                metadata: ChunkMetadata {\n                    source_file: \"src/main.rs\".into(),\n                    language: Some(\"rust\".into()),\n                    ..Default::default()\n                },\n            }],\n            relations: vec![ChunkRelation {\n                from_source_file: \"src/main.rs\".into(),\n                from_start_line: 1,\n                relation: \"imports\".into(),\n                to_file: \"src/lib.rs\".into(),\n                to_name: Some(\"MyStruct\".into()),\n            }],\n        };\n        let json = serde_json::to_string(&cr).unwrap();\n        let parsed: ChunkResult = serde_json::from_str(&json).unwrap();\n        assert_eq!(parsed.chunks.len(), 1);\n        assert_eq!(parsed.relations.len(), 1);\n        assert_eq!(parsed.chunks[0].content, \"fn main() {}\");\n        assert_eq!(parsed.relations[0].to_name, Some(\"MyStruct\".into()));\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/chunking_strategy.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.437026495Z",
+  "valid_from": "2026-03-31T13:20:59.437026495Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_strategy.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 410,
+    "end_line": 437,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

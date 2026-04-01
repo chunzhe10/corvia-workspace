@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83a-78e0-bb2b-dc406016d91a",
+  "content": "## Task 5: Docker Auto-Provisioning\n\n            (\"name\".into(), vec![CONTAINER_NAME.into()]),\n        ]);\n        let options = ListContainersOptions {\n            filters,\n            ..Default::default()\n        };\n        let containers = self.docker.list_containers(Some(options)).await\n            .map_err(|e| CorviaError::Docker(format!(\"Failed to list containers: {e}\")))?;\n        Ok(!containers.is_empty())\n    }\n\n    /// Pull the SurrealDB image if not present.\n    pub async fn pull_image(&self) -> Result<()> {\n        info!(\"Pulling SurrealDB image: {SURREALDB_IMAGE}\");\n        let options = CreateImageOptions {\n            from_image: SURREALDB_IMAGE,\n            ..Default::default()\n        };\n        self.docker.create_image(Some(options), None, None)\n            .try_collect::<Vec<_>>().await\n            .map_err(|e| CorviaError::Docker(format!(\"Failed to pull image: {e}\")))?;\n        info!(\"Image pulled successfully\");\n        Ok(())\n    }\n\n    /// Start SurrealDB container. Pulls image if needed.\n    pub async fn start(&self, user: &str, pass: &str) -> Result<()> {\n        if self.is_running().await? {\n            info!(\"SurrealDB container already running\");\n            return Ok(());\n        }\n\n        // Pull image (idempotent)\n        self.pull_image().await?;\n\n        let port_str = format!(\"{SURREALDB_PORT}/tcp\");\n        let host_config = HostConfig {\n            port_bindings: Some(HashMap::from([(",
+  "source_version": "docs/rfcs/2026-02-28-m1-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.450705271Z",
+  "valid_from": "2026-03-31T13:20:59.450705271Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-m1-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 891,
+    "end_line": 928,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

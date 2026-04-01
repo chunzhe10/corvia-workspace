@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-56f2574656c2",
+  "content": "er().any(|s| s == scope_id || s == \"*\"),\n            Self::Admin => true,\n        }\n    }\n}\n\n/// Agent lifecycle status.\n#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq)]\npub enum AgentStatus {\n    Active,\n    Suspended,\n    Deregistered,\n}\n\n/// Persistent agent record stored in Redb.\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct AgentRecord {\n    pub agent_id: String,\n    pub display_name: String,\n    pub identity_type: IdentityType,\n    pub registered_at: DateTime<Utc>,\n    pub permissions: AgentPermission,\n    pub last_seen: DateTime<Utc>,\n    pub status: AgentStatus,\n}\n\n/// Session state machine per D45 Part 5.\n/// Created → Active → Committing → Merging → Closed (happy path)\n/// Active → Stale → Orphaned → Recoverable\n#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq)]\npub enum SessionState {\n    Created,\n    Active,\n    Committing,\n    Merging,\n    Closed,\n    Stale,\n    Orphaned,\n}\n\nimpl SessionState {\n    pub fn can_transition_to(self, next: Self) -> bool {\n        use SessionState::*;\n        matches!(\n            (self, next),\n            (Created, Active)\n                | (Active, Committing)\n                | (Active, Stale)\n                | (Active, Closed) // explicit close without commit\n                | (Committing, Merging)\n                | (Committing, Active) // commit failed, retry\n                | (Merging, Closed)\n                | (Stale, Active) // heartbeat resumed\n                | (Stale, Orphaned)\n                | (Orphaned, Active) // recovery: resume\n                | (Orphaned, Committing) // recovery: commit\n                | (Orphaned, Closed) // recovery: rollback\n        )\n    }\n}\n\n/// Session record stored in Redb.\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct SessionRecord {\n    pub session_id: String,\n    pub agent_id: String,",
+  "source_version": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451564689Z",
+  "valid_from": "2026-03-31T13:20:59.451564689Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 240,
+    "end_line": 291,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

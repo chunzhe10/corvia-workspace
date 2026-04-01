@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82e-71f3-920f-8fc3b814d9b4",
+  "content": "fn is_zero(n: &usize) -> bool {\n    *n == 0\n}\nimpl QualitySignal {\n    /// Compute quality signal from search results.\n    pub fn from_results(results: &[SearchResult], query: &str, limit: usize) -> Self {\n        let result_count = results.len();\n        let top_score = results.first().map(|r| r.score).unwrap_or(0.0);\n\n        let confidence = if top_score >= HIGH_SCORE_THRESHOLD && result_count >= HIGH_COUNT_THRESHOLD {\n            ConfidenceLevel::High\n        } else if top_score >= LOW_SCORE_THRESHOLD || result_count >= HIGH_COUNT_THRESHOLD {\n            ConfidenceLevel::Medium\n        } else {\n            ConfidenceLevel::Low\n        };\n\n        let gap_detected = top_score < LOW_SCORE_THRESHOLD && result_count < (limit / 2).max(1);\n\n        let suggestion = match confidence {\n            ConfidenceLevel::High => None,\n            ConfidenceLevel::Medium => {\n                Some(\"Consider adding context: scope, component name, or time period.\".to_string())\n            }\n            ConfidenceLevel::Low => {\n                if result_count < HIGH_COUNT_THRESHOLD {\n                    let key_terms = extract_key_terms(query);\n                    Some(format!(\"Try broader terms: {key_terms}\"))\n                } else {\n                    Some(\"Results may not match intent. Try more specific terms.\".to_string())\n                }\n            }\n        };\n\n        QualitySignal {\n            confidence,\n            top_score,\n            result_count,\n            suggestion,\n            gap_detected,\n            below_threshold_count: 0,\n        }\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/rag_types.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.438198644Z",
+  "valid_from": "2026-03-31T13:20:59.438198644Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/rag_types.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 41,
+    "end_line": 81,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-3307167ba3c7",
+  "content": ", err: 'error', warn: 'warn', dbug: 'debug' };\n    const normalizedLevel = levelMap[lvl] || 'info';\n    const levelMatch = activeFilter === 'all' || normalizedLevel === activeFilter;\n    const searchMatch = !q || line.textContent.toLowerCase().includes(q);\n    line.classList.toggle('hidden', !levelMatch || !searchMatch);\n  });\n}\n\n// Initial binding for header\nbindAll();\n```\n\n-**Step 2: Test the full render cycle**\n\n1. Reload the VS Code window (`Developer: Reload Window`)\n2. Run `Corvia: Open Dashboard` from the command palette\n3. Verify: header pills show service status with pulsing dots\n4. Verify: metric cards show values (or `-` if fields not yet in status JSON)\n5. Verify: log panel renders with source tabs and log lines\n6. Verify: clicking filters hides/shows log lines without full re-render\n7. Verify: search input filters logs in real-time\n8. Verify: auto-scroll button toggles\n9. Verify: view tabs switch to placeholder for Graph/Traces\n10. Verify: sidebar shows config and embedding provider toggle\n11. Verify: offline state shows when services are down\n12. Verify: responsive layout at narrow widths\n\n-**Step 3: Commit**\n\n```bash\ngit add .devcontainer/extensions/corvia-services/extension.js\ngit commit -m \"feat(extension): rewrite dashboard JS with metrics, log filtering, view tabs\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-10-dashboard-redesign.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458081381Z",
+  "valid_from": "2026-03-31T13:20:59.458081381Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-dashboard-redesign.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1076,
+    "end_line": 1107,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

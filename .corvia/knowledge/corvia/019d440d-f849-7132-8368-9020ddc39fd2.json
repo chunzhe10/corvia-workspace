@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-9020ddc39fd2",
+  "content": "## FormatRegistry\n## IngestionAdapter Trait (D69 — Clean Break)\n\n### Ingestion Flow (After M3.3)\n\n```\nAdapter.ingest_sources() → Vec<SourceFile>\n    → ChunkingPipeline.process_batch()\n        → FormatRegistry.resolve(ext) → ChunkingStrategy\n        → strategy.chunk() → merge → split → overlap\n    → Vec<ProcessedChunk>\n    → kernel batch embed → store\n```\n",
+  "source_version": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465549858Z",
+  "valid_from": "2026-03-31T13:20:59.465549858Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 281,
+    "end_line": 291,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

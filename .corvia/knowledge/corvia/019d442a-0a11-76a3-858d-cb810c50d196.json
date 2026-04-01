@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-cb810c50d196",
+  "content": "## 6. Query Patterns Enabled\n## 7. Promotion to Product Scope\n\n## 8. Implementation Sizing\n\n| Component | Effort | Notes |\n|-----------|--------|-------|\n| Adapter binary (scan + parse + emit) | Small | ~300 lines, straightforward JSON parsing |\n| Graph edge wiring | Medium | Correlating agent IDs across teams and sessions |\n| Hook integration (TeammateIdle, cleanup) | Medium | Depends on Agent Teams hook stability |\n| Classification rules for promotion | Small | Reuse claude-sessions patterns |\n| Tests | Small | Mock team directories, verify entries + edges |\n\nTotal: roughly the same size as corvia-adapter-claude-sessions. Could be built as\nan extension of that adapter (same binary, different domain mode) or as a standalone.\n\n\n## 9. Build vs. Extend Decision\n\n**Option A: Standalone adapter** (`corvia-adapter-agent-teams`)\n- Clean separation of concerns\n- Independent release cycle\n- Easier to test in isolation\n\n**Option B: Extend claude-sessions adapter** (add `--domain agent-teams` mode)\n- Shared code for JSON parsing, state tracking, graph wiring\n- Single binary to discover and maintain\n- Agent Teams are inherently Claude Code sessions, just coordinated\n\n**Recommendation:** Start as Option B (extend claude-sessions). The data sources\nare closely related, the graph edges need to cross-reference session IDs, and the\npromotion logic is identical. If it gets too complex, split later.\n",
+  "source_version": "decisions/2026-03-28-adapter-agent-teams-exploration.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025566402Z",
+  "valid_from": "2026-03-31T13:51:39.025566402Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-adapter-agent-teams-exploration.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 223,
+    "end_line": 251,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

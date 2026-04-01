@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-4490c6c355be",
+  "content": "   Self {\n            models: Arc::new(RwLock::new(HashMap::new())),\n            embed_svc,\n            chat_svc,\n            gpu,\n            probe_state,\n            probe_config,\n            probe_handle: tokio::sync::Mutex::new(None),\n        }\n    }\n}\npub fn new(\n        embed_svc: EmbeddingServiceImpl,\n        chat_svc: ChatServiceImpl,\n        gpu: Arc<std::sync::RwLock<GpuCapabilities>>,\n        probe_state: crate::probe::SharedProbeState,\n        probe_config: ProbeConfig,\n    ) -> Self {\n        Self {\n            models: Arc::new(RwLock::new(HashMap::new())),\n            embed_svc,\n            chat_svc,\n            gpu,\n            probe_state,\n            probe_config,\n            probe_handle: tokio::sync::Mutex::new(None),\n        }\n    }",
+  "source_version": "crates/corvia-inference/src/model_manager.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429887511Z",
+  "valid_from": "2026-03-31T13:20:59.429887511Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/src/model_manager.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 63,
+    "end_line": 79,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-33565dc18304",
+  "content": "# Structural Intelligence: Native Code Relationship Extraction\n\n## Problem Statement\n\nTeams onboarding corvia with an established repo hit a cold-start problem. Today's\n`corvia workspace ingest` chunks code files with tree-sitter and creates text entries with\nembeddings. Agents can search by text similarity. But they cannot answer structural questions:\n\n**Scenario 1 (JS/TS):** An agent asks `corvia_ask \"what calls the authentication middleware?\"`\non a freshly ingested Express app. The retriever finds the middleware file by text similarity,\nbut graph expansion adds 0 results because JS/TS extraction only captures `import` edges.\nThe agent misses every route handler that calls the middleware. After P1: `calls` edges connect\nroute handlers to the middleware. Graph expansion surfaces them.\n\n**Scenario 2 (Python):** An agent asks `corvia_ask \"what classes extend BaseRouter?\"`. No\ngraph-expanded results. Python extraction has no inheritance edges. After P2: `extends` edges\nconnect all subclasses. The retriever surfaces them via graph expansion.\n\n**Scenario 3 (resolution):** An agent asks about a utility module in a TS monorepo. The import\n`from '@/utils/auth'` created a relation during extraction, but `wire_pipeline_relations()`\ncouldn't resolve the path alias to a real file. The edge was silently dropped. After P3: the\nalias resolves via tsconfig paths, the edge is wired.\n\n**What \"navigable code structure on day one\" means:** After ingest, `corvia_search` and\n`corvia_ask` return results that include structurally related code (callers, callees,\nimplementations, base classes) via graph expansion. Not just text-similar chunks.\n\n---\n\n\n## Current State\n",
+  "source_version": "docs/rfcs/2026-03-28-structural-intelligence-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458118196Z",
+  "valid_from": "2026-03-31T13:20:59.458118196Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-structural-intelligence-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 24,
+    "end_line": 52,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

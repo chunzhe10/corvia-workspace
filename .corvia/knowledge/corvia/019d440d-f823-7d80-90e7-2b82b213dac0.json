@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f823-7d80-90e7-2b82b213dac0",
+  "content": "ing_config_defaults() {\n        let config = ChunkingConfig::default();\n        assert_eq!(config.max_tokens, 512);\n        assert_eq!(config.min_tokens, 32);\n        assert_eq!(config.overlap_tokens, 64);\n        assert_eq!(config.strategy, \"auto\");\n    }\nfn test_rag_config_roundtrip() {\n        let mut config = CorviaConfig::default();\n        config.rag.default_limit = 20;\n        config.rag.graph_alpha = 0.5;\n        let toml_str = toml::to_string_pretty(&config).unwrap();\n        let loaded: CorviaConfig = toml::from_str(&toml_str).unwrap();\n        assert_eq!(loaded.rag.default_limit, 20);\n        assert!((loaded.rag.graph_alpha - 0.5).abs() < f32::EPSILON);\n    }",
+  "source_version": "crates/corvia-common/src/config.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.427050980Z",
+  "valid_from": "2026-03-31T13:20:59.427050980Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/config.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1381,
+    "end_line": 1389,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

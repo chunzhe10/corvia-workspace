@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f832-7981-8b9c-425e1666105d",
+  "content": "le exists\n        assert_eq!(staging.list_staging_files(&staging_dir).unwrap().len(), 0);\n        let knowledge_path = dir.path()\n            .join(\"knowledge\").join(\"scope\").join(format!(\"{entry_id}.json\"));\n        assert!(knowledge_path.exists());\n    }\nfn test_staging_vec_file_roundtrip() {\n        let dir = tempfile::tempdir().unwrap();\n        let staging = test_staging_in(dir.path());\n        let staging_dir = staging.create_staging_dir(\"test::agent\", \"sess-vec\").unwrap();\n\n        // Write entry WITH embedding\n        let embedding = vec![0.1, 0.2, 0.3, 0.4];\n        let entry = KnowledgeEntry::new(\"vec test\".into(), \"scope\".into(), \"v1\".into())\n            .with_embedding(embedding.clone());\n        let entry_id = entry.id;\n        staging.write_staging_file(&staging_dir, &entry).unwrap();\n\n        // Verify .vec companion file exists\n        let vec_path = staging_dir.join(format!(\"{entry_id}.vec\"));\n        assert!(vec_path.exists(), \".vec file should be created for entries with embeddings\");\n\n        // Read back and verify embedding is restored\n        let loaded = staging.read_staging_file(&staging_dir, &entry_id).unwrap();\n        assert_eq!(loaded.embedding, Some(embedding), \"embedding should roundtrip via .vec file\");\n\n        // Entry without embedding should NOT create .vec file\n        let no_emb = KnowledgeEntry::new(\"no vec\".into(), \"scope\".into(), \"v1\".into());\n        let no_emb_id = no_emb.id;\n        staging.write_staging_file(&staging_dir, &no_emb).unwrap();\n        let no_vec_path = staging_dir.join(format!(\"{no_emb_id}.vec\"));\n        assert!(!no_vec_path.exists(), \".vec file should not exist for entries without embeddings\");\n\n        // move_to_knowledge cleans up .vec file\n        staging.move_to_knowledge(&staging_dir, &entry_id, \"scope\").unwrap();\n        assert!(!vec_path.exists(), \".vec file should be removed after move_to_knowledge\");\n    }",
+  "source_version": "crates/corvia-kernel/src/staging.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.442068642Z",
+  "valid_from": "2026-03-31T13:20:59.442068642Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/staging.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 288,
+    "end_line": 318,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

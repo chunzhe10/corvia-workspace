@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-3590cbff1d5f",
+  "content": "## Problem\n## Design\n\n### Architecture\n\nA single `tokio::spawn` periodic task inside `corvia serve`, reading `ForgettingConfig`\nfrom the hot-reloadable config. The worker is a pure orchestration layer that composes\nexisting modules:\n\n```\ngc_worker::run_cycle()\n  ├── config.rs::resolve_policy()     — 3-level policy hierarchy\n  ├── scoring.rs::compute_retention_score() — pure scoring\n  ├── scoring.rs::determine_tier_transition() — hysteresis thresholds\n  └── lite_store.rs::update_tiers_batch() — batched Redb writes\n       └── rebuild_from_files()       — blue-green HNSW swap (if Warm→Cold)\n```\n\n\n### GC Cycle Algorithm\n\n```\n1. Read ForgettingConfig from hot-reloadable config\n2. If forgetting.enabled == false → skip, sleep, repeat\n3. For each scope directory in data_dir/knowledge/:\n   a. Load all entries from Redb (fetch_all_entries filtered by scope)\n   b. Resolve policy for this scope (global → per-type → per-scope)\n   c. For each entry:\n      - Skip if pinned (entry.pin.is_some())\n      - Skip if Forgotten (terminal)\n      - Compute RetentionParams from entry fields + graph inbound edge count\n      - Compute retention_score via scoring::compute_retention_score()\n      - Determine score-based transition via scoring::determine_tier_transition()\n      - Apply inactivity policy: if days_since_access > max_inactive_days\n        AND score < 0.60 → force Cold (if currently Hot/Warm)\n      - Take WORSE of score-based and inactivity transitions\n      - Enforce one-tier-step-per-cycle (Hot can only → Warm, not → Cold)\n      - Record transition if any\n   d. Apply transitions in batched Redb writes (100 entries/txn)\n   e. Update retention_score on all evaluated entries\n4. If any Warm→Cold transitions occurred: trigger HNSW rebuild (blue-green)\n5. Emit tracing span with cycle metrics\n```\n",
+  "source_version": "docs/rfcs/2026-03-27-gc-worker-skeleton-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458346333Z",
+  "valid_from": "2026-03-31T13:20:59.458346333Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-27-gc-worker-skeleton-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 15,
+    "end_line": 54,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

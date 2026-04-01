@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f836-7610-b605-be223e9298fb",
+  "content": "       memory_type: MemoryType::default(),\n            days_since_creation: 0.0,\n            access_count: 0,\n            days_since_access: None,\n            inbound_edges: 0,\n            confidence: None,\n            is_superseded: false,\n        }\n    }\npub fn alpha_for_type(memory_type: MemoryType, is_superseded: bool) -> f64 {\n    match memory_type {\n        MemoryType::Structural if is_superseded => ALPHA_EPISODIC,\n        MemoryType::Structural => ALPHA_STRUCTURAL,\n        MemoryType::Procedural => ALPHA_PROCEDURAL,\n        MemoryType::Decisional => ALPHA_DECISIONAL,\n        MemoryType::Analytical => ALPHA_ANALYTICAL,\n        MemoryType::Episodic => ALPHA_EPISODIC,\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/scoring.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.446377539Z",
+  "valid_from": "2026-03-31T13:20:59.446377539Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/scoring.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 105,
+    "end_line": 114,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

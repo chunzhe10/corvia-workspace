@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82d-7772-85c3-a8be6e2afbb9",
+  "content": "pub async fn is_running(&self) -> bool {\n        crate::ollama_engine::OllamaEngine::check_health(&self.url).await\n    }\npub fn install() -> Result<()> {\n        info!(\"Installing Ollama...\");\n\n        let status = std::process::Command::new(\"sh\")\n            .arg(\"-c\")\n            .arg(\"curl -fsSL https://ollama.com/install.sh | sh\")\n            .stdout(std::process::Stdio::inherit())\n            .stderr(std::process::Stdio::inherit())\n            .status()\n            .map_err(|e| CorviaError::Infra(format!(\"Failed to run Ollama installer: {e}\")))?;\n\n        if !status.success() {\n            return Err(CorviaError::Infra(\n                \"Ollama installation failed. Install manually: https://ollama.com\".into(),\n            ));\n        }\n\n        info!(\"Ollama installed successfully\");\n        Ok(())\n    }",
+  "source_version": "crates/corvia-kernel/src/ollama_provisioner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.437349996Z",
+  "valid_from": "2026-03-31T13:20:59.437349996Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ollama_provisioner.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 34,
+    "end_line": 53,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

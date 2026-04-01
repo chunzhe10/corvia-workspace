@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84b-7723-860a-1c06696f540b",
+  "content": "   - name: Cache cargo registry\n        uses: actions/cache@v4\n        with:\n          path: |\n            ~/.cargo/registry\n            ~/.cargo/git\n          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}\n          restore-keys: |\n            ${{ runner.os }}-cargo-registry-\n\n      - name: Build release binaries\n        run: cargo build --release -p corvia-cli -p corvia-inference -p corvia-adapter-basic -p corvia-adapter-git\n\n      - name: Prepare release assets\n        run: |\n          cp target/release/corvia corvia-cli-linux-amd64\n          cp target/release/corvia-inference corvia-inference-linux-amd64\n          cp target/release/corvia-adapter-basic corvia-adapter-basic-linux-amd64\n          cp target/release/corvia-adapter-git corvia-adapter-git-linux-amd64\n          chmod +x corvia-cli-linux-amd64 corvia-inference-linux-amd64 corvia-adapter-basic-linux-amd64 corvia-adapter-git-linux-amd64\n\n          # ORT execution provider shared libraries (cp -L resolves symlinks from ort cache)\n          for lib in libonnxruntime_providers_shared libonnxruntime_providers_cuda libonnxruntime_providers_openvino; do\n            src=\"target/release/${lib}.so\"\n            if [ -e \"$src\" ]; then\n              cp -L \"$src\" \"${lib}-linux-amd64.so\"\n            fi\n          done\n\n      - name: Create GitHub release\n        uses: softprops/action-gh-release@v2\n        with:\n          files: |\n            corvia-cli-linux-amd64\n            corvia-inference-linux-amd64\n            corvia-adapter-basic-linux-amd64\n            corvia-adapter-git-linux-amd64\n            libonnxruntime_providers_shared-linux-amd64.so\n            libonnxruntime_providers_cuda-linux-amd64.so\n            libonnxruntime_providers_openvino-linux-amd64.so\n          generate_release_notes: true",
+  "source_version": ".github/workflows/release.yml",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.467468548Z",
+  "valid_from": "2026-03-31T13:20:59.467468548Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": ".github/workflows/release.yml",
+    "language": "yaml",
+    "chunk_type": "section",
+    "start_line": 47,
+    "end_line": 79,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

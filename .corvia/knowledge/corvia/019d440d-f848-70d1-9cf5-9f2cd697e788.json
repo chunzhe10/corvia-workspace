@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9f2cd697e788",
+  "content": "() < f32::EPSILON);\n}\n\n#[test]\nfn test_chunking_config_roundtrip() {\n    let mut config = CorviaConfig::default();\n    config.chunking.max_tokens = 1024;\n    config.chunking.overlap_tokens = 128;\n    let toml_str = toml::to_string_pretty(&config).unwrap();\n    let loaded: CorviaConfig = toml::from_str(&toml_str).unwrap();\n    assert_eq!(loaded.chunking.max_tokens, 1024);\n    assert_eq!(loaded.chunking.overlap_tokens, 128);\n}\n\n#[test]\nfn test_existing_config_without_rag_or_chunking_still_parses() {\n    // Backward compat: configs without [rag] or [chunking] get defaults\n    let toml_str = r#\"\n[project]\nname = \"test\"\nscope_id = \"test\"\n\n[storage]\nstore_type = \"lite\"\ndata_dir = \".corvia\"\n\n[embedding]\nprovider = \"ollama\"\nmodel = \"nomic-embed-text\"\nurl = \"http://127.0.0.1:11434\"\ndimensions = 768\n\n[server]\nhost = \"127.0.0.1\"\nport = 8020\n\"#;\n    let config: CorviaConfig = toml::from_str(toml_str).unwrap();\n    assert_eq!(config.rag.default_limit, 10);\n    assert_eq!(config.chunking.max_tokens, 512);\n}\n```\n\n**Step 5: Run tests**\n\nRun: `cargo test -p corvia-common config`\nExpected: PASS (all existing + 5 new tests)\n\n**Step 6: Commit**\n\n```bash\ngit add crates/corvia-common/src/config.rs\ngit commit -m \"feat(config): add RagConfig and ChunkingConfig sections (D61/D65)\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464639417Z",
+  "valid_from": "2026-03-31T13:20:59.464639417Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 755,
+    "end_line": 801,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

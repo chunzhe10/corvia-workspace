@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f831-7562-9884-aaaf54d47c04",
+  "content": "   }\n            async fn embed_batch(&self, texts: &[String]) -> corvia_common::errors::Result<Vec<Vec<f32>>> {\n                Ok(texts.iter().map(|_| vec![1.0, 0.0, 0.0]).collect())\n            }\n            fn dimensions(&self) -> usize { 3 }\n        }\nasync fn embed(&self, _: &str) -> corvia_common::errors::Result<Vec<f32>> {\n                Ok(vec![1.0, 0.0, 0.0])\n            }",
+  "source_version": "crates/corvia-kernel/src/pipeline/registry.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.441397051Z",
+  "valid_from": "2026-03-31T13:20:59.441397051Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/registry.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 366,
+    "end_line": 368,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

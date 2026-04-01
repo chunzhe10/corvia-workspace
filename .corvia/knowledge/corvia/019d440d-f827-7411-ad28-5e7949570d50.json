@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f827-7411-ad28-5e7949570d50",
+  "content": "fn test_extractor_missing_key_returns_none() {\n        let map = MetadataMap::new();\n        let extractor = MetadataExtractor(&map);\n        assert_eq!(extractor.get(\"nonexistent\"), None);\n    }\nfn test_metadata_injector_extractor_roundtrip() {\n        let propagator = TraceContextPropagator::new();\n\n        // Inject into a MetadataMap\n        let mut map = MetadataMap::new();\n        let cx = opentelemetry::Context::new();\n        propagator.inject_context(&cx, &mut MetadataInjector(&mut map));\n\n        // Extract from the MetadataMap\n        let _extracted_cx = propagator.extract(&MetadataExtractor(&map));\n        // The roundtrip should not panic; with a default (empty) context\n        // the propagator may or may not set headers, but the flow must work.\n    }",
+  "source_version": "crates/corvia-telemetry/src/propagation.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.431513671Z",
+  "valid_from": "2026-03-31T13:20:59.431513671Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-telemetry/src/propagation.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 67,
+    "end_line": 79,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

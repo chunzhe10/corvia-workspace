@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-c6fe6ed03219",
+  "content": "## D2: LiteStore as Full Product (not just dev tier)\n\n## D3: Git-Tracked JSON Files as Source of Truth\n\n**Original rationale**: Auditability, diffability, rebuildability. The database is a cache.\n\n**Pros:**\n- `git blame` shows who wrote every knowledge entry\n- `corvia rebuild` reconstructs all indexes from JSON alone\n- Easy backup: just `git push`\n- Human-readable — can inspect and edit entries manually\n- Merge conflicts in git are visible\n\n**Cons:**\n- **Performance**: Reading 8,769 JSON files from disk on rebuild is slow\n- **Disk usage**: JSON + embedding vectors = ~300MB for 8K entries (bloated for git)\n- **Git history**: Embedding vectors in JSON create massive diffs (768 floats per entry)\n- **Concurrency**: File-per-entry means lots of small files — bad for filesystem inode limits at scale\n- **Redundancy**: Same data exists in JSON files AND Redb AND HNSW index — triple storage\n\n**Challenge: Should embeddings be stored in JSON?** The embedding vectors dominate file size and create terrible git diffs. Storing content + metadata in JSON but embeddings only in Redb/HNSW would reduce disk usage by ~80% and make git diffs actually readable.\n\n**Verdict: CHANGE (minor).** Keep JSON as source of truth for content/metadata, but consider excluding embedding vectors from JSON files. They can always be re-computed from content. This would be a meaningful storage optimization.\n\n---\n",
+  "source_version": "decisions/2026-03-19-architecture-challenge.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025080991Z",
+  "valid_from": "2026-03-31T13:51:39.025080991Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-19-architecture-challenge.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 55,
+    "end_line": 78,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

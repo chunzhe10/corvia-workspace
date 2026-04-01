@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f835-7a40-9ae4-1316d75c89db",
+  "content": "ole) = entry.metadata.content_role {\n            doc.add_text(self.field_content_role, role);\n        }\n        if let Some(ref origin) = entry.metadata.source_origin {\n            doc.add_text(self.field_source_origin, origin);\n        }\n        doc\n    }\nimpl FullTextSearchable for TantivyIndex {\n    async fn search_text(\n        &self,\n        query: &str,\n        scope_id: &str,\n        limit: usize,\n    ) -> Result<Vec<SearchResult>> {\n        if query.is_empty() || limit == 0 {\n            return Ok(Vec::new());\n        }\n\n        let searcher = self.reader.searcher();\n        let query_parser = QueryParser::for_index(&self.index, vec![self.field_content]);\n\n        // Build a boolean query: text match AND scope filter.\n        let text_query = query_parser.parse_query(query)\n            .map_err(|e| CorviaError::Storage(format!(\"tantivy query parse: {e}\")))?;\n\n        let scope_term = tantivy::Term::from_field_text(self.field_scope_id, scope_id);\n        let scope_query = Box::new(tantivy::query::TermQuery::new(\n            scope_term,\n            IndexRecordOption::Basic,\n        ));\n\n        let combined = tantivy::query::BooleanQuery::new(vec![\n            (tantivy::query::Occur::Must, text_query),\n            (tantivy::query::Occur::Must, scope_query),\n        ]);\n\n        let top_docs = searcher.search(&combined, &TopDocs::with_limit(limit))\n            .map_err(|e| CorviaError::Storage(format!(\"tantivy search: {e}\")))?;\n\n        // Look up full entries by ID from the store.\n        let mut results = Vec::with_capacity(top_docs.len());\n        for (score, doc_addr) in top_docs {\n            let doc: TantivyDocument = searcher.doc(doc_addr)\n                .map_err(|e| CorviaError::Storage(format!(\"tantivy doc fetch: {e}\")))?;\n\n            if let Some(entry_id_val) = doc.get_first(self.field_entry_id)\n                && let Some(id_str) = entry_id_val.as_str()\n                && let Ok(id) = uuid::Uuid::parse_str(id_str)",
+  "source_version": "crates/corvia-kernel/src/tantivy_index.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.445708251Z",
+  "valid_from": "2026-03-31T13:20:59.445708251Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/tantivy_index.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 417,
+    "end_line": 457,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

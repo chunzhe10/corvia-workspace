@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a16-7c43-b1c4-86ca4f225693",
+  "content": "═════════════════════════════════ */\n  .slide-8 {\n    background: linear-gradient(160deg, #0f172a 0%, #1a2332 50%, #0f172a 100%);\n  }\n  .slide-8 .slide-label { color: var(--accent-amber); }\n  .slide-8 .takeaway-list {\n    display: flex;\n    flex-direction: column;\n    gap: 32px;\n    flex: 1;\n    justify-content: center;\n    padding: 16px 0;\n  }\n  .slide-8 .takeaway-item {\n    display: flex;\n    gap: 20px;\n    align-items: flex-start;\n  }\n  .slide-8 .takeaway-item .tk-icon { font-size: 32px; flex-shrink: 0; margin-top: 2px; }\n  .slide-8 .takeaway-item h3 { font-size: 24px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }\n  .slide-8 .takeaway-item p { font-size: 21px; font-weight: 400; color: var(--text-secondary); line-height: 1.5; }\n\n  .slide-8 .cta-divider {\n    border: none;\n    border-top: 1px solid var(--border);\n    margin: 12px 0 20px;\n  }\n  .slide-8 .cta { text-align: center; }\n  .slide-8 .cta p { font-size: 24px; font-weight: 600; color: var(--text-secondary); line-height: 1.5; }\n  .slide-8 .cta .small { font-size: 20px; font-weight: 500; color: var(--text-muted); margin-top: 8px; }\n\n  /* ════════════════════════════════════════════════════ */\n  /* SLIDE: THE GAP (inserted after slide 2)            */\n  /* ════════════════════════════════════════════════════ */\n  .slide-gap { background: var(--bg-dark); }\n  .slide-gap .slide-label { color: var(--accent-cyan); }",
+  "source_version": "marketing/linkedin/2026-03-29-recursive-loop-reflection/recursive-loop-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.030000108Z",
+  "valid_from": "2026-03-31T13:51:39.030000108Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-29-recursive-loop-reflection/recursive-loop-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 478,
+    "end_line": 508,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

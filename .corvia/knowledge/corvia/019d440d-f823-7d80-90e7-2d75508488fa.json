@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f823-7d80-90e7-2d75508488fa",
+  "content": " PerTypeForgettingConfig {\n            enabled: Some(false),\n            max_inactive_days: None,\n            budget_top_n: None,\n        });\n        let resolved = cfg.resolve_policy(MemoryType::Structural, None);\n        assert!(!resolved.enabled);\n    }\nfn test_forgetting_per_type_disabled_scope_cannot_reenable() {\n        // Per-type enabled=false is a hard disable — scope overrides cannot\n        // re-enable it. This allows admins to guarantee certain memory types\n        // are never subject to forgetting.\n        let mut cfg = ForgettingConfig {\n            enabled: true,\n            ..ForgettingConfig::default()\n        };\n        cfg.by_type.insert(MemoryType::Structural, PerTypeForgettingConfig {\n            enabled: Some(false),\n            max_inactive_days: None,\n            budget_top_n: None,\n        });\n        let scope_override = ScopeForgettingOverride {\n            enabled: Some(true), // attempt to re-enable\n            max_inactive_days: Some(365),\n            budget_top_n: None,\n        };\n        let resolved = cfg.resolve_policy(MemoryType::Structural, Some(&scope_override));\n        assert!(!resolved.enabled, \"per-type disabled is a hard disable\");\n    }",
+  "source_version": "crates/corvia-common/src/config.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.427265246Z",
+  "valid_from": "2026-03-31T13:20:59.427265246Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/config.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1874,
+    "end_line": 1894,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

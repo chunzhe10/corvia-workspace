@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f843-7a03-b56b-3488ee4aeacc",
+  "content": "# M1.2 LiteStore Implementation Plan\n\n> **Status:** Shipped (v0.1.2)\n\n**Goal:** Add zero-Docker storage and inference backends (LiteStore + OllamaEngine) so Corvia runs with just `cargo install` and a local Ollama instance.\n\n**Architecture:** LiteStore implements `QueryableStore` using hnsw_rs for HNSW vector search and Redb for metadata indexing, with JSON files in `.corvia/knowledge/` as the git-tracked source of truth. OllamaEngine implements `InferenceEngine` using Ollama's OpenAI-compatible embedding API. Config gains `store_type` (lite/surrealdb) and `provider` (ollama/vllm) enum fields. Factory functions dispatch the correct backend based on config.\n\n**Tech Stack:** hnsw_rs 0.3 (vector search), redb 2 (metadata KV store), reqwest (HTTP for Ollama), serde_json (knowledge files), tempfile (test fixtures)\n\n**Key design decisions:** D35 (two-tier storage), D36 (hnsw_rs), D40 (Ollama default), D41 (git-tracked JSON), D42 (M1.2 scope)\n\n**What M1.2 does NOT include** (deferred per D42): petgraph graph overlay (M3), bi-temporal Redb overlay (M3), RBAC isolation (M2), `corvia upgrade` migration (M3), knowledge file writing for SurrealStore (future).\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.459558591Z",
+  "valid_from": "2026-03-31T13:20:59.459558591Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1,
+    "end_line": 16,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

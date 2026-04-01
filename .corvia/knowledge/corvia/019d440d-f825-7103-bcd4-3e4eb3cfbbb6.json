@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-3e4eb3cfbbb6",
+  "content": "::create_dir_all(&dir);\n        unsafe { libc::umask(old_umask) };\n        result?;\n        // Ensure 0700 even if directory pre-existed with different permissions\n        fs::set_permissions(&dir, fs::Permissions::from_mode(0o700))?;\n        Ok(dir)\n    }\nfn is_valid_name(name: &str) -> bool {\n    if name.is_empty() || name.len() > 64 {\n        return false;\n    }\n    let bytes = name.as_bytes();\n    if !bytes[0].is_ascii_alphanumeric() {\n        return false;\n    }\n    bytes[1..].iter().all(|b| b.is_ascii_alphanumeric() || *b == b'-' || *b == b'_')\n}",
+  "source_version": "crates/corvia-cli/src/hooks/agent_teams.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429077751Z",
+  "valid_from": "2026-03-31T13:20:59.429077751Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/agent_teams.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 62,
+    "end_line": 71,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

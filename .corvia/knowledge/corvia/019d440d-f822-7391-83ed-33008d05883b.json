@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f822-7391-83ed-33008d05883b",
+  "content": "pub struct ChatModelDef {\n    /// HuggingFace repository (e.g. \"bartowski/Qwen_Qwen3-8B-GGUF\").\n    pub repo: String,\n    /// GGUF filename (e.g. \"Qwen3-8B-Q4_K_M.gguf\").\n    pub filename: String,\n}\nfn default_chat_models() -> std::collections::HashMap<String, ChatModelDef> {\n    let mut m = std::collections::HashMap::new();\n    m.insert(\"qwen3\".into(), ChatModelDef {\n        repo: \"bartowski/Qwen_Qwen3-8B-GGUF\".into(),\n        filename: \"Qwen3-8B-Q4_K_M.gguf\".into(),\n    });\n    m.insert(\"qwen3:8b\".into(), ChatModelDef {\n        repo: \"bartowski/Qwen_Qwen3-8B-GGUF\".into(),\n        filename: \"Qwen3-8B-Q4_K_M.gguf\".into(),\n    });\n    m.insert(\"llama3.2\".into(), ChatModelDef {\n        repo: \"bartowski/Llama-3.2-3B-Instruct-GGUF\".into(),\n        filename: \"Llama-3.2-3B-Instruct-Q4_K_M.gguf\".into(),\n    });\n    m.insert(\"llama3.2:3b\".into(), ChatModelDef {\n        repo: \"bartowski/Llama-3.2-3B-Instruct-GGUF\".into(),\n        filename: \"Llama-3.2-3B-Instruct-Q4_K_M.gguf\".into(),\n    });\n    m.insert(\"llama3.2:1b\".into(), ChatModelDef {\n        repo: \"bartowski/Llama-3.2-1B-Instruct-GGUF\".into(),\n        filename: \"Llama-3.2-1B-Instruct-Q4_K_M.gguf\".into(),\n    });\n    m\n}",
+  "source_version": "crates/corvia-common/src/config.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.426260285Z",
+  "valid_from": "2026-03-31T13:20:59.426260285Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/config.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 298,
+    "end_line": 321,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

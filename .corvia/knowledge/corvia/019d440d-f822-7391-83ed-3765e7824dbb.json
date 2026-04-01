@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f822-7391-83ed-3765e7824dbb",
+  "content": "assert_eq!(config2.graph_oversample_factor, 5);\n    }\n\n    #[test]\n    fn test_existing_config_without_rag_or_chunking_still_parses() {\n        let toml_str = r#\"\n[project]\nname = \"test\"\nscope_id = \"test\"\n\n[storage]\nstore_type = \"lite\"\ndata_dir = \".corvia\"\n\n[embedding]\nprovider = \"ollama\"\nmodel = \"nomic-embed-text\"\nurl = \"http://127.0.0.1:11434\"\ndimensions = 768\n\n[server]\nhost = \"127.0.0.1\"\nport = 8020\n\"#;\n        let config: CorviaConfig = toml::from_str(toml_str).unwrap();\n        assert_eq!(config.rag.default_limit, 10);\n        assert_eq!(config.chunking.max_tokens, 512);\n    }\n\n    #[test]\n    fn test_inference_config_defaults() {\n        let config = InferenceConfig::default();\n        assert_eq!(config.device, \"auto\");\n        assert!(config.backend.is_empty());\n        assert_eq!(config.kv_quant, \"q8\");\n        assert!(config.flash_attention);\n    }\n\n    #[test]\n    fn test_corvia_config_has_inference_defaults() {\n        let config = CorviaConfig::default();\n        assert_eq!(config.inference.device, \"auto\");\n        assert_eq!(config.inference.kv_quant, \"q8\");\n        assert!(config.inference.flash_attention);\n    }\n\n    #[test]\n    fn test_inference_config_from_toml() {\n        let toml_str = r#\"\n[project]\nname = \"test\"\nscope_id = \"test\"\n\n[storage]\ndata_dir = \".corvia\"\n\n[embedding]\nmodel = \"nomic-embed-text\"\nurl = \"http://127.0.0.1:11434\"\ndimensions = 768\n\n[server]\nhost = \"127.0.0.1\"\nport = 8020\n\n[inference]\ndevice = \"gpu\"\nbackend = \"cuda\"\nkv_quant = \"q4\"\nflash_attention = false\n\"#;\n        let config: CorviaConfig = toml::from_str(toml_str).unwrap();\n        assert_eq!(config.inference.device, \"gpu\");\n        assert_eq!(config.inference.backend, \"cuda\");\n        assert_eq!(config.inference.kv_quant, \"q4\");\n        assert!(!config.inference.flash_attention);\n    }\n",
+  "source_version": "crates/corvia-common/src/config.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.426787817Z",
+  "valid_from": "2026-03-31T13:20:59.426787817Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/config.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 1548,
+    "end_line": 1612,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

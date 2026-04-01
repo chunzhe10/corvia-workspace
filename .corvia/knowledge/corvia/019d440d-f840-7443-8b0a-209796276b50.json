@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-209796276b50",
+  "content": "```\n`Incoming` returns all entries whose `spawned_by` edge points to the start node,\ni.e., the subagent sessions. `Outgoing` from a subagent entry reaches its parent.\n\n**6. State update**\n\nAppends the session ID to `.ingested` after successful processing.\n\n### Classification Pass (C2)\n\nRuns after all sessions are ingested. Classification state is tracked in\n`~/.claude/sessions/.classify-queue` (newline-delimited corvia entry IDs),\nnot in `source_origin` or any other entry field. This keeps `source_origin`\nclean for its intended exact-match filter semantics.\n\n**Heuristic (fast, free):**\n- During turn chunking, if any `tool_end` input references paths under\n  `repos/*/` or the workspace root, append the resulting entry ID to\n  `.classify-queue` immediately after writing the entry to corvia.\n\n**LLM pass (reads `.classify-queue`):**\n- For each queued entry ID, fetch the entry content and send to generation engine:\n  > \"Does this conversation turn contain a product decision, architectural\n  > discussion, or research finding relevant to building the corvia software\n  > product? Answer YES or NO with one sentence of rationale.\"\n- YES → writes a copy to `\"corvia\"` scope with `content_role` inferred from\n  content (design, decision, research, learning); remove ID from queue\n- NO → remove ID from queue; entry stays in `\"user-history\"` only\n- Queue is rewritten atomically (write temp file, rename) after each batch\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-14-claude-session-history-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456901353Z",
+  "valid_from": "2026-03-31T13:20:59.456901353Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-14-claude-session-history-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 381,
+    "end_line": 404,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

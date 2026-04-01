@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-300ca1fd15d9",
+  "content": "### C3: No credential expiry handling (QA)\n### C4: No rollback on partial spoke creation failure (QA)\n\n### C5: HubContext fails outside containers (DevOps)\n`docker inspect $(hostname)` fails on bare metal/Podman. Add container detection\ncheck, clear error message for unsupported environments.\n\n\n### C6: Hardcoded/non-deterministic network selection (DevOps, SWE)\n`HashMap.keys().next()` picks arbitrary network when hub is on multiple. Filter\nout bridge/host/none, prefer networks containing \"devcontainer\", require config\nif ambiguous.\n",
+  "source_version": "decisions/2026-03-28-spoke-design-review-summary.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026640064Z",
+  "valid_from": "2026-03-31T13:51:39.026640064Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-design-review-summary.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 44,
+    "end_line": 52,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f822-7391-83ed-3589fb3b8bf4",
+  "content": "fn default() -> Self {\n        Self {\n            max_inactive_days: default_max_inactive_days(),\n            budget_top_n: default_budget_top_n(),\n        }\n    }\npub struct ForgettingOverride {\n    /// Override enabled/disabled. `None` = inherit from parent layer.\n    #[serde(default, skip_serializing_if = \"Option::is_none\")]\n    pub enabled: Option<bool>,\n    /// Override max inactive days. `None` = inherit.\n    #[serde(default, skip_serializing_if = \"Option::is_none\")]\n    pub max_inactive_days: Option<u32>,\n    /// Override budget cap. `None` = inherit.\n    #[serde(default, skip_serializing_if = \"Option::is_none\")]\n    pub budget_top_n: Option<u32>,\n}",
+  "source_version": "crates/corvia-common/src/config.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.426506624Z",
+  "valid_from": "2026-03-31T13:20:59.426506624Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/config.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 816,
+    "end_line": 826,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

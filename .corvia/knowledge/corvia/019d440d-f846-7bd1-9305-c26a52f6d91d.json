@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-c26a52f6d91d",
+  "content": ".metadata.name, total_files);\n                    break;\n                }\n                AdapterResponse::Error { error } => {\n                    return Err(format!(\n                        \"Adapter error [{}]: {}{}\",\n                        error.code,\n                        error.message,\n                        error.file.map(|f| format!(\" (file: {f})\")).unwrap_or_default()\n                    ));\n                }\n                AdapterResponse::ChunkResult { .. } => {\n                    warn!(\"Unexpected ChunkResult during ingest, ignoring\");\n                }\n            }\n        }\n        Ok(files)\n    }\n\n    /// Send a chunk command and return the result.\n    pub fn chunk(&mut self, content: &str, metadata: &SourceMetadata) -> Result<(Vec<RawChunk>, Vec<ChunkRelation>), String> {\n        let req = AdapterRequest::Chunk {\n            content: content.to_string(),\n            metadata: metadata.clone(),\n        };\n        self.send_request(&req)?;\n\n        let line = self.read_line()?;\n        let resp: AdapterResponse = serde_json::from_str(&line)\n            .map_err(|e| format!(\"Invalid JSONL from adapter: {e}\"))?;\n\n        match resp {\n            AdapterResponse::ChunkResult { chunks, relations } => Ok((chunks, relations)),\n            AdapterResponse::Error { error } => {\n                Err(format!(\"Adapter chunk error [{}]: {}\", error.code, error.message))",
+  "source_version": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462642770Z",
+  "valid_from": "2026-03-31T13:20:59.462642770Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 913,
+    "end_line": 940,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

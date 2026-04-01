@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f838-7ec1-a413-ace6885a537e",
+  "content": "et result = writer.write_with_dedup(\n            \"duplicate knowledge entry\",\n            \"test-scope\", \"v1\", \"agent\", \"sess\",\n            None, None, None, true,\n        ).await.unwrap();\n        assert!(matches!(result, WriteResult::Written(_)));\n    }\n}\nimpl crate::traits::InferenceEngine for MockEngine {\n        async fn embed(&self, _text: &str) -> corvia_common::errors::Result<Vec<f32>> {\n            Ok(vec![1.0, 0.0, 0.0])\n        }\n        async fn embed_batch(&self, texts: &[String]) -> corvia_common::errors::Result<Vec<Vec<f32>>> {\n            Ok(texts.iter().map(|_| vec![1.0, 0.0, 0.0]).collect())\n        }\n        fn dimensions(&self) -> usize { 3 }\n    }",
+  "source_version": "crates/corvia-kernel/src/agent_writer.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.448260929Z",
+  "valid_from": "2026-03-31T13:20:59.448260929Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/agent_writer.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 188,
+    "end_line": 196,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82b-7733-b219-ace478f0fe49",
+  "content": "1\\\" = \\\"--corvia-metadata\\\" ]; then echo '{}'; fi\\n\",\n            metadata_json.replace('\\'', \"'\\\\''\")\n        );\n        fs::write(&script_path, script).unwrap();\n        fs::set_permissions(&script_path, fs::Permissions::from_mode(0o755)).unwrap();\n    }\nfn test_discover_from_extra_dir() {\n        let dir = tempfile::tempdir().unwrap();\n        create_mock_adapter(\n            dir.path(),\n            \"corvia-adapter-test\",\n            r#\"{\"name\":\"test\",\"version\":\"0.1.0\",\"domain\":\"test\",\"protocol_version\":1,\"description\":\"Test adapter\",\"supported_extensions\":[\"txt\"],\"chunking_extensions\":[]}\"#,\n        );\n\n        let adapters = discover_adapters_inner(&[dir.path().to_string_lossy().to_string()], false);\n        assert_eq!(adapters.len(), 1);\n        assert_eq!(adapters[0].metadata.name, \"test\");\n        assert_eq!(adapters[0].metadata.version, \"0.1.0\");\n    }",
+  "source_version": "crates/corvia-kernel/src/adapter_discovery.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.435984720Z",
+  "valid_from": "2026-03-31T13:20:59.435984720Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/adapter_discovery.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 229,
+    "end_line": 241,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f821-7a21-8a96-44b45e0cd693",
+  "content": "pub enum HookSessionState {\n    Active,\n    Stale,\n    Ended,\n}\npub struct HookSession {\n    pub session_id: String,\n    pub state: HookSessionState,\n    pub workspace: String,\n    pub git_branch: String,\n    pub agent_type: String,\n    pub parent_session_id: Option<String>,\n    pub corvia_agent_id: Option<String>,\n    pub started_at: String,\n    pub last_activity: String,\n    pub duration_secs: u64,\n    pub turn_count: u32,\n    pub tool_calls: u32,\n    pub active_tool: Option<String>,\n    pub tools_used: Vec<String>,\n}",
+  "source_version": "crates/corvia-common/src/dashboard.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.425883999Z",
+  "valid_from": "2026-03-31T13:20:59.425883999Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/dashboard.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 298,
+    "end_line": 313,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

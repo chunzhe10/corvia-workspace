@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84a-7fb3-b052-e64fbc85e4b8",
+  "content": "### LiteStore Changes\n### No Background Task\n\n### Performance Expectations\n\n| Metric | Before (v1) | After (v2) |\n|--------|-------------|------------|\n| Per-access latency | ~1-5ms (Redb write) | ~50-200ns (DashMap insert) |\n| Per-flush latency | N/A | <50ms (single Redb txn, N=100) |\n| Memory overhead | 0 | ~100 bytes x 256 max = ~25KB |\n| Redb write frequency | Every search | Every 60s or 256 accesses |\n\n\n### Test Plan\n\n1. **Unit: buffer accumulation** -- insert entries, verify pending count\n2. **Unit: flush triggers** -- verify time-based and size-based triggers\n3. **Unit: concurrent inserts** -- multi-threaded DashMap inserts\n4. **Unit: CAS flush exclusion** -- only one flush runs at a time\n5. **Unit: lossy drop** -- verify events dropped when buffer full + flush in progress\n6. **Integration: record_access round-trip** -- existing tests still pass\n7. **Integration: Drop flush** -- verify pending events flushed on LiteStore drop\n",
+  "source_version": "docs/superpowers/specs/2026-03-28-buffered-access-tracking-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.466434055Z",
+  "valid_from": "2026-03-31T13:20:59.466434055Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/superpowers/specs/2026-03-28-buffered-access-tracking-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 154,
+    "end_line": 172,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

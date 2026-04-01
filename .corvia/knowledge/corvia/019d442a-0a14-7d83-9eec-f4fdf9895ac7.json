@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f4fdf9895ac7",
+  "content": "eenshot &rarr; verify<br>\n        &bull; Spots own mistakes first<br>\n        &bull; Self-correcting loop<br>\n        &bull; Human reviews final result<br>\n        &bull; Faster and autonomous\n      </div>\n    </div>\n  </div>\n\n  <div class=\"divider\"></div>\n  <div style=\"margin-bottom: 20px;\">\n    <div style=\"font-size: 22px; font-weight: 700; margin-bottom: 16px;\">This applies beyond UI</div>\n    <div style=\"display: flex; gap: 16px;\">\n      <div style=\"background: rgba(59,130,246,0.12); border: 1px solid rgba(59,130,246,0.25); border-radius: 12px; padding: 20px 24px; flex: 1;\">\n        <div style=\"font-size: 20px; font-weight: 600; color: var(--accent-blue); margin-bottom: 4px;\">PDFs</div>\n        <div style=\"font-size: 18px; color: var(--text-secondary);\">Slides, reports, guides</div>\n      </div>\n      <div style=\"background: rgba(139,92,246,0.12); border: 1px solid rgba(139,92,246,0.25); border-radius: 12px; padding: 20px 24px; flex: 1;\">\n        <div style=\"font-size: 20px; font-weight: 600; color: var(--accent-purple); margin-bottom: 4px;\">Dashboards</div>\n        <div style=\"font-size: 18px; color: var(--text-secondary);\">React, data viz, admin</div>\n      </div>\n      <div style=\"background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.25); border-radius: 12px; padding: 20px 24px; flex: 1;\">\n        <div style=\"font-size: 20px; font-weight: 600; color: var(--accent-amber); margin-bottom: 4px;\">Emails</div>\n        <div style=\"font-size: 18px; color: var(--text-secondary);\">HTML across clients</div>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"insight-box\">\n    <p>The model is rarely the bottleneck. <strong>The context is.</strong><br>\n    Give AI the right tools to close the feedback loop,<br>\n    and it goes from frustrating to genuinely useful.</p>\n  </div>\n\n  <div class=\"flex-grow\"></div>\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">07 / 08</div>\n</div>",
+  "source_version": "marketing/linkedin/2026-03-11-ai-blind-designer/ai-blind-designer-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028031244Z",
+  "valid_from": "2026-03-31T13:51:39.028031244Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-11-ai-blind-designer/ai-blind-designer-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 686,
+    "end_line": 713,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

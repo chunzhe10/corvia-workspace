@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f835-7a40-9ae4-115aabf268bb",
+  "content": "fn test_generate_agent_id_with_branch() {\n        let id = generate_agent_id(None, Some(\"feat/my-branch\"));\n        assert!(id.starts_with(\"spoke-feat-my-branch\"));\n    }\nfn test_spoke_config_defaults() {\n        let config = SpokeConfig::default();\n        assert_eq!(config.image, \"corvia-spoke:latest\");\n        assert_eq!(config.memory_limit, \"4g\");\n        assert_eq!(config.cpu_shares, 512);\n        assert!(config.network.is_none());\n        assert_eq!(config.auth_mode, SpokeAuthMode::Credentials);\n    }",
+  "source_version": "crates/corvia-kernel/src/spoke.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.445495394Z",
+  "valid_from": "2026-03-31T13:20:59.445495394Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/spoke.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1070,
+    "end_line": 1077,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

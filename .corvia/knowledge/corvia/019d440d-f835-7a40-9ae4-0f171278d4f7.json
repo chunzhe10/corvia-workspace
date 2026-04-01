@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f835-7a40-9ae4-0f171278d4f7",
+  "content": " \"Pruned exited spoke\");\n                    pruned.push(name);\n                }\n                Err(e) => {\n                    warn!(spoke = %name, error = %e, \"Failed to prune spoke\");\n                }\n            }\n        }\n\n        Ok(pruned)\n    }\npub async fn restart_all(&self) -> Result<(u32, Vec<String>)> {\n        let spokes = self.list(false).await?; // Only running spokes\n        let mut success = 0u32;\n        let mut failures = Vec::new();\n        for spoke in &spokes {\n            match self.restart(&spoke.name).await {\n                Ok(()) => success += 1,\n                Err(e) => {\n                    warn!(spoke = %spoke.name, error = %e, \"Failed to restart spoke\");\n                    failures.push(spoke.name.clone());\n                }\n            }\n        }\n        Ok((success, failures))\n    }",
+  "source_version": "crates/corvia-kernel/src/spoke.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.445257891Z",
+  "valid_from": "2026-03-31T13:20:59.445257891Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/spoke.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 675,
+    "end_line": 689,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

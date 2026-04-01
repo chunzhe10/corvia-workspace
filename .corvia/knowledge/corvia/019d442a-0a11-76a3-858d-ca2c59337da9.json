@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-ca2c59337da9",
+  "content": "s.\n\n**Hooks:** `TaskCreated`, `TaskCompleted`, `TeammateIdle`. Stdin JSON includes\n`session_id`, `transcript_path`, `teammate_name`, `team_name`, `task_id`, etc.\n\n**Cleanup:** Deletes both directories entirely. Requires all teammates shut down first.\n\n---\n\n## Q1: Capturing Before Cleanup Deletes Files\n\n**Recommendation: Hook-based incremental capture (primary) + periodic scan (fallback).**\n\nSix approaches were evaluated:\n\n| Approach | Reliability | Complexity | Verdict |\n|----------|------------|------------|---------|\n| Pre-cleanup hook interception | Low | High | Not viable. No native hook exists. |\n| Filesystem watcher (inotify) | High | Medium-High | Works but breaks adapter model (requires persistent server process). |\n| Periodic scan (polling) | Low-Medium | Low | Data loss window. OK as fallback only. |\n| **Hook-based incremental** | **High** | **Medium** | **Recommended primary.** Matches claude-sessions pattern. |\n| Shadow copy (hard links) | Medium | Medium | Breaks on write-via-rename (common in Node/Electron). |\n| MCP-level interception | Medium | Low | Depends on agent compliance. Supplementary only. |\n\n**How the recommended approach works:**\n\n| Hook | Action | Latency |\n|------|--------|---------|\n| `TaskCreated` | Log task ID, subject, description to staging JSONL | < 50ms |\n| `TaskCompleted` | Read full task file, log to staging with completion timestamp | < 100ms |\n| Teammate `SessionEnd` | Read inbox, team config, remaining tasks. Final snapshot. | < 2s |\n\n**Key invariant:** `TeammateIdle` fires before cleanup becomes possible. The shutdown\nsequence is always: all teammates go idle/shut down, THEN cleanup can run. So teammate\n`SessionEnd` hooks capture everything before deletion.\n\n**Staging directory:** `~/.corvia/staging/agent-teams/{team-name}/` survives cleanup.\nAdapter reads from staging, not from ephemeral team directories.\n\n**Skip `TeammateIdle` for capture.** It fires every LLM turn (too noisy). Reserve\nfor quality gates, not data capture.\n\n---\n",
+  "source_version": "decisions/2026-03-28-adapter-agent-teams-brainstorm.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025404771Z",
+  "valid_from": "2026-03-31T13:51:39.025404771Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-adapter-agent-teams-brainstorm.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 131,
+    "end_line": 165,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

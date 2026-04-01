@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82a-7783-b9af-76a5810abb51",
+  "content": "s::Tier::Hot || r.tier == corvia_common::types::Tier::Warm,\n                \"unexpected tier: {:?}\",\n                r.tier\n            );\n        }\n\n        store.delete_scope(\"test-fts\").await.unwrap();\n        cleanup_test_db(\"fts_tiers\").await;\n    }\n}\nfn test_embedding(x: f32, y: f32, z: f32) -> Vec<f32> {\n        let mut v = vec![0.0f32; TEST_DIM];\n        v[0] = x;\n        v[1] = y;\n        v[2] = z;\n        v\n    }",
+  "source_version": "crates/corvia-kernel/src/postgres_store.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.434466877Z",
+  "valid_from": "2026-03-31T13:20:59.434466877Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/postgres_store.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 927,
+    "end_line": 933,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

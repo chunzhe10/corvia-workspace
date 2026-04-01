@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81c-7712-b515-4dd78a31649b",
+  "content": " = implements.iter().filter_map(|r| r.to_name.as_deref()).collect();\n        assert!(names.contains(&\"ISerializable\"), \"Missing ISerializable, got: {:?}\", names);\n        assert!(names.contains(&\"ICloneable\"), \"Missing ICloneable, got: {:?}\", names);\n    }\nfn test_js_function_call_in_method() {\n        let source = r#\"\nfunction helper() {\n    return 42;\n}\n\nclass Service {\n    process() {\n        const result = helper();\n        return result;\n    }\n}\n\"#;\n        let result = chunk_file_with_relations(\"app.js\", source, \"js\");\n        let calls: Vec<&CodeRelation> = result\n            .relations\n            .iter()\n            .filter(|r| r.relation == \"calls\")\n            .collect();\n        let names: Vec<&str> = calls.iter().filter_map(|r| r.to_name.as_deref()).collect();\n        assert!(\n            names.contains(&\"helper\"),\n            \"Expected call to 'helper' inside method body, got: {:?}\",\n            names\n        );\n    }",
+  "source_version": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.420626740Z",
+  "valid_from": "2026-03-31T13:20:59.420626740Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1952,
+    "end_line": 1977,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}
