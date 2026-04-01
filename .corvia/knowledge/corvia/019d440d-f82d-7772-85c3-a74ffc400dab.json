@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82d-7772-85c3-a74ffc400dab",
+  "content": "erOptions>).await;\n\n        info!(\"Creating vLLM container: {VLLM_CONTAINER_NAME}\");\n        self.docker.create_container(Some(create_options), config).await\n            .map_err(|e| CorviaError::Docker(format!(\"vLLM: Failed to create container: {e}\")))?;\n\n        self.docker.start_container(VLLM_CONTAINER_NAME, None::<StartContainerOptions>).await\n            .map_err(|e| CorviaError::Docker(format!(\"vLLM: Failed to start container: {e}\")))?;\n\n        info!(\"vLLM started on port {VLLM_PORT}\");\n\n        // Wait for vLLM model to load\n        tokio::time::sleep(std::time::Duration::from_secs(10)).await;\n\n        Ok(())\n    }\n\n    /// Stop and remove the vLLM container.\n    pub async fn stop_vllm(&self) -> Result<()> {\n        info!(\"Stopping vLLM container\");\n        self.docker.stop_container(VLLM_CONTAINER_NAME, None::<StopContainerOptions>).await\n            .map_err(|e| CorviaError::Docker(format!(\"vLLM: Failed to stop container: {e}\")))?;\n        self.docker.remove_container(VLLM_CONTAINER_NAME, None::<RemoveContainerOptions>).await\n            .map_err(|e| CorviaError::Docker(format!(\"vLLM: Failed to remove container: {e}\")))?;\n        Ok(())\n    }\n\n    /// Check if Ollama container is already running.\n    pub async fn is_ollama_running(&self) -> Result<bool> {\n        let filters: HashMap<String, Vec<String>> = HashMap::from([\n            (\"name\".into(), vec![OLLAMA_CONTAINER_NAME.into()]),",
+  "source_version": "crates/corvia-kernel/src/docker.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.437173208Z",
+  "valid_from": "2026-03-31T13:20:59.437173208Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/docker.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 98,
+    "end_line": 122,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

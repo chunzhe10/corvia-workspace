@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f893ac6c91b1",
+  "content": " class=\"slide-number\">01 / 07</div>\n</div>\n\n<!-- Slide 2: THE SETUP -->\n<div class=\"slide\">\n  <div class=\"slide-label\">The Setup</div>\n  <div class=\"slide-title\">Linux for Engineering Was Working.<br><span class=\"highlight\">Now: Creative Work.</span></div>\n  <!-- 2x2 card grid for equal sizing -->\n  <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px;\">\n    <div class=\"card\" style=\"border-top: 3px solid var(--accent-green); padding: 28px; display: flex; align-items: flex-start; gap: 16px;\">\n      <div style=\"font-size: 36px; flex-shrink: 0;\">✅</div>\n      <div style=\"min-width: 0;\">\n        <div style=\"font-size: 24px; font-weight: 700; color: var(--accent-green); margin-bottom: 6px;\">Low RAM Baseline</div>\n        <div style=\"font-size: 20px; color: var(--text-secondary); line-height: 1.4;\">1GB idle vs 5GB on Windows. More headroom for creative apps.</div>\n      </div>\n    </div>\n    <div class=\"card\" style=\"border-top: 3px solid var(--accent-green); padding: 28px; display: flex; align-items: flex-start; gap: 16px;\">\n      <div style=\"font-size: 36px; flex-shrink: 0;\">✅</div>\n      <div style=\"min-width: 0;\">\n        <div style=\"font-size: 24px; font-weight: 700; color: var(--accent-green); margin-bottom: 6px;\">Native Docker</div>\n        <div style=\"font-size: 20px; color: var(--text-secondary); line-height: 1.4;\">No VM layer. Direct container access for development.</div>\n      </div>\n    </div>\n    <div class=\"card\" style=\"border-top: 3px solid var(--accent-green); padding: 28px; display: flex; align-items: flex-start; gap: 16px;\">\n      <div style=\"font-size: 36px; flex-shrink: 0;\">✅</div>\n      <div style=\"min-width: 0;\">\n        <div style=\"font-size: 24px; font-weight: 700; color: var(--accent-green); margin-bottom: 6px;\">iGPU Assignment</div>\n        <div style=\"font-size: 20px; color: var(--text-secondary); line-height: 1.4;\">DRI_PRIME control. Dedicate dGPU to compute tasks.</div>\n      </div>\n    </div>\n    <div class=\"card\" style=\"border-top: 3px solid var(--accent-amber); padding: 28px; display: flex; align-items: flex-start; gap: 16px;\">\n      <div style=\"font-size: 36px; flex-shrink: 0;\">❓</div>\n      <div style=\"min-width: 0;\">",
+  "source_version": "marketing/linkedin/2026-03-14-resolve-linux-setup/resolve-linux-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028667191Z",
+  "valid_from": "2026-03-31T13:51:39.028667191Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-14-resolve-linux-setup/resolve-linux-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 330,
+    "end_line": 355,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

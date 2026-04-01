@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84a-7fb3-b052-e99bb50df2bd",
+  "content": "fault::default()\n        };\n        // Assign deterministic embeddings (vary by index for diversity)\n        let x = if i % 3 == 0 { 1.0 } else { 0.0 };\n        let y = if i % 3 == 1 { 1.0 } else { 0.0 };\n        let z = if i % 3 == 2 { 1.0 } else { 0.0 };\n        e = e.with_embedding(vec![x, y, z]);\n        store.insert(&e).await.unwrap();\n        stored_entries.push(e);\n    }\n\n    // 4. Write entries to knowledge files (already done by store.insert, but verify)\n    for e in &stored_entries {\n        let file_path = store_dir\n            .path()\n            .join(\"knowledge\")\n            .join(&e.scope_id)\n            .join(format!(\"{}.json\", e.id));\n        assert!(\n            file_path.exists(),\n            \"Knowledge file should exist for entry {}\",\n            e.id\n        );\n    }\n\n    // 5. Wire relations into graph using pipeline ChunkRelations\n    let mut edge_count = 0;\n    for rel in &relations {\n        // Find source chunk by (source_file, start_line)\n        let from_idx = processed.iter().position(|pc| {\n            pc.metadata.source_file == rel.from_source_file && pc.start_line == rel.from_start_line\n        });\n        if let Some(idx) = from_idx {\n            if idx < stored_entries.len() {\n                let from_id = stored_entries[idx].id;\n                // For this test, create a graph edge to the first entry\n                // to exercise the graph pipeline.\n                let to_id = stored_entries[0].id;\n                if from_id != to_id {\n                    store\n                        .relate(&from_id, &rel.relation, &to_id, None)\n                        .await\n                        .unwrap();\n                    edge_count += 1;\n                }\n            }\n        }\n    }\n",
+  "source_version": "tests/integration/m3_e2e_test.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.466940164Z",
+  "valid_from": "2026-03-31T13:20:59.466940164Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "tests/integration/m3_e2e_test.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 412,
+    "end_line": 454,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

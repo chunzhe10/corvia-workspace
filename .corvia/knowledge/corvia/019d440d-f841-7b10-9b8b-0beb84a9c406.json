@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0beb84a9c406",
+  "content": "ull crate)\nExpected: All tests PASS\n\n**Step 5: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/chunking_pipeline.rs crates/corvia-kernel/src/lib.rs\ngit commit -m \"feat(m3.3): ChunkingPipeline + FormatRegistry — kernel orchestrator (D65/D66)\"\n```\n\n---\n\n### Task 3: MarkdownChunker\n\nHeading-based chunking for `.md` files.\n\n**Files:**\n- Create: `crates/corvia-kernel/src/chunking_markdown.rs`\n- Modify: `crates/corvia-kernel/src/lib.rs` (add module declaration)\n\n**Step 1: Write the failing tests**\n\nCreate `crates/corvia-kernel/src/chunking_markdown.rs` with stub + tests:\n\n```rust\n//! MarkdownChunker — heading-based section splitting for Markdown (D68).\n\nuse corvia_common::errors::Result;\nuse crate::chunking_strategy::*;\n\npub struct MarkdownChunker;\n\nimpl MarkdownChunker {\n    pub fn new() -> Self { Self }\n}\n\nimpl ChunkingStrategy for MarkdownChunker {\n    fn name(&self) -> &str { \"markdown\" }\n    fn supported_extensions(&self) -> &[&str] { &[\"md\"] }\n    fn chunk(&self, _source: &str, _meta: &SourceMetadata) -> Result<Vec<RawChunk>> {\n        todo!()\n    }\n}\n\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    fn meta() -> SourceMetadata {\n        SourceMetadata {",
+  "source_version": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457362180Z",
+  "valid_from": "2026-03-31T13:20:59.457362180Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 614,
+    "end_line": 651,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

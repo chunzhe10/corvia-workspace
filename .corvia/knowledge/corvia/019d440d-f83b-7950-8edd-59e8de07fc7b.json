@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-59e8de07fc7b",
+  "content": "## Task 10: REST API — Agent & Session Endpoints\n\n### Step 1: Write failing tests\n\n```rust\n#[cfg(test)]\nmod tests {\n    use super::*;\n    use axum::http::StatusCode;\n    use axum_test::TestServer; // or use tower::ServiceExt for test requests\n\n    #[tokio::test]\n    async fn test_register_agent() {\n        // POST /v1/agents { name: \"indexer\", scope: \"project\" }\n        // Assert: 201, body contains agent_id\n    }\n\n    #[tokio::test]\n    async fn test_create_session() {\n        // POST /v1/agents/{agent_id}/sessions\n        // Assert: 201, body contains session_id + recoverable_sessions\n    }\n\n    #[tokio::test]\n    async fn test_heartbeat() {\n        // POST /v1/sessions/{session_id}/heartbeat\n        // Assert: 200\n    }\n\n    #[tokio::test]\n    async fn test_write_via_session() {\n        // POST /v1/sessions/{session_id}/write { content, scope_id }\n        // Assert: 201, body contains entry_id\n    }\n\n    #[tokio::test]\n    async fn test_commit_session() {\n        // POST /v1/sessions/{session_id}/commit\n        // Assert: 200\n    }\n\n    #[tokio::test]\n    async fn test_session_state() {\n        // GET /v1/sessions/{session_id}/state\n        // Assert: 200, body contains state + entries\n    }\n}\n```\n\n\n### Step 2: Implement REST endpoints\n\nExtend `AppState` to include `AgentCoordinator`:\n```rust\npub struct AppState {\n    pub store: Arc<dyn QueryableStore>,\n    pub engine: Arc<dyn InferenceEngine>,\n    pub coordinator: Arc<AgentCoordinator>,\n}\n```\n\nNew routes (nested under `/v1`):\n```rust\n.route(\"/v1/agents\", post(register_agent))\n.route(\"/v1/agents/:agent_id/sessions\", post(create_session))\n.route(\"/v1/agents/:agent_id/knowledge\", get(agent_knowledge))\n.route(\"/v1/sessions/:session_id/heartbeat\", post(heartbeat))\n.route(\"/v1/sessions/:session_id/write\", post(write_entry))\n.route(\"/v1/sessions/:session_id/commit\", post(commit_session))\n.route(\"/v1/sessions/:session_id/rollback\", post(rollback_session))\n.route(\"/v1/sessions/:session_id/recover\", post(recover_session))\n.route(\"/v1/sessions/:session_id/state\", get(session_state))\n```\n",
+  "source_version": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451979679Z",
+  "valid_from": "2026-03-31T13:20:59.451979679Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1610,
+    "end_line": 1680,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

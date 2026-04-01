@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f836-7610-b605-c35ecfa254da",
+  "content": "         .arg(\"--version\")\n            .stdout(std::process::Stdio::null())\n            .stderr(std::process::Stdio::null())\n            .status()\n            .map(|s| s.success())\n            .unwrap_or(false)\n    }\n\n    fn endpoint_url(&self) -> String {\n        if self.grpc_addr.starts_with(\"http\") {\n            self.grpc_addr.clone()\n        } else {\n            format!(\"http://{}\", self.grpc_addr)\n        }\n    }\n\n    /// Check if the inference server is reachable via gRPC health.\n    pub async fn is_running(&self) -> bool {\n        let Ok(mut client) = ModelManagerClient::connect(self.endpoint_url()).await else {\n            return false;\n        };\n        client\n            .health(tonic::Request::new(HealthRequest {}))\n            .await\n            .map(|r| r.into_inner().healthy)\n            .unwrap_or(false)\n    }\n\n    /// Start the inference server as a background process.\n    pub fn start(&self) -> Result<()> {\n        info!(\"Starting corvia-inference server...\");\n        let port = self.grpc_addr.split(':').next_back().unwrap_or(\"8030\");\n        std::process::Command::new(\"corvia-inference\")\n            .arg(\"serve\")\n            .arg(\"--port\")\n            .arg(port)\n            .arg(\"--health-probe-interval\")\n            .arg(self.health_probe_interval.to_string())\n            .arg(\"--health-probe-drift-threshold\")",
+  "source_version": "crates/corvia-kernel/src/inference_provisioner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.446888517Z",
+  "valid_from": "2026-03-31T13:20:59.446888517Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/inference_provisioner.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 52,
+    "end_line": 81,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

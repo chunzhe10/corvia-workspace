@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83f-7210-b9e4-0c94f8e0fc44",
+  "content": "## Data Contract\n\n### New `traces` field in status JSON\n\n```json\n{\n  \"traces\": {\n    \"spans\": {\n      \"corvia.agent.register\": { \"count\": 3, \"count_1h\": 1, \"avg_ms\": 5, \"last_ms\": 4, \"errors\": 0 },\n      \"corvia.session.create\": { \"count\": 12, \"count_1h\": 4, \"avg_ms\": 8, \"last_ms\": 6, \"errors\": 0 },\n      \"corvia.session.commit\": { \"count\": 10, \"count_1h\": 3, \"avg_ms\": 45, \"last_ms\": 38, \"errors\": 0 },\n      \"corvia.entry.write\": { \"count\": 24, \"count_1h\": 12, \"avg_ms\": 12, \"last_ms\": 8, \"errors\": 0 },\n      \"corvia.entry.embed\": { \"count\": 24, \"count_1h\": 12, \"avg_ms\": 84, \"last_ms\": 92, \"errors\": 0 },\n      \"corvia.entry.insert\": { \"count\": 24, \"count_1h\": 12, \"avg_ms\": 8, \"last_ms\": 6, \"errors\": 0 },\n      \"corvia.merge.process\": { \"count\": 5, \"count_1h\": 2, \"avg_ms\": 340, \"last_ms\": 290, \"errors\": 0 },\n      \"corvia.merge.conflict\": { \"count\": 2, \"count_1h\": 1, \"avg_ms\": 120, \"last_ms\": 110, \"errors\": 0 },\n      \"corvia.store.insert\": { \"count\": 48, \"count_1h\": 18, \"avg_ms\": 15, \"last_ms\": 12, \"errors\": 0 },\n      \"corvia.store.search\": { \"count\": 30, \"count_1h\": 10, \"avg_ms\": 22, \"last_ms\": 18, \"errors\": 0 },\n      \"corvia.store.get\": { \"count\": 15, \"count_1h\": 5, \"avg_ms\": 3, \"last_ms\": 2, \"errors\": 0 },",
+  "source_version": "docs/rfcs/2026-03-10-telemetry-traces-page-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.455244915Z",
+  "valid_from": "2026-03-31T13:20:59.455244915Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-telemetry-traces-page-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 178,
+    "end_line": 194,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-74699024a138",
+  "content": "    # Build SpanStats\n    # Keep last 50 events\n\n                # Take last 500 lines per file to bound memory\n                all_lines.extend(lines[-500:])\n            except OSError:\n                continue\n    return collect_traces_from_lines(all_lines)\n```\n\n-**Step 4: Run tests to verify they pass**\n\nRun: `cd /workspaces/corvia-workspace/tools/corvia-dev && python -m pytest tests/test_traces.py -v`\nExpected: All 7 tests PASS\n\n-**Step 5: Commit**\n\n```bash\ngit add tools/corvia-dev/corvia_dev/traces.py tools/corvia-dev/tests/test_traces.py\ngit commit -m \"feat(corvia-dev): add trace log parser and aggregator\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-10-telemetry-traces-page.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461197365Z",
+  "valid_from": "2026-03-31T13:20:59.461197365Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-telemetry-traces-page.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 364,
+    "end_line": 384,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

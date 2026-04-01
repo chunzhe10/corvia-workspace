@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f69157b7a1f4",
+  "content": "A card, USB-C to Intel. I was getting stuttering from Reverse PRIME, frames copying across GPUs. Having worked with GPU frame copy mechanisms before I knew what was happening, but the fix was simpler than expected. Just swap cables. RTX 3060 dropped to 0%.\nFair note, Windows has per-app GPU settings too through Display settings and NVIDIA Control Panel. I haven't tried it myself so I can't compare directly. Linux's approach works at the driver level which felt more predictable to me, but I'd be curious to hear from anyone who's used the Windows side.\n\nNo new hardware. Just understanding what was already there.\n\nHas anyone else gone through something similar? Curious how others handle this.\n",
+  "source_version": "marketing/linkedin/2026-03-11-linux-discovery/post.txt",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028350315Z",
+  "valid_from": "2026-03-31T13:51:39.028350315Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-11-linux-discovery/post.txt",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 19,
+    "end_line": 24,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

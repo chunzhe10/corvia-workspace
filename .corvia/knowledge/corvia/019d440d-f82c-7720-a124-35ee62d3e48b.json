@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82c-7720-a124-35ee62d3e48b",
+  "content": "n test_queue() -> MergeQueue {\n        let dir = tempfile::tempdir().unwrap();\n        let db = std::sync::Arc::new(\n            redb::Database::create(dir.path().join(\"coordination.redb\")).unwrap()\n        );\n        MergeQueue::from_db(db).unwrap()\n    }\nfn test_enqueue_and_dequeue() {\n        let queue = test_queue();\n        let id = uuid::Uuid::now_v7();\n        queue.enqueue(id, \"test::agent\", \"test::agent/sess-abc\", \"scope\").unwrap();\n        let entries = queue.list(10).unwrap();\n        assert_eq!(entries.len(), 1);\n        assert_eq!(entries[0].entry_id, id);\n    }",
+  "source_version": "crates/corvia-kernel/src/merge_queue.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.436857262Z",
+  "valid_from": "2026-03-31T13:20:59.436857262Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/merge_queue.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 205,
+    "end_line": 212,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

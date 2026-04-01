@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-8d9a56c8b36a",
+  "content": "  // Clone if needed\n    let repo_path = workspace::resolve_repo_path(&root, &ws.repos_dir, repo);\n    if !repo_path.exists() {\n        workspace::clone_repo(&repo.url, &repo_path)?;\n    }\n    println!(\"Next: corvia workspace ingest --repo {}\", repo.name);\n    Ok(())\n}\nWorkspaceCommands::Remove { name, purge } => {\n    let root = std::env::current_dir()?;\n    let config_path = root.join(\"corvia.toml\");\n    let mut config = CorviaConfig::load(&config_path)?;\n\n    // Get repo info before removing\n    let ws = config.workspace.as_ref()\n        .ok_or_else(|| anyhow::anyhow!(\"Not a workspace\"))?;\n    let repo_path = ws.repos.iter()\n        .find(|r| r.name == name)\n        .map(|r| workspace::resolve_repo_path(&root, &ws.repos_dir, r));\n\n    workspace::remove_repo_from_config(&mut config, &name)?;\n    config.save(&config_path)?;\n    println!(\"Removed repo '{}' from config\", name);\n\n    if purge {\n        if let Some(path) = repo_path {\n            if path.exists() && path.starts_with(root.join(\"repos\")) {\n                // Only delete if inside workspace repos dir (safety check)\n                std::fs::remove_dir_all(&path)?;\n                println!(\"Deleted cloned repo at {}\", path.display());\n            }\n        }\n        // TODO: delete knowledge entries for this namespace (needs store.delete_scope)\n        println!(\"Note: knowledge entries for this namespace should be manually cleaned\");\n    }\n    Ok(())\n}\n```\n\n**Step 6: Verify it compiles**\n\nRun: `cargo build -p corvia-cli`\nExpected: compiles cleanly.\n\n**Step 7: Commit**\n\n```bash\ngit add crates/corvia-cli/src/workspace.rs crates/corvia-cli/src/main.rs\ngit commit -m \"feat(m2.1): implement corvia workspace add and remove commands\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465221281Z",
+  "valid_from": "2026-03-31T13:20:59.465221281Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 927,
+    "end_line": 973,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

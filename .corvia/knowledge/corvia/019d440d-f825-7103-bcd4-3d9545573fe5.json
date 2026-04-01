@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-3d9545573fe5",
+  "content": "fn read_uptime_secs() -> u64 {\n    fs::read_to_string(\"/proc/uptime\")\n        .ok()\n        .and_then(|s| s.split_whitespace().next()?.split('.').next()?.parse().ok())\n        .unwrap_or(0)\n}\nfn read_boot_time() -> u64 {\n    fs::read_to_string(\"/proc/stat\")\n        .ok()\n        .and_then(|s| {\n            s.lines()\n                .find(|l| l.starts_with(\"btime \"))\n                .and_then(|l| l.split_whitespace().nth(1)?.parse().ok())\n        })\n        .unwrap_or(0)\n}",
+  "source_version": "crates/corvia-cli/src/hooks/cleanup.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429001214Z",
+  "valid_from": "2026-03-31T13:20:59.429001214Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/cleanup.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 167,
+    "end_line": 176,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

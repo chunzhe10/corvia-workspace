@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-37d063fe94e6",
+  "content": "await?;\n```\n\n**Step 4: Verify it compiles**\n\nRun: `cargo build -p corvia-inference`\nExpected: SUCCESS.\n\n**Step 5: Commit**\n\n```bash\ngit add crates/corvia-inference/\ngit commit -m \"feat(d60): implement EmbeddingService with fastembed ONNX backend\"\n```\n\n---\n\n## Task 10: Implement ChatService with candle\n\n**Files:**\n- Create: `crates/corvia-inference/src/chat_service.rs`\n- Modify: `crates/corvia-inference/Cargo.toml`\n- Modify: `crates/corvia-inference/src/main.rs`\n\n**Step 1: Add candle dependencies**\n\nIn `crates/corvia-inference/Cargo.toml`:\n```toml\ncandle-core = \"0.8\"\ncandle-transformers = \"0.8\"\ncandle-nn = \"0.8\"\nhf-hub = \"0.4\"\ntokenizers = \"0.21\"\n```\n\nNote: Check latest candle version on crates.io — use the current stable release.\n\n**Step 2: Implement ChatService**\n\nCreate `crates/corvia-inference/src/chat_service.rs`:\n\nThis is the most complex component. The implementation needs to:\n1. Load GGUF quantized models via candle\n2. Tokenize input with HuggingFace tokenizers\n3. Run autoregressive generation\n4. Support both unary and streaming RPCs\n\nImplementation outline:\n```rust\nuse corvia_proto::chat_service_server::ChatService;\nuse corvia_proto::*;\nuse std::collections::HashMap;\nuse std::sync::Arc;\nuse tokio::sync::RwLock;\nuse tonic::{Request, Response, Status};\n\npub struct ChatServiceImpl {\n    // Chat models keyed by name\n    // Each model entry holds the candle model + tokenizer\n    models: Arc<RwLock<HashMap<String, ChatModelEntry>>>,\n}\n\nstruct ChatModelEntry {\n    // candle model weights + config\n    // tokenizer\n}\n\nimpl ChatServiceImpl {\n    pub fn new() -> Self {\n        Self { models: Arc::new(RwLock::new(HashMap::new())) }\n    }\n\n    pub async fn load_model(&self, name: &str) -> Result<(), Status> {\n        // 1. Resolve HuggingFace repo (e.g., \"llama3.2\" → specific GGUF)\n        // 2. Download via hf-hub if not cached\n        // 3. Load GGUF into candle\n        // 4. Load tokenizer\n        // 5. Store in models map\n        todo!(\"Implement candle GGUF model loading\")\n    }\n}\n\n#[tonic::async_trait]\nimpl ChatService for ChatServiceImpl {",
+  "source_version": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458750657Z",
+  "valid_from": "2026-03-31T13:20:59.458750657Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1403,
+    "end_line": 1469,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

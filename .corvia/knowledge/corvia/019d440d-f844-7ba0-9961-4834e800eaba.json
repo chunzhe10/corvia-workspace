@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-4834e800eaba",
+  "content": "### Step 10: Update cmd_test for store type awareness\n\n                all_running = false;\n                println!(\"    {service}: not running\");\n            }\n        }\n        if !all_running {\n            println!(\"  Auto-provisioning missing services...\");\n            for (service, running) in &env_status {\n                if !running {\n                    let result = match *service {\n                        \"SurrealDB\" => docker.start(\n                            config.storage.surrealdb_user.as_deref().unwrap_or(\"root\"),\n                            config.storage.surrealdb_pass.as_deref().unwrap_or(\"root\"),\n                        ).await,\n                        \"vLLM\" => docker.start_vllm(&config.embedding.model).await,\n                        _ => Ok(()),\n                    };\n                    if let Err(e) = result {\n                        eprintln!(\"  Infrastructure error: failed to provision {service}: {e}\");\n                        std::process::exit(2);\n                    }\n                    println!(\"    {service}: provisioned\");\n                }\n            }\n        }\n    }\n\n    if check_only {\n        println!(\"  Environment check complete.\");\n        return Ok(());\n    }\n\n    // Phase 2: Create store for test\n    let test_config = if is_lite {\n        let mut tc = config.clone();\n        let test_dir = std::env::temp_dir().join(\"corvia-introspect-test\");\n        tc.storage.data_dir = test_dir.to_string_lossy().to_string();",
+  "source_version": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460088768Z",
+  "valid_from": "2026-03-31T13:20:59.460088768Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1763,
+    "end_line": 1798,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

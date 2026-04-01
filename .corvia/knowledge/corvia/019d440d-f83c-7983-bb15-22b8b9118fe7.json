@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-22b8b9118fe7",
+  "content": "str(), value.as_slice())\n            .map_err(|e| CorviaError::Storage(format!(\"Failed to insert edge: {e}\")))?;\n    }\n    write_txn.commit()\n        .map_err(|e| CorviaError::Storage(format!(\"Failed to commit edge: {e}\")))?;\n\n    // Update in-memory graph\n    let mut graph = self.graph.lock().map_err(|e| CorviaError::Storage(format!(\"Lock: {e}\")))?;\n    let mut node_map = self.node_map.lock().map_err(|e| CorviaError::Storage(format!(\"Lock: {e}\")))?;\n    let from_idx = *node_map.entry(*from).or_insert_with(|| graph.add_node(*from));\n    let to_idx = *node_map.entry(*to).or_insert_with(|| graph.add_node(*to));\n    graph.add_edge(from_idx, to_idx, relation.to_string());\n\n    Ok(())\n}\n```\n\n**Step 3: Implement `edges`**\n\nQuery petgraph for edges in the specified direction.\n\n**Step 4: Implement `traverse_ids` (internal BFS helper) and `traverse`**\n\nUse `petgraph::visit::Bfs` for BFS traversal with max_depth.\n\n**Step 5: Implement `shortest_path`**\n\nUse `petgraph::algo::astar` or `dijkstra` with unit weights.\n\n**Step 6: Implement `remove_edges`**\n\nRemove from both Redb (scan for matching keys) and petgraph (remove edges from graph).\n\n**Step 7: Run tests, commit**\n\n```\ngit commit -m \"feat(m3): LiteGraphStore — relate, edges, traverse, shortest_path, remove\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-m3-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452647946Z",
+  "valid_from": "2026-03-31T13:20:59.452647946Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 794,
+    "end_line": 827,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

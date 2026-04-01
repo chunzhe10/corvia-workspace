@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f830-7a51-9391-45ad0c705c2d",
+  "content": "new(\n                format!(\"code snippet {i}\"),\n                \"flow-scope\".to_string(),\n                \"v1\".to_string(),\n            );\n            entry.embedding = Some(next_emb());\n            entry.metadata.content_role = Some(\"code\".to_string());\n            entry.metadata.source_origin = Some(\"repo:other\".to_string());\n            queryable.insert(&entry).await.unwrap();\n        }\n\n        // 5 filler entries (no metadata) for HNSW connectivity.\n        for i in 0..5 {\n            let mut entry = KnowledgeEntry::new(\n                format!(\"filler {i}\"),\n                \"flow-scope\".to_string(),\n                \"v1\".to_string(),\n            );\n            entry.embedding = Some(next_emb());\n            queryable.insert(&entry).await.unwrap();\n        }\n\n        // Create graph edges between design entries.\n        graph\n            .relate(&design_ids[0], \"related_to\", &design_ids[1], None)\n            .await\n            .unwrap();\n        graph\n            .relate(&design_ids[1], \"related_to\", &design_ids[2], None)\n            .await\n            .unwrap();\n\n        let pipeline = RetrievalPipeline::new(\n            vec![Arc::new(VectorSearcher::new(\n                queryable.clone(),\n                engine.clone(),\n            ))],\n            Arc::new(PassThrough),\n            Arc::new(GraphExpander::new(queryable.clone(), graph.clone(), 0.3)),",
+  "source_version": "crates/corvia-kernel/src/pipeline/core.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.440059388Z",
+  "valid_from": "2026-03-31T13:20:59.440059388Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/core.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 567,
+    "end_line": 598,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

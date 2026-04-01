@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9f6de4eb95d8",
+  "content": "### Workstream A: M3.1 — gRPC Inference Server\n\n### Workstream B: M3.2 — RAG Pipeline (context mode)\n\n**Detailed plan:** `docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md`\n**Phase 1 scope:** Everything EXCEPT `ask()` mode wiring (that's Phase 2).\n\n| Task | Description | Deps | Files |\n|------|-------------|------|-------|\n| B1 | RAG types (done as F4) | — | `rag_types.rs` |\n| B2 | Retriever trait + VectorRetriever | F4, F2 | `retriever.rs` |\n| B3 | GraphExpandRetriever | B2 | `retriever.rs` |\n| B4 | Augmenter trait + StructuredAugmenter | F2, F4 | `augmenter.rs` |\n| B5 | RagPipeline orchestrator (context mode) | B2, B4 | `rag_pipeline.rs` |\n| B6 | Fix search routing (REST + MCP) | B2 | `rest.rs`, `mcp.rs` |\n| B7 | REST endpoint: POST /v1/context | B5 | `rest.rs` |\n| B8 | MCP tool: corvia_context | B5 | `mcp.rs` |\n| B9 | Unit + integration tests | B5, B6 | `tests/` |\n\nFollow the M3.2 impl plan for detailed step-by-step instructions per task.\nSkip `ask()` endpoint until Phase 2 (I1).\n\n---\n\n\n### Workstream C: M3.3 — Chunking Framework\n\n**No existing impl plan — tasks defined here.**\n\n| Task | Description | Deps | Files |\n|------|-------------|------|-------|\n| C1 | ChunkingStrategy trait (done as F3) | — | `chunking_strategy.rs` |\n| C2 | FormatRegistry | F3 | `chunking_pipeline.rs` |\n| C3 | FallbackChunker | F3, F2 | `chunking_fallback.rs` |\n| C4 | ChunkingPipeline orchestrator | C2, C3, F2 | `chunking_pipeline.rs` |\n| C5 | MarkdownChunker | F3 | `chunking_markdown.rs` |\n| C6 | ConfigChunker | F3 | `chunking_config_fmt.rs` |\n| C7 | PdfChunker | F3 | `chunking_pdf.rs` |\n| C8 | D69 IngestionAdapter trait revision | F3 | `traits.rs` |\n| C9 | AstChunker (corvia-adapter-git) | F3, C8 | `adapter-git/src/ast_chunker.rs` |\n| C10 | Pipeline integration tests | C4, C5, C6, C7 | `tests/` |\n",
+  "source_version": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464680988Z",
+  "valid_from": "2026-03-31T13:20:59.464680988Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 907,
+    "end_line": 945,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

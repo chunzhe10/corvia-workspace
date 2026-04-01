@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83e-7ae3-ae47-a09d42b86911",
+  "content": "-thumb {\n  background: var(--bg-surface);\n  border-radius: 3px;\n}\n```\n\n-**Step 2: Commit**\n\n```bash\ncd /workspaces/corvia-workspace\ngit add tools/corvia-dashboard/src/styles/theme.css\ngit commit -m \"feat(dashboard-ui): add design token theme CSS\"\n```\n\n---\n\n### Task 3: TypeScript types and API client\n\n**Files:**\n- Create: `tools/corvia-dashboard/src/types.ts`\n- Create: `tools/corvia-dashboard/src/api.ts`\n- Create: `tools/corvia-dashboard/src/hooks/use-poll.ts`\n\n-**Step 1: Create `types.ts`**\n\nMirror the Rust `corvia-common::dashboard` types:\n\n```typescript\n// tools/corvia-dashboard/src/types.ts\n\nexport type ServiceState = \"healthy\" | \"unhealthy\" | \"starting\" | \"stopped\";\n\nexport interface ServiceStatus {\n  name: string;\n  state: ServiceState;\n  port?: number;\n  latency_ms?: number;\n}\n\nexport interface SpanStats {\n  count: number;\n  count_1h: number;\n  avg_ms: number;\n  last_ms: number;\n  errors: number;\n}\n\nexport interface TraceEvent {\n  ts: string;\n  level: string;\n  module: string;\n  msg: string;\n}\n\nexport interface TracesData {\n  spans: Record<string, SpanStats>;\n  recent_events: TraceEvent[];\n}\n\nexport interface DashboardConfig {\n  embedding_provider: string;\n  merge_provider: string;\n  storage: string;\n  workspace: string;\n}\n\nexport interface DashboardStatus {\n  services: ServiceStatus[];\n  entry_count: number;\n  agent_count: number;\n  merge_queue_depth: number;\n  session_count: number;\n  config: DashboardConfig;\n  traces?: TracesData;\n}\n\nexport interface LogEntry {\n  timestamp: string;\n  level: string;\n  module: string;\n  message: string;\n}\n\nexport interface LogsResponse {\n  entries: LogEntry[];\n  total: number;\n}\n\nexport interface TracesResponse {\n  spans: Record<string, SpanStats>;\n  recent_events: TraceEvent[];\n}\n\n/** Trend calculation result */\nexport interface Trend {\n  label: string;\n  cls: \"up\" | \"down\" | \"neutral\" | \"clear\";\n}\n```\n\n-**Step 2: Create `api.ts`**\n\n```typescript\n// tools/corvia-dashboard/src/api.ts\n\nimport type {\n  DashboardStatus,\n  LogsResponse,\n  TracesResponse,\n  DashboardConfig,",
+  "source_version": "docs/rfcs/2026-03-11-dashboard-ui-standalone.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.454048480Z",
+  "valid_from": "2026-03-31T13:20:59.454048480Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-dashboard-ui-standalone.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 310,
+    "end_line": 403,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

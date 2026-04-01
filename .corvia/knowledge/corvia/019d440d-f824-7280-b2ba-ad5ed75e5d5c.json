@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f824-7280-b2ba-ad5ed75e5d5c",
+  "content": "す\";\n        let (s, t) = truncate_str(cjk, 3);\n        assert!(t);\n        assert_eq!(s, \"日本語\");\n    }\n\n    #[test]\n    fn test_truncate_str_empty() {\n        let (s, t) = truncate_str(\"\", 5);\n        assert_eq!(s, \"\");\n        assert!(!t);\n    }\n\n    #[test]\n    fn test_truncate_str_exact_boundary() {\n        let (s, t) = truncate_str(\"hello\", 5);\n        assert_eq!(s, \"hello\");\n        assert!(!t);\n    }\n\n    #[test]\n    fn test_now_iso_format() {\n        let ts = now_iso();\n        assert!(ts.ends_with('Z'));\n        assert!(ts.contains('T'));\n        assert_eq!(ts.len(), 30); // YYYY-MM-DDTHH:MM:SS.nnnnnnnnnZ\n    }\n\n    #[test]\n    fn test_parse_iso_epoch_roundtrip() {\n        let ts = \"2026-03-25T10:30:00.000000000Z\";\n        let secs = parse_iso_epoch_secs(ts).unwrap();\n        assert!(secs > 0);\n    }\n\n    #[test]\n    fn test_parse_iso_epoch_rfc3339() {\n        let ts = \"2026-03-25T10:30:00+00:00\";\n        let secs = parse_iso_epoch_secs(ts).unwrap();\n        assert!(secs > 0);\n    }\n\n    #[test]\n    fn test_parse_iso_epoch_invalid() {\n        assert!(parse_iso_epoch_secs(\"not-a-date\").is_none());\n        assert!(parse_iso_epoch_secs(\"\").is_none());\n    }\n\n    #[test]\n    fn test_session_start_event_schema() {\n        let stdin = serde_json::json!({\n            \"session_id\": \"test-123\",\n            \"cwd\": \"/tmp\",\n        });\n        let ts = now_iso();\n        // Verify the structure would be correct\n        let event = serde_json::json!({\n            \"v\": SCHEMA_VERSION,\n            \"type\": \"session_start\",\n            \"session_id\": \"test-123\",\n            \"timestamp\": ts,\n            \"workspace\": \"/tmp\",\n        });\n        assert_eq!(event[\"v\"], 1);\n        assert_eq!(event[\"type\"], \"session_start\");\n    }\n}",
+  "source_version": "crates/corvia-cli/src/hooks/session.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.428828492Z",
+  "valid_from": "2026-03-31T13:20:59.428828492Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/session.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 460,
+    "end_line": 513,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f822-7391-83ed-31a2b72345ae",
+  "content": " {\n    #[serde(default)]\n    pub memory_dir: Option<String>,\n    #[serde(default)]\n    pub workspace_docs: Option<String>,\n    #[serde(default)]\n    pub allowed_workspace_subdirs: Vec<String>,\n    #[serde(default)]\n    pub rules: Option<DocsRulesConfig>,\n}\npub struct DocsRulesConfig {\n    #[serde(default)]\n    pub blocked_paths: Vec<String>,\n    #[serde(default)]\n    pub repo_docs_pattern: Option<String>,\n}",
+  "source_version": "crates/corvia-common/src/config.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.426103513Z",
+  "valid_from": "2026-03-31T13:20:59.426103513Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/config.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 50,
+    "end_line": 55,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

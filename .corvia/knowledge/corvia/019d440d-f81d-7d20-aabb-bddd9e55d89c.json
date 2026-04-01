@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81d-7d20-aabb-bddd9e55d89c",
+  "content": "// Extract summary=\"...\" attribute\n    let summary_start = tag.find(\"summary=\\\"\")?;\n    let value_start = summary_start + \"summary=\\\"\".len();\n    let rest = &tag[value_start..];\n    let value_end = rest.find('\"')?;\n    Some(rest[..value_end].to_string())\n}\nfn match_by_description(summary: &str, agent_calls: &[AgentCall]) -> Option<String> {\n    if summary.is_empty() {\n        return None;\n    }\n\n    // Exact match first\n    for call in agent_calls {\n        if call.description == summary {\n            return Some(call.name.clone());\n        }\n    }\n\n    // Prefix match (summary may be truncated)\n    for call in agent_calls {\n        if call.description.starts_with(summary) || summary.starts_with(&call.description) {\n            return Some(call.name.clone());\n        }\n    }\n\n    None\n}",
+  "source_version": "adapters/corvia-adapter-claude-sessions/rust/src/correlation.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.421230271Z",
+  "valid_from": "2026-03-31T13:20:59.421230271Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-claude-sessions/rust/src/correlation.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 237,
+    "end_line": 257,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-22235e5ef8aa",
+  "content": "ns\n    // More efficient: use entry's own data. Start entry might have no superseded_by (it's newest).\n    // Walk: find entry where superseded_by == entry_id (that's the predecessor).\n\n    // Simple approach: scan entries looking for superseded_by matches\n    // For better perf, could add a reverse index. For now, scan knowledge files.\n    let all_entries = knowledge_files::read_all(&self.data_dir)?;\n    let mut by_superseded: std::collections::HashMap<Uuid, KnowledgeEntry> = all_entries\n        .into_iter()\n        .filter_map(|e| e.superseded_by.map(|s| (s, e)))\n        .collect();\n\n    let mut current = entry_id;\n    loop {\n        match by_superseded.remove(current) {\n            Some(predecessor) => {\n                let pred_id = predecessor.id;\n                chain.push(predecessor);\n                current = &chain.last().unwrap().id;\n                let _ = pred_id; // just to use the binding\n            }\n            None => break,\n        }\n    }\n\n    Ok(chain)\n}\n```\n\nNote: This is a simple scan-based approach. For large stores, a `SUPERSEDED_BY_REVERSE` Redb index would be better, but YAGNI — optimize when needed.\n\n**Step 5: Implement `evolution`**\n\nReplace the `todo!()`:",
+  "source_version": "docs/rfcs/2026-03-02-m3-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452552527Z",
+  "valid_from": "2026-03-31T13:20:59.452552527Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 465,
+    "end_line": 493,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

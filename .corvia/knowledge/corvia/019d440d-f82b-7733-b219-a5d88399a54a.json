@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82b-7733-b219-a5d88399a54a",
+  "content": "dx, ());\n                }\n            }\n        }\n\n        if !has_depends_on {\n            return Ok(Vec::new());\n        }\n\n        // Find strongly connected components (Kosaraju's algorithm)\n        let sccs = petgraph::algo::kosaraju_scc(&dep_graph);\n\n        let mut findings = Vec::new();\n        for scc in sccs {\n            if scc.len() > 1 {\n                // Multi-node cycle (A -> B -> ... -> A)\n                let cycle_ids: Vec<Uuid> = scc\n                    .iter()\n                    .map(|idx| dep_graph[*idx])\n                    .collect();\n                let desc = cycle_ids\n                    .iter()\n                    .map(|id| id.to_string())\n                    .collect::<Vec<_>>()\n                    .join(\" -> \");\n                findings.push(Finding::new(\n                    CheckType::DependencyCycle,\n                    scope_id,\n                    cycle_ids,\n                    1.0,\n                    format!(\n                        \"Dependency cycle detected among {} entries: {}\",\n                        scc.len(),\n                        desc,\n                    ),\n                ));\n            } else if scc.len() == 1 {\n                // Check for self-loop (A -> A)\n                let idx = scc[0];\n                if dep_graph.contains_edge(idx, idx) {\n                    let id = dep_graph[idx];\n                    findings.push(Finding::new(\n                        CheckType::DependencyCycle,\n                        scope_id,\n                        vec![id],\n                        1.0,\n                        format!(\"Self-referential dependency: entry {} depends on itself\", id),\n                    ));\n                }\n            }\n        }\n        Ok(findings)\n    }\n\n    // ---- LLM-powered checks (opt-in) ----\n\n    /// Run LLM-powered checks. Requires an InferenceEngine.\n    /// Returns empty vec if no entries are provided.\n    pub async fn run_llm_checks(\n        &self,\n        entries: &[KnowledgeEntry],\n        scope_id: &str,\n        engine: &dyn InferenceEngine,\n    ) -> Result<Vec<Finding>> {\n        let mut findings = Vec::new();\n        findings.extend(self.check_semantic_gaps(scope_id, engine).await?);",
+  "source_version": "crates/corvia-kernel/src/reasoner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.435001419Z",
+  "valid_from": "2026-03-31T13:20:59.435001419Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/reasoner.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 417,
+    "end_line": 471,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

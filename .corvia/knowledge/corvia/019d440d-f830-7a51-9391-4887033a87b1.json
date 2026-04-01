@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f830-7a51-9391-4887033a87b1",
+  "content": "async fn search(\n            &self,\n            _ctx: &SearchContext,\n        ) -> Result<crate::pipeline::RankedSet> {\n            Err(corvia_common::errors::CorviaError::Infra(\n                \"intentional test failure\".into(),\n            ))\n        }\nasync fn test_graceful_degradation_failing_plus_working() {\n        let dir = tempfile::tempdir().unwrap();\n        let store = Arc::new(LiteStore::open(dir.path(), 3).unwrap());\n        store.init_schema().await.unwrap();\n\n        let queryable = store.clone() as Arc<dyn QueryableStore>;\n        let engine: Arc<dyn InferenceEngine> = Arc::new(MockEngine);\n\n        // Insert entries so vector searcher returns results.\n        insert_entries(&store, \"degrade-scope\", 10).await;\n\n        let pipeline = RetrievalPipeline::new(\n            vec![\n                Arc::new(FailingSearcher) as Arc<dyn crate::pipeline::searcher::Searcher>,\n                Arc::new(VectorSearcher::new(queryable.clone(), engine.clone())),\n            ],\n            Arc::new(PassThrough),\n            Arc::new(crate::pipeline::expander::NoOpExpander),\n            Arc::new(IdentityReranker),\n            engine.clone(),\n            queryable.clone(),\n            5000,\n        );\n\n        let opts = RetrievalOpts {\n            limit: 10,\n            expand_graph: false,\n            visibility: VisibilityMode::All,\n            ..Default::default()\n        };\n\n        // Should succeed with results from the working searcher.\n        let result = pipeline\n            .retrieve(\"knowledge entry\", \"degrade-scope\", &opts)\n            .await\n            .unwrap();\n\n        assert!(\n            !result.results.is_empty(),\n            \"should return results from the working searcher\"\n        );\n    }",
+  "source_version": "crates/corvia-kernel/src/pipeline/core.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.440507410Z",
+  "valid_from": "2026-03-31T13:20:59.440507410Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/core.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 852,
+    "end_line": 893,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

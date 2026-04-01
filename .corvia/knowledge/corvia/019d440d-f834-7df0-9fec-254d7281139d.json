@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f834-7df0-9fec-254d7281139d",
+  "content": "llect::<Result<Vec<_>, _>>()\n    {\n        let tmp_path = path.with_extension(\"pending-edges.tmp\");\n        if std::fs::write(&tmp_path, json.join(\"\\n\") + \"\\n\").is_ok() {\n            let _ = std::fs::rename(&tmp_path, path);\n        }\n    }\n\n    resolved\n}\nmod tests {\n    use super::*;\n\n    #[test]\n    fn test_infer_content_role() {\n        assert_eq!(infer_content_role(\"AGENTS.md\"), Some(\"instruction\".into()));\n        assert_eq!(infer_content_role(\"CLAUDE.md\"), Some(\"instruction\".into()));\n        assert_eq!(infer_content_role(\"README.md\"), Some(\"instruction\".into()));\n        assert_eq!(infer_content_role(\"src/.memory/foo.md\"), Some(\"memory\".into()));\n        assert_eq!(infer_content_role(\"docs/rfcs/design.md\"), Some(\"design\".into()));\n        assert_eq!(infer_content_role(\"docs/plans/plan.md\"), Some(\"plan\".into()));\n        assert_eq!(infer_content_role(\"docs/decisions/d.md\"), Some(\"decision\".into()));\n        assert_eq!(infer_content_role(\"docs/learnings/l.md\"), Some(\"learning\".into()));\n        assert_eq!(infer_content_role(\"docs/other.md\"), Some(\"design\".into()));\n        assert_eq!(infer_content_role(\"src/main.rs\"), Some(\"code\".into()));\n        assert_eq!(infer_content_role(\"image.png\"), None);\n    }\n\n    #[test]\n    fn test_infer_source_origin() {\n        assert_eq!(infer_source_origin(Some(\"corvia\"), \"src/main.rs\"), Some(\"repo:corvia\".into()));\n        assert_eq!(infer_source_origin(None, \"docs/readme.md\"), Some(\"workspace\".into()));\n        assert_eq!(infer_source_origin(Some(\"x\"), \".memory/foo\"), Some(\"memory\".into()));\n    }\n\n    #[test]\n    fn test_blocked_path_match() {\n        assert!(blocked_path_match(\"docs/superpowers/*\", \"docs/superpowers/foo.md\"));\n        assert!(blocked_path_match(\"docs/superpowers/*\", \"docs/superpowers/bar/baz.md\"));\n        assert!(!blocked_path_match(\"docs/superpowers/*\", \"docs/other/foo.md\"));\n        assert!(blocked_path_match(\"exact.md\", \"exact.md\"));\n        assert!(!blocked_path_match(\"exact.md\", \"other.md\"));\n    }\n\n    #[test]",
+  "source_version": "crates/corvia-kernel/src/ingest.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.444681958Z",
+  "valid_from": "2026-03-31T13:20:59.444681958Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ingest.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 1430,
+    "end_line": 1464,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

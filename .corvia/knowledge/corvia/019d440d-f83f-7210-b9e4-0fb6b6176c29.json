@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83f-7210-b9e4-0fb6b6176c29",
+  "content": "       />\n        ))}\n      </div>\n    </div>\n  );\n}\n```\n\n- **Step 2: Commit**\n\n```bash\ncd /workspaces/corvia-workspace\ngit add tools/corvia-dashboard/src/components/LiveSessionsBar.tsx\ngit commit -m \"feat(dashboard-ui): add LiveSessionsBar component\"\n```\n\n### Task 14: Create GcPanel component\n\n**Files:**\n- Create: `tools/corvia-dashboard/src/components/GcPanel.tsx`\n\n- **Step 1: Create the component**\n\n```tsx\nimport { useState, useCallback } from \"preact/hooks\";\nimport { usePoll } from \"../hooks/use-poll\";\nimport { fetchGcStatus, triggerGcRun } from \"../api\";\nimport type { GcReportDto, GcStatusResponse } from \"../types\";\n\nfunction Sparkline({ history }: { history: GcReportDto[] }) {\n  if (history.length === 0) return null;\n\n  const maxDuration = Math.max(...history.map((r) => r.duration_ms), 1);\n  const barW = Math.max(4, Math.floor(280 / history.length));\n  const h = 60;\n\n  return (\n    <svg width={barW * history.length + 4} height={h} class=\"gc-sparkline\">\n      {history.map((r, i) => {\n        const barH = Math.max(2, (r.duration_ms / maxDuration) * (h - 4));\n        const color =\n          r.orphans_rolled_back === 0 ? \"var(--mint)\" :\n          r.orphans_rolled_back > 10 ? \"var(--coral)\" : \"var(--amber)\";\n        return (\n          <rect\n            key={i}\n            x={i * barW + 2}\n            y={h - barH - 2}\n            width={barW - 2}\n            height={barH}\n            fill={color}\n            rx={1}",
+  "source_version": "docs/rfcs/2026-03-14-dashboard-completion-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.455723271Z",
+  "valid_from": "2026-03-31T13:20:59.455723271Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-14-dashboard-completion-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1600,
+    "end_line": 1635,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

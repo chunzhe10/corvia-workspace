@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f7b8a6d078e5",
+  "content": "yle=\"flex: 1;\">\n      <div style=\"font-size: 36px; font-weight: 800; color: var(--accent-cyan);\">Iris Xe</div>\n      <div style=\"font-size: 16px; font-weight: 500; color: var(--text-secondary);\">Alder Lake-P GT2<br>OpenVINO 2025.3</div>\n    </div>\n  </div>\n  <table style=\"width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 16px; overflow: hidden; margin-bottom: 20px;\">\n    <tr>\n      <th style=\"background: var(--bg-card-alt); padding: 16px 20px; text-align: left; font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); border-bottom: 1px solid var(--border);\">Component</th>\n      <th style=\"background: var(--bg-card-alt); padding: 16px 20px; text-align: left; font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); border-bottom: 1px solid var(--border);\">Runtime</th>\n      <th style=\"background: var(--bg-card-alt); padding: 16px 20px; text-align: left; font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); border-bottom: 1px solid var(--border);\">GPU</th>\n    </tr>\n    <tr>\n      <td style=\"padding: 18px 20px; font-size: 17px; font-weight: 600; background: var(--bg-card); border-bottom: 1px solid var(--border);\">Embeddings</td>\n      <td style=\"padding: 18px 20px; font-size: 17px; background: var(--bg-card); border-bottom: 1px solid var(--border); color: var(--text-secondary);\">ONNX Runtime + fastembed</td>\n      <td style=\"padding: 18px 20px; font-size: 17px; font-weight: 700; background: var(--bg-card); border-bottom: 1px solid var(--border); color: var(--accent-cyan);\">Intel (OpenVINO EP)</td>\n    </tr>\n    <tr>\n      <td style=\"padding: 18px 20px; font-size: 17px; font-weight: 600; background: var(--bg-card); border-bottom: 1px solid var(--border);\">LLM Chat</td>\n      <td style=\"padding: 18px 20px; font-size: 17px; background: var(--bg-card); border-bottom: 1px solid var(--border); color: var(--text-secondary);\">llama.cpp (GGUF)</td>\n      <td style=\"padding: 18px 20px; font-size: 17px; font-weight: 700; background: var(--bg-card); border-bottom: 1px solid var(--border); color: var(--accent-purple);\">NVIDIA (CUDA)</td>\n    </tr>\n    <tr>",
+  "source_version": "marketing/linkedin/2026-03-13-dual-gpu-inference/dual-gpu-inference-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028515406Z",
+  "valid_from": "2026-03-31T13:51:39.028515406Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-13-dual-gpu-inference/dual-gpu-inference-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 509,
+    "end_line": 525,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

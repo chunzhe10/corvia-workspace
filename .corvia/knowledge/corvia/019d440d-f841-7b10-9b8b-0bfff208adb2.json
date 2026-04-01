@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0bfff208adb2",
+  "content": "### Task 3: MarkdownChunker\n\n            file_path: \"README.md\".into(),\n            extension: \"md\".into(),\n            language: Some(\"markdown\".into()),\n            scope_id: \"test\".into(),\n            source_version: \"v1\".into(),\n        }\n    }\n\n    #[test]\n    fn test_splits_on_h1_headings() {\n        let source = \"# Introduction\\n\\nSome intro text.\\n\\n# Features\\n\\nFeature list here.\\n\";\n        let chunker = MarkdownChunker::new();\n        let chunks = chunker.chunk(source, &meta()).unwrap();\n        assert_eq!(chunks.len(), 2);\n        assert!(chunks[0].content.contains(\"# Introduction\"));\n        assert!(chunks[1].content.contains(\"# Features\"));\n    }\n\n    #[test]\n    fn test_splits_on_mixed_heading_levels() {\n        let source = \"# Top\\n\\nIntro.\\n\\n## Section A\\n\\nContent A.\\n\\n## Section B\\n\\nContent B.\\n\";\n        let chunker = MarkdownChunker::new();\n        let chunks = chunker.chunk(source, &meta()).unwrap();\n        assert!(chunks.len() >= 2, \"expected at least 2 chunks, got {}\", chunks.len());\n    }\n\n    #[test]\n    fn test_no_headings_returns_single_chunk() {\n        let source = \"Just some plain text without any headings.\\nAnother line.\";\n        let chunker = MarkdownChunker::new();\n        let chunks = chunker.chunk(source, &meta()).unwrap();\n        assert_eq!(chunks.len(), 1);\n        assert_eq!(chunks[0].chunk_type, \"text\");\n    }\n\n    #[test]\n    fn test_chunk_type_is_heading_section() {\n        let source = \"# Title\\n\\nBody text.\";\n        let chunker = MarkdownChunker::new();",
+  "source_version": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457373531Z",
+  "valid_from": "2026-03-31T13:20:59.457373531Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 652,
+    "end_line": 690,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

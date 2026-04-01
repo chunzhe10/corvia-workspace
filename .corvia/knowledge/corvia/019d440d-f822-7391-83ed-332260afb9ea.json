@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f822-7391-83ed-332260afb9ea",
+  "content": "lth_probe_interval_secs\")]\n    pub health_probe_interval_secs: u64,\n    /// Drift threshold percentage before marking inference as degraded.\n    #[serde(default = \"default_health_probe_drift_threshold_pct\")]\n    pub health_probe_drift_threshold_pct: f64,\n}\nimpl Default for InferenceConfig {\n    fn default() -> Self {\n        Self {\n            device: default_device(),\n            backend: String::new(),\n            embedding_backend: String::new(),\n            kv_quant: default_kv_quant(),\n            flash_attention: default_flash_attention(),\n            chat_models: default_chat_models(),\n            health_probe_interval_secs: default_health_probe_interval_secs(),\n            health_probe_drift_threshold_pct: default_health_probe_drift_threshold_pct(),\n        }\n    }\n}",
+  "source_version": "crates/corvia-common/src/config.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.426279540Z",
+  "valid_from": "2026-03-31T13:20:59.426279540Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/config.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 354,
+    "end_line": 367,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

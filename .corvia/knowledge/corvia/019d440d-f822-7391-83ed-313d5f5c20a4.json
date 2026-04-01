@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f822-7391-83ed-313d5f5c20a4",
+  "content": "       inference_backend: Default::default(),\n            inference_health: None,\n        };\n        let json = serde_json::to_string(&resp).unwrap();\n        assert!(!json.contains(\"inference_health\"), \"inference_health should be absent when None\");\n    }\nfn test_gpu_status_response_with_inference_health() {\n        let resp = GpuStatusResponse {\n            gpus: vec![],\n            inference_backend: Default::default(),\n            inference_health: Some(InferenceHealthStatus {\n                status: InferenceProbeStatus::Healthy,\n                ep_name: \"cuda\".to_string(),\n                ep_requested: \"gpu\".to_string(),\n                fallback_used: false,\n                baseline_us: 12000,\n                last_probe_us: 13000,\n                drift_pct: 8.3,\n                models_loaded: 1,\n                last_probe_at: Some(\"2026-03-26T12:00:00Z\".to_string()),\n            }),\n        };\n        let json = serde_json::to_string(&resp).unwrap();\n        assert!(json.contains(\"\\\"inference_health\\\"\"));\n        assert!(json.contains(\"\\\"healthy\\\"\"));\n    }",
+  "source_version": "crates/corvia-common/src/dashboard.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.426063888Z",
+  "valid_from": "2026-03-31T13:20:59.426063888Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/dashboard.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 620,
+    "end_line": 639,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

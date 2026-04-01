@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-744e33e40785",
+  "content": "# Target (Rust module path) → module mapping for events without span names\n    # Span with timing\n\n    # Structured event (no span timing)\n    fields = obj.get(\"fields\", {})\n    msg = fields.get(\"message\", \"\")\n    target = obj.get(\"target\", \"\")\n    if msg or target:\n        result[\"msg\"] = msg\n        result[\"target\"] = target\n        result[\"module\"] = target_to_module(target)\n        return result\n\n    return None\n\n\ndef collect_traces_from_lines(lines: list[str]) -> TracesData:\n    \"\"\"Aggregate span stats and collect recent events from log lines.\"\"\"\n    span_totals: dict[str, list[float]] = {}\n    events: list[TraceEvent] = []\n    now = time.time()\n    one_hour_ago = now - 3600\n\n    for line in lines:\n        parsed = parse_trace_line(line)\n        if parsed is None:\n            continue\n\n        ts_str = parsed.get(\"timestamp\", \"\")\n        ts_short = \"\"\n        ts_epoch = now  # default to now if unparseable\n        if ts_str:\n            ts_short = ts_str.split(\"T\")[1][:8] if \"T\" in ts_str else ts_str[:8]\n            try:\n                dt = datetime.fromisoformat(ts_str.replace(\"Z\", \"+00:00\"))\n                ts_epoch = dt.timestamp()\n            except (ValueError, OSError):\n                pass\n\n        if \"span\" in parsed:\n            span_name = parsed[\"span\"]\n            elapsed = parsed[\"elapsed_ms\"]\n            if span_name not in span_totals:\n                span_totals[span_name] = []\n            span_totals[span_name].append(elapsed)\n        elif \"msg\" in parsed and parsed[\"msg\"]:\n            level = parsed[\"level\"].lower()\n            if level in (\"warn\", \"warning\"):\n                level = \"warn\"\n            elif level in (\"error\", \"err\"):\n                level = \"error\"\n            elif level == \"debug\":\n                level = \"debug\"\n            else:\n                level = \"info\"\n            module = parsed.get(\"module\", \"unknown\")\n            events.append(TraceEvent(\n                ts=ts_short,\n                level=level,\n                module=module,\n                msg=parsed[\"msg\"],\n            ))\n",
+  "source_version": "docs/rfcs/2026-03-10-telemetry-traces-page.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461175118Z",
+  "valid_from": "2026-03-31T13:20:59.461175118Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-telemetry-traces-page.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 277,
+    "end_line": 336,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

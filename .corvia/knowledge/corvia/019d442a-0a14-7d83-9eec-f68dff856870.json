@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f68dff856870",
+  "content": "Today I went down a rabbit hole trying to figure out why my laptop keeps crashing.\n\nI've been running VS Code Devcontainers for Corvia development, which means Docker, which on Windows means WSL2. With 40 GB of RAM I assumed I had plenty. I was wrong. OOM crashes, daily.\n\nBetween the Devcontainer, a browser, and local LLM experimentation, everything was fighting for memory. My first thought was to order more RAM. But RAM isn't cheap right now, and I wanted to understand the problem before throwing hardware at it.\n\nSo I started digging.\n\nTurns out not all operating systems use memory the same way. Ubuntu idles at around 1 GB. Windows 11 can sit at 2-5 GB+ before you open anything. And WSL2 adds its own VM layer on top of that, one that was leaking memory on my machine through vmmem.\n\nOn native Linux, Docker just talks to the kernel directly. No VM, no translation layer. That alone changed things.\n\nThe other thing I finally explored is the iGPU. Something that's always bugged me. My laptop has two GPUs and the Intel iGPU has always felt like a waste. Even when I'm video editing, everything runs on the RTX 3060 while the iGPU sits there doing nothing.\n\nLinux lets you assign apps to specific GPUs with `DRI_PRIME`. So I moved VS Code and the desktop to the iGPU, and now the RTX 3060 is free for actual work like local LLM inference for Corvia.\n\nOne thing that tripped me up is that which GPU your external monitor uses depends on which port it's plugged into. My HDMI is wired to the NVIDIA card, USB-C to Intel. I was getting stuttering from Reverse PRIME, frames copying across GPUs. Having worked with GPU frame copy mechanisms before I knew what was happening, but the fix was simpler than expected. Just swap cables. RTX 3060 dropped to 0%.",
+  "source_version": "marketing/linkedin/2026-03-11-linux-discovery/post.txt",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028344306Z",
+  "valid_from": "2026-03-31T13:51:39.028344306Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-11-linux-discovery/post.txt",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 1,
+    "end_line": 17,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

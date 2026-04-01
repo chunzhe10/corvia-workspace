@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-350a4dd08978",
+  "content": "### Regression Tests\n### Integration Tests\n\n### Edge Case Coverage\n\nMinimum edge cases per language (P1/P2):\n- Syntax error in middle of file (tree-sitter partial parse)\n- Empty class body\n- TypeScript generics in extends: `class Foo extends Bar<Baz>`\n- Python decorated class: `@dataclass class Foo(Base):`\n- Minified single-line JS\n- File with only imports and no functions/classes\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-28-structural-intelligence-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458303623Z",
+  "valid_from": "2026-03-31T13:20:59.458303623Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-structural-intelligence-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 599,
+    "end_line": 610,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

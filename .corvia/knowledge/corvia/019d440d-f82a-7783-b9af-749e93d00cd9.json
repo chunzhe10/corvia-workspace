@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82a-7783-b9af-749e93d00cd9",
+  "content": "        AND k.tier IN ('hot', 'warm')\n                 AND k.tsv @@ q.query\n               ORDER BY text_score DESC\n               LIMIT $3\"#,\n        )\n        .bind(query)\n        .bind(scope_id)\n        .bind(limit as i64)\n        .fetch_all(&self.pool)\n        .await\n        .map_err(|e| CorviaError::Storage(format!(\"Full-text search failed: {e}\")))?;\n\n        let results = rows\n            .iter()\n            .filter_map(|row| {\n                let text_score: f32 = match row.try_get::<f64, _>(\"text_score\") {\n                    Ok(s) => s as f32,\n                    Err(e) => {\n                        warn!(\"Failed to read text_score from FTS row: {e}\");\n                        return None;\n                    }\n                };\n                match row_to_entry(row) {\n                    Some(entry) => {\n                        let tier = entry.tier;\n                        let retention_score = entry.retention_score;\n                        Some(SearchResult {\n                            entry,\n                            score: text_score,\n                            tier,\n                            retention_score,\n                        })\n                    }\n                    None => {\n                        warn!(\"Failed to deserialize FTS result row\");\n                        None\n                    }\n                }\n            })\n            .collect();\n\n        Ok(results)\n    }",
+  "source_version": "crates/corvia-kernel/src/postgres_store.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.434109976Z",
+  "valid_from": "2026-03-31T13:20:59.434109976Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/postgres_store.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 883,
+    "end_line": 916,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

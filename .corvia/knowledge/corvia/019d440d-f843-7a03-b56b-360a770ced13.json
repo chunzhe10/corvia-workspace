@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f843-7a03-b56b-360a770ced13",
+  "content": "### Step 3: Run tests to verify they fail\n\n### Step 4: Implement knowledge file operations\n\nAdd the implementation above the tests in the same file:\n\n```rust\nuse corvia_common::errors::{CorviaError, Result};\nuse corvia_common::types::KnowledgeEntry;\nuse std::path::{Path, PathBuf};\nuse uuid::Uuid;\n\n/// Path: {data_dir}/knowledge/{scope_id}/{entry_id}.json\nfn entry_path(data_dir: &Path, scope_id: &str, entry_id: &Uuid) -> PathBuf {\n    data_dir.join(\"knowledge\").join(scope_id).join(format!(\"{}.json\", entry_id))\n}\n\nfn scope_dir(data_dir: &Path, scope_id: &str) -> PathBuf {\n    data_dir.join(\"knowledge\").join(scope_id)\n}\n\n/// Write a KnowledgeEntry as a JSON file.\npub fn write_entry(data_dir: &Path, entry: &KnowledgeEntry) -> Result<()> {\n    let path = entry_path(data_dir, &entry.scope_id, &entry.id);\n    if let Some(parent) = path.parent() {\n        std::fs::create_dir_all(parent)\n            .map_err(|e| CorviaError::Storage(format!(\"Failed to create dir: {e}\")))?;\n    }",
+  "source_version": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.459768305Z",
+  "valid_from": "2026-03-31T13:20:59.459768305Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 626,
+    "end_line": 651,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

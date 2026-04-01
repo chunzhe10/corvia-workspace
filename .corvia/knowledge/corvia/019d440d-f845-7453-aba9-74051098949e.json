@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-74051098949e",
+  "content": "### Task 1: Add trace models to `models.py`\n\n### Task 2: Create `traces.py` — log parser and aggregator\n\n**Files:**\n- Create: `tools/corvia-dev/corvia_dev/traces.py`\n- Create: `tools/corvia-dev/tests/test_traces.py`\n\n-**Step 1: Write tests for trace parsing**\n\nCreate `tools/corvia-dev/tests/test_traces.py`:\n\n```python\n\"\"\"Tests for trace log parsing and aggregation.\"\"\"\n\nfrom corvia_dev.traces import parse_trace_line, collect_traces_from_lines, SPAN_TO_MODULE\n\n\ndef test_parse_json_span_line():\n    \"\"\"Parse a JSON tracing line with span timing.\"\"\"\n    line = '{\"timestamp\":\"2026-03-10T14:31:52\",\"level\":\"INFO\",\"span\":{\"name\":\"corvia.entry.write\"},\"fields\":{\"session_id\":\"s1\"},\"elapsed_ms\":12}'\n    result = parse_trace_line(line)\n    assert result is not None\n    assert result[\"span\"] == \"corvia.entry.write\"\n    assert result[\"elapsed_ms\"] == 12\n    assert result[\"level\"] == \"INFO\"\n\n\ndef test_parse_json_event_line():\n    \"\"\"Parse a JSON tracing event (no span timing).\"\"\"\n    line = '{\"timestamp\":\"2026-03-10T14:31:52\",\"level\":\"WARN\",\"fields\":{\"message\":\"Slow embed: 210ms\"},\"target\":\"corvia_kernel::agent_coordinator\"}'\n    result = parse_trace_line(line)\n    assert result is not None\n    assert result[\"level\"] == \"WARN\"\n    assert \"Slow embed\" in result[\"msg\"]\n\n\ndef test_parse_non_json_line_returns_none():\n    \"\"\"Non-JSON lines return None.\"\"\"\n    result = parse_trace_line(\"INFO some plain text log\")\n    assert result is None\n\n\ndef test_parse_empty_line():\n    result = parse_trace_line(\"\")\n    assert result is None\n\n\ndef test_span_to_module_mapping():\n    \"\"\"Verify specific-first matching: entry.embed -> inference.\"\"\"\n    assert SPAN_TO_MODULE[\"corvia.entry.embed\"] == \"inference\"",
+  "source_version": "docs/rfcs/2026-03-10-telemetry-traces-page.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461131075Z",
+  "valid_from": "2026-03-31T13:20:59.461131075Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-telemetry-traces-page.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 101,
+    "end_line": 149,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

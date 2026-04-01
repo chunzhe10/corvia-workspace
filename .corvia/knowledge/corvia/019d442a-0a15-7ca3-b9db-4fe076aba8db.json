@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a15-7ca3-b9db-4fe076aba8db",
+  "content": " center;\">\n          <span style=\"font-size: 15px; font-weight: 700; color: white;\">gRPC</span>\n        </div>\n      </div>\n      <div style=\"width: 70px; font-size: 18px; font-weight: 800; color: var(--accent-blue); flex-shrink: 0;\">~10ms</div>\n    </div>\n    <!-- HNSW search — large block, the dominant cost, with sub-segments -->\n    <div style=\"display: flex; align-items: center; gap: 16px; margin-bottom: 16px;\">\n      <div style=\"width: 140px; text-align: right; font-size: 16px; font-weight: 700; color: var(--accent-amber); flex-shrink: 0;\">HNSW + graph</div>\n      <div style=\"flex: 1; height: 40px; background: var(--bg-card); border-radius: 8px; position: relative; border: 1px solid var(--border);\">\n        <!-- Sub-segments: HNSW ~20ms (5%) | Graph expand ~388ms (93%) | Filter ~1ms (0.2%) -->\n        <div style=\"position: absolute; left: 10%; top: 0; height: 100%; width: 88%; display: flex; border-radius: 6px; overflow: hidden;\">\n          <div style=\"width: 5%; height: 100%; background: rgba(245,158,11,0.45); display: flex; align-items: center; justify-content: center; border-right: 2px solid rgba(15,23,42,0.6);\">\n          </div>\n          <div style=\"width: 94%; height: 100%; background: rgba(245,158,11,0.7); display: flex; align-items: center; justify-content: center; border-right: 2px solid rgba(15,23,42,0.6);\">\n            <span style=\"font-size: 13px; font-weight: 700; color: white;\">graph expand + cosine</span>\n          </div>\n          <div style=\"width: 1%; height: 100%; background: rgba(245,158,11,0.3);\"></div>\n        </div>\n      </div>\n      <div style=\"width: 70px; font-size: 18px; font-weight: 800; color: var(--accent-amber); flex-shrink: 0;\">~94ms</div>\n    </div>\n    <!-- Sub-stage legend -->\n    <div style=\"display: flex; gap: 20px; margin-bottom: 16px; padding-left: 156px; font-size: 13px; color: var(--text-muted);\">\n      <div style=\"display: flex; align-items: center; gap: 6px;\">\n        <div style=\"width: 12px; height: 12px; border-radius: 3px; background: rgba(245,158,11,0.45);\"></div>\n        <span>HNSW ~5ms</span>\n      </div>\n      <div style=\"display: flex; align-items: center; gap: 6px;\">\n        <div style=\"width: 12px; height: 12px; border-radius: 3px; background: rgba(245,158,11,0.7);\"></div>",
+  "source_version": "marketing/linkedin/2026-03-16-embedding-benchmark/embedding-benchmark-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.029011629Z",
+  "valid_from": "2026-03-31T13:51:39.029011629Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-16-embedding-benchmark/embedding-benchmark-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 296,
+    "end_line": 319,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

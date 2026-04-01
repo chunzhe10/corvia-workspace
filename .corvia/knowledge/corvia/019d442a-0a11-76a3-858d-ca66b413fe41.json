@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-ca66b413fe41",
+  "content": "## Q4: Message Volume and Chunking\n\n## Q5: Nested Subagent Attribution\n\n**Recommendation: Rely on existing `parent_session_id` chain. No team metadata on\nsubagents. No direct team-to-subagent edges. Strictly hierarchical graph.**\n\n**Graph structure (no shortcuts):**\n\n```\nteam ──has_member─���> teammate session\nteam ──has_task────> task\ntask ──assigned_to─> teammate session\ntask ──depends_on──> task\nsubagent ──spawned_by──> teammate session   (already exists from claude-sessions adapter)\n```\n\n**Full traversal for \"all subagent work in a team\":**\n```\nteam ──has_member──> teammate ──<spawned_by── subagent\n```\nThree hops. Within existing `max_depth: 3` default.\n\n**Why no direct team->subagent edges:**\n- Redundant (path exists through teammate)\n- Graph pollution (O(teammates * subagents) extra edges)\n- Semantically wrong (team does not know about subagents)\n\n**Why no team metadata on subagent entries:**\n- Clean layering (session data knows nothing about team coordination)\n- Avoids staleness if team structure changes\n- Defer denormalization until query latency is measured\n\n**Compatibility:** The claude-sessions adapter needs zero modifications. The teams\nadapter adds `has_member` edges on top of existing session entries. The `spawned_by`\nedges are reused as-is.\n\n---\n",
+  "source_version": "decisions/2026-03-28-adapter-agent-teams-brainstorm.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025444810Z",
+  "valid_from": "2026-03-31T13:51:39.025444810Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-adapter-agent-teams-brainstorm.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 266,
+    "end_line": 302,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

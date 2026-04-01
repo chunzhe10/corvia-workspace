@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-1f04228385b8",
+  "content": "### Task 14: History Tab Frontend — Activity Feed\n\n  const res = await fetch(`${BASE}/activity?${query}`);\n  if (!res.ok) throw new Error(`Activity fetch failed: ${res.status}`);\n  return res.json();\n}\n```\n\n-**Step 3: Rewrite HistoryView as activity feed**\n\nReplace the UUID-lookup-first design with an activity feed:\n\n```tsx\nexport function HistoryView({ openSidebar }: { openSidebar: (content: SidebarContent, width: SidebarState) => void }) {\n  const [feed, setFeed] = useState<ActivityFeedResponse | null>(null);\n  const [selectedTopic, setSelectedTopic] = useState<string | null>(null);\n  const [selectedAgent, setSelectedAgent] = useState<string | null>(null);\n  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set());\n\n  useEffect(() => {\n    const load = () => fetchActivityFeed({\n      limit: 50,\n      topic: selectedTopic || undefined,\n      agent: selectedAgent || undefined,\n    }).then(setFeed).catch(console.error);\n    load();\n    const interval = setInterval(load, 10000);\n    return () => clearInterval(interval);\n  }, [selectedTopic, selectedAgent]);\n\n  if (!feed) return <div class=\"loading\">Loading activity...</div>;\n\n  // Group items by group_id\n  const grouped = groupFeedItems(feed.items);\n\n  return (\n    <div class=\"history-view\">\n      {/* Topic filter bar */}\n      <div class=\"topic-filters\">\n        {feed.topics.map(topic => (\n          <button\n            class={`topic-pill ${selectedTopic === topic ? 'active' : ''}`}\n            onClick={() => setSelectedTopic(selectedTopic === topic ? null : topic)}\n          >\n            {topic}\n          </button>\n        ))}\n      </div>",
+  "source_version": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456704738Z",
+  "valid_from": "2026-03-31T13:20:59.456704738Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1875,
+    "end_line": 1920,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-1ea07521ef80",
+  "content": "## Task 11: MCP Server\n\n### Step 1: Research available Rust MCP SDK\n\nCheck crates.io for `mcp-server`, `rmcp`, or similar. If no suitable crate exists, implement minimal JSON-RPC 2.0 handler on axum.\n\nThe MCP protocol requires:\n- JSON-RPC 2.0 over HTTP+SSE (for HTTP transport) or stdio\n- Methods: `initialize`, `tools/list`, `tools/call`\n- Tool definitions: `corvia_search`, `corvia_write`, `corvia_history`, `corvia_agent_status`\n\n\n### Step 2: Write failing tests for MCP tool handlers\n\n```rust\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    #[tokio::test]\n    async fn test_tools_list() {\n        // Call tools/list handler\n        // Assert: returns 4 tools with correct schemas\n    }\n\n    #[tokio::test]\n    async fn test_corvia_search() {\n        // Call corvia_search with query + scope\n        // Assert: returns search results\n    }\n\n    #[tokio::test]\n    async fn test_corvia_write_with_meta() {\n        // Call corvia_write with _meta.agent_id\n        // Assert: entry created with correct agent_id\n    }\n\n    #[tokio::test]\n    async fn test_corvia_write_without_meta_rejected() {\n        // Call corvia_write without _meta.agent_id\n        // Assert: rejected with error (read-only without identity)\n    }\n}\n```\n",
+  "source_version": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452003143Z",
+  "valid_from": "2026-03-31T13:20:59.452003143Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1697,
+    "end_line": 1738,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

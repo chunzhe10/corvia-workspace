@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-c71266ed1445",
+  "content": "## D4: LLM-Assisted Merge Over Last-Write-Wins\n\n## D5: petgraph In-Memory Graph + Redb Persistence\n\n**Original rationale**: LiteStore needs traversal without external graph DB.\n\n**Pros:**\n- Full graph algorithms (BFS, DFS, shortest path, cycle detection) with no external service\n- Fast: in-memory graph operations are sub-millisecond\n- Redb persistence means graph survives restarts\n- Graph rebuild from Redb on startup takes <0.1s\n\n**Cons:**\n- **Memory**: Graph must fit in RAM (11,756 edges ≈ ~1MB, but grows linearly)\n- **No distributed graph**: Can't shard across nodes\n- **Duplicate state**: Edges in both petgraph (in-memory) and Redb (on-disk)\n- **No graph query language**: No Cypher, SPARQL, or Gremlin — just Rust API\n\n**Challenge: Is the graph actually useful for retrieval?** The trace data shows graph expansion adds only ~1ms but the quality improvement hasn't been measured with recall benchmarks.\n\n**Verdict: KEEP but MEASURE.** The graph is architecturally sound. But we need M6 eval data to prove it improves retrieval quality. If graph expansion doesn't meaningfully improve recall@k, it's complexity without value.\n\n---\n",
+  "source_version": "decisions/2026-03-19-architecture-challenge.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025095933Z",
+  "valid_from": "2026-03-31T13:51:39.025095933Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-19-architecture-challenge.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 101,
+    "end_line": 122,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a15-7ca3-b9db-51f358cb3dd1",
+  "content": "\n    </div>\n  </div>\n  <div class=\"insight-box\" style=\"margin: 0;\">\n    <p style=\"font-size: 18px;\">The pool is unbounded. Touch a new domain and Claude creates a new specialist. That's the point. You get expertise you didn't think to ask for.</p>\n  </div>\n  <div class=\"flex-grow\"></div>\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">04 / 09</div>\n</div>\n\n<!-- SLIDE 5: WHAT EACH REVIEWER CATCHES -->\n<div class=\"slide\">\n  <div class=\"slide-label\">Real Examples</div>\n  <div class=\"slide-title\" style=\"font-size: 52px; margin-bottom: 24px;\">\n    What Each Reviewer<br>\n    <span class=\"highlight-green\">Actually Catches</span>\n  </div>\n\n  <!-- SWE -->\n  <div class=\"card\" style=\"border-left: 4px solid var(--accent-blue); padding: 24px; margin-bottom: 16px;\">\n    <div style=\"font-size: 18px; font-weight: 800; color: var(--accent-blue); margin-bottom: 10px;\">&#128187; Senior SWE</div>\n    <div style=\"font-size: 18px; color: var(--text-secondary); line-height: 1.7;\">\n      TOCTOU race in log rotation &bull; Wildcard match swallowing config typos &bull; CLI exit 0 on server failure &bull; HNSW queries hitting partially-built index during rebuild\n    </div>\n  </div>\n\n  <!-- PM -->\n  <div class=\"card\" style=\"border-left: 4px solid var(--accent-amber); padding: 24px; margin-bottom: 16px;\">\n    <div style=\"font-size: 18px; font-weight: 800; color: var(--accent-amber); margin-bottom: 10px;\">&#128203; Product Manager</div>\n    <div style=\"font-size: 18px; color: var(--text-secondary); line-height: 1.7;\">\n      Blocking I/O fix applied to 2 of 7 call sites (incomplete work shipped as \"done\") &bull; Scope creep in design docs &bull; Missing user-facing documentation\n    </div>\n  </div>\n\n  <!-- QA -->\n  <div class=\"card\" style=\"border-left: 4px solid var(--accent-green); padding: 24px; margin-bottom: 16px;\">\n    <div style=\"font-size: 18px; font-weight: 800; color: var(--accent-green); margin-bottom: 10px;\">&#128270; QA Engineer</div>\n    <div style=\"font-size: 18px; color: var(--text-secondary); line-height: 1.7;\">\n      NaN/infinity propagation in scores with no guards &bull; u32 overflow in access counts &bull; Missing boundary tests &bull; Stale build cache when env var changes\n    </div>\n  </div>",
+  "source_version": "marketing/linkedin/2026-03-27-five-persona-review/five-persona-review-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.029325496Z",
+  "valid_from": "2026-03-31T13:51:39.029325496Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-27-five-persona-review/five-persona-review-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 349,
+    "end_line": 384,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

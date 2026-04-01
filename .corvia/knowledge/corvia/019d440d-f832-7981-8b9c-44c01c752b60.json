@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f832-7981-8b9c-44c01c752b60",
+  "content": "oord.create_session(\"test::agent\", true).unwrap();\n\n        // Initially no reconnectable agents (session is Active)\n        let reconnectable = coord.list_reconnectable().unwrap();\n        assert_eq!(reconnectable.len(), 0);\n\n        // Make session stale\n        coord.sessions.transition(&session.session_id, SessionState::Stale).unwrap();\n\n        // Now the agent is reconnectable\n        let reconnectable = coord.list_reconnectable().unwrap();\n        assert_eq!(reconnectable.len(), 1);\n        assert_eq!(reconnectable[0].agent_id, \"test::agent\");\n    }\n\n    #[tokio::test]\n    async fn test_write_rbac_rejects_wrong_scope() {\n        let dir = tempfile::tempdir().unwrap();\n        let coord = setup_coordinator(dir.path()).await;\n\n        // Register agent with write access to \"scope-a\" only\n        let identity = AgentIdentity::Registered {\n            agent_id: \"test::writer\".into(),\n            api_key: None,\n        };\n        coord.register_agent(\n            &identity,\n            \"Writer\",\n            AgentPermission::ReadWrite { scopes: vec![\"scope-a\".into()] },\n        ).unwrap();\n        let session = coord.create_session(\"test::writer\", true).unwrap();\n\n        // Writing to scope-a should succeed\n        let result = coord.write_entry(&session.session_id, \"ok\", \"scope-a\", \"v1\", None, None).await;\n        assert!(result.is_ok());\n\n        // Writing to scope-b should be rejected\n        let result = coord.write_entry(&session.session_id, \"denied\", \"scope-b\", \"v1\", None, None).await;\n        assert!(result.is_err());\n        let err_msg = format!(\"{}\", result.unwrap_err());\n        assert!(err_msg.contains(\"write permission\"), \"Expected RBAC error, got: {err_msg}\");\n    }",
+  "source_version": "crates/corvia-kernel/src/agent_coordinator.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.442417077Z",
+  "valid_from": "2026-03-31T13:20:59.442417077Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/agent_coordinator.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 681,
+    "end_line": 715,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

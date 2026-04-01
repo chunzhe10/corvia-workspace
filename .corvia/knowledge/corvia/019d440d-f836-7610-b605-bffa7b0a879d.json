@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f836-7610-b605-bffa7b0a879d",
+  "content": "fn test_weights_sum_to_one() {\n        let sum = W_DECAY + W_ACCESS + W_GRAPH + W_CONFIDENCE;\n        assert!((sum - 1.0).abs() < 1e-10, \"Weights sum to {sum}, expected 1.0\");\n    }\nfn test_freq_normalizer_matches_ln_101() {\n        assert!((FREQ_NORMALIZER - 101.0_f64.ln()).abs() < 1e-10);\n    }\nfn test_alpha_structural() {\n        assert_eq!(alpha_for_type(MemoryType::Structural, false), 0.0);\n    }",
+  "source_version": "crates/corvia-kernel/src/scoring.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.446619462Z",
+  "valid_from": "2026-03-31T13:20:59.446619462Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/scoring.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 315,
+    "end_line": 324,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

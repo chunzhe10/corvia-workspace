@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-cd152d0bee5d",
+  "content": "### Bridge Architecture\n### Migration Path to Claude Code Network Teams\n\n## Terminology\n\n| Term | Definition |\n|------|-----------|\n| **Hub** | The primary container running corvia server, inference, and the owner's Claude Code |\n| **Spoke** | A container running one Claude Code instance, working on one issue/branch, connected to the hub |\n| **Workspace** | The corvia workspace (corvia.toml + repos + .corvia/ + spokes) |\n| **Workstream** | A branch name. Used as a dimension on knowledge entries for filtering. |\n| **Scope** | A knowledge namespace (e.g., \"corvia\", \"user-history\"). All spokes share the same scope. |\n\n---\n\n\n## Workspace as Product\n",
+  "source_version": "decisions/2026-03-28-multi-spoke-workspace-brainstorm.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025714800Z",
+  "valid_from": "2026-03-31T13:51:39.025714800Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-multi-spoke-workspace-brainstorm.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 338,
+    "end_line": 351,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

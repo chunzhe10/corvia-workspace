@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-cef8a7ef4374",
+  "content": "## Spoke Container Entrypoint\n\n### Entrypoint Script (embedded in container or generated)\n\n```bash\n#!/bin/bash\nset -euo pipefail\n\nREPO_URL=\"${CORVIA_REPO_URL}\"\nBRANCH=\"${CORVIA_BRANCH:-}\"\nISSUE=\"${CORVIA_ISSUE:-}\"\nMCP_URL=\"${CORVIA_MCP_URL:-http://app:8020/mcp}\"\nMCP_TOKEN=\"${CORVIA_MCP_TOKEN:-}\"\nAGENT_ID=\"${CORVIA_AGENT_ID:-spoke-unknown}\"\nSPOKE_TOKEN=\"${CORVIA_SPOKE_TOKEN:-}\"\n",
+  "source_version": "decisions/2026-03-28-spoke-cli-design.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025921567Z",
+  "valid_from": "2026-03-31T13:51:39.025921567Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-cli-design.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 263,
+    "end_line": 276,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

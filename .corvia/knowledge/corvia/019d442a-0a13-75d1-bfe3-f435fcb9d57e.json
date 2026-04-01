@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a13-75d1-bfe3-f435fcb9d57e",
+  "content": "## Story Arc\n## Content Integrity Rules\n\n## Typography (from design system)\n\n- Cover title: 68px, weight 800, line-height 1.12\n- Slide title: 58px, weight 800, line-height 1.15\n- Subtitle: 28px, weight 500, line-height 1.5\n- Body: 20-24px, weight 500, line-height 1.5\n- Tags: 20px\n- Labels: 18px, uppercase, muted color\n- Terminal/code: 16-20px JetBrains Mono\n- Minimum readable: 15px (never go below)\n- All flex children MUST have `min-width: 0` to prevent overflow\n\n\n## Visual Signature\n\n- **Brick walls** (red/amber) that crack and crumble as problems are solved\n- **Claude chat bubbles** (blue) showing AI actions\n- **User chat bubbles** (purple) showing human judgment\n- **Green glow/checkmarks** on breakthrough moments\n- **Cracked red foundation** for Wayland/Ubuntu adversary\n- **Underwater gradient** (deep navy → teal → cyan) for diving tease\n- **Film frame** motif on cover (not clapperboard — simpler, more feasible in CSS)\n- **Closing gradient** on slide 8: `#0f172a → #1a2332 → #0f172a` (closingSlide from design system)\n- **Radial blue glow** `::before` pseudo-element on each slide (top-right corner, per existing carousels)\n- **Slide labels** uppercase label above title on every slide (e.g., \"The Setup,\" \"The Adversary\")\n- **Slide numbers** in `0N / 08` format, bottom-right\n",
+  "source_version": "marketing/2026-03-14-resolve-linux-carousel-design.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.027298341Z",
+  "valid_from": "2026-03-31T13:51:39.027298341Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/2026-03-14-resolve-linux-carousel-design.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 22,
+    "end_line": 47,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

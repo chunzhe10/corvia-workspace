@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a16-7c43-b1c4-87a8144f6f7d",
+  "content": "class=\"slide slide-7\">\n  <div class=\"slide-inner\">\n    <div class=\"slide-label\">Current State</div>\n    <div class=\"slide-title\">What Exists <span class=\"hl-green\">Today</span></div>\n    <div class=\"slide-subtitle\">Four pillars. Sixteen capabilities.</div>\n    <div class=\"pillar-grid\">\n      <div class=\"pillar-card\" style=\"border-top-color: var(--accent-blue);\">\n        <div class=\"p-icon\">🔍</div>\n        <h3>Knowledge</h3>\n        <div class=\"p-features\">Semantic search<br>Knowledge graph<br>Bi-temporal queries<br>Automated reasoning</div>\n        <div class=\"p-tagline hl-blue\">What do we know? When did we know it?</div>\n      </div>\n      <div class=\"pillar-card\" style=\"border-top-color: var(--accent-green);\">\n        <div class=\"p-icon\">🤝</div>\n        <h3>Agents</h3>\n        <div class=\"p-features\">Multi-agent coordination<br>Crash recovery<br>Agent teams<br>Session history</div>\n        <div class=\"p-tagline hl-green\">Multiple agents. No collisions. No data loss.</div>\n      </div>\n      <div class=\"pillar-card\" style=\"border-top-color: var(--accent-amber);\">\n        <div class=\"p-icon\">⚡</div>\n        <h3>Infrastructure</h3>\n        <div class=\"p-features\">GPU inference (CUDA + iGPU)<br>Built-in ONNX runtime<br>21 MCP tools<br>Adapter plugin system</div>\n        <div class=\"p-tagline hl-amber\">Runs locally. Integrates via MCP.</div>\n      </div>\n      <div class=\"pillar-card\" style=\"border-top-color: var(--accent-purple);\">\n        <div class=\"p-icon\">📊</div>\n        <h3>Observability</h3>\n        <div class=\"p-features\">Web dashboard<br>OTEL traces<br>CLI metrics<br>Docs workflow</div>\n        <div class=\"p-tagline hl-purple\">See what's happening inside.</div>\n      </div>\n    </div>\n\n    <div class=\"arch-note\">\n      <div class=\"arch-item\">\n        <div class=\"arch-label\" style=\"color: var(--accent-cyan);\">corvia</div>\n        <div class=\"arch-desc\">The product. Kernel, server, CLI, adapters. 10 Rust crates.</div>\n      </div>\n      <div class=\"arch-item\">\n        <div class=\"arch-label\" style=\"color: var(--accent-amber);\">corvia-workspace</div>\n        <div class=\"arch-desc\">The lab. Wraps repos, holds the knowledge store, runs the devcontainer.</div>\n      </div>\n    </div>",
+  "source_version": "marketing/linkedin/2026-03-29-recursive-loop-reflection/recursive-loop-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.030159080Z",
+  "valid_from": "2026-03-31T13:51:39.030159080Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-29-recursive-loop-reflection/recursive-loop-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 954,
+    "end_line": 990,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81d-7d20-aabb-be00c85c2fb2",
+  "content": "al) = serde_json::from_str::<serde_json::Value>(line.trim())\n            && let Some(ts) = val.get(\"timestamp\").and_then(|v| v.as_str())\n                && !ts.is_empty() {\n                    return Some(ts.to_string());\n                }\n    }\n    None\n}\nfn timestamp_diff_ms(a: &str, b: &str) -> Option<i64> {\n    let a_secs = parse_epoch_seconds(a)?;\n    let b_secs = parse_epoch_seconds(b)?;\n    Some((a_secs - b_secs) * 1000)\n}",
+  "source_version": "adapters/corvia-adapter-claude-sessions/rust/src/correlation.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.421257131Z",
+  "valid_from": "2026-03-31T13:20:59.421257131Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-claude-sessions/rust/src/correlation.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 312,
+    "end_line": 316,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

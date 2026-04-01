@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f821-7a21-8a96-43bad861ec4a",
+  "content": "s in Redb HNSW_TO_UUID table.\n    pub index_hnsw_count: u64,\n    /// Configured staleness threshold (0.0-1.0).\n    pub index_stale_threshold: f64,\n    /// ISO 8601 timestamp of last coverage computation.\n    pub index_coverage_checked_at: Option<String>,\n}\npub struct CoverageResponse {\n    /// Coverage ratio: HNSW entries / knowledge files on disk (0.0-1.0).\n    /// null when no knowledge files exist on disk.\n    pub index_coverage: Option<f64>,\n    /// true when coverage < threshold. null when coverage is null.\n    pub index_stale: Option<bool>,\n    /// Knowledge JSON files on disk for the default scope.\n    pub index_disk_count: u64,\n    /// Entries in Redb SCOPE_INDEX for the default scope.\n    pub index_store_count: u64,\n    /// Entries in Redb HNSW_TO_UUID table.\n    pub index_hnsw_count: u64,\n    /// Configured staleness threshold (0.0-1.0).\n    pub index_stale_threshold: f64,\n    /// ISO 8601 timestamp of last coverage computation.\n    pub index_coverage_checked_at: Option<String>,\n}",
+  "source_version": "crates/corvia-common/src/dashboard.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.425802775Z",
+  "valid_from": "2026-03-31T13:20:59.425802775Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/dashboard.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 100,
+    "end_line": 116,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

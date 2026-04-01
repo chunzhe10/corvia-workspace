@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f836-7610-b605-bed10f537fe6",
+  "content": "    pub memory_type: MemoryType,\n    /// Whether this entry is the HEAD of a supersession chain (not superseded by anything).\n    pub is_chain_head: bool,\n    pub inbound_edges: u32,\n    pub content_role: Option<&'a str>,\n    pub confidence: Option<f32>,\n}\npub fn is_auto_protected(params: &AutoProtectParams<'_>) -> bool {\n    // Rule 1: Structural entries\n    if params.memory_type == MemoryType::Structural {\n        return true;\n    }\n\n    // Rule 2: HEAD of supersession chain\n    if params.is_chain_head {\n        return true;\n    }\n\n    // Rule 3: Highly connected entries\n    if params.inbound_edges >= 5 {\n        return true;\n    }\n\n    // Rule 4: High-confidence decisions\n    if let Some(role) = params.content_role\n        && role == \"decision\"\n        && let Some(conf) = params.confidence\n        && conf >= 0.9\n    {\n        return true;\n    }\n\n    false\n}",
+  "source_version": "crates/corvia-kernel/src/scoring.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.446435594Z",
+  "valid_from": "2026-03-31T13:20:59.446435594Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/scoring.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 267,
+    "end_line": 293,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

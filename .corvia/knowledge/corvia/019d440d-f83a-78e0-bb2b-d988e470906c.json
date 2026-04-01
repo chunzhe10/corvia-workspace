@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83a-78e0-bb2b-d988e470906c",
+  "content": "          fmt=\".1f\", delta_fmt=\"+.1f\", higher_is_better=False)\n    print_row(\"Latency p99 (ms)\", [a[\"latency_p99_ms\"] for a in aggs],\n              fmt=\".1f\", delta_fmt=\"+.1f\", higher_is_better=False)\n    print()\n\n    # ── Per-Category Breakdown ──\n    print(\"## Per-Category Breakdown\")\n    print()\n    categories = sorted(set(\n        cat for r in results for cat in r[\"aggregate\"][\"by_category\"]\n    ))\n\n    for cat in categories:\n        print(f\"  {cat}:\")\n        for i, r in enumerate(results):\n            cat_data = r[\"aggregate\"][\"by_category\"].get(cat, {})\n            print(f\"    {labels[i]:>20s}:  R@5={cat_data.get('recall_at_5', 0):.2f}  \"\n                  f\"MRR={cat_data.get('mrr', 0):.2f}  \"\n                  f\"KW={cat_data.get('keyword_recall', 0):.2f}\")\n    print()\n\n    # ── Per-Query Deltas ──\n    if len(results) >= 2:\n        print(\"## Per-Query Comparison (baseline vs candidate)\")\n        print()\n        base_queries = {q[\"id\"]: q for q in results[0][\"queries\"]}\n        cand_queries = {q[\"id\"]: q for q in results[1][\"queries\"]}\n\n        improved = []\n        regressed = []\n        unchanged = []\n\n        for qid in sorted(base_queries.keys()):\n            bq = base_queries[qid]\n            cq = cand_queries.get(qid)\n            if not cq:\n                continue\n            delta_r = cq[\"recall_at_5\"] - bq[\"recall_at_5\"]\n            delta_m = cq[\"reciprocal_rank\"] - bq[\"reciprocal_rank\"]\n\n            entry = {\n                \"id\": qid,\n                \"query\": bq[\"query\"][:55],\n                \"category\": bq[\"category\"],\n                \"base_r\": bq[\"recall_at_5\"],",
+  "source_version": "benchmarks/rag-retrieval/compare.py",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.450309062Z",
+  "valid_from": "2026-03-31T13:20:59.450309062Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "benchmarks/rag-retrieval/compare.py",
+    "language": "py",
+    "chunk_type": "function_definition",
+    "start_line": 131,
+    "end_line": 169,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

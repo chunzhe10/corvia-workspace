@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-751b503ee7f9",
+  "content": "## corvia-inference Server Internals\n\n### Runtimes\n\n- **Embedding models:** ONNX Runtime via `ort` crate (or `fastembed` for model management + tokenization). Execution providers: CPU (default), CUDA, CoreML, OpenVINO, TensorRT, DirectML.\n- **Chat models:** candle (`candle-core` + `candle-transformers`). Loads GGUF quantized models. Supports llama, mistral, phi architectures.\n\n\n### Model Registry\n\n- Auto-downloads models from HuggingFace Hub on first `LoadModel` call\n- Cache directory: `~/.cache/corvia-inference/`\n- Multiple models loaded simultaneously (keyed by name)\n- Embedding models: ONNX format from HuggingFace (~137MB for nomic-embed-text-v1.5)\n- Chat models: GGUF format from HuggingFace (~2GB for llama3.2 3B Q4)\n",
+  "source_version": "docs/rfcs/2026-03-02-grpc-inference-server-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463952034Z",
+  "valid_from": "2026-03-31T13:20:59.463952034Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-grpc-inference-server-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 266,
+    "end_line": 278,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-368e7f90e58a",
+  "content": "rvia-kernel`\nExpected: All tests PASS.\n\n**Step 8: Commit**\n\n```bash\ngit add crates/corvia-common/src/config.rs crates/corvia-kernel/src/lib.rs crates/corvia-cli/src/main.rs\ngit commit -m \"feat(d60): add InferenceProvider::Corvia, update defaults\"\n```\n\n---\n\n## Task 4: Refactor MergeWorker to use ChatEngine trait\n\n**Files:**\n- Modify: `crates/corvia-kernel/src/merge_worker.rs`\n- Create: `crates/corvia-kernel/src/ollama_chat.rs` (extract Ollama chat logic)\n- Modify: `crates/corvia-kernel/src/lib.rs` (add module)\n- Modify: `crates/corvia-kernel/src/agent_coordinator.rs` (pass ChatEngine)\n\n**Step 1: Write failing test — MergeWorker accepts ChatEngine**\n\nAdd to `crates/corvia-kernel/src/merge_worker.rs` tests:\n```rust\nstruct MockChatEngine;\n#[async_trait::async_trait]\nimpl crate::traits::ChatEngine for MockChatEngine {\n    async fn chat(&self, messages: &[corvia_common::types::ChatMessage], _model: &str) -> corvia_common::errors::Result<String> {\n        // Return merged content from both messages\n        Ok(format!(\"merged: {}\", messages.last().map(|m| m.content.as_str()).unwrap_or(\"\")))\n    }\n}\n```\n\n**Step 2: Run test to verify it fails**\n\nRun: `cargo test -p corvia-kernel test_merge_worker_with_chat_engine`\nExpected: FAIL — function doesn't exist yet.\n\n**Step 3: Create OllamaChatEngine in new file**\n\nCreate `crates/corvia-kernel/src/ollama_chat.rs`:\n```rust\nuse async_trait::async_trait;\nuse corvia_common::errors::{CorviaError, Result};\nuse corvia_common::types::ChatMessage;\n\n/// ChatEngine implementation that calls Ollama /api/chat.\n/// Preserves the existing MergeWorker behavior as a ChatEngine impl.\npub struct OllamaChatEngine {\n    url: String,\n    client: reqwest::Client,\n}\n\nimpl OllamaChatEngine {\n    pub fn new(url: &str) -> Self {\n        Self {\n            url: url.to_string(),\n            client: reqwest::Client::new(),\n        }",
+  "source_version": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458496614Z",
+  "valid_from": "2026-03-31T13:20:59.458496614Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 439,
+    "end_line": 486,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

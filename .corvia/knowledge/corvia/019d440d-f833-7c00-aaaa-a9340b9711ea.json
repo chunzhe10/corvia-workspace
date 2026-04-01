@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f833-7c00-aaaa-a9340b9711ea",
+  "content": "pub fn passed(&self) -> bool {\n        self.file_matched() && self.score >= self.min_score\n    }\npub struct IntrospectReport {\n    pub results: Vec<QueryResult>,\n    pub chunks_ingested: usize,\n}\nimpl IntrospectReport {\n    pub fn all_passed(&self) -> bool {\n        self.results.iter().all(|r| r.passed())\n    }\n\n    pub fn pass_count(&self) -> usize {\n        self.results.iter().filter(|r| r.passed()).count()\n    }\n\n    pub fn fail_count(&self) -> usize {\n        self.results.iter().filter(|r| !r.passed()).count()\n    }\n\n    pub fn avg_score(&self) -> f64 {\n        if self.results.is_empty() {\n            return 0.0;\n        }\n        let sum: f64 = self.results.iter().map(|r| r.score).sum();\n        sum / self.results.len() as f64\n    }\n\n    pub fn exit_code(&self) -> i32 {\n        if self.all_passed() { 0 } else { 1 }\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/introspect.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.443300788Z",
+  "valid_from": "2026-03-31T13:20:59.443300788Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/introspect.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 101,
+    "end_line": 125,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

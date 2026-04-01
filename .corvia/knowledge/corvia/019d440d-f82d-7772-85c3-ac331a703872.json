@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82d-7772-85c3-ac331a703872",
+  "content": "fn dimensions(&self) -> usize {\n        self.dimensions\n    }\nmod tests {\n    use super::*;\n    use crate::traits::InferenceEngine;\n\n    #[test]\n    fn test_ollama_engine_dimensions() {\n        let engine = OllamaEngine::new(\"http://localhost:11434\", \"nomic-embed-text\", 768);\n        assert_eq!(engine.dimensions(), 768);\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/ollama_engine.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.437776586Z",
+  "valid_from": "2026-03-31T13:20:59.437776586Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ollama_engine.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 127,
+    "end_line": 136,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

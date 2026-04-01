@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f827-7411-ad28-5bad01b9b854",
+  "content": "fn cleanup_server(endpoint: &str) {\n    // Extract port from endpoint\n    if let Some(port) = endpoint.rsplit(':').next() {\n        let _ = std::process::Command::new(\"fuser\")\n            .args([\"-k\", &format!(\"{port}/tcp\")])\n            .output();\n    }\n}\nasync fn test_chat_e2e_generates_response() {\n    if should_skip() {\n        return;\n    }\n\n    let endpoint = start_server().await;\n\n    // Load the 1B model (smallest, ~800 MB download)\n    let mut mgr = ModelManagerClient::connect(endpoint.clone())\n        .await\n        .expect(\"Failed to connect to model manager\");\n\n    let load_resp = mgr\n        .load_model(LoadModelRequest {\n            name: TEST_MODEL.to_string(),\n            model_type: \"chat\".to_string(),\n            device: \"auto\".to_string(),\n            backend: String::new(),\n            kv_quant: String::new(),\n            flash_attention: false,\n            hf_repo: String::new(),\n            hf_filename: String::new(),\n        })\n        .await\n        .expect(\"load_model RPC failed\")\n        .into_inner();\n\n    assert!(\n        load_resp.success,\n        \"Model load failed: {}\",\n        load_resp.error\n    );\n\n    // Send a chat request\n    let mut chat = ChatServiceClient::connect(endpoint.clone())\n        .await\n        .expect(\"Failed to connect to chat service\");\n\n    let resp = chat\n        .chat(ChatRequest {\n            model: TEST_MODEL.to_string(),\n            messages: vec![ChatMessage {\n                role: \"user\".to_string(),\n                content: \"What is 2 + 2? Reply with just the number.\".to_string(),\n            }],\n            temperature: 0.0,\n            max_tokens: 64,\n        })\n        .await\n        .expect(\"chat RPC failed\")\n        .into_inner();\n\n    let msg = resp.message.expect(\"Response should have a message\");\n    assert_eq!(msg.role, \"assistant\");\n    assert!(!msg.content.is_empty(), \"Response content should be non-empty\");\n    assert!(resp.prompt_tokens > 0, \"Should report prompt tokens\");\n    assert!(resp.completion_tokens > 0, \"Should report completion tokens\");\n\n    eprintln!(\"Chat response: {:?}\", msg.content);\n\n    cleanup_server(&endpoint);\n}",
+  "source_version": "crates/corvia-inference/tests/chat_e2e_test.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.431171992Z",
+  "valid_from": "2026-03-31T13:20:59.431171992Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/tests/chat_e2e_test.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 72,
+    "end_line": 133,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

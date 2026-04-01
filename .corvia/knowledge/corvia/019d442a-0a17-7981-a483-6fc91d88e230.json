@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a17-7981-a483-6fc91d88e230",
+  "content": "### Task 7: Add `search_by_memory_type()` to QueryableStore trait\n### Task 8: Update `rebuild_from_files()` for 5 indexes\n\n### Task 9: Update `flush_hnsw()` for 5 files\n**File:** `crates/corvia-kernel/src/lite_store.rs` (lines 632-653)\n**What:**\n1. For each MemoryType, dump to `{type}.hnsw.{graph,data}`\n2. Remove old per-type dump files before writing\n3. Persist next_hnsw_id once (global counter)\n\n```rust\npub fn flush_hnsw(&self) -> Result<()> {\n    let hnsw_dir = self.data_dir.join(\"hnsw\");\n    std::fs::create_dir_all(&hnsw_dir)?;\n\n    for (mt, hnsw_arc) in &self.hnsw_indexes {\n        let basename = hnsw_basename(*mt);\n        let _ = std::fs::remove_file(hnsw_dir.join(format!(\"{basename}.hnsw.graph\")));\n        let _ = std::fs::remove_file(hnsw_dir.join(format!(\"{basename}.hnsw.data\")));\n        let hnsw = hnsw_arc.load_full();\n        hnsw.file_dump(&hnsw_dir, basename)\n            .map_err(|e| CorviaError::Storage(format!(\"Failed to dump {basename} HNSW: {e}\")))?;\n    }\n\n    self.persist_next_id()?;\n    info!(\"HNSW flushed ({} indexes) to {}\", self.hnsw_indexes.len(), hnsw_dir.display());\n    Ok(())\n}\n```\n\n\n### Task 10: Update `scan_cold_entries()` (no functional change needed)\n**File:** `crates/corvia-kernel/src/lite_store.rs` (line 751)\n**What:** `scan_cold_entries` uses brute-force cosine on the VECTORS table, not HNSW. No changes needed - it already scans all Cold entries regardless of type.\n",
+  "source_version": "plans/2026-03-31-multichannel-rag-plan.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.031401454Z",
+  "valid_from": "2026-03-31T13:51:39.031401454Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "plans/2026-03-31-multichannel-rag-plan.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 183,
+    "end_line": 213,
+    "content_role": "plan",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

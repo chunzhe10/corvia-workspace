@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-74e5c0adf093",
+  "content": "columns: 1fr; height: auto; }\n  .graph-panel { min-height: 50vh; }\n}\n```\n\n-**Step 3: Commit**\n\n```bash\ngit add .devcontainer/extensions/corvia-services/extension.js\ngit commit -m \"feat(extension): add Traces page CSS (graph, nodes, detail panel)\"\n```\n\n---\n\n### Task 5: Add Traces JS data structures and module map\n\n**Files:**\n- Modify: `.devcontainer/extensions/corvia-services/extension.js`\n\n-**Step 1: Add module topology constants**\n\nIn the JavaScript `<script>` section, after the `PROVIDERS` object, add:\n\n```javascript\n// --- Traces: module topology ---\nconst MODULES = {\n  agent:     { label: 'Agent',     color: 'peach',    desc: 'Agent registration & session lifecycle',\n               icon: '\\u{1F916}', pos: [8, 10] },\n  entry:     { label: 'Entry',     color: 'gold',     desc: 'Write, embed, insert pipeline',\n               icon: '\\u{1F4DD}', pos: [40, 8] },\n  merge:     { label: 'Merge',     color: 'mint',     desc: 'Conflict detection & resolution',\n               icon: '\\u{1F500}', pos: [40, 48] },\n  storage:   { label: 'Storage',   color: 'lavender', desc: 'LiteStore / Postgres persistence',\n               icon: '\\u{1F4BE}', pos: [72, 8] },\n  rag:       { label: 'RAG',       color: 'sky',      desc: 'Retrieval-augmented generation',\n               icon: '\\u{1F50E}', pos: [72, 48] },\n  inference: { label: 'Inference', color: 'coral',    desc: 'ONNX embedding via gRPC',\n               icon: '\\u26A1',    pos: [8, 50] },\n  gc:        { label: 'GC',        color: 'amber',    desc: 'Garbage collection sweeps',\n               icon: '\\u{1F9F9}', pos: [8, 82] },\n};\n\n// Edges: [from, to]\nconst EDGES = [\n  ['agent', 'entry'], ['agent', 'gc'],\n  ['entry', 'storage'], ['entry', 'merge'], ['entry', 'inference'],\n  ['merge', 'storage'],\n  ['storage', 'rag'],\n  ['gc', 'storage'],\n];\n\n// Span name -> module (specific-first matching)\nconst SPAN_MODULE_SPECIFIC = { 'corvia.entry.embed': 'inference' };\nconst SPAN_MODULE_PREFIX = [\n  ['corvia.agent.', 'agent'], ['corvia.session.', 'agent'],\n  ['corvia.entry.', 'entry'], ['corvia.merge.', 'merge'],\n  ['corvia.store.', 'storage'], ['corvia.rag.', 'rag'],",
+  "source_version": "docs/rfcs/2026-03-10-telemetry-traces-page.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461274087Z",
+  "valid_from": "2026-03-31T13:20:59.461274087Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-telemetry-traces-page.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 635,
+    "end_line": 677,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

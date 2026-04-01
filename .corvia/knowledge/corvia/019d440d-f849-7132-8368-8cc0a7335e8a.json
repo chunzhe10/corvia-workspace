@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-8cc0a7335e8a",
+  "content": "### Task 3: Workspace Module — Repo Cloning and Directory Setup\n\n            let parts: Vec<&str> = s.splitn(2, '=').collect();\n            if parts.len() != 2 {\n                anyhow::bail!(\"Invalid local override format: '{}'. Expected 'name=/path/to/repo'\", s);\n            }\n            Ok((parts[0].to_string(), parts[1].to_string()))\n        })\n        .collect()\n}\n\n/// Generate a workspace config from CLI arguments\npub fn generate_workspace_config(\n    name: &str,\n    repo_urls: &[String],\n    local_overrides: &[(String, String)],\n) -> CorviaConfig {\n    let repos: Vec<RepoConfig> = repo_urls\n        .iter()\n        .map(|url| {\n            let repo_name = repo_name_from_url(url);\n            let local = local_overrides\n                .iter()\n                .find(|(n, _)| n == &repo_name)\n                .map(|(_, p)| p.clone());\n            RepoConfig {\n                name: repo_name.clone(),\n                url: url.clone(),\n                local,\n                namespace: repo_name,\n            }\n        })\n        .collect();\n\n    let mut config = CorviaConfig::default();\n    config.project.name = name.to_string();",
+  "source_version": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465071422Z",
+  "valid_from": "2026-03-31T13:20:59.465071422Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 394,
+    "end_line": 427,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

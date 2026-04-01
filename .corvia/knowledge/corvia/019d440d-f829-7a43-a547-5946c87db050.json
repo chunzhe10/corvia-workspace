@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f829-7a43-a547-5946c87db050",
+  "content": "pub fn extract_pdf_text(bytes: &[u8]) -> Result<String> {\n    pdf_extract::extract_text_from_mem(bytes)\n        .map_err(|e| CorviaError::Ingestion(format!(\"PDF text extraction failed: {e}\")))\n}\nmod tests {\n    use super::*;\n\n    fn test_meta() -> SourceMetadata {\n        SourceMetadata {\n            file_path: \"docs/report.pdf\".into(),\n            extension: \"pdf\".into(),\n            language: None,\n            scope_id: \"org:proj:ws:git:v1\".into(),\n            source_version: \"abc123\".into(),\n            workstream: None,\n            content_role: None,\n            source_origin: None,\n                    parent_session_id: None,\n                    edge_hints: vec![],\n        }\n    }\n\n    #[test]\n    fn test_paragraph_splitting() {\n        let chunker = PdfChunker::new();\n        let source = \"First paragraph of the PDF.\\n\\nSecond paragraph with more detail.\\n\\nThird and final paragraph.\";\n        let chunks = chunker.chunk(source, &test_meta()).unwrap().chunks;\n\n        assert_eq!(chunks.len(), 3, \"expected 3 chunks, got {}\", chunks.len());\n        assert_eq!(chunks[0].content, \"First paragraph of the PDF.\");\n        assert_eq!(chunks[1].content, \"Second paragraph with more detail.\");\n        assert_eq!(chunks[2].content, \"Third and final paragraph.\");\n    }\n\n    #[test]\n    fn test_single_paragraph() {\n        let chunker = PdfChunker::new();",
+  "source_version": "crates/corvia-kernel/src/chunking_pdf.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.433393108Z",
+  "valid_from": "2026-03-31T13:20:59.433393108Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_pdf.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 98,
+    "end_line": 130,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

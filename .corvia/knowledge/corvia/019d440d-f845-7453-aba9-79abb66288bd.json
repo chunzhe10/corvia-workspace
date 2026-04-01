@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-79abb66288bd",
+  "content": "  match r.entry.entry_status {\n        EntryStatus::Merged => true,\n        EntryStatus::Pending | EntryStatus::Committed => {\n            match visibility {\n                VisibilityMode::Own => {\n                    match (agent_id, &r.entry.agent_id) {\n                        (Some(aid), Some(entry_aid)) => aid == entry_aid,\n                        _ => false,\n                    }\n                }\n                VisibilityMode::All => true,\n                VisibilityMode::Explicit(agents) => {\n                    match &r.entry.agent_id {\n                        Some(entry_aid) => agents.iter().any(|a| a == entry_aid),\n                        None => false,\n                    }\n                }\n            }\n        }\n        EntryStatus::Rejected => false,\n    }\n}\n```\n\n**Step 4: Add module to lib.rs**\n\nIn `crates/corvia-kernel/src/lib.rs`, add after `pub mod rag_types;`:\n\n```rust\npub mod retriever;\n```\n\n**Step 5: Run tests to verify they pass**\n\nRun: `cargo test -p corvia-kernel -- retriever::tests --nocapture`\nExpected: all 3 tests PASS\n\n**Step 6: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/retriever.rs crates/corvia-kernel/src/lib.rs\ngit commit -m \"feat(m3.2): Retriever trait + VectorRetriever — vector search with visibility filtering\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461867764Z",
+  "valid_from": "2026-03-31T13:20:59.461867764Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 727,
+    "end_line": 766,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

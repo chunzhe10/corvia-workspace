@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84a-7fb3-b052-e3bac354a68c",
+  "content": "corvia-server`\nExpected: Compiles (adjust `GraphStore` method call if needed)\n\n-**Step 4: Commit**\n\n```bash\ncd repos/corvia\ngit add crates/corvia-server/src/dashboard/mod.rs\ngit commit -m \"feat(dashboard): implement /api/dashboard/graph endpoint\"\n```\n\n---\n\n### Task 12: Wire dashboard router into server + CORS\n\n**Files:**\n- Modify: `crates/corvia-cli/src/main.rs`\n\n-**Step 1: Merge dashboard router in server startup**\n\nIn `crates/corvia-cli/src/main.rs`, find the router merge section (~line 490):\n\n```rust\n// BEFORE:\nlet mut app = corvia_server::rest::router(state.clone());\napp = app.merge(corvia_server::mcp::mcp_router(state));\n\n// AFTER:\nlet mut app = corvia_server::rest::router(state.clone());\napp = app.merge(corvia_server::mcp::mcp_router(state.clone()));\napp = app.merge(corvia_server::dashboard::router(state));\n```\n\n-**Step 2: Add permissive CORS for dashboard origin**\n\nIf CORS is not already configured, add to the app builder in `main.rs`:\n\n```rust\nuse tower_http::cors::CorsLayer;\n\n// After merging all routers:\nlet app = app.layer(CorsLayer::permissive());\n```\n\n> **Note:** If CORS is already configured (check existing code), extend it to include `http://localhost:8021`. For development, `CorsLayer::permissive()` is simplest. For production, restrict to specific origins.\n\n-**Step 3: Verify compilation**\n\nRun: `cd repos/corvia && cargo check -p corvia-cli`\nExpected: Compiles with no errors\n\n-**Step 4: Commit**\n\n```bash\ncd repos/corvia\ngit add crates/corvia-cli/src/main.rs\ngit commit -m \"feat(dashboard): wire dashboard router into server with CORS\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.466045303Z",
+  "valid_from": "2026-03-31T13:20:59.466045303Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1581,
+    "end_line": 1628,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

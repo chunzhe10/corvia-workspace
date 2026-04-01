@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83a-78e0-bb2b-dce0b5e631ac",
+  "content": "## Task 8: corvia-adapter-git — Tree-sitter Chunking\n\n            query: \"(function_declaration) @chunk\n                    (class_declaration) @chunk\n                    (export_statement) @chunk\n                    (lexical_declaration) @chunk\",\n        }),\n        \"ts\" | \"tsx\" => Some(LangConfig {\n            language: tree_sitter_typescript::LANGUAGE_TYPESCRIPT.into(),\n            query: \"(function_declaration) @chunk\n                    (class_declaration) @chunk\n                    (export_statement) @chunk\n                    (interface_declaration) @chunk\n                    (type_alias_declaration) @chunk\n                    (lexical_declaration) @chunk\",\n        }),\n        \"py\" => Some(LangConfig {\n            language: tree_sitter_python::LANGUAGE.into(),\n            query: \"(function_definition) @chunk\n                    (class_definition) @chunk\",\n        }),\n        _ => None,\n    }\n}\n\n/// A chunk of code extracted from a source file via tree-sitter AST parsing.\npub struct CodeChunk {\n    pub content: String,\n    pub file_path: String,\n    pub language: String,\n    pub chunk_type: String,\n    pub start_line: u32,\n    pub end_line: u32,\n}\n",
+  "source_version": "docs/rfcs/2026-02-28-m1-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.450821203Z",
+  "valid_from": "2026-03-31T13:20:59.450821203Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-m1-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1336,
+    "end_line": 1368,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

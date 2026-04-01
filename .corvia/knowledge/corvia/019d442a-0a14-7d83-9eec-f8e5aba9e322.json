@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f8e5aba9e322",
+  "content": "      <div style=\"width: 180px; height: 6px; background: #475569; margin: 0 auto; border-radius: 0 0 8px 8px;\"></div>\n    </div>\n  </div>\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">02 / 07</div>\n</div>\n\n<!-- Slide 3: THE ADVERSARY -->\n<div class=\"slide\">\n  <div class=\"slide-label\" style=\"color: var(--accent-red);\">The Adversary</div>\n  <div class=\"slide-title\"><span class=\"highlight-red\">Wayland + Ubuntu 24.04</span></div>\n  <div class=\"slide-subtitle\">One Root Cause. Many Symptoms.</div>",
+  "source_version": "marketing/linkedin/2026-03-14-resolve-linux-setup/resolve-linux-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028697835Z",
+  "valid_from": "2026-03-31T13:51:39.028697835Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-14-resolve-linux-setup/resolve-linux-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 396,
+    "end_line": 404,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f832-7981-8b9c-46e76326182e",
+  "content": "= KnowledgeEntry::new(\"test\".into(), \"scope\".into(), \"v1\".into())\n            .with_embedding(vec![1.0, 0.0, 0.0])\n            .with_agent(\"test::agent\".into(), session.session_id.clone());\n        staging.write_staging_file(&staging_dir, &entry).unwrap();\n        store.insert(&entry).await.unwrap();\n\n        let event_bus = Arc::new(crate::event_bus::EventBus::new(64));\n        let pipeline = CommitPipeline::new(\n            session_mgr.clone(),\n            merge_queue.clone(),\n            staging,\n            store,\n            event_bus,\n        );\n\n        // First commit\n        pipeline.commit_session(&session.session_id).await.unwrap();\n        let depth_after_first = merge_queue.depth().unwrap();\n\n        // Second commit (idempotent — staging files still exist, but queue gets re-enqueue)\n        pipeline.commit_session(&session.session_id).await.unwrap();\n\n        // Session should still be in Merging state (no error)\n        let updated = session_mgr.get(&session.session_id).unwrap().unwrap();\n        assert_eq!(updated.state, SessionState::Merging);\n        assert!(merge_queue.depth().unwrap() >= depth_after_first);\n    }",
+  "source_version": "crates/corvia-kernel/src/commit_pipeline.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.442687828Z",
+  "valid_from": "2026-03-31T13:20:59.442687828Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/commit_pipeline.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 241,
+    "end_line": 263,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

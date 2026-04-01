@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81b-7e30-ace5-9bed2f2ee302",
+  "content": "struct LangConfig {\n    language: LanguageFn,\n    /// Query to match top-level constructs (functions, classes, structs, etc.)\n    query: &'static str,\n}\nfn lang_config_for(extension: &str) -> Option<LangConfig> {\n    match extension {\n        \"rs\" => Some(LangConfig {\n            language: tree_sitter_rust::LANGUAGE,\n            query: \"(function_item) @chunk\n                    (struct_item) @chunk\n                    (enum_item) @chunk\n                    (impl_item) @chunk\n                    (trait_item) @chunk\n                    (mod_item) @chunk\",\n        }),\n        \"js\" | \"jsx\" => Some(LangConfig {\n            language: tree_sitter_javascript::LANGUAGE,\n            query: \"(function_declaration) @chunk\n                    (class_declaration) @chunk\n                    (export_statement) @chunk\n                    (lexical_declaration) @chunk\",\n        }),\n        \"ts\" => Some(LangConfig {\n            language: tree_sitter_typescript::LANGUAGE_TYPESCRIPT,\n            query: \"(function_declaration) @chunk\n                    (class_declaration) @chunk\n                    (export_statement) @chunk\n                    (interface_declaration) @chunk\n                    (type_alias_declaration) @chunk\n                    (lexical_declaration) @chunk\",\n        }),\n        \"tsx\" => Some(LangConfig {\n            language: tree_sitter_typescript::LANGUAGE_TSX,\n            query: \"(function_declaration) @chunk\n                    (class_declaration) @chunk\n                    (export_statement) @chunk\n                    (interface_declaration) @chunk\n                    (type_alias_declaration) @chunk\n                    (lexical_declaration) @chunk\",\n        }),\n        \"py\" => Some(LangConfig {\n            language: tree_sitter_python::LANGUAGE,\n            query: \"(function_definition) @chunk\n                    (class_definition) @chunk\",\n        }),\n        _ => None,\n    }\n}",
+  "source_version": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.419657299Z",
+  "valid_from": "2026-03-31T13:20:59.419657299Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 13,
+    "end_line": 56,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

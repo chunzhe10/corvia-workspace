@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81d-7d20-aabb-bea58de9fa30",
+  "content": "\"<teammate-message teammate_id=\"team-lead\" summary=\"Research auth patterns\">Full prompt here</teammate-message>\"#;\n        assert_eq!(\n            extract_teammate_message_summary(content),\n            Some(\"Research auth patterns\".into())\n        );\n    }\nfn test_extract_teammate_message_summary_missing() {\n        assert_eq!(extract_teammate_message_summary(\"no tag here\"), None);\n    }",
+  "source_version": "adapters/corvia-adapter-claude-sessions/rust/src/correlation.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.421338920Z",
+  "valid_from": "2026-03-31T13:20:59.421338920Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-claude-sessions/rust/src/correlation.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 380,
+    "end_line": 382,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

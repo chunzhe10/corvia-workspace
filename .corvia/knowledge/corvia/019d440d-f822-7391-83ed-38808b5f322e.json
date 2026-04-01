@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f822-7391-83ed-38808b5f322e",
+  "content": "_type_serde() {\n        let json = serde_json::to_string(&StoreType::Lite).unwrap();\n        assert_eq!(json, \"\\\"lite\\\"\");\n        let parsed: StoreType = serde_json::from_str(\"\\\"postgres\\\"\").unwrap();\n        assert_eq!(parsed, StoreType::Postgres);\n    }\nfn test_env_override_vllm_url() {\n        unsafe { std::env::set_var(\"CORVIA_VLLM_URL\", \"http://ci-host:9001\"); }\n        let config = CorviaConfig::default().with_env_overrides();\n        assert_eq!(config.embedding.url, \"http://ci-host:9001\");\n        unsafe { std::env::remove_var(\"CORVIA_VLLM_URL\"); }\n    }",
+  "source_version": "crates/corvia-common/src/config.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.426965396Z",
+  "valid_from": "2026-03-31T13:20:59.426965396Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/config.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1140,
+    "end_line": 1145,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

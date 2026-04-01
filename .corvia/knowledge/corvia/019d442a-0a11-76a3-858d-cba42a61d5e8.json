@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-cba42a61d5e8",
+  "content": "# Multi-Spoke Workspace: Brainstorm\n\n**Date:** 2026-03-28\n**Status:** Design Complete (review fixes incorporated 2026-03-28)\n**Scope:** corvia workspace product, devcontainer infrastructure, Claude Code integration\n\n---\n",
+  "source_version": "decisions/2026-03-28-multi-spoke-workspace-brainstorm.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025584218Z",
+  "valid_from": "2026-03-31T13:51:39.025584218Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-multi-spoke-workspace-brainstorm.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 1,
+    "end_line": 8,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

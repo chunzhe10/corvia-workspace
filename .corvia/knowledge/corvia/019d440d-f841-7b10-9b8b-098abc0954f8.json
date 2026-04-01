@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-098abc0954f8",
+  "content": "### 3.0 Security baseline (all hooks)\n\n### 3.1 `capture-task-created.sh`\n\nTriggered by: `TaskCreated`\n\nReads stdin JSON:\n```json\n{\n  \"session_id\": \"lead-session-id\",\n  \"hook_event_name\": \"TaskCreated\",\n  \"task_id\": \"1\",\n  \"task_subject\": \"Review auth module\",\n  \"task_description\": \"...\"\n}\n```\n\nAction: Appends a task-created event to `staging/{team-name}/tasks.jsonl`:\n```json\n{\"event\":\"created\",\"task_id\":\"1\",\"subject\":\"...\",\"description\":\"...\",\"timestamp\":\"...\"}\n```\n\nNote: `TaskCreated` does NOT include `team_name` or `teammate_name` on stdin.\nThe hook infers team name by scanning `~/.claude/tasks/` for the directory\ncontaining task `{task_id}`. If multiple teams exist (rare -- one team per\nsession limitation), the most recently modified directory wins.\n\nTarget latency: < 50ms.\n\n\n### 3.2 `capture-task-completed.sh`\n\nTriggered by: `TaskCompleted`\n\nReads stdin JSON (same schema as TaskCreated plus completion fields).\n\nAction:\n1. Read the full task file from `~/.claude/tasks/{team-name}/{task-id}.json`\n   (includes `owner`, `status`, `blocks`, `blockedBy` -- fields not in stdin).\n2. Append a task-completed event to `staging/{team-name}/tasks.jsonl`:\n   ```json\n   {\"event\":\"completed\",\"task_id\":\"1\",\"subject\":\"...\",\"owner\":\"researcher\",\"timestamp\":\"...\",\"full_task\":{...}}\n   ```\n\nTarget latency: < 100ms.\n",
+  "source_version": "docs/rfcs/2026-03-28-agent-teams-adapter-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457011345Z",
+  "valid_from": "2026-03-31T13:20:59.457011345Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-agent-teams-adapter-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 125,
+    "end_line": 167,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

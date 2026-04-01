@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f829-7a43-a547-5da9c50439a3",
+  "content": "s = sqlx::query(query)\n            .bind(entry_id)\n            .fetch_all(&self.pool)\n            .await\n            .map_err(|e| CorviaError::Storage(format!(\"Failed to query edges: {e}\")))?;\n\n        let mut edges = Vec::new();\n        for row in &rows {\n            let from: Uuid = match row.try_get(\"from_id\") {\n                Ok(v) => v,\n                Err(_) => continue,\n            };\n            let to: Uuid = match row.try_get(\"to_id\") {\n                Ok(v) => v,\n                Err(_) => continue,\n            };\n            let relation: String = row.try_get(\"relation\").unwrap_or_default();\n            let metadata: Option<serde_json::Value> = row.try_get(\"metadata\").ok().flatten();\n\n            edges.push(GraphEdge {\n                from,\n                to,\n                relation,\n                metadata,\n            });\n        }\n\n        Ok(edges)\n    }\n\n    async fn traverse(\n        &self,\n        start: &Uuid,\n        relation: Option<&str>,\n        direction: EdgeDirection,\n        max_depth: usize,\n    ) -> Result<Vec<KnowledgeEntry>> {\n        // App-level BFS traversal\n        let mut visited = std::collections::HashSet::new();\n        let mut queue = std::collections::VecDeque::new();\n        let mut results = Vec::new();\n\n        visited.insert(*start);\n        queue.push_back((*start, 0usize));\n\n        while let Some((current, depth)) = queue.pop_front() {\n            if depth >= max_depth {\n                continue;\n            }\n\n            let current_edges = crate::traits::GraphStore::edges(self, &current, direction).await?;\n\n            for edge in current_edges {\n                if let Some(rel) = relation\n                    && edge.relation != rel\n                {\n                    continue;",
+  "source_version": "crates/corvia-kernel/src/postgres_store.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.433981141Z",
+  "valid_from": "2026-03-31T13:20:59.433981141Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/postgres_store.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 700,
+    "end_line": 748,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

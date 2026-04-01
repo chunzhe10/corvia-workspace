@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-c7fa11d4702e",
+  "content": "### Tier 3: LLM-as-Judge (run weekly or on release)\n### Tier 4: Comparative (run on model/config changes)\n\n## Implementation Priority\n\n1. **DONE**: Tier 1 eval suite with real baseline numbers\n2. **NEXT**: CI eval gate script (`eval-gate.sh`)\n3. **NEXT**: Tier 2 knowledge health tracking\n4. **LATER**: Tier 3 LLM-as-judge (requires chat inference stability)\n5. **LATER**: Tier 4 comparative evals\n\n\n## Comparison with Competitors\n\n| Feature | Corvia | RAGAS | DeepEval | Arize Phoenix |\n|---------|--------|-------|----------|---------------|\n| Self-benchmarking | Yes (dogfooding) | No (external data) | No | No |\n| Built-in knowledge graph | Yes | No | No | No |\n| OTEL integration | Yes (native) | No | No | Yes |\n| Rust-native | Yes | No (Python) | No (Python) | No (Python) |\n| Temporal quality checks | Yes | No | No | No |\n| Assertion-based | Yes | Partial | Yes | No |\n| LLM-as-judge | Planned | Yes | Yes | Yes |\n\n**Corvia's differentiator**: No other tool evaluates its own knowledge quality using\nits own retrieval pipeline. The eval suite IS the product — dogfooding at its best.\n\n---\n\n*Reviewed by: SWE (sound architecture, tier system is pragmatic), PM (dogfooding angle is compelling for LinkedIn), QA (baseline numbers provide regression detection)*",
+  "source_version": "decisions/2026-03-19-benchmarking-design.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025191357Z",
+  "valid_from": "2026-03-31T13:51:39.025191357Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-19-benchmarking-design.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 91,
+    "end_line": 116,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

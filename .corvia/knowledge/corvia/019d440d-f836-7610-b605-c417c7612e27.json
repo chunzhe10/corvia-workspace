@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f836-7610-b605-c417c7612e27",
+  "content": "nt::connect(self.endpoint_url()).await else {\n            return false;\n        };\n        client\n            .health(tonic::Request::new(HealthRequest {}))\n            .await\n            .map(|r| r.into_inner().healthy)\n            .unwrap_or(false)\n    }\npub fn start(&self) -> Result<()> {\n        info!(\"Starting corvia-inference server...\");\n        let port = self.grpc_addr.split(':').next_back().unwrap_or(\"8030\");\n        std::process::Command::new(\"corvia-inference\")\n            .arg(\"serve\")\n            .arg(\"--port\")\n            .arg(port)\n            .arg(\"--health-probe-interval\")\n            .arg(self.health_probe_interval.to_string())\n            .arg(\"--health-probe-drift-threshold\")\n            .arg(self.health_probe_drift_threshold.to_string())\n            .stdout(std::process::Stdio::null())\n            .stderr(std::process::Stdio::null())\n            .spawn()\n            .map_err(|e| CorviaError::Infra(format!(\"Failed to start corvia-inference: {e}\")))?;\n        info!(\"corvia-inference server started\");\n        Ok(())\n    }",
+  "source_version": "crates/corvia-kernel/src/inference_provisioner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.446982513Z",
+  "valid_from": "2026-03-31T13:20:59.446982513Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/inference_provisioner.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 72,
+    "end_line": 89,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

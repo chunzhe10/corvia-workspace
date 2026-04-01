@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-2029fd841c8c",
+  "content": "# Run: corvia test\n# Baseline: corvia test --baseline\n\n### Task 4: Create Introspect Query Config Types\n\nParse the `introspect.toml` into Rust types.\n\n**Files:**\n- Create: `crates/corvia-kernel/src/introspect.rs`\n- Modify: `crates/corvia-kernel/src/lib.rs` (add `pub mod introspect;`)\n\n**Step 1: Write the failing test**\n\nIn `crates/corvia-kernel/src/introspect.rs`:\n\n```rust\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    #[test]\n    fn test_parse_introspect_config() {\n        let toml_str = r#\"\n[config]\ndefault_min_score = 0.70\nscope_id = \"corvia-introspect\"\n\n[[query]]\ntext = \"how does embedding work?\"\nexpect_file = \"src/embedding.rs\"\nmin_score = 0.75\n\n[[query]]\ntext = \"what commands exist?\"\nexpect_file = \"src/main.rs\"\n\"#;\n        let config: IntrospectConfig = toml::from_str(toml_str).unwrap();\n        assert_eq!(config.config.scope_id, \"corvia-introspect\");\n        assert_eq!(config.query.len(), 2);\n        assert_eq!(config.query[0].text, \"how does embedding work?\");\n        assert_eq!(config.query[0].expect_file, \"src/embedding.rs\");\n        assert_eq!(config.query[0].min_score, Some(0.75));\n        // Second query should have no explicit min_score",
+  "source_version": "docs/rfcs/2026-02-28-introspect-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452176409Z",
+  "valid_from": "2026-03-31T13:20:59.452176409Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-introspect-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 304,
+    "end_line": 343,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

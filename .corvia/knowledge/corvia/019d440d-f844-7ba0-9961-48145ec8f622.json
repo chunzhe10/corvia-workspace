@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-48145ec8f622",
+  "content": "### Step 7: Update cmd_serve to use factory\n### Step 8: Update cmd_status for store type awareness\n\n### Step 9: Update cmd_search to use factory\n\n```rust\nasync fn cmd_search(query: &str, limit: usize) -> Result<()> {\n    let config = load_config()?;\n    let store = connect_store(&config).await?;\n    let engine = connect_engine(&config);\n\n    let embedding = engine.embed(query).await?;\n    let results = store\n        .search(&embedding, &config.project.scope_id, limit)\n        .await?;\n\n    if results.is_empty() {\n        println!(\"No results found for: {query}\");\n        return Ok(());\n    }\n\n    println!(\"Found {} results for: {query}\\n\", results.len());\n    print_search_results(&results);\n    Ok(())\n}\n```\n",
+  "source_version": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460072939Z",
+  "valid_from": "2026-03-31T13:20:59.460072939Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1704,
+    "end_line": 1727,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

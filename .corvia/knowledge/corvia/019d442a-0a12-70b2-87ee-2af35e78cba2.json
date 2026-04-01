@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-2af35e78cba2",
+  "content": "## State Tracking\n\n## Hub Path Resolution\n\nThe critical piece for Docker-from-Docker. The hub must translate its container\npaths to host paths for bind mounts into spokes.\n\n```rust\n/// Resolve host paths by inspecting the hub container's mounts.\npub struct HubContext {\n    pub container_name: String,\n    pub networks: HashMap<String, NetworkSettings>,\n    pub host_mounts: HashMap<String, String>,  // container_path -> host_path\n}\n\nimpl HubContext {\n    pub async fn detect(docker: &Docker) -> Result<Self> {\n        // Check if we're inside a container\n        let in_container = std::path::Path::new(\"/.dockerenv\").exists()\n            || std::fs::read_to_string(\"/proc/1/cgroup\")\n                .map(|s| s.contains(\"docker\") || s.contains(\"containerd\"))\n                .unwrap_or(false);\n\n        if !in_container {\n            return Err(CorviaError::Config(\n                \"Spoke management requires running inside a Docker container \\\n                 with the host Docker socket mounted. \\\n                 Run `corvia workspace spoke check` to diagnose.\".into()\n            ));\n        }",
+  "source_version": "decisions/2026-03-28-spoke-cli-design.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026023434Z",
+  "valid_from": "2026-03-31T13:51:39.026023434Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-cli-design.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 550,
+    "end_line": 577,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

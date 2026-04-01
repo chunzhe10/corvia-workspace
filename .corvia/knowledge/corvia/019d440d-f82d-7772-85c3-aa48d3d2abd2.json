@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82d-7772-85c3-aa48d3d2abd2",
+  "content": "j\", None).await.unwrap();\n        let resp2 = pipeline.context(\"query 2\", \"proj\", None).await.unwrap();\n\n        assert_ne!(\n            resp1.trace.trace_id, resp2.trace.trace_id,\n            \"each call should produce a unique trace_id\"\n        );\n    }\n}\nimpl InferenceEngine for MockEngine {\n        async fn embed(&self, _text: &str) -> corvia_common::errors::Result<Vec<f32>> {\n            Ok(vec![1.0, 0.0, 0.0])\n        }\n        async fn embed_batch(&self, texts: &[String]) -> corvia_common::errors::Result<Vec<Vec<f32>>> {\n            Ok(texts.iter().map(|_| vec![1.0, 0.0, 0.0]).collect())\n        }\n        fn dimensions(&self) -> usize {\n            3\n        }\n    }",
+  "source_version": "crates/corvia-kernel/src/rag_pipeline.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.437572759Z",
+  "valid_from": "2026-03-31T13:20:59.437572759Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/rag_pipeline.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 248,
+    "end_line": 258,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

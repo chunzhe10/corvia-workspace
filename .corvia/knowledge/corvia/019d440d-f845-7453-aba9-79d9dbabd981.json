@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-79d9dbabd981",
+  "content": ") as Arc<dyn QueryableStore>;\n        let engine = Arc::new(MockEngine) as Arc<dyn InferenceEngine>;\n        store.init_schema().await.unwrap();\n\n        let mut idx = 0_usize;\n        let mut next_emb = || { idx += 1; vec![1.0, idx as f32 * 0.001, 0.0] };\n\n        let mut e = KnowledgeEntry::new(\"auth\".into(), \"proj\".into(), \"v1\".into())\n            .with_embedding(next_emb());\n        e.entry_status = EntryStatus::Merged;\n        store.insert(&e).await.unwrap();\n\n        for i in 0..9 {\n            let mut f = KnowledgeEntry::new(format!(\"filler-{i}\"), \"proj\".into(), \"v1\".into())\n                .with_embedding(next_emb());\n            f.entry_status = EntryStatus::Merged;\n            store.insert(&f).await.unwrap();\n        }\n\n        let graph = Arc::new(store.clone()) as Arc<dyn GraphStore>;\n        let retriever = GraphExpandRetriever::new(store, engine, graph, 0.3);\n\n        // expand_graph = false should skip graph expansion\n        let opts = RetrievalOpts { limit: 5, expand_graph: false, ..Default::default() };\n        let result = retriever.retrieve(\"auth\", \"proj\", &opts).await.unwrap();\n        assert_eq!(result.metrics.graph_expanded, 0);\n    }\n```\n\n**Step 2: Run tests to verify they fail**\n\nRun: `cargo test -p corvia-kernel -- retriever::tests::test_graph_expand --nocapture`\nExpected: FAIL — `GraphExpandRetriever` not found\n\n**Step 3: Implement GraphExpandRetriever**\n\nAdd to `retriever.rs` (after `VectorRetriever`, before `visibility_filter`). Add these imports at the top:\n\n```rust\nuse crate::traits::GraphStore;\nuse corvia_common::types::EdgeDirection;",
+  "source_version": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461898912Z",
+  "valid_from": "2026-03-31T13:20:59.461898912Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 837,
+    "end_line": 871,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

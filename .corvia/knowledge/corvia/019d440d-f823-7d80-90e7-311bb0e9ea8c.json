@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f823-7d80-90e7-311bb0e9ea8c",
+  "content": "('\\\\')\n        || name.contains('\\0')\n        || name == \".\"\n        || name == \"..\"\n    {\n        anyhow::bail!(\n            \"Invalid name '{}': must not be empty, contain path separators, or be '.' or '..'\",\n            name\n        );\n    }\n    Ok(())\n}\npub fn repo_name_from_url(url: &str) -> String {\n    // Strip trailing slashes\n    let url = url.trim_end_matches('/');\n\n    // Take the last path segment (works for both HTTPS and SSH with colon)\n    let last_segment = url\n        .rsplit('/')\n        .next()\n        .or_else(|| url.rsplit(':').next())\n        .unwrap_or(url);\n\n    // Strip .git suffix, fall back to \"unknown\" if empty\n    let name = last_segment.trim_end_matches(\".git\").to_string();\n    if name.is_empty() {\n        \"unknown\".to_string()\n    } else {\n        name\n    }\n}",
+  "source_version": "crates/corvia-cli/src/workspace.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.427688802Z",
+  "valid_from": "2026-03-31T13:20:59.427688802Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/workspace.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 35,
+    "end_line": 53,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

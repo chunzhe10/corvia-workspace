@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9b8eca310f9c",
+  "content": "## Implementation Approach: No Duplicated Code\n\n### Shared Kernel Pattern\n\n```\nCLI command ──────┐\n                  ├──→ kernel function (shared logic) ──→ store/coordinator/config\nMCP tool handler ─┘\n```\n\nExample: `corvia agent list` (CLI) and `corvia_agents_list` (MCP) both call the same `AgentCoordinator::list_agents()`. No duplicated query logic.\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-04-m4-control-plane-research.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464153823Z",
+  "valid_from": "2026-03-31T13:20:59.464153823Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-04-m4-control-plane-research.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 169,
+    "end_line": 180,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f835-7a40-9ae4-0f21e04fa4aa",
+  "content": " += 1,\n                Err(e) => {\n                    warn!(spoke = %spoke.name, error = %e, \"Failed to restart spoke\");\n                    failures.push(spoke.name.clone());\n                }\n            }\n        }\n        Ok((success, failures))\n    }\npub async fn check(&self, data_dir: Option<&std::path::Path>) -> Vec<CheckResult> {\n        let mut results = Vec::new();\n\n        // 1. Docker socket\n        match self.docker.ping().await {\n            Ok(_) => results.push(CheckResult::pass(\"Docker socket accessible\")),\n            Err(e) => results.push(CheckResult::fail(\n                \"Docker socket\",\n                &format!(\"Cannot connect: {e}\"),\n            )),\n        }\n\n        // 2. Container detection\n        if is_in_container() {\n            results.push(CheckResult::pass(\"Running inside a container\"));\n        } else {\n            results.push(CheckResult::fail(\n                \"Container detection\",\n                \"Not running inside a Docker container. Spoke management requires Docker-from-Docker.\",\n            ));\n        }\n\n        // 3. GITHUB_TOKEN\n        if std::env::var(\"GITHUB_TOKEN\")\n            .unwrap_or_default()\n            .is_empty()\n        {\n            results.push(CheckResult::warn(\n                \"GITHUB_TOKEN\",\n                \"Not set. Spokes won't be able to push to GitHub.\",\n            ));\n        } else {\n            results.push(CheckResult::pass(\"GITHUB_TOKEN is set\"));\n        }\n\n        // 4. Credentials file (use $HOME, not hardcoded /root)\n        let home = std::env::var(\"HOME\").unwrap_or_else(|_| \"/root\".into());",
+  "source_version": "crates/corvia-kernel/src/spoke.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.445265164Z",
+  "valid_from": "2026-03-31T13:20:59.445265164Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/spoke.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 693,
+    "end_line": 729,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

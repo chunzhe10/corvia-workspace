@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f832-7981-8b9c-4858a4a1023b",
+  "content": "ch(&self, agent_id: &str) -> Result<()> {\n        let mut record = self.get(agent_id)?\n            .ok_or_else(|| CorviaError::NotFound(format!(\"Agent {agent_id} not found\")))?;\n        record.last_seen = chrono::Utc::now();\n        self.put(&record)\n    }\npub fn grant_scope(&self, agent_id: &str, scope_id: &str) -> Result<()> {\n        let mut record = self.get(agent_id)?\n            .ok_or_else(|| CorviaError::NotFound(format!(\"Agent {agent_id} not found\")))?;\n        match &mut record.permissions {\n            AgentPermission::ReadWrite { scopes } => {\n                if !scopes.iter().any(|s| s == scope_id || s == \"*\") {\n                    scopes.push(scope_id.to_string());\n                    self.put(&record)?;\n                }\n            }\n            // Admin and ReadOnly don't need scope grants\n            _ => {}\n        }\n        Ok(())\n    }",
+  "source_version": "crates/corvia-kernel/src/agent_registry.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.442855030Z",
+  "valid_from": "2026-03-31T13:20:59.442855030Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/agent_registry.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 127,
+    "end_line": 141,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

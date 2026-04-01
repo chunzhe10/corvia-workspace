@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f6c15312cd0c",
+  "content": "nal .prompt { color: var(--accent-green); }\n  .terminal .cmd { color: var(--text-primary); }\n  .terminal .output { color: var(--text-secondary); }\n  .terminal .highlight-val { color: var(--accent-amber); }\n  .terminal .comment { color: var(--text-muted); }\n  .stat-box {\n    background: var(--bg-card); border: 1px solid var(--border);\n    border-radius: 16px; padding: 28px; text-align: center;\n  }\n  .insight-box {\n    background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25);\n    border-radius: 16px; padding: 24px 28px; margin: 16px 0;\n  }\n  .insight-box p { font-size: 18px; font-weight: 500; color: var(--accent-green); line-height: 1.5; }\n  .warning-box {\n    background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.25);\n    border-radius: 16px; padding: 24px 28px; margin: 16px 0;\n  }\n  .warning-box p { font-size: 18px; font-weight: 500; color: var(--accent-amber); line-height: 1.5; }\n\n  /* corvia brand wordmark: Poppins 700, Bright Gold on dark */\n  .corvia-wm {\n    font-family: 'Poppins', sans-serif;\n    font-weight: 700;\n    color: #E8C44E;\n    letter-spacing: -1px;\n  }\n\n  .divider { height: 1px; background: var(--border); margin: 28px 0; }\n  .flex-grow { flex: 1; }\n  .cover-center { flex: 1; display: flex; flex-direction: column; justify-content: center; }\n  .cover-tags { margin-top: 40px; display: flex; flex-wrap: wrap; gap: 12px; }\n  .cover-tags .tag {\n    display: inline-block; padding: 10px 20px; border-radius: 20px;\n    font-size: 16px; font-weight: 600;\n    background: rgba(59, 130, 246, 0.15); color: var(--accent-blue);\n  }\n\n  /* GPU visual block */\n  .gpu-block {\n    border-radius: 20px; padding: 36px; text-align: center;\n    position: relative;\n  }\n  .gpu-block .gpu-icon { font-size: 56px; margin-bottom: 16px; }\n  .gpu-block .gpu-name { font-size: 28px; font-weight: 800; margin-bottom: 8px; }\n  .gpu-block .gpu-detail { font-size: 16px; color: var(--text-secondary); }\n\n  /* Arrow connector */\n  .arrow-down {\n    display: flex; justify-content: center; padding: 8px 0;\n    font-size: 36px; color: var(--text-muted);\n  }\n  .arrow-right { font-size: 36px; color: var(--text-muted); flex-shrink: 0; }",
+  "source_version": "marketing/linkedin/2026-03-13-dual-gpu-inference/dual-gpu-inference-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028381768Z",
+  "valid_from": "2026-03-31T13:51:39.028381768Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-13-dual-gpu-inference/dual-gpu-inference-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 110,
+    "end_line": 157,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

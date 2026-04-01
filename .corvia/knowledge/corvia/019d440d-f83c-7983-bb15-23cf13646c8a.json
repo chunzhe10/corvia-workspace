@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-23cf13646c8a",
+  "content": "## Design Area 2: Context Injection for Subagents\n\n### Server-side changes\n\nAdd `max_tokens` parameter to `corvia_context` MCP tool:\n\n```json\n{\n  \"query\": \"...\",\n  \"scope_id\": \"corvia\",\n  \"max_tokens\": 2000,\n  \"format\": \"compact\"\n}\n```\n\n**Parameters:**\n- `max_tokens` (integer, optional): Override token budget. Hard cap at 4000.\n  Recommended: 5-10% of subagent context window.\n- `format` (string, optional): \"default\" (existing) or \"compact\"\n  - \"compact\": Strips system prompt, citation headers, footer. Returns just\n    relevance-ranked content blocks with entry IDs for provenance.\n\n**Existing infrastructure:** `TokenBudget.max_context_tokens` already exists in\n`rag_types.rs`. The MCP handler just needs to read the parameter and pass it through.\n\n**Implementation locations:**\n- Tool definition: `mcp.rs` tool_definitions() (add max_tokens, format params)\n- Handler: `mcp.rs` tool_corvia_context() (read params, pass to RAG pipeline)\n- Augmenter: `augmenter.rs` (add compact format mode)\n\n\n### Agent-side rule (AGENTS.md)\n\n> Before spawning subagents for non-trivial work, call `corvia_context` with\n> `max_tokens` appropriate for the task and include the result in the prompt.\n",
+  "source_version": "docs/rfcs/2026-03-31-agentic-retrieval-protocol-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452769869Z",
+  "valid_from": "2026-03-31T13:20:59.452769869Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-31-agentic-retrieval-protocol-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 77,
+    "end_line": 109,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

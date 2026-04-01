@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f828-7a92-a1a8-d9327d0b8f27",
+  "content": "get the updated CorviaConfig\n    let updated_config: CorviaConfig = toml::from_str(&updated_toml)\n        .map_err(|e| CorviaError::Config(format!(\"Failed to re-parse updated config: {e}\")))?;\n\n    *config = updated_config.clone();\n    Ok(updated_config)\n}\nfn json_to_toml(json: &serde_json::Value) -> Result<toml::Value> {\n    match json {\n        serde_json::Value::Null => Err(CorviaError::Config(\"Cannot set null value in TOML config\".into())),\n        serde_json::Value::Bool(b) => Ok(toml::Value::Boolean(*b)),\n        serde_json::Value::Number(n) => {\n            if let Some(i) = n.as_i64() {\n                Ok(toml::Value::Integer(i))\n            } else if let Some(f) = n.as_f64() {\n                Ok(toml::Value::Float(f))\n            } else {\n                Err(CorviaError::Config(\"Unsupported number type\".into()))\n            }\n        }\n        serde_json::Value::String(s) => Ok(toml::Value::String(s.clone())),\n        serde_json::Value::Array(arr) => {\n            let items: std::result::Result<Vec<toml::Value>, _> =\n                arr.iter().map(json_to_toml).collect();\n            Ok(toml::Value::Array(items?))\n        }\n        serde_json::Value::Object(map) => {\n            let mut table = toml::map::Map::new();\n            for (k, v) in map {\n                table.insert(k.clone(), json_to_toml(v)?);\n            }\n            Ok(toml::Value::Table(table))\n        }\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/ops.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.432866215Z",
+  "valid_from": "2026-03-31T13:20:59.432866215Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ops.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 256,
+    "end_line": 283,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

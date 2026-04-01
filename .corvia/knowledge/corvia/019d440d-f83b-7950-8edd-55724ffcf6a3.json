@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-55724ffcf6a3",
+  "content": "### Data Model\n\n### Config\n\nNew optional section in `corvia.toml`:\n\n```toml\n[dashboard]\nstale_threshold = 0.9      # coverage below this = index_stale: true\ncoverage_ttl_secs = 60     # cache TTL for coverage recomputation\n```\n\nIn `corvia-common/src/config.rs`:\n\n```rust\n#[derive(Debug, Clone, Deserialize, Serialize)]\npub struct DashboardSection {\n    #[serde(default = \"default_stale_threshold\")]\n    pub stale_threshold: f64,       // default: 0.9, validated: 0.0..=1.0\n    #[serde(default = \"default_coverage_ttl\")]\n    pub coverage_ttl_secs: u64,     // default: 60, minimum: 5\n}\n\nimpl Default for DashboardSection {\n    fn default() -> Self {\n        Self { stale_threshold: 0.9, coverage_ttl_secs: 60 }\n    }\n}\n```\n\nWired into the top-level `CorviaConfig`:\n\n```rust\n#[serde(default)]\npub dashboard: DashboardSection,\n```\n\n**Validation** (at config load time):\n- `stale_threshold` must be in `0.0..=1.0`. Values outside this range produce a\n  config load error.\n- `coverage_ttl_secs` has a floor of 5 seconds. Values below 5 are clamped to 5\n  with a warning log, to prevent excessive disk scanning.\n\n**Hot-reload**: Add `\"dashboard\"` to the hot-reload allowlist in\n`crates/corvia-server/src/mcp.rs`. Safe because the cache reads config values on\neach recompute, so new TTL/threshold values take effect within one TTL cycle.\n",
+  "source_version": "docs/rfcs/2026-03-26-dashboard-index-coverage-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451381803Z",
+  "valid_from": "2026-03-31T13:20:59.451381803Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-26-dashboard-index-coverage-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 87,
+    "end_line": 131,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

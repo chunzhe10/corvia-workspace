@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f827-7411-ad28-5c53c1785db0",
+  "content": "pub struct DashboardTraceLayer {\n    path: PathBuf,\n    writer: Mutex<std::io::BufWriter<std::fs::File>>,\n}",
+  "source_version": "crates/corvia-telemetry/src/dashboard_trace_layer.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.431248345Z",
+  "valid_from": "2026-03-31T13:20:59.431248345Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-telemetry/src/dashboard_trace_layer.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 29,
+    "end_line": 32,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f833-7c00-aaaa-aaf4be724bde",
+  "content": "(symbol) {\n                        let line = byte_offset_to_line(range.start);\n                        if let Some(chunk) = Self::find_chunk_for_line(chunks, line) {\n                            let key = (\n                                chunk.start_line,\n                                String::new(),\n                                symbol.to_string(),\n                            );\n                            if seen.insert(key) {\n                                relations.push(ChunkRelation {\n                                    from_source_file: meta.file_path.clone(),\n                                    from_start_line: chunk.start_line,\n                                    relation: \"references\".into(),\n                                    to_file: String::new(),\n                                    to_name: Some(symbol.to_string()),\n                                });\n                            }\n                        }\n                    }\n                }\n                Event::Start(Tag::Link { dest_url, .. }) => {\n                    let url = dest_url.as_ref();\n                    if Self::is_file_path_reference(url) {\n                        let clean_path = url.split('#').next().unwrap_or(url).to_string();\n                        let line = byte_offset_to_line(range.start);\n                        if let Some(chunk) = Self::find_chunk_for_line(chunks, line) {\n                            let key = (\n                                chunk.start_line,\n                                clean_path.clone(),",
+  "source_version": "crates/corvia-kernel/src/chunking_markdown.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.443565648Z",
+  "valid_from": "2026-03-31T13:20:59.443565648Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_markdown.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 146,
+    "end_line": 169,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

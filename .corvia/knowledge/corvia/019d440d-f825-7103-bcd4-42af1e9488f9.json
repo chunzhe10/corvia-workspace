@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-42af1e9488f9",
+  "content": ";\n    scope_names.sort();\n    println!(\n        \"Found {} entries across {} scope(s):\",\n        entries.len(),\n        entries_by_scope.len()\n    );\n    for scope in &scope_names {\n        println!(\"  {}: {} entries\", scope, entries_by_scope[scope].len());\n    }\n    println!(\"Found {} graph edges.\", all_edges.len());\n\n    if dry_run {\n        println!(\"\\nDry run summary:\");\n        println!(\"  Entries to migrate: {}\", entries.len());\n        println!(\"  Edges to migrate: {}\", all_edges.len());\n        println!(\"  Scopes: {}\", scope_names.join(\", \"));\n        println!(\"\\nRun without --dry-run to perform the migration.\");\n        return Ok(());\n    }\n\n    // Write to destination\n    let data_dir = Path::new(&config.storage.data_dir);\n    match target {\n        StoreType::Lite => {\n            write_to_lite(&config, data_dir, &entries, &all_edges, &entries_by_scope, &scope_names).await?;\n        }\n        #[cfg(feature = \"postgres\")]\n        StoreType::Postgres => {\n            write_to_postgres(&config, &entries, &all_edges, &entries_by_scope, &scope_names).await?;\n        }\n        #[cfg(not(feature = \"postgres\"))]\n        StoreType::Postgres => {\n            unreachable!(\"Postgres feature gate checked above\");\n        }\n    }\n\n    // Update config\n    println!(\"\\nUpdating corvia.toml...\");\n    let mut updated_config = config.clone();",
+  "source_version": "crates/corvia-cli/src/upgrade.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429679303Z",
+  "valid_from": "2026-03-31T13:20:59.429679303Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/upgrade.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 141,
+    "end_line": 171,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

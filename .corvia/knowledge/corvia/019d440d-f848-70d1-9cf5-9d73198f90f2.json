@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9d73198f90f2",
+  "content": "## Open Questions (Per Milestone)\n\n### M2\n- ~~MCP server: does it need different behavior for LiteStore vs FullStore?~~ → No, but different behavior per **identity type** (D45)\n- Merge worker conflict detection: semantic similarity threshold? Metadata overlap? File path overlap?\n- ~~Agent heartbeat/timeout: how long before abandoned session is garbage collected?~~ → Answered by D45 (5min timeout, 15min grace, configurable)\n- Should McpClient agents with `_meta` be auto-registered in the agents table? Or kept separate?\n\n\n### M3\n- petgraph overlay: when is the in-memory graph rebuilt? (On startup? On-demand? Background thread?)\n- Redb temporal index: exact compound key layout and range scan patterns\n- `corvia upgrade` migration: bulk insert strategy for large knowledge bases (batched? streamed?)\n- `corvia rebuild`: should it also rebuild petgraph + temporal indexes? (Yes — confirmed)\n",
+  "source_version": "docs/rfcs/milestone-revision-notes.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464393106Z",
+  "valid_from": "2026-03-31T13:20:59.464393106Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/milestone-revision-notes.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 652,
+    "end_line": 663,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

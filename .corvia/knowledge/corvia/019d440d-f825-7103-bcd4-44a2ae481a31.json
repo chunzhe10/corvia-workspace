@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-44a2ae481a31",
+  "content": "     Self {\n            models: Arc::new(RwLock::new(HashMap::new())),\n            embed_svc,\n            chat_svc,\n            gpu,\n            probe_state,\n            probe_config,\n            probe_handle: tokio::sync::Mutex::new(None),\n        }\n    }\nimpl ModelManager for ModelManagerService {\n    async fn health(\n        &self,\n        _req: Request<HealthRequest>,\n    ) -> Result<Response<HealthResponse>, Status> {\n        let models = self.models.read().await;\n        let probe = self.probe_state.read().await;\n        Ok(Response::new(HealthResponse {\n            healthy: true,\n            models_loaded: models.values().filter(|m| m.loaded).count() as u32,\n            ep_name: probe.ep_name.clone(),\n            ep_requested: probe.ep_requested.clone(),\n            fallback_used: probe.fallback_used,\n            baseline_us: probe.baseline_us,\n            last_probe_us: probe.last_probe_us,\n            drift_pct: probe.drift_pct,\n            probe_status: match probe.status {\n                crate::probe::ProbeStatus::Pending => \"pending\",\n                crate::probe::ProbeStatus::Healthy => \"healthy\",\n                crate::probe::ProbeStatus::Degraded => \"degraded\",\n                crate::probe::ProbeStatus::Failed => \"failed\",\n            }\n            .to_string(),\n            last_probe_at: probe\n                .last_probe_at\n                .map(|t| t.to_rfc3339())\n                .unwrap_or_default(),\n        }))\n    }\n\n    async fn list_models(\n        &self,\n        _req: Request<ListModelsRequest>,\n    ) -> Result<Response<ListModelsResponse>, Status> {\n        let models = self.models.read().await;\n        let statuses = models\n            .values()\n            .map(|m| ModelStatus {\n                name: m.name.clone(),\n                model_type: m.model_type.clone(),\n                loaded: m.loaded,\n                memory_bytes: 0,\n                device: m.device.clone(),\n                backend: m.backend.clone(),\n                kv_quant: m.kv_quant.clone(),\n                flash_attention: m.flash_attention,\n            })\n            .collect();",
+  "source_version": "crates/corvia-inference/src/model_manager.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429895459Z",
+  "valid_from": "2026-03-31T13:20:59.429895459Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/src/model_manager.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 83,
+    "end_line": 130,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

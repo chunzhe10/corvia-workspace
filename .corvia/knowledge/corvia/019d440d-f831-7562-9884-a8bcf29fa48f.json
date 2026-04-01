@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f831-7562-9884-a8bcf29fa48f",
+  "content": ".rrf]` config.\n    pub rrf_k: usize,\n    /// Per-memory-type channel strategies. Read from `[rag.pipeline.channels]`.\n    pub channels: corvia_common::config::ChannelsConfig,\n    /// Per-searcher timeout in milliseconds.\n    pub searcher_timeout_ms: u64,\n}\npub enum PipelineError {\n    /// Requested component name not found in registry.\n    UnknownComponent(String),\n    /// Factory failed to create the component.\n    FactoryError(String),\n}",
+  "source_version": "crates/corvia-kernel/src/pipeline/registry.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.441123830Z",
+  "valid_from": "2026-03-31T13:20:59.441123830Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/registry.rs",
+    "language": "rs",
+    "chunk_type": "enum_item",
+    "start_line": 36,
+    "end_line": 41,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

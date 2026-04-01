@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f838-7ec1-a413-ab194f099fcb",
+  "content": "    let json = std::fs::read_to_string(&path)\n        .map_err(|e| CorviaError::NotFound(format!(\"{}: {e}\", path.display())))?;\n    serde_json::from_str(&json)\n        .map_err(|e| CorviaError::Storage(format!(\"Failed to parse {}: {e}\", path.display())))\n}\npub fn read_scope(data_dir: &Path, scope_id: &str) -> Result<Vec<KnowledgeEntry>> {\n    validate_scope_id(scope_id)?;\n    let dir = scope_dir(data_dir, scope_id);\n    if !dir.exists() {\n        return Ok(Vec::new());\n    }\n    let mut entries = Vec::new();\n    for file in std::fs::read_dir(&dir)\n        .map_err(|e| CorviaError::Storage(format!(\"Failed to read dir: {e}\")))?\n    {\n        let file = file.map_err(|e| CorviaError::Storage(e.to_string()))?;\n        let path = file.path();\n        if path.extension().and_then(|e| e.to_str()) == Some(\"json\") {\n            let json = std::fs::read_to_string(&path).map_err(|e| {\n                CorviaError::Storage(format!(\"Failed to read {}: {e}\", path.display()))\n            })?;\n            if let Ok(entry) = serde_json::from_str::<KnowledgeEntry>(&json) {\n                entries.push(entry);\n            }\n        }\n    }\n    Ok(entries)\n}",
+  "source_version": "crates/corvia-kernel/src/knowledge_files.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.448014650Z",
+  "valid_from": "2026-03-31T13:20:59.448014650Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/knowledge_files.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 57,
+    "end_line": 79,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

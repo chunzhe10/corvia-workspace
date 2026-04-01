@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f829-7a43-a547-56db023469c1",
+  "content": ".join(\"corvia.toml\");\n        let mut config = CorviaConfig::default();\n        let toml_str = toml::to_string_pretty(&config).unwrap();\n        std::fs::write(&config_path, &toml_str).unwrap();\n\n        // First: set pipeline.searchers\n        config_set(\n            &config_path,\n            &mut config,\n            \"rag\",\n            \"pipeline.searchers\",\n            serde_json::json!([\"vector\"]),\n        )\n        .unwrap();\n\n        // Second: set pipeline.fusion in the same intermediate table\n        config_set(\n            &config_path,\n            &mut config,\n            \"rag\",\n            \"pipeline.fusion\",\n            serde_json::json!(\"rrf\"),\n        )\n        .unwrap();\n\n        // Verify both keys exist under the same nested pipeline table\n        let raw = std::fs::read_to_string(&config_path).unwrap();\n        let parsed: toml::Value = toml::from_str(&raw).unwrap();\n        let rag = parsed.get(\"rag\").expect(\"rag section missing\");\n        let pipeline = rag.get(\"pipeline\").expect(\"pipeline table missing\");\n\n        let searchers = pipeline.get(\"searchers\").expect(\"searchers key missing\");\n        assert!(searchers.is_array());\n        assert_eq!(searchers.as_array().unwrap().len(), 1);\n\n        let fusion = pipeline.get(\"fusion\").expect(\"fusion key missing\");\n        assert_eq!(fusion.as_str().unwrap(), \"rrf\");\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/ops.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.433139Z",
+  "valid_from": "2026-03-31T13:20:59.433139Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ops.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 1026,
+    "end_line": 1057,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

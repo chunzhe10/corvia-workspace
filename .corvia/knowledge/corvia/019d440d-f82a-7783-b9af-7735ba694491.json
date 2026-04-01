@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82a-7783-b9af-7735ba694491",
+  "content": "wrap();\n\n        let history = store.history(&e2_id).await.unwrap();\n        assert!(history.len() >= 1);\n        assert_eq!(history[0].id, e2_id);\n\n        store.delete_scope(\"test-temporal\").await.unwrap();\n        cleanup_test_db(\"history\").await;\n    }\nasync fn test_pg_temporal_evolution() {\n        let store = match connect_test_store(\"evolution\").await {\n            Ok(s) => s,\n            Err(_) => {\n                eprintln!(\"Skipping: PostgreSQL not available\");\n                return;\n            }\n        };\n\n        let before = chrono::Utc::now();\n        let e1 = KnowledgeEntry::new(\n            \"evolution test\".into(),\n            \"test-temporal\".into(),\n            \"v1\".into(),\n        )\n        .with_embedding(test_embedding(1.0, 0.0, 0.0));\n        store.insert(&e1).await.unwrap();\n        let after = chrono::Utc::now();\n\n        let results = store\n            .evolution(\"test-temporal\", before, after)\n            .await\n            .unwrap();\n        assert!(results.len() >= 1);\n\n        store.delete_scope(\"test-temporal\").await.unwrap();\n        cleanup_test_db(\"evolution\").await;\n    }",
+  "source_version": "crates/corvia-kernel/src/postgres_store.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.434544001Z",
+  "valid_from": "2026-03-31T13:20:59.434544001Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/postgres_store.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1168,
+    "end_line": 1195,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9ddd82f32c53",
+  "content": "### Agent Identity Standards Landscape (2026-03-01)\n\n### Demo Alignment Check (2026-03-01)\n- Demo design (self-ingest + search REPL) aligns with Levels 0-3 vision\n- M1.2 improves demo by removing Docker provisioning entirely\n- Future demo (M3+): show Corvia detecting patterns in its own code\n\n---\n\n*Created: 2026-03-01*\n*Updated: 2026-03-01 (full M2-M7 revision, D43, D44, D45 8-part design with observability contract, research notes)*\n*Next: Formalize into brainstorm doc when ready to implement each milestone*",
+  "source_version": "docs/rfcs/milestone-revision-notes.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464423029Z",
+  "valid_from": "2026-03-31T13:20:59.464423029Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/milestone-revision-notes.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 731,
+    "end_line": 740,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

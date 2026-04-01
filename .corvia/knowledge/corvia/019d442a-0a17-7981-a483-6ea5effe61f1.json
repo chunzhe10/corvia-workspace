@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a17-7981-a483-6ea5effe61f1",
+  "content": "## Task 10: Unit tests for `IndexCoverageCache`\n\n            let id = uuid::Uuid::new_v4();\n            std::fs::write(dir.join(format!(\"{id}.json\")), format!(r#\"{{\"dummy\":{i}}}\"#)).unwrap();\n        }\n    }\n}\n```\n\n| Test | Setup | Assert |\n|------|-------|--------|\n| `test_fresh_workspace_no_files` | empty tempdir, no knowledge dir | coverage=None, stale=None, all counts=0 |\n| `test_knowledge_dir_missing` | tempdir exists but no `knowledge/` subdir | coverage=None, stale=None, disk_count=0 |\n| `test_full_coverage` | 10 JSON files + 10 entries inserted into store | coverage=1.0, stale=false |\n| `test_partial_coverage` | 10 JSON files + 7 entries inserted | coverage=0.7, stale=true (threshold 0.9) |\n| `test_threshold_boundary_exact` | coverage exactly == threshold | stale=false (< not <=) |\n| `test_threshold_boundary_below` | coverage = threshold - 0.01 | stale=true |\n| `test_hnsw_gt_disk_orphaned` | 5 JSON files + 10 entries | coverage=1.0 (clamped), stale=false |\n| `test_ttl_returns_cached` | compute, immediately call again | second call returns same checked_at |\n| `test_ttl_expired_recomputes` | compute with ttl=0s (use 5s min), wait, call again | different checked_at |\n| `test_invalid_json_in_dir` | 10 valid + 2 non-JSON .txt files | disk_count=10 (only .json counted) |\n| `test_read_dir_permission_error` | create dir, chmod 000 (if running as non-root) | disk_count=0, no panic |\n| `test_count_json_files_empty_dir` | create empty scope dir | disk_count=0 |\n| `test_concurrent_access` | spawn 10 tasks calling get() concurrently | no panic, no deadlock |\n\n- [ ] All 13 unit tests implemented and passing\n\n---\n",
+  "source_version": "plans/2026-03-26-index-coverage-plan.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.031261880Z",
+  "valid_from": "2026-03-31T13:51:39.031261880Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "plans/2026-03-26-index-coverage-plan.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 590,
+    "end_line": 616,
+    "content_role": "plan",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-549387522f0e",
+  "content": "# Inference Config & KV Cache Quantization Design\n\n## Problem\n\ncorvia-inference supports runtime GPU/CPU switching via `ReloadModels` RPC, but three gaps remain:\n\n1. **KV cache quantization**: llama.cpp supports Q8/Q4 KV cache quantization and flash attention, which reduce VRAM usage by 50-75% with minimal quality loss. These are not wired into corvia-inference.\n2. **Config drift**: Runtime changes via CLI/gRPC are ephemeral — they don't persist to `corvia.toml`, so the next server start reverts to old settings.\n3. **Config location**: `device` and `backend` fields live in `[embedding]`, but they control both embedding and chat model hardware. This is misleading.\n\n\n## Design\n",
+  "source_version": "docs/rfcs/2026-03-12-inference-kv-cache-config-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451280003Z",
+  "valid_from": "2026-03-31T13:20:59.451280003Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-12-inference-kv-cache-config-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 7,
+    "end_line": 16,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-c7290f824e8f",
+  "content": "## D5: petgraph In-Memory Graph + Redb Persistence\n\n## D6: Separate Inference Server (corvia-inference, gRPC)\n\n**Original rationale**: Decouple embedding from the main server. GPU resource isolation.\n\n**Pros:**\n- GPU memory isolated from server process — no OOM killing the API\n- Can run on a different machine (edge compute, GPU server)\n- gRPC is efficient for batch operations\n- Supports multiple backends (CUDA, OpenVINO, CPU) independently\n\n**Cons:**\n- **Operational complexity**: Two processes to manage instead of one\n- **Latency overhead**: gRPC call adds ~2-5ms per embedding (network + serialization)\n- **Single point of failure**: If inference server dies, all search/write operations fail\n- **Deployment friction**: Users must run both `corvia serve` and `corvia-inference`\n- **Dev experience**: `corvia-dev` orchestrates both, but adds complexity\n\n**Challenge: For local dev, is the separation worth it?** The 2-5ms overhead is significant when embedding latency is only 22ms. That's a 10-20% tax for process isolation.\n\n**Verdict: KEEP for now.** The GPU isolation benefit is real (server doesn't crash when inference OOMs). But consider an in-process embedding mode for single-user local dev where gRPC overhead matters.\n\n---\n",
+  "source_version": "decisions/2026-03-19-architecture-challenge.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025103415Z",
+  "valid_from": "2026-03-31T13:51:39.025103415Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-19-architecture-challenge.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 123,
+    "end_line": 145,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

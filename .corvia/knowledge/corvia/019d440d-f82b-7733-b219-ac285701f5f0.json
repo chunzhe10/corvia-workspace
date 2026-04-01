@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82b-7733-b219-ac285701f5f0",
+  "content": "urn Some(a);\n        }\n\n    // 3. Config default\n    if let Some(name) = default_adapter\n        && let Some(a) = find_by_name(discovered, name) {\n            return Some(a);\n        }\n\n    // 4. Fall back to \"basic\"\n    find_by_name(discovered, \"basic\")\n}\npub fn find_by_name<'a>(discovered: &'a [DiscoveredAdapter], name: &str) -> Option<&'a DiscoveredAdapter> {\n    discovered.iter().find(|a| a.metadata.name == name)\n}",
+  "source_version": "crates/corvia-kernel/src/adapter_discovery.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.435803635Z",
+  "valid_from": "2026-03-31T13:20:59.435803635Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/adapter_discovery.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 99,
+    "end_line": 101,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

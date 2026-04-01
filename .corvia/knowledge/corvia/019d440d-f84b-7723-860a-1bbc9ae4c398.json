@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84b-7723-860a-1bbc9ae4c398",
+  "content": "### Workspace crates\n### Design principles\n\n## Roadmap\n\n- [x] **M1** — Core kernel + three-tier storage + embedding pipeline\n- [x] **M2** — Multi-agent coordination, staging, merge worker, crash recovery\n- [x] **M3** — Temporal queries, knowledge graph, automated reasoning\n- [x] **M3.1** — gRPC inference server (ONNX Runtime + candle)\n- [x] **M3.2** — RAG pipeline (Retriever → Augmenter → GenerationEngine)\n- [x] **M3.3** — Chunking strategies (AST, Markdown, Config, PDF)\n- [x] **M3.4** — Graph edge improvements + cross-file relation discovery\n- [x] **M4** — Observability + control plane (structured tracing, 18 MCP tools, CLI metrics)\n- [x] **M4.2** — Standalone dashboard (semantic clustering, activity feed, agent identity, knowledge browser)\n- [x] **M4.3** — GPU-accelerated inference (OpenVINO/CUDA), docs workflow enforcement\n- [ ] **M5** — VS Code extension + Python SDK\n- [x] **M6** — Eval framework (`corvia bench`: NDCG 0.656, MRR 0.608, Precision@5 49.6%)\n- [ ] **M7** — 1.0 + PyPI publish\n\n\n## Contributing\n\ncorvia is pre-release software built by a solo developer (625+ tests, zero-warning build).\nThe adapter system, trait-based storage, and modular kernel all provide clean extension points.\n\n**Most valuable right now:**\n\n- **Try it** — ingest your codebase, run `corvia reason`, tell me what breaks\n- **Use cases** — how could organizational memory improve your AI workflow?\n- **Issues** — bug reports and feature requests help prioritize the roadmap\n- **Adapters** — the `IngestionAdapter` trait lets you bring new domains (docs, wikis, APIs)\n\nPre-1.0 APIs may change. Open an issue before contributing code so we can discuss the approach.\n",
+  "source_version": "README.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.467438469Z",
+  "valid_from": "2026-03-31T13:20:59.467438469Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "README.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 273,
+    "end_line": 302,
+    "content_role": "instruction",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "procedural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

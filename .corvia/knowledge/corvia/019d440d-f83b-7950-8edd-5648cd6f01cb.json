@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-5648cd6f01cb",
+  "content": "### Page 1 — Cover\n### Page 2 — Logo\n\n### Page 3 — Color Palette\n- Navy `#0f1b33` — swatch + hex + RGB + usage\n- Gold `#D4A832` — swatch + hex + RGB + usage (light mode accent)\n- Bright Gold `#E8C44E` — swatch + hex + RGB + usage (dark mode accent)\n- White `#ffffff` — text on dark backgrounds\n- Light Gray `#f5f5f7` — page/card backgrounds\n- Mid Gray `#86868b` — secondary text, captions\n- Dark Surface `#0d1117` — GitHub dark mode reference\n\n\n### Page 4 — Typography\n- Poppins 700 — brand name, headlines (Google Fonts)\n- Inter 400/500/700 — body text, UI, documentation (Google Fonts)\n- System monospace — code blocks\n- Sizing scale: 48px (hero) / 32px (h1) / 24px (h2) / 16px (body) / 14px (caption)\n- Letter spacing: -2px for brand, -0.5px for headings, normal for body\n",
+  "source_version": "docs/rfcs/2026-03-02-brand-guideline-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451479260Z",
+  "valid_from": "2026-03-31T13:20:59.451479260Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-brand-guideline-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 42,
+    "end_line": 57,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

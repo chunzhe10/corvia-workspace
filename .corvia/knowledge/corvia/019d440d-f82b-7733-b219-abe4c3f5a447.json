@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82b-7733-b219-abe4c3f5a447",
+  "content": "edContentRole.as_str(), \"unmapped_content_role\");\n        assert_eq!(\"unmapped_content_role\".parse::<CheckType>().unwrap(), CheckType::UnmappedContentRole);\n        assert_eq!(\"unmapped\".parse::<CheckType>().unwrap(), CheckType::UnmappedContentRole);\n    }\nasync fn test_reasoner_unmapped_content_role_via_run_check() {\n        let (_dir, store) = test_store().await;\n\n        let mut e = entry(\"exotic entry\", \"test\");\n        e.metadata.content_role = Some(\"banana\".into());\n        store.insert(&e).await.unwrap();\n\n        let reasoner = Reasoner::new(&store, &store);\n        let findings = reasoner.run_check(&[e], \"test\", CheckType::UnmappedContentRole).await.unwrap();\n        assert_eq!(findings.len(), 1);\n        assert_eq!(findings[0].check_type, CheckType::UnmappedContentRole);\n    }",
+  "source_version": "crates/corvia-kernel/src/reasoner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.435774711Z",
+  "valid_from": "2026-03-31T13:20:59.435774711Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/reasoner.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1608,
+    "end_line": 1619,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

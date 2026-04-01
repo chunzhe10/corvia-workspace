@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f830-7a51-9391-48af7a537518",
+  "content": "   fn needs_embedding(&self) -> bool {\n            false\n        }\n        async fn search(\n            &self,\n            _ctx: &SearchContext,\n        ) -> Result<crate::pipeline::RankedSet> {\n            panic!(\"intentional test panic\");\n        }\n    }\nfn name(&self) -> &str {\n            \"panic\"\n        }\nfn needs_embedding(&self) -> bool {\n            false\n        }",
+  "source_version": "crates/corvia-kernel/src/pipeline/core.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.440526175Z",
+  "valid_from": "2026-03-31T13:20:59.440526175Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/core.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 904,
+    "end_line": 909,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

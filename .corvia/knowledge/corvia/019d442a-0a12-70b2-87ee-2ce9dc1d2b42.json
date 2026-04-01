@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-2ce9dc1d2b42",
+  "content": "## What This Looks Like\n\n│  │                      │  │                      │      │\n│  │ Topics: search, bm25 │  │ Topics: graph, viz   │      │\n│  │ Entries: 12          │  │ Entries: 7           │      │\n│  │ ▼ Sessions           │  │ ▼ Sessions           │      │\n│  └─────────────────────┘  └─────────────────────┘      │\n│                                                         │\n│  ┌─────────────────────┐  ┌─────────────────────┐      │\n│  │ spoke-61       spoke │  │ claude-code          │      │\n│  │ ● Active             │  │ ● Active             │      │\n│  │ Issue:  #61          │  │ (interactive session) │      │\n│  │ Branch: feat/61-auth │  │ Topics: design, spoke│      │\n│  │ Container: healthy   │  │ Entries: 45          │      │\n│  │ Up 20 minutes        │  │                      │      │\n│  └─────────────────────┘  └─────────────────────┘      │\n│                                                         │\n└─────────────────────────────────────────────────────────┘\n```\n\n---\n",
+  "source_version": "decisions/2026-03-28-spoke-dashboard-design.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026267343Z",
+  "valid_from": "2026-03-31T13:51:39.026267343Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-dashboard-design.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 433,
+    "end_line": 452,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

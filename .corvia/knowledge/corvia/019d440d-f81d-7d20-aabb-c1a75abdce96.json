@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81d-7d20-aabb-c1a75abdce96",
+  "content": "us.contains(\"unhealthy\") {\n        \"healthy\".to_string()\n    } else if status.contains(\"unhealthy\") {\n        \"unhealthy\".to_string()\n    } else if status.contains(\"starting\") {\n        \"starting\".to_string()\n    } else {\n        \"none\".to_string()\n    }\n}\nfn container_to_spoke(c: &DockerContainer) -> DashboardSpokeInfo {\n    DashboardSpokeInfo {\n        name: c.names.first()\n            .map(|n| n.trim_start_matches('/').to_string())\n            .unwrap_or_default(),\n        agent_id: c.labels.get(\"corvia.agent_id\").cloned().unwrap_or_default(),\n        repo: c.labels.get(\"corvia.repo\").cloned().unwrap_or_default(),\n        branch: c.labels.get(\"corvia.branch\").cloned().unwrap_or_default(),\n        issue: c.labels.get(\"corvia.issue\").cloned().unwrap_or_default(),\n        container_state: c.state.to_lowercase(),\n        container_status: c.status.clone(),\n        created: c.created,\n        health: extract_health(&c.status),\n        repo_url: c.labels.get(\"corvia.repo_url\").cloned(),\n        cpu_percent: None,\n        memory_bytes: None,\n        memory_limit: None,\n    }\n}",
+  "source_version": "crates/corvia-server/src/dashboard/spokes.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.421644260Z",
+  "valid_from": "2026-03-31T13:20:59.421644260Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/spokes.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 69,
+    "end_line": 87,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

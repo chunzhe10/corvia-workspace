@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82a-7783-b9af-744b5ee459f3",
+  "content": "crate::traits::QueryableStore::get(self, &neighbor).await? {\n                        results.push(entry);\n                    }\n                    queue.push_back((neighbor, depth + 1));\n                }\n            }\n        }\n\n        Ok(results)\n    }\nasync fn shortest_path(\n        &self,\n        from: &Uuid,\n        to: &Uuid,\n    ) -> Result<Option<Vec<KnowledgeEntry>>> {\n        // BFS from source to target (directed, outgoing edges)\n        let mut visited = std::collections::HashSet::new();\n        let mut queue = std::collections::VecDeque::new();\n        let mut parent: std::collections::HashMap<Uuid, Uuid> =\n            std::collections::HashMap::new();\n\n        visited.insert(*from);\n        queue.push_back(*from);\n\n        let mut found = false;\n\n        while let Some(current) = queue.pop_front() {\n            if current == *to {\n                found = true;\n                break;\n            }\n\n            let current_edges =\n                crate::traits::GraphStore::edges(self, &current, EdgeDirection::Outgoing).await?;\n\n            for edge in current_edges {\n                if visited.insert(edge.to) {\n                    parent.insert(edge.to, current);\n                    queue.push_back(edge.to);\n                }\n            }\n        }\n\n        if !found {\n            return Ok(None);\n        }\n\n        // Reconstruct path from `to` back to `from`\n        let mut path_ids = Vec::new();\n        let mut current = *to;\n        path_ids.push(current);\n        while current != *from {\n            match parent.get(&current) {\n                Some(&p) => {\n                    path_ids.push(p);\n                    current = p;\n                }\n                None => return Ok(None),\n            }\n        }\n        path_ids.reverse();\n\n        let mut entries = Vec::new();\n        for id in path_ids {\n            if let Some(entry) = crate::traits::QueryableStore::get(self, &id).await? {\n                entries.push(entry);\n            }\n        }\n\n        Ok(Some(entries))\n    }",
+  "source_version": "crates/corvia-kernel/src/postgres_store.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.434055984Z",
+  "valid_from": "2026-03-31T13:20:59.434055984Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/postgres_store.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 775,
+    "end_line": 835,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

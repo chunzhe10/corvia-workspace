@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f833-7c00-aaaa-aac2235bafb2",
+  "content": "impl MarkdownChunker {\n    /// Create a new `MarkdownChunker`.\n    pub fn new() -> Self {\n        Self\n    }\n\n    /// Return the heading depth of a line, or `None` if it is not a heading.\n    ///\n    /// `# Title` returns `Some(1)`, `## Section` returns `Some(2)`, etc.\n    fn heading_depth(line: &str) -> Option<usize> {\n        let trimmed = line.trim_start();\n        if !trimmed.starts_with('#') {\n            return None;\n        }\n        let hashes = trimmed.bytes().take_while(|&b| b == b'#').count();\n        // A heading requires a space after the hashes (e.g. \"# Title\"),\n        // or the line is exactly \"#\" characters (edge case we ignore).\n        let rest = &trimmed[hashes..];\n        if rest.is_empty() || rest.starts_with(' ') {\n            Some(hashes)\n        } else {\n            None\n        }\n    }\n\n    /// Check whether a code-span symbol is a meaningful CamelCase identifier\n    /// worth creating a cross-reference relation for.\n    fn is_meaningful_symbol(text: &str) -> bool {\n        if text.len() < 3 {\n            return false;\n        }\n        // Must start with an uppercase letter.\n        let first = text.chars().next().unwrap();\n        if !first.is_ascii_uppercase() {\n            return false;\n        }\n        // Must consist only of valid identifier chars (alphanumeric + underscore).\n        if !text.chars().all(|c| c.is_alphanumeric() || c == '_') {\n            return false;\n        }\n        // Skip common / standard-library types and traits.\n        const SKIP: &[&str] = &[\n            \"String\", \"Vec\", \"HashMap\", \"HashSet\", \"BTreeMap\", \"BTreeSet\",\n            \"Option\", \"Result\", \"Box\", \"Arc\", \"Mutex\", \"RwLock\", \"Rc\", \"Cell\",\n            \"RefCell\", \"Pin\", \"Future\", \"Stream\", \"Iterator\", \"Display\", \"Debug\",\n            \"Clone\", \"Copy\", \"Send\", \"Sync\", \"Default\", \"From\", \"Into\",\n            \"TryFrom\", \"TryInto\", \"AsRef\", \"AsMut\", \"Deref\", \"DerefMut\", \"Drop\",",
+  "source_version": "crates/corvia-kernel/src/chunking_markdown.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.443507557Z",
+  "valid_from": "2026-03-31T13:20:59.443507557Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_markdown.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 27,
+    "end_line": 73,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83d-7542-8fa8-a029695d0ed8",
+  "content": "_extract_code_span_references() {\n    let source = \"# Storage\\n\\nThe `QueryableStore` trait defines the interface.\\n\";\n    let meta = SourceMetadata {\n        file_path: \"docs/storage.md\".into(),\n        extension: \"md\".into(),\n        ..Default::default()\n    };\n    let chunker = MarkdownChunker::new();\n    let result = chunker.chunk(source, &meta).unwrap();\n    assert!(!result.relations.is_empty(), \"Should extract QueryableStore reference\");\n    let rel = &result.relations[0];\n    assert_eq!(rel.relation, \"references\");\n    assert_eq!(rel.to_name, Some(\"QueryableStore\".to_string()));\n}\n\n#[test]\nfn test_extract_link_references() {\n    let source = \"# Traits\\n\\nSee [the traits file](src/traits.rs) for details.\\n\";\n    let meta = SourceMetadata {\n        file_path: \"docs/overview.md\".into(),\n        extension: \"md\".into(),\n        ..Default::default()\n    };\n    let chunker = MarkdownChunker::new();\n    let result = chunker.chunk(source, &meta).unwrap();\n    let file_refs: Vec<_> = result.relations.iter().filter(|r| !r.to_file.is_empty()).collect();\n    assert!(!file_refs.is_empty(), \"Should extract file path reference\");\n    assert!(file_refs[0].to_file.contains(\"traits.rs\"));\n}\n\n#[test]\nfn test_skip_common_types() {\n    let source = \"# Types\\n\\nUse `String` and `Vec` for collections. Use `QueryableStore` for storage.\\n\";\n    let meta = SourceMetadata {\n        file_path: \"docs/types.md\".into(),\n        extension: \"md\".into(),\n        ..Default::default()\n    };\n    let chunker = MarkdownChunker::new();\n    let result = chunker.chunk(source, &meta).unwrap();",
+  "source_version": "docs/rfcs/2026-03-04-m3.4-graph-edge-improvements-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.453572311Z",
+  "valid_from": "2026-03-31T13:20:59.453572311Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-04-m3.4-graph-edge-improvements-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 932,
+    "end_line": 965,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

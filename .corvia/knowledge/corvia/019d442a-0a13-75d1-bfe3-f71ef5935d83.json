@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a13-75d1-bfe3-f71ef5935d83",
+  "content": ",\n          \"heightBudget\": 140,\n          \"maxLines\": 2\n        },\n        {\n          \"element\": \"subtitle\",\n          \"font\": \"subtitle (28px)\",\n          \"heightBudget\": 90,\n          \"maxLines\": 2\n        },\n        {\n          \"element\": \"card-grid\",\n          \"heightBudget\": 340,\n          \"layout\": \"2x2 grid, gap 20px\"\n        },\n        {\n          \"element\": \"quote-card\",\n          \"heightBudget\": 100,\n          \"optional\": true\n        },\n        {\n          \"element\": \"stat-row\",\n          \"heightBudget\": 120,\n          \"layout\": \"grid 3 columns\",\n          \"optional\": true\n        }\n      ]\n    },\n    \"comparison\": {\n      \"description\": \"Side-by-side broken vs correct. Show the problem visually.\",\n      \"rules\": [\n        \"Left side: red border, cross emoji label, shows the broken version\",\n        \"Right side: green border, check emoji label, shows the correct version\",\n        \"Mock labels use mock-label class (16px uppercase)\",\n        \"Keep mockup content simple — just enough to show the problem\",\n        \"Max 2 comparison pairs per slide. If more, split into multiple slides\",\n        \"Flex children MUST have min-width: 0 to prevent overflow\",\n        \"Insight box at bottom ties the comparison together\"\n      ],\n      \"structure\": [\n        {\n          \"element\": \"slide-label\"\n        },\n        {\n          \"element\": \"title\",\n          \"font\": \"slideTitle (58px)\",\n          \"heightBudget\": 140,\n          \"maxLines\": 2",
+  "source_version": "marketing/design-system.json",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.027707346Z",
+  "valid_from": "2026-03-31T13:51:39.027707346Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/design-system.json",
+    "language": null,
+    "chunk_type": "section",
+    "start_line": 265,
+    "end_line": 300,
+    "content_role": "code",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

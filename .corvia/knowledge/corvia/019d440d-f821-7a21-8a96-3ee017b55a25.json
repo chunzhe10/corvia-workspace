@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f821-7a21-8a96-3ee017b55a25",
+  "content": "pub fn with_auto_classify(mut self) -> Self {\n        self.auto_classify();\n        self\n    }\npub fn record_access(&mut self) {\n        self.access_count = self.access_count.saturating_add(1);\n        self.last_accessed = Some(Utc::now());\n    }",
+  "source_version": "crates/corvia-common/src/types.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.425343323Z",
+  "valid_from": "2026-03-31T13:20:59.425343323Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/types.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 298,
+    "end_line": 301,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

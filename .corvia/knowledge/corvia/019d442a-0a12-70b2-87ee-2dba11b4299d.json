@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-2dba11b4299d",
+  "content": "# After clone, before starting Claude Code:\n        # Report failure to corvia (best-effort, may fail if MCP unreachable)\n\n### I1: GITHUB_TOKEN Validation (SWE, QA, DevOps)\n\n**Fix:** Validate at creation time. Warn, don't block (some workflows are read-only).\n\n```rust\nlet github_token = std::env::var(\"GITHUB_TOKEN\").unwrap_or_default();\nif github_token.is_empty() {\n    eprintln!(\"Warning: GITHUB_TOKEN not set. Spoke will not be able to push or create PRs.\");\n    eprintln!(\"  Set GITHUB_TOKEN in your environment or pass --no-github to suppress.\");\n    if !no_github {\n        return Err(CorviaError::Config(\n            \"GITHUB_TOKEN required for spoke operations. Use --no-github to skip.\".into()\n        ));\n    }\n}\n```\n\n---\n\n\n### I2: Resource Limits (PM, QA, DevOps)\n\n**Fix:** Default limits in SpokeConfig, override via CLI.\n\n```rust\n#[derive(Debug, Deserialize, Serialize, Clone)]\npub struct SpokeConfig {\n    pub image: Option<String>,\n    pub network: Option<String>,\n    pub auth_mode: Option<SpokeAuthMode>,\n    #[serde(default = \"default_memory_limit\")]\n    pub memory_limit: String,        // \"4g\"\n    #[serde(default = \"default_cpu_shares\")]\n    pub cpu_shares: u32,             // 512\n}\n\nfn default_memory_limit() -> String { \"4g\".into() }\nfn default_cpu_shares() -> u32 { 512 }\n```\n\nApplied to container HostConfig:\n```rust\nhost_config: Some(HostConfig {\n    memory: Some(parse_memory_limit(&spoke_config.memory_limit)),\n    cpu_shares: Some(spoke_config.cpu_shares as i64),\n    // Log rotation\n    log_config: Some(LogConfig {\n        typ: Some(\"json-file\".into()),\n        config: Some(HashMap::from([\n            (\"max-size\".into(), \"50m\".into()),\n            (\"max-file\".into(), \"3\".into()),\n        ])),\n    }),\n    ..Default::default()\n}),\n```\n\nCLI override: `--memory 8g --cpus 2`\n\nDocument recommended limits:\n```\n8GB host:  2 spokes (4GB each)\n16GB host: 4 spokes (4GB each)\n32GB host: 8 spokes (4GB each)\n```\n\n---\n",
+  "source_version": "decisions/2026-03-28-spoke-design-review-fixes.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026376837Z",
+  "valid_from": "2026-03-31T13:51:39.026376837Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-design-review-fixes.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 326,
+    "end_line": 392,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

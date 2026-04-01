@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f824-7280-b2ba-a941aa7ac57e",
+  "content": "          \"doc-placement\" => Ok(Self::DocPlacement),\n            \"corvia-first-reminder\" => Ok(Self::CorviaFirstReminder),\n            \"write-reminder\" => Ok(Self::WriteReminder),\n            _ => anyhow::bail!(\"Unknown hook handler: {s}\"),\n        }\n    }\npub fn run_hook_from_args(event_str: &str, handler_str: Option<&str>) -> Result<()> {\n    // Emergency bypass: CORVIA_HOOKS_DISABLED=1 skips all hooks.\n    // Use this when hooks are broken and blocking Claude Code.\n    if std::env::var(\"CORVIA_HOOKS_DISABLED\").map(|v| v == \"1\").unwrap_or(false) {\n        return Ok(());\n    }\n\n    let start = std::time::Instant::now();\n    let event: HookEvent = event_str.parse()?;\n    let handler: Option<HookHandler> = handler_str.map(|s| s.parse()).transpose()?;\n\n    hook_debug!(\"event={event_str} handler={:?}\", handler_str);\n\n    // Read stdin JSON (Claude Code hook protocol), limited to 10MB\n    let mut input = String::new();\n    std::io::stdin().take(10 * 1024 * 1024).read_to_string(&mut input)?;\n    let stdin: serde_json::Value = match serde_json::from_str(&input) {\n        Ok(v) => v,\n        Err(e) => {\n            if !input.trim().is_empty() {\n                eprintln!(\"Warning: hook received invalid JSON on stdin: {e}\");\n            }\n            serde_json::Value::default()\n        }\n    };\n\n    // Extract session_id from stdin (NOT from shared file)\n    let session_id = stdin.get(\"session_id\")\n        .and_then(|v| v.as_str())\n        .unwrap_or(\"\")\n        .to_string();\n\n    // Load config (best-effort — use defaults if corvia.toml missing)",
+  "source_version": "crates/corvia-cli/src/hooks/mod.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.428365310Z",
+  "valid_from": "2026-03-31T13:20:59.428365310Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/mod.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 95,
+    "end_line": 127,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

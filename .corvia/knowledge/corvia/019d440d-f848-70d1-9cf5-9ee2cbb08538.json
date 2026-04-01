@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9ee2cbb08538",
+  "content": "-kernel chunking_strategy`\nExpected: PASS (7 tests)\n\n**Step 4: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/chunking_strategy.rs crates/corvia-kernel/src/lib.rs\ngit commit -m \"feat(kernel): add ChunkingStrategy trait + chunking types (D65)\"\n```\n\n---\n\n### Task F4: RAG Types\n\n**Files:**\n- Create: `crates/corvia-kernel/src/rag_types.rs`\n- Modify: `crates/corvia-kernel/src/lib.rs` (add module)\n\n**Unblocks:** M3.2 (all RAG pipeline tasks)\n\nFollow Task 1 from `docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md` exactly.\nThat plan defines `RetrievalOpts`, `TokenBudget`, `RetrievalResult`, `RetrievalMetrics`,\n`AugmentedContext`, `AugmentationMetrics`, `GenerationMetrics`, `PipelineTrace`,\n`RagResponse`, and `RagConfig`.\n\n**Step 1: Implement per M3.2 Task 1**\n\nCreate the file as specified in the M3.2 impl plan.\n\n**Step 2: Run tests**\n\nRun: `cargo test -p corvia-kernel rag_types`\nExpected: PASS\n\n**Step 3: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/rag_types.rs crates/corvia-kernel/src/lib.rs\ngit commit -m \"feat(kernel): add RAG pipeline types (D61)\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464592934Z",
+  "valid_from": "2026-03-31T13:20:59.464592934Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 584,
+    "end_line": 614,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

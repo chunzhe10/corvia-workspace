@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f823-7d80-90e7-31df31dfdba0",
+  "content": "nel::ingest::WorkspaceIngestCtx {\n        root,\n        config: &config,\n        store,\n        graph,\n        engine,\n        repo_filter,\n        session_lock: None, // no session lock in CLI mode\n        progress: &progress,\n    }).await?;\n\n    Ok(())\n}\npub fn clean_build_artifacts(root: &Path) -> Result<CleanReport> {\n    let config_path = root.join(\"corvia.toml\");\n    let config = CorviaConfig::load(&config_path)?;\n    let ws = config\n        .workspace\n        .as_ref()\n        .ok_or_else(|| anyhow::anyhow!(\"Not a workspace — no [workspace] section in corvia.toml\"))?;\n\n    let mut report = CleanReport::default();\n\n    for repo in &ws.repos {\n        let repo_path = resolve_repo_path(root, &ws.repos_dir, repo);\n        let target_dir = repo_path.join(\"target\");\n        if !target_dir.exists() {\n            continue;\n        }\n\n        let size = dir_size(&target_dir);\n        println!(\n            \"  Cleaning {}/target/ ({})...\",\n            repo.name,\n            human_bytes(size)\n        );\n\n        match std::fs::remove_dir_all(&target_dir) {\n            Ok(()) => {\n                report.dirs_cleaned += 1;\n                report.bytes_freed += size;\n            }\n            Err(e) => {\n                println!(\"    Warning: failed to remove {}: {}\", target_dir.display(), e);\n            }\n        }\n    }\n\n    Ok(report)\n}",
+  "source_version": "crates/corvia-cli/src/workspace.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.427797360Z",
+  "valid_from": "2026-03-31T13:20:59.427797360Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/workspace.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 411,
+    "end_line": 447,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f837-7c71-ac7d-05bcee2fd301",
+  "content": "t b = make_entry(Tier::Cold, MemoryType::Episodic);\n        b.superseded_by = Some(c.id);\n        let mut a = make_entry(Tier::Cold, MemoryType::Episodic);\n        a.superseded_by = Some(b.id);\n\n        let entries: Vec<&KnowledgeEntry> = vec![&a, &b, &c];\n        let protected = build_chain_protected_set(&entries);\n\n        assert!(!protected.contains(&a.id), \"A should NOT be protected (HEAD is Forgotten)\");\n        assert!(!protected.contains(&b.id), \"B should NOT be protected (HEAD is Forgotten)\");\n    }\n\n    #[test]\n    fn test_chain_protection_no_chain_no_protection() {\n        // Standalone entry (no supersession chain)\n        let entry = make_entry(Tier::Cold, MemoryType::Episodic);\n        let entries: Vec<&KnowledgeEntry> = vec![&entry];\n        let protected = build_chain_protected_set(&entries);\n\n        assert!(protected.is_empty());\n    }\n\n    // ── Integration: chain protection in GC cycle ─────────────────────────\n\n    #[tokio::test]\n    async fn test_gc_chain_protection_blocks_forgotten() {\n        let dir = tempfile::tempdir().unwrap();\n        let store = Arc::new(crate::lite_store::LiteStore::open(dir.path(), 768).unwrap());\n        store.init_schema().await.unwrap();\n\n        // Chain: A → B → C where C is Warm (active HEAD)\n        // A and B are Cold with very low scores — would be Forgotten without protection\n        let mut c = make_entry(Tier::Warm, MemoryType::Structural);\n        c.scope_id = \"test-scope\".into();\n        c.recorded_at = Utc::now();\n        c.embedding = Some(vec![0.1; 768]);\n        c.access_count = 50;\n        c.last_accessed = Some(Utc::now());\n        c.confidence = Some(0.9);",
+  "source_version": "crates/corvia-kernel/src/gc_worker.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.447493403Z",
+  "valid_from": "2026-03-31T13:20:59.447493403Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/gc_worker.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 1453,
+    "end_line": 1485,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

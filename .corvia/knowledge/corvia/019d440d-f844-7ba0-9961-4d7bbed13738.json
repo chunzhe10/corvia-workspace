@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-4d7bbed13738",
+  "content": "## Task 3: Spoke Dockerfile\n\n### Contents\n\n- Base: `node:22-bookworm`\n- System deps: git, curl, build-essential, gh CLI\n- Claude Code: pinned version via `ARG CLAUDE_CODE_VERSION`\n- Non-root user: `spoke` user for security\n- Health check: `pgrep -f \"claude\"`\n- Entrypoint: `spoke-entrypoint.sh`\n\n\n### Entrypoint Script\n\n**File:** `docker/spoke/spoke-entrypoint.sh`\n\n1. Copy credentials to user-owned location\n2. Clone repo (with retry, `--depth 100`)\n3. Create/checkout feature branch\n4. Write `.mcp.json` pointing to hub\n5. Health-check hub MCP connectivity (10 retries, 3s interval)\n6. Start Claude Code with dev-loop\n7. Error trap: report failures to corvia (best-effort)\n",
+  "source_version": "docs/rfcs/2026-03-28-multi-spoke-phase0-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460561101Z",
+  "valid_from": "2026-03-31T13:20:59.460561101Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-multi-spoke-phase0-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 102,
+    "end_line": 122,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

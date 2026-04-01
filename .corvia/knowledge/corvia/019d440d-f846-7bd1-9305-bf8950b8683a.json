@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-bf8950b8683a",
+  "content": "ipeline --nocapture`\nExpected: PASS\n\n**Step 5: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/lib.rs crates/corvia-kernel/src/rag_pipeline.rs\ngit commit -m \"feat(m3.2): create_rag_pipeline factory — auto-selects retriever from capabilities\"\n```\n\n---\n\n## Task 9: REST Endpoints — /v1/context and /v1/ask\n\nAdd RAG endpoints to the REST server and fix existing search to route through the pipeline.\n\n**Files:**\n- Modify: `crates/corvia-server/src/rest.rs`\n- Modify: `crates/corvia-server/Cargo.toml` (if needed for new deps)\n\n**Step 1: Add RagPipeline to AppState**\n\nIn `crates/corvia-server/src/rest.rs`, update `AppState`:\n\n```rust\npub struct AppState {\n    pub store: Arc<dyn QueryableStore>,\n    pub engine: Arc<dyn InferenceEngine>,\n    pub coordinator: Option<Arc<AgentCoordinator>>,\n    pub rag: Option<Arc<corvia_kernel::rag_pipeline::RagPipeline>>,\n}\n```\n\n**Step 2: Add request/response types**\n\nAdd after the existing DTO types:\n\n```rust\n#[derive(Deserialize)]\npub struct RagRequest {\n    pub query: String,\n    pub scope_id: String,\n    pub limit: Option<usize>,\n    pub expand_graph: Option<bool>,\n}\n\n#[derive(Serialize)]\npub struct RagResponseDto {\n    pub answer: Option<String>,\n    pub sources: Vec<SearchResultDto>,\n    pub trace: corvia_kernel::rag_types::PipelineTrace,",
+  "source_version": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462168514Z",
+  "valid_from": "2026-03-31T13:20:59.462168514Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1739,
+    "end_line": 1777,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-372824da0fcd",
+  "content": "## Task 7: Implement InferenceProvisioner\n\n    /// Check if the `corvia-inference` binary is installed.\n    pub fn is_installed() -> bool {\n        std::process::Command::new(\"corvia-inference\")\n            .arg(\"--version\")\n            .stdout(std::process::Stdio::null())\n            .stderr(std::process::Stdio::null())\n            .status()\n            .map(|s| s.success())\n            .unwrap_or(false)\n    }\n\n    fn endpoint_url(&self) -> String {\n        if self.grpc_addr.starts_with(\"http\") {\n            self.grpc_addr.clone()\n        } else {\n            format!(\"http://{}\", self.grpc_addr)\n        }\n    }\n\n    /// Check if the inference server is reachable via gRPC health.\n    pub async fn is_running(&self) -> bool {\n        let Ok(mut client) = ModelManagerClient::connect(self.endpoint_url()).await else {\n            return false;\n        };\n        client.health(tonic::Request::new(HealthRequest {}))\n            .await\n            .map(|r| r.into_inner().healthy)\n            .unwrap_or(false)\n    }\n\n    /// Start the inference server as a background process.\n    pub fn start(&self) -> Result<()> {\n        info!(\"Starting corvia-inference server...\");\n        let port = self.grpc_addr.split(':').last().unwrap_or(\"8030\");\n        std::process::Command::new(\"corvia-inference\")\n            .arg(\"serve\")\n            .arg(\"--port\")\n            .arg(port)\n            .stdout(std::process::Stdio::null())\n            .stderr(std::process::Stdio::null())\n            .spawn()\n            .map_err(|e| CorviaError::Infra(format!(\"Failed to start corvia-inference: {e}\")))?;\n        info!(\"corvia-inference server started\");",
+  "source_version": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458624241Z",
+  "valid_from": "2026-03-31T13:20:59.458624241Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 929,
+    "end_line": 971,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

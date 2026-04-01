@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82c-7720-a124-359c9fdf10ff",
+  "content": "lice())\n                .map_err(|e| CorviaError::Agent(format!(\"Failed to update queue entry: {e}\")))?;\n        }\n        write_txn.commit()\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to commit failed entry: {e}\")))?;\n        Ok(())\n    }\npub fn reset_retry(&self, entry_id: &Uuid) -> Result<bool> {\n        let key = entry_id.to_string();\n        let read_txn = self.db.begin_read()\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to begin read txn: {e}\")))?;\n        let table = read_txn.open_table(MERGE_QUEUE)\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to open merge_queue: {e}\")))?;\n\n        let val = match table.get(key.as_str())\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to get queue entry: {e}\")))? {\n            Some(v) => v,\n            None => return Ok(false),\n        };\n        let bytes: &[u8] = val.value();\n        let mut entry: MergeQueueEntry = serde_json::from_slice(bytes)\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to deserialize queue entry: {e}\")))?;\n\n        drop(val);\n        drop(table);\n        drop(read_txn);\n\n        entry.retry_count = 0;\n        entry.last_error = None;\n\n        let updated_bytes = serde_json::to_vec(&entry)\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to serialize queue entry: {e}\")))?;\n\n        let write_txn = self.db.begin_write()\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to begin write txn: {e}\")))?;\n        {\n            let mut table = write_txn.open_table(MERGE_QUEUE)\n                .map_err(|e| CorviaError::Agent(format!(\"Failed to open merge_queue: {e}\")))?;\n            table.insert(key.as_str(), updated_bytes.as_slice())\n                .map_err(|e| CorviaError::Agent(format!(\"Failed to update queue entry: {e}\")))?;\n        }\n        write_txn.commit()\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to commit retry reset: {e}\")))?;\n        Ok(true)\n    }",
+  "source_version": "crates/corvia-kernel/src/merge_queue.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.436811899Z",
+  "valid_from": "2026-03-31T13:20:59.436811899Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/merge_queue.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 142,
+    "end_line": 179,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

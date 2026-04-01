@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f837-7c71-ac7d-093570cf9348",
+  "content": "  (episodic.id, 0.03),    // highest of the three\n        ].into();\n        let inbound_edge_map = HashMap::new();\n        let transitioned_ids = HashSet::new();\n        let chain_protected_ids = HashSet::new();\n\n        let forgetting = ForgettingConfig {\n            enabled: true,\n            defaults: corvia_common::config::ForgettingPolicyConfig {\n                max_inactive_days: 90,\n                budget_top_n: 1, // only 1 active allowed, 3 present → 2 excess\n            },\n            ..Default::default()\n        };\n\n        let transitions = apply_budget_policy(\n            &scope_entries, &entry_map, &score_map, &inbound_edge_map,\n            &transitioned_ids, &chain_protected_ids,\n            &forgetting, None,\n        );\n\n        // Should get 2 demotions\n        assert_eq!(transitions.len(), 2, \"Expected 2 budget demotions, got {}\", transitions.len());\n\n        // All demotions should be to Warm (auto-protected Structural floor + one-step for Episodic)\n        for t in &transitions {\n            assert_eq!(t.new_tier, Tier::Warm,\n                \"Budget demotion should be to Warm (one step from Hot), got {:?}\", t.new_tier);\n        }\n    }",
+  "source_version": "crates/corvia-kernel/src/gc_worker.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.447944657Z",
+  "valid_from": "2026-03-31T13:20:59.447944657Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/gc_worker.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1831,
+    "end_line": 1853,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

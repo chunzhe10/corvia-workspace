@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82e-71f3-920f-91d3392e87d8",
+  "content": "::Agent(format!(\"Failed to begin write txn: {e}\")))?;\n        { let _ = write_txn.open_table(SESSIONS); }\n        write_txn.commit()\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to init sessions table: {e}\")))?;\n        Ok(Self { db })\n    }\npub fn create(&self, agent_id: &str, with_staging: bool) -> Result<SessionRecord> {\n        let full_uuid = uuid::Uuid::now_v7().to_string();\n        // Use last 8 chars (random portion) to avoid collisions from same-ms timestamps\n        let uuid_short = &full_uuid[full_uuid.len() - 8..];\n        let session_id = format!(\"{agent_id}/sess-{uuid_short}\");\n        let now = chrono::Utc::now();\n\n        let sanitized = sanitize_agent_id(agent_id);\n\n        let (git_branch, staging_dir) = if with_staging {\n            (\n                Some(format!(\"agents/{sanitized}/sess-{uuid_short}\")),\n                Some(format!(\".corvia/staging/{sanitized}/sess-{uuid_short}\")),\n            )\n        } else {\n            (None, None)\n        };\n\n        let record = SessionRecord {\n            session_id: session_id.clone(),\n            agent_id: agent_id.into(),\n            created_at: now,\n            last_heartbeat: now,\n            state: SessionState::Created,\n            git_branch,\n            staging_dir,\n            entries_written: 0,\n            entries_merged: 0,\n        };\n\n        self.put(&record)?;\n        info!(session_id = %session_id, agent_id, \"session_created\");\n        Ok(record)\n    }",
+  "source_version": "crates/corvia-kernel/src/session_manager.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.438441545Z",
+  "valid_from": "2026-03-31T13:20:59.438441545Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/session_manager.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 28,
+    "end_line": 61,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

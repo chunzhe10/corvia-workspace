@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-c3030fc0587b",
+  "content": "optional() {\n        let config = CorviaConfig::default();\n        assert!(config.adapters.is_none());\n        assert!(config.sources.is_none());\n    }\n\n    #[test]\n    fn test_adapters_config_roundtrip() {\n        let mut config = CorviaConfig::default();\n        config.adapters = Some(AdaptersConfig {\n            search_dirs: vec![\"~/adapters\".into()],\n            default: Some(\"basic\".into()),\n        });\n        config.sources = Some(vec![SourceConfig {\n            path: \"./repo\".into(),\n            adapter: Some(\"git\".into()),\n            adapter_config: None,\n        }]);\n\n        let toml_str = toml::to_string_pretty(&config).unwrap();\n        let loaded: CorviaConfig = toml::from_str(&toml_str).unwrap();\n        assert_eq!(loaded.adapters.unwrap().default, Some(\"basic\".into()));\n        assert_eq!(loaded.sources.unwrap().len(), 1);\n    }\n```\n\n**Step 5: Run tests**\n\n```bash\ncargo test -p corvia-common config -- --nocapture\n```\n\nExpected: all existing + 3 new tests pass.\n\n**Step 6: Commit**\n\n```bash\ngit add crates/corvia-common/src/config.rs\ngit commit -m \"feat: add [adapters] and [[sources]] config types (D76)\n\nOptional AdaptersConfig (search_dirs, default) and SourceConfig (path,\nadapter, adapter_config) for multi-adapter routing. Both optional —\nzero config needed for auto-detection.\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462770534Z",
+  "valid_from": "2026-03-31T13:20:59.462770534Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1395,
+    "end_line": 1432,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f838-7ec1-a413-ab0aa5f733fb",
+  "content": "n::to_string_pretty(entry)\n        .map_err(|e| CorviaError::Storage(format!(\"Failed to serialize entry: {e}\")))?;\n    std::fs::write(&path, json)\n        .map_err(|e| CorviaError::Storage(format!(\"Failed to write {}: {e}\", path.display())))?;\n    Ok(())\n}\npub fn read_entry(data_dir: &Path, scope_id: &str, entry_id: &Uuid) -> Result<KnowledgeEntry> {\n    validate_scope_id(scope_id)?;\n    let path = entry_path(data_dir, scope_id, entry_id);\n    let json = std::fs::read_to_string(&path)\n        .map_err(|e| CorviaError::NotFound(format!(\"{}: {e}\", path.display())))?;\n    serde_json::from_str(&json)\n        .map_err(|e| CorviaError::Storage(format!(\"Failed to parse {}: {e}\", path.display())))\n}",
+  "source_version": "crates/corvia-kernel/src/knowledge_files.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.448009388Z",
+  "valid_from": "2026-03-31T13:20:59.448009388Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/knowledge_files.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 47,
+    "end_line": 54,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

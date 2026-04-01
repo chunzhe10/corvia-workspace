@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-41200fad34bd",
+  "content": "        let stdin = serde_json::json!({\n            \"team_name\": \"../etc\",\n            \"teammate_name\": \"researcher\"\n        });\n\n        handle_teammate_idle_inner(&dirs, &stdin).unwrap();\n        assert!(!dirs.staging_root.join(\"../etc\").exists());\n    }\nfn t2_teammate_idle_rejects_path_traversal_teammate() {\n        let dir = TempDir::new().unwrap();\n        let dirs = test_dirs(dir.path());\n\n        let config = serde_json::json!({\"leadSessionId\": \"sess-123\"});\n        setup_team(&dirs, \"my-team\", &config, &[]);\n\n        let stdin = serde_json::json!({\n            \"team_name\": \"my-team\",\n            \"teammate_name\": \"../exploit\"\n        });\n\n        handle_teammate_idle_inner(&dirs, &stdin).unwrap();\n        // No inbox file should be created for invalid teammate name\n        let inboxes = dirs.staging_root.join(\"my-team/inboxes\");\n        assert!(!inboxes.exists() || fs::read_dir(&inboxes).unwrap().count() == 0);\n    }",
+  "source_version": "crates/corvia-cli/src/hooks/agent_teams.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429523236Z",
+  "valid_from": "2026-03-31T13:20:59.429523236Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/agent_teams.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 687,
+    "end_line": 703,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

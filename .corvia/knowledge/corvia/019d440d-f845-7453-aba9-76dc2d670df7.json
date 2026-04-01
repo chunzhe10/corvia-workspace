@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-76dc2d670df7",
+  "content": "### M3: \"Every conversation becomes documentation\"\n### M4: \"Corvia documents itself — here's the proof\"\n\n### M5a: \"How good are the docs? Corvia grades itself\"\n- **Depends on**: M4 (needs generated docs to evaluate)\n- **Blocks**: M5b\n- **Techniques**: Evaluation/evals\n- **Deliverables**: Eval framework — accuracy, freshness, completeness checks on generated docs\n- **LinkedIn angle**: \"Building AI isn't enough — here's how I built automated quality gates for AI output\"\n\n\n### M5b: \"Making agents faster, cheaper, smarter\"\n- **Depends on**: M5a (need eval baselines before optimizing)\n- **Blocks**: M5c\n- **Techniques**: Agent optimization, cost tracking\n- **Deliverables**: Benchmarking framework, prompt tuning pipeline, cost tracking dashboards in VS Code\n- **LinkedIn angle**: \"I reduced my AI agent costs by X% while improving quality — here's the framework\"\n",
+  "source_version": "docs/rfcs/2026-02-25-corvia-brainstorm.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461492827Z",
+  "valid_from": "2026-03-31T13:20:59.461492827Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-25-corvia-brainstorm.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 225,
+    "end_line": 238,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

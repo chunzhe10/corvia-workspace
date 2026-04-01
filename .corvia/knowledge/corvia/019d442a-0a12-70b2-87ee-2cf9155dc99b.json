@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-2cf9155dc99b",
+  "content": " │\n│                                                         │\n└─────────────────────────────────────────────────────────┘\n```\n\n---\n\n## Utilities\n\n```typescript\n// Derive issue URL from repo remote URL\nfunction issueUrl(repoUrl: string | undefined, issue: string): string {\n    if (!repoUrl) return \"#\";\n    const match = repoUrl.match(/github\\.com[:/]([^/]+\\/[^/.]+)/);\n    if (match) return `https://github.com/${match[1]}/issues/${issue}`;\n    return \"#\";\n}\n```\n\nFrontend shows banner when Docker is unavailable:\n```typescript\n{spokes.warning && (\n    <div className=\"warning-banner\">{spokes.warning}</div>\n)}\n```\n\n\n## Observability (via corvia-telemetry)\n\nSpoke container metrics (CPU%, memory) and lifecycle events are emitted as\nOTel spans/metrics through `corvia-telemetry`, not as separate dashboard\nendpoints. The Traces and Logs tabs already render these. Phase 2 may add\na dedicated metrics panel to the AgentsView if needed.\n",
+  "source_version": "decisions/2026-03-28-spoke-dashboard-design.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026274438Z",
+  "valid_from": "2026-03-31T13:51:39.026274438Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-dashboard-design.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 453,
+    "end_line": 478,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

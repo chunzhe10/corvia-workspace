@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a15-7ca3-b9db-5228747e228b",
+  "content": "ing long I/O</div>\n    <div style=\"color: var(--text-secondary); padding-left: 24px;\">Old index deallocation blocks tokio runtime</div>\n    <div style=\"color: var(--text-secondary); padding-left: 24px;\">No swap event logged for observability</div>\n  </div>\n  <div style=\"display: flex; gap: 16px; margin-bottom: 16px;\">\n    <div style=\"flex: 1; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center;\">\n      <div style=\"font-size: 36px; font-weight: 800; color: var(--accent-red);\">2</div>\n      <div style=\"font-size: 16px; color: var(--text-secondary); margin-top: 4px;\">Critical</div>\n    </div>\n    <div style=\"flex: 1; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center;\">\n      <div style=\"font-size: 36px; font-weight: 800; color: var(--accent-amber);\">2</div>\n      <div style=\"font-size: 16px; color: var(--text-secondary); margin-top: 4px;\">Important</div>\n    </div>\n    <div style=\"flex: 1; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center;\">\n      <div style=\"font-size: 36px; font-weight: 800; color: var(--accent-blue);\">3</div>\n      <div style=\"font-size: 16px; color: var(--text-secondary); margin-top: 4px;\">Low</div>\n    </div>\n  </div>\n\n  <div class=\"insight-box\">\n    <p>Both criticals were real bugs. Without this review, queries would have hit a half-built index during rebuilds. All 7 findings were fixed in a single commit.</p>\n  </div>\n\n  <div class=\"flex-grow\"></div>\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">06 / 09</div>\n</div>\n\n<!-- SLIDE 7: THE NUMBERS -->\n<div class=\"slide\">\n  <div class=\"slide-label\">The Numbers</div>\n  <div class=\"slide-title\" style=\"margin-bottom: 24px;\">\n    1 in 8 Commits Is<br>\n    <span class=\"highlight-amber\">a Review Fix</span>\n  </div>\n  <div class=\"slide-subtitle\" style=\"font-size: 20px; margin-bottom: 32px;\">\n    Real numbers from the git history of a Rust knowledge-base project.\n  </div>",
+  "source_version": "marketing/linkedin/2026-03-27-five-persona-review/five-persona-review-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.029351786Z",
+  "valid_from": "2026-03-31T13:51:39.029351786Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-27-five-persona-review/five-persona-review-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 430,
+    "end_line": 463,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

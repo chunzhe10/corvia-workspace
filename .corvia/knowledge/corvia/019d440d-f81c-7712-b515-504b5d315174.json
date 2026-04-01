@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81c-7712-b515-504b5d315174",
+  "content": "t.relations {\n            assert!(\n                rel.from_chunk_index < result.entries.len(),\n                \"from_chunk_index {} out of bounds (entries len: {})\",\n                rel.from_chunk_index,\n                result.entries.len()\n            );\n        }\n    }\n\n    #[tokio::test]\n    async fn test_ingest_with_relations_nonexistent_path() {\n        let adapter = GitAdapter::new();\n        let result = adapter.ingest_with_relations(\"/nonexistent/path\").await;\n        assert!(result.is_err());\n    }\n\n    #[tokio::test]\n    async fn test_ingest_with_relations_empty_dir() {\n        let dir = TempDir::new().unwrap();\n        let adapter = GitAdapter::new();\n        let result = adapter\n            .ingest_with_relations(dir.path().to_str().unwrap())\n            .await\n            .unwrap();\n        assert!(result.entries.is_empty());\n        assert!(result.relations.is_empty());\n    }\n\n    #[tokio::test]\n    async fn test_ingest_sources_returns_source_files() {\n        let dir = TempDir::new().unwrap();\n\n        // Create a .rs file\n        fs::write(\n            dir.path().join(\"main.rs\"),\n            \"fn main() {\\n    println!(\\\"hello\\\");\\n}\\n\",\n        )\n        .unwrap();\n\n        // Create a .md file\n        fs::write(dir.path().join(\"README.md\"), \"# Hello\\n\\nWorld.\\n\").unwrap();\n\n        // Create a .txt file (not in SUPPORTED_EXTENSIONS, should be ignored)\n        fs::write(dir.path().join(\"notes.txt\"), \"some notes\").unwrap();\n\n        let adapter = GitAdapter::new();\n        let files = adapter\n            .ingest_sources(dir.path().to_str().unwrap())\n            .await\n            .unwrap();\n\n        // Should include .rs and .md but not .txt\n        assert_eq!(files.len(), 2, \"expected 2 source files (.rs + .md), got {}\", files.len());\n\n        let rs_file = files.iter().find(|f| f.metadata.extension == \"rs\");\n        assert!(rs_file.is_some(), \"expected a .rs SourceFile\");\n        let rs = rs_file.unwrap();",
+  "source_version": "adapters/corvia-adapter-git/rust/src/git.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.420994257Z",
+  "valid_from": "2026-03-31T13:20:59.420994257Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-git/rust/src/git.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 367,
+    "end_line": 417,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

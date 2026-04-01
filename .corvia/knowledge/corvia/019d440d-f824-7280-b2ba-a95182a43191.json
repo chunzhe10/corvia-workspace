@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f824-7280-b2ba-a95182a43191",
+  "content": "   // Extract session_id from stdin (NOT from shared file)\n    let session_id = stdin.get(\"session_id\")\n        .and_then(|v| v.as_str())\n        .unwrap_or(\"\")\n        .to_string();\n\n    // Load config (best-effort — use defaults if corvia.toml missing)\n    let hooks_config = load_hooks_config();\n\n    // Master switch — if hooks are disabled globally, exit immediately\n    if !hooks_config.enabled {\n        hook_debug!(\"master switch disabled, skipping all hooks\");\n        return Ok(());\n    }\n\n    match handler {\n        // Handler-specific invocations (matcher-filtered by Claude Code)\n        Some(HookHandler::DocPlacement) => {\n            if hooks_config.doc_placement {\n                hook_debug!(\"doc-placement: checking\");\n                match doc_placement::check(&stdin)? {\n                    doc_placement::HookResult::Allow => {\n                        hook_debug!(\"doc-placement: allowed\");\n                    }\n                    doc_placement::HookResult::Block(msg) => {\n                        hook_debug!(\"doc-placement: BLOCKED\");\n                        eprintln!(\"{msg}\");\n                        std::process::exit(2);\n                    }\n                }\n            } else {\n                hook_debug!(\"doc-placement: skipped (disabled in config)\");\n            }\n        }\n        Some(HookHandler::CorviaFirstReminder) => {\n            if hooks_config.corvia_first_reminder {\n                println!(\"{}\", reminders::corvia_first_reminder());\n            } else {\n                hook_debug!(\"corvia-first-reminder: skipped (disabled in config)\");\n            }\n        }",
+  "source_version": "crates/corvia-cli/src/hooks/mod.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.428375420Z",
+  "valid_from": "2026-03-31T13:20:59.428375420Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/mod.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 128,
+    "end_line": 161,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

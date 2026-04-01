@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83e-7ae3-ae47-a5452de95528",
+  "content": "un: `cargo test --workspace`\nExpected: All tests pass. Spans are no-ops without a subscriber, so behavior is unchanged.\n\n-**Step 8: Commit**\n\n```bash\ngit add -u\ngit commit -m \"feat(m4): add tracing instrument spans across kernel subsystems (D81)\"\n```\n\n---\n\n### Task 6: Add `config` and `config_path` to `AppState` + wire telemetry init\n\n**Files:**\n- Modify: `crates/corvia-server/src/rest.rs`\n- Modify: `crates/corvia-server/src/mcp.rs` (test_state helper)\n- Modify: `crates/corvia-server/Cargo.toml`\n- Modify: `crates/corvia-cli/src/main.rs`\n- Modify: `crates/corvia-cli/Cargo.toml`\n\n-**Step 1: Add deps to server and CLI**\n\nIn `crates/corvia-server/Cargo.toml`, add:\n```toml\ncorvia-telemetry = { workspace = true }\n```\n\nIn `crates/corvia-cli/Cargo.toml`, add:\n```toml\ncorvia-telemetry = { workspace = true }\n```\n\n-**Step 2: Add fields to `AppState`**\n\nIn `crates/corvia-server/src/rest.rs`, add to the `AppState` struct:\n\n```rust\npub config: Arc<std::sync::RwLock<corvia_common::config::CorviaConfig>>,\npub config_path: std::path::PathBuf,\n```\n\n-**Step 3: Update `cmd_serve` in CLI to pass config**\n\nIn `crates/corvia-cli/src/main.rs`, in the `cmd_serve` function where `AppState` is constructed (~line 441), add:\n\n```rust\nconfig: Arc::new(std::sync::RwLock::new(config.clone())),\nconfig_path: config_path.clone(),\n```\n\nWhere `config_path` is the path to `corvia.toml` (already resolved earlier in the function).\n\n-**Step 4: Wire `init_telemetry()` into `cmd_serve`**\n\nIn `cmd_serve`, before the server starts listening, add:\n\n```rust\nif let Err(e) = corvia_telemetry::init_telemetry(&config.telemetry) {\n    eprintln!(\"Warning: telemetry init failed: {e}\");\n}\n```\n\n-**Step 5: Update `test_state` in `mcp.rs`**\n\nIn `crates/corvia-server/src/mcp.rs`, update the `test_state` helper to include new fields:\n\n```rust\nconfig: Arc::new(std::sync::RwLock::new(corvia_common::config::CorviaConfig::default())),\nconfig_path: dir.join(\"corvia.toml\"),\n```\n\n-**Step 6: Run tests**\n\nRun: `cargo test --workspace`\nExpected: All tests pass. The new fields are populated in both production and test code.\n\n-**Step 7: Commit**\n\n```bash\ngit add -u\ngit commit -m \"feat(m4): add config hot-reload to AppState, wire init_telemetry into serve (D87, D89)\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.454926110Z",
+  "valid_from": "2026-03-31T13:20:59.454926110Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 807,
+    "end_line": 880,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

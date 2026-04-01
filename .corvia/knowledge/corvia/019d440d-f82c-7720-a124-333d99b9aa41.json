@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82c-7720-a124-333d99b9aa41",
+  "content": " max_pending: usize) -> Self {\n        Self {\n            pending: DashMap::new(),\n            last_flush: AtomicU64::new(epoch_secs()),\n            flush_interval_secs,\n            max_pending,\n            flushing: AtomicBool::new(false),\n        }\n    }\npub(crate) fn record(&self, entry_ids: &[uuid::Uuid]) {\n        let now = epoch_secs();\n        for id in entry_ids {\n            if self.pending.len() >= self.max_pending && self.flushing.load(Ordering::Relaxed) {\n                trace!(entry_id = %id, \"access buffer full + flush in progress, dropping event\");\n                continue;\n            }\n            self.pending\n                .entry(*id)\n                .and_modify(|ba| {\n                    ba.count = ba.count.saturating_add(1);\n                    ba.last_ts = now;\n                })\n                .or_insert(BufferedAccess {\n                    count: 1,\n                    last_ts: now,\n                });\n        }\n    }",
+  "source_version": "crates/corvia-kernel/src/access_buffer.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.436470580Z",
+  "valid_from": "2026-03-31T13:20:59.436470580Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/access_buffer.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 73,
+    "end_line": 91,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

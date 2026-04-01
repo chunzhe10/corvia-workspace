@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f839-77c3-913e-1a557eecfcbe",
+  "content": "def percentile(data, p):\n        if not data:\n            return 0\n        k = (len(data) - 1) * (p / 100)\n        f = int(k)\n        c = f + 1 if f + 1 < len(data) else f\n        d = k - f\n        return round(data[f] + d * (data[c] - data[f]), 1)\ndef main():\n    parser = argparse.ArgumentParser(description=\"RAG Retrieval Evaluation\")\n    parser.add_argument(\"--url\", default=\"http://127.0.0.1:8020\", help=\"Server URL\")\n    parser.add_argument(\"--scope-id\", default=\"corvia\", help=\"Scope ID\")\n    parser.add_argument(\"--output\", \"-o\", required=True, help=\"Output JSON file\")\n    parser.add_argument(\"--limit\", type=int, default=10, help=\"Results per query\")\n    parser.add_argument(\"--label\", default=\"\", help=\"Label for this run (e.g., 'vector-only')\")\n    args = parser.parse_args()\n\n    # Fetch current config for metadata\n    try:\n        req = Request(\n            f\"{args.url}/mcp\",\n            data=json.dumps({\n                \"jsonrpc\": \"2.0\", \"id\": 1, \"method\": \"tools/call\",\n                \"params\": {\"name\": \"corvia_config_get\", \"arguments\": {\n                    \"scope_id\": args.scope_id, \"section\": \"rag\"\n                }}\n            }).encode(),\n            headers={\"Content-Type\": \"application/json\"},\n            method=\"POST\",\n        )\n        with urlopen(req, timeout=10) as resp:\n            mcp_resp = json.loads(resp.read())\n        rag_config = json.loads(mcp_resp[\"result\"][\"content\"][0][\"text\"])\n    except Exception as e:\n        print(f\"Warning: could not fetch config: {e}\", file=sys.stderr)\n        rag_config = {}\n\n    pipeline = rag_config.get(\"pipeline\", {})\n    config_meta = {\n        \"url\": args.url,\n        \"scope_id\": args.scope_id,\n        \"label\": args.label,\n        \"searchers\": pipeline.get(\"searchers\", [\"vector\"]),\n        \"fusion\": pipeline.get(\"fusion\", \"passthrough\"),\n        \"expander\": pipeline.get(\"expander\", \"graph\"),\n        \"retriever\": rag_config.get(\"retriever\", \"unknown\"),\n    }\n\n    print(f\"Eval config: searchers={config_meta['searchers']}, \"\n          f\"fusion={config_meta['fusion']}, retriever={config_meta['retriever']}\")\n\n    # Run all queries\n    query_results = []\n    for qdef in QUERIES:\n        print(f\"  Query {qdef['id']:2d}/{len(QUERIES)}: {qdef['query'][:60]}...\", end=\" \")\n        try:",
+  "source_version": "benchmarks/rag-retrieval/eval.py",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.449645625Z",
+  "valid_from": "2026-03-31T13:20:59.449645625Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "benchmarks/rag-retrieval/eval.py",
+    "language": "py",
+    "chunk_type": "function_definition",
+    "start_line": 305,
+    "end_line": 352,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

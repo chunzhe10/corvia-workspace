@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-74bfdc08b5ee",
+  "content": "## Proto Definitions\n\n### EmbeddingService\n\n```protobuf\nsyntax = \"proto3\";\npackage corvia.inference.v1;\n\nservice EmbeddingService {\n  rpc Embed(EmbedRequest) returns (EmbedResponse);\n  rpc EmbedBatch(EmbedBatchRequest) returns (EmbedBatchResponse);\n  rpc ModelInfo(ModelInfoRequest) returns (ModelInfoResponse);\n}\n\nmessage EmbedRequest {\n  string model = 1;\n  string text = 2;\n}\n\nmessage EmbedResponse {\n  repeated float embedding = 1 [packed = true];\n  uint32 dimensions = 2;\n}\n\nmessage EmbedBatchRequest {\n  string model = 1;\n  repeated string texts = 2;\n}\n\nmessage EmbedBatchResponse {\n  repeated Embedding embeddings = 1;\n}\n\nmessage Embedding {\n  repeated float values = 1 [packed = true];\n  uint32 index = 2;\n}\n\nmessage ModelInfoRequest {\n  string model = 1;\n}\n\nmessage ModelInfoResponse {\n  string model = 1;\n  uint32 dimensions = 2;\n  bool loaded = 3;\n}\n```\n\n\n### ChatService\n\n```protobuf\nservice ChatService {\n  rpc Chat(ChatRequest) returns (ChatResponse);\n  rpc ChatStream(ChatRequest) returns (stream ChatChunk);\n}\n\nmessage ChatMessage {\n  string role = 1;\n  string content = 2;\n}\n\nmessage ChatRequest {\n  string model = 1;\n  repeated ChatMessage messages = 2;\n  float temperature = 3;\n  uint32 max_tokens = 4;\n}\n\nmessage ChatResponse {\n  ChatMessage message = 1;\n  uint32 prompt_tokens = 2;\n  uint32 completion_tokens = 3;\n}\n\nmessage ChatChunk {\n  string delta = 1;\n  bool done = 2;\n  uint32 prompt_tokens = 3;\n  uint32 completion_tokens = 4;\n}\n```\n",
+  "source_version": "docs/rfcs/2026-03-02-grpc-inference-server-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463902336Z",
+  "valid_from": "2026-03-31T13:20:59.463902336Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-grpc-inference-server-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 74,
+    "end_line": 154,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

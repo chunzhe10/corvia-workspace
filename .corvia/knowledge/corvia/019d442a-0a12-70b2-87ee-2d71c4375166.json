@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-2d71c4375166",
+  "content": "### C1: HubContext Error Handling (SWE)\n### C2: Duplicate Spoke Name Guard (SWE)\n\n### C5: Container Detection (DevOps)\n\n**Fix:**\n\n```rust\nimpl HubContext {\n    pub async fn detect(docker: &Docker) -> Result<Self> {\n        // Check if we're in a container\n        let in_container = std::path::Path::new(\"/.dockerenv\").exists()\n            || std::fs::read_to_string(\"/proc/1/cgroup\")\n                .map(|s| s.contains(\"docker\") || s.contains(\"containerd\"))\n                .unwrap_or(false);\n\n        if !in_container {\n            return Err(CorviaError::Config(\n                \"Spoke management requires running inside a Docker container \\\n                 with the host Docker socket mounted. \\\n                 Run `corvia workspace spoke check` to diagnose.\".into()\n            ));\n        }\n\n        // ... existing detect logic\n    }\n}\n```\n\nAdd `corvia workspace spoke check` command that validates:\n- Docker socket accessible\n- Running inside a container\n- Network detected\n- Credentials file exists\n- GITHUB_TOKEN set\n\n---\n",
+  "source_version": "decisions/2026-03-28-spoke-design-review-fixes.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026337166Z",
+  "valid_from": "2026-03-31T13:51:39.026337166Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-design-review-fixes.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 178,
+    "end_line": 212,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

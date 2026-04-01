@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-2d804d108b5b",
+  "content": "### C5: Container Detection (DevOps)\n\n### C6: Network Selection (DevOps, SWE)\n\n**Fix:**\n\n```rust\nfn select_network(\n    networks: &HashMap<String, NetworkSettings>,\n    config_override: Option<&str>,\n) -> Result<String> {\n    // 1. Config override takes priority\n    if let Some(net) = config_override {\n        if networks.contains_key(net) {\n            return Ok(net.to_string());\n        }\n        return Err(CorviaError::Config(format!(\n            \"Configured network '{}' not found. Available: {:?}\",\n            net, networks.keys().collect::<Vec<_>>()\n        )));\n    }\n\n    // 2. Filter out system networks\n    let candidates: Vec<_> = networks.keys()\n        .filter(|n| !matches!(n.as_str(), \"bridge\" | \"host\" | \"none\"))\n        .collect();\n\n    match candidates.len() {\n        0 => Err(CorviaError::Config(\n            \"Hub is not on any user-defined Docker network. \\\n             Spokes need a shared network.\".into()\n        )),\n        1 => Ok(candidates[0].clone()),\n        _ => {\n            // Prefer network containing \"devcontainer\"\n            if let Some(net) = candidates.iter().find(|n| n.contains(\"devcontainer\")) {\n                return Ok(net.to_string());\n            }\n            Err(CorviaError::Config(format!(\n                \"Hub is on multiple networks: {:?}. \\\n                 Set [workspace.spokes] network in corvia.toml.\",\n                candidates\n            )))\n        }\n    }\n}\n```\n\n---\n",
+  "source_version": "decisions/2026-03-28-spoke-design-review-fixes.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026346723Z",
+  "valid_from": "2026-03-31T13:51:39.026346723Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-design-review-fixes.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 213,
+    "end_line": 260,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

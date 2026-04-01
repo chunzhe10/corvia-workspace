@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-c1859438c265",
+  "content": "_str(json).unwrap();\n        match resp {\n            AdapterResponse::SourceFile { source_file } => {\n                assert_eq!(source_file.metadata.source_version, \"unknown\");\n            }\n            _ => panic!(\"expected SourceFile\"),\n        }\n    }\n}\n```\n\n**Step 2: Export the module**\n\nIn `crates/corvia-kernel/src/lib.rs`, add after the `chunking_pdf` line (line 90):\n\n```rust\npub mod adapter_protocol;\n```\n\n**Step 3: Run tests**\n\n```bash\ncargo test -p corvia-kernel adapter_protocol -- --nocapture\n```\n\nExpected: 8 tests pass.\n\n**Step 4: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/adapter_protocol.rs crates/corvia-kernel/src/lib.rs\ngit commit -m \"feat: define JSONL wire protocol types for adapter IPC (D75)\n\nAdapterMetadata, AdapterRequest, AdapterResponse types with full serde\nroundtrip tests and cross-language compatibility validation.\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462478362Z",
+  "valid_from": "2026-03-31T13:20:59.462478362Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 335,
+    "end_line": 365,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

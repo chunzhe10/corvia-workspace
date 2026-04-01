@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f834-7df0-9fec-25339a759a15",
+  "content": " > max_age {\n                tracing::debug!(\n                    from = %edge.from_source_version,\n                    to = %edge.to_source_version,\n                    \"dropping pending edge older than 7 days\"\n                );\n                continue;\n            }\n        }\n\n        // Try to resolve both ends\n        let from_entry = store.get_by_source_version(scope_id, &edge.from_source_version).await;\n        let to_entry = store.get_by_source_version(scope_id, &edge.to_source_version).await;\n\n        match (from_entry, to_entry) {\n            (Ok(Some(from)), Ok(Some(to))) => {\n                if graph.relate(&from.id, &edge.relation, &to.id, None).await.is_ok() {\n                    resolved += 1;\n                } else {\n                    remaining.push(edge);\n                }\n            }\n            _ => {\n                remaining.push(edge);\n            }\n        }\n    }\n\n    // Atomic rewrite: write to temp file then rename (crash-safe, concurrent-safe)\n    if remaining.is_empty() {\n        let _ = std::fs::remove_file(path);\n    } else if let Ok(json) = remaining\n        .iter()\n        .map(|e| serde_json::to_string(e))\n        .collect::<Result<Vec<_>, _>>()\n    {\n        let tmp_path = path.with_extension(\"pending-edges.tmp\");\n        if std::fs::write(&tmp_path, json.join(\"\\n\") + \"\\n\").is_ok() {\n            let _ = std::fs::rename(&tmp_path, path);\n        }\n    }\n\n    resolved\n}",
+  "source_version": "crates/corvia-kernel/src/ingest.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.444671337Z",
+  "valid_from": "2026-03-31T13:20:59.444671337Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ingest.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1391,
+    "end_line": 1427,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

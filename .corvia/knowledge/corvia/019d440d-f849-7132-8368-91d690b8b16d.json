@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-91d690b8b16d",
+  "content": "sync fn check_service(svc: &ServiceDef) -> HealthResult {\n    let host = \"127.0.0.1\";\n    match (svc.port, &svc.health_proto) {\n        (None, _) | (_, HealthProto::None) => HealthResult {\n            healthy: None,\n            latency_ms: -1.0,\n        },\n        (Some(port), HealthProto::Http) => check_http(host, port, svc.health_path).await,\n        (Some(port), HealthProto::Grpc) => check_grpc(host, port).await,\n        (Some(port), HealthProto::Tcp) => check_tcp(host, port).await,\n    }\n}\n\n/// Check all known services and return their statuses\npub async fn check_all_services() -> Vec<ServiceStatus> {\n    let defs = service_definitions();\n    let mut statuses = Vec::with_capacity(defs.len());\n    for def in &defs {\n        let result = check_service(def).await;\n        statuses.push(result_to_status(def.name, def.port, &result));\n    }\n    statuses\n}\n```\n\n-**Step 6: Verify compilation**\n\nRun: `cd repos/corvia && cargo check -p corvia-server`\nExpected: Compiles with no errors\n\n-**Step 7: Commit**\n\n```bash\ncd repos/corvia\ngit add crates/corvia-server/src/dashboard/health.rs\ngit commit -m \"feat(dashboard): implement service health probing (HTTP, gRPC, TCP)\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465756241Z",
+  "valid_from": "2026-03-31T13:20:59.465756241Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 524,
+    "end_line": 556,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

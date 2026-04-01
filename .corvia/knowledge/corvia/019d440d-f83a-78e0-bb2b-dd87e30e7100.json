@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83a-78e0-bb2b-dd87e30e7100",
+  "content": "mmit -m \"feat(server): REST API with /v1/memories/write and /v1/memories/search\n\nAxum routes. Write embeds content via InferenceEngine then stores.\nSearch embeds query then performs vector similarity search.\n/health endpoint for liveness checks.\"\n```\n\n---\n\n## Task 11: corvia-cli — CLI Commands\n\n**Files:**\n- Modify: `crates/corvia-cli/src/main.rs`\n- Modify: `crates/corvia-cli/Cargo.toml` (add corvia-adapter-git dependency)\n\n**Step 1: Write CLI with all M1 subcommands**\n\nUpdate `crates/corvia-cli/Cargo.toml` to add adapter dependency:\n```toml\n[dependencies]",
+  "source_version": "docs/rfcs/2026-02-28-m1-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.450955621Z",
+  "valid_from": "2026-03-31T13:20:59.450955621Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-m1-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1857,
+    "end_line": 1867,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

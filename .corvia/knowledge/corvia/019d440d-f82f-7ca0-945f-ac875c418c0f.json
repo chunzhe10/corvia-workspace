@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82f-7ca0-945f-ac875c418c0f",
+  "content": "t {\n            query_embedding: Arc::new(vec![]),\n            scope_id: \"test\".into(),\n            query: \"test query\".into(),\n            opts: RetrievalOpts {\n                limit: 10,\n                ..Default::default()\n            },\n        }\n    }\nasync fn test_bm25_searcher_normalization() {\n        let fts = MockFts {\n            results: vec![\n                make_search_result(1, 8.0),\n                make_search_result(2, 4.0),\n                make_search_result(3, 2.0),\n            ],\n        };\n        let searcher = BM25Searcher::new(Arc::new(fts));\n        let result = searcher.search(&make_ctx()).await.unwrap();\n\n        assert_eq!(result.candidates.len(), 3);\n        // Highest raw score -> normalized 1.0.\n        assert!((result.candidates[0].scores.final_score.value() - 1.0).abs() < f32::EPSILON);\n        // Lowest raw score -> normalized 0.0.\n        assert!((result.candidates[2].scores.final_score.value() - 0.0).abs() < f32::EPSILON);\n        // Tier-weighted scores preserved in components (Hot tier weight = 1.0).\n        assert!(result.candidates[0].scores.components.contains_key(\"bm25\"));\n        assert!((result.candidates[0].scores.components[\"bm25\"] - 8.0).abs() < f32::EPSILON);\n    }",
+  "source_version": "crates/corvia-kernel/src/pipeline/searcher.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.439672243Z",
+  "valid_from": "2026-03-31T13:20:59.439672243Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/searcher.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 496,
+    "end_line": 515,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

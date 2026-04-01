@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a13-75d1-bfe3-f7e7ba35e3b8",
+  "content": " font-weight: 500;\n    line-height: 1.5;\n  }\n\n  .takeaway-text strong { font-weight: 700; }\n\n  .mock-label {\n    font-size: 16px; font-weight: 700;\n    letter-spacing: 2px;\n    text-transform: uppercase;\n    margin-bottom: 12px;\n  }\n</style>\n</head>\n<body>\n<!-- ════════════════════════════════════════════════ -->\n<!-- SLIDE 1: COVER                                  -->\n<!-- ════════════════════════════════════════════════ -->\n<div class=\"slide\" style=\"background: linear-gradient(160deg, #0f172a 0%, #1a1a3e 50%, #0f172a 100%);\">\n  <div class=\"slide-label\">A Developer's Discovery</div>\n  <div class=\"cover-center\">\n    <div style=\"font-size: 80px; margin-bottom: 32px;\">&#128065;</div>\n    <div class=\"slide-title\" style=\"font-size: 68px; line-height: 1.12;\">\n      I Asked AI to<br>\n      Design UI.<br>\n      <span class=\"highlight\">It Couldn't See<br>What It Built.</span>\n    </div>\n    <div class=\"slide-subtitle\">\n      Clean code, broken layouts. How I discovered<br>\n      AI's biggest blind spot &mdash; and gave it eyes.\n    </div>\n    <div class=\"cover-tags\">\n      <span class=\"tag\">Claude Code</span>\n      <span class=\"tag\">AI + UI Design</span>\n      <span class=\"tag\">Playwright MCP</span>\n      <span class=\"tag\">Context Engineering</span>\n    </div>\n  </div>\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">01 / 08</div>\n</div>\n\n<!-- ════════════════════════════════════════════════ -->\n<!-- SLIDE 2: THE SETUP                              -->\n<!-- ════════════════════════════════════════════════ -->\n<div class=\"slide\">\n  <div class=\"slide-label\">The Setup</div>\n  <div class=\"slide-title\">\n    AI Writes<br>\n    <span class=\"highlight-amber\">Beautiful Code.</span><br>\n    So What's Wrong?\n  </div>\n  <div class=\"slide-subtitle\">\n    I've been using Claude Code to build visual outputs &mdash;<br>\n    LinkedIn carousels, a VS Code dashboard, brand guidelines.\n  </div>",
+  "source_version": "marketing/linkedin/2026-03-11-ai-blind-designer/ai-blind-designer-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.027875485Z",
+  "valid_from": "2026-03-31T13:51:39.027875485Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-11-ai-blind-designer/ai-blind-designer-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 249,
+    "end_line": 289,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

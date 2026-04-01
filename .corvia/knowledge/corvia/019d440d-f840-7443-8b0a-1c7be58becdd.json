@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-1c7be58becdd",
+  "content": "          .filter(|&c| c != ci && other_counts[c] > 0)\n            .map(|c| other_sums[c] / other_counts[c] as f32)\n            .fold(f32::MAX, f32::min);\n\n        if b == f32::MAX { continue; }\n        let s = (b - a) / a.max(b);\n        total += s;\n    }\n    total / sample.len() as f32\n}\n\n/// Find best K by trying k_min..=k_max and picking highest silhouette.\npub fn find_best_k(data: &[Vec<f32>], k_min: usize, k_max: usize, max_sample: usize) -> usize {\n    let mut best_k = k_min;\n    let mut best_score = f32::NEG_INFINITY;\n    for k in k_min..=k_max {\n        let assignments = kmeans(data, k, 100);\n        let score = silhouette_score(data, &assignments, k);\n        if score > best_score {\n            best_score = score;\n            best_k = k;\n        }\n    }\n    best_k\n}\n```\n\n-**Step 7: Run tests to verify they pass**\n\nRun: `cd /workspaces/corvia-workspace/repos/corvia && cargo test -p corvia-server clustering::tests --no-default-features 2>&1 | tail -10`\nExpected: all 3 tests PASS\n\n-**Step 8: Commit**\n\n```bash\ncd /workspaces/corvia-workspace/repos/corvia\ngit add crates/corvia-server/src/dashboard/clustering.rs crates/corvia-server/src/dashboard/mod.rs\ngit commit -m \"feat(dashboard): add k-means clustering with silhouette scoring\"\n```\n",
+  "source_version": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456275917Z",
+  "valid_from": "2026-03-31T13:20:59.456275917Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 308,
+    "end_line": 339,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f843-7a03-b56b-3315d82c1d19",
+  "content": "## Post Narrative Arc\n## Steps to Execute\n\n## Future Post Ideas Surfaced\n\n- **Post N (backends):** \"I ran the same queries across three backends. Same trait, same results, different tradeoffs.\" — shows QueryableStore trait abstraction working across LiteStore/SurrealDB/PostgreSQL\n- **Post 9 (M6):** Formal benchmark with precision@k, MRR, NDCG on a larger dataset. The rigorous version of what Post 2 explores casually.\n\n\n## 5-Star Checklist\n\n- **Explorer voice:** \"I expected X, found Y\" — discovery journal\n- **Standalone insight:** \"Vector vs graph is about question type, not quality\" — valuable without Corvia\n- **Concrete artifact:** Side-by-side terminal screenshots\n- **Generous credit:** Mem0 paper, Zep temporal graph\n- **Open question:** \"What does your team re-explain every session?\"\n- **Curiosity hook:** Tease Post 3 (reasoning engine on OSS codebase)",
+  "source_version": "docs/rfcs/2026-03-03-post2-benchmark-demo-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.459431649Z",
+  "valid_from": "2026-03-31T13:20:59.459431649Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-03-post2-benchmark-demo-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 122,
+    "end_line": 134,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

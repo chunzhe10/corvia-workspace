@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f822-7391-83ed-310caac774ac",
+  "content": "ing(),\n                    utilization_pct: None,\n                    memory_used_mb: None,\n                    memory_total_mb: None,\n                    temperature_c: None,\n                    power_draw_w: None,\n                    power_limit_w: None,\n                    processes: None,\n                    render_busy_pct: None,\n                    video_busy_pct: None,\n                    frequency_mhz: Some(1200),\n                    frequency_max_mhz: Some(1550),\n                },\n            ],\n            inference_backend: HashMap::from([\n                (\"embedding\".to_string(), InferenceBackendInfo {\n                    model: \"nomic-embed-text-v1.5\".to_string(),\n                    device: \"cpu\".to_string(),\n                    backend: \"cpu\".to_string(),\n                }),\n            ]),\n            inference_health: None,\n        };\n        let json = serde_json::to_string(&resp).unwrap();\n        assert!(json.contains(\"\\\"vendor\\\":\\\"nvidia\\\"\"));\n        assert!(json.contains(\"\\\"vendor\\\":\\\"intel\\\"\"));\n        assert!(json.contains(\"\\\"utilization_pct\\\":45\"));\n        assert!(json.contains(\"\\\"frequency_mhz\\\":1200\"));\n        // Intel GPU should not have NVIDIA-only fields\n        assert!(!json.contains(\"\\\"utilization_pct\\\":null\"));\n\n        let roundtrip: GpuStatusResponse = serde_json::from_str(&json).unwrap();\n        assert_eq!(roundtrip.gpus.len(), 2);\n        assert_eq!(roundtrip.gpus[0].vendor, \"nvidia\");\n        assert_eq!(roundtrip.gpus[1].vendor, \"intel\");\n    }",
+  "source_version": "crates/corvia-common/src/dashboard.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.426044492Z",
+  "valid_from": "2026-03-31T13:20:59.426044492Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/dashboard.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 567,
+    "end_line": 595,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

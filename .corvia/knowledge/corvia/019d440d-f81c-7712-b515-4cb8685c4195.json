@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81c-7712-b515-4cb8685c4195",
+  "content": "sert!(imports.iter().any(|r| r.to_name.as_deref() == Some(\"HashMap\")));\n        assert!(imports.iter().any(|r| r.to_name.as_deref() == Some(\"HashSet\")));\n        for imp in &imports {\n            assert_eq!(imp.to_file, \"std::collections\");\n        }\n    }\nfn test_rust_wildcard_import() {\n        let source = r#\"\nuse super::*;\n\nfn do_stuff() {\n    println!(\"hello\");\n}\n\"#;\n        let result = chunk_file_with_relations(\"src/lib.rs\", source, \"rs\");\n        let imports: Vec<&CodeRelation> = result\n            .relations\n            .iter()\n            .filter(|r| r.relation == \"imports\")\n            .collect();\n        assert_eq!(imports.len(), 1);\n        assert_eq!(imports[0].to_name.as_deref(), Some(\"*\"));\n        // super from src/lib.rs can't resolve above crate root, fallback\n        assert_eq!(imports[0].to_file, \"src/lib.rs\");\n    }",
+  "source_version": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.420475564Z",
+  "valid_from": "2026-03-31T13:20:59.420475564Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1478,
+    "end_line": 1496,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

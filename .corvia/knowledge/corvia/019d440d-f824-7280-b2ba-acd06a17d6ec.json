@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f824-7280-b2ba-acd06a17d6ec",
+  "content": "    // Agent Teams events are handled by agent_teams.rs, not session recording\n        HookEvent::TaskCreated | HookEvent::TaskCompleted | HookEvent::TeammateIdle => {\n            return Ok(());\n        }\n    };\n\n    append_event(session_id, &json_event)\n}\npub fn finalize_session(session_id: &str) {\n    let path = session_file(session_id);\n    if !path.exists() {\n        return;\n    }\n\n    // Compute stats from JSONL\n    let total_turns = current_turn(session_id);\n    let duration_ms = compute_duration_ms(&path);\n    let ts = now_iso();\n\n    let end_event = serde_json::json!({\n        \"v\": SCHEMA_VERSION,\n        \"type\": \"session_end\",\n        \"session_id\": session_id,\n        \"timestamp\": ts,\n        \"total_turns\": total_turns,\n        \"duration_ms\": duration_ms,\n    });\n\n    // Append session_end (ignore errors — best effort)\n    let _ = append_event(session_id, &end_event);\n\n    // Gzip the JSONL\n    if let Err(e) = gzip_session(&path) {\n        eprintln!(\"Warning: failed to gzip session {session_id}: {e}\");\n        // JSONL is still on disk, adapter can pick it up later\n    }\n\n    // Trigger ingest with bounded retry\n    trigger_ingest();\n}",
+  "source_version": "crates/corvia-cli/src/hooks/session.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.428756787Z",
+  "valid_from": "2026-03-31T13:20:59.428756787Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/session.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 233,
+    "end_line": 264,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

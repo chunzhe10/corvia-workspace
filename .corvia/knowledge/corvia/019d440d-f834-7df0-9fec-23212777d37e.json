@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f834-7df0-9fec-23212777d37e",
+  "content": "     // Run Max-Min grouping\n        let similarity = EmbeddingSimilarity::new(embeddings);\n        let groups = max_min_split(segments.len(), &similarity);\n\n        if groups.len() <= 1 {\n            continue; // All segments are coherent, no split needed\n        }\n\n        // Reassemble groups into sub-chunk content\n        let sub_contents = reassemble_groups(&segments, &groups);\n\n        // Enforce token budget\n        let sub_contents = enforce_token_budget(sub_contents, max_tokens);\n\n        if sub_contents.len() <= 1 {\n            continue;\n        }\n\n        // Embed and store each sub-chunk\n        let sub_texts: Vec<String> = sub_contents.to_vec();\n        let sub_embeddings = match engine.embed_batch(&sub_texts).await {\n            Ok(embs) => embs,\n            Err(e) => {\n                tracing::warn!(error = %e, \"semantic_subsplit: sub-chunk embedding failed\");\n                continue;\n            }\n        };\n\n        for (j, (content, embedding)) in sub_contents.into_iter().zip(sub_embeddings).enumerate() {\n            let mut entry = corvia_common::types::KnowledgeEntry::new(\n                content,\n                scope_id.to_string(),\n                format!(\"{}:semantic-{}\", pc.metadata.source_file, j + 1),\n            );\n            entry.metadata = corvia_common::types::EntryMetadata {\n                source_file: Some(pc.metadata.source_file.clone()),\n                language: pc.metadata.language.clone(),\n                chunk_type: Some(\"semantic_subchunk\".to_string()),\n                start_line: Some(pc.start_line),",
+  "source_version": "crates/corvia-kernel/src/ingest.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.444387485Z",
+  "valid_from": "2026-03-31T13:20:59.444387485Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ingest.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 471,
+    "end_line": 503,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

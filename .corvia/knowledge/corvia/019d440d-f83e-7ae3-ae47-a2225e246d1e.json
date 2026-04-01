@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83e-7ae3-ae47-a2225e246d1e",
+  "content": "or {\n  border-left: 3px solid var(--coral);\n  background: var(--coral-soft);\n}\n\n.log-ts {\n  color: var(--text-dim);\n  opacity: 0.6;\n  margin-right: 6px;\n}\n\n.log-level {\n  font-weight: 600;\n  margin-right: 6px;\n}\n\n.log-msg {\n  color: var(--text-primary);\n}\n\n.log-empty {\n  color: var(--text-dim);\n  text-align: center;\n  padding: 40px;\n  font-family: var(--font-ui);\n}\n\n/* --- Traces View --- */\n.traces-view {\n  display: grid;\n  grid-template-columns: 1fr 280px;\n  gap: 16px;\n  flex: 1;\n}\n\n.topology-graph {\n  position: relative;\n  background: var(--bg-card);\n  border: 1px solid var(--border);\n  border-radius: var(--radius-lg);\n  min-height: 400px;\n  padding: 20px;\n}\n\n.tnode {\n  position: absolute;\n  background: var(--bg-card);\n  border: 1px solid var(--border);\n  border-radius: var(--radius-md);\n  padding: 12px 16px;\n  cursor: pointer;\n  transition: all var(--transition);\n  min-width: 100px;\n  text-align: center;\n}\n\n.tnode:hover {\n  border-color: var(--border-bright);\n  box-shadow: var(--shadow-hover);\n}\n\n.tnode.selected {\n  box-shadow: 0 0 0 3px var(--gold-soft);\n}\n\n.tnode-header {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 6px;\n  margin-bottom: 4px;\n}\n\n.tnode-emoji {\n  font-size: 16px;\n}\n\n.tnode-label {\n  font-size: 12px;\n  font-weight: 700;\n  color: var(--text-bright);\n}\n\n.tnode-count {\n  font-size: 18px;\n  font-weight: 800;\n  font-variant-numeric: tabular-nums;\n}\n\n/* --- Traces Detail Panel --- */\n.traces-detail {\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n}\n\n.detail-header h3 {\n  font-size: 15px;\n  font-weight: 700;\n  color: var(--text-bright);\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n\n.detail-dot {",
+  "source_version": "docs/rfcs/2026-03-11-dashboard-ui-standalone.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.454377722Z",
+  "valid_from": "2026-03-31T13:20:59.454377722Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-dashboard-ui-standalone.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1616,
+    "end_line": 1701,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-a0978e7eb0a2",
+  "content": "#### Task C5: MarkdownChunker\n#### Task C6: ConfigChunker\n\n#### Task C7: PdfChunker\n\n**Files:**\n- Create: `crates/corvia-kernel/src/chunking_pdf.rs`\n- Modify: `crates/corvia-kernel/src/lib.rs`\n- Modify: `crates/corvia-kernel/Cargo.toml` (add `pdf-extract` or `lopdf` dep, feature-gated)\n\nPage-based extraction → paragraph splitting. Feature-gated if dependency is heavy.\n\n---\n\n\n#### Task C8: D69 IngestionAdapter Trait Revision\n\n**Files:**\n- Modify: `crates/corvia-kernel/src/traits.rs`\n- Modify: `crates/corvia-kernel/src/chunking_pipeline.rs`\n\n**Step 1: Replace IngestionAdapter trait**\n\nIn `traits.rs`, replace the existing `IngestionAdapter`:\n\n```rust\n/// Ingestion adapter for domain-specific sources (D11/D69).\n///\n/// D69 clean break: adapters return raw source files and register\n/// chunking strategies. The kernel's ChunkingPipeline handles\n/// chunking, budget enforcement, and embedding.\n#[async_trait]\npub trait IngestionAdapter: Send + Sync {\n    /// Domain name (e.g., \"git\", \"general\").\n    fn domain(&self) -> &str;\n\n    /// Register chunking strategies for formats this adapter handles.\n    fn register_chunking(&self, registry: &mut crate::chunking_pipeline::FormatRegistry);\n\n    /// Return raw source files for the kernel's ChunkingPipeline.\n    async fn ingest_sources(&self, source_path: &str) -> Result<Vec<crate::chunking_strategy::SourceFile>>;\n}\n```\n\n**Step 2: Compile check**\n\nRun: `cargo check --workspace`\n\nThis will fail because `corvia-adapter-git` still implements the old trait.\nThat's expected — Task C9 updates the adapter.\n\n**Step 3: Commit (kernel only)**\n\n```bash\ngit add crates/corvia-kernel/src/traits.rs\ngit commit -m \"feat(kernel): revise IngestionAdapter trait for D69 clean break\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464893884Z",
+  "valid_from": "2026-03-31T13:20:59.464893884Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1657,
+    "end_line": 1712,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

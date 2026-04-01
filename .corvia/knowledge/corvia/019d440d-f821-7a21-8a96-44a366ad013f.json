@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f821-7a21-8a96-44a366ad013f",
+  "content": "pub struct LiveSessionsSummary {\n    pub total_active: usize,\n    pub total_stale: usize,\n    pub total_entries_pending: u64,\n}\npub struct LiveSessionsResponse {\n    pub sessions: Vec<LiveSession>,\n    pub summary: LiveSessionsSummary,\n}\npub enum HookSessionState {\n    Active,\n    Stale,\n    Ended,\n}",
+  "source_version": "crates/corvia-common/src/dashboard.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.425879321Z",
+  "valid_from": "2026-03-31T13:20:59.425879321Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/dashboard.rs",
+    "language": "rs",
+    "chunk_type": "enum_item",
+    "start_line": 290,
+    "end_line": 294,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

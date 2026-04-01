@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-1f21a1ddefbc",
+  "content": "### Step 1: Write full lifecycle integration test\n### Step 2: Write multi-agent concurrent test\n\n### Step 3: Write crash recovery test\n\n```rust\n#[tokio::test]\nasync fn test_crash_recovery_resume() {\n    // 1. Register agent, create session, write entries\n    // 2. Mark session Orphaned (simulating crash)\n    // 3. Connect again\n    // 4. Resume orphaned session\n    // 5. Verify entries re-indexed from staging files\n    // 6. Commit and merge\n    // 7. Verify all entries in main knowledge base\n}\n```\n\n\n### Step 4: Write conflict merge test\n\n```rust\n#[tokio::test]\nasync fn test_conflicting_entries_trigger_llm_merge() {\n    // 1. Insert entry A about \"auth\" with embedding [1,0,0]\n    // 2. Agent writes entry B about \"auth\" with very similar embedding\n    // 3. Commit and process merge\n    // 4. Merge worker detects conflict (similarity > 0.85)\n    // 5. If Ollama available: LLM merge produces combined entry\n    // 6. If not: entry stays in queue with retry_count\n}\n```\n",
+  "source_version": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452049323Z",
+  "valid_from": "2026-03-31T13:20:59.452049323Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1835,
+    "end_line": 1863,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

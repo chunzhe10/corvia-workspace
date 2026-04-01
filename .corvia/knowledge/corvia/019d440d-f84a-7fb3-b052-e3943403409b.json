@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84a-7fb3-b052-e3943403409b",
+  "content": "### Task 10: Config endpoint (thin wrapper)\n\n### Task 11: Graph endpoint (thin wrapper)\n\n**Files:**\n- Modify: `crates/corvia-server/src/dashboard/mod.rs`\n\nThe design spec includes `GET /api/dashboard/graph?scope=X` which forwards to the existing kernel graph store. This is a thin REST wrapper.\n\n-**Step 1: Add graph query params and handler**\n\nAdd to `mod.rs`:\n\n```rust\n/// Query params for /api/dashboard/graph\n#[derive(Debug, serde::Deserialize)]\npub struct GraphQuery {\n    pub scope: Option<String>,\n    pub entry_id: Option<String>,\n}\n\n/// GET /api/dashboard/graph\n/// Returns knowledge graph edges. Thin wrapper around kernel GraphStore.\nasync fn graph_handler(\n    State(state): State<Arc<AppState>>,\n    Query(params): Query<GraphQuery>,\n) -> Result<Json<serde_json::Value>, (axum::http::StatusCode, String)> {\n    let entry_id = match params.entry_id {\n        Some(id) => id\n            .parse::<uuid::Uuid>()\n            .map_err(|e| (axum::http::StatusCode::BAD_REQUEST, format!(\"Invalid entry_id: {e}\")))?,\n        None => {\n            return Ok(Json(serde_json::json!({ \"edges\": [] })));\n        }\n    };\n\n    let direction = corvia_common::EdgeDirection::Both;\n    let edges = state\n        .graph\n        .edges(entry_id, direction, None)\n        .await\n        .map_err(|e| (axum::http::StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;",
+  "source_version": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.466025043Z",
+  "valid_from": "2026-03-31T13:20:59.466025043Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1500,
+    "end_line": 1539,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

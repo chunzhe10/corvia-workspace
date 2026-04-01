@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f830-7a51-9391-4a6c79f8612d",
+  "content": "* 0.15 * decay;\n                        if bonus > 0.001 {\n                            if let Some(existing) = scored.iter_mut().find(|c| c.entry.id == entry.id) {\n                                let new_score = existing.scores.final_score.value() + bonus;\n                                existing.scores.final_score = NormalizedScore::new(new_score.min(1.0));\n                                graph_reinforced += 1;\n                            }\n                            *count += 1;\n                        }\n                        continue;\n                    }\n                    if entry.scope_id != ctx.scope_id {\n                        continue;\n                    }\n                    if entry.tier == Tier::Forgotten {\n                        continue;\n                    }\n                    seen.insert(entry.id);\n\n                    let cosine = entry\n                        .embedding\n                        .as_ref()\n                        .map(|emb| cosine_similarity(embedding, emb))\n                        .unwrap_or(0.0);\n                    let blended = ((1.0 - self.alpha) * cosine + self.alpha * (1.0 / 3.0))\n                        * tier_weight(entry.tier);\n\n                    let mut components = HashMap::new();",
+  "source_version": "crates/corvia-kernel/src/pipeline/expander.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.440743228Z",
+  "valid_from": "2026-03-31T13:20:59.440743228Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/expander.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 194,
+    "end_line": 217,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

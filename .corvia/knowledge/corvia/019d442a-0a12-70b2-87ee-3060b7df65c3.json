@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-3060b7df65c3",
+  "content": "### I5: GITHUB_TOKEN scope too broad (Security)\n### I6: No test plan documented (QA)\n\n### I7: Entrypoint has no startup error reporting to corvia (SWE, QA)\nIf git clone fails, spoke exits silently. Add trap handler that writes failure\nstatus to corvia before exiting.\n\n\n### I8: Shallow clone depth inconsistent and may be insufficient (SWE, PM, QA)\nBrainstorm says depth 1, entrypoint says depth 50. Default branch hardcoded\nto `master`. Standardize, query default branch via `gh api`.\n",
+  "source_version": "decisions/2026-03-28-spoke-design-review-summary.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026665891Z",
+  "valid_from": "2026-03-31T13:51:39.026665891Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-design-review-summary.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 89,
+    "end_line": 96,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

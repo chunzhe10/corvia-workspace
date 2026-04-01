@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-5606f7e6c203",
+  "content": "# corvia Brand Guideline — Design\n\n**Date:** 2026-03-02\n**Status:** Shipped (v0.2.0)\n**Format:** Single-page HTML + PDF export\n**Location:** `docs/brand/corvia-brand-guide.html` + `docs/brand/corvia-brand-guide.pdf`\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-brand-guideline-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451460858Z",
+  "valid_from": "2026-03-31T13:20:59.451460858Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-brand-guideline-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1,
+    "end_line": 9,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

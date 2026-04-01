@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-2b7e6dca8f9d",
+  "content": "### Unit Tests\n### Integration Tests (require Docker)\n\n### E2E Tests\n- Spoke creates, connects to hub MCP, writes knowledge, visible in dashboard\n- Spoke runs dev-loop on a test issue, creates PR\n- Hub restart during spoke operation (verify MCP reconnect)\n- Spoke exits after completion, prune removes container\n- Multiple spokes running concurrently, no knowledge conflicts\n\n\n### Negative Tests\n- Docker daemon down at creation time\n- Invalid repo name in corvia.toml\n- Missing credentials file\n- Expired OAuth token mid-session\n- Network unreachable between spoke and hub\n- Disk full during clone\n- Duplicate spoke name without --force\n- Missing GITHUB_TOKEN without --no-github\n",
+  "source_version": "decisions/2026-03-28-spoke-cli-design.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026088034Z",
+  "valid_from": "2026-03-31T13:51:39.026088034Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-cli-design.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 758,
+    "end_line": 774,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

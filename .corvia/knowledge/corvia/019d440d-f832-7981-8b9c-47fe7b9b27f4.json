@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f832-7981-8b9c-47fe7b9b27f4",
+  "content": "as_slice())\n                .map_err(|e| CorviaError::Agent(format!(\"Failed to update agent: {e}\")))?;\n        }\n        write_txn.commit()\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to commit agent update: {e}\")))?;\n        Ok(())\n    }\n}\npub fn open(data_dir: &Path) -> Result<Self> {\n        let db_path = data_dir.join(\"coordination.redb\");\n        let db = Database::create(&db_path)\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to open coordination db: {e}\")))?;\n\n        // Ensure table exists\n        let write_txn = db.begin_write()\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to begin write txn: {e}\")))?;\n        { let _ = write_txn.open_table(AGENTS); }\n        write_txn.commit()\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to init agents table: {e}\")))?;\n\n        Ok(Self { db: std::sync::Arc::new(db) })\n    }",
+  "source_version": "crates/corvia-kernel/src/agent_registry.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.442814910Z",
+  "valid_from": "2026-03-31T13:20:59.442814910Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/agent_registry.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 17,
+    "end_line": 30,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

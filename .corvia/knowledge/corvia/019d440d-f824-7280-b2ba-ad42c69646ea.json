@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f824-7280-b2ba-ad42c69646ea",
+  "content": "println!(\"Warning: failed to gzip stale session {:?}: {e}\", path);\n            } else {\n                swept += 1;\n            }\n        }\n    }\n\n    if swept > 0 {\n        println!(\"Swept {swept} stale session file(s)\");\n        trigger_ingest();\n    }\n}\nmod tests {\n    use super::*;\n\n    #[test]\n    fn test_strip_tool_input() {\n        let input = serde_json::json!({\n            \"file_path\": \"/foo/bar.rs\",\n            \"content\": \"huge content here\",\n            \"new_string\": \"replacement\",\n            \"old_string\": \"original\",\n        });\n        let stripped = strip_tool_input(&input);\n        assert!(stripped.get(\"file_path\").is_some());\n        assert!(stripped.get(\"content\").is_none());\n        assert!(stripped.get(\"new_string\").is_none());\n        assert!(stripped.get(\"old_string\").is_none());\n    }\n\n    #[test]\n    fn test_truncate_str_ascii() {\n        let (s, t) = truncate_str(\"hello\", 10);\n        assert_eq!(s, \"hello\");\n        assert!(!t);\n\n        let (s, t) = truncate_str(\"hello world\", 5);\n        assert_eq!(s, \"hello\");\n        assert!(t);\n    }\n\n    #[test]\n    fn test_truncate_str_unicode_no_panic() {\n        // Emoji are 4 bytes each — truncating at char boundary must not panic\n        let emoji_str = \"Hello 🌍🎉🎊🎈 world\";\n        let (s, t) = truncate_str(emoji_str, 8);\n        assert!(t);\n        assert_eq!(s.chars().count(), 8);\n        assert_eq!(s, \"Hello 🌍🎉\");\n    }\n\n    #[test]\n    fn test_truncate_str_cjk() {\n        let cjk = \"日本語テストです\";\n        let (s, t) = truncate_str(cjk, 3);\n        assert!(t);\n        assert_eq!(s, \"日本語\");\n    }\n\n    #[test]\n    fn test_truncate_str_empty() {\n        let (s, t) = truncate_str(\"\", 5);\n        assert_eq!(s, \"\");\n        assert!(!t);\n    }\n",
+  "source_version": "crates/corvia-cli/src/hooks/session.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.428814204Z",
+  "valid_from": "2026-03-31T13:20:59.428814204Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/session.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 406,
+    "end_line": 459,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

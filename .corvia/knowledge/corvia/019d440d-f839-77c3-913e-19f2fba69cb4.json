@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f839-77c3-913e-19f2fba69cb4",
+  "content": "def check_source_match(source_file: str, expected: str) -> bool:\n    \"\"\"Check if expected substring appears in source_file path.\"\"\"\n    if source_file is None:\n        return False\n    return expected.lower() in source_file.lower()\ndef check_keyword_match(content: str, keyword: str) -> bool:\n    \"\"\"Check if keyword appears in content (case-insensitive).\"\"\"\n    if content is None:\n        return False\n    return keyword.lower() in content.lower()",
+  "source_version": "benchmarks/rag-retrieval/eval.py",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.449595492Z",
+  "valid_from": "2026-03-31T13:20:59.449595492Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "benchmarks/rag-retrieval/eval.py",
+    "language": "py",
+    "chunk_type": "function_definition",
+    "start_line": 173,
+    "end_line": 177,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

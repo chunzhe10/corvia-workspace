@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-47e74a71224e",
+  "content": "### Step 3: Rewrite helper functions to use factories\n\n### Step 4: Rewrite cmd_init for lite vs full\n\n```rust\nasync fn cmd_init(full: bool) -> Result<()> {\n    let config = if full {\n        println!(\"Initializing Corvia (FullStore: SurrealDB + vLLM)...\");\n        CorviaConfig::full_default()\n    } else {\n        println!(\"Initializing Corvia (LiteStore: zero Docker)...\");\n        CorviaConfig::default()\n    };\n\n    let config_path = CorviaConfig::config_path();\n    if !config_path.exists() {\n        config.save(&config_path)?;\n        println!(\"  Created {}\", config_path.display());\n    } else {\n        println!(\"  Config already exists: {}\", config_path.display());\n    }\n\n    if full {\n        // Provision Docker containers for FullStore\n        let docker = DockerProvisioner::new()?;\n        docker.start(\n            config.storage.surrealdb_user.as_deref().unwrap_or(\"root\"),\n            config.storage.surrealdb_pass.as_deref().unwrap_or(\"root\"),\n        ).await?;\n\n        let store = connect_store(&config).await?;\n        store.init_schema().await?;\n        println!(\"  SurrealDB running on port 8000.\");\n    } else {\n        // Initialize LiteStore directory\n        let store = connect_store(&config).await?;\n        store.init_schema().await?;\n\n        // Create .gitignore for ephemeral files\n        let data_dir = std::path::Path::new(&config.storage.data_dir);\n        let gitignore_path = data_dir.join(\".gitignore\");\n        if !gitignore_path.exists() {\n            std::fs::create_dir_all(data_dir)?;\n            std::fs::write(&gitignore_path,\n                \"# Ephemeral indexes (rebuilt from knowledge files)\\nindex.hnsw.*\\nmetadata.redb\\nmetadata.redb.tmp\\n\"\n            )?;\n            println!(\"  Created {}\", gitignore_path.display());\n        }\n\n        println!(\"  LiteStore initialized in {}/\", config.storage.data_dir);\n        println!(\"\\n  Ensure Ollama is installed: https://ollama.com\");\n        println!(\"  Pull embedding model: ollama pull {}\", config.embedding.model);\n    }\n\n    println!(\"\\nNext: corvia ingest <path-to-repo>\");\n    Ok(())\n}\n```\n",
+  "source_version": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460033491Z",
+  "valid_from": "2026-03-31T13:20:59.460033491Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1528,
+    "end_line": 1584,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

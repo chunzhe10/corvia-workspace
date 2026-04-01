@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83d-7542-8fa8-a1661f1eb42f",
+  "content": "## Section 3: Standalone Dashboard (Vite + Preact)\n\n### Structure\n\n```\ntools/corvia-dashboard/\n├── package.json\n├── vite.config.ts\n├── index.html\n├── src/\n│   ├── main.tsx              # Entry point, router\n│   ├── api.ts                # Typed fetch wrapper for /api/dashboard/*\n│   ├── types.ts              # Mirrors corvia-common::dashboard types\n│   ├── hooks/\n│   │   └── use-poll.ts       # Generic polling hook\n│   ├── components/\n│   │   ├── Layout.tsx        # Header, sidebar, tab navigation\n│   │   ├── StatusBar.tsx     # Service health pills, metrics grid\n│   │   ├── LogsView.tsx      # Filterable structured log viewer\n│   │   ├── GraphView.tsx     # Knowledge graph visualization\n│   │   ├── TracesView.tsx    # Module topology, span stats, recent events\n│   │   └── ConfigPanel.tsx   # Read-only config sidebar\n│   └── styles/\n│       └── theme.css         # Ported CSS variables (gold/navy theme)\n```\n\n\n### Key decisions\n\n- **Polling**: 3s default (matches current extension), configurable\n- **API base URL**: Env var, defaults to `http://localhost:8020`\n- **Routing**: Hash router (`/#/logs`, `/#/traces`, `/#/graph`) — works in browser and webview\n- **Theme**: Direct port of existing CSS variables from `extension.js`\n- **Build output**: `dist/` — static assets\n",
+  "source_version": "docs/rfcs/2026-03-11-standalone-dashboard-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.453749876Z",
+  "valid_from": "2026-03-31T13:20:59.453749876Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-standalone-dashboard-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 101,
+    "end_line": 132,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

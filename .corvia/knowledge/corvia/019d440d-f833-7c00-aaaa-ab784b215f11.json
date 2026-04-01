@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f833-7c00-aaaa-ab784b215f11",
+  "content": "fn find_chunk_for_line(chunks: &[RawChunk], line: u32) -> Option<&RawChunk> {\n        chunks\n            .iter()\n            .find(|c| line >= c.start_line && line <= c.end_line)\n            .or_else(|| chunks.last())\n    }\nfn extract_references(\n        source: &str,\n        chunks: &[RawChunk],\n        meta: &SourceMetadata,\n    ) -> Vec<ChunkRelation> {\n        if chunks.is_empty() {\n            return vec![];\n        }\n\n        // Pre-compute a line-start byte-offset table so we can convert byte\n        // offsets from pulldown-cmark into 1-indexed line numbers.\n        let line_starts: Vec<usize> = std::iter::once(0)\n            .chain(source.match_indices('\\n').map(|(i, _)| i + 1))\n            .collect();\n\n        let byte_offset_to_line = |offset: usize| -> u32 {\n            match line_starts.binary_search(&offset) {\n                Ok(idx) => (idx + 1) as u32,\n                Err(idx) => idx as u32,  // idx is insertion point; line = idx (1-indexed)\n            }\n        };\n\n        let mut relations: Vec<ChunkRelation> = Vec::new();\n        let mut seen: HashSet<(u32, String, String)> = HashSet::new();\n        let mut in_code_block = false;\n\n        let parser = Parser::new(source);\n        for (event, range) in parser.into_offset_iter() {",
+  "source_version": "crates/corvia-kernel/src/chunking_markdown.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.443621733Z",
+  "valid_from": "2026-03-31T13:20:59.443621733Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_markdown.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 104,
+    "end_line": 131,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

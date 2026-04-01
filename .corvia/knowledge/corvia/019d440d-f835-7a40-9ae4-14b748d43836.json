@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f835-7a40-9ae4-14b748d43836",
+  "content": "(&\"path/to/file.rs\".to_string()));\n        assert!(tokens.contains(&\"path\".to_string()));\n        assert!(tokens.contains(&\"to\".to_string()));\n        assert!(tokens.contains(&\"file\".to_string()));\n        assert!(tokens.contains(&\"rs\".to_string()));\n    }\nfn test_tokenize_version_with_v() {\n        let tokens = tokenize_code_aware(\"v0.4.5\");\n        assert!(tokens.contains(&\"v0.4.5\".to_string()));\n        assert!(tokens.contains(&\"0.4.5\".to_string()));\n        assert!(tokens.contains(&\"v0\".to_string()));\n        assert!(tokens.contains(&\"4\".to_string()));\n        assert!(tokens.contains(&\"5\".to_string()));\n    }",
+  "source_version": "crates/corvia-kernel/src/tantivy_index.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.445951157Z",
+  "valid_from": "2026-03-31T13:20:59.445951157Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/tantivy_index.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 643,
+    "end_line": 650,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

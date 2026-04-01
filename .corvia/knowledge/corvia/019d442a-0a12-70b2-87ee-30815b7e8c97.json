@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-30815b7e8c97",
+  "content": "### I9: Usage agreement risk understated (PM)\n### I10: Branch naming from `--issue` underspecified (PM)\n\n### I11: Hub restart breaks all spoke MCP connections (DevOps)\nNo retry logic. Every `corvia-dev` restart stalls all active spokes.\n\n\n### I12: Disk exhaustion from clones at scale (DevOps)\n20 spokes x cargo build = 40-60GB. No disk budget check.\n",
+  "source_version": "decisions/2026-03-28-spoke-design-review-summary.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026675150Z",
+  "valid_from": "2026-03-31T13:51:39.026675150Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-design-review-summary.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 105,
+    "end_line": 110,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

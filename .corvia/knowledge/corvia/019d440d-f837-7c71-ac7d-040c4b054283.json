@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f837-7c71-ac7d-040c4b054283",
+  "content": "ore = t.retention_score,\n            d_score = t.d_score,\n            a_score = t.a_score,\n            g_score = t.g_score,\n            c_score = t.c_score,\n            superseded = t.superseded,\n            reason = t.reason,\n            \"tier_transition\"\n        );\n    }\n\n    let has_warm_to_cold = transitions\n        .iter()\n        .any(|t| t.old_tier == Tier::Warm && t.new_tier == Tier::Cold);\n\n    // ── Safeguard 5: Circuit breaker on batch writes ────────────────────────\n    match apply_transitions_batched(lite_store, &transitions, &score_updates) {\n        Ok(()) => {}\n        Err(e) => {\n            // Circuit breaker tripped — abort this scope\n            warn!(scope = scope_id, error = %e, \"Circuit breaker tripped during GC batch writes\");\n            report.circuit_breaker_tripped = true;\n            return Ok(());\n        }\n    }\n\n    // Trigger HNSW rebuild if any Warm→Cold transitions (entries removed from HNSW)\n    if has_warm_to_cold {\n        let rebuild_start = std::time::Instant::now();\n        info!(scope = scope_id, \"Triggering HNSW rebuild after Warm→Cold transitions\");\n        lite_store.rebuild_from_files()?;\n        if let Err(e) = lite_store.flush_hnsw() {\n            warn!(error = %e, \"Failed to persist HNSW after GC rebuild\");\n        }\n        report.hnsw_rebuild_triggered = true;\n        report.rebuild_duration_ms = rebuild_start.elapsed().as_millis() as u64;\n    }\n\n    Ok(())\n}",
+  "source_version": "crates/corvia-kernel/src/gc_worker.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.447220118Z",
+  "valid_from": "2026-03-31T13:20:59.447220118Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/gc_worker.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 513,
+    "end_line": 544,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

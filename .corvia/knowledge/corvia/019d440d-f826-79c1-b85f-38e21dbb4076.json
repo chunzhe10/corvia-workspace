@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f826-79c1-b85f-38e21dbb4076",
+  "content": "pub enum Device {\n    Gpu,\n    Cpu,\n}\npub enum BackendKind {\n    Cuda,\n    OpenVino,\n    Cpu,\n}",
+  "source_version": "crates/corvia-inference/src/backend.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.430753829Z",
+  "valid_from": "2026-03-31T13:20:59.430753829Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/src/backend.rs",
+    "language": "rs",
+    "chunk_type": "enum_item",
+    "start_line": 9,
+    "end_line": 19,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

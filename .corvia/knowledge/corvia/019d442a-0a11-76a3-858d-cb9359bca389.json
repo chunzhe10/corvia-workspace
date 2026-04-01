@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-cb9359bca389",
+  "content": "## 8. Implementation Sizing\n## 9. Build vs. Extend Decision\n\n## 10. Open Questions\n\n1. **File watching vs. scan**: Agent Teams files are deleted on cleanup. Do we need\n   to watch for file creation in real-time, or is hooking into cleanup sufficient?\n\n2. **Agent ID correlation**: How reliably can we match `agent_id` from team config\n   to `session_id` from session logs? Need to verify the env var chain.\n\n3. **Incremental capture**: Can we capture task completions as they happen (via\n   `TaskCompleted` hook), or only at team shutdown?\n\n4. **Message volume**: For large teams with many broadcasts, message threads could\n   be substantial. Need a chunking strategy or summarization pass?\n\n5. **Nested subagents**: Teammates can spawn subagents. How do we attribute subagent\n   findings to the correct teammate and team?\n\n\n## 11. Strategic Value\n\nThis adapter is a **distribution play**:\n\n- Every Claude Code user with Agent Teams gets immediate value from corvia\n- \"Your teams forget everything when they shut down. corvia remembers.\"\n- The adapter is lightweight (small binary, no config) but creates deep adoption\n- Once teams depend on corvia for cross-team memory, switching cost is high\n\nIt's also a **defensive play**:\n\n- If Anthropic adds native team memory, corvia is already the established layer\n- corvia's advantages (multi-tool, temporal, graph, git-as-truth) still apply\n- Being first matters more than being perfect",
+  "source_version": "decisions/2026-03-28-adapter-agent-teams-exploration.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025575307Z",
+  "valid_from": "2026-03-31T13:51:39.025575307Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-adapter-agent-teams-exploration.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 252,
+    "end_line": 282,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-752620e17cd9",
+  "content": "### Task 6: Implement Traces rendering in the `render()` function\n\n\n  var html = '<div class=\"traces-workspace\">';\n\n  // Graph panel\n  html += '<div class=\"graph-panel\">';\n  html += '<div class=\"graph-toolbar\">';\n  html += '<div class=\"mode-switcher\">';\n  for (var m of ['map', 'dataflow', 'heat']) {\n    var label = m === 'dataflow' ? 'Data Flow' : m.charAt(0).toUpperCase() + m.slice(1);\n    html += '<button class=\"mode-btn' + (traceMode === m ? ' active' : '') + '\" data-trace-mode=\"' + m + '\">' + label + '</button>';\n  }\n  html += '</div>';\n  html += '<span class=\"graph-hint\">Click a module to inspect</span>';\n  html += '</div>';\n\n  // Canvas\n  html += '<div class=\"graph-canvas\" id=\"graphCanvas\">';\n\n  // SVG edges\n  html += '<svg class=\"edge-layer\" id=\"edgeLayer\" style=\"width:100%;height:100%;position:absolute;top:0;left:0;\"></svg>';\n\n  // Nodes\n  for (var id in MODULES) {\n    var mod = MODULES[id];\n    var st = modStats[id] || {};\n    var barW = maxCount > 0 ? Math.max(5, Math.round((st.count / maxCount) * 100)) : 5;\n    var sel = selectedModule === id ? ' selected' : '';\n\n    // Heat mode classes\n    var heatCls = '';\n    if (traceMode === 'heat') {\n      var heatScore = (st.count / maxCount) * 0.6 + (st.errors > 0 ? 0.4 : 0);\n      if (heatScore > 0.7) heatCls = ' heat-hot';\n      else if (heatScore > 0.3) heatCls = ' heat-warm';\n      else heatCls = ' heat-cool';",
+  "source_version": "docs/rfcs/2026-03-10-telemetry-traces-page.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461312216Z",
+  "valid_from": "2026-03-31T13:20:59.461312216Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-telemetry-traces-page.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 758,
+    "end_line": 792,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

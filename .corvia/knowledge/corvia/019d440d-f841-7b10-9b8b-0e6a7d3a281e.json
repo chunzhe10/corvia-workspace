@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0e6a7d3a281e",
+  "content": "## File Map\n## Chunk 1: Extension Host + Package.json\n\n### Task 1: Version bump\n\n**Files:**\n- Modify: `.devcontainer/extensions/corvia-services/package.json`\n\n-**Step 1: Update version**\n\nChange `\"version\": \"0.2.0\"` to `\"version\": \"0.3.0\"` in package.json.\n\n-**Step 2: Commit**\n\n```bash\ngit add .devcontainer/extensions/corvia-services/package.json\ngit commit -m \"chore(extension): bump version to 0.3.0 for dashboard redesign\"\n```\n\n\n### Task 2: Update extension host code\n\n**Files:**\n- Modify: `.devcontainer/extensions/corvia-services/extension.js` (lines 1-107)\n\nThe host code is almost identical. Two changes:\n\n1. Track previous poll data for metric trends\n2. Add `entry_count`, `agent_count`, `session_count`, `merge_queue_depth` to the data posted to webview (these fields may already be in the JSON from `corvia-dev status --json` — if not, the webview handles missing fields gracefully with `?? '-'`)\n\n-**Step 1: Add `prevData` tracking**\n\nAt the top of the file (after line 6), add:\n\n```javascript\nlet prevData = null;\n```\n\n-**Step 2: Update refresh() to track previous data and post it**\n\nIn the `refresh()` function, after `data = JSON.parse(raw)` and before the status bar logic, add:\n\n```javascript\n    data._prev = prevData;\n    prevData = { ...data, _prev: undefined };\n```\n\nThis passes the previous poll snapshot to the webview so it can compute metric trends (e.g., entry count delta).\n\n-**Step 3: Verify host code compiles**\n\nOpen the extension in VS Code (it auto-loads from `.devcontainer/extensions/`). Confirm no syntax errors in the developer console (`Help > Toggle Developer Tools`).\n\n-**Step 4: Commit**\n\n```bash\ngit add .devcontainer/extensions/corvia-services/extension.js\ngit commit -m \"feat(extension): track previous poll data for metric trends\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-10-dashboard-redesign.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457758369Z",
+  "valid_from": "2026-03-31T13:20:59.457758369Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-dashboard-redesign.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 29,
+    "end_line": 86,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

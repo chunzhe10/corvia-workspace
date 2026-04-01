@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-307a96d39adc",
+  "content": "### I7: Entrypoint has no startup error reporting to corvia (SWE, QA)\n### I8: Shallow clone depth inconsistent and may be insufficient (SWE, PM, QA)\n\n### I9: Usage agreement risk understated (PM)\nMulti-container subscription credential use is the entire value prop. If terms\nprohibit it, feature is dead. Elevate to Phase 0 blocker.\n\n\n### I10: Branch naming from `--issue` underspecified (PM)\nNo explanation of where branch description comes from, or what happens if\nbranch already exists on remote.\n",
+  "source_version": "decisions/2026-03-28-spoke-design-review-summary.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026670528Z",
+  "valid_from": "2026-03-31T13:51:39.026670528Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-design-review-summary.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 97,
+    "end_line": 104,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

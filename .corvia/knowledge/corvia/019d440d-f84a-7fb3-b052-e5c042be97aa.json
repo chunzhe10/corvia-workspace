@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84a-7fb3-b052-e5c042be97aa",
+  "content": "#     && rm -rf /var/lib/apt/lists/*\n\n### Task 8: Full Workspace Verification\n\n-**Step 1: Run full workspace tests**\n\nRun: `cargo test --workspace 2>&1 | tail -20`\nExpected: all tests pass (existing 433+ tests + new backend/EP tests)\n\n-**Step 2: Run the inference server manually to verify startup**\n\nRun: `cargo run -p corvia-inference -- serve --port 8031 &`\nExpected: see log line with `cuda = false, openvino = false, \"GPU capabilities\"` (in devcontainer without GPU passthrough) and `inference_server_starting` with port 8031.\n\nThen kill: `kill %1`\n\n-**Step 3: Final commit (if any fixups needed)**\n\nIf any fixups were made during verification, commit them.\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-12-inference-gpu-device-control.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.466371744Z",
+  "valid_from": "2026-03-31T13:20:59.466371744Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-12-inference-gpu-device-control.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1044,
+    "end_line": 1063,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-8f03f6fc0df0",
+  "content": "# Or build from the workspace's own repos:\n# This will be replaced with a release binary URL in production\n\n# Install Ollama\nRUN curl -fsSL https://ollama.com/install.sh | sh\n\nWORKDIR /workspace\n```\n\n**Step 2: Write devcontainer.json**\n\n```json\n{\n    \"name\": \"Corvia Demo Workspace\",\n    \"build\": {\n        \"dockerfile\": \"Dockerfile\"\n    },\n    \"postCreateCommand\": \".devcontainer/scripts/post-create.sh\",\n    \"postStartCommand\": \".devcontainer/scripts/post-start.sh\",\n    \"forwardPorts\": [8020],\n    \"customizations\": {\n        \"vscode\": {\n            \"extensions\": [\n                \"rust-lang.rust-analyzer\"\n            ],\n            \"settings\": {\n                \"corvia.serverUrl\": \"http://localhost:8020\"\n            }\n        }\n    },\n    \"features\": {\n        \"ghcr.io/devcontainers/features/git:1\": {}\n    }\n}\n```\n\n**Step 3: Write post-create.sh**\n\n```bash\n#!/bin/bash\nset -e\n\necho \"=== Corvia Workspace: Post-Create Setup ===\"\n\n\n# Clone workspace repos\necho \"Cloning repos...\"\ncorvia workspace init || {\n    echo \"corvia not installed yet — building from source...\"\n    cd repos/corvia 2>/dev/null || {\n        git clone https://github.com/anthropics/corvia repos/corvia\n    }\n    cd /workspace/repos/corvia\n    cargo install --path crates/corvia-cli\n    cd /workspace\n    corvia workspace init\n}\n",
+  "source_version": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465418848Z",
+  "valid_from": "2026-03-31T13:20:59.465418848Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1606,
+    "end_line": 1659,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

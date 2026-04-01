@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-1ca40729b004",
+  "content": "rap();\n            let label = entries[nearest_idx].0.clone(); // Will be replaced with content preview by caller\n\n            super_clusters.push(ClusterNode {\n                cluster_id: format!(\"sc-{c}\"),\n                label,\n                level: 0,\n                parent_id: None,\n                entry_ids,\n                centroid,\n            });\n        }\n\n        // L1: sub-clusters within each super-cluster\n        let mut sub_clusters = Vec::new();\n        for sc in &super_clusters {\n            if sc.entry_ids.len() < 4 { continue; } // Too small to sub-divide\n            let sc_embeddings: Vec<Vec<f32>> = sc.entry_ids.iter()\n                .map(|id| entries.iter().find(|(eid, _)| eid == id).unwrap().1.clone())\n                .collect();\n            let sc_entries: Vec<(String, Vec<f32>)> = sc.entry_ids.iter()\n                .zip(sc_embeddings.iter())\n                .map(|(id, e)| (id.clone(), e.clone()))\n                .collect();\n\n            let sub_k_max = (sc.entry_ids.len() / 2).min(8).max(2);\n            let sub_k = find_best_k(&sc_embeddings, 2, sub_k_max, 200);\n            let sub_assignments = kmeans(&sc_embeddings, sub_k, 100);\n\n            for s in 0..sub_k {\n                let member_indices: Vec<usize> = sub_assignments.iter().enumerate()\n                    .filter(|(_, &a)| a == s).map(|(i, _)| i).collect();\n                if member_indices.is_empty() { continue; }\n\n                let entry_ids: Vec<String> = member_indices.iter().map(|&i| sc_entries[i].0.clone()).collect();\n                let centroid = compute_centroid(&member_indices.iter().map(|&i| &sc_embeddings[i]).collect::<Vec<_>>());\n                let nearest_idx = member_indices.iter()",
+  "source_version": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456308797Z",
+  "valid_from": "2026-03-31T13:20:59.456308797Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 428,
+    "end_line": 457,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

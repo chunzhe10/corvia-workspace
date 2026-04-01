@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-1aa20a4d8a4a",
+  "content": "### D7: First-run bootstrap\n### D8: LiteStore integration\n\n### D9: Bm25Searcher pipeline integration\n\n```rust\npub struct Bm25Searcher {\n    store: Arc<dyn QueryableStore>,  // for entry lookup by ID\n    fts: Arc<dyn FullTextSearchable>,\n}\n```\n\n- Implements `Searcher` trait\n- `needs_embedding() -> false` (BM25 uses raw query text)\n- Registered as `\"bm25\"` in PipelineRegistry\n- Uses `SearchContext.query` for text search\n- Looks up full entries from store, applies tier weighting, normalizes scores\n\n\n### D10: Dependency\n\n```toml\ntantivy = \"0.22\"  # Pure Rust, no C deps\n```\n\nIf incremental compile time exceeds 45s, add a `bm25` feature flag.\n",
+  "source_version": "docs/rfcs/2026-03-28-bm25-tantivy-litestore-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456066096Z",
+  "valid_from": "2026-03-31T13:20:59.456066096Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-bm25-tantivy-litestore-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 130,
+    "end_line": 152,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82c-7720-a124-3655e1114db9",
+  "content": "pub struct SourceMetadata {\n    pub file_path: String,\n    pub extension: String,\n    pub language: Option<String>,\n    pub scope_id: String,\n    pub source_version: String,\n    /// Optional workstream (e.g. git branch). When set by an adapter,\n    /// propagated to `KnowledgeEntry.workstream` at ingest time.\n    #[serde(default)]\n    pub workstream: Option<String>,\n    /// Optional content role (e.g. \"session-turn\", \"research\").\n    /// Overrides path-based inference when set.\n    #[serde(default)]\n    pub content_role: Option<String>,\n    /// Optional source origin (e.g. \"claude:main\", \"claude:subagent\").\n    /// Overrides path-based inference when set.\n    #[serde(default)]\n    pub source_origin: Option<String>,\n    /// Optional parent session ID for subagent sessions. When set, the ingest\n    /// pipeline creates a `spawned_by` graph edge from this session's first turn\n    /// to the parent session's first turn.\n    #[serde(default, skip_serializing_if = \"Option::is_none\")]\n    pub parent_session_id: Option<String>,\n    /// Optional graph edge hints. Each hint specifies a relation and a target\n    /// entry by `source_version`. The ingest pipeline resolves targets and\n    /// creates edges; unresolved targets are deferred to `.pending-edges`.\n    #[serde(default, skip_serializing_if = \"Vec::is_empty\")]\n    pub edge_hints: Vec<EdgeHint>,\n}",
+  "source_version": "crates/corvia-kernel/src/chunking_strategy.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.436894051Z",
+  "valid_from": "2026-03-31T13:20:59.436894051Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_strategy.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 23,
+    "end_line": 51,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

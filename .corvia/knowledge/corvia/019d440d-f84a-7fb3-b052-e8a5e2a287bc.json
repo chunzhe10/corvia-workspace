@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84a-7fb3-b052-e8a5e2a287bc",
+  "content": " knowledge file was written\n    let knowledge_dir = dir.path().join(\"knowledge\").join(\"test-repo\");\n    assert!(knowledge_dir.exists(), \"Knowledge directory should exist\");\n\n    println!(\"LiteStore E2E test passed: insert, get, count, search all work.\");\n}\nasync fn test_lite_store_rebuild() {\n    let dir = tempfile::tempdir().unwrap();\n\n    // Phase 1: Insert entries\n    {\n        let store = LiteStore::open(dir.path(), 3).unwrap();\n        store.init_schema().await.unwrap();\n\n        for i in 0..5 {\n            let entry = KnowledgeEntry::new(\n                format!(\"entry {i}\"), \"rebuild-test\".into(), \"v1\".into(),\n            ).with_embedding(vec![i as f32 * 0.1, 0.5, 0.5]);\n            store.insert(&entry).await.unwrap();\n        }\n        assert_eq!(store.count(\"rebuild-test\").await.unwrap(), 5);\n    }\n    // LiteStore dropped here — simulates process restart\n\n    // Phase 2: Open fresh and rebuild from knowledge files\n    {\n        let store = LiteStore::open(dir.path(), 3).unwrap();\n        store.init_schema().await.unwrap();\n\n        let rebuilt = store.rebuild_from_files().unwrap();\n        assert_eq!(rebuilt, 5);\n        assert_eq!(store.count(\"rebuild-test\").await.unwrap(), 5);\n\n        // Search should work after rebuild\n        let results = store.search(&[0.0, 0.5, 0.5], \"rebuild-test\", 1).await.unwrap();\n        assert!(!results.is_empty(), \"Search should work after rebuild\");\n    }\n\n    println!(\"Rebuild integration test passed.\");\n}",
+  "source_version": "tests/integration/e2e_test.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.466783710Z",
+  "valid_from": "2026-03-31T13:20:59.466783710Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "tests/integration/e2e_test.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 54,
+    "end_line": 87,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

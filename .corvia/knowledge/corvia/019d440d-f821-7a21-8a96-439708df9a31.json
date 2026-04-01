@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f821-7a21-8a96-439708df9a31",
+  "content": "pub struct TraceEvent {\n    pub ts: String,\n    pub level: String,\n    pub module: String,\n    pub msg: String,\n}\npub struct TracesData {\n    pub spans: HashMap<String, SpanStats>,\n    pub recent_events: Vec<TraceEvent>,\n}\npub struct DashboardConfig {\n    pub embedding_provider: String,\n    pub merge_provider: String,\n    pub storage: String,\n    pub workspace: String,\n}",
+  "source_version": "crates/corvia-common/src/dashboard.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.425789273Z",
+  "valid_from": "2026-03-31T13:20:59.425789273Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/dashboard.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 61,
+    "end_line": 66,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

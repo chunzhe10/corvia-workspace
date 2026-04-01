@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83a-78e0-bb2b-d99ca9ab3f6f",
+  "content": "at_5\"]\n            delta_m = cq[\"reciprocal_rank\"] - bq[\"reciprocal_rank\"]\n\n            entry = {\n                \"id\": qid,\n                \"query\": bq[\"query\"][:55],\n                \"category\": bq[\"category\"],\n                \"base_r\": bq[\"recall_at_5\"],\n                \"cand_r\": cq[\"recall_at_5\"],\n                \"delta_r\": delta_r,\n                \"delta_m\": delta_m,\n            }\n\n            if delta_r > 0.01 or delta_m > 0.01:\n                improved.append(entry)\n            elif delta_r < -0.01 or delta_m < -0.01:\n                regressed.append(entry)\n            else:\n                unchanged.append(entry)\n\n        if improved:\n            print(f\"  Improved ({len(improved)} queries):\")\n            for e in improved:\n                print(f\"    Q{e['id']:2d} [{e['category']:12s}] R@5: {e['base_r']:.2f}->{e['cand_r']:.2f} \"\n                      f\"(+{e['delta_r']:.2f})  {e['query']}\")\n        if regressed:\n            print(f\"  Regressed ({len(regressed)} queries):\")\n            for e in regressed:\n                print(f\"    Q{e['id']:2d} [{e['category']:12s}] R@5: {e['base_r']:.2f}->{e['cand_r']:.2f} \"\n                      f\"({e['delta_r']:.2f})  {e['query']}\")\n        if unchanged:\n            print(f\"  Unchanged ({len(unchanged)} queries)\")\n        print()\n\n    # ── Ship Gate Check ──\n    print(\"=\" * 70)\n    print(\"  SHIP GATE CHECK\")\n    print(\"=\" * 70)\n    print()\n\n    # Check gates against the candidate (second file, index 1)\n    candidate = results[1] if len(results) >= 2 else results[0]\n    candidate_agg = candidate[\"aggregate\"]\n    candidate_label = labels[1] if len(labels) >= 2 else labels[0]\n\n    all_pass = True\n",
+  "source_version": "benchmarks/rag-retrieval/compare.py",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.450320202Z",
+  "valid_from": "2026-03-31T13:20:59.450320202Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "benchmarks/rag-retrieval/compare.py",
+    "language": "py",
+    "chunk_type": "function_definition",
+    "start_line": 170,
+    "end_line": 208,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

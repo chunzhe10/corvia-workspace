@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-8d42fc4a2ee0",
+  "content": "   config: &CorviaConfig,\n    data_dir: &std::path::Path,\n) -> Result<Box<dyn QueryableStore>> {\n    match config.storage.store_type {\n        StoreType::Lite => {\n            let store = lite_store::LiteStore::open(data_dir, config.embedding.dimensions)?;\n            Ok(Box::new(store))\n        }\n        StoreType::Surrealdb => {\n            // FullStore uses URL, not local path — pass through to existing factory\n            create_store(config).await\n        }\n    }\n}\n```\n\n**Step 3: Wire up the create handler in main.rs**\n\nReplace the `todo!()` in `WorkspaceCommands::Create`:\n\n```rust\nWorkspaceCommands::Create { name, repos, template, locals } => {\n    if repos.is_empty() && template.is_none() {\n        anyhow::bail!(\"Provide at least one --repo URL or a --template\");\n    }\n    let local_overrides = workspace::parse_local_overrides(&locals)?;\n\n    let config = if let Some(template_url) = &template {\n        // Clone template workspace and adapt\n        let root = PathBuf::from(&name);\n        println!(\"Scaffolding from template: {}\", template_url);\n        workspace::clone_repo(template_url, &root)?;\n        // Load and return existing config from template\n        let config_path = root.join(\"corvia.toml\");\n        if !config_path.exists() {\n            anyhow::bail!(\"Template has no corvia.toml\");\n        }\n        CorviaConfig::load(&config_path)?\n    } else {\n        let config = workspace::generate_workspace_config(&name, &repos, &local_overrides);\n        let root = PathBuf::from(&name);\n        workspace::scaffold_workspace(&root, &config)?;\n        config\n    };\n",
+  "source_version": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465162012Z",
+  "valid_from": "2026-03-31T13:20:59.465162012Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 709,
+    "end_line": 747,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

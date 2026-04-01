@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f820-7670-b7d8-75ae187661d9",
+  "content": "n each super-cluster\n        let mut sub_clusters = Vec::new();\n        for sc in &super_clusters {\n            if sc.entry_ids.len() < 4 {\n                continue; // Too small to sub-divide\n            }\n            let sc_embeddings: Vec<Vec<f32>> = sc\n                .entry_ids\n                .iter()\n                .map(|id| {\n                    entries\n                        .iter()\n                        .find(|(eid, _)| eid == id)\n                        .unwrap()\n                        .1\n                        .clone()\n                })\n                .collect();\n            let sc_entries: Vec<(String, Vec<f32>)> = sc\n                .entry_ids\n                .iter()\n                .zip(sc_embeddings.iter())\n                .map(|(id, e)| (id.clone(), e.clone()))\n                .collect();\n\n            let sub_k_max = (sc.entry_ids.len() / 2).clamp(2, 8);\n            let sub_k = find_best_k_with_rng(&sc_embeddings, 2, sub_k_max, 200, rng);\n            let sub_assignments = kmeans_with_rng(&sc_embeddings, sub_k, 100, rng);\n\n            for s in 0..sub_k {\n                let member_indices: Vec<usize> = sub_assignments\n                    .iter()\n                    .enumerate()\n                    .filter(|&(_, a)| *a == s)\n                    .map(|(i, _)| i)\n                    .collect();\n                if member_indices.is_empty() {\n                    continue;\n                }\n\n                let entry_ids: Vec<String> =\n                    member_indices.iter().map(|&i| sc_entries[i].0.clone()).collect();\n                let centroid = compute_centroid(\n                    &member_indices\n                        .iter()\n                        .map(|&i| &sc_embeddings[i])\n                        .collect::<Vec<_>>(),\n                );\n                let nearest_idx = member_indices\n                    .iter()\n                    .min_by(|&&a, &&b| {",
+  "source_version": "crates/corvia-server/src/dashboard/clustering.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.424095595Z",
+  "valid_from": "2026-03-31T13:20:59.424095595Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/clustering.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 360,
+    "end_line": 403,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

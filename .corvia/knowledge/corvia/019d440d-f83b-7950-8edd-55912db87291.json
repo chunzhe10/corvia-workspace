@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-55912db87291",
+  "content": "### Computation Logic\n\n\n   b. **Store count** — `store.count(scope_id).await`. This is the Redb\n      `SCOPE_INDEX` entry count.\n\n   c. **HNSW count** — count entries in the Redb `HNSW_TO_UUID` table. This\n      requires exposing a new method on `LiteStore` (see Files Changed). For\n      `PostgresStore`, return `store_count` (pgvector manages its own index).\n\n   d. **Coverage** — `hnsw_count` vs `disk_count`:\n      - If `disk_count == 0`: `coverage = None`, `stale = None`.\n      - Else: `coverage = Some((hnsw_count as f64 / disk_count as f64).min(1.0))`.\n      - `stale = coverage.map(|c| c < threshold)`.\n\n   e. **Orphan detection** — if `hnsw_count > disk_count` or\n      `store_count > disk_count`, log `tracing::warn!` with counts. Coverage is\n      still clamped to 1.0 (orphaned entries don't reduce search quality), but\n      the raw counts in the response let consumers detect this condition.\n\n   f. **Observability** — `tracing::info!` on every recompute:\n      ```\n      index coverage recomputed: disk={disk_count} store={store_count}\n      hnsw={hnsw_count} coverage={coverage:?} stale={stale:?}\n      compute_ms={elapsed_ms}\n      ```\n\n   g. Update `last_computed` and `last_computed_wall`.\n\n3. Return snapshot.\n",
+  "source_version": "docs/rfcs/2026-03-26-dashboard-index-coverage-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451400240Z",
+  "valid_from": "2026-03-31T13:20:59.451400240Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-26-dashboard-index-coverage-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 161,
+    "end_line": 189,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

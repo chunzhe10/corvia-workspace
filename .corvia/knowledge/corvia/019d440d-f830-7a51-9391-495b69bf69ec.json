@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f830-7a51-9391-495b69bf69ec",
+  "content": "   let pipeline = RetrievalPipeline::new(\n            vec![\n                Arc::new(VectorSearcher::new(queryable.clone(), engine.clone())),\n                Arc::new(MockBM25Searcher {\n                    results: vec![mock_candidate],\n                }),\n            ],\n            Arc::new(PassThrough),\n            Arc::new(crate::pipeline::expander::NoOpExpander),\n            Arc::new(IdentityReranker),\n            engine.clone(),\n            queryable.clone(),\n            5000,\n        );\n\n        let opts = RetrievalOpts {\n            limit: 10,\n            expand_graph: false,\n            visibility: VisibilityMode::All,\n            ..Default::default()\n        };\n\n        // Embedding fails, but pipeline should degrade to BM25 results.\n        let result = pipeline\n            .retrieve(\"test query\", \"embed-fail-scope\", &opts)\n            .await\n            .unwrap();\n\n        assert!(\n            !result.results.is_empty(),\n            \"should return BM25 results when embedding fails\"\n        );\n        // query_embedding should be None when embedding failed.\n        assert!(\n            result.query_embedding.is_none(),\n            \"query_embedding should be None when embedding failed\"\n        );\n    }",
+  "source_version": "crates/corvia-kernel/src/pipeline/core.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.440598470Z",
+  "valid_from": "2026-03-31T13:20:59.440598470Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/core.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1048,
+    "end_line": 1079,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

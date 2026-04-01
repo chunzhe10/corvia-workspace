@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a15-7ca3-b9db-5238310d5608",
+  "content": ": 24px;\">\n    1 in 8 Commits Is<br>\n    <span class=\"highlight-amber\">a Review Fix</span>\n  </div>\n  <div class=\"slide-subtitle\" style=\"font-size: 20px; margin-bottom: 32px;\">\n    Real numbers from the git history of a Rust knowledge-base project.\n  </div>\n  <!-- Stats grid -->\n  <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 28px;\">\n    <div class=\"stat-box\">\n      <div style=\"font-size: 56px; font-weight: 800; color: var(--accent-blue);\">323</div>\n      <div style=\"font-size: 18px; font-weight: 500; color: var(--text-secondary); margin-top: 8px;\">Total commits</div>\n    </div>\n    <div class=\"stat-box\">\n      <div style=\"font-size: 56px; font-weight: 800; color: var(--accent-amber);\">42</div>\n      <div style=\"font-size: 18px; font-weight: 500; color: var(--text-secondary); margin-top: 8px;\">Review fix commits</div>\n    </div>\n    <div class=\"stat-box\">\n      <div style=\"font-size: 56px; font-weight: 800; color: var(--accent-green);\">13%</div>\n      <div style=\"font-size: 18px; font-weight: 500; color: var(--text-secondary); margin-top: 8px;\">Commits are review fixes</div>\n    </div>\n    <div class=\"stat-box\">\n      <div style=\"font-size: 56px; font-weight: 800; color: var(--accent-purple);\">23+</div>\n      <div style=\"font-size: 18px; font-weight: 500; color: var(--text-secondary); margin-top: 8px;\">Design issues caught in specs</div>\n    </div>\n  </div>\n\n  <!-- Context card -->\n  <div class=\"card\" style=\"border-left: 4px solid var(--accent-amber);\">\n    <div style=\"font-size: 15px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-amber); margin-bottom: 12px;\">What 42 Fixes Look Like</div>\n    <div style=\"font-size: 18px; color: var(--text-secondary); line-height: 1.7;\">\n      Race conditions, silent error swallowing, scoring bugs, DoS vectors, incomplete implementations, missing migrations, API design improvements. Every one of these would have shipped without review.\n    </div>\n  </div>\n\n  <div class=\"insight-box\">\n    <p>Each reviewer must produce 10+ lines of substantive feedback with file:line references. Shallow reviews get re-dispatched.</p>\n  </div>\n\n  <div class=\"flex-grow\"></div>\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">07 / 09</div>\n</div>",
+  "source_version": "marketing/linkedin/2026-03-27-five-persona-review/five-persona-review-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.029361792Z",
+  "valid_from": "2026-03-31T13:51:39.029361792Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-27-five-persona-review/five-persona-review-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 465,
+    "end_line": 500,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

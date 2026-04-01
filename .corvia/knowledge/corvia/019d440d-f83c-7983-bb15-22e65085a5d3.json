@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-22e65085a5d3",
+  "content": "## Task Group C: Adapter Relation Extraction (Tasks 9-10)\n\n### Task 9: Extract structural relations from tree-sitter AST\n\nExtend the git adapter to emit relations alongside code chunks during ingestion.\n\n**Files:**\n- Modify: `corvia-adapter-git/src/treesitter.rs`\n- Modify: `corvia-adapter-git/src/git.rs`\n\n**Step 1:** Define `CodeRelation` struct:\n\n```rust\npub struct CodeRelation {\n    pub from_chunk_index: usize,  // index into the chunks vec\n    pub relation: String,         // \"imports\", \"calls\", \"implements\", \"contains\"\n    pub to_file: String,          // resolved file path (for cross-file relations)\n    pub to_name: Option<String>,  // symbol name (for within-file relations)\n}\n```\n\n**Step 2:** Add `extract_relations()` to `treesitter.rs` — parse `use`/`import` statements, `impl` blocks.\n\n**Step 3:** Update `GitAdapter::ingest()` return type to include relations (or add a separate method).\n\n**Step 4:** Write tests for Rust `use` statement extraction, `impl` block extraction.\n\n**Step 5:** Commit.\n\n```\ngit commit -m \"feat(m3): tree-sitter relation extraction — imports, implements, contains\"\n```\n\n---\n\n\n### Task 10: Wire relation extraction into ingestion pipeline\n\nConnect the adapter's relation output to `GraphStore::relate()` during `corvia ingest`.\n\n**Files:**\n- Modify: `crates/corvia-cli/src/main.rs` (cmd_ingest)\n- Modify: `crates/corvia-cli/src/workspace.rs` (ingest_workspace)\n\n**Step 1:** After inserting entries, resolve `CodeRelation` chunk indices to UUIDs and call `store.relate()`.\n\n**Step 2:** Test with actual codebase ingestion (workspace ingest).\n\n**Step 3:** Commit.\n\n```\ngit commit -m \"feat(m3): wire relation extraction into ingest pipeline — auto-populate graph\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-m3-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452673896Z",
+  "valid_from": "2026-03-31T13:20:59.452673896Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 869,
+    "end_line": 921,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

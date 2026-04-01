@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81c-7712-b515-4f57756f21f9",
+  "content": "fn default() -> Self {\n        Self::new()\n    }\nimpl GitAdapter {\n    pub fn new() -> Self {\n        Self\n    }\n}\npub fn new() -> Self {\n        Self\n    }",
+  "source_version": "adapters/corvia-adapter-git/rust/src/git.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.420832657Z",
+  "valid_from": "2026-03-31T13:20:59.420832657Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-git/rust/src/git.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 27,
+    "end_line": 29,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

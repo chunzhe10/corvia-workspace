@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-8c70ae4002ef",
+  "content": "Config::default();\n    ws_config.workspace = Some(WorkspaceConfig {\n        repos_dir: \"repos\".into(),\n        repos: vec![],\n    });\n    assert!(ws_config.is_workspace());\n}\n\n#[test]\nfn test_workspace_default_repos_dir() {\n    let toml_str = r#\"\n[project]\nname = \"test\"\nscope_id = \"test\"\n\n[workspace]\n\n[[workspace.repos]]\nname = \"repo\"\nurl = \"https://github.com/org/repo\"\nnamespace = \"repo\"\n\n[storage]\nstore_type = \"lite\"\ndata_dir = \".corvia\"\n\n[embedding]\nprovider = \"ollama\"\nmodel = \"nomic-embed-text\"\nurl = \"http://127.0.0.1:11434\"\ndimensions = 768\n\n[server]\nhost = \"127.0.0.1\"\nport = 8020\n\"#;\n    let config: CorviaConfig = toml::from_str(toml_str).unwrap();\n    let ws = config.workspace.unwrap();\n    assert_eq!(ws.repos_dir, \"repos\");\n}\n```\n\n**Step 2: Run tests to verify they fail**\n\nRun: `cargo test -p corvia-common -- test_workspace`\nExpected: compilation errors — `WorkspaceConfig`, `RepoConfig`, `is_workspace` not defined.\n\n**Step 3: Implement workspace config structs**\n\nIn `config.rs`, add the structs before the `CorviaConfig` definition:\n\n```rust\nfn default_repos_dir() -> String {\n    \"repos\".into()\n}\n\n#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]\npub struct RepoConfig {\n    pub name: String,\n    pub url: String,\n    #[serde(default, skip_serializing_if = \"Option::is_none\")]\n    pub local: Option<String>,\n    pub namespace: String,\n}",
+  "source_version": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465000646Z",
+  "valid_from": "2026-03-31T13:20:59.465000646Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 122,
+    "end_line": 173,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

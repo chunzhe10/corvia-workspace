@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-757338e5f5c2",
+  "content": "ew needs a different layout (no sidebar), so it breaks out of the normal log-panel + sidebar structure. The early return avoids appending the sidebar HTML.\n\n-**Step 3: Add `bindTraces()` and `drawEdges()` functions**\n\nAfter `bindAll()`, add:\n\n```javascript\nfunction bindTraces() {\n  document.querySelectorAll('[data-tnode]').forEach(function(n) {\n    n.onclick = function() {\n      selectedModule = n.dataset.tnode;\n      vscode.postMessage({ type: 'refresh' });\n    };\n  });\n\n  document.querySelectorAll('[data-trace-mode]').forEach(function(b) {\n    b.onclick = function() {\n      traceMode = b.dataset.traceMode;\n      vscode.postMessage({ type: 'refresh' });\n    };\n  });\n}\n\nfunction drawEdges() {\n  var svg = document.getElementById('edgeLayer');\n  var canvas = document.getElementById('graphCanvas');\n  if (!svg || !canvas) return;\n\n  var cw = canvas.offsetWidth;\n  var ch = canvas.offsetHeight;\n  svg.setAttribute('viewBox', '0 0 ' + cw + ' ' + ch);\n\n  var paths = '';\n  var animations = '';\n  for (var i = 0; i < EDGES.length; i++) {\n    var e = EDGES[i];\n    var fromMod = MODULES[e[0]];\n    var toMod = MODULES[e[1]];\n    if (!fromMod || !toMod) continue;\n\n    var x1 = (fromMod.pos[0] / 100) * cw + 60;\n    var y1 = (fromMod.pos[1] / 100) * ch + 40;",
+  "source_version": "docs/rfcs/2026-03-10-telemetry-traces-page.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461361640Z",
+  "valid_from": "2026-03-31T13:20:59.461361640Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-telemetry-traces-page.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 933,
+    "end_line": 967,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84b-7723-860a-1a39d9eddd8d",
+  "content": ", \"corvia_history\",\n        json!({\"entry_id\": entry_id}), \"e2e-history-agent\",\n    ).await;\n\n    let text = result[\"result\"][\"content\"][0][\"text\"].as_str().unwrap_or(\"\");\n    assert!(!text.is_empty(), \"History should return chain for entry {entry_id}\");\n}\nasync fn test_trace_health() {\n    skip_if_unavailable!();\n    skip_if_not_extended!();\n    let env = get_or_init_env().await;\n\n    // Write + search to generate spans\n    mcp_write(\n        env, \"corvia\",\n        \"Trace health test: ensuring spans are emitted correctly\",\n        \"e2e-trace-agent\",\n    ).await;\n    tokio::time::sleep(Duration::from_secs(1)).await;\n    let _ = mcp_search(env, \"trace health test\", \"corvia\", \"e2e-trace-agent\").await;\n\n    // Wait for trace flush across Docker volume mount\n    tokio::time::sleep(Duration::from_secs(3)).await;\n\n    let traces = read_traces(env);\n    assert!(!traces.is_empty(), \"Trace file should contain events\");\n\n    assert_span_exists(&traces, \"corvia.entry.write_dedup\");\n    assert_span_exists(&traces, \"corvia.store.search\");\n\n    assert_no_error_spans(&traces);\n\n    // Timing sanity: no span should take > 30s\n    for trace in &traces {\n        assert!(\n            trace.elapsed_ms < 30_000.0,\n            \"Span {} took {:.1}ms (> 30s threshold)\",\n            trace.span_name, trace.elapsed_ms\n        );\n    }\n}",
+  "source_version": "tests/integration/docker_mcp_e2e_test.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.467311733Z",
+  "valid_from": "2026-03-31T13:20:59.467311733Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "tests/integration/docker_mcp_e2e_test.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 740,
+    "end_line": 773,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

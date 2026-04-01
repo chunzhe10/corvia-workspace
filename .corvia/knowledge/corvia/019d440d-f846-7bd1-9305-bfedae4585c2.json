@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-bfedae4585c2",
+  "content": "ces.iter().map(|r| {\n        serde_json::json!({\n            \"content\": r.entry.content,\n            \"score\": r.score,\n            \"source_file\": r.entry.metadata.source_file,\n            \"language\": r.entry.metadata.language,\n        })\n    }).collect();\n\n    Ok(json!({\n        \"content\": [{\n            \"type\": \"text\",\n            \"text\": serde_json::to_string_pretty(&json!({\n                \"context\": response.context.context,\n                \"sources\": sources,\n                \"trace\": response.trace,\n            })).unwrap()\n        }]\n    }))\n}\n\nasync fn tool_corvia_ask(\n    state: &AppState,\n    args: &Value,\n) -> Result<Value, (i32, String)> {\n    let query = args.get(\"query\").and_then(|v| v.as_str())\n        .ok_or((INVALID_PARAMS, \"Missing 'query' parameter\".into()))?;\n    let scope_id = args.get(\"scope_id\").and_then(|v| v.as_str())\n        .ok_or((INVALID_PARAMS, \"Missing 'scope_id' parameter\".into()))?;\n    let limit = args.get(\"limit\").and_then(|v| v.as_u64()).unwrap_or(10) as usize;\n    let expand_graph = args.get(\"expand_graph\").and_then(|v| v.as_bool()).unwrap_or(true);\n\n    let rag = state.rag.as_ref()\n        .ok_or((INTERNAL_ERROR, \"RAG pipeline not configured\".into()))?;\n\n    let opts = corvia_kernel::rag_types::RetrievalOpts {\n        limit,\n        expand_graph,\n        ..Default::default()\n    };\n\n    let response = rag.ask(query, scope_id, Some(opts)).await\n        .map_err(|e| (INTERNAL_ERROR, format!(\"RAG failed: {e}\")))?;\n\n    let sources: Vec<Value> = response.context.sources.iter().map(|r| {\n        serde_json::json!({\n            \"content\": r.entry.content,\n            \"score\": r.score,\n            \"source_file\": r.entry.metadata.source_file,\n        })\n    }).collect();\n",
+  "source_version": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462236568Z",
+  "valid_from": "2026-03-31T13:20:59.462236568Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1984,
+    "end_line": 2026,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

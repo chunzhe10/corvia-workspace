@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f824-7280-b2ba-aa33fbe84a53",
+  "content": "      for hook in hooks_arr {\n            if let Some(cmd) = hook.get(\"command\").and_then(|c| c.as_str())\n                && PURGE_PATTERNS.iter().any(|p| cmd.contains(p))\n            {\n                return true;\n            }\n        }\n    }\n    false\n}\nfn add_hooks(hooks_obj: &mut serde_json::Map<String, serde_json::Value>, config: &HooksConfig) {\n    // SessionStart\n    {\n        let arr = ensure_array(hooks_obj, \"SessionStart\");\n        arr.push(hook_entry(None, \"corvia hooks run --event SessionStart\", 5000));\n    }\n\n    // UserPromptSubmit\n    if config.session_recording {\n        let arr = ensure_array(hooks_obj, \"UserPromptSubmit\");\n        arr.push(hook_entry(None, \"corvia hooks run --event UserPromptSubmit\", 5000));\n    }\n\n    // PreToolUse\n    {\n        let arr = ensure_array(hooks_obj, \"PreToolUse\");\n        if config.session_recording {\n            arr.push(hook_entry(None, \"corvia hooks run --event PreToolUse\", 5000));\n        }\n        if config.doc_placement {\n            arr.push(hook_entry(Some(\"Write|Edit\"), \"corvia hooks run --event PreToolUse --handler doc-placement\", 5000));\n        }\n        if config.corvia_first_reminder {\n            arr.push(hook_entry(Some(\"Grep|Glob\"), \"corvia hooks run --event PreToolUse --handler corvia-first-reminder\", 5000));\n        }\n    }\n\n    // PostToolUse",
+  "source_version": "crates/corvia-cli/src/hooks/settings.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.428480178Z",
+  "valid_from": "2026-03-31T13:20:59.428480178Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/settings.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 107,
+    "end_line": 134,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

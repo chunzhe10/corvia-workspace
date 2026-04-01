@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f834-7df0-9fec-24c5181dbed5",
+  "content": "t entry = entry.clone();\n                                entry.embedding = Some(embedding);\n                                store.insert(&entry).await?;\n                                stored_ids.push(entry.id);\n                                stored += 1;\n                            }\n                            progress.log(&format!(\"  embedded and stored {}/{}\", stored, total));\n                        }\n\n                        // Wire graph edges from edge hints\n                        let mut edges_created = 0u32;\n                        let mut pending_edges: Vec<PendingEdge> = Vec::new();\n\n                        for (i, hints) in edge_hints_by_idx.iter().enumerate() {\n                            if hints.is_empty() || i >= stored_ids.len() {\n                                continue;\n                            }\n                            let from_id = stored_ids[i];\n\n                            for hint in hints {\n                                // Try same-batch resolution first\n                                if let Some(&target_idx) = sv_to_idx.get(&hint.target_source_version) {\n                                    if target_idx < stored_ids.len() {\n                                        let to_id = stored_ids[target_idx];\n                                        if graph\n                                            .relate(&from_id, &hint.relation, &to_id, None)\n                                            .await\n                                            .is_ok()",
+  "source_version": "crates/corvia-kernel/src/ingest.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.444612813Z",
+  "valid_from": "2026-03-31T13:20:59.444612813Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ingest.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1199,
+    "end_line": 1221,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

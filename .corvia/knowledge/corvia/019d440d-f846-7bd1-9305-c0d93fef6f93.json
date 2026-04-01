@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-c0d93fef6f93",
+  "content": "### Demo Config\n### Devcontainer\n\n### Pre-Ingested vs. Fresh\n\n- **Default**: Ships with pre-ingested `.corvia/knowledge/` + `hnsw_index/`. Instant demo.\n- **`--fresh`**: `corvia workspace ingest --fresh` rebuilds from scratch. User choice.\n- **Release process**: CI regenerates pre-ingested knowledge per release. Checkout repos at release tag → ingest → commit updated knowledge → tag.\n\n\n### Two Operating Modes\n\n```\nMode 1 (native):       corvia workspace init → local Ollama → develop normally\nMode 2 (devcontainer):  open in Codespaces → Ollama in container → same workspace, portable\n```\n\nThe workspace works identically in both. Devcontainer is optional packaging, not required.\n",
+  "source_version": "docs/rfcs/2026-03-01-m2.1-workspace-devcontainer-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462367200Z",
+  "valid_from": "2026-03-31T13:20:59.462367200Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2.1-workspace-devcontainer-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 216,
+    "end_line": 230,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

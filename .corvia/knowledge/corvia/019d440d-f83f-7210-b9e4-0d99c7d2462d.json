@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83f-7210-b9e4-0d99c7d2462d",
+  "content": " --nocapture 2>&1 | tail -15`\nExpected: both PASS\n\n- **Step 8: Commit**\n\n```bash\ncd /workspaces/corvia-workspace/repos/corvia\ngit add crates/corvia-kernel/src/ops.rs\ngit commit -m \"feat(kernel): add GcHistory ring buffer and timing wrapper for gc_run\"\n```\n\n### Task 3: Add GcHistory to AppState\n\n**Files:**\n- Modify: `crates/corvia-server/src/rest.rs:19-36`\n\n- **Step 1: Add gc_history field to AppState**\n\nIn `rest.rs`, add the import and field:\n\n```rust\n// Add to imports at the top\nuse corvia_kernel::ops::GcHistory;\n```\n\nAdd to the `AppState` struct after `cluster_store`:\n\n```rust\n    /// In-memory GC run history for dashboard.\n    pub gc_history: Arc<GcHistory>,\n```\n\n- **Step 2: Update AppState construction sites**\n\n`AppState` is constructed in two places in `crates/corvia-server/src/mcp.rs`:\n\n**Site 1 — line ~1391** (production `make_test_state`): Add after `cluster_store`:\n```rust\n            gc_history: Arc::new(corvia_kernel::ops::GcHistory::new(50)),\n```\n\n**Site 2 — line ~1693** (test `setup_mcp_test`): Add after `cluster_store`:\n```rust\n            gc_history: Arc::new(corvia_kernel::ops::GcHistory::new(50)),\n```\n\nAlso check if there is a third construction site in `main.rs` or `rest.rs`:\n```bash\ncd /workspaces/corvia-workspace/repos/corvia && grep -rn \"AppState {\" crates/corvia-server/src/ | head -10\n```\nUpdate any additional sites found.\n\n- **Step 3: Build to verify compilation**\n\nRun: `cd /workspaces/corvia-workspace/repos/corvia && cargo build -p corvia-server 2>&1 | tail -20`\nExpected: compiles successfully\n\n- **Step 4: Commit**\n\n```bash\ncd /workspaces/corvia-workspace/repos/corvia\ngit add crates/corvia-server/src/rest.rs crates/corvia-server/src/*.rs\ngit commit -m \"feat(server): add GcHistory to AppState\"\n```\n",
+  "source_version": "docs/rfcs/2026-03-14-dashboard-completion-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.455363861Z",
+  "valid_from": "2026-03-31T13:20:59.455363861Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-14-dashboard-completion-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 278,
+    "end_line": 331,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

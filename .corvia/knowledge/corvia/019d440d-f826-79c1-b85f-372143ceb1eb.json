@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f826-79c1-b85f-372143ceb1eb",
+  "content": "               tracing::warn!(\n                        model = %name_owned,\n                        expected_dims,\n                        actual_dims,\n                        \"Canary embedding dimensions mismatch\"\n                    );\n                }\n\n                if latency.as_secs() > 5 {\n                    tracing::warn!(\n                        model = %name_owned,\n                        latency_ms = latency.as_millis() as u64,\n                        \"Canary embedding latency >5s — possible CPU fallback or cold start\"\n                    );\n                }\n\n                tracing::info!(\n                    model = %name_owned,\n                    latency_ms = latency.as_millis() as u64,\n                    dimensions = actual_dims,\n                    nonzero = is_nonzero,\n                    \"Canary embedding verified\"\n                );\n            }\n            Ok(Err(e)) => {\n                tracing::warn!(\n                    model = %name_owned,\n                    error = %e,\n                    \"Canary embedding failed — model loaded but inference may not work\"\n                );\n            }\n            Err(e) => {\n                tracing::warn!(\n                    model = %name_owned,\n                    error = %e,\n                    \"Canary embedding task failed — model loaded but inference may not work\"\n                );\n            }\n        }\n\n        Ok(())\n    }\n\n    /// Run a canary embedding bypassing tonic Request/Response wrapping.\n    /// Returns the embedding dimension count on success.",
+  "source_version": "crates/corvia-inference/src/embedding_service.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.430517587Z",
+  "valid_from": "2026-03-31T13:20:59.430517587Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/src/embedding_service.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 345,
+    "end_line": 381,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

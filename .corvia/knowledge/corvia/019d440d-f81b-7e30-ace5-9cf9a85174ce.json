@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81b-7e30-ace5-9cf9a85174ce",
+  "content": "c/` segment — everything up to and including `src`\n    if let Some(idx) = file_path.rfind(\"/src/\") {\n        Some(&file_path[..idx + 4]) // include \"/src\"\n    } else if file_path.starts_with(\"src/\") {\n        Some(\"src\")\n    } else {\n        None\n    }\n}\nfn resolve_rust_module_path(file_path: &str, module_path: &str) -> String {\n    if module_path.starts_with(\"crate::\") || module_path == \"crate\" {\n        let mod_suffix = module_path.strip_prefix(\"crate::\").unwrap_or(\"\");\n        if let Some(root) = infer_crate_src_root(file_path) {\n            format!(\"CRATE_REF:{root}:{mod_suffix}\")\n        } else {\n            // Can't infer root — fall back to source file\n            file_path.to_string()\n        }\n    } else if module_path.starts_with(\"super::\") || module_path == \"super\" {\n        let mod_suffix = module_path.strip_prefix(\"super::\").unwrap_or(\"\");\n        // Resolve relative to parent directory of the source file\n        let parent = file_path\n            .rsplit_once('/')\n            .map(|(dir, _)| dir)\n            .unwrap_or(\"\");\n        // Go up one more directory for `super`\n        let grandparent = parent\n            .rsplit_once('/')\n            .map(|(dir, _)| dir)\n            .unwrap_or(\"\");\n        if mod_suffix.is_empty() {\n            // `use super::*` — point at parent module\n            if grandparent.is_empty() {\n                file_path.to_string()\n            } else {\n                format!(\"CRATE_REF:{grandparent}:\")\n            }\n        } else {\n            // `use super::foo` → try `<grandparent>/foo.rs`\n            if grandparent.is_empty() {\n                format!(\"CRATE_REF::{mod_suffix}\")\n            } else {\n                format!(\"CRATE_REF:{grandparent}:{mod_suffix}\")\n            }\n        }\n    } else {\n        // External crate or std — record the module path itself\n        module_path.to_string()\n    }\n}",
+  "source_version": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.419818394Z",
+  "valid_from": "2026-03-31T13:20:59.419818394Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 533,
+    "end_line": 573,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

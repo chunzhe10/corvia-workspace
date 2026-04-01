@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f820-7670-b7d8-7bbae0c7a0d6",
+  "content": "e,\n        };\n\n        // Intel vendor ID\n        if vendor != \"0x8086\" {\n            continue;\n        }\n\n        // Read the device name from sysfs (may not always be available)\n        let device_name = read_sysfs_string(&card_path.join(\"device/label\"))\n            .or_else(|| {\n                // Fallback: construct a name from the PCI device ID\n                let device_id = read_sysfs_string(&card_path.join(\"device/device\"))\n                    .unwrap_or_else(|| \"unknown\".to_string());\n                Some(format!(\"Intel GPU [{}]\", device_id))\n            })\n            .unwrap_or_else(|| \"Intel GPU\".to_string());\n\n        let freq_mhz = read_sysfs_u64(&card_path.join(\"gt_act_freq_mhz\"));\n        let freq_max_mhz = read_sysfs_u64(&card_path.join(\"gt_max_freq_mhz\"));\n\n        gpus.push(GpuInfo {\n            index: intel_index,\n            name: device_name,\n            vendor: \"intel\".to_string(),\n            utilization_pct: None,\n            memory_used_mb: None,\n            memory_total_mb: None,\n            temperature_c: None,\n            power_draw_w: None,\n            power_limit_w: None,\n            processes: None,\n            render_busy_pct: None,\n            video_busy_pct: None,\n            frequency_mhz: freq_mhz,\n            frequency_max_mhz: freq_max_mhz,\n        });\n\n        intel_index += 1;\n    }\n\n    // Enrich the first Intel GPU with utilization data from intel_gpu_top\n    if !gpus.is_empty() {\n        let (render, video) = detect_intel_gpu_utilization();\n        gpus[0].render_busy_pct = render;\n        gpus[0].video_busy_pct = video;\n    }\n\n    gpus\n}",
+  "source_version": "crates/corvia-server/src/dashboard/gpu.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.424876339Z",
+  "valid_from": "2026-03-31T13:20:59.424876339Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/gpu.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 361,
+    "end_line": 400,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81e-7810-a8c3-6245f4a8bd9e",
+  "content": "es);\n            }\n        }\n    }\n\n    let line_refs: Vec<&str> = all_lines.iter().map(|s| s.as_str()).collect();\n    let trees = traces::collect_trace_trees(&line_refs, limit);\n\n    Json(corvia_common::dashboard::RecentTracesResponse { traces: trees })\n}\nasync fn gpu_status_handler(\n    State(state): State<Arc<AppState>>,\n) -> Json<corvia_common::dashboard::GpuStatusResponse> {\n    use std::time::Instant;\n\n    let mut cache = state.gpu_cache.lock().await;\n\n    if !cache.is_stale() {\n        return Json(cache.last_result.clone());\n    }\n\n    if cache.refreshing && cache.refresh_started.elapsed() < std::time::Duration::from_secs(10) {\n        // Another request is already refreshing — return stale data\n        return Json(cache.last_result.clone());\n    }\n\n    cache.refreshing = true;\n    cache.refresh_started = Instant::now();\n    let cfg = state.config.read().unwrap_or_else(|e| e.into_inner()).clone();\n    drop(cache); // release lock during shell-outs\n\n    let mut status = gpu::collect_gpu_status(&cfg);\n    status.inference_health = Some(\n        health::check_inference_health(\"127.0.0.1:8030\").await\n            .unwrap_or(corvia_common::dashboard::InferenceHealthStatus {\n                status: corvia_common::dashboard::InferenceProbeStatus::Unreachable,\n                ep_name: String::new(),\n                ep_requested: String::new(),\n                fallback_used: false,\n                baseline_us: 0,\n                last_probe_us: 0,\n                drift_pct: 0.0,\n                models_loaded: 0,\n                last_probe_at: None,\n            })\n    );\n\n    let mut cache = state.gpu_cache.lock().await;\n    cache.last_result = status.clone();\n    cache.last_fetched = Instant::now();\n    cache.refreshing = false;\n\n    Json(status)\n}",
+  "source_version": "crates/corvia-server/src/dashboard/mod.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.422528038Z",
+  "valid_from": "2026-03-31T13:20:59.422528038Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/mod.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1508,
+    "end_line": 1551,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

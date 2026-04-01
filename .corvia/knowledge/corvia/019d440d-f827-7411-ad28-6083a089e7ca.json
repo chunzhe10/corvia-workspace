@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f827-7411-ad28-6083a089e7ca",
+  "content": " store: Arc<dyn QueryableStore>,\n        engine: Arc<dyn InferenceEngine>,\n        graph: Arc<dyn GraphStore>,\n        alpha: f32,\n    ) -> Self {\n        Self {\n            store,\n            engine,\n            graph,\n            alpha,\n        }\n    }\n}\npub fn new(\n        store: Arc<dyn QueryableStore>,\n        engine: Arc<dyn InferenceEngine>,\n        graph: Arc<dyn GraphStore>,\n        alpha: f32,\n    ) -> Self {\n        Self {\n            store,\n            engine,\n            graph,\n            alpha,\n        }\n    }",
+  "source_version": "crates/corvia-kernel/src/retriever.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.431754217Z",
+  "valid_from": "2026-03-31T13:20:59.431754217Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/retriever.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 428,
+    "end_line": 440,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

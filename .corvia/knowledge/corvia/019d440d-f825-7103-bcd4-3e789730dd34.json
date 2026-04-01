@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-3e789730dd34",
+  "content": "fault().to_string_lossy(),\n        std::process::id()\n    ));\n    if let Err(e) = fs::copy(source, &tmp).and_then(|_| fs::rename(&tmp, target)) {\n        let _ = fs::remove_file(&tmp); // best-effort cleanup\n        return Err(e.into());\n    }\n    Ok(())\n}\nfn truncate_to_bytes(s: &str, max_bytes: usize) -> &str {\n    if s.len() <= max_bytes {\n        return s;\n    }\n    let mut end = max_bytes;\n    while end > 0 && !s.is_char_boundary(end) {\n        end -= 1;\n    }\n    &s[..end]\n}",
+  "source_version": "crates/corvia-cli/src/hooks/agent_teams.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429100617Z",
+  "valid_from": "2026-03-31T13:20:59.429100617Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/agent_teams.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 129,
+    "end_line": 138,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-77f97ac5cad2",
+  "content": "### Step 3: Retriever — pass through query embedding\n### Step 4: New file — `corvia-kernel/src/skill_registry.rs`\n\n### Step 5: Augmenter — skill injection\n\nModify `StructuredAugmenter`:\n\n```rust\npub struct StructuredAugmenter {\n    system_prompt: String,\n    skill_registry: Option<Arc<SkillRegistry>>,  // NEW\n}\n```\n\nNew constructor:\n```rust\npub fn with_skills(system_prompt: String, registry: Arc<SkillRegistry>) -> Self\n```\n\nModify `Augmenter` trait — add `query_embedding` parameter:\n```rust\nfn augment(\n    &self,\n    query: &str,\n    results: &[SearchResult],\n    budget: &TokenBudget,\n    query_embedding: Option<&[f32]>,  // NEW\n    skill_config: &SkillConfig,       // NEW — threshold, max, reserve, enabled\n) -> Result<AugmentedContext>;\n```\n\nAlternative (simpler, less trait churn): Keep the `Augmenter` trait unchanged. Instead,\nadd skill fields to `TokenBudget` or create a new `AugmentationOpts` struct that the",
+  "source_version": "docs/rfcs/2026-03-10-skill-system-implementation-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461609734Z",
+  "valid_from": "2026-03-31T13:20:59.461609734Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-skill-system-implementation-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 127,
+    "end_line": 156,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

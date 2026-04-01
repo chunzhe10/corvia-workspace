@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-532ebbffa9b7",
+  "content": "#### D83: Tiered safety model\n\n#### D84: Tier 1 MCP tools — read-only (5 tools)\n\n| Tool | Calls | Returns |\n|------|-------|---------|\n| `corvia_system_status` | `ops::system_status()` | Entry counts, agents, sessions, queue depth |\n| `corvia_config_get` | `ops::config_get()` | Config section as JSON (or full config) |\n| `corvia_adapters_list` | `ops::adapters_list()` | Discovered adapters with metadata |\n| `corvia_agents_list` | `ops::agents_list()` | All registered agents with status |\n| `corvia_merge_queue` | `ops::merge_queue_status()` | Queue depth + top entries |\n\nAll auto-approved, no confirmation needed. These tools do NOT require `scope_id` — they are cross-scope system operations (separate from the existing `resolve_scope_id` pattern).\n\n\n#### D85: Tier 2 MCP tools — low-risk mutation (3 tools)\n\n| Tool | Calls | Confirmation |\n|------|-------|-------------|\n| `corvia_config_set` | `ops::config_set()` | Shows diff, requires `_meta.confirmed` |\n| `corvia_gc_run` | `ops::gc_run()` | Shows what would be cleaned, requires `_meta.confirmed` |\n| `corvia_rebuild_index` | `ops::rebuild_index()` | Shows current index state, requires `_meta.confirmed` |\n\nWithout `_meta.confirmed`: returns a preview of what would change.\nWith `_meta.confirmed: true`: executes the mutation.\n",
+  "source_version": "docs/rfcs/2026-03-10-m4-observability-control-plane-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451139235Z",
+  "valid_from": "2026-03-31T13:20:59.451139235Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-m4-observability-control-plane-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 213,
+    "end_line": 235,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

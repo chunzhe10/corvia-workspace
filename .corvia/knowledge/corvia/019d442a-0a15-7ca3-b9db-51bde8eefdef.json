@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a15-7ca3-b9db-51bde8eefdef",
+  "content": " senior SWE.\" Immediately better. Started flagging real bugs.</div>\n      </div>\n      <div style=\"font-size: 15px; font-weight: 700; color: var(--accent-amber); letter-spacing: 1px;\">FOCUSED</div>\n    </div>\n  </div>\n  <div class=\"evo-arrow\">&#8595;</div>\n  <div class=\"evo-step\" style=\"border-left: 4px solid var(--accent-blue);\">\n    <div style=\"display: flex; justify-content: space-between; align-items: center;\">\n      <div>\n        <div style=\"font-size: 20px; font-weight: 700;\">V3: Three independent subagents</div>\n        <div style=\"font-size: 18px; color: var(--text-secondary); margin-top: 4px;\">SWE + PM + QA. Separate context windows. Don't see each other's feedback.</div>\n      </div>\n      <div style=\"font-size: 15px; font-weight: 700; color: var(--accent-blue); letter-spacing: 1px;\">MULTI-LENS</div>\n    </div>\n  </div>\n  <div class=\"evo-arrow\">&#8595;</div>\n\n  <div class=\"evo-step\" style=\"border-left: 4px solid var(--accent-green);\">\n    <div style=\"display: flex; justify-content: space-between; align-items: center;\">\n      <div>\n        <div style=\"font-size: 20px; font-weight: 700;\">V4: Five personas with dynamic slots</div>\n        <div style=\"font-size: 18px; color: var(--text-secondary); margin-top: 4px;\">3 standard + 2 rotate based on what changed. Security for auth. Rust Idiom for types.</div>\n      </div>\n      <div style=\"font-size: 15px; font-weight: 700; color: var(--accent-green); letter-spacing: 1px;\">CURRENT</div>\n    </div>\n  </div>\n\n  <div class=\"flex-grow\"></div>\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">03 / 09</div>\n</div>\n\n<!-- SLIDE 4: THE FIVE REVIEWERS -->\n<div class=\"slide\">\n  <div class=\"slide-label\">The System</div>\n  <div class=\"slide-title\" style=\"margin-bottom: 20px;\">\n    <span class=\"highlight\">Five</span> Independent<br>\n    Reviewers\n  </div>\n  <div class=\"slide-subtitle\" style=\"font-size: 20px; margin-bottom: 28px;\">\n    Each runs as a separate subagent. Own context window. Cites specific file:line references. Gives a verdict.\n  </div>",
+  "source_version": "marketing/linkedin/2026-03-27-five-persona-review/five-persona-review-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.029291693Z",
+  "valid_from": "2026-03-31T13:51:39.029291693Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-27-five-persona-review/five-persona-review-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 257,
+    "end_line": 292,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

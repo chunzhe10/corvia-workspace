@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81f-75e2-9415-a785785260fb",
+  "content": "(|s| s.elapsed_ms)\n            .unwrap_or_else(|| {\n                trace_spans\n                    .iter()\n                    .map(|s| s.elapsed_ms)\n                    .fold(0.0f64, f64::max)\n            });\n\n        let span_count = trace_spans.len();\n\n        // Build parent-child tree\n        let mut node_map: HashMap<String, SpanNode> = trace_spans\n            .iter()\n            .map(|s| {\n                let offset_ms = compute_offset_ms(&root_ts, &s.timestamp);\n                (\n                    s.span_id.clone(),\n                    SpanNode {\n                        span_id: s.span_id.clone(),\n                        parent_span_id: s.parent_span_id.clone(),\n                        trace_id: s.trace_id.clone(),\n                        span_name: s.span_name.clone(),\n                        elapsed_ms: s.elapsed_ms,\n                        start_offset_ms: offset_ms,\n                        depth: 0,\n                        module: span_to_module(&s.span_name).to_string(),\n                        fields: serde_json::Value::Null,\n                        children: vec![],\n                    },\n                )\n            })\n            .collect();\n\n        let mut children_map: HashMap<String, Vec<String>> = HashMap::new();\n        let mut root_ids: Vec<String> = Vec::new();\n\n        for s in &trace_spans {\n            if s.parent_span_id.is_empty() || !node_map.contains_key(&s.parent_span_id) {\n                root_ids.push(s.span_id.clone());\n            } else {\n                children_map\n                    .entry(s.parent_span_id.clone())\n                    .or_default()\n                    .push(s.span_id.clone());\n            }\n        }\n",
+  "source_version": "crates/corvia-server/src/dashboard/traces.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.423091367Z",
+  "valid_from": "2026-03-31T13:20:59.423091367Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/traces.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 370,
+    "end_line": 406,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

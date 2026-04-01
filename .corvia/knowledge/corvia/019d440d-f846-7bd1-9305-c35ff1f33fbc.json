@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-c35ff1f33fbc",
+  "content": "let scope_id = Path::new(source_path)\n        .canonicalize()\n        .ok()\n        .and_then(|p| p.file_name().map(|n| n.to_string_lossy().to_string()))\n        .unwrap_or_else(|| \"unknown\".into());\n\n    ingest_to_writer(source_path, &scope_id, &mut out);\n}\n\nfn ingest_to_writer<W: Write>(source_path: &str, scope_id: &str, out: &mut W) {\n    let path = Path::new(source_path);\n    if !path.is_dir() {\n        let err = ErrorMsg {\n            error: ErrorPayload {\n                code: \"NOT_A_DIRECTORY\".into(),\n                message: format!(\"'{}' is not a directory\", source_path),\n            },\n        };\n        writeln!(out, \"{}\", serde_json::to_string(&err).unwrap()).ok();\n        out.flush().ok();\n        return;\n    }\n\n    let skip = skip_dirs();\n    let exts = text_extensions();\n    let mut total = 0;\n\n    walk_dir(path, &skip, &exts, scope_id, &mut total, out);\n\n    let done = DoneMsg { done: true, total_files: total };\n    writeln!(out, \"{}\", serde_json::to_string(&done).unwrap()).ok();\n    out.flush().ok();\n}\n\nfn walk_dir<W: Write>(\n    dir: &Path,\n    skip: &HashSet<&str>,\n    exts: &HashSet<&str>,\n    scope_id: &str,\n    total: &mut usize,\n    out: &mut W,\n) {\n    let entries = match std::fs::read_dir(dir) {\n        Ok(e) => e,\n        Err(_) => return,\n    };\n\n    let mut entries: Vec<_> = entries.flatten().collect();\n    entries.sort_by_key(|e| e.file_name());\n\n    for entry in entries {\n        let path = entry.path();\n        let name = entry.file_name();\n        let name_str = name.to_string_lossy();\n\n        if path.is_dir() {\n            if skip.contains(name_str.as_ref()) || name_str.starts_with('.') {\n                continue;\n            }\n            walk_dir(&path, skip, exts, scope_id, total, out);\n            continue;\n        }\n\n        let ext = path\n            .extension()\n            .and_then(|e| e.to_str())\n            .map(|e| e.to_lowercase())",
+  "source_version": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462841490Z",
+  "valid_from": "2026-03-31T13:20:59.462841490Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1674,
+    "end_line": 1733,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

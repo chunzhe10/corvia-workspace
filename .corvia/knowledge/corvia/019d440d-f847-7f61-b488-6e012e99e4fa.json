@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-6e012e99e4fa",
+  "content": "### Task 1: QualitySignal type + computation (kernel)\n### Task 2: GapDetector module (kernel)\n\n### Task 3: Enhance corvia_search with quality signals\n**File:** `crates/corvia-server/src/mcp.rs`\n- Modify `tool_corvia_search()`: compute QualitySignal from results, include in response JSON\n- Add optional `min_score` parameter to tool definition and handler\n- Filter results below min_score, report below_threshold_count in quality_signal\n- Record gap signals to GapDetector (via AppState) when confidence is low\n\n\n### Task 4: Enhance corvia_context with max_tokens + compact format\n**Files:**\n- `crates/corvia-server/src/mcp.rs`: Add `max_tokens` (int, cap 4000) and `format` (string) params\n- `crates/corvia-kernel/src/augmenter.rs`: Add `augment_compact()` method to StructuredAugmenter\n- `crates/corvia-kernel/src/rag_pipeline.rs`: Accept optional max_tokens override\n- `crates/corvia-kernel/src/rag_types.rs`: Add `compact` field to AugmentedContext\n\nCompact format: returns only relevance-ranked content blocks with entry IDs. No system\nprompt, no citation headers, no footer.\n",
+  "source_version": "docs/rfcs/2026-03-31-agentic-retrieval-protocol-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463233501Z",
+  "valid_from": "2026-03-31T13:20:59.463233501Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-31-agentic-retrieval-protocol-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 25,
+    "end_line": 41,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

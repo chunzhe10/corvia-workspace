@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a13-75d1-bfe3-f509a14b98e0",
+  "content": "on: absolute; bottom: 48px; left: 72px;\n  font-size: 18px; font-weight: 500; color: var(--text-muted);\n}\n.slide-number {\n  position: absolute; bottom: 48px; right: 72px;\n  font-size: 18px; font-weight: 600; color: var(--text-muted); letter-spacing: 2px;\n}\n\n/* Brick wall pattern */\n.brick-wall {\n  background:\n    repeating-linear-gradient(\n      0deg,\n      transparent,\n      transparent 28px,\n      rgba(239, 68, 68, 0.3) 28px,\n      rgba(239, 68, 68, 0.3) 30px\n    ),\n    repeating-linear-gradient(\n      90deg,\n      transparent,\n      transparent 58px,\n      rgba(239, 68, 68, 0.3) 58px,\n      rgba(239, 68, 68, 0.3) 60px\n    );\n  background-color: rgba(239, 68, 68, 0.08);\n  border: 2px solid rgba(239, 68, 68, 0.3);\n  border-radius: 12px;\n}\n\n/* Offset alternate brick rows */\n.brick-wall::after {\n  content: '';\n  position: absolute; inset: 0;\n  background:\n    repeating-linear-gradient(\n      90deg,\n      transparent,\n      transparent 58px,\n      rgba(239, 68, 68, 0.2) 58px,\n      rgba(239, 68, 68, 0.2) 60px\n    );\n  background-position: 30px 15px;\n  background-size: 60px 60px;\n  pointer-events: none;\n}\n\n/* Chat bubbles */\n.chat-bubble {\n  padding: 16px 24px; border-radius: 16px;\n  font-size: 20px; font-weight: 500; line-height: 1.4;\n  max-width: 400px; position: relative;\n}\n.chat-bubble.claude {\n  background: rgba(59, 130, 246, 0.12);\n  border: 1px solid rgba(59, 130, 246, 0.3);\n  color: #60a5fa;\n}\n.chat-bubble.claude::before {\n  content: 'Claude'; display: block;\n  font-size: 15px; font-weight: 700; letter-spacing: 1px;\n  text-transform: uppercase; margin-bottom: 6px;\n  color: var(--accent-blue);\n}\n.chat-bubble.user {\n  background: rgba(139, 92, 246, 0.12);\n  border: 1px solid rgba(139, 92, 246, 0.3);",
+  "source_version": "marketing/2026-03-14-resolve-linux-carousel.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.027389019Z",
+  "valid_from": "2026-03-31T13:51:39.027389019Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/2026-03-14-resolve-linux-carousel.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 99,
+    "end_line": 157,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

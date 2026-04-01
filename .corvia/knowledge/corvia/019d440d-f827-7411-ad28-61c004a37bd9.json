@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f827-7411-ad28-61c004a37bd9",
+  "content": "adata.source_origin.as_deref() != Some(origin) {\n                return false;\n            }\n        if let Some(ws) = workstream\n            && r.entry.workstream.as_str() != ws {\n                return false;\n            }\n        true\n    }).collect()\n}\nmod filter_tests {\n    use corvia_common::types::{KnowledgeEntry, SearchResult, Tier};\n\n    fn make_result(content_role: Option<&str>, source_origin: Option<&str>, score: f32) -> SearchResult {\n        let mut entry = KnowledgeEntry::new(\"test\".into(), \"scope\".into(), \"v1\".into());\n        entry.metadata.content_role = content_role.map(String::from);\n        entry.metadata.source_origin = source_origin.map(String::from);\n        SearchResult { entry, score, tier: Tier::Hot, retention_score: None }\n    }\n\n    fn make_result_with_workstream(content_role: Option<&str>, source_origin: Option<&str>, workstream: &str, score: f32) -> SearchResult {\n        let mut entry = KnowledgeEntry::new(\"test\".into(), \"scope\".into(), \"v1\".into());\n        entry.metadata.content_role = content_role.map(String::from);\n        entry.metadata.source_origin = source_origin.map(String::from);\n        entry.workstream = workstream.to_string();\n        SearchResult { entry, score, tier: Tier::Hot, retention_score: None }\n    }\n\n    #[test]\n    fn test_post_filter_by_content_role() {\n        let results = vec![\n            make_result(Some(\"design\"), Some(\"repo:corvia\"), 0.9),",
+  "source_version": "crates/corvia-kernel/src/retriever.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.431957646Z",
+  "valid_from": "2026-03-31T13:20:59.431957646Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/retriever.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 790,
+    "end_line": 811,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

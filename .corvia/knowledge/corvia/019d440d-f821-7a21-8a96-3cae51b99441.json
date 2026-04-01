@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f821-7a21-8a96-3cae51b99441",
+  "content": "pub enum CorviaError {\n    #[error(\"Storage error: {0}\")]\n    Storage(String),\n\n    #[error(\"Embedding error: {0}\")]\n    Embedding(String),\n\n    #[error(\"Ingestion error: {0}\")]\n    Ingestion(String),\n\n    #[error(\"Docker error: {0}\")]\n    Docker(String),\n\n    #[error(\"Config error: {0}\")]\n    Config(String),\n\n    #[error(\"Validation error: {0}\")]\n    Validation(String),\n\n    #[error(\"Infrastructure error: {0}\")]\n    Infra(String),\n\n    #[error(\"Not found: {0}\")]\n    NotFound(String),\n\n    #[error(\"Agent error: {0}\")]\n    Agent(String),\n\n    #[error(transparent)]\n    Other(#[from] anyhow::Error),\n}",
+  "source_version": "crates/corvia-common/src/errors.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.425090065Z",
+  "valid_from": "2026-03-31T13:20:59.425090065Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/errors.rs",
+    "language": "rs",
+    "chunk_type": "enum_item",
+    "start_line": 4,
+    "end_line": 34,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

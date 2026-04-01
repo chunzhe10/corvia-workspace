@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-2143251b5262",
+  "content": "### Task 8: Integration Test for Introspect Pipeline\n\n\n    // Ingest Corvia's own source\n    let chunks = introspect.ingest_self(\".\", &adapter, &engine, &store).await\n        .expect(\"Failed to ingest self\");\n    assert!(chunks > 0, \"Expected at least one chunk ingested\");\n\n    // Query self\n    let results = introspect.query_self(&engine, &store).await\n        .expect(\"Failed to query self\");\n\n    let report = IntrospectReport {\n        results,\n        chunks_ingested: chunks,\n    };\n\n    println!(\"Introspect E2E: {}/{} passed, avg score: {:.3}\",\n        report.pass_count(), report.results.len(), report.avg_score());\n\n    for r in &report.results {\n        println!(\"  [{}] \\\"{}\\\" -> {} (score: {:.3})\",\n            if r.passed() { \"PASS\" } else { \"FAIL\" },\n            r.query_text,\n            r.actual_file.as_deref().unwrap_or(\"none\"),\n            r.score);\n    }\n\n    assert!(report.pass_count() > 0, \"Expected at least one passing query\");\n}\n```\n\n**Step 2: Add the import for GitAdapter**\n\nEnsure the e2e_test.rs has the import:\n\n```rust\nuse corvia_adapter_git::GitAdapter;\n```\n\n(It may already be imported transitively. If not, add it.)\n\n**Step 3: Verify it compiles**\n\nRun: `cargo test --test e2e_test --no-run`\nExpected: Compiles without errors. (Actual execution requires Docker + vLLM.)\n\n**Step 4: Commit**\n\n```bash\ngit add tests/integration/e2e_test.rs\ngit commit -m \"test: add Introspect end-to-end integration test\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-02-28-introspect-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452403633Z",
+  "valid_from": "2026-03-31T13:20:59.452403633Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-introspect-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1166,
+    "end_line": 1219,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

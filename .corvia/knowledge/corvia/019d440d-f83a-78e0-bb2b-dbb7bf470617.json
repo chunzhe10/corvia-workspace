@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83a-78e0-bb2b-dbb7bf470617",
+  "content": "## Task 3: corvia-common — Namespace & Config\n\n    Mutable(String),\n}\n\nimpl Namespace {\n    pub fn new(org: &str, scope: &str, workstream: &str, source: &str, version_ref: VersionRef) -> Self {\n        Self {\n            org: org.to_string(),\n            scope: scope.to_string(),\n            workstream: workstream.to_string(),\n            source: source.to_string(),\n            version_ref,\n        }\n    }\n\n    /// Default local namespace for single-user use.\n    pub fn local(scope: &str, source: &str) -> Self {\n        Self::new(\"local\", scope, \"main\", source, VersionRef::Mutable(\"latest\".into()))\n    }\n\n    /// Parse from colon-separated string at system boundaries.\n    pub fn parse(s: &str) -> Result<Self> {\n        let parts: Vec<&str> = s.splitn(5, ':').collect();\n        if parts.len() != 5 {\n            return Err(CorviaError::Config(format!(\n                \"Invalid namespace '{}': expected 5 colon-separated segments\", s\n            )));\n        }\n        let version_ref = if parts[4].starts_with('@') {\n            VersionRef::Immutable(parts[4][1..].to_string())\n        } else if parts[4].starts_with(':') {\n            VersionRef::Mutable(parts[4][1..].to_string())",
+  "source_version": "docs/rfcs/2026-02-28-m1-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.450589960Z",
+  "valid_from": "2026-03-31T13:20:59.450589960Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-m1-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 436,
+    "end_line": 466,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

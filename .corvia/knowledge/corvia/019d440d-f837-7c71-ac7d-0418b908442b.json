@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f837-7c71-ac7d-0418b908442b",
+  "content": "lite_store.flush_hnsw() {\n            warn!(error = %e, \"Failed to persist HNSW after GC rebuild\");\n        }\n        report.hnsw_rebuild_triggered = true;\n        report.rebuild_duration_ms = rebuild_start.elapsed().as_millis() as u64;\n    }\n\n    Ok(())\n}\nfn build_chain_protected_set(entries: &[&KnowledgeEntry]) -> HashSet<uuid::Uuid> {\n    let mut protected = HashSet::new();\n\n    // Build reverse lookup: superseded_by → predecessor_id\n    // (which entry was superseded to become this one?)\n    let mut predecessors: HashMap<uuid::Uuid, Vec<uuid::Uuid>> = HashMap::new();\n    for entry in entries {\n        if let Some(successor_id) = entry.superseded_by {\n            predecessors.entry(successor_id).or_default().push(entry.id);\n        }\n    }\n\n    // Find all chain HEADs (not superseded by anything)\n    let heads: Vec<&KnowledgeEntry> = entries\n        .iter()\n        .filter(|e| e.superseded_by.is_none())\n        .copied()\n        .collect();\n\n    for head in &heads {\n        // If HEAD is in an active tier, protect all ancestors\n        if head.tier != Tier::Forgotten {\n            // Walk backward through predecessors with cycle guard\n            let mut stack = vec![head.id];\n            let mut visited = HashSet::new();\n            visited.insert(head.id);\n            while let Some(current_id) = stack.pop() {\n                if let Some(preds) = predecessors.get(&current_id) {\n                    for &pred_id in preds {\n                        if visited.insert(pred_id) {\n                            // Protect ancestors (not the head — it's covered by auto-protection rule 2)\n                            if pred_id != head.id {\n                                protected.insert(pred_id);\n                            }\n                            stack.push(pred_id);\n                        }\n                    }\n                }\n            }\n        }\n    }\n\n    protected\n}",
+  "source_version": "crates/corvia-kernel/src/gc_worker.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.447229952Z",
+  "valid_from": "2026-03-31T13:20:59.447229952Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/gc_worker.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 552,
+    "end_line": 595,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

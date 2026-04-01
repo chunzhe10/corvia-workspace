@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-c091823ba6f7",
+  "content": "### New Subcommand Group\n### Existing Command Adaptation\n\n### What `corvia workspace create` Does\n\n1. Creates `<name>/` directory\n2. Generates `corvia.toml` with `[workspace]` section from `--repo` flags\n3. If `--template` provided, clones template and adapts config\n4. Runs `corvia workspace init` (clones repos, initializes `.corvia/`)\n5. Runs first ingest of all repos\n",
+  "source_version": "docs/rfcs/2026-03-01-m2.1-workspace-devcontainer-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462336936Z",
+  "valid_from": "2026-03-31T13:20:59.462336936Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2.1-workspace-devcontainer-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 117,
+    "end_line": 124,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

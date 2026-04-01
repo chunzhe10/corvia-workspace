@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f843-7a03-b56b-341e24e1df7d",
+  "content": "### Fix 1: Cargo.toml Module Tree Resolution (D72)\n\n### Fix 2: Markdown AST Cross-References (D73)\n\n**Crate:** `corvia-kernel`\n\n**Approach:** Use `pulldown-cmark` to parse markdown and extract references to code files and symbols.\n\n**New dependency:** `pulldown-cmark` added to `corvia-kernel/Cargo.toml`\n\n**Changes to `MarkdownChunker::chunk()`:**\n\nAfter building chunks, parse the full source with pulldown-cmark and extract:\n\n1. **Code spans** (backtick content): `` `QueryableStore` ``, `` `LiteStore` ``\n   - Filter to CamelCase identifiers (likely types/traits)\n   - Skip short spans (≤2 chars) and Rust primitives (`String`, `Vec`, `Option`, `Result`, etc.)\n   - Create `ChunkRelation { relation: \"references\", to_file: \"\", to_name: Some(\"QueryableStore\") }`\n\n2. **Links**: `[see traits](src/traits.rs)` or `[config](crates/corvia-common/src/config.rs)`\n   - Match paths ending in known extensions (`.rs`, `.ts`, `.py`, `.toml`, etc.)\n   - Create `ChunkRelation { relation: \"references\", to_file: \"src/traits.rs\", to_name: None }`\n\n3. **Code blocks with file path references**:\n   - Scan fenced code block content for file path patterns\n   - Create `ChunkRelation { relation: \"references\", to_file: \"<matched_path>\", to_name: None }`\n\n**Chunk attribution:** Map each reference to the chunk it falls in by tracking byte offsets → line numbers during parsing.\n\n**Expected yield:** 100-200 new `\"references\"` edges connecting documentation to code chunks.\n\n**Alternatives rejected:**\n- (A) Regex-based extraction — simpler but more false positives, doesn't understand markdown structure\n- (C) Skip markdown, rely on co-reference — misses explicit file path references in docs\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-04-m3.4-graph-edge-improvements-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.459510325Z",
+  "valid_from": "2026-03-31T13:20:59.459510325Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-04-m3.4-graph-edge-improvements-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 64,
+    "end_line": 98,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

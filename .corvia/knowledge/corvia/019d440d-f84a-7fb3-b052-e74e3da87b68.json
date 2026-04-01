@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84a-7fb3-b052-e74e3da87b68",
+  "content": "### Task 3: Integrate AccessBuffer into LiteStore\n\n\n- [ ] **Step 5: Run existing access tracking tests**\n\nRun: `cargo test -p corvia-kernel test_record_access`\nExpected: All 3 existing tests pass (test_record_access_updates_fields, test_record_access_batch, test_record_access_nonexistent_entry_graceful)\n\n**IMPORTANT:** The existing tests call `record_access()` then immediately `get()` to verify. With buffering, the writes are deferred. The tests need the buffer to flush. Two options:\n- The tests insert real entries and the buffer doesn't auto-flush (thresholds not met).\n- We need to force a flush in tests by dropping the store or calling `flush_sync` directly.\n\nThe simplest fix: since `record_access()` calls `try_flush()`, and the default thresholds are 60s/256, small tests won't trigger a flush. We need to either:\n(a) Add a `flush_access_buffer()` public method on LiteStore for test use, or\n(b) Lower the thresholds, or\n(c) Let the Drop handle it.\n\n**Approach:** Add a `pub fn flush_access_buffer(&self)` method on LiteStore that calls `self.access_buffer.flush_sync(&self.db)`. Existing tests call this after `record_access()`.\n\n```rust\nimpl LiteStore {\n    /// Force-flush the access buffer to Redb. Used by tests and graceful shutdown.\n    pub fn flush_access_buffer(&self) -> usize {\n        self.access_buffer.flush_sync(&self.db)\n    }\n}\n```\n\nThen update the existing tests to call `store.flush_access_buffer()` after `record_access()`:\n\nIn `test_record_access_updates_fields`:",
+  "source_version": "docs/superpowers/plans/2026-03-28-buffered-access-tracking-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.466601477Z",
+  "valid_from": "2026-03-31T13:20:59.466601477Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/superpowers/plans/2026-03-28-buffered-access-tracking-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 534,
+    "end_line": 562,
+    "content_role": "plan",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

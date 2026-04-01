@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-431357b2b7c2",
+  "content": "        edges_failed\n            );\n            anyhow::bail!(\"{} edges failed to migrate\", edges_failed);\n        }\n    }\n\n    // Verify counts\n    verify_counts(&queryable, &graph, entries_by_scope, scope_names, expected_edge_count).await?;\n\n    Ok(())\n}\nasync fn verify_counts(\n    store: &Arc<dyn QueryableStore>,\n    graph: &Arc<dyn GraphStore>,\n    entries_by_scope: &HashMap<String, Vec<&KnowledgeEntry>>,\n    scope_names: &[String],\n    expected_edge_count: usize,\n) -> Result<()> {\n    println!(\"\\nVerifying migration...\");\n    let mut verification_ok = true;\n    for scope in scope_names {\n        let expected = entries_by_scope[scope].len() as u64;\n        let actual = store.count(scope).await?;\n        if actual == expected {\n            println!(\"  scope '{}': {} entries (OK)\", scope, actual);\n        } else {\n            eprintln!(\n                \"  scope '{}': expected {} entries, found {} (MISMATCH)\",\n                scope, expected, actual\n            );\n            verification_ok = false;\n        }\n    }\n\n    // Verify edge count by querying outgoing edges from all entries\n    if expected_edge_count > 0 {\n        let mut actual_edge_count = 0;\n        let all_entry_ids: Vec<_> = entries_by_scope\n            .values()\n            .flat_map(|v| v.iter().map(|e| e.id))\n            .collect();\n        for id in &all_entry_ids {\n            let outgoing = graph.edges(id, EdgeDirection::Outgoing).await?;\n            actual_edge_count += outgoing.len();\n        }\n        if actual_edge_count == expected_edge_count {\n            println!(\"  edges: {} (OK)\", actual_edge_count);\n        } else {\n            eprintln!(\n                \"  edges: expected {}, found {} (MISMATCH)\",\n                expected_edge_count, actual_edge_count\n            );\n            verification_ok = false;\n        }\n    }\n\n    if !verification_ok {\n        eprintln!(\"\\nVerification failed. Config NOT updated.\");\n        anyhow::bail!(\"Verification failed: count mismatch\");\n    }\n\n    Ok(())\n}",
+  "source_version": "crates/corvia-cli/src/upgrade.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429752162Z",
+  "valid_from": "2026-03-31T13:20:59.429752162Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/upgrade.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 389,
+    "end_line": 440,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

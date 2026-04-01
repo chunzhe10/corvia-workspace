@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-3fb3f25babcd",
+  "content": "   assert_eq!(parsed[\"v\"], SCHEMA_VERSION);\n        assert_eq!(parsed[\"event\"], \"completed\");\n        assert_eq!(parsed[\"task_id\"], \"1\");\n        assert_eq!(parsed[\"owner\"], \"researcher\");\n        assert_eq!(parsed[\"full_task\"][\"blockedBy\"][0], \"2\");\n    }\n\n    #[test]\n    fn t1_teammate_idle_copies_config_and_inboxes() {\n        let dir = TempDir::new().unwrap();\n        let dirs = test_dirs(dir.path());\n\n        let config = serde_json::json!({\"leadSessionId\": \"sess-123\", \"members\": [\"researcher\"]});\n        setup_team(&dirs, \"my-team\", &config, &[\n            (\"researcher\", r#\"[{\"from\":\"lead\",\"body\":\"hello\"}]\"#),\n            (\"team-lead\", r#\"[{\"from\":\"researcher\",\"body\":\"done\"}]\"#),\n        ]);\n\n        let stdin = serde_json::json!({\n            \"session_id\": \"sess-123\",\n            \"hook_event_name\": \"TeammateIdle\",\n            \"teammate_name\": \"researcher\",\n            \"team_name\": \"my-team\"\n        });\n\n        handle_teammate_idle_inner(&dirs, &stdin).unwrap();\n\n        let staging = dirs.staging_root.join(\"my-team\");\n        assert!(staging.join(\"config.json\").exists());\n        let config_content: serde_json::Value =\n            serde_json::from_str(&fs::read_to_string(staging.join(\"config.json\")).unwrap()).unwrap();\n        assert_eq!(config_content[\"leadSessionId\"], \"sess-123\");\n\n        assert!(staging.join(\"inboxes/researcher.json\").exists());\n        assert!(staging.join(\"inboxes/team-lead.json\").exists());\n\n        let log = fs::read_to_string(staging.join(\".capture-log\")).unwrap();",
+  "source_version": "crates/corvia-cli/src/hooks/agent_teams.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429339278Z",
+  "valid_from": "2026-03-31T13:20:59.429339278Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/agent_teams.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 614,
+    "end_line": 644,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

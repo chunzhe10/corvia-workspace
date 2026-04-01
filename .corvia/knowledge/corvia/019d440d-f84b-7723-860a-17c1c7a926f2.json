@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84b-7723-860a-17c1c7a926f2",
+  "content": "    // 8. Session should be Closed after all entries merged\n    let session = coord.sessions.get(&session_id).unwrap().unwrap();\n    assert!(\n        matches!(session.state, SessionState::Closed),\n        \"Expected Closed, got {:?}\", session.state\n    );\n}\nasync fn test_two_agents_concurrent_writes() {\n    let dir = tempfile::tempdir().unwrap();\n    let (coord, store) = setup_coordinator(dir.path()).await;\n\n    // Register two agents\n    let id_a = AgentIdentity::Registered { agent_id: \"test::agent-a\".into(), api_key: None };\n    let id_b = AgentIdentity::Registered { agent_id: \"test::agent-b\".into(), api_key: None };\n\n    coord.register_agent(&id_a, \"Agent A\", AgentPermission::ReadWrite { scopes: vec![\"shared\".into()] }).unwrap();\n    coord.register_agent(&id_b, \"Agent B\", AgentPermission::ReadWrite { scopes: vec![\"shared\".into()] }).unwrap();\n\n    // Both create sessions\n    let session_a = coord.create_session(\"test::agent-a\", true).unwrap();\n    let session_b = coord.create_session(\"test::agent-b\", true).unwrap();\n    let sess_a = &session_a.session_id;\n    let sess_b = &session_b.session_id;\n\n    // Both write entries to same scope\n    coord.write_entry(sess_a, \"Agent A: auth module docs\", \"shared\", \"v1\", None, None).await.unwrap();\n    coord.write_entry(sess_a, \"Agent A: config system docs\", \"shared\", \"v1\", None, None).await.unwrap();\n    coord.write_entry(sess_b, \"Agent B: testing guide\", \"shared\", \"v1\", None, None).await.unwrap();",
+  "source_version": "tests/integration/agent_e2e_test.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.467014244Z",
+  "valid_from": "2026-03-31T13:20:59.467014244Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "tests/integration/agent_e2e_test.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 130,
+    "end_line": 150,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

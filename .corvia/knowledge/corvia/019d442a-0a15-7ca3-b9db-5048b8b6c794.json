@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a15-7ca3-b9db-5048b8b6c794",
+  "content": " other. The real gap only shows on short-text batches — and that's a CPU startup cost, not a sustained difference.</p>\n  </div>\n\n  <div class=\"flex-grow\"></div>\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">04 / 08</div>\n</div>\n<!-- SLIDE 5: THE SURPRISE — CSS memory architecture diagram -->\n<div class=\"slide\">\n  <div class=\"slide-label\">The Surprise</div>\n  <div class=\"slide-title\" style=\"margin-bottom: 16px;\">\n    The Integrated GPU<br>\n    <span class=\"highlight-cyan\">Beat the Discrete GPU.</span>\n  </div>\n  <div class=\"slide-subtitle\" style=\"font-size: 20px; margin-bottom: 24px;\">\n    51ms vs 56ms. Not huge — but consistent. The diagram below shows why.\n  </div>\n\n  <!-- CSS ARCHITECTURE DIAGRAM — side-by-side data flow comparison -->\n  <div style=\"display: flex; gap: 20px; margin-bottom: 20px;\">\n\n    <!-- LEFT COLUMN: iGPU path (zero copy) -->\n    <div style=\"flex: 1; display: flex; flex-direction: column; gap: 0; position: relative;\">\n      <!-- Column header -->\n      <div style=\"text-align: center; margin-bottom: 16px;\">\n        <div style=\"display: inline-block; padding: 6px 20px; border-radius: 20px; background: rgba(6,182,212,0.15); font-size: 14px; font-weight: 700; color: var(--accent-cyan); letter-spacing: 2px; text-transform: uppercase;\">iGPU Path</div>\n      </div>\n\n      <!-- Input text -->\n      <div style=\"background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; text-align: center; font-size: 15px; font-weight: 600; color: var(--text-secondary);\">\n        Input text\n      </div>\n\n      <!-- Arrow down (short, green) -->\n      <div style=\"display: flex; justify-content: center; padding: 6px 0;\">\n        <div style=\"width: 3px; height: 24px; background: var(--accent-green); border-radius: 2px; position: relative;\">\n          <div style=\"position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 7px solid transparent; border-right: 7px solid transparent; border-top: 8px solid var(--accent-green);\"></div>\n        </div>\n      </div>",
+  "source_version": "marketing/linkedin/2026-03-16-embedding-benchmark/embedding-benchmark-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.029067451Z",
+  "valid_from": "2026-03-31T13:51:39.029067451Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-16-embedding-benchmark/embedding-benchmark-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 474,
+    "end_line": 505,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

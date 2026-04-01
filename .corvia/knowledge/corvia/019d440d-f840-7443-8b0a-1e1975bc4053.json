@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-1e1975bc4053",
+  "content": "# Display-only reminder for agent identity selection.\n# Runs on Claude Code SessionStart — does NOT require interaction.\n\n# Check for reconnectable agents\nCOUNT=$(curl -s \"$CORVIA_API/api/dashboard/agents/reconnectable\" 2>/dev/null | jq 'length' 2>/dev/null)\n\nif [ \"$COUNT\" -gt \"0\" ] 2>/dev/null; then\n    echo \"⚠ Run 'corvia agent connect' to select an identity ($COUNT agents available)\"\nelse\n    echo \"ℹ No agent identity set. Run 'corvia agent connect' to register.\"\nfi\n```\n\n-**Step 2: Add SessionStart hook to settings**\n\nIn `.claude/settings.json`, add under the hooks object. The existing file uses event-type keys (e.g., `\"PreToolUse\": [...]`, `\"SessionEnd\": [...]`), so add:\n\n```json\n\"SessionStart\": [\n  {\n    \"command\": \"bash .claude/hooks/agent-check.sh\",\n    \"timeout\": 5000\n  }\n]\n```\n\n-**Step 3: Make script executable and test**\n\nRun: `chmod +x .claude/hooks/agent-check.sh && bash .claude/hooks/agent-check.sh`\nExpected: One of the three messages depending on state\n\n-**Step 4: Commit**\n\n```bash\ncd /workspaces/corvia-workspace\ngit add .claude/hooks/agent-check.sh .claude/settings.json\ngit commit -m \"feat(hooks): add SessionStart agent identity reminder\"\n```\n",
+  "source_version": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456555448Z",
+  "valid_from": "2026-03-31T13:20:59.456555448Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1336,
+    "end_line": 1371,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

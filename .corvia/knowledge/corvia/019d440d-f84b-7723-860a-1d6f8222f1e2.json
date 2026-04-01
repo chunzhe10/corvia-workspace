@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84b-7723-860a-1d6f8222f1e2",
+  "content": "### MCP Tools\n\n| `corvia_system_status` | `scope_id` | Entry counts, agents, sessions, merge queue |\n| `corvia_config_get` | `section?` | Read config section as JSON |\n| `corvia_adapters_list` | *(none)* | Discovered adapter binaries |\n| `corvia_agents_list` | *(none)* | All registered agents |\n\n**Tier 2 — Low-risk mutation (single confirmation):**\n\n| Tool | Parameters | Description |\n|------|-----------|-------------|\n| `corvia_config_set` | `section`, `key`, `value` | Update hot-reloadable config value |\n| `corvia_gc_run` | *(none)* | Trigger garbage collection |\n| `corvia_rebuild_index` | *(none)* | Rebuild HNSW vector index |\n\n**Tier 3 — Medium-risk (confirmation + dry-run):**\n\n| Tool | Parameters | Description |\n|------|-----------|-------------|\n| `corvia_agent_suspend` | `agent_id` | Suspend agent, close sessions |\n| `corvia_merge_retry` | `entry_ids` | Retry failed merge entries |\n| `corvia_merge_queue` | *(none)* | Inspect merge queue |\n",
+  "source_version": "ARCHITECTURE.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.467610477Z",
+  "valid_from": "2026-03-31T13:20:59.467610477Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "ARCHITECTURE.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 278,
+    "end_line": 298,
+    "content_role": null,
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

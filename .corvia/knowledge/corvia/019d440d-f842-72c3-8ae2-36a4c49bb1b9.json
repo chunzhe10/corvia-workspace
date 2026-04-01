@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-36a4c49bb1b9",
+  "content": ")\n    }\n}\n```\n\n**Step 4: Refactor MergeWorker to accept ChatEngine**\n\nIn `crates/corvia-kernel/src/merge_worker.rs`, replace `ollama_url: String` with `chat_engine: Arc<dyn ChatEngine>`:\n\n```rust\npub struct MergeWorker {\n    store: Arc<dyn QueryableStore>,\n    engine: Arc<dyn InferenceEngine>,\n    chat_engine: Arc<dyn ChatEngine>,  // NEW — replaces ollama_url\n    queue: Arc<MergeQueue>,\n    staging: Arc<StagingManager>,\n    session_mgr: Arc<SessionManager>,\n    merge_config: MergeConfig,\n}\n```\n\nUpdate constructor:\n```rust\npub fn new(\n    store: Arc<dyn QueryableStore>,\n    engine: Arc<dyn InferenceEngine>,\n    chat_engine: Arc<dyn ChatEngine>,  // NEW\n    queue: Arc<MergeQueue>,\n    staging: Arc<StagingManager>,\n    session_mgr: Arc<SessionManager>,\n    merge_config: MergeConfig,\n) -> Self {\n    Self { store, engine, chat_engine, queue, staging, session_mgr, merge_config }\n}\n```\n\nReplace `llm_merge` method's HTTP call with:\n```rust\nasync fn llm_merge(&self, new_entry: &KnowledgeEntry, existing: &KnowledgeEntry) -> Result<KnowledgeEntry> {\n    let prompt = format!(\n        \"You are merging two knowledge entries that conflict. \\\n         Produce a single merged entry that preserves all important information from both.\\n\\n\\\n         Entry A (existing):\\n{}\\n\\n\\\n         Entry B (new):\\n{}\\n\\n\\\n         Merged entry:\",\n        existing.content, new_entry.content\n    );\n\n    let messages = vec![ChatMessage::user(prompt)];\n    let merged_content = self.chat_engine.chat(&messages, &self.merge_config.model).await?;\n\n    // Re-embed the merged content\n    let embedding = self.engine.embed(&merged_content).await?;\n\n    let merged = KnowledgeEntry::new(\n        merged_content,\n        new_entry.scope_id.clone(),\n        new_entry.source_version.clone(),\n    )\n    .with_embedding(embedding)",
+  "source_version": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458521494Z",
+  "valid_from": "2026-03-31T13:20:59.458521494Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 535,
+    "end_line": 582,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

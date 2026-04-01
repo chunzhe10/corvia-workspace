@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-207ae45e85b3",
+  "content": "### Task 5: Implement Introspect Pipeline (check_env + ingest_self)\n\n                score: 0.85,\n                min_score: 0.70,\n            },\n            QueryResult {\n                query_text: \"q2\".into(),\n                expect_file: \"b.rs\".into(),\n                actual_file: Some(\"b.rs\".into()),\n                score: 0.75,\n                min_score: 0.70,\n            },\n        ],\n        chunks_ingested: 42,\n    };\n    assert!(report.all_passed());\n    assert_eq!(report.pass_count(), 2);\n    assert_eq!(report.fail_count(), 0);\n    assert!((report.avg_score() - 0.80).abs() < 0.001);\n}\n```\n\n**Step 2: Run tests to verify they fail**\n\nRun: `cargo test -p corvia-kernel test_query_result test_introspect_report -- --nocapture`\nExpected: FAIL — `QueryResult` and `IntrospectReport` not defined.\n\n**Step 3: Implement the Introspect struct and result types**\n\nAdd to `introspect.rs` (above the test module, below the config types):\n\n```rust\n/// Result of a single canonical query evaluation.\n#[derive(Debug)]\npub struct QueryResult {\n    pub query_text: String,\n    pub expect_file: String,\n    pub actual_file: Option<String>,\n    pub score: f64,\n    pub min_score: f64,\n}\n\nimpl QueryResult {\n    pub fn file_matched(&self) -> bool {\n        self.actual_file.as_ref()\n            .map(|f| f.ends_with(&self.expect_file) || self.expect_file.ends_with(f.as_str()))\n            .unwrap_or(false)\n    }\n\n    pub fn passed(&self) -> bool {\n        self.file_matched() && self.score >= self.min_score\n    }\n}\n\n/// Aggregate report from running all canonical queries.\n#[derive(Debug)]\npub struct IntrospectReport {\n    pub results: Vec<QueryResult>,\n    pub chunks_ingested: usize,\n}\n\nimpl IntrospectReport {\n    pub fn all_passed(&self) -> bool {\n        self.results.iter().all(|r| r.passed())\n    }\n\n    pub fn pass_count(&self) -> usize {\n        self.results.iter().filter(|r| r.passed()).count()\n    }\n\n    pub fn fail_count(&self) -> usize {\n        self.results.iter().filter(|r| !r.passed()).count()\n    }\n",
+  "source_version": "docs/rfcs/2026-02-28-introspect-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452236545Z",
+  "valid_from": "2026-03-31T13:20:59.452236545Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-introspect-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 536,
+    "end_line": 607,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

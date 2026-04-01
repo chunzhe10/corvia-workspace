@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83e-7ae3-ae47-a1ffe3c70cf7",
+  "content": "### Task 13: Component CSS\n\n  text-transform: uppercase;\n  letter-spacing: 0.06em;\n  font-weight: 600;\n  color: var(--text-muted);\n}\n\n.status-dot {\n  width: 8px;\n  height: 8px;\n  border-radius: 50%;\n}\n\n.timestamp {\n  font-family: var(--font-mono);\n  font-size: 11px;\n  color: var(--text-dim);\n}\n\n.scope-badge {\n  padding: 3px 10px;\n  border-radius: 999px;\n  border: 1px solid var(--border);\n  font-size: 11px;\n  color: var(--text-muted);\n  font-weight: 600;\n}\n\n/* --- Metrics Grid --- */\n.metrics-grid {\n  display: grid;\n  grid-template-columns: repeat(4, 1fr);\n  gap: 16px;\n  padding: 22px 24px;\n}\n\n.metric-card {\n  background: var(--bg-card);\n  border: 1px solid var(--border);\n  border-top: 3px solid;\n  border-radius: var(--radius-lg);\n  padding: 20px;\n  box-shadow: var(--shadow-card);\n  transition: box-shadow var(--transition);\n}\n\n.metric-card:hover {\n  box-shadow: var(--shadow-hover);\n}\n\n.metric-icon {\n  width: 38px;\n  height: 38px;\n  border-radius: var(--radius-sm);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 18px;\n  margin-bottom: 12px;\n}\n\n.metric-label {\n  font-size: 10px;\n  text-transform: uppercase;\n  letter-spacing: 0.07em;\n  font-weight: 700;\n  color: var(--text-muted);\n  margin-bottom: 4px;\n}\n\n.metric-value {\n  font-size: 30px;\n  font-weight: 800;\n  color: var(--text-bright);\n  letter-spacing: -0.03em;\n  font-variant-numeric: tabular-nums;\n}\n\n.metric-trend {\n  font-size: 11px;\n  font-weight: 600;\n  margin-top: 4px;\n}\n\n/* --- Workspace (70/30 split) --- */\n.workspace {\n  display: grid;",
+  "source_version": "docs/rfcs/2026-03-11-dashboard-ui-standalone.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.454319288Z",
+  "valid_from": "2026-03-31T13:20:59.454319288Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-dashboard-ui-standalone.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1358,
+    "end_line": 1443,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

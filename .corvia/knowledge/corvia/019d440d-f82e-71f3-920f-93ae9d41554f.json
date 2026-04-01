@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82e-71f3-920f-93ae9d41554f",
+  "content": "rc<dyn ChunkingStrategy> {\n        if let Some(s) = self.overrides.get(ext) {\n            return Arc::clone(s);\n        }\n        if let Some(s) = self.defaults.get(ext) {\n            return Arc::clone(s);\n        }\n        Arc::clone(&self.fallback)\n    }\npub struct ProcessingReport {\n    pub files_processed: usize,\n    pub total_chunks: usize,\n    pub chunks_split: usize,\n    pub chunks_merged: usize,\n    pub per_strategy: HashMap<String, StrategyStats>,\n}",
+  "source_version": "crates/corvia-kernel/src/chunking_pipeline.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.438616625Z",
+  "valid_from": "2026-03-31T13:20:59.438616625Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_pipeline.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 88,
+    "end_line": 94,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

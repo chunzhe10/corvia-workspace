@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-54e018369c4b",
+  "content": "### 4. KV Cache Quantization Implementation\n\n```\n\nNote: the llama-cpp-2 API uses `with_flash_attention_policy()` (not `with_flash_attention()`), which takes a `LlamaFlashAttentionPolicy` enum. The `bool` config field maps to `Enabled`/`Disabled`.\n\nBoth `type_k` and `type_v` use the same quantization level. Asymmetric K/V quantization is not exposed — it's a niche optimization with limited benefit for single-user inference.\n\n**ChatModelEntry struct update** (`corvia-inference/src/chat_service.rs`):\n\n`ChatModelEntry` must store the resolved settings so they're available at context-creation time (every request):\n```rust\nstruct ChatModelEntry {\n    model: Arc<LlamaModel>,\n    backend: ResolvedBackend,\n    kv_cache_type: KvCacheType,       // resolved from config string\n    flash_attention: bool,\n}\n```\n\n**ModelEntry struct update** (`corvia-inference/src/model_manager.rs`):\n\n`ModelEntry` must also track these fields for `list_models()` reporting:\n```rust\npub struct ModelEntry {\n    pub name: String,\n    pub model_type: String,\n    pub loaded: bool,\n    pub device: String,\n    pub backend: String,\n    pub kv_quant: String,\n    pub flash_attention: bool,\n}\n```\n\n**Flash attention + Q4 incompatibility**: When `flash_attention = true` and `kv_quant = \"q4\"`, the inference server (in `chat_service.rs` context creation) silently disables flash attention and logs at WARN level. This is server-side validation — the CLI does not need to validate this combination.\n\n**InferenceProvisioner updates** (`corvia-kernel/src/inference_provisioner.rs`):\n\n`load_models()` and `ensure_ready()` must accept and pass `kv_quant` and `flash_attention` parameters alongside `device` and `backend`. These are added to `LoadModelRequest` fields sent via gRPC.\n",
+  "source_version": "docs/rfcs/2026-03-12-inference-kv-cache-config-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451321275Z",
+  "valid_from": "2026-03-31T13:20:59.451321275Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-12-inference-kv-cache-config-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 144,
+    "end_line": 182,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

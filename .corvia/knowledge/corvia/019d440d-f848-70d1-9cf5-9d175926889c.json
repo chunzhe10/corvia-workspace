@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9d175926889c",
+  "content": "#### Part 6: Garbage Collection\n#### Part 7: API Surface\n\n#### Part 8: Observability Contract\n\nObservability is designed into D45 at lifecycle definition time, not bolted on in M4. Every lifecycle phase emits telemetry. M4 configures where it goes (stdout, file, OTLP, Grafana). M2/M3 code emits it from day one.\n\n**Layer 1: OpenTelemetry Spans** (request-scoped, for tracing individual operations)\n```\ncorvia.agent.register           — agent registration\ncorvia.session.create           — session creation + recovery check\ncorvia.session.recover          — crash recovery (scan + action)\ncorvia.entry.write              — single entry write (parent span)\n  └─ corvia.entry.embed         — embedding sub-span (latency, model, tokens)\n  └─ corvia.entry.insert        — Redb atomic transaction sub-span\ncorvia.session.commit           — commit flow (git + queue insertion)\ncorvia.merge.process            — single entry merge (parent span)\n  └─ corvia.merge.conflict      — conflict detection sub-span\n  └─ corvia.merge.llm_resolve   — LLM merge sub-span (only if conflict)\ncorvia.gc.run                   — GC sweep\ncorvia.search                   — search query (latency, result count, scope)\n```\n\n**Layer 2: OpenTelemetry Metrics** (aggregates, for dashboards and alerting)\n```",
+  "source_version": "docs/rfcs/milestone-revision-notes.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464353451Z",
+  "valid_from": "2026-03-31T13:20:59.464353451Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/milestone-revision-notes.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 536,
+    "end_line": 557,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

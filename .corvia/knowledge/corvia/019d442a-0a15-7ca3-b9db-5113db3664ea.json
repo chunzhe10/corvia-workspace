@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a15-7ca3-b9db-5113db3664ea",
+  "content": ";&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class=\"output\">Reload complete.</span>\n    </div>\n  </div>\n\n  <div class=\"insight-box\">\n    <p>The whole point: absorb the complexity so switching backends is one command, no restart, no config files.</p>\n  </div>\n  <div class=\"flex-grow\"></div>\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">07 / 08</div>\n</div>\n\n<!-- SLIDE 8: TAKEAWAYS -->\n<div class=\"slide\" style=\"background: linear-gradient(160deg, #0f172a 0%, #1a2332 50%, #0f172a 100%);\">\n  <div class=\"slide-label\">Key Takeaways</div>\n  <div class=\"slide-title\" style=\"margin-bottom: 48px;\">\n    What I Learned<br>\n    <span class=\"highlight-green\">From These Numbers</span>\n  </div>\n\n  <div style=\"display: flex; flex-direction: column; gap: 32px;\">\n    <div style=\"display: flex; align-items: center; gap: 24px;\">\n      <div style=\"width: 72px; height: 72px; border-radius: 50%; background: rgba(6, 182, 212, 0.15); display: flex; align-items: center; justify-content: center; font-size: 36px; flex-shrink: 0;\">&#128200;</div>\n      <div>\n        <div style=\"font-size: 22px; font-weight: 800; margin-bottom: 6px;\">In RAG, retrieval matters more than the model.</div>\n        <div style=\"font-size: 17px; color: var(--text-secondary);\">89% of pipeline time was search + graph — not inference. Optimize the retrieval layer first.</div>\n      </div>\n    </div>\n\n    <div class=\"divider\" style=\"margin: 0;\"></div>\n\n    <div style=\"display: flex; align-items: center; gap: 24px;\">\n      <div style=\"width: 72px; height: 72px; border-radius: 50%; background: rgba(16, 185, 129, 0.15); display: flex; align-items: center; justify-content: center; font-size: 36px; flex-shrink: 0;\">&#9889;</div>\n      <div>\n        <div style=\"font-size: 22px; font-weight: 800; margin-bottom: 6px;\">Shared memory beats raw compute for small models.</div>\n        <div style=\"font-size: 17px; color: var(--text-secondary);\">If data transfer costs more than the computation, zero-copy wins.</div>\n      </div>\n    </div>\n\n    <div class=\"divider\" style=\"margin: 0;\"></div>",
+  "source_version": "marketing/linkedin/2026-03-16-embedding-benchmark/embedding-benchmark-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.029182052Z",
+  "valid_from": "2026-03-31T13:51:39.029182052Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-16-embedding-benchmark/embedding-benchmark-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 803,
+    "end_line": 835,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

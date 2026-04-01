@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82f-7ca0-945f-af6bd0344820",
+  "content": "es: None,\n            },\n            query_embedding: if embed_failed {\n                None\n            } else {\n                Some(Arc::try_unwrap(embedding_arc)\n                    .unwrap_or_else(|arc| (*arc).clone()))\n            },\n        })\n    }\nmod tests {\n    use super::*;\n    use crate::lite_store::LiteStore;\n    use crate::pipeline::expander::GraphExpander;\n    use crate::pipeline::fusion::PassThrough;\n    use crate::pipeline::searcher::VectorSearcher;\n    use crate::pipeline::IdentityReranker;\n    use crate::rag_types::RetrievalOpts;\n    use crate::retriever::{GraphExpandRetriever, Retriever};\n    use crate::traits::{GraphStore, InferenceEngine, QueryableStore};\n    use corvia_common::agent_types::{AgentPermission, EntryStatus, VisibilityMode};\n    use corvia_common::errors::Result;\n    use corvia_common::types::KnowledgeEntry;\n    use std::collections::{HashMap, HashSet};\n    use std::sync::Arc;\n\n    /// Mock embedding engine that returns a fixed 3-dim vector.\n    struct MockEngine;\n\n    #[async_trait]\n    impl InferenceEngine for MockEngine {\n        async fn embed(&self, _text: &str) -> Result<Vec<f32>> {\n            Ok(vec![1.0, 0.0, 0.0])\n        }\n        async fn embed_batch(&self, texts: &[String]) -> Result<Vec<Vec<f32>>> {\n            Ok(texts.iter().map(|_| vec![1.0, 0.0, 0.0]).collect())\n        }\n        fn dimensions(&self) -> usize {\n            3\n        }\n    }",
+  "source_version": "crates/corvia-kernel/src/pipeline/core.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.439981365Z",
+  "valid_from": "2026-03-31T13:20:59.439981365Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/core.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 312,
+    "end_line": 342,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

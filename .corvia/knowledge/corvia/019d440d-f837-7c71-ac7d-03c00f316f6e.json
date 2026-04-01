@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f837-7c71-ac7d-03c00f316f6e",
+  "content": "on\n        let reason = match (&score_transition, &inactivity_transition) {\n            (Some(_), None) => \"score_decay\",\n            (None, Some(_)) => \"inactivity\",\n            (Some(s), Some(i)) if i <= s => \"inactivity\",\n            _ => \"score_decay\",\n        };\n\n        if let Some(target_tier) = effective_transition {\n            // Enforce one-tier-step-per-cycle\n            let clamped = clamp_one_step(entry.tier, target_tier);\n            if clamped != entry.tier {\n                transitions.push(TierTransition {\n                    entry_id: entry.id,\n                    scope_id: scope_id.to_string(),\n                    memory_type: entry.memory_type,\n                    old_tier: entry.tier,\n                    new_tier: clamped,\n                    retention_score,\n                    d_score: breakdown.d_score,\n                    a_score: breakdown.a_score,\n                    g_score: breakdown.g_score,\n                    c_score: breakdown.c_score,\n                    superseded: entry.superseded_by.is_some(),\n                    reason,\n                });\n                transitioned_ids.insert(entry.id);\n            }\n        }\n    }\n\n    // ── Safeguard 1: Supersession chain protection ──────────────────────────\n    // Block Cold→Forgotten for entries in active chains.\n    transitions.retain(|t| {\n        if t.new_tier == Tier::Forgotten && chain_protected_ids.contains(&t.entry_id) {\n            report.chain_protected += 1;\n            transitioned_ids.remove(&t.entry_id);\n            false",
+  "source_version": "crates/corvia-kernel/src/gc_worker.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.447180539Z",
+  "valid_from": "2026-03-31T13:20:59.447180539Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/gc_worker.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 385,
+    "end_line": 416,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f831-7562-9884-a880a1123647",
+  "content": "t2]).await.unwrap();\n\n        for c in &result.candidates {\n            let score = c.scores.final_score.value();\n            assert!(\n                (0.0..=1.0).contains(&score),\n                \"score {score} not in [0,1]\"\n            );\n        }\n    }\nasync fn test_rrf_top_candidate_always_1_0() {\n        let set1 = make_set(vec![\n            make_named_candidate(1, 0.9, \"vector\"),\n            make_named_candidate(2, 0.7, \"vector\"),\n            make_named_candidate(3, 0.5, \"vector\"),\n        ]);\n        let set2 = make_set(vec![\n            make_named_candidate(4, 0.8, \"bm25\"),\n            make_named_candidate(5, 0.6, \"bm25\"),\n            make_named_candidate(6, 0.4, \"bm25\"),\n        ]);\n        let rrf = RRFusion::new(60);\n        let result = rrf.fuse(vec![set1, set2]).await.unwrap();\n\n        // Top candidate (highest RRF) should always be normalized to 1.0.\n        assert!((result.candidates[0].scores.final_score.value() - 1.0).abs() < f32::EPSILON);\n    }",
+  "source_version": "crates/corvia-kernel/src/pipeline/fusion.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.441102729Z",
+  "valid_from": "2026-03-31T13:20:59.441102729Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/fusion.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 468,
+    "end_line": 484,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

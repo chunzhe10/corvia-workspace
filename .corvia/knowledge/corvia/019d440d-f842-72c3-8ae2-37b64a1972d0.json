@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-37b64a1972d0",
+  "content": "   }\n\n    fn get_model_or_err<'a>(\n        models: &'a HashMap<String, TextEmbedding>,\n        name: &str,\n    ) -> Result<&'a TextEmbedding, Status> {\n        models.get(name).ok_or_else(|| Status::not_found(format!(\"Model '{name}' not loaded\")))\n    }\n}\n\n#[tonic::async_trait]\nimpl EmbeddingService for EmbeddingServiceImpl {\n    async fn embed(&self, req: Request<EmbedRequest>) -> Result<Response<EmbedResponse>, Status> {\n        let req = req.into_inner();\n        let models = self.models.read().await;\n        let model = Self::get_model_or_err(&models, &req.model)?;\n\n        let texts = vec![req.text];\n        let embeddings = model.embed(texts, None)\n            .map_err(|e| Status::internal(format!(\"Embed failed: {e}\")))?;\n\n        let embedding = embeddings.into_iter().next()\n            .ok_or_else(|| Status::internal(\"Empty embedding result\"))?;\n        let dimensions = embedding.len() as u32;\n\n        Ok(Response::new(EmbedResponse { embedding, dimensions }))\n    }\n\n    async fn embed_batch(&self, req: Request<EmbedBatchRequest>) -> Result<Response<EmbedBatchResponse>, Status> {\n        let req = req.into_inner();\n        let models = self.models.read().await;\n        let model = Self::get_model_or_err(&models, &req.model)?;\n\n        let embeddings_raw = model.embed(req.texts, None)\n            .map_err(|e| Status::internal(format!(\"EmbedBatch failed: {e}\")))?;\n\n        let embeddings = embeddings_raw.into_iter().enumerate().map(|(i, values)| {\n            Embedding { values, index: i as u32 }\n        }).collect();\n\n        Ok(Response::new(EmbedBatchResponse { embeddings }))\n    }\n\n    async fn model_info(&self, req: Request<ModelInfoRequest>) -> Result<Response<ModelInfoResponse>, Status> {\n        let name = req.into_inner().model;\n        let models = self.models.read().await;\n        let loaded = models.contains_key(&name);\n        Ok(Response::new(ModelInfoResponse {\n            model: name,",
+  "source_version": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458728445Z",
+  "valid_from": "2026-03-31T13:20:59.458728445Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1324,
+    "end_line": 1362,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

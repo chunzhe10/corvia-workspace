@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82a-7783-b9af-741fed30bfb4",
+  "content": "lx::query(\"DELETE FROM edges WHERE from_id = $1 OR to_id = $1\")\n            .bind(entry_id)\n            .execute(&self.pool)\n            .await\n            .map_err(|e| CorviaError::Storage(format!(\"Failed to remove edges: {e}\")))?;\n\n        Ok(())\n    }\n}\nasync fn relate(\n        &self,\n        from: &Uuid,\n        relation: &str,\n        to: &Uuid,\n        metadata: Option<serde_json::Value>,\n    ) -> Result<()> {\n        sqlx::query(\n            \"INSERT INTO edges (from_id, relation, to_id, metadata) \\\n             VALUES ($1, $2, $3, $4) ON CONFLICT DO NOTHING\",\n        )\n        .bind(from)\n        .bind(relation)\n        .bind(to)\n        .bind(&metadata)\n        .execute(&self.pool)\n        .await\n        .map_err(|e| CorviaError::Storage(format!(\"Failed to create edge: {e}\")))?;\n\n        Ok(())\n    }",
+  "source_version": "crates/corvia-kernel/src/postgres_store.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.434020731Z",
+  "valid_from": "2026-03-31T13:20:59.434020731Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/postgres_store.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 652,
+    "end_line": 672,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

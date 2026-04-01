@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f834-7df0-9fec-25101738a813",
+  "content": "struct PendingEdge {\n    from_source_version: String,\n    relation: String,\n    to_source_version: String,\n    created_at: String,\n}\nfn write_pending_edges(path: &Path, edges: &[PendingEdge]) {\n    // Read existing edges, merge with new ones, write atomically\n    let mut all_edges: Vec<String> = std::fs::read_to_string(path)\n        .unwrap_or_default()\n        .lines()\n        .filter(|l| !l.trim().is_empty())\n        .map(String::from)\n        .collect();\n\n    for edge in edges {\n        if let Ok(json) = serde_json::to_string(edge) {\n            all_edges.push(json);\n        }\n    }\n\n    let tmp_path = path.with_extension(\"pending-edges-write.tmp\");\n    let content = all_edges.join(\"\\n\") + \"\\n\";\n    if std::fs::write(&tmp_path, content).is_ok() {\n        let _ = std::fs::rename(&tmp_path, path);\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/ingest.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.444653317Z",
+  "valid_from": "2026-03-31T13:20:59.444653317Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ingest.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1331,
+    "end_line": 1351,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f600df9eb3ad",
+  "content": "s. On native Linux, <strong>Docker talks directly<br>\n    to the kernel</strong> &mdash; no VM tax, no memory leaks.</p>\n  </div>\n\n  <div class=\"flex-grow\"></div>\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">04 / 08</div>\n</div>\n<!-- ════════════════════════════════════════════════ -->\n<!-- SLIDE 5: GPU DISCOVERY                          -->\n<!-- ════════════════════════════════════════════════ -->\n<div class=\"slide\">\n  <div class=\"slide-label\">GPU Surprise</div>\n  <div class=\"slide-title\">\n    Your iGPU Is<br>\n    <span class=\"highlight-amber\">Sitting Idle.</span><br>\n    Use It.\n  </div>\n  <div class=\"slide-subtitle\" style=\"font-size: 20px;\">\n    Most laptops have two GPUs. Most people only use one.<br>\n    Linux lets you assign processes to each GPU individually.\n  </div>",
+  "source_version": "marketing/linkedin/2026-03-11-linux-discovery/linux-discovery-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028268825Z",
+  "valid_from": "2026-03-31T13:51:39.028268825Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-11-linux-discovery/linux-discovery-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 690,
+    "end_line": 703,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

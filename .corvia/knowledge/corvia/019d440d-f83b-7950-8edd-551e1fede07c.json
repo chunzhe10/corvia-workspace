@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-551e1fede07c",
+  "content": "### 7. CLI Changes\n\n## KV Cache Quantization — Technical Details\n\n**What it does**: Quantizes the key-value cache from FP16 to Q8_0 (8-bit) or Q4_0 (4-bit). The KV cache stores attention state for all previous tokens and grows linearly with context length.\n\n**Memory impact** (for a 3B model, 4K context):\n- FP16 (none): ~1.5 GB KV cache\n- Q8_0: ~0.75 GB (~50% reduction)\n- Q4_0: ~0.375 GB (~75% reduction)\n\n**Quality impact**: Q8 is near-lossless (imperceptible for most tasks). Q4 has slight quality degradation on long-context reasoning tasks but is acceptable for summarization, classification, and short-form generation.\n\n**Performance impact**: KV cache quantization is actually faster, not slower, because smaller cache means less memory bandwidth consumed during attention computation.\n\n**Flash attention**: Fused attention kernel that avoids materializing the full attention matrix. Requires Q8 or FP16 KV cache (not Q4). Provides additional speedup on supported hardware. When `flash_attention = true` and `kv_quant = \"q4\"`, flash attention is silently disabled with a WARN log.\n\n\n## Migration\n\n1. Remove `device` and `backend` from `[embedding]` in `corvia.toml`\n2. Add `[inference]` section with desired settings\n3. Existing configs without `[inference]` get defaults: `device = \"auto\"`, `kv_quant = \"q8\"`, `flash_attention = true`\n",
+  "source_version": "docs/rfcs/2026-03-12-inference-kv-cache-config-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451344452Z",
+  "valid_from": "2026-03-31T13:20:59.451344452Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-12-inference-kv-cache-config-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 226,
+    "end_line": 246,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

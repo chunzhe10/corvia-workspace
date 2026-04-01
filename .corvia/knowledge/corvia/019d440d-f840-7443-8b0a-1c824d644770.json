@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-1c824d644770",
+  "content": "**Step 8: Commit**\n\n```bash\ncd /workspaces/corvia-workspace/repos/corvia\ngit add crates/corvia-server/src/dashboard/clustering.rs crates/corvia-server/src/dashboard/mod.rs\ngit commit -m \"feat(dashboard): add k-means clustering with silhouette scoring\"\n```\n\n### Task 2: ClusterStore — Hierarchy Builder and Background Recompute\n\n**Files:**\n- Modify: `crates/corvia-server/src/dashboard/clustering.rs`\n- Modify: `crates/corvia-server/src/dashboard/mod.rs`\n\n-**Step 1: Write failing test for ClusterHierarchy**\n\n```rust\n#[test]\nfn test_cluster_hierarchy_from_embeddings() {\n    // Create 9 entries with clear 3-cluster structure in 4D\n    let entries: Vec<(String, Vec<f32>)> = vec![\n        (\"a1\".into(), vec![0.0, 0.0, 0.0, 0.0]),\n        (\"a2\".into(), vec![0.1, 0.0, 0.0, 0.0]),\n        (\"a3\".into(), vec![0.0, 0.1, 0.0, 0.0]),\n        (\"b1\".into(), vec![10.0, 10.0, 0.0, 0.0]),\n        (\"b2\".into(), vec![10.1, 10.0, 0.0, 0.0]),\n        (\"b3\".into(), vec![10.0, 10.1, 0.0, 0.0]),\n        (\"c1\".into(), vec![0.0, 0.0, 10.0, 10.0]),\n        (\"c2\".into(), vec![0.0, 0.0, 10.1, 10.0]),\n        (\"c3\".into(), vec![0.0, 0.0, 10.0, 10.1]),\n    ];\n    let hierarchy = ClusterHierarchy::build(&entries, 2, 5);\n    assert!(hierarchy.super_clusters.len() >= 2 && hierarchy.super_clusters.len() <= 5);\n    // Each super-cluster should have 3 entries\n    for sc in &hierarchy.super_clusters {\n        assert_eq!(sc.entry_ids.len(), 3);\n    }\n}\n```\n\n-**Step 2: Run test, verify failure**\n\n-**Step 3: Implement ClusterHierarchy**\n\n```rust\nuse serde::{Deserialize, Serialize};\n\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct ClusterNode {\n    pub cluster_id: String,\n    pub label: String,\n    pub level: u8,\n    pub parent_id: Option<String>,\n    pub entry_ids: Vec<String>,\n    pub centroid: Vec<f32>,\n}\n\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct ClusterHierarchy {\n    pub super_clusters: Vec<ClusterNode>,   // L0\n    pub sub_clusters: Vec<ClusterNode>,     // L1\n    pub entry_count: usize,\n    pub computed_at: chrono::DateTime<chrono::Utc>,\n}\n\nimpl ClusterHierarchy {\n    /// Build hierarchy from (entry_id, embedding) pairs.",
+  "source_version": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456286229Z",
+  "valid_from": "2026-03-31T13:20:59.456286229Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 340,
+    "end_line": 398,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

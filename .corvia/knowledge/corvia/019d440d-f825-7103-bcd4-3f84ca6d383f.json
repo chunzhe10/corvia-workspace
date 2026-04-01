@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-3f84ca6d383f",
+  "content": "_all(&inbox_dir).unwrap();\n        fs::write(team_dir.join(\"config.json\"), serde_json::to_string(config).unwrap()).unwrap();\n        for (name, content) in inboxes {\n            fs::write(inbox_dir.join(format!(\"{name}.json\")), content).unwrap();\n        }\n    }\n\n    // ─── T2: Name validation ───────────────────────────────────────────────\n\n    #[test]\n    fn test_valid_names() {\n        assert!(is_valid_name(\"my-team\"));\n        assert!(is_valid_name(\"team_1\"));\n        assert!(is_valid_name(\"a\"));\n        assert!(is_valid_name(\"A123-test_name\"));\n        assert!(is_valid_name(&\"x\".repeat(64)));\n    }\n\n    #[test]\n    fn test_invalid_names_path_traversal() {\n        assert!(!is_valid_name(\"../etc\"));\n        assert!(!is_valid_name(\"../../etc/cron.d/malicious\"));\n        assert!(!is_valid_name(\"foo/../bar\"));\n    }\n\n    #[test]\n    fn test_invalid_names_special_chars() {\n        assert!(!is_valid_name(\"\"));\n        assert!(!is_valid_name(\"-starts-with-dash\"));\n        assert!(!is_valid_name(\"_starts-with-underscore\"));\n        assert!(!is_valid_name(\"has space\"));\n        assert!(!is_valid_name(\"has/slash\"));\n        assert!(!is_valid_name(\"has.dot\"));\n        assert!(!is_valid_name(&\"x\".repeat(65)));\n    }\n",
+  "source_version": "crates/corvia-cli/src/hooks/agent_teams.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429308793Z",
+  "valid_from": "2026-03-31T13:20:59.429308793Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/agent_teams.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 520,
+    "end_line": 550,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

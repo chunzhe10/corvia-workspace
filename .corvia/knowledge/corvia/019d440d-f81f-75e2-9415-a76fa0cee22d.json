@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81f-75e2-9415-a76fa0cee22d",
+  "content": "9_ms,\n            },\n        );\n    }\n\n    // Keep last 50 events\n    let recent_events = if events.len() > 50 {\n        events[events.len() - 50..].to_vec()\n    } else {\n        events\n    };\n\n    TracesData {\n        spans,\n        recent_events,\n    }\n}\npub fn collect_trace_trees(lines: &[&str], limit: usize) -> Vec<corvia_common::dashboard::TraceTree> {\n    use corvia_common::dashboard::{SpanNode, TraceTree};\n\n    struct RawSpan {\n        trace_id: String,\n        span_id: String,\n        parent_span_id: String,\n        span_name: String,\n        elapsed_ms: f64,\n        timestamp: String,\n    }\n\n    let mut spans_by_trace: HashMap<String, Vec<RawSpan>> = HashMap::new();\n\n    for line in lines {\n        if let Some(ParsedTrace::Span {\n            timestamp,\n            span_name,\n            elapsed_ms,\n            trace_id: Some(tid),\n            span_id: Some(sid),\n            parent_span_id,\n            ..\n        }) = parse_trace_line(line)\n        {\n            spans_by_trace\n                .entry(tid.clone())\n                .or_default()\n                .push(RawSpan {\n                    trace_id: tid,\n                    span_id: sid,\n                    parent_span_id: parent_span_id.unwrap_or_default(),\n                    span_name,\n                    elapsed_ms,\n                    timestamp,\n                });",
+  "source_version": "crates/corvia-server/src/dashboard/traces.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.423068756Z",
+  "valid_from": "2026-03-31T13:20:59.423068756Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/traces.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 297,
+    "end_line": 332,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

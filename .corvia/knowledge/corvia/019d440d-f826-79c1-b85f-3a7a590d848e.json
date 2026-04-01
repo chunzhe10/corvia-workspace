@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f826-79c1-b85f-3a7a590d848e",
+  "content": "fn device_cpu() {\n        let gpu = GpuCapabilities::new(true, true);\n        let r = resolve_backend(\"cpu\", \"\", ModelType::Embedding, &gpu).unwrap();\n        assert_eq!(r.backend, BackendKind::Cpu);\n        assert_eq!(r.device, Device::Cpu);\n    }\nfn device_gpu_prefers_cuda() {\n        let gpu = GpuCapabilities::new(true, true);\n        let r = resolve_backend(\"gpu\", \"\", ModelType::Embedding, &gpu).unwrap();\n        assert_eq!(r.backend, BackendKind::Cuda);\n        assert_eq!(r.device, Device::Gpu);\n        assert!(!r.fallback_used);\n    }",
+  "source_version": "crates/corvia-inference/src/backend.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.430927969Z",
+  "valid_from": "2026-03-31T13:20:59.430927969Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/src/backend.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 263,
+    "end_line": 269,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

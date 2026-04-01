@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f835-7a40-9ae4-0f36f926d511",
+  "content": ".\",\n            ));\n        } else {\n            results.push(CheckResult::pass(\"GITHUB_TOKEN is set\"));\n        }\n\n        // 4. Credentials file (use $HOME, not hardcoded /root)\n        let home = std::env::var(\"HOME\").unwrap_or_else(|_| \"/root\".into());\n        let creds = std::path::PathBuf::from(&home).join(\".claude/.credentials.json\");\n        if creds.exists() {\n            results.push(CheckResult::pass(\"Claude credentials found\"));\n        } else {\n            results.push(CheckResult::warn(\n                \"Claude credentials\",\n                &format!(\"{} not found\", creds.display()),\n            ));\n        }\n\n        // 5. MCP token\n        let mcp_token_path = data_dir\n            .map(|d| d.join(\"mcp-token\"))\n            .unwrap_or_else(|| std::path::PathBuf::from(\".corvia/mcp-token\"));\n        if mcp_token_path.exists() {\n            results.push(CheckResult::pass(\"MCP token found\"));\n        } else {\n            results.push(CheckResult::warn(\n                \"MCP token\",\n                &format!(\"{} not found. Server may need 0.0.0.0 binding.\", mcp_token_path.display()),\n            ));\n        }\n\n        // 6. Disk space (warn if < 4GB free)\n        if let Ok(stat) = nix_statvfs(std::path::Path::new(\"/\")) {\n            let free_gb = stat / (1024 * 1024 * 1024);\n            if free_gb < 4 {\n                results.push(CheckResult::warn(\n                    \"Disk space\",\n                    &format!(\"Only {}GB free. Each spoke needs ~2-4GB.\", free_gb),\n                ));\n            } else {\n                results.push(CheckResult::pass(&format!(\"Disk space: {}GB free\", free_gb)));\n            }\n        }\n\n        results\n    }",
+  "source_version": "crates/corvia-kernel/src/spoke.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.445276336Z",
+  "valid_from": "2026-03-31T13:20:59.445276336Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/spoke.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 730,
+    "end_line": 767,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

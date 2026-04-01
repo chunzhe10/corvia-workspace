@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81c-7712-b515-4db1742f4c39",
+  "content": "           .iter()\n            .filter(|r| r.relation == \"extends\")\n            .collect();\n        assert_eq!(extends.len(), 1, \"Expected 1 extends relation, got {}\", extends.len());\n        assert_eq!(extends[0].to_name.as_deref(), Some(\"Animal\"));\n    }\nfn test_ts_class_extends_with_generics() {\n        let source = r#\"\nclass Base<T> {\n    value: T;\n    constructor(val: T) {\n        this.value = val;\n    }\n}\n\nclass Derived extends Base<string> {\n    greet(): string {\n        return this.value;\n    }\n}\n\"#;\n        let result = chunk_file_with_relations(\"app.ts\", source, \"ts\");\n        let extends: Vec<&CodeRelation> = result\n            .relations\n            .iter()\n            .filter(|r| r.relation == \"extends\")\n            .collect();\n        assert_eq!(extends.len(), 1, \"Expected 1 extends relation\");\n        assert_eq!(\n            extends[0].to_name.as_deref(),\n            Some(\"Base\"),\n            \"Should extract 'Base' not 'Base<string>'\"\n        );\n    }",
+  "source_version": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.420606697Z",
+  "valid_from": "2026-03-31T13:20:59.420606697Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1886,
+    "end_line": 1913,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f826-79c1-b85f-33a1e0eb36c6",
+  "content": "          }\n            Err(status) => Ok(Response::new(LoadModelResponse {\n                success: false,\n                error: status.message().to_string(),\n                actual_device,\n                actual_backend,\n            })),\n        }\n    }\nasync fn unload_model(\n        &self,\n        req: Request<UnloadModelRequest>,\n    ) -> Result<Response<UnloadModelResponse>, Status> {\n        let name = req.into_inner().name;\n        let mut models = self.models.write().await;\n        models.remove(&name);\n        Ok(Response::new(UnloadModelResponse { success: true }))\n    }",
+  "source_version": "crates/corvia-inference/src/model_manager.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.430073822Z",
+  "valid_from": "2026-03-31T13:20:59.430073822Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/src/model_manager.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 295,
+    "end_line": 303,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

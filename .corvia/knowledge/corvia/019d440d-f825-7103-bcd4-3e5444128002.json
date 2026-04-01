@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-3e5444128002",
+  "content": " name.is_empty() || name.len() > 64 {\n        return false;\n    }\n    let bytes = name.as_bytes();\n    if !bytes[0].is_ascii_alphanumeric() {\n        return false;\n    }\n    bytes[1..].iter().all(|b| b.is_ascii_alphanumeric() || *b == b'-' || *b == b'_')\n}\nfn flock_append(path: &Path, line: &str) -> Result<()> {\n    let lock_path = path.with_file_name(format!(\n        \"{}.lock\",\n        path.file_name().unwrap_or_default().to_string_lossy()\n    ));\n\n    // lock_file must be declared before data file for correct drop ordering\n    let lock_file = OpenOptions::new()\n        .create(true)\n        .truncate(true)\n        .write(true)\n        .open(&lock_path)?;\n\n    let fd = lock_file.as_raw_fd();\n    let ret = unsafe { libc::flock(fd, libc::LOCK_EX) };\n    if ret != 0 {\n        anyhow::bail!(\"flock failed: {}\", std::io::Error::last_os_error());\n    }\n\n    let mut file = OpenOptions::new()\n        .create(true)\n        .append(true)\n        .open(path)?;\n    file.write_all(line.as_bytes())?;\n    if !line.ends_with('\\n') {\n        file.write_all(b\"\\n\")?;\n    }\n    file.flush()?;\n    // file is dropped here (closed), then lock_file is dropped (flock released)\n\n    Ok(())\n}",
+  "source_version": "crates/corvia-cli/src/hooks/agent_teams.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429083381Z",
+  "valid_from": "2026-03-31T13:20:59.429083381Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/agent_teams.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 78,
+    "end_line": 109,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

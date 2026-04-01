@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a13-75d1-bfe3-f6edbf0cdfe0",
+  "content": "\n  },\n  \"description\": \"Structural patterns shared across both brands. Same layout rules, typography scale, and component patterns — only colors differ.\",\n  \"formats\": {\n    \"linkedin-carousel\": {\n      \"aspectRatio\": \"4:5\",\n      \"deviceScaleFactor\": 2,\n      \"footer\": {\n        \"authorTag\": {\n          \"bottom\": 48,\n          \"fontSize\": 18,\n          \"left\": 72\n        },\n        \"slideNumber\": {\n          \"bottom\": 48,\n          \"fontSize\": 18,\n          \"right\": 72\n        }\n      },\n      \"height\": 1350,\n      \"padding\": {\n        \"bottom\": 72,\n        \"left\": 72,\n        \"right\": 72,\n        \"top\": 72\n      },\n      \"safeArea\": {\n        \"height\": 1110,\n        \"width\": 936\n      },\n      \"width\": 1080\n    }\n  },\n  \"narrativeArc\": {\n    \"_description\": \"Recommended slide sequence for a discovery-style LinkedIn carousel (6-10 slides).\",\n    \"guidelines\": [\n      \"6-8 slides is the sweet spot. Under 5 feels thin, over 10 loses attention.\",\n      \"Every slide must earn its place — if it doesn't add new information, cut it.\",\n      \"Alternate between text-heavy and visual slides for rhythm.\",\n      \"The 'discovery journey' tone: honest about failures, specific about what you tried, generous with what you learned.\"\n    ],\n    \"structure\": [\n      {\n        \"position\": 1,\n        \"purpose\": \"Hook — stop the scroll\",\n        \"template\": \"cover\"\n      },\n      {\n        \"position\": 2,\n        \"purpose\": \"Context — what you were building\",\n        \"template\": \"setup\"\n      },\n      {\n        \"position\": \"3-4\",\n        \"purpose\": \"The problem — show don't tell\",\n        \"template\": \"comparison OR category-grid\"\n      },\n      {\n        \"position\": \"4-5\",\n        \"purpose\": \"The pattern — why it keeps happening\",\n        \"template\": \"diagram OR stat-highlight\"\n      },\n      {\n        \"position\": \"5-6\",\n        \"purpose\": \"The fix — what you discovered\",\n        \"template\": \"solution\"\n      },\n      {\n        \"position\": \"6-7\",\n        \"purpose\": \"The difference — tangible improvement\",\n        \"template\": \"before-after\"\n      },\n      {\n        \"position\": \"last\",\n        \"purpose\": \"Key lessons + engagement CTA\",\n        \"template\": \"takeaway\"\n      }\n    ]\n  },\n  \"slideTemplates\": {",
+  "source_version": "marketing/design-system.json",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.027667400Z",
+  "valid_from": "2026-03-31T13:51:39.027667400Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/design-system.json",
+    "language": null,
+    "chunk_type": "section",
+    "start_line": 119,
+    "end_line": 191,
+    "content_role": "code",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

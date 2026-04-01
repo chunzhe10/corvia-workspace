@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f822-7391-83ed-33df6d16dc8a",
+  "content": "pha: f32,\n    #[serde(default = \"default_reserve_for_answer\")]\n    pub reserve_for_answer: f32,\n    #[serde(default)]\n    pub max_context_tokens: usize,\n    #[serde(default)]\n    pub system_prompt: String,\n    #[serde(default = \"default_graph_oversample\")]\n    pub graph_oversample_factor: usize,\n    /// Master toggle for the dynamic skill system. When false, no skills are\n    /// loaded or matched — identical to pre-skill behavior. Default: false.\n    #[serde(default)]\n    pub skills_enabled: bool,\n    /// Directories to load skill files from. Globs `*.md` in each directory.\n    /// Later directories override same-named skills. Default: `[\"skills\"]`.\n    #[serde(default = \"default_skills_dirs\")]\n    pub skills_dirs: Vec<String>,\n    /// Maximum number of skills injected per query. Default: 3.\n    #[serde(default = \"default_max_skills\")]\n    pub max_skills: usize,\n    /// Minimum cosine similarity between query and skill description to select. Default: 0.3.\n    #[serde(default = \"default_skill_threshold\")]\n    pub skill_threshold: f32,\n    /// Fraction of context window reserved for skill content. Default: 0.15.\n    #[serde(default = \"default_reserve_for_skills\")]\n    pub reserve_for_skills: f32,\n    /// Composable pipeline config. When present, overrides the `retriever` field.\n    /// Maps to `[rag.pipeline]` in TOML.\n    #[serde(default)]\n    pub pipeline: Option<PipelineConfig>,\n}",
+  "source_version": "crates/corvia-common/src/config.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.426346843Z",
+  "valid_from": "2026-03-31T13:20:59.426346843Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/config.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 480,
+    "end_line": 502,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

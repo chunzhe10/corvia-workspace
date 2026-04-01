@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-2cb3044ba618",
+  "content": "## System Status Page Enhancement\n## Implementation Plan\n\n### Backend (corvia-server)\n\n| Task | File | Description |\n|------|------|-------------|\n| 1 | `dashboard/mod.rs` | Add `GET /api/dashboard/spokes` route and handler |\n| 2 | `dashboard/mod.rs` | Add `SpokeInfo` response type |\n| 3 | `dashboard/mod.rs` | Add spoke count to status handler |\n| 4 | Cargo.toml | Add `bollard` dependency to corvia-server (or re-export from kernel) |\n\n\n### Frontend (corvia-dashboard)\n\n| Task | File | Description |\n|------|------|-------------|\n| 5 | `types.ts` | Add `SpokeInfo`, `EnrichedAgent` types |\n| 6 | `api.ts` | Add `fetchSpokes()` |\n| 7 | `AgentsView.tsx` | Merge spoke data, add spoke badge and info to AgentCard |\n| 8 | `AgentsView.tsx` | Add SpokesSummaryBar component |\n| 9 | `AgentsView.tsx` | Add ContainerStatus component |\n| 10 | `Layout.tsx` | Add spoke count to header |\n| 11 | `AgentsView.tsx` or `HistoryView.tsx` | Add spoke badge to activity entries |\n| 12 | `AgentsView.tsx` | Add agent filter to activity/timeline |\n",
+  "source_version": "decisions/2026-03-28-spoke-dashboard-design.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026248720Z",
+  "valid_from": "2026-03-31T13:51:39.026248720Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-dashboard-design.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 383,
+    "end_line": 404,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

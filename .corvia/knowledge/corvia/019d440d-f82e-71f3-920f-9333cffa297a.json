@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82e-71f3-920f-9333cffa297a",
+  "content": ".unwrap();\n        mgr.increment_written(&session.session_id).unwrap();\n        mgr.increment_written(&session.session_id).unwrap();\n        let updated = mgr.get(&session.session_id).unwrap().unwrap();\n        assert_eq!(updated.entries_written, 2);\n    }\nfn test_find_stale_sessions() {\n        let mgr = test_manager();\n        let session = mgr.create(\"test::agent\", true).unwrap();\n        mgr.transition(&session.session_id, SessionState::Active).unwrap();\n        // With a 0-second timeout, session is immediately stale\n        let stale = mgr.find_stale(std::time::Duration::ZERO).unwrap();\n        assert_eq!(stale.len(), 1);\n    }",
+  "source_version": "crates/corvia-kernel/src/session_manager.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.438579450Z",
+  "valid_from": "2026-03-31T13:20:59.438579450Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/session_manager.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 287,
+    "end_line": 294,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

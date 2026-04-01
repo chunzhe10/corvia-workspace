@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83d-7542-8fa8-a38caceafd95",
+  "content": "## Chunk 1: Project Setup & Foundation\n\n### Task 1: Scaffold Vite + Preact project\n\n**Files:**\n- Create: `tools/corvia-dashboard/package.json`\n- Create: `tools/corvia-dashboard/vite.config.ts`\n- Create: `tools/corvia-dashboard/tsconfig.json`\n- Create: `tools/corvia-dashboard/index.html`\n\n-**Step 1: Create `package.json`**\n\n```json\n{\n  \"name\": \"corvia-dashboard\",\n  \"version\": \"0.1.0\",\n  \"private\": true,\n  \"type\": \"module\",\n  \"scripts\": {\n    \"dev\": \"vite --port 8021\",\n    \"build\": \"vite build\",\n    \"preview\": \"vite preview --port 8021\",\n    \"test\": \"npx playwright test\"\n  },\n  \"dependencies\": {\n    \"preact\": \"^10.25.0\"\n  },\n  \"devDependencies\": {\n    \"@preact/preset-vite\": \"^2.9.0\",\n    \"typescript\": \"^5.7.0\",\n    \"vite\": \"^6.0.0\",\n    \"@playwright/test\": \"^1.50.0\"\n  }\n}\n```\n\n-**Step 2: Create `vite.config.ts`**\n\n```typescript\nimport { defineConfig } from \"vite\";\nimport preact from \"@preact/preset-vite\";\n\nexport default defineConfig({\n  plugins: [preact()],\n  server: {\n    port: 8021,\n    proxy: {\n      \"/api\": {\n        target: \"http://localhost:8020\",\n        changeOrigin: true,\n      },\n    },\n  },\n  build: {\n    outDir: \"dist\",\n  },\n});\n```\n\n-**Step 3: Create `tsconfig.json`**\n\n```json\n{\n  \"compilerOptions\": {\n    \"target\": \"ES2020\",\n    \"module\": \"ESNext\",\n    \"moduleResolution\": \"bundler\",\n    \"jsx\": \"react-jsx\",",
+  "source_version": "docs/rfcs/2026-03-11-dashboard-ui-standalone.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.453991417Z",
+  "valid_from": "2026-03-31T13:20:59.453991417Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-dashboard-ui-standalone.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 62,
+    "end_line": 127,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

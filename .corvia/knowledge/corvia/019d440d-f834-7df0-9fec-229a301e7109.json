@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f834-7df0-9fec-229a301e7109",
+  "content": "rce_file.to_lowercase();\n    if lower.contains(\"/.memory/\") || lower.starts_with(\".memory/\") {\n        return Some(\"memory\".into());\n    }\n    if let Some(name) = repo_name {\n        return Some(format!(\"repo:{name}\"));\n    }\n    Some(\"workspace\".into())\n}\nfn content_passes_min_length(content: &str) -> bool {\n    let stripped: String = content\n        .lines()\n        .filter(|line| !line.starts_with('#'))\n        .collect::<Vec<_>>()\n        .join(\"\\n\");\n    stripped.trim().len() >= MIN_CONTENT_LENGTH\n}",
+  "source_version": "crates/corvia-kernel/src/ingest.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.444311225Z",
+  "valid_from": "2026-03-31T13:20:59.444311225Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ingest.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 219,
+    "end_line": 226,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

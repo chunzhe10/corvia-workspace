@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f820-7670-b7d8-7bc1fec314bb",
+  "content": " Enrich the first Intel GPU with utilization data from intel_gpu_top\n    if !gpus.is_empty() {\n        let (render, video) = detect_intel_gpu_utilization();\n        gpus[0].render_busy_pct = render;\n        gpus[0].video_busy_pct = video;\n    }\n\n    gpus\n}\npub fn inference_backend_from_config(\n    cfg: &corvia_common::config::CorviaConfig,\n) -> HashMap<String, InferenceBackendInfo> {\n    let mut backends = HashMap::new();\n\n    // Embedding backend\n    let emb_device = if !cfg.inference.embedding_backend.is_empty()\n        || !cfg.inference.backend.is_empty()\n    {\n        \"gpu\"\n    } else {\n        \"cpu\"\n    };\n\n    let emb_backend = if !cfg.inference.embedding_backend.is_empty() {\n        cfg.inference.embedding_backend.clone()\n    } else if !cfg.inference.backend.is_empty() {\n        cfg.inference.backend.clone()\n    } else {\n        \"cpu\".to_string()\n    };\n\n    backends.insert(\n        \"embedding\".to_string(),\n        InferenceBackendInfo {\n            model: cfg.embedding.model.clone(),\n            device: emb_device.to_string(),\n            backend: emb_backend,\n        },\n    );\n\n    // Chat backend (from inference config + first chat model)\n    let chat_device = if cfg.inference.device == \"gpu\"\n        || (!cfg.inference.backend.is_empty() && cfg.inference.backend != \"cpu\")\n    {\n        \"gpu\"\n    } else if cfg.inference.device == \"cpu\" {\n        \"cpu\"\n    } else {\n        // \"auto\" — check if there's a backend hint\n        if !cfg.inference.backend.is_empty() {\n            \"gpu\"\n        } else {\n            \"cpu\"\n        }\n    };\n\n    let chat_backend = if !cfg.inference.backend.is_empty() {\n        cfg.inference.backend.clone()\n    } else {\n        \"cpu\".to_string()\n    };\n\n    let chat_model = cfg\n        .inference\n        .chat_models\n        .keys()\n        .next()\n        .cloned()\n        .unwrap_or_else(|| \"none\".to_string());\n\n    backends.insert(\n        \"chat\".to_string(),\n        InferenceBackendInfo {\n            model: chat_model,\n            device: chat_device.to_string(),\n            backend: chat_backend,\n        },\n    );\n\n    backends\n}",
+  "source_version": "crates/corvia-server/src/dashboard/gpu.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.424888409Z",
+  "valid_from": "2026-03-31T13:20:59.424888409Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/gpu.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 403,
+    "end_line": 474,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f821-7a21-8a96-4524a283a566",
+  "content": "n MHz (Intel only).\n    #[serde(skip_serializing_if = \"Option::is_none\")]\n    pub frequency_mhz: Option<u64>,\n    /// Maximum GPU frequency in MHz (Intel only).\n    #[serde(skip_serializing_if = \"Option::is_none\")]\n    pub frequency_max_mhz: Option<u64>,\n}\npub struct InferenceBackendInfo {\n    pub model: String,\n    pub device: String,\n    pub backend: String,\n}\npub enum InferenceProbeStatus {\n    Pending,\n    Healthy,\n    Degraded,\n    Failed,\n    Unreachable,\n}",
+  "source_version": "crates/corvia-common/src/dashboard.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.425926432Z",
+  "valid_from": "2026-03-31T13:20:59.425926432Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/dashboard.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 419,
+    "end_line": 434,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

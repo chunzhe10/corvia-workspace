@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82a-7783-b9af-7964dacad667",
+  "content": "pub struct Reasoner<'a> {\n    store: &'a dyn QueryableStore,\n    graph: &'a dyn GraphStore,\n    docs_rules: Option<corvia_common::config::DocsRulesConfig>,\n}\nimpl<'a> Reasoner<'a> {\n    /// Create a new Reasoner with access to the queryable store and graph store.\n    pub fn new(store: &'a dyn QueryableStore, graph: &'a dyn GraphStore) -> Self {\n        Self { store, graph, docs_rules: None }\n    }\n\n    /// Configure docs rules for MisplacedDoc checks.\n    pub fn with_docs_rules(mut self, rules: corvia_common::config::DocsRulesConfig) -> Self {\n        self.docs_rules = Some(rules);\n        self\n    }\n\n    /// Run all algorithmic checks on the provided entries. Returns all findings.\n    ///\n    /// Includes the 5 core checks (stale, broken chain, orphan, dangling, cycle)\n    /// plus the 3 docs workflow checks (misplaced doc, coverage gap, temporal\n    /// contradiction). MisplacedDoc requires `with_docs_rules()` to be configured;\n    /// if absent, that check is silently skipped.\n    pub async fn run_all(\n        &self,\n        entries: &[KnowledgeEntry],\n        scope_id: &str,\n    ) -> Result<Vec<Finding>> {\n        let mut findings = Vec::new();\n        // Core checks\n        findings.extend(self.check_stale_entries(entries, scope_id).await?);\n        findings.extend(self.check_broken_chains(entries, scope_id).await?);",
+  "source_version": "crates/corvia-kernel/src/reasoner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.434891863Z",
+  "valid_from": "2026-03-31T13:20:59.434891863Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/reasoner.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 145,
+    "end_line": 171,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

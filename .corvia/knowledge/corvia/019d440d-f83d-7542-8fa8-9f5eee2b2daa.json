@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83d-7542-8fa8-9f5eee2b2daa",
+  "content": "_declaration(\"use config;\"), None);\n    }\n\n    #[test]\n    fn test_build_single_crate() {\n        let dir = tempfile::tempdir().unwrap();\n        let root = dir.path();\n\n        // Create a mini crate\n        fs::write(\n            root.join(\"Cargo.toml\"),\n            \"[package]\\nname = \\\"my-crate\\\"\\nversion = \\\"0.1.0\\\"\\nedition = \\\"2021\\\"\\n\",\n        ).unwrap();\n        fs::create_dir_all(root.join(\"src\")).unwrap();\n        fs::write(root.join(\"src/lib.rs\"), \"mod config;\\nmod utils;\\n\").unwrap();\n        fs::write(root.join(\"src/config.rs\"), \"pub struct Config {}\\n\").unwrap();\n        fs::create_dir_all(root.join(\"src/utils\")).unwrap();\n        fs::write(root.join(\"src/utils/mod.rs\"), \"mod helpers;\\n\").unwrap();\n        fs::write(root.join(\"src/utils/helpers.rs\"), \"pub fn help() {}\\n\").unwrap();\n\n        let map = RustModuleMap::build(root);\n\n        assert_eq!(map.module_to_file.get(\"my_crate\"), Some(&\"src/lib.rs\".to_string()));\n        assert_eq!(map.module_to_file.get(\"my_crate::config\"), Some(&\"src/config.rs\".to_string()));\n        assert!(map.module_to_file.contains_key(\"my_crate::utils\"));\n        assert!(map.module_to_file.contains_key(\"my_crate::utils::helpers\"));\n    }\n\n    #[test]\n    fn test_build_workspace() {\n        let dir = tempfile::tempdir().unwrap();\n        let root = dir.path();\n\n        // Create workspace\n        fs::write(\n            root.join(\"Cargo.toml\"),\n            \"[workspace]\\nmembers = [\\\"crates/alpha\\\", \\\"crates/beta\\\"]\\n\",\n        ).unwrap();\n\n        // Crate alpha\n        fs::create_dir_all(root.join(\"crates/alpha/src\")).unwrap();",
+  "source_version": "docs/rfcs/2026-03-04-m3.4-graph-edge-improvements-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.453039583Z",
+  "valid_from": "2026-03-31T13:20:59.453039583Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-04-m3.4-graph-edge-improvements-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 377,
+    "end_line": 406,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

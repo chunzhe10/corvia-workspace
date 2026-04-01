@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a15-7ca3-b9db-5217d9aff675",
+  "content": "    Real Review Output:<br>\n    <span class=\"highlight-purple\">HNSW Index Rebuild</span>\n  </div>\n  <div class=\"slide-subtitle\" style=\"font-size: 20px; margin-bottom: 24px;\">\n    Actual findings from a single 5-persona review, triaged by severity.\n  </div>\n  <!-- Severity breakdown as terminal-style output -->\n  <div style=\"background: #0d1117; border: 1px solid #30363d; border-radius: 12px; padding: 28px; font-family: 'JetBrains Mono', monospace; font-size: 17px; line-height: 2.0; margin-bottom: 20px;\">\n    <div style=\"color: var(--accent-red); font-weight: 700;\">CRITICAL <span style=\"color: var(--text-muted); font-weight: 400;\">(blocks merge)</span></div>\n    <div style=\"color: var(--text-secondary); padding-left: 24px;\">Rebuild serves partial index during build. Not true blue-green</div>\n    <div style=\"color: var(--text-secondary); padding-left: 24px;\">next_hnsw_id reset after rebuild start. Race window</div>\n    <div style=\"margin-top: 12px; color: var(--accent-amber); font-weight: 700;\">IMPORTANT <span style=\"color: var(--text-muted); font-weight: 400;\">(blocks merge)</span></div>\n    <div style=\"color: var(--text-secondary); padding-left: 24px;\">No concurrency tests for search-during-rebuild</div>\n    <div style=\"color: var(--text-secondary); padding-left: 24px;\">Missing HNSW save/load roundtrip test</div>\n    <div style=\"margin-top: 12px; color: var(--accent-blue); font-weight: 700;\">LOW <span style=\"color: var(--text-muted); font-weight: 400;\">(must fix)</span></div>\n    <div style=\"color: var(--text-secondary); padding-left: 24px;\">flush_hnsw pins Arc during long I/O</div>\n    <div style=\"color: var(--text-secondary); padding-left: 24px;\">Old index deallocation blocks tokio runtime</div>\n    <div style=\"color: var(--text-secondary); padding-left: 24px;\">No swap event logged for observability</div>\n  </div>",
+  "source_version": "marketing/linkedin/2026-03-27-five-persona-review/five-persona-review-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.029345262Z",
+  "valid_from": "2026-03-31T13:51:39.029345262Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-27-five-persona-review/five-persona-review-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 416,
+    "end_line": 428,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f823-7d80-90e7-2c4d40c692ea",
+  "content": "_inference_config_defaults() {\n        let config = InferenceConfig::default();\n        assert_eq!(config.device, \"auto\");\n        assert!(config.backend.is_empty());\n        assert_eq!(config.kv_quant, \"q8\");\n        assert!(config.flash_attention);\n    }\nfn test_corvia_config_has_inference_defaults() {\n        let config = CorviaConfig::default();\n        assert_eq!(config.inference.device, \"auto\");\n        assert_eq!(config.inference.kv_quant, \"q8\");\n        assert!(config.inference.flash_attention);\n    }",
+  "source_version": "crates/corvia-common/src/config.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.427127363Z",
+  "valid_from": "2026-03-31T13:20:59.427127363Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/config.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1574,
+    "end_line": 1579,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82f-7ca0-945f-aeae3df9416a",
+  "content": "(searcher);\n                let c = ctx.clone();\n                let t = timeout;\n                handles.push(tokio::spawn(async move {\n                    match tokio::time::timeout(t, s.search(&c)).await {\n                        Ok(Ok(set)) => Ok(set),\n                        Ok(Err(e)) => {\n                            warn!(searcher = s.name(), error = %e, \"searcher failed\");\n                            Err(e)\n                        }\n                        Err(_) => {\n                            warn!(searcher = s.name(), \"searcher timed out\");\n                            Err(CorviaError::Infra(\n                                format!(\"searcher '{}' timed out\", s.name()),\n                            ))\n                        }\n                    }\n                }));\n            }\n\n            for (i, handle) in handles.into_iter().enumerate() {\n                match handle.await {\n                    Ok(Ok(set)) => searcher_results.push(set),\n                    Ok(Err(e)) => {\n                        let name = active_searchers.get(i).map(|s| s.name()).unwrap_or(\"unknown\");\n                        search_warnings.push(format!(\"searcher '{name}' failed: {e}\"));\n                    }\n                    Err(e) => {\n                        let name = active_searchers.get(i).map(|s| s.name()).unwrap_or(\"unknown\");\n                        search_warnings.push(format!(\"searcher '{name}' panicked: {e}\"));\n                    }\n                }\n            }\n        }\n\n        if !search_warnings.is_empty() {\n            warn!(warnings = ?search_warnings, \"searcher warnings during pipeline execution\");",
+  "source_version": "crates/corvia-kernel/src/pipeline/core.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.439862509Z",
+  "valid_from": "2026-03-31T13:20:59.439862509Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/core.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 158,
+    "end_line": 188,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

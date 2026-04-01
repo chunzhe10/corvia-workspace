@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-20da860cdd4b",
+  "content": "### Task 6: Add `corvia test` CLI Subcommand\n\n        ci: bool,\n    },\n\n    /// Interactive demo: ingest Corvia's own code, then search it\n    Demo {\n        /// Keep data after exit (skip teardown)\n        #[arg(long)]\n        keep: bool,\n    },\n}\n```\n\n**Step 2: Add the match arms in main()**\n\n```rust\nCommands::Test { check_only, keep, ci } => cmd_test(check_only, keep, ci).await?,\nCommands::Demo { keep } => cmd_demo(keep).await?,\n```\n\n**Step 3: Implement `cmd_test`**\n\nAdd these imports at the top of `main.rs`:\n\n```rust\nuse corvia_kernel::introspect::Introspect;\n```\n\nAdd the function:\n\n```rust\nasync fn cmd_test(check_only: bool, keep: bool, ci: bool) -> Result<()> {\n    let config = CorviaConfig::default().with_env_overrides();\n    let docker = DockerProvisioner::new()?;\n\n    // Phase 1: Check environment\n    let introspect = Introspect::from_file_or_default(\n        std::path::Path::new(\"tests/introspect.toml\"),\n    );\n    let env_status = introspect.check_env(&docker).await;\n\n    println!(\"  Checking environment...\");\n    let mut all_running = true;\n    for (service, running) in &env_status {\n        if *running {\n            println!(\"    {service}: running\");\n        } else {\n            all_running = false;\n            println!(\"    {service}: not running\");\n        }\n    }\n",
+  "source_version": "docs/rfcs/2026-02-28-introspect-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452307852Z",
+  "valid_from": "2026-03-31T13:20:59.452307852Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-introspect-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 802,
+    "end_line": 852,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

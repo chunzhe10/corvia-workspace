@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84b-7723-860a-1d42dc66645d",
+  "content": "## API Surface\n\n### REST Endpoints\n\nAll endpoints are served by `corvia-server` via Axum at `http://localhost:8020`.\n\n**Memory**\n\n| Method | Path | Description |\n|--------|------|-------------|\n| `POST` | `/v1/memories/write` | Embed and store a knowledge entry |\n| `POST` | `/v1/memories/search` | Semantic vector search within a scope |\n\n**Agent Coordination**\n\n| Method | Path | Description |\n|--------|------|-------------|\n| `POST` | `/v1/agents` | Register a new agent identity |\n| `POST` | `/v1/agents/{agent_id}/sessions` | Create a new agent session |\n| `POST` | `/v1/sessions/{session_id}/heartbeat` | Session keepalive heartbeat |\n| `POST` | `/v1/sessions/{session_id}/write` | Write a knowledge entry via agent session (staged) |\n| `POST` | `/v1/sessions/{session_id}/commit` | Commit all staged entries to main store |\n| `POST` | `/v1/sessions/{session_id}/rollback` | Rollback all staged entries |\n| `POST` | `/v1/sessions/{session_id}/recover` | Recover a stale/orphaned session (resume, commit, or rollback) |\n| `GET`  | `/v1/sessions/{session_id}/state` | Get session state and entry counters |\n\n**Temporal, Graph, and Reasoning**\n\n| Method | Path | Description |\n|--------|------|-------------|\n| `GET`  | `/v1/entries/{id}/history` | Bi-temporal supersession chain for an entry |\n| `GET`  | `/v1/entries/{id}/edges` | Graph edges for an entry (optional `?relation=` filter) |\n| `GET`  | `/v1/evolution` | Entries that changed in a scope within a time window (`?scope=...&since=7d`) |\n| `POST` | `/v1/edges` | Create a directed graph edge between two entries |\n| `POST` | `/v1/reason` | Run reasoning checks on a scope (all checks or a specific check) |\n\n**Utility**\n\n| Method | Path | Description |\n|--------|------|-------------|\n| `GET`  | `/health` | Health check — returns `{\"status\": \"ok\"}` |\n",
+  "source_version": "ARCHITECTURE.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.467593130Z",
+  "valid_from": "2026-03-31T13:20:59.467593130Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "ARCHITECTURE.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 217,
+    "end_line": 256,
+    "content_role": null,
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

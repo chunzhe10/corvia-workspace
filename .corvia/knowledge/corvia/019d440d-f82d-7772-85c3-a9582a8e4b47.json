@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82d-7772-85c3-a9582a8e4b47",
+  "content": " else { \"context\" };\n\n        info!(query, scope_id, mode, \"rag_query_started\");\n\n        // --- Stage 1: Retrieval ---\n\n        let mut retrieval_opts = opts.unwrap_or_else(|| {\n            RetrievalOpts {\n                limit: self.config.default_limit,\n                expand_graph: self.config.graph_expand,\n                graph_depth: self.config.graph_depth,\n                ..Default::default()\n            }\n        });\n\n        // Always apply config-level oversample when graph expansion is active.\n        if retrieval_opts.expand_graph {\n            retrieval_opts.oversample_factor = self.config.graph_oversample_factor;\n        }\n\n        let retrieval = self\n            .retriever\n            .retrieve(query, scope_id, &retrieval_opts)\n            .await?;\n\n        // --- Stage 2: Augmentation ---\n\n        // Build token budget: caller override > explicit config > model-aware auto-sizing > default.\n        let max_context_tokens = if let Some(override_tokens) = token_override {\n            Some(override_tokens)\n        } else if self.config.max_context_tokens > 0 {\n            Some(self.config.max_context_tokens)\n        } else if let Some(ref generator_ref) = self.generator {\n            // Model-aware auto-sizing: context_window * (1 - reserve_for_answer).\n            let window = generator_ref.context_window();\n            Some((window as f32 * (1.0 - self.config.reserve_for_answer)) as usize)\n        } else {\n            // No explicit config and no generator — let the augmenter use its default.\n            None\n        };\n\n        let budget = TokenBudget {\n            max_context_tokens,\n            reserve_for_answer: self.config.reserve_for_answer,\n            reserve_for_skills: if self.config.skills_enabled {\n                self.config.reserve_for_skills\n            } else {\n                0.0\n            },\n            query_embedding: if self.config.skills_enabled {\n                retrieval.query_embedding.clone()\n            } else {\n                None\n            },\n            max_skills: self.config.max_skills,\n            skill_threshold: self.config.skill_threshold,\n        };\n",
+  "source_version": "crates/corvia-kernel/src/rag_pipeline.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.437429557Z",
+  "valid_from": "2026-03-31T13:20:59.437429557Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/rag_pipeline.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 134,
+    "end_line": 182,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

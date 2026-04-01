@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83f-7210-b9e4-121be1719bff",
+  "content": "### Parallelism\n### Minimum Viable Corvia\n\n## 10. Risks & Mitigations\n\n| Risk | Likelihood | Impact | Mitigation |\n|------|-----------|--------|------------|\n| NAPI-RS + tree-sitter integration | Medium | High | Build standalone Rust CLI first, add NAPI bindings second. Fallback: sidecar binary. |\n| Rust MCP SDK maturity | Medium | Medium | Start MCP at M2b. Fallback: raw JSON-RPC over stdio. |\n| Provider-agnostic abstraction | Medium | Low | Start with one provider, abstract behind trait, add providers incrementally. |\n| LLM cost for heavy users | High | Medium | Cost tracker, configurable triggers, local model fallback, caching. |\n| VS Code webview performance | Medium | Medium | Lightweight charting, lazy-load, render only visible sections. |\n| 12 techniques is ambitious | Medium | Medium | Each delivered at specific milestone. M5c and M6 are droppable. |\n\n---\n\n\n## 11. Success Criteria\n",
+  "source_version": "docs/rfcs/2026-02-25-corvia-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.455997549Z",
+  "valid_from": "2026-03-31T13:20:59.455997549Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-25-corvia-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 429,
+    "end_line": 443,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

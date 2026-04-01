@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f829-7a43-a547-59fe0bfbab42",
+  "content": "pub struct GapDetector {\n    signals: Mutex<VecDeque<GapSignal>>,\n}\nimpl GapDetector {\n    pub fn new() -> Self {\n        Self {\n            signals: Mutex::new(VecDeque::with_capacity(MAX_SIGNALS)),\n        }\n    }\n\n    /// Record a gap signal (low-confidence search).\n    pub fn record(&self, signal: GapSignal) {\n        let mut signals = self.signals.lock().unwrap();\n        if signals.len() >= MAX_SIGNALS {\n            signals.pop_front();\n        }\n        signals.push_back(signal);\n    }\n\n    /// Get the number of recorded gap signals.\n    pub fn len(&self) -> usize {\n        self.signals.lock().unwrap().len()\n    }\n\n    /// Check if the detector has any recorded signals.\n    pub fn is_empty(&self) -> bool {\n        self.signals.lock().unwrap().is_empty()\n    }\n\n    /// Aggregate gap signals into ranked topics.\n    ///\n    /// Groups queries by normalized prefix (first 3 significant words) and\n    /// returns the top-N most frequent gap topics.\n    pub fn top_gaps(&self, limit: usize) -> Vec<GapTopic> {\n        let signals = self.signals.lock().unwrap();\n\n        // Group by normalized query key.\n        let mut groups: std::collections::HashMap<String, Vec<&GapSignal>> =\n            std::collections::HashMap::new();\n",
+  "source_version": "crates/corvia-kernel/src/gap_detector.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.433457614Z",
+  "valid_from": "2026-03-31T13:20:59.433457614Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/gap_detector.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 47,
+    "end_line": 83,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

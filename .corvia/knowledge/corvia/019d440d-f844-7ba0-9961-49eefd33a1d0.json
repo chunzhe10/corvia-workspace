@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-49eefd33a1d0",
+  "content": "### Backend — Trace Tree Parsing\n### Frontend — Waterfall View\n\n### SpanStats Enhancement\n\n```rust\npub struct SpanStats {\n    pub count: usize,        // existing\n    pub count_1h: usize,     // existing\n    pub avg_ms: f64,         // existing\n    pub last_ms: f64,        // existing\n    pub errors: usize,       // existing\n    pub p50_ms: f64,         // new\n    pub p95_ms: f64,         // new\n    pub p99_ms: f64,         // new\n}\n```\n\nPercentiles from rolling window of last 1000 span durations per span name,\nstored in `TracesState` (in-memory `VecDeque<f64>` per span). Capped at 50 tracked\nspan names (matching the ~19 defined constants in `corvia-telemetry` plus headroom).\nSpans beyond the cap are not tracked for percentiles.\n\n\n### Graceful Degradation\n\nWhen OTEL is not configured (no trace_id in logs), the waterfall section shows\n\"Enable OTEL exporter to see trace trees.\" Existing flat span stats remain fully\nfunctional. Percentiles work regardless — they only need `elapsed_ms`.\n\nNew file: `tools/corvia-dashboard/src/components/WaterfallView.tsx` (~200 lines).\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-13-dashboard-completion-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460269441Z",
+  "valid_from": "2026-03-31T13:20:59.460269441Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-13-dashboard-completion-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 298,
+    "end_line": 327,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

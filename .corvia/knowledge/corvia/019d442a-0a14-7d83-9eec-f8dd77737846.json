@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f8dd77737846",
+  "content": "le=\"font-size: 16px; font-weight: 600; color: var(--accent-red);\">DaVinci Resolve</span>\n        </div>\n      </div>\n      <!-- Stand -->\n      <div style=\"width: 100px; height: 20px; background: #475569; margin: 0 auto; border-radius: 0 0 4px 4px;\"></div>\n      <div style=\"width: 180px; height: 6px; background: #475569; margin: 0 auto; border-radius: 0 0 8px 8px;\"></div>\n    </div>\n  </div>",
+  "source_version": "marketing/linkedin/2026-03-14-resolve-linux-setup/resolve-linux-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028693690Z",
+  "valid_from": "2026-03-31T13:51:39.028693690Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-14-resolve-linux-setup/resolve-linux-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 392,
+    "end_line": 394,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

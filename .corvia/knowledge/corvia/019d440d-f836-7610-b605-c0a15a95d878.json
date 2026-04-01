@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f836-7610-b605-c0a15a95d878",
+  "content": "  };\n        let score = compute_retention_score(&params);\n        // D = (1+0)^(-0.6) = 1.0, A = 0, G = 0, C = 0.7\n        // score = 0.35*1.0 + 0 + 0 + 0.15*0.7 = 0.455\n        assert!(approx_eq(score, 0.455, 0.01), \"Expected ~0.455, got {score}\");\n    }\nfn test_never_accessed_entry_access_is_zero() {\n        assert_eq!(access_component(0, None), 0.0);\n        assert_eq!(access_component(100, None), 0.0);\n    }",
+  "source_version": "crates/corvia-kernel/src/scoring.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.446682798Z",
+  "valid_from": "2026-03-31T13:20:59.446682798Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/scoring.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 486,
+    "end_line": 489,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

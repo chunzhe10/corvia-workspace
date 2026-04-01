@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a13-75d1-bfe3-f636261ee283",
+  "content": "## Chunk 4: Slides 7-8 (What's Next + Takeaways)\n\n### Task 8: Build Slide 7 (What's Next — Underwater)\n\n- [ ] **Step 1: Add Slide 7 HTML**\n\n```html\n<!-- Slide 7: WHAT'S NEXT -->\n<div class=\"slide underwater\">\n  <div class=\"slide-label\" style=\"color: var(--accent-cyan);\">What's Next</div>\n  <div class=\"slide-title\">Diving Trip. <span class=\"highlight-cyan\">Resolve MCP.</span></div>\n  <div class=\"slide-subtitle\">Pieces Coming Together.</div>\n\n  <!-- Bubble particles -->\n  <div class=\"bubble\" style=\"width: 8px; height: 8px; top: 180px; left: 120px; opacity: 0.12;\"></div>\n  <div class=\"bubble\" style=\"width: 12px; height: 12px; top: 320px; right: 150px; opacity: 0.08;\"></div>\n  <div class=\"bubble\" style=\"width: 6px; height: 6px; top: 450px; left: 300px; opacity: 0.15;\"></div>\n  <div class=\"bubble\" style=\"width: 10px; height: 10px; top: 550px; right: 250px; opacity: 0.1;\"></div>\n  <div class=\"bubble\" style=\"width: 5px; height: 5px; top: 700px; left: 200px; opacity: 0.18;\"></div>",
+  "source_version": "marketing/2026-03-14-resolve-linux-carousel.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.027568866Z",
+  "valid_from": "2026-03-31T13:51:39.027568866Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/2026-03-14-resolve-linux-carousel.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 656,
+    "end_line": 672,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

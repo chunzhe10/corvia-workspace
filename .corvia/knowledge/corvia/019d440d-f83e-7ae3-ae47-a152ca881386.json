@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83e-7ae3-ae47-a152ca881386",
+  "content": "       )}\n      </div>\n    </div>\n  );\n};\n```\n\n-**Step 2: Commit**\n\n```bash\ncd /workspaces/corvia-workspace\ngit add tools/corvia-dashboard/src/components/LogsView.tsx\ngit commit -m \"feat(dashboard-ui): add LogsView with filtering and auto-scroll\"\n```\n\n---\n\n### Task 9: TracesView component\n\n**Files:**\n- Create: `tools/corvia-dashboard/src/components/TracesView.tsx`\n\n-**Step 1: Create `TracesView.tsx` with module topology and detail panel**\n\n```tsx\n// tools/corvia-dashboard/src/components/TracesView.tsx\n\nimport type { FunctionComponent } from \"preact\";\nimport { useState } from \"preact/hooks\";\nimport type { TracesData, SpanStats, TraceEvent } from \"../types\";\n\ninterface TracesViewProps {\n  traces?: TracesData;\n}\n\ninterface ModuleDef {\n  name: string;\n  label: string;\n  emoji: string;\n  color: string;\n  desc: string;\n  x: string;\n  y: string;",
+  "source_version": "docs/rfcs/2026-03-11-dashboard-ui-standalone.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.454204985Z",
+  "valid_from": "2026-03-31T13:20:59.454204985Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-dashboard-ui-standalone.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 933,
+    "end_line": 958,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

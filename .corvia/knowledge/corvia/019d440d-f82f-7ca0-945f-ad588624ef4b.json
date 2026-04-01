@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82f-7ca0-945f-ad588624ef4b",
+  "content": "pub struct CandidateScores {\n    /// Raw score contributions keyed by component name (e.g. \"vector\", \"bm25\").\n    pub components: HashMap<String, f32>,\n    /// The final fused score used for ranking.\n    pub final_score: NormalizedScore,\n}\npub struct RankedCandidate {\n    /// The underlying knowledge entry (shared ownership for dedup efficiency).\n    pub entry: Arc<KnowledgeEntry>,\n    /// Per-component and final scores.\n    pub scores: CandidateScores,\n}",
+  "source_version": "crates/corvia-kernel/src/pipeline/mod.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.439737992Z",
+  "valid_from": "2026-03-31T13:20:59.439737992Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/mod.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 120,
+    "end_line": 125,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

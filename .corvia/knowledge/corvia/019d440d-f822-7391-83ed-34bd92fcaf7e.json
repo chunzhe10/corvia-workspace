@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f822-7391-83ed-34bd92fcaf7e",
+  "content": "  structural: default_bm25_strategy(),\n            decisional: default_vector_strategy(),\n            episodic: default_vector_strategy(),\n            analytical: default_vector_strategy(),\n            procedural: default_vector_strategy(),\n        }\n    }\nimpl Default for RagConfig {\n    fn default() -> Self {\n        Self {\n            retriever: default_retriever(),\n            augmenter: default_augmenter(),\n            default_limit: default_rag_limit(),\n            graph_expand: default_graph_expand(),\n            graph_depth: default_graph_depth(),\n            graph_alpha: default_graph_alpha(),\n            reserve_for_answer: default_reserve_for_answer(),\n            max_context_tokens: 0,\n            system_prompt: String::new(),\n            graph_oversample_factor: default_graph_oversample(),\n            skills_enabled: false,\n            skills_dirs: default_skills_dirs(),\n            max_skills: default_max_skills(),\n            skill_threshold: default_skill_threshold(),\n            reserve_for_skills: default_reserve_for_skills(),\n            pipeline: None,\n        }\n    }\n}",
+  "source_version": "crates/corvia-common/src/config.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.426429467Z",
+  "valid_from": "2026-03-31T13:20:59.426429467Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/config.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 667,
+    "end_line": 688,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

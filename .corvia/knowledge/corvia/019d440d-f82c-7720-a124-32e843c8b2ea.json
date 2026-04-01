@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82c-7720-a124-32e843c8b2ea",
+  "content": "       match self.flushing.compare_exchange(\n                false,\n                true,\n                Ordering::AcqRel,\n                Ordering::Relaxed,\n            ) {\n                Ok(_) => break,\n                Err(_) => std::hint::spin_loop(),\n            }\n        }\n\n        let flushed = self.flush_inner(db);\n\n        self.flushing.store(false, Ordering::Release);\n\n        flushed\n    }\n\n    /// Number of pending (unflushed) entries. Used for testing and diagnostics.\n    #[cfg(test)]\n    fn pending_count(&self) -> usize {\n        self.pending.len()\n    }\n\n    /// Internal flush implementation shared by `try_flush` and `flush_sync`.\n    ///\n    /// Uses atomic per-key `DashMap::remove` to drain entries, avoiding the\n    /// race where a concurrent `record()` inserts between collect and remove.\n    /// Returns the number of entries successfully written to Redb.\n    fn flush_inner(&self, db: &Arc<Database>) -> usize {\n        // Atomically drain each entry via remove(). Any concurrent record()\n        // that arrives after remove() for a given key will re-insert it,\n        // and that entry will be picked up by the next flush cycle.\n        let keys: Vec<uuid::Uuid> = self.pending.iter().map(|r| *r.key()).collect();\n\n        if keys.is_empty() {\n            return 0;\n        }",
+  "source_version": "crates/corvia-kernel/src/access_buffer.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.436419013Z",
+  "valid_from": "2026-03-31T13:20:59.436419013Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/access_buffer.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 147,
+    "end_line": 176,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9e91a136a26d",
+  "content": "      chunk: &RawChunk,\n        max_tokens: usize,\n    ) -> Result<Vec<RawChunk>> {\n        let mid = chunk.content.len() / 2;\n        // Find nearest newline to avoid splitting mid-line\n        let split_pos = chunk.content[..mid]\n            .rfind('\\n')\n            .map(|p| p + 1)\n            .unwrap_or(mid);\n\n        let mid_line = chunk.start_line\n            + chunk.content[..split_pos].matches('\\n').count() as u32;\n\n        Ok(vec![\n            RawChunk {\n                content: chunk.content[..split_pos].to_string(),\n                chunk_type: chunk.chunk_type.clone(),\n                start_line: chunk.start_line,\n                end_line: mid_line,\n                metadata: ChunkMetadata {\n                    parent_chunk_id: Some(Uuid::now_v7()),\n                    ..chunk.metadata.clone()\n                },\n            },\n            RawChunk {\n                content: chunk.content[split_pos..].to_string(),\n                chunk_type: chunk.chunk_type.clone(),\n                start_line: mid_line + 1,\n                end_line: chunk.end_line,\n                metadata: ChunkMetadata {\n                    parent_chunk_id: Some(Uuid::now_v7()),\n                    ..chunk.metadata.clone()\n                },\n            },\n        ])\n    }\n\n    /// Domain-specific: merge small adjacent chunks up to budget.\n    /// Return None to use kernel's default merge pass.\n    fn merge_small(\n        &self,\n        _chunks: &[RawChunk],\n        _max_tokens: usize,\n    ) -> Option<Vec<RawChunk>> {",
+  "source_version": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464538030Z",
+  "valid_from": "2026-03-31T13:20:59.464538030Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 400,
+    "end_line": 436,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

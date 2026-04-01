@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f827-7411-ad28-5ff86d19dbbf",
+  "content": "          bm25_latency_ms: None,\n                bm25_results: None,\n                fusion_method: None,\n                fusion_latency_ms: None,\n                stages: None,\n            },\n            query_embedding: Some(embedding),\n        })\n    }\n}\nfn name(&self) -> &str {\n        \"vector\"\n    }",
+  "source_version": "crates/corvia-kernel/src/retriever.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.431682996Z",
+  "valid_from": "2026-03-31T13:20:59.431682996Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/retriever.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 207,
+    "end_line": 209,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

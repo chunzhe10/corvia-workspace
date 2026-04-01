@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f838-7ec1-a413-ac34051d98dc",
+  "content": "n<String>,\n    ) -> Result<KnowledgeEntry> {\n        // 1. Create entry with agent attribution\n        let mut entry = KnowledgeEntry::new(\n            content.to_string(),\n            scope_id.to_string(),\n            source_version.to_string(),\n        )\n        .with_agent(agent_id.to_string(), session_id.to_string());\n\n        // 1b. Set docs-workflow metadata if provided\n        entry.metadata.content_role = content_role;\n        entry.metadata.source_origin = source_origin;\n\n        // 2. Embed content\n        let embedding = self.engine.embed(content).await?;\n        let entry = entry.with_embedding(embedding);\n\n        // 3. Write staging file (if Registered agent with staging dir)\n        if let Some(dir) = staging_dir {\n            self.staging.write_staging_file(dir, &entry)?;\n        }\n\n        // 4. Insert into store (HNSW + Redb — immediately searchable)\n        self.store.insert(&entry).await?;\n\n        Ok(entry)\n    }\n\n    /// Write with semantic deduplication check.\n    ///\n    /// Embeds the content, searches for similar existing entries in the same scope,\n    /// and returns a `WriteResult` indicating whether the write was blocked, warned,\n    /// or succeeded normally.\n    #[allow(clippy::too_many_arguments)]\n    pub async fn write_with_dedup(\n        &self,\n        content: &str,\n        scope_id: &str,\n        source_version: &str,\n        agent_id: &str,\n        session_id: &str,",
+  "source_version": "crates/corvia-kernel/src/agent_writer.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.448150568Z",
+  "valid_from": "2026-03-31T13:20:59.448150568Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/agent_writer.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 76,
+    "end_line": 109,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-3fc3704ddc6b",
+  "content": "onfig_content[\"leadSessionId\"], \"sess-123\");\n\n        assert!(staging.join(\"inboxes/researcher.json\").exists());\n        assert!(staging.join(\"inboxes/team-lead.json\").exists());\n\n        let log = fs::read_to_string(staging.join(\".capture-log\")).unwrap();\n        let log_entry: serde_json::Value = serde_json::from_str(log.trim()).unwrap();\n        assert_eq!(log_entry[\"v\"], SCHEMA_VERSION);\n        assert_eq!(log_entry[\"event\"], \"TeammateIdle\");\n        assert_eq!(log_entry[\"teammate\"], \"researcher\");\n    }\n\n    // ─── T2: Rejects invalid names ─────────────────────────────────────────\n\n    #[test]\n    fn t2_task_created_rejects_invalid_team_name() {\n        let dir = TempDir::new().unwrap();\n        let dirs = test_dirs(dir.path());\n\n        let bad_dir = dirs.claude_tasks.join(\"../etc\");\n        fs::create_dir_all(&bad_dir).unwrap();\n        fs::write(bad_dir.join(\"1.json\"), \"{}\").unwrap();\n\n        let stdin = serde_json::json!({\n            \"task_id\": \"1\",\n            \"task_subject\": \"malicious\",\n            \"task_description\": \"pwned\"\n        });\n\n        handle_task_created_inner(&dirs, &stdin).unwrap();\n        assert!(!dirs.staging_root.exists() || fs::read_dir(&dirs.staging_root).unwrap().count() == 0);\n    }\n\n    #[test]\n    fn t2_teammate_idle_rejects_path_traversal_team() {\n        let dir = TempDir::new().unwrap();\n        let dirs = test_dirs(dir.path());",
+  "source_version": "crates/corvia-cli/src/hooks/agent_teams.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429349052Z",
+  "valid_from": "2026-03-31T13:20:59.429349052Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/agent_teams.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 645,
+    "end_line": 675,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

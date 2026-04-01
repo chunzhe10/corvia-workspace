@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84b-7723-860a-1cbf25b60661",
+  "content": "## Kernel Subsystems\n\n| **RAG Pipeline** | `rag_pipeline.rs`, `retriever.rs`, `augmenter.rs`, `rag_types.rs` | Retrieval-augmented generation: Retriever → Augmenter → GenerationEngine. Graph-expanded retrieval with configurable oversample and scoring |\n| **Chunking Pipeline** | `chunking_pipeline.rs`, `chunking_strategy.rs`, `chunking_markdown.rs`, `chunking_config_fmt.rs`, `chunking_pdf.rs`, `chunking_fallback.rs` | Format-aware chunking with FormatRegistry routing. Merge small chunks, split oversized ones, add overlap context |\n| **Context Builder** | `context_builder.rs` | Scope-aware knowledge retrieval. Enforces agent read isolation — agents only see entries matching their authorized scopes and entry visibility (Pending/Committed/Merged) |\n| **Merge Worker** | `merge_worker.rs`, `merge_queue.rs`, `commit_pipeline.rs` | LLM-assisted conflict resolution — chosen over last-write-wins or manual merge because knowledge conflicts are semantic, not textual |\n| **Reasoner** | `reasoner.rs` | Algorithmic knowledge health checks. Seven check types: `StaleEntry`, `BrokenChain`, `OrphanedNode`, `DanglingImport`, `DependencyCycle` (deterministic, no LLM), plus `SemanticGap` and `Contradiction` (LLM-powered, opt-in) |\n| **Graph Store** | `graph_store.rs` | Directed knowledge graph. `LiteGraphStore` uses petgraph (in-memory DiGraph) backed by Redb persistence. Supports `relate`, `edges`, `traverse` (BFS), and `shortest_path`. Cross-file relation discovery with graph-expanded scoring |\n| **Adapter System** | `adapter_discovery.rs`, `adapter_protocol.rs`, `process_adapter.rs` | Runtime adapter discovery, JSONL IPC protocol for adapter processes, and ProcessChunkingStrategy for adapter-provided chunking |\n| **Shared Operations** | `ops.rs` | Shared kernel operations callable from CLI and MCP. System status, agent/session listing, merge queue inspection, config get/set with hot-reload, GC, index rebuild |\n",
+  "source_version": "ARCHITECTURE.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.467539439Z",
+  "valid_from": "2026-03-31T13:20:59.467539439Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "ARCHITECTURE.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 73,
+    "end_line": 81,
+    "content_role": null,
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

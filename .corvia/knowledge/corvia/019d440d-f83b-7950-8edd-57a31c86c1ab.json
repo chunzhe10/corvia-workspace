@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-57a31c86c1ab",
+  "content": "### Step 2: Run test to verify it fails\n\n### Step 3: Implement AgentRegistry\n\nCreate `crates/corvia-kernel/src/agent_registry.rs`:\n\n```rust\nuse corvia_common::agent_types::*;\nuse corvia_common::errors::{CorviaError, Result};\nuse redb::{Database, TableDefinition};\nuse std::path::Path;\nuse tracing::info;\n\nconst AGENTS: TableDefinition<&str, &[u8]> = TableDefinition::new(\"agents\");\n\n/// Manages agent registration and lifecycle in a Redb database.\n/// Uses `.corvia/coordination.redb` — shared with SessionManager and MergeQueue.\npub struct AgentRegistry {\n    db: std::sync::Arc<Database>,\n}\n\nimpl AgentRegistry {\n    /// Open or create the coordination database.\n    pub fn open(data_dir: &Path) -> Result<Self> {\n        let db_path = data_dir.join(\"coordination.redb\");\n        let db = Database::create(&db_path)\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to open coordination db: {e}\")))?;\n\n        // Ensure table exists\n        let write_txn = db.begin_write()\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to begin write txn: {e}\")))?;\n        { let _ = write_txn.open_table(AGENTS); }\n        write_txn.commit()\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to init agents table: {e}\")))?;\n\n        Ok(Self { db: std::sync::Arc::new(db) })\n    }\n\n    /// Create from an existing shared database handle.\n    pub fn from_db(db: std::sync::Arc<Database>) -> Result<Self> {\n        let write_txn = db.begin_write()\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to begin write txn: {e}\")))?;\n        { let _ = write_txn.open_table(AGENTS); }\n        write_txn.commit()\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to init agents table: {e}\")))?;\n        Ok(Self { db })\n    }",
+  "source_version": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451668892Z",
+  "valid_from": "2026-03-31T13:20:59.451668892Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 571,
+    "end_line": 615,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

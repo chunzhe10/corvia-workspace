@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-5392d56fef10",
+  "content": "## Dependency Graph\n\n## Verification Criteria\n\n1. `cargo test --workspace` — all existing tests pass (385+)\n2. `cargo test -p corvia-telemetry` — new crate tests pass\n3. `cargo test -p corvia-kernel -- ops` — ops module tests pass\n4. `cargo test -p corvia-server -- mcp` — all 18 MCP tools tested\n5. `corvia status` — unchanged output (backward compat)\n6. `corvia status --metrics` — enhanced output with metrics\n7. `corvia serve` → MCP `tools/list` returns 18 tools\n8. MCP `corvia_system_status` returns same data shape as CLI `corvia status`\n9. MCP `corvia_config_get` → `corvia_config_set` round-trip works\n10. Tier 2 tool without `_meta.confirmed` returns confirmation prompt, not mutation\n11. Tier 3 tool with `dry_run: true` returns preview without side effects\n12. Spans visible in structured logs at `RUST_LOG=debug`\n\n---\n\n*Created: 2026-03-10*\n*Supersedes: docs/rfcs/2026-03-04-m4-revised-plan.md (git commit 55f0a3b)*\n*References: docs/rfcs/2026-03-04-m4-control-plane-research.md (git commit 55f0a3b)*\n*OSS research: Databend, InfluxDB IOx, Linkerd2-proxy, Vector, TiKV patterns*",
+  "source_version": "docs/rfcs/2026-03-10-m4-observability-control-plane-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451182260Z",
+  "valid_from": "2026-03-31T13:20:59.451182260Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-m4-observability-control-plane-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 333,
+    "end_line": 353,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

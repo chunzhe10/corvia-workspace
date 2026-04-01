@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f834-7df0-9fec-2378d2a693e3",
+  "content": " repo = ws\n            .repos\n            .iter()\n            .find(|r| r.name == name)\n            .ok_or_else(|| anyhow::anyhow!(\"Repo '{}' not found in workspace config\", name))?;\n        vec![repo]\n    } else {\n        ws.repos.iter().collect()\n    };\n\n    for repo_config in &repos_to_ingest {\n        let repo_path = resolve_repo_path(root, &ws.repos_dir, repo_config);\n        if !repo_path.exists() {\n            progress.log(&format!(\n                \"  Skipping {} — not cloned (run corvia workspace init)\",\n                repo_config.name\n            ));\n            continue;\n        }\n\n        let repo_path_str = repo_path\n            .to_str()\n            .ok_or_else(|| anyhow::anyhow!(\"Invalid path for repo {}\", repo_config.name))?;\n\n        // Resolve adapter for this repo\n        let explicit = config\n            .sources\n            .as_ref()\n            .and_then(|sources| {\n                sources.iter().find(|s| s.path == repo_path_str).and_then(|s| s.adapter.as_deref())\n            });\n        let adapter_info = adapter_discovery::resolve_adapter(repo_path_str, &discovered, explicit, default_name)\n            .ok_or_else(|| anyhow::anyhow!(\"No suitable adapter found for '{}'\", repo_path_str))?;\n\n        progress.log(&format!(\n            \"\\nIngesting {} (namespace: {}, adapter: {})...\",\n            repo_config.name, repo_config.namespace, adapter_info.metadata.name\n        ));\n\n        // Spawn adapter process\n        let mut process = ProcessAdapter::new(\n            adapter_info.binary_path.clone(),\n            adapter_info.metadata.clone(),\n        );\n        process.spawn().map_err(|e| anyhow::anyhow!(e))?;\n\n        // Ingest source files via IPC\n        let source_files: Vec<_> = process\n            .ingest(repo_path_str, &config.project.scope_id)\n            .map_err(|e| anyhow::anyhow!(e))?\n            .into_iter()\n            .filter(|sf| !is_excluded_file(&sf.metadata.file_path))\n            .collect();\n\n        // Build chunking pipeline with adapter strategies\n        let mut pipeline = crate::create_chunking_pipeline(config);",
+  "source_version": "crates/corvia-kernel/src/ingest.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.444430236Z",
+  "valid_from": "2026-03-31T13:20:59.444430236Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ingest.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 624,
+    "end_line": 669,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

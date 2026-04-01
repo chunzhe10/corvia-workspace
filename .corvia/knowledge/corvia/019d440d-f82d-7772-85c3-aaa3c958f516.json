@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82d-7772-85c3-aaa3c958f516",
+  "content": "fn name(&self) -> &str {\n            \"mock\"\n        }\nasync fn generate(\n            &self,\n            _system: &str,\n            user: &str,\n        ) -> corvia_common::errors::Result<GenerationResult> {\n            Ok(GenerationResult {\n                text: format!(\"Generated answer for: {user}\"),\n                model: \"mock-v1\".into(),\n                input_tokens: user.len() / 4,\n                output_tokens: 20,\n            })\n        }",
+  "source_version": "crates/corvia-kernel/src/rag_pipeline.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.437601668Z",
+  "valid_from": "2026-03-31T13:20:59.437601668Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/rag_pipeline.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 268,
+    "end_line": 279,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

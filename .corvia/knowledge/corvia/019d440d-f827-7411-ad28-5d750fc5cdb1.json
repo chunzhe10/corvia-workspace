@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f827-7411-ad28-5d750fc5cdb1",
+  "content": "\n                    .build(),\n            )\n            .build();\n\n        let tracer = provider.tracer(\"corvia\");\n        let layer = tracing_opentelemetry::layer().with_tracer(tracer);\n        tracer_provider = Some(provider);\n        Some(layer)\n    };\n\n    // 6. Build dashboard trace layer — writes span-close events with OTEL\n    //    context to a file the dashboard can read, regardless of exporter mode.\n    let dashboard_layer = dashboard_trace_layer::DashboardTraceLayer::new(\n        dashboard_trace_layer::DashboardTraceLayer::default_path(),\n    )\n    .ok();\n\n    // 7. Build local output layer + compose registry\n    let mut file_guard = None;\n\n    // OtelContextLayer bridges trace_id/span_id into span extensions.\n    // Always active — the local-only provider ensures IDs exist.\n    let context_layer = Some(otel_context_layer::OtelContextLayer);\n\n    match config.exporter.as_str() {\n        \"file\" => {\n            let file_appender = tracing_appender::rolling::daily(\"logs\", \"corvia.log\");\n            let (non_blocking, guard) = tracing_appender::non_blocking(file_appender);\n            file_guard = Some(guard);\n\n            let local_layer = if config.log_format == \"json\" {\n                fmt::layer()\n                    .json()\n                    .with_writer(non_blocking)\n                    .boxed()\n            } else {\n                fmt::layer()\n                    .with_writer(non_blocking)\n                    .boxed()\n            };",
+  "source_version": "crates/corvia-telemetry/src/lib.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.431398861Z",
+  "valid_from": "2026-03-31T13:20:59.431398861Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-telemetry/src/lib.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 140,
+    "end_line": 170,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

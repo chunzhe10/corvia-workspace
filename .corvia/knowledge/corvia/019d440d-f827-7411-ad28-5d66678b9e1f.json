@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f827-7411-ad28-5d66678b9e1f",
+  "content": " fields even without an external collector.\n    let tracer_provider;\n    let otel_layer = if !otlp_endpoint.is_empty() {\n        let exporter = opentelemetry_otlp::SpanExporter::builder()\n            .with_tonic()\n            .with_endpoint(&otlp_endpoint)\n            .build()?;\n\n        let provider = opentelemetry_sdk::trace::SdkTracerProvider::builder()\n            .with_batch_exporter(exporter)\n            .with_resource(\n                opentelemetry_sdk::Resource::builder()\n                    .with_service_name(service_name)\n                    .build(),\n            )\n            .build();\n\n        let tracer = provider.tracer(\"corvia\");\n        let layer = tracing_opentelemetry::layer().with_tracer(tracer);\n        tracer_provider = Some(provider);\n        Some(layer)\n    } else {\n        // Local-only provider: generates trace_id/span_id for structured\n        // logs without exporting to any external collector.\n        let provider = opentelemetry_sdk::trace::SdkTracerProvider::builder()\n            .with_resource(\n                opentelemetry_sdk::Resource::builder()\n                    .with_service_name(service_name)\n                    .build(),\n            )\n            .build();\n\n        let tracer = provider.tracer(\"corvia\");\n        let layer = tracing_opentelemetry::layer().with_tracer(tracer);\n        tracer_provider = Some(provider);\n        Some(layer)\n    };",
+  "source_version": "crates/corvia-telemetry/src/lib.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.431389365Z",
+  "valid_from": "2026-03-31T13:20:59.431389365Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-telemetry/src/lib.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 109,
+    "end_line": 139,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

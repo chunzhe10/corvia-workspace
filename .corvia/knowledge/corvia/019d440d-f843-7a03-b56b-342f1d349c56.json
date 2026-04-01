@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f843-7a03-b56b-342f1d349c56",
+  "content": "### Fix 2: Markdown AST Cross-References (D73)\n\n### Fix 3: Declaration + Usage Tracking (D74)\n\n**Crate:** `corvia-kernel` (in `chunking_pipeline.rs`)\n\n**Approach:** Two-pass post-processing after all chunks are processed. First pass collects symbol definitions, second pass finds cross-file usages.\n\n**New function:**\n```\ndiscover_cross_file_relations(chunks: &[ProcessedChunk]) -> Vec<ChunkRelation>\n```\n\n**Pass 1 — Collect definitions:**\n- Scan each chunk's `metadata.chunk_type` for definition types (`\"struct\"`, `\"trait\"`, `\"enum\"`, `\"function\"`)\n- Extract the declared name from chunk content (first line: `pub struct Foo`, `pub trait Bar`, `fn baz()`)\n- Build definition index: `HashMap<String, Vec<(source_file, start_line)>>`\n- Only track CamelCase names (types/traits) and SCREAMING_CASE (constants)\n- Minimum name length: 3 chars\n- Skip Rust standard library types: `String`, `Vec`, `HashMap`, `Option`, `Result`, `Box`, `Arc`, `Mutex`, `Rc`, `Cell`, `RefCell`, `Pin`, `Future`, `Stream`, `Iterator`, `Display`, `Debug`, `Clone`, `Copy`, `Send`, `Sync`, `Default`, `From`, `Into`, `TryFrom`, `TryInto`, `AsRef`, `AsMut`, `Deref`, `Drop`, `Fn`, `FnMut`, `FnOnce`, `Error`, `Ord`, `PartialOrd`, `Eq`, `PartialEq`, `Hash`, `Sized`\n\n**Pass 2 — Find usages:**\n- For each chunk, scan content for references to defined symbols\n- Skip self-references (chunk defines the symbol)\n- Skip same-file references (already covered by `contains`/`implements`)\n- For each cross-file usage, create:",
+  "source_version": "docs/rfcs/2026-03-04-m3.4-graph-edge-improvements-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.459519547Z",
+  "valid_from": "2026-03-31T13:20:59.459519547Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-04-m3.4-graph-edge-improvements-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 99,
+    "end_line": 122,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

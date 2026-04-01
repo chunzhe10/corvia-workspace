@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83e-7ae3-ae47-a508c9d31145",
+  "content": "test --workspace`\nExpected: All 385+ tests pass.\n\n-**Step 6: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/ops.rs\ngit commit -m \"feat(m4): add full ops module — agents_list, merge_queue_status, config_get/set, gc_run, rebuild, merge_retry\"\n```\n\n---\n\n## Chunk 2: Instrumentation + Config Infrastructure (D81 + D87 + D89)\n",
+  "source_version": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.454895385Z",
+  "valid_from": "2026-03-31T13:20:59.454895385Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 712,
+    "end_line": 713,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

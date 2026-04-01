@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f838-7ec1-a413-ac84ff3d982d",
+  "content": " dir)\n        if let Some(dir) = staging_dir {\n            self.staging.write_staging_file(dir, &entry)?;\n        }\n\n        // 4. Insert into store (HNSW + Redb — immediately searchable)\n        self.store.insert(&entry).await?;\n\n        Ok(entry)\n    }\npub async fn write_with_dedup(\n        &self,\n        content: &str,\n        scope_id: &str,\n        source_version: &str,\n        agent_id: &str,\n        session_id: &str,\n        staging_dir: Option<&Path>,\n        content_role: Option<String>,\n        source_origin: Option<String>,\n        force_write: bool,\n    ) -> Result<WriteResult> {\n        // 1. Embed the content first (needed for both dedup check and write).\n        let embedding = self.engine.embed(content).await?;\n\n        // 2. Check for near-duplicates (unless force_write).\n        if !force_write {\n            let similar = self.store.search(&embedding, scope_id, 1).await?;\n            if let Some(top) = similar.first() {\n                if top.score > DEDUP_BLOCK_THRESHOLD {\n                    let preview = top.entry.content.chars().take(200).collect::<String>();\n                    return Ok(WriteResult::Blocked {\n                        existing_id: top.entry.id,\n                        similarity: top.score,\n                        existing_preview: preview,\n                    });\n                }\n                if top.score > DEDUP_WARN_THRESHOLD {\n                    // Write with warning.\n                    let similar_id = top.entry.id;\n                    let similarity = top.score;\n\n                    let mut entry = KnowledgeEntry::new(\n                        content.to_string(),\n                        scope_id.to_string(),\n                        source_version.to_string(),\n                    )",
+  "source_version": "crates/corvia-kernel/src/agent_writer.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.448197373Z",
+  "valid_from": "2026-03-31T13:20:59.448197373Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/agent_writer.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 103,
+    "end_line": 139,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

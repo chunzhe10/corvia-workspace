@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a15-7ca3-b9db-5261630eafd8",
+  "content": "<span style=\"color: var(--accent-amber); font-weight: 700;\">Hours of wasted work avoided.</span>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"flex-grow\"></div>\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">08 / 09</div>\n</div>\n<!-- SLIDE 9: TAKEAWAYS -->\n<div class=\"slide\" style=\"background: linear-gradient(160deg, #0f172a 0%, #1a2332 50%, #0f172a 100%);\">\n  <div class=\"slide-label\">Key Takeaways</div>\n  <div class=\"slide-title\" style=\"margin-bottom: 36px;\">\n    What I Learned\n  </div>\n\n  <div style=\"display: flex; flex-direction: column; gap: 28px; margin-bottom: 40px;\">\n    <div style=\"display: flex; align-items: flex-start; gap: 20px;\">\n      <div style=\"font-size: 32px; flex-shrink: 0;\">&#127919;</div>\n      <div>\n        <div style=\"font-size: 24px; font-weight: 700;\">Roles change everything</div>\n        <div style=\"font-size: 22px; color: var(--text-secondary); margin-top: 6px; line-height: 1.5;\">\n          A generic \"review this\" catches surface issues. A PM persona catches incomplete work. A Security persona catches leaked secrets. The role defines what gets found.\n        </div>\n      </div>\n    </div>\n\n    <div style=\"display: flex; align-items: flex-start; gap: 20px;\">\n      <div style=\"font-size: 32px; flex-shrink: 0;\">&#128200;</div>\n      <div>\n        <div style=\"font-size: 24px; font-weight: 700;\">Independent context windows matter</div>\n        <div style=\"font-size: 22px; color: var(--text-secondary); margin-top: 6px; line-height: 1.5;\">\n          One reviewer with five roles collapses to one perspective. Five separate subagents find different things because they think independently.\n        </div>\n      </div>\n    </div>\n\n    <div style=\"display: flex; align-items: flex-start; gap: 20px;\">\n      <div style=\"font-size: 32px; flex-shrink: 0;\">&#128196;</div>\n      <div>\n        <div style=\"font-size: 24px; font-weight: 700;\">Review designs, not just code</div>\n        <div style=\"font-size: 22px; color: var(--text-secondary); margin-top: 6px; line-height: 1.5;\">\n          The highest-leverage reviews happen before implementation. A flaw caught in a spec costs minutes. In code, it costs hours.\n        </div>\n      </div>\n    </div>",
+  "source_version": "marketing/linkedin/2026-03-27-five-persona-review/five-persona-review-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.029393346Z",
+  "valid_from": "2026-03-31T13:51:39.029393346Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-27-five-persona-review/five-persona-review-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 570,
+    "end_line": 606,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-c77527ab917d",
+  "content": "## D10: AGPL-3.0 License\n\n## Summary: What to Change\n\n| Decision | Verdict | Action |\n|----------|---------|--------|\n| All-Rust backend | KEEP | None |\n| LiteStore as full product | KEEP | Document 100K scaling boundary |\n| Git JSON source of truth | CHANGE (minor) | Consider excluding embeddings from JSON files |\n| LLM-assisted merge | KEEP but simplify | Add conflict rate metrics |\n| petgraph + Redb graph | KEEP but measure | M6 evals must prove graph improves recall |\n| Separate inference server | KEEP | Consider in-process mode for local dev |\n| MCP primary protocol | KEEP + ADD | Add native Rust crate API |\n| Bi-temporal model | KEEP + TRACK | Add temporal query usage metrics |\n| Standalone React dashboard | KEEP (for now) | Build static assets into binary for M7 |\n| AGPL-3.0 license | RECONSIDER | Decide before M7 based on go-to-market |\n\n---\n\n*Reviewed by: Senior SWE (architecture sound, D3/D10 concerns valid), PM (adoption friction from AGPL is real, graph value unproven), QA (need metrics for D4/D5/D8 before claiming value)*",
+  "source_version": "decisions/2026-03-19-architecture-challenge.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025145398Z",
+  "valid_from": "2026-03-31T13:51:39.025145398Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-19-architecture-challenge.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 234,
+    "end_line": 251,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

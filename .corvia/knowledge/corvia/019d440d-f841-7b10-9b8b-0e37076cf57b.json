@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0e37076cf57b",
+  "content": "### Devcontainer Changes\n\n## Change Summary\n\n| Area | Change | Risk |\n|------|--------|------|\n| corvia-proto | Add device/backend to LoadModelRequest; actual_device/actual_backend to LoadModelResponse | Low |\n| corvia-inference/backend.rs | New module: resolve_backend(), GPU probing, ResolvedBackend type | Medium |\n| corvia-inference/embedding_service.rs | Switch to InitOptionsUserDefined, EP selection per backend | Medium |\n| corvia-inference/chat_service.rs | build_model_params() with GPU layers, backend tracking | Low |\n| corvia-inference/model_manager.rs | Thread device/backend through, return actual_* in response | Low |\n| corvia-inference/Cargo.toml | Add ort direct dep, enable cuda/openvino features | Medium |\n| Dockerfile | Intel GPU runtime packages (opt-in) | Low |\n| devcontainer.json | Documented opt-in for Intel GPU device passthrough | Low |\n\n\n## Out of Scope\n\n- No changes to corvia.toml or kernel/server layers\n- No hot-switching (changing device requires unload + reload)\n- No NPU support (Intel NPU via OpenVINO deferred)\n- Vulkan for llama-cpp-2 deferred to follow-up",
+  "source_version": "docs/rfcs/2026-03-11-inference-gpu-device-control-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457740911Z",
+  "valid_from": "2026-03-31T13:20:59.457740911Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-inference-gpu-device-control-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 172,
+    "end_line": 190,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

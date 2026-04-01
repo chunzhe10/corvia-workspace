@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-3ec97bcf2113",
+  "content": "{\n        \"v\": SCHEMA_VERSION,\n        \"event\": \"created\",\n        \"task_id\": task_id,\n        \"subject\": subject,\n        \"description\": description,\n        \"timestamp\": now_iso(),\n    });\n\n    flock_append(&jsonl_path, &serde_json::to_string(&event)?)\n}\nfn handle_task_completed_inner(dirs: &Dirs, stdin: &serde_json::Value) -> Result<()> {\n    let task_id = stdin.get(\"task_id\").and_then(|v| v.as_str()).unwrap_or(\"\");\n    if task_id.is_empty() {\n        eprintln!(\"Warning: TaskCompleted hook received empty task_id\");\n        return Ok(());\n    }\n\n    let subject = stdin.get(\"task_subject\").and_then(|v| v.as_str()).unwrap_or(\"\");\n\n    let team_name = match infer_team_from_task(&dirs.claude_tasks, task_id) {\n        Some(name) => name,\n        None => {\n            eprintln!(\"Warning: TaskCompleted could not infer team for task {task_id}\");\n            return Ok(());\n        }\n    };\n\n    if !is_valid_name(&team_name) {\n        eprintln!(\"Warning: TaskCompleted rejected invalid team name: {team_name}\");\n        return Ok(());\n    }\n\n    let task_file = dirs.claude_tasks.join(&team_name).join(format!(\"{task_id}.json\"));\n    let full_task: serde_json::Value = if task_file.exists() {\n        let content = fs::read_to_string(&task_file).unwrap_or_default();\n        serde_json::from_str(&content).unwrap_or(serde_json::Value::Null)\n    } else {\n        serde_json::Value::Null\n    };\n",
+  "source_version": "crates/corvia-cli/src/hooks/agent_teams.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429199544Z",
+  "valid_from": "2026-03-31T13:20:59.429199544Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/agent_teams.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 235,
+    "end_line": 264,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f839-77c3-913e-197f98a46f41",
+  "content": "## Overview\n## Core Traits\n\n## Subsystems\n\n- **Storage** — `lite_store`, `postgres_store` (pgvector), `knowledge_files` (Git JSON)\n- **Embeddings** — `ollama_engine`, `grpc_engine`, `embedding_pipeline`\n- **RAG** — `rag_pipeline`, `retriever`, `augmenter`, `context_builder`\n- **Chunking** — `chunking_pipeline`, `chunking_strategy`, `chunking_markdown`, `chunking_config_fmt`, `chunking_pdf`\n- **Agent Coordination** — `agent_coordinator`, `session_manager`, `staging`, `merge_worker`\n- **Reasoning** — `reasoner` (5 deterministic + 2 LLM-powered health checks)\n- **Graph** — `graph_store` (petgraph-based overlay for LiteStore)\n- **Adapters** — `adapter_discovery`, `adapter_protocol`, `process_adapter`\n- **Shared Operations** — `ops` (system status, config get/set, GC, rebuild index — shared between CLI and MCP)\n- **Introspection** — `introspect` (self-validation pipeline)\n\n\n## Usage\n\n```rust,no_run\nuse corvia_common::config::CorviaConfig;\nuse corvia_kernel::{create_engine, create_store};\n\nasync fn example() -> corvia_common::errors::Result<()> {\n    let config = CorviaConfig::default(); // LiteStore + Ollama\n    let engine = create_engine(&config);\n    let store = create_store(&config).await?;\n    store.init_schema().await?;\n    Ok(())\n}\n```\n",
+  "source_version": "crates/corvia-kernel/README.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.449544812Z",
+  "valid_from": "2026-03-31T13:20:59.449544812Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/README.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 25,
+    "end_line": 52,
+    "content_role": "instruction",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "procedural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

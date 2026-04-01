@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81f-75e2-9415-ae43d96bf66d",
+  "content": " {\n    let defs = service_definitions();\n    let mut statuses = Vec::with_capacity(defs.len());\n    for def in &defs {\n        let result = check_service(def).await;\n        statuses.push(result_to_status(def.name, def.port, &result));\n    }\n    statuses\n}\npub async fn check_inference_health(addr: &str) -> Option<corvia_common::dashboard::InferenceHealthStatus> {\n    use corvia_common::dashboard::{InferenceHealthStatus, InferenceProbeStatus};\n    use corvia_proto::corvia::inference::v1::model_manager_client::ModelManagerClient;\n    use corvia_proto::corvia::inference::v1::HealthRequest;\n\n    let endpoint = if addr.starts_with(\"http\") {\n        addr.to_string()\n    } else {\n        format!(\"http://{}\", addr)\n    };\n\n    let channel = match tokio::time::timeout(\n        Duration::from_secs(2),\n        tonic::transport::Channel::from_shared(endpoint).ok()?.connect(),\n    )\n    .await\n    {\n        Ok(Ok(ch)) => ch,\n        _ => return None,\n    };\n\n    let mut client = ModelManagerClient::new(channel);\n    let resp = match tokio::time::timeout(\n        Duration::from_secs(2),\n        client.health(HealthRequest {}),\n    )\n    .await\n    {\n        Ok(Ok(r)) => r.into_inner(),\n        _ => return None,\n    };\n\n    let status = match resp.probe_status.as_str() {\n        \"pending\" => InferenceProbeStatus::Pending,\n        \"healthy\" => InferenceProbeStatus::Healthy,\n        \"degraded\" => InferenceProbeStatus::Degraded,\n        \"failed\" => InferenceProbeStatus::Failed,\n        _ => InferenceProbeStatus::Pending,\n    };\n\n    Some(InferenceHealthStatus {\n        status,\n        ep_name: resp.ep_name,\n        ep_requested: resp.ep_requested,\n        fallback_used: resp.fallback_used,\n        baseline_us: resp.baseline_us,\n        last_probe_us: resp.last_probe_us,\n        drift_pct: resp.drift_pct,\n        models_loaded: resp.models_loaded,\n        last_probe_at: if resp.last_probe_at.is_empty() {\n            None\n        } else {\n            Some(resp.last_probe_at)\n        },\n    })\n}",
+  "source_version": "crates/corvia-server/src/dashboard/health.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.423923770Z",
+  "valid_from": "2026-03-31T13:20:59.423923770Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/health.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 163,
+    "end_line": 218,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

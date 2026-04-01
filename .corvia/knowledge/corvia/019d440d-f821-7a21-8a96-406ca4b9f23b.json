@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f821-7a21-8a96-406ca4b9f23b",
+  "content": "fn test_knowledge_entry_is_current() {\n        let mut entry = KnowledgeEntry::new(\"test\".into(), \"scope\".into(), \"v1\".into());\n        assert!(entry.is_current());\n\n        entry.valid_to = Some(Utc::now());\n        assert!(!entry.is_current());\n    }\nfn test_knowledge_entry_serialization() {\n        let entry = KnowledgeEntry::new(\"test\".into(), \"scope\".into(), \"v1\".into());\n        let json = serde_json::to_string(&entry).unwrap();\n        let deserialized: KnowledgeEntry = serde_json::from_str(&json).unwrap();\n        assert_eq!(entry.id, deserialized.id);\n        assert_eq!(entry.content, deserialized.content);\n    }",
+  "source_version": "crates/corvia-common/src/types.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.425515873Z",
+  "valid_from": "2026-03-31T13:20:59.425515873Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/types.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 423,
+    "end_line": 429,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

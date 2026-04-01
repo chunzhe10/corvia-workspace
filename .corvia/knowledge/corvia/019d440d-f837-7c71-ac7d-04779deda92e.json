@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f837-7c71-ac7d-04779deda92e",
+  "content": "None,\n        (Some(t), None) | (None, Some(t)) => Some(t),\n        (Some(a), Some(b)) => {\n            // Tier ordering: Forgotten < Cold < Warm < Hot\n            // \"Worse\" = lower tier\n            if a <= b { Some(a) } else { Some(b) }\n        }\n    }\n}\nfn clamp_one_step(current: Tier, target: Tier) -> Tier {\n    match current {\n        Tier::Hot => {\n            if target < Tier::Warm {\n                Tier::Warm // Hot can only drop to Warm\n            } else {\n                target\n            }\n        }\n        Tier::Warm => {\n            if target < Tier::Cold {\n                Tier::Cold // Warm can only drop to Cold\n            } else if target > Tier::Warm {\n                Tier::Hot // Warm can only promote to Hot\n            } else {\n                target\n            }\n        }\n        Tier::Cold => {\n            if target < Tier::Cold {\n                Tier::Forgotten // Cold can only drop to Forgotten\n            } else if target > Tier::Cold {\n                Tier::Warm // Cold can only promote to Warm\n            } else {\n                target\n            }\n        }\n        Tier::Forgotten => Tier::Forgotten, // terminal\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/gc_worker.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.447292617Z",
+  "valid_from": "2026-03-31T13:20:59.447292617Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/gc_worker.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 777,
+    "end_line": 806,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

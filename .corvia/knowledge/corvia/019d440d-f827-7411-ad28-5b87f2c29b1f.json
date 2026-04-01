@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f827-7411-ad28-5b87f2c29b1f",
+  "content": "fn should_skip() -> bool {\n    if std::env::var(\"CORVIA_CHAT_TEST\").is_err() {\n        eprintln!(\"Skipping: set CORVIA_CHAT_TEST=1 to enable (downloads ~800 MB model)\");\n        true\n    } else {\n        false\n    }\n}\nasync fn start_server() -> String {\n    // Find a free port\n    let listener = tokio::net::TcpListener::bind(\"127.0.0.1:0\").await.unwrap();\n    let addr = listener.local_addr().unwrap();\n    let port = addr.port();\n    drop(listener); // Release the port so the binary can bind to it\n    let binary = env!(\"CARGO_BIN_EXE_corvia-inference\");\n\n    tokio::spawn(async move {\n        let mut child = tokio::process::Command::new(binary)\n            .args([\"serve\", \"--port\", &port.to_string()])\n            .stdout(std::process::Stdio::piped())\n            .stderr(std::process::Stdio::piped())\n            .spawn()\n            .expect(\"Failed to start corvia-inference binary\");\n\n        child.wait().await.ok();\n    });\n\n    // Wait for the server to be ready\n    let endpoint = format!(\"http://127.0.0.1:{port}\");\n    for _ in 0..30 {\n        tokio::time::sleep(std::time::Duration::from_millis(200)).await;\n        if ModelManagerClient::connect(endpoint.clone()).await.is_ok() {\n            return endpoint;\n        }\n    }\n\n    panic!(\"Server failed to start within 6 seconds\");\n}",
+  "source_version": "crates/corvia-inference/tests/chat_e2e_test.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.431136581Z",
+  "valid_from": "2026-03-31T13:20:59.431136581Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/tests/chat_e2e_test.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 27,
+    "end_line": 56,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

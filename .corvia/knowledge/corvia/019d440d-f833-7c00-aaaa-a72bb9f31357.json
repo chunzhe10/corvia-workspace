@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f833-7c00-aaaa-a72bb9f31357",
+  "content": "fn make_meta(meta: &SourceMetadata) -> ChunkMetadata {\n        ChunkMetadata {\n            source_file: meta.file_path.clone(),\n            language: meta.language.clone(),\n            ..Default::default()\n        }\n    }\nfn chunk_toml(source: &str, meta: &SourceMetadata) -> Vec<RawChunk> {\n        let lines: Vec<&str> = source.lines().collect();\n        if lines.is_empty() {\n            return Vec::new();\n        }\n\n        // Find indices of section header lines.\n        let section_starts: Vec<usize> = lines\n            .iter()\n            .enumerate()\n            .filter(|(_, line)| line.starts_with('['))\n            .map(|(i, _)| i)\n            .collect();\n\n        // If no section headers, return the whole source as one chunk.\n        if section_starts.is_empty() {\n            return vec![RawChunk {\n                content: source.to_owned(),\n                chunk_type: \"section\".into(),\n                start_line: 1,\n                end_line: lines.len() as u32,\n                metadata: Self::make_meta(meta),\n            }];\n        }\n\n        let mut chunks = Vec::new();\n\n        // Content before first section header (preamble).\n        if section_starts[0] > 0 {\n            let preamble: String = lines[..section_starts[0]].join(\"\\n\");\n            if !preamble.trim().is_empty() {",
+  "source_version": "crates/corvia-kernel/src/chunking_config_fmt.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.443060439Z",
+  "valid_from": "2026-03-31T13:20:59.443060439Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_config_fmt.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 39,
+    "end_line": 69,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

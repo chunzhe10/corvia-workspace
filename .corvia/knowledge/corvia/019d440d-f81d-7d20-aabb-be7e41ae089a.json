@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81d-7d20-aabb-be7e41ae089a",
+  "content": "rch auth patterns\",\"prompt\":\"...\"}}}}\"#, \"\\n\",\n                r#\"{{\"type\":\"tool_start\",\"session_id\":\"{}\",\"turn\":1,\"timestamp\":\"2026-03-28T10:00:02Z\",\"tool\":\"Agent\",\"input\":{{\"name\":\"reviewer\",\"description\":\"Review code quality\",\"prompt\":\"...\"}}}}\"#, \"\\n\",\n                r#\"{{\"type\":\"session_end\",\"session_id\":\"{}\",\"timestamp\":\"2026-03-28T10:30:00Z\",\"total_turns\":1}}\"#\n            ),\n            lead_session_id, lead_session_id, lead_session_id, lead_session_id\n        );\n\n        let lead_gz = sessions_dir.join(format!(\"{lead_session_id}.jsonl.gz\"));\n        let file = std::fs::File::create(&lead_gz).unwrap();\n        let mut encoder = flate2::write::GzEncoder::new(file, flate2::Compression::fast());\n        encoder.write_all(lead_jsonl.as_bytes()).unwrap();\n        encoder.finish().unwrap();\n\n        // Create subagent directory with two transcripts\n        let subagent_dir = sessions_dir.join(lead_session_id).join(\"subagents\");\n        std::fs::create_dir_all(&subagent_dir).unwrap();\n\n        // Subagent 1 (researcher)\n        let sub1_jsonl = concat!(\n            r#\"{\"type\":\"session_start\",\"session_id\":\"ses-sub-researcher\",\"timestamp\":\"2026-03-28T10:00:01Z\",\"workspace\":\"/tmp\",\"git_branch\":\"main\",\"agent_type\":\"subagent\",\"parent_session_id\":\"ses-lead-001\"}\"#, \"\\n\",\n            r#\"{\"type\":\"user_prompt\",\"session_id\":\"ses-sub-researcher\",\"turn\":1,\"timestamp\":\"2026-03-28T10:00:01Z\",\"content\":\"<teammate-message teammate_id=\\\"team-lead\\\" summary=\\\"Research auth patterns\\\">Full research prompt</teammate-message>\"}\"#, \"\\n\"",
+  "source_version": "adapters/corvia-adapter-claude-sessions/rust/src/correlation.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.421315703Z",
+  "valid_from": "2026-03-31T13:20:59.421315703Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-claude-sessions/rust/src/correlation.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 462,
+    "end_line": 480,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

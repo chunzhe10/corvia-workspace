@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83a-78e0-bb2b-dcbde746c5e1",
+  "content": " SurrealDB query syntax for vector search may need adjustment based on the actual v3.0 API. The implementer should test against a running SurrealDB instance and adapt the queries as needed. The trait contract is what matters — the SQL can be fixed.\n\n---\n\n## Task 7: corvia-kernel — Ollama Embedding Pipeline\n\n**Files:**\n- Create: `crates/corvia-kernel/src/embedding_pipeline.rs`\n- Test: inline tests (mock HTTP for unit, real Ollama for integration)\n\n**Step 1: Write Ollama InferenceEngine implementation**\n\n`crates/corvia-kernel/src/embedding_pipeline.rs`:\n```rust\nuse async_trait::async_trait;\nuse corvia_common::errors::{CorviaError, Result};\nuse serde::{Deserialize, Serialize};\nuse tracing::info;\n\npub struct OllamaEngine {\n    url: String,\n    model: String,\n    dimensions: usize,\n}\n\n#[derive(Serialize)]\nstruct EmbedRequest {\n    model: String,\n    input: Vec<String>,\n}\n\n#[derive(Deserialize)]\nstruct EmbedResponse {\n    embeddings: Vec<Vec<f32>>,\n}\n\nimpl OllamaEngine {\n    pub fn new(url: &str, model: &str, dimensions: usize) -> Self {\n        Self {\n            url: url.to_string(),\n            model: model.to_string(),\n            dimensions,\n        }\n    }\n}\n\n#[async_trait]\nimpl super::traits::InferenceEngine for OllamaEngine {\n    async fn embed(&self, text: &str) -> Result<Vec<f32>> {\n        let results = self.embed_batch(&[text.to_string()]).await?;\n        results.into_iter().next()\n            .ok_or_else(|| CorviaError::Embedding(\"Empty embedding response\".into()))\n    }\n",
+  "source_version": "docs/rfcs/2026-02-28-m1-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.450781401Z",
+  "valid_from": "2026-03-31T13:20:59.450781401Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-m1-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1169,
+    "end_line": 1218,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9be894f4630f",
+  "content": "## Impact Summary\n## Revised Milestones\n\n### M2: \"Multiple agents, no collisions\"\n\n**Depends on**: M1.2\n**LinkedIn**: \"What happens when 10 AI agents write to the same knowledge base simultaneously? Here's how I solved it\"\n\n**What changed from original**:\n- Isolation: application-level RBAC via Redb key prefixes + file dirs (D39), NOT SurrealDB namespace auth\n- Write path: staging hybrid with git branches + shared HNSW (D43), NOT Redb-only logical isolation\n- Merge worker: uses configured InferenceEngine (Ollama or vLLM), NOT hardcoded vLLM\n- Agent scope: knowledge workers only, Levels 0-1 (D44)\n\n**Deliverables**:\n1. `AgentCoordinator` — multi-layer identity (D45 Part 1), agent registration, session lifecycle\n2. Atomic write path (D45 Part 4): JSON → embed → atomic Redb transaction (metadata + HNSW). No ghost vectors.",
+  "source_version": "docs/rfcs/milestone-revision-notes.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464205086Z",
+  "valid_from": "2026-03-31T13:20:59.464205086Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/milestone-revision-notes.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 22,
+    "end_line": 35,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

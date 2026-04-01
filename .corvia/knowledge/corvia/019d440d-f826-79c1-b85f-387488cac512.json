@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f826-79c1-b85f-387488cac512",
+  "content": "          device: Device::Gpu,\n            backend: BackendKind::Cuda,\n            fallback_used: false,\n        };\n        let eps = build_execution_providers(&backend);\n        assert_eq!(eps.len(), 1, \"CUDA backend should produce exactly one EP\");\n    }\nfn test_build_execution_providers_openvino() {\n        let backend = ResolvedBackend {\n            device: Device::Gpu,\n            backend: BackendKind::OpenVino,\n            fallback_used: false,\n        };\n        let eps = build_execution_providers(&backend);\n        assert_eq!(eps.len(), 1, \"OpenVINO backend should produce exactly one EP\");\n    }",
+  "source_version": "crates/corvia-inference/src/embedding_service.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.430724067Z",
+  "valid_from": "2026-03-31T13:20:59.430724067Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/src/embedding_service.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 554,
+    "end_line": 562,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

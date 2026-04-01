@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f832-7981-8b9c-4650ab06596a",
+  "content": "rt\n                        if entry.embedding.is_none()\n                            && let Ok(Some(emb)) = self.store.get_embedding(entry_id).await\n                        {\n                            entry.embedding = Some(emb);\n                        }\n                        if let Err(e) = self.store.insert(&entry).await {\n                            warn!(entry_id = %entry_id, error = %e, \"commit_step3: failed to update entry status\");\n                        } else {\n                            committed_entries.push((*entry_id, entry.scope_id.clone()));\n                        }\n                    }\n            }\n            // Publish EntryCommitted events only for entries that actually transitioned (D4).\n            // Prevents duplicate events on idempotent retry.\n            for (entry_id, scope_id) in &committed_entries {\n                self.event_bus.publish(KernelEvent::EntryCommitted {\n                    entry_id: *entry_id,\n                    session_id: session_id.to_string(),\n                    scope_id: scope_id.clone(),\n                });\n            }\n            info!(session_id, count = entry_ids.len(), \"commit_step3: entries → Committed\");\n        }\n\n        // Step 4: Enqueue all staging entries into merge queue\n        if let Some(ref staging_dir_str) = session.staging_dir {\n            let staging_dir = self.staging.resolve_staging_path(staging_dir_str);\n            let entry_ids = self.staging.list_staging_files(&staging_dir)?;\n            for entry_id in &entry_ids {\n                match self.staging.read_staging_file(&staging_dir, entry_id) {",
+  "source_version": "crates/corvia-kernel/src/commit_pipeline.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.442610102Z",
+  "valid_from": "2026-03-31T13:20:59.442610102Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/commit_pipeline.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 99,
+    "end_line": 123,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

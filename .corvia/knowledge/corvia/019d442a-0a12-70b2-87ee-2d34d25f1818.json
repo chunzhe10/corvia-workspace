@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-2d34d25f1818",
+  "content": "## Phase 0 Blockers\n\n### C7: MCP Authentication (Security)\n\n**Problem:** MCP endpoint on `0.0.0.0:8020` has zero authentication.\n\n**Fix: Bearer token auth for MCP writes.**\n\nOn server startup, generate a random token and write it to `.corvia/mcp-token`:\n\n```rust\n// In corvia-server startup\nlet token = if config.server.host == \"0.0.0.0\" {\n    let token = uuid::Uuid::new_v4().to_string();\n    std::fs::write(data_dir.join(\"mcp-token\"), &token)?;\n    Some(token)\n} else {\n    // Loopback-only: no token needed (backward compatible)\n    None\n};\n```\n\nMCP middleware checks `Authorization: Bearer <token>` on all write operations\n(corvia_write, corvia_gc_run, corvia_config_set, corvia_rebuild_index,\ncorvia_agent_suspend, corvia_merge_retry). Read operations (corvia_search,\ncorvia_ask, corvia_context, corvia_system_status) remain unauthenticated for\ndashboard and debugging access.\n\nSpoke creation injects the token:\n\n```rust\nenv.push(format!(\"CORVIA_MCP_TOKEN={}\", token));\n```\n\nSpoke `.mcp.json` includes auth header:\n\n```json\n{\n  \"mcpServers\": {\n    \"corvia\": {\n      \"type\": \"http\",\n      \"url\": \"http://app:8020/mcp\",\n      \"headers\": {\n        \"Authorization\": \"Bearer ${CORVIA_MCP_TOKEN}\"\n      }\n    }\n  }\n}\n```\n\n**Scope:** Read-only operations stay open. Write operations require token. This\npreserves dashboard access while protecting data integrity.\n\n---\n\n\n### I9: Usage Agreement (PM)\n\n**Elevated to Phase 0 blocker.**\n\nBefore any implementation, verify with Anthropic:\n1. Can one Max subscription run N concurrent `claude -p` sessions in containers?\n2. Is mounting `.credentials.json` into automated containers within terms?\n3. Is `ANTHROPIC_API_KEY` the intended path for multi-instance container use?\n\n**If subscription credentials are not safe:** Invert the auth model. Make\n`ANTHROPIC_API_KEY` the primary auth mode, subscription credentials the fallback.\nUpdate all docs accordingly.\n\n**Action:** File this as a standalone investigation before implementation begins.\n\n---\n",
+  "source_version": "decisions/2026-03-28-spoke-design-review-fixes.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026294940Z",
+  "valid_from": "2026-03-31T13:51:39.026294940Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-design-review-fixes.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 12,
+    "end_line": 81,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

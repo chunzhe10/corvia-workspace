@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82a-7783-b9af-74b26bb5f284",
+  "content": "    // Drop and recreate the test database for a clean slate\n        let _ = sqlx::query(&format!(\"DROP DATABASE IF EXISTS \\\"{db_name}\\\"\"))\n            .execute(&admin_pool)\n            .await;\n        sqlx::query(&format!(\"CREATE DATABASE \\\"{db_name}\\\"\"))\n            .execute(&admin_pool)\n            .await\n            .map_err(|e| CorviaError::Storage(format!(\"Failed to create test DB: {e}\")))?;\n        admin_pool.close().await;\n\n        let test_url = format!(\"postgres://corvia:corvia@127.0.0.1:5432/{db_name}\");\n        let store = PostgresStore::connect(&test_url, TEST_DIM).await?;\n        store.init_schema().await?;\n        Ok(store)\n    }\n\n    /// Drop the test database during teardown.\n    async fn cleanup_test_db(suffix: &str) {\n        let base_url = \"postgres://corvia:corvia@127.0.0.1:5432/postgres\";\n        let db_name = format!(\"corvia_test_{}_{}\", *TEST_RUN_ID, suffix);\n        if let Ok(pool) = PgPoolOptions::new()\n            .max_connections(2)\n            .connect(base_url)\n            .await\n        {\n            let _ = sqlx::query(&format!(\"DROP DATABASE IF EXISTS \\\"{db_name}\\\"\"))\n                .execute(&pool)\n                .await;\n            pool.close().await;\n        }\n    }\n\n    #[tokio::test]\n    async fn test_pg_insert_and_get() {\n        let store = match connect_test_store(\"insert_get\").await {\n            Ok(s) => s,\n            Err(_) => {\n                eprintln!(\"Skipping: PostgreSQL not available\");\n                return;\n            }\n        };\n",
+  "source_version": "crates/corvia-kernel/src/postgres_store.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.434134924Z",
+  "valid_from": "2026-03-31T13:20:59.434134924Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/postgres_store.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 956,
+    "end_line": 992,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

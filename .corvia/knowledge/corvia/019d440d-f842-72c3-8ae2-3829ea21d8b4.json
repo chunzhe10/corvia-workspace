@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-3829ea21d8b4",
+  "content": "at_engine` to `AgentCoordinator::new()`.\n\n**Step 4: Run tests**\n\nRun: `cargo build -p corvia`\nExpected: SUCCESS.\n\n**Step 5: Commit**\n\n```bash\ngit add crates/corvia-cli/\ngit commit -m \"feat(d60): wire Corvia inference provider into CLI init/serve\"\n```\n\n---\n\n## Task 12: gRPC Integration Tests\n\n**Files:**\n- Create: `tests/integration/grpc_inference_test.rs`\n- Modify: `crates/corvia-cli/Cargo.toml`\n\n**Step 1: Write gRPC round-trip test**\n\nCreate `tests/integration/grpc_inference_test.rs`:\n```rust\n//! Integration test: start corvia-inference, connect as gRPC client, embed text.\n//! Requires: `cargo build -p corvia-inference` first.\n//! Gated behind real-inference feature (needs model download).\n\nuse corvia_proto::embedding_service_client::EmbeddingServiceClient;\nuse corvia_proto::model_manager_client::ModelManagerClient;\nuse corvia_proto::*;\nuse std::time::Duration;\n\nasync fn wait_for_server(addr: &str, timeout: Duration) -> bool {\n    let deadline = tokio::time::Instant::now() + timeout;\n    let url = format!(\"http://{addr}\");\n    while tokio::time::Instant::now() < deadline {\n        if let Ok(mut client) = ModelManagerClient::connect(url.clone()).await {\n            if let Ok(resp) = client.health(tonic::Request::new(HealthRequest {})).await {\n                if resp.into_inner().healthy {\n                    return true;\n                }\n            }\n        }\n        tokio::time::sleep(Duration::from_millis(200)).await;\n    }\n    false\n}\n\n#[tokio::test]\n#[ignore] // Run with: cargo test --test grpc_inference_test -- --ignored\nasync fn test_grpc_embed_roundtrip() {\n    // Start server\n    let port = 18030; // test port\n    let addr = format!(\"127.0.0.1:{port}\");\n    let mut child = std::process::Command::new(\"cargo\")\n        .args([\"run\", \"-p\", \"corvia-inference\", \"--\", \"serve\", \"--port\", &port.to_string()])\n        .stdout(std::process::Stdio::null())\n        .stderr(std::process::Stdio::null())\n        .spawn()\n        .expect(\"Failed to start corvia-inference\");\n\n    assert!(wait_for_server(&addr, Duration::from_secs(30)).await, \"Server failed to start\");\n\n    let url = format!(\"http://{addr}\");\n\n    // Load model\n    let mut mgr = ModelManagerClient::connect(url.clone()).await.unwrap();",
+  "source_version": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458808686Z",
+  "valid_from": "2026-03-31T13:20:59.458808686Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1613,
+    "end_line": 1666,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

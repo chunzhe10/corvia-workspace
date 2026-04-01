@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f58edd1bb57b",
+  "content": "tom: 32px;\n  }\n\n  .cover-tags {\n    margin-top: 40px;\n    display: flex;\n    flex-wrap: wrap;\n    gap: 12px;\n  }\n\n  .cover-tags .tag {\n    background: rgba(59, 130, 246, 0.15);\n    color: var(--accent-blue);\n    font-size: 16px;\n    padding: 10px 20px;\n  }\n  /* ── Insight box ── */\n  .insight-box {\n    background: rgba(16, 185, 129, 0.08);\n    border: 1px solid rgba(16, 185, 129, 0.25);\n    border-radius: 16px;\n    padding: 24px 28px;\n    margin: 16px 0;\n  }\n\n  .insight-box .insight-icon {\n    font-size: 24px;\n    margin-bottom: 8px;\n  }\n\n  .insight-box p {\n    font-size: 18px;\n    font-weight: 500;\n    color: var(--accent-green);\n    line-height: 1.5;\n  }\n\n  /* ── Takeaway list ── */\n  .takeaway-list {\n    display: flex;\n    flex-direction: column;\n    gap: 20px;\n    margin: 16px 0;\n  }\n\n  .takeaway-item {\n    display: flex;\n    align-items: flex-start;\n    gap: 16px;\n  }\n\n  .takeaway-icon {\n    font-size: 28px;\n    flex-shrink: 0;\n    margin-top: 2px;\n  }\n\n  .takeaway-text {\n    font-size: 20px;\n    font-weight: 500;\n    line-height: 1.5;\n  }\n\n  .takeaway-text strong {\n    font-weight: 700;\n  }\n</style>\n</head>\n<body>",
+  "source_version": "marketing/linkedin/2026-03-11-linux-discovery/linux-discovery-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028170312Z",
+  "valid_from": "2026-03-31T13:51:39.028170312Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-11-linux-discovery/linux-discovery-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 400,
+    "end_line": 452,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

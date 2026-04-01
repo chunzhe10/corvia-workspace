@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-7373e6febfa5",
+  "content": "space`\nExpected: compiles and tests pass.\n\n-**Step 9: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/inference_provisioner.rs crates/corvia-cli/src/main.rs\ngit commit -m \"feat(kernel): pass kv_quant and flash_attention through provisioner and CLI\"\n```\n\n### Task 9: CLI — config-is-truth reload + new flags\n\n**Files:**\n- Modify: `crates/corvia-cli/src/main.rs`\n\n-**Step 1: Update InferenceCommands::Reload with new flags**\n\nReplace the `Reload` variant in `InferenceCommands` (lines 219-230):\n\n```rust\n    /// Reload loaded models with a different device/backend/kv-quant\n    Reload {\n        /// Device: \"auto\", \"gpu\", or \"cpu\"\n        #[arg(long)]\n        device: Option<String>,\n        /// Backend override: \"cuda\", \"openvino\", or \"\" (auto-select)\n        #[arg(long)]\n        backend: Option<String>,\n        /// Reload only this model (omit to reload all)\n        #[arg(long)]\n        model: Option<String>,\n        /// KV cache quantization: \"q8\", \"q4\", \"none\"\n        #[arg(long)]\n        kv_quant: Option<String>,\n        /// Enable/disable flash attention\n        #[arg(long)]\n        flash_attention: Option<bool>,\n        /// Don't persist changes to corvia.toml\n        #[arg(long)]\n        no_persist: bool,\n    },\n```",
+  "source_version": "docs/rfcs/2026-03-12-inference-kv-cache-config.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461049405Z",
+  "valid_from": "2026-03-31T13:20:59.461049405Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-12-inference-kv-cache-config.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1115,
+    "end_line": 1146,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f831-7562-9884-aea7d1cedcd7",
+  "content": "ious branch.\n    pub fn commit_on_branch(\n        &self,\n        branch_name: &str,\n        message: &str,\n        files: &[&str],\n    ) -> Result<()> {\n        if !self.is_git_repo() {\n            warn!(\"Not a git repo, skipping commit on {branch_name}\");\n            return Ok(());\n        }\n        run_git(&self.data_dir, &[\"checkout\", branch_name])?;\n        let mut add_args = vec![\"add\"];\n        add_args.extend_from_slice(files);\n        run_git(&self.data_dir, &add_args)?;\n        run_git(&self.data_dir, &[\"commit\", \"-m\", message])?;\n        run_git(&self.data_dir, &[\"checkout\", \"-\"])?;\n        info!(branch_name, \"git_commit_on_branch\");\n        Ok(())\n    }\n\n    /// Merge an agent branch into the current branch with --no-ff.\n    pub fn merge_branch(&self, branch_name: &str) -> Result<()> {\n        if !self.is_git_repo() {\n            warn!(\"Not a git repo, skipping merge for {branch_name}\");\n            return Ok(());\n        }\n        let message = format!(\"merge: {branch_name}\");\n        run_git(&self.data_dir, &[\"merge\", branch_name, \"--no-ff\", \"-m\", &message])?;\n        info!(branch_name, \"git_branch_merged\");\n        Ok(())\n    }\n\n    /// Delete a git branch.\n    pub fn delete_branch(&self, branch_name: &str) -> Result<()> {\n        if !self.is_git_repo() {\n            warn!(\"Not a git repo, skipping branch deletion for {branch_name}\");\n            return Ok(());\n        }\n        run_git(&self.data_dir, &[\"branch\", \"-d\", branch_name])?;\n        info!(branch_name, \"git_branch_deleted\");\n        Ok(())\n    }\n\n    /// Check if the data_dir is inside a git repository.\n    fn is_git_repo(&self) -> bool {\n        // Walk up from data_dir looking for .git\n        let mut dir = self.data_dir.as_path();\n        loop {\n            if dir.join(\".git\").exists() {\n                return true;\n            }\n            match dir.parent() {\n                Some(parent) => dir = parent,\n                None => return false,\n            }\n        }\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/staging.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.441913019Z",
+  "valid_from": "2026-03-31T13:20:59.441913019Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/staging.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 162,
+    "end_line": 211,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

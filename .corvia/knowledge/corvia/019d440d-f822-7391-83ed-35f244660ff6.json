@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f822-7391-83ed-35f244660ff6",
+  "content": "       if let Some(0) = cfg.max_inactive_days {\n                return Err(CorviaError::Config(format!(\n                    \"forgetting.by_type.{memory_type}.max_inactive_days must be > 0\"\n                )));\n            }\n        }\n        Ok(())\n    }\n}\npub fn resolve_policy(\n        &self,\n        memory_type: MemoryType,\n        scope_override: Option<&ScopeForgettingOverride>,\n    ) -> ResolvedPolicy {\n        // Global disabled → everything off\n        if !self.enabled {\n            return ResolvedPolicy {\n                enabled: false,\n                max_inactive_days: self.defaults.max_inactive_days,\n                budget_top_n: self.defaults.budget_top_n,\n            };\n        }\n\n        let mut enabled = true;\n        let mut max_inactive_days = self.defaults.max_inactive_days;\n        let mut budget_top_n = self.defaults.budget_top_n;\n\n        // Layer 2: per-type override\n        if let Some(type_cfg) = self.by_type.get(&memory_type) {\n            if let Some(e) = type_cfg.enabled {\n                enabled = e;\n            }\n            if !enabled {\n                return ResolvedPolicy { enabled, max_inactive_days, budget_top_n };\n            }\n            if let Some(d) = type_cfg.max_inactive_days {\n                max_inactive_days = d;\n            }\n            if let Some(b) = type_cfg.budget_top_n {\n                budget_top_n = b;\n            }\n        }\n\n        // Layer 3: per-scope override (most specific)\n        if let Some(scope_cfg) = scope_override {\n            if let Some(e) = scope_cfg.enabled {\n                enabled = e;\n            }\n            if let Some(d) = scope_cfg.max_inactive_days {\n                max_inactive_days = d;\n            }\n            if let Some(b) = scope_cfg.budget_top_n {\n                budget_top_n = b;\n            }\n        }\n\n        ResolvedPolicy { enabled, max_inactive_days, budget_top_n }\n    }",
+  "source_version": "crates/corvia-common/src/config.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.426556744Z",
+  "valid_from": "2026-03-31T13:20:59.426556744Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/config.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 884,
+    "end_line": 932,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

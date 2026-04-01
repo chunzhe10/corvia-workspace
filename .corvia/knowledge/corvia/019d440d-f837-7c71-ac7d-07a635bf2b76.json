@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f837-7c71-ac7d-07a635bf2b76",
+  "content": "fn test_list_scope_dirs_nonexistent() {\n        let scopes = list_scope_dirs(Path::new(\"/nonexistent/path\"));\n        assert!(scopes.is_empty());\n    }\nfn test_list_scope_dirs_with_dirs() {\n        let dir = tempfile::tempdir().unwrap();\n        std::fs::create_dir(dir.path().join(\"alpha\")).unwrap();\n        std::fs::create_dir(dir.path().join(\"beta\")).unwrap();\n        std::fs::write(dir.path().join(\"file.txt\"), \"not a dir\").unwrap();\n        let scopes = list_scope_dirs(dir.path());\n        assert_eq!(scopes, vec![\"alpha\", \"beta\"]);\n    }",
+  "source_version": "crates/corvia-kernel/src/gc_worker.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.447726246Z",
+  "valid_from": "2026-03-31T13:20:59.447726246Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/gc_worker.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1078,
+    "end_line": 1085,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

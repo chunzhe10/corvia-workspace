@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-341eb166852b",
+  "content": "ction: incoming `references` edge scores higher than outgoing\n- Reinforcement bonus is scaled by relation weight\n- Nodes with >50 edges: only top 50 expanded (sorted by weight)\n- Unknown relation types fall back to 0.5 / direction 1.0 (no regression)\n\n---\n\n### P5: HashMap Optimization in wire_pipeline_relations()\n\n**File:** `ingest.rs` (`wire_pipeline_relations()`)\n\n**Current state:** For each relation, linearly scans all `processed` chunks to find\nsource and target. O(R * C) where R = relations, C = chunks.\n\n**Note:** Ship alongside or before P1/P2. P1 and P2 increase relation count, making the\nlinear scan measurably slower. Shipping P5 first prevents a temporary performance regression.\n\n**Changes:**\n\n1. **Build file index before the loop:**\n   ```rust\n   // Map source_file -> Vec<(index, start_line)>\n   let mut file_index: HashMap<&str, Vec<(usize, u32)>> = HashMap::new();\n   for (i, pc) in processed.iter().enumerate() {\n       file_index\n           .entry(pc.metadata.source_file.as_str())\n           .or_default()\n           .push((i, pc.start_line));\n   }\n   ```\n\n2. **Source resolution:** Look up `rel.from_source_file` in `file_index`, then find\n   the entry with matching `start_line`. O(1) file lookup + O(chunks_per_file) scan.\n\n3. **Target resolution:** Look up `rel.to_file` in `file_index`. If `to_name` is set,\n   scan matching file's chunks for content match. Falls back to CRATE_REF and suffix\n   strategies as today.\n\n**Expected impact:** For the corvia repo (2200+ chunks, 552 relations), this reduces\nwiring time from O(2200 * 552) = O(1.2M) comparisons to O(552 * ~5) = O(2.7K). Matters\nfor large repos with 10K+ chunks.\n\n**Testing:**\n- Same edge count AND same edge endpoints (from_id, to_id, relation) as linear scan.\n  Not just count -- verify exact edge set matches to catch resolution order changes.\n- Benchmark on corvia repo to measure wiring time reduction.\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-28-structural-intelligence-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458222296Z",
+  "valid_from": "2026-03-31T13:20:59.458222296Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-structural-intelligence-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 372,
+    "end_line": 413,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

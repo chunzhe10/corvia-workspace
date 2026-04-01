@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f836-7610-b605-bdfa8f6b5b2b",
+  "content": "pub struct RetentionParams {\n    /// Classification of the knowledge entry (determines decay alpha).\n    pub memory_type: MemoryType,\n    /// Days elapsed since the entry was created. Negative values are clamped to 0.\n    pub days_since_creation: f64,\n    /// Number of times the entry has been accessed.\n    pub access_count: u32,\n    /// Days since last access. `None` means the entry has never been accessed.\n    pub days_since_access: Option<f64>,\n    /// Number of inbound graph edges pointing to this entry.\n    pub inbound_edges: u32,\n    /// Confidence score in `[0.0, 1.0]`. `None` defaults to 0.7.\n    pub confidence: Option<f32>,\n    /// Whether this entry has been superseded by a newer entry.\n    pub is_superseded: bool,\n}",
+  "source_version": "crates/corvia-kernel/src/scoring.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.446359861Z",
+  "valid_from": "2026-03-31T13:20:59.446359861Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/scoring.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 68,
+    "end_line": 83,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

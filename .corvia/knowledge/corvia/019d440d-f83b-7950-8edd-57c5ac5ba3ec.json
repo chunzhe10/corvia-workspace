@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-57c5ac5ba3ec",
+  "content": "r(|e| CorviaError::Agent(format!(\"Failed to insert agent: {e}\")))?;\n        }\n        write_txn.commit()\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to commit agent: {e}\")))?;\n\n        info!(agent_id, \"agent_registered\");\n        Ok(record)\n    }\n\n    /// Get an agent record by ID.\n    pub fn get(&self, agent_id: &str) -> Result<Option<AgentRecord>> {\n        let read_txn = self.db.begin_read()\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to begin read txn: {e}\")))?;\n        let table = read_txn.open_table(AGENTS)\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to open agents table: {e}\")))?;\n\n        match table.get(agent_id) {\n            Ok(Some(val)) => {\n                let record: AgentRecord = serde_json::from_slice(val.value())\n                    .map_err(|e| CorviaError::Agent(format!(\"Failed to deserialize agent: {e}\")))?;\n                Ok(Some(record))\n            }\n            Ok(None) => Ok(None),\n            Err(e) => Err(CorviaError::Agent(format!(\"Failed to get agent: {e}\"))),\n        }\n    }\n\n    /// Update last_seen timestamp.\n    pub fn touch(&self, agent_id: &str) -> Result<()> {\n        let mut record = self.get(agent_id)?\n            .ok_or_else(|| CorviaError::NotFound(format!(\"Agent {agent_id} not found\")))?;\n        record.last_seen = chrono::Utc::now();\n        self.put(&record)\n    }\n\n    /// Update agent status.\n    pub fn set_status(&self, agent_id: &str, status: AgentStatus) -> Result<()> {\n        let mut record = self.get(agent_id)?\n            .ok_or_else(|| CorviaError::NotFound(format!(\"Agent {agent_id} not found\")))?;\n        record.status = status;\n        self.put(&record)\n    }\n\n    /// List all agents with Active status.\n    pub fn list_active(&self) -> Result<Vec<AgentRecord>> {\n        self.list_all()?\n            .into_iter()\n            .filter(|a| a.status == AgentStatus::Active)\n            .collect::<Vec<_>>()\n            .pipe(Ok)\n    }\n",
+  "source_version": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451691783Z",
+  "valid_from": "2026-03-31T13:20:59.451691783Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 661,
+    "end_line": 705,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

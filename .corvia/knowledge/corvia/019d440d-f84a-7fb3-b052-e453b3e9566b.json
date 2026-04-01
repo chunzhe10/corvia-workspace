@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84a-7fb3-b052-e453b3e9566b",
+  "content": "kend;` after the existing module declarations in `crates/corvia-inference/src/main.rs`.\n\nRun: `cd /workspaces/corvia-workspace/repos/corvia && cargo test -p corvia-inference backend::tests 2>&1 | tail -20`\nExpected: FAIL — all tests panic with `todo!()`\n\n-**Step 3: Implement resolve_backend and GpuCapabilities::probe**\n\nReplace the `todo!()` bodies in `backend.rs`:\n\n```rust\nimpl GpuCapabilities {\n    /// Probe actual hardware. Call once at startup.\n    pub fn probe() -> Self {\n        let cuda_available = std::process::Command::new(\"nvidia-smi\")\n            .stdout(std::process::Stdio::null())\n            .stderr(std::process::Stdio::null())\n            .status()\n            .map(|s| s.success())\n            .unwrap_or(false);\n\n        let openvino_available = std::path::Path::new(\"/dev/dri\").exists()\n            && (std::path::Path::new(\"/usr/lib/x86_64-linux-gnu/libopenvino.so\").exists()\n                || std::env::var(\"INTEL_OPENVINO_DIR\").is_ok());\n\n        tracing::info!(cuda = cuda_available, openvino = openvino_available, \"GPU capabilities probed\");\n\n        Self {\n            cuda_available,\n            openvino_available,\n        }\n    }\n}\n\npub fn resolve_backend(\n    device: &str,\n    backend: &str,\n    model_type: ModelType,\n    gpu: &GpuCapabilities,\n) -> Result<ResolvedBackend, String> {\n    // 1. Explicit backend override\n    if !backend.is_empty() {\n        return resolve_explicit_backend(backend, model_type, gpu);\n    }\n\n    // 2. Device-based resolution\n    match device {\n        \"cpu\" => Ok(ResolvedBackend {\n            device: Device::Cpu,\n            backend: BackendKind::Cpu,\n            fallback_used: false,\n        }),\n        \"gpu\" | \"auto\" | \"\" => resolve_gpu_preferred(model_type, gpu),",
+  "source_version": "docs/rfcs/2026-03-12-inference-gpu-device-control.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.466157974Z",
+  "valid_from": "2026-03-31T13:20:59.466157974Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-12-inference-gpu-device-control.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 306,
+    "end_line": 352,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

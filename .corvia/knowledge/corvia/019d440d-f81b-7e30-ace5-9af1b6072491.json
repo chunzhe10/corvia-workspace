@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81b-7e30-ace5-9af1b6072491",
+  "content": "GEST_FAILED\".into(),\n                    message: format!(\"{e}\"),\n                    file: None,\n                },\n            };\n            writeln!(out, \"{}\", serde_json::to_string(&resp).unwrap()).ok();\n            out.flush().ok();\n        }\n    }\n}\nfn handle_chunk<W: Write>(content: &str, metadata: &SourceMetadata, out: &mut W) {\n    let chunker = AstChunker;\n\n    match chunker.chunk(content, metadata) {\n        Ok(result) => {\n            let resp = AdapterResponse::ChunkResult {\n                chunks: result.chunks,\n                relations: result.relations,\n            };\n            writeln!(out, \"{}\", serde_json::to_string(&resp).unwrap()).ok();\n            out.flush().ok();\n        }\n        Err(e) => {\n            let resp = AdapterResponse::Error {\n                error: AdapterError {\n                    code: \"CHUNK_FAILED\".into(),\n                    message: format!(\"{e}\"),\n                    file: Some(metadata.file_path.clone()),\n                },\n            };\n            writeln!(out, \"{}\", serde_json::to_string(&resp).unwrap()).ok();\n            out.flush().ok();\n        }\n    }\n}",
+  "source_version": "adapters/corvia-adapter-git/rust/src/main.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.419530431Z",
+  "valid_from": "2026-03-31T13:20:59.419530431Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-git/rust/src/main.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 124,
+    "end_line": 148,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-72af599b77ef",
+  "content": "### Composite Formula (Additive)\n### Component Definitions\n\n### Supersession Penalty\n\nEntries with `superseded_by` set (a newer version exists) receive a 0.5× multiplier\non the final retention score:\n\n```\nif entry.superseded_by.is_some() {\n    retention_score *= 0.5;\n}\n```\n\nThis ensures stale-but-accessed entries decay faster than their successors. A superseded\nentry needs twice the access/graph signal to maintain the same tier.\n\nAdditionally, Structural entries with `superseded_by` set are treated as Episodic for\ndecay purposes (α=0.60 instead of α=0). Superseded code signatures are stale artifacts\nfrom prior ingestion and should decay normally.\n\n\n### Properties\n\n- **Additive, not multiplicative**: Access and graph signals can rescue old entries from decay.\n  A 6-month-old decision that is frequently accessed and well-connected stays Hot.\n- **New entries start Warm** (~0.45-0.50 score): Stored with `tier: Hot` initially (full\n  HNSW participation), but the first GC cycle reclassifies them to Warm based on score.\n  Must earn sustained Hot status through access or connections. Session affinity boosts\n  for current-session entries are a retrieval-layer concern.\n- **Max score = 1.0**: All components normalized to [0, 1], weights sum to 1.0.\n- **Superseded entries decay faster**: The 0.5× penalty makes it hard for stale entries\n  to compete with their successors, even if still accessed by agents unaware of the update.\n- **Expected steady-state distribution**: ~2-5% Hot, ~25-35% Warm, ~50-60% Cold,\n  ~10-15% Forgotten. A small Hot tier is by design — Hot means actively used and\n  well-connected, not just \"recently created.\" If operators see a different distribution,\n  use `corvia gc status` and the `forgotten_access_attempts` counter to calibrate.\n",
+  "source_version": "docs/rfcs/2026-03-27-tiered-knowledge-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463698324Z",
+  "valid_from": "2026-03-31T13:20:59.463698324Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-27-tiered-knowledge-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 186,
+    "end_line": 219,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

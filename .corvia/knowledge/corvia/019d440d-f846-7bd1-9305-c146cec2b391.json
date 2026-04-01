@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-c146cec2b391",
+  "content": "Chunk the given file content using adapter-specific intelligence.\n    #[serde(rename = \"chunk\")]\n    Chunk {\n        content: String,\n        metadata: SourceMetadata,\n    },\n}\n\n// ---------------------------------------------------------------------------\n// Adapter → Host responses (read from stdout, one JSON line per message)\n// ---------------------------------------------------------------------------\n\n/// A source file payload streamed during ingestion.\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct SourceFilePayload {\n    pub content: String,\n    pub metadata: SourceMetadata,\n}\n\n/// An error reported by the adapter.\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct AdapterError {\n    pub code: String,\n    pub message: String,\n    #[serde(default, skip_serializing_if = \"Option::is_none\")]\n    pub file: Option<String>,\n}\n\n/// A response line from the adapter.\n///\n/// Uses `#[serde(untagged)]` — the deserializer tries each variant in order.\n/// Ordering matters: most specific first.\n#[derive(Debug, Serialize, Deserialize)]\n#[serde(untagged)]\npub enum AdapterResponse {\n    /// A single source file (streamed during ingest).\n    SourceFile { source_file: SourceFilePayload },\n    /// Chunking result for a single file.\n    ChunkResult {\n        chunks: Vec<RawChunk>,\n        relations: Vec<ChunkRelation>,\n    },\n    /// Signals end of ingestion stream.\n    Done { done: bool, total_files: usize },\n    /// An error from the adapter.\n    Error { error: AdapterError },\n}\n\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    #[test]\n    fn test_metadata_serde_roundtrip() {\n        let meta = AdapterMetadata {\n            name: \"git\".into(),\n            version: \"0.3.1\".into(),\n            domain: \"git\".into(),\n            protocol_version: 1,\n            description: \"Git + tree-sitter code ingestion\".into(),\n            supported_extensions: vec![\"rs\".into(), \"py\".into()],\n            chunking_extensions: vec![\"rs\".into(), \"py\".into()],\n        };\n        let json = serde_json::to_string(&meta).unwrap();\n        let parsed: AdapterMetadata = serde_json::from_str(&json).unwrap();\n        assert_eq!(parsed.name, \"git\");\n        assert_eq!(parsed.protocol_version, 1);\n        assert_eq!(parsed.chunking_extensions, vec![\"rs\", \"py\"]);\n    }\n\n    #[test]",
+  "source_version": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462432340Z",
+  "valid_from": "2026-03-31T13:20:59.462432340Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 180,
+    "end_line": 241,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-56adf4f4a2bd",
+  "content": "## Task 1: Agent & Session Types\n\n### Step 1: Write failing tests for agent types\n\nAdd to end of a new test module in `crates/corvia-common/src/agent_types.rs`:\n\n```rust\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    #[test]\n    fn test_registered_agent_id_format() {\n        let id = AgentIdentity::Registered {\n            agent_id: \"myproject::code-indexer\".into(),\n            api_key: None,\n        };\n        assert_eq!(id.effective_agent_id(), \"myproject::code-indexer\");\n    }\n\n    #[test]\n    fn test_mcp_client_with_hint() {\n        let id = AgentIdentity::McpClient {\n            client_name: \"crewai\".into(),\n            client_version: \"0.3\".into(),\n            agent_hint: Some(\"financial-advisor\".into()),\n        };\n        assert_eq!(id.effective_agent_id(), \"crewai::financial-advisor\");\n        assert!(id.can_write());\n    }\n\n    #[test]\n    fn test_mcp_client_without_hint_is_read_only() {\n        let id = AgentIdentity::McpClient {\n            client_name: \"langgraph\".into(),\n            client_version: \"0.2\".into(),\n            agent_hint: None,\n        };\n        assert_eq!(id.effective_agent_id(), \"langgraph\");\n        assert!(!id.can_write());\n    }\n\n    #[test]\n    fn test_anonymous_is_read_only() {\n        let id = AgentIdentity::Anonymous;\n        assert!(!id.can_write());\n    }\n\n    #[test]\n    fn test_session_state_transitions() {\n        assert!(SessionState::Created.can_transition_to(SessionState::Active));\n        assert!(SessionState::Active.can_transition_to(SessionState::Committing));\n        assert!(SessionState::Active.can_transition_to(SessionState::Stale));\n        assert!(!SessionState::Closed.can_transition_to(SessionState::Active));",
+  "source_version": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451509760Z",
+  "valid_from": "2026-03-31T13:20:59.451509760Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 27,
+    "end_line": 78,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

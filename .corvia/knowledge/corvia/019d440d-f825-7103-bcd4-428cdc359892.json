@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-428cdc359892",
+  "content": "fn store_type_name(st: &StoreType) -> &'static str {\n    match st {\n        StoreType::Lite => \"lite\",\n        StoreType::Postgres => \"postgres\",\n    }\n}\npub async fn cmd_migrate(to: &str, dry_run: bool) -> Result<()> {\n    let config_path = CorviaConfig::config_path();\n    if !config_path.exists() {\n        anyhow::bail!(\"No corvia.toml found. Run 'corvia init' first.\");\n    }\n    let config = CorviaConfig::load(&config_path)?;\n\n    let target = parse_target(to)?;\n\n    // Validate source != destination\n    if config.storage.store_type == target {\n        anyhow::bail!(\n            \"Already using {}. Nothing to migrate.\",\n            store_type_name(&target)\n        );\n    }\n\n    // Feature-gate check for postgres target\n    #[cfg(not(feature = \"postgres\"))]\n    if target == StoreType::Postgres {\n        anyhow::bail!(\n            \"PostgresStore requires compiling with --features postgres.\\n\\\n             Rebuild with: cargo build --features postgres\"\n        );\n    }\n\n    let source_name = store_type_name(&config.storage.store_type);\n    let target_name = store_type_name(&target);\n\n    println!(\"Corvia migrate: {} -> {}\", source_name, target_name);\n    if dry_run {",
+  "source_version": "crates/corvia-cli/src/upgrade.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429660176Z",
+  "valid_from": "2026-03-31T13:20:59.429660176Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/upgrade.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 78,
+    "end_line": 108,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

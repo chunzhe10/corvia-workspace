@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f830-7a51-9391-4ae53f20dacb",
+  "content": "pub trait Fusion: Send + Sync {\n    /// Human-readable name for metrics.\n    fn name(&self) -> &str;\n\n    /// Fuse multiple ranked sets into one.\n    async fn fuse(&self, sets: Vec<RankedSet>) -> Result<RankedSet>;\n}\nimpl Fusion for PassThrough {\n    fn name(&self) -> &str {\n        \"passthrough\"\n    }\n\n    async fn fuse(&self, sets: Vec<RankedSet>) -> Result<RankedSet> {\n        let start = Instant::now();\n        let input_count: usize = sets.iter().map(|s| s.candidates.len()).sum();\n\n        // Collect all candidates, deduplicating by entry ID (keep highest score).\n        // Uses into_iter to move candidates rather than cloning.\n        let mut by_id: HashMap<uuid::Uuid, RankedCandidate> = HashMap::new();\n        for set in sets {\n            for candidate in set.candidates {\n                let id = candidate.entry.id;\n                use std::collections::hash_map::Entry;\n                match by_id.entry(id) {\n                    Entry::Occupied(mut e) => {\n                        if candidate.scores.final_score > e.get().scores.final_score {\n                            e.insert(candidate);\n                        }\n                    }\n                    Entry::Vacant(e) => {\n                        e.insert(candidate);\n                    }\n                }\n            }\n        }\n\n        let mut candidates: Vec<RankedCandidate> = by_id.into_values().collect();\n\n        // Min-max normalize.\n        if !candidates.is_empty() {\n            let (min_score, max_score) = candidates.iter().fold((f32::INFINITY, f32::NEG_INFINITY), |(mn, mx), c| {",
+  "source_version": "crates/corvia-kernel/src/pipeline/fusion.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.440820266Z",
+  "valid_from": "2026-03-31T13:20:59.440820266Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/fusion.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 42,
+    "end_line": 75,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

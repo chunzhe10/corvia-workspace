@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f834-7df0-9fec-234f4f4360fa",
+  "content": ":debug!(\n            source_file = %pc.metadata.source_file,\n            original_tokens = pc.token_estimate,\n            sub_chunks = groups.len(),\n            \"semantic_subsplit: split oversized heading section\"\n        );\n    }\n\n    sub_chunks_created\n}\nfn resolve_repo_path(workspace_root: &Path, repos_dir: &str, repo: &corvia_common::config::RepoConfig) -> PathBuf {\n    if let Some(local) = &repo.local {\n        let local_path = PathBuf::from(local);\n        if local_path.join(\".git\").exists() {\n            return local_path;\n        }\n    }\n    workspace_root.join(repos_dir).join(&repo.name)\n}",
+  "source_version": "crates/corvia-kernel/src/ingest.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.444406426Z",
+  "valid_from": "2026-03-31T13:20:59.444406426Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ingest.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 544,
+    "end_line": 552,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

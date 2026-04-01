@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f822-7391-83ed-33c396091c52",
+  "content": " default() -> Self {\n        Self {\n            provider: InferenceProvider::Ollama,\n            model: default_merge_model(),\n            similarity_threshold: default_similarity_threshold(),\n            max_retries: default_max_retries(),\n        }\n    }\npub struct RagConfig {\n    /// Retriever strategy name. Built-in: \"vector\", \"graph_expand\".\n    /// Default: \"graph_expand\" (falls back to \"vector\" if no graph store).\n    #[serde(default = \"default_retriever\")]\n    pub retriever: String,\n    /// Augmenter strategy name. Built-in: \"structured\".\n    #[serde(default = \"default_augmenter\")]\n    pub augmenter: String,\n    #[serde(default = \"default_rag_limit\")]\n    pub default_limit: usize,\n    #[serde(default = \"default_graph_expand\")]\n    pub graph_expand: bool,\n    #[serde(default = \"default_graph_depth\")]\n    pub graph_depth: usize,\n    #[serde(default = \"default_graph_alpha\")]\n    pub graph_alpha: f32,\n    #[serde(default = \"default_reserve_for_answer\")]\n    pub reserve_for_answer: f32,\n    #[serde(default)]\n    pub max_context_tokens: usize,\n    #[serde(default)]\n    pub system_prompt: String,\n    #[serde(default = \"default_graph_oversample\")]",
+  "source_version": "crates/corvia-common/src/config.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.426338610Z",
+  "valid_from": "2026-03-31T13:20:59.426338610Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/config.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 457,
+    "end_line": 479,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

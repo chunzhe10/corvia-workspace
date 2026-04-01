@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-74e37f812558",
+  "content": "## Integration with Existing Code\n\n### Config Changes (corvia-common)\n\n`InferenceProvider` enum gains `Corvia` variant:\n\n```rust\npub enum InferenceProvider {\n    #[default]\n    Corvia,     // NEW default — gRPC to corvia-inference\n    Ollama,     // Opt-in — HTTP to Ollama\n    Vllm,       // FullStore — gRPC to vLLM\n}\n```\n\nDefault config changes:\n\n```toml\n[embedding]\nprovider = \"corvia\"\nmodel = \"nomic-embed-text-v1.5\"\nurl = \"127.0.0.1:8030\"\ndimensions = 768\n```\n\nNew field in `MergeConfig`:\n\n```toml\n[merge]\nmodel = \"llama3.2\"\nprovider = \"corvia\"   # NEW — chat model provider for merge\n```\n\n\n### New Trait: ChatEngine (corvia-kernel)\n\n```rust\n#[async_trait]\npub trait ChatEngine: Send + Sync {\n    async fn chat(&self, messages: &[ChatMessage], model: &str) -> Result<String>;\n}\n```\n\nImplementations:\n- `GrpcChatEngine` — speaks Corvia ChatService proto\n- MergeWorker takes `Arc<dyn ChatEngine>` instead of `ollama_url: String`\n",
+  "source_version": "docs/rfcs/2026-03-02-grpc-inference-server-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463931784Z",
+  "valid_from": "2026-03-31T13:20:59.463931784Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-grpc-inference-server-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 198,
+    "end_line": 241,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

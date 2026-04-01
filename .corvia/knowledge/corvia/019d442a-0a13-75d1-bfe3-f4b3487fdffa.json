@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a13-75d1-bfe3-f4b3487fdffa",
+  "content": "# DaVinci Resolve Linux Carousel Implementation Plan\n\n**Goal:** Build an 8-slide LinkedIn carousel telling the story of installing DaVinci Resolve on Linux with Claude as copilot, using a wall-breaker visual narrative with richer CSS illustrations.\n\n**Architecture:** Single HTML file with all 8 slides, CSS-only illustrations (brick walls, chat bubbles, underwater scene), rendered via Playwright to PNG + PDF. Follows established carousel patterns from `dual-gpu-inference-carousel.html`.\n\n**Tech Stack:** HTML, CSS (no JS), Playwright (render), Node.js (render script)\n\n**Spec:** `docs/marketing/2026-03-14-resolve-linux-carousel-design.md`\n**Reference carousel:** `docs/marketing/linkedin/2026-03-13-dual-gpu-inference/dual-gpu-inference-carousel.html`\n**Design system:** `docs/marketing/design-system.json`\n\n---\n",
+  "source_version": "marketing/2026-03-14-resolve-linux-carousel.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.027355411Z",
+  "valid_from": "2026-03-31T13:51:39.027355411Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/2026-03-14-resolve-linux-carousel.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 1,
+    "end_line": 14,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-5561acbf6191",
+  "content": "### Approach\n\n### Data Model\n\nNew fields on `DashboardStatusResponse` (`corvia-common/src/dashboard.rs`):\n\n```rust\n/// Coverage ratio of HNSW-indexed entries vs knowledge files on disk.\n/// null when disk_count == 0 (fresh workspace, no data yet).\n/// Always serialized (as null, not omitted) for frontend ergonomics.\npub index_coverage: Option<f64>,  // 0.0-1.0, null if no files on disk\n\n/// true when coverage < configured threshold.\n/// null when index_coverage is null (no data to be stale about).\npub index_stale: Option<bool>,\n\n/// Raw counts for debugging and actionable UI messages.\n/// e.g., \"73 of 100 entries indexed\" is more useful than \"73% coverage\".\npub index_disk_count: u64,        // .json files in knowledge/{scope_id}/\npub index_store_count: u64,       // entries in Redb SCOPE_INDEX\npub index_hnsw_count: u64,        // entries in Redb HNSW_TO_UUID table\n\n/// The configured staleness threshold, so consumers can display it.\n/// e.g., \"Coverage 85% (threshold: 90%)\"\npub index_stale_threshold: f64,\n\n/// ISO 8601 timestamp of when coverage was last computed.\n/// Lets consumers show data freshness: \"checked 45s ago\".\npub index_coverage_checked_at: Option<String>,\n```\n\nNote: `index_coverage` and `index_stale` are always present in the JSON (as\n`null` when not applicable), never omitted. This avoids absent-field vs `null`\nambiguity in TypeScript consumers.\n\nNew cache struct (`dashboard/coverage.rs`):\n\n```rust\npub struct IndexCoverageCache {\n    disk_count: u64,\n    store_count: u64,\n    hnsw_count: u64,\n    coverage: Option<f64>,\n    stale: Option<bool>,\n    last_computed: Option<Instant>,\n    last_computed_wall: Option<chrono::DateTime<chrono::Utc>>,\n    ttl: Duration,\n    threshold: f64,\n}\n```\n\nWrapped in `Arc<tokio::sync::Mutex<IndexCoverageCache>>` on `AppState`. Using\n`tokio::sync::Mutex` (not `std::sync::Mutex`) because `get()` performs async\nI/O (`store.count()`) and we must not hold a sync lock across `.await` points.\n",
+  "source_version": "docs/rfcs/2026-03-26-dashboard-index-coverage-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451369442Z",
+  "valid_from": "2026-03-31T13:20:59.451369442Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-26-dashboard-index-coverage-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 34,
+    "end_line": 86,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

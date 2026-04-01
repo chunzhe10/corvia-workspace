@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-927044f84bc4",
+  "content": "### Task 6: Trace aggregation and log file reading\n\n    }\n\n    #[test]\n    fn collect_traces_limits_to_50_events() {\n        let lines: Vec<String> = (0..60)\n            .map(|i| {\n                format!(\n                    r#\"{{\"timestamp\":\"2026-03-10T14:{:02}:00Z\",\"level\":\"INFO\",\"fields\":{{\"message\":\"event {i}\"}},\"target\":\"corvia_kernel::agent_coordinator\"}}\"#,\n                    i\n                )\n            })\n            .collect();\n        let line_refs: Vec<&str> = lines.iter().map(|s| s.as_str()).collect();\n        let data = collect_traces_from_lines(&line_refs);\n\n        assert_eq!(data.recent_events.len(), 50);\n    }\n\n    #[test]\n    fn normalize_level_variants() {\n        assert_eq!(normalize_level(\"WARN\"), \"warn\");\n        assert_eq!(normalize_level(\"WARNING\"), \"warn\");\n        assert_eq!(normalize_level(\"ERROR\"), \"error\");\n        assert_eq!(normalize_level(\"ERR\"), \"error\");\n        assert_eq!(normalize_level(\"DEBUG\"), \"debug\");\n        assert_eq!(normalize_level(\"TRACE\"), \"debug\");\n        assert_eq!(normalize_level(\"INFO\"), \"info\");\n        assert_eq!(normalize_level(\"anything\"), \"info\");\n    }\n\n    #[test]\n    fn short_timestamp_extracts_time() {\n        assert_eq!(short_timestamp(\"2026-03-10T14:31:52Z\"), \"14:31:52\");\n        assert_eq!(short_timestamp(\"2026-03-10T14:31:52.123Z\"), \"14:31:52\");\n        assert_eq!(short_timestamp(\"no-t-here\"), \"no-t-here\");\n    }\n```\n",
+  "source_version": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465863371Z",
+  "valid_from": "2026-03-31T13:20:59.465863371Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 889,
+    "end_line": 926,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

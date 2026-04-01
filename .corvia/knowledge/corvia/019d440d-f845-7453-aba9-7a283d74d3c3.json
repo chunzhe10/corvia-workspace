@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-7a283d74d3c3",
+  "content": " .into_iter()\n            .map(|(r, _score)| r)\n            .filter(|r| visibility_filter(r, &opts.visibility, opts.agent_id.as_deref()))\n            .take(opts.limit)\n            .collect();\n\n        let post_filter_count = filtered.len();\n\n        info!(\n            vector_count,\n            graph_expanded,\n            post_filter_count,\n            latency_ms = start.elapsed().as_millis() as u64,\n            \"rag_retrieved\"\n        );\n\n        Ok(RetrievalResult {\n            results: filtered,\n            metrics: RetrievalMetrics {\n                latency_ms: start.elapsed().as_millis() as u64,\n                vector_results: vector_count,\n                graph_expanded,\n                post_filter_count,\n                retriever_name: self.name().into(),\n            },\n        })\n    }\n}\n```\n\n**Step 4: Run tests to verify they pass**\n\nRun: `cargo test -p corvia-kernel -- retriever::tests --nocapture`\nExpected: all 5 tests PASS\n\n**Step 5: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/retriever.rs\ngit commit -m \"feat(m3.2): GraphExpandRetriever — vector + graph edge expansion with α blending\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461950587Z",
+  "valid_from": "2026-03-31T13:20:59.461950587Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1012,
+    "end_line": 1046,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

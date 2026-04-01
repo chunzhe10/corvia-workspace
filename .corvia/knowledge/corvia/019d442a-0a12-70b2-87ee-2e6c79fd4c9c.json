@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-2e6c79fd4c9c",
+  "content": "# Query default branch (requires GITHUB_TOKEN)\n# Clone\n\n# Branch naming from issue\nif [ -n \"${CORVIA_ISSUE}\" ]; then\n\n    # Get issue title for branch name\n    ISSUE_TITLE=$(gh issue view \"${CORVIA_ISSUE}\" --json title --jq '.title' 2>/dev/null || echo \"\")\n    SLUG=$(echo \"${ISSUE_TITLE}\" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | head -c 40)\n    BRANCH=\"feat/${CORVIA_ISSUE}-${SLUG}\"\n",
+  "source_version": "decisions/2026-03-28-spoke-design-review-fixes.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026448925Z",
+  "valid_from": "2026-03-31T13:51:39.026448925Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-design-review-fixes.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 541,
+    "end_line": 547,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

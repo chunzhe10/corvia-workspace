@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f835-7a40-9ae4-0e2b7e0471d4",
+  "content": "pub fn docker(&self) -> &Docker {\n        &self.docker\n    }\npub async fn list(&self, include_stopped: bool) -> Result<Vec<SpokeInfo>> {\n        let mut filters: HashMap<String, Vec<String>> = HashMap::new();\n        filters.insert(\"label\".into(), vec![\"corvia.spoke=true\".into()]);\n        if !include_stopped {\n            filters.insert(\"status\".into(), vec![\"running\".into()]);\n        }\n\n        let options = ListContainersOptionsBuilder::new()\n            .all(include_stopped)\n            .filters(&filters)\n            .build();\n\n        let containers = self\n            .docker\n            .list_containers(Some(options))\n            .await\n            .map_err(|e| CorviaError::Docker(format!(\"Failed to list spoke containers: {e}\")))?;\n\n        Ok(containers\n            .iter()\n            .filter_map(SpokeInfo::from_container)\n            .collect())\n    }",
+  "source_version": "crates/corvia-kernel/src/spoke.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.445134905Z",
+  "valid_from": "2026-03-31T13:20:59.445134905Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/spoke.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 280,
+    "end_line": 302,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

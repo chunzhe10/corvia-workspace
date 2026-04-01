@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f829-7a43-a547-5d6d3a606781",
+  "content": "    .bind(scope_id)\n        .bind(from)\n        .bind(to)\n        .fetch_all(&self.pool)\n        .await\n        .map_err(|e| CorviaError::Storage(format!(\"evolution query failed: {e}\")))?;\n\n        Ok(rows.iter().filter_map(row_to_entry).collect())\n    }\n}\nasync fn as_of(\n        &self,\n        scope_id: &str,\n        timestamp: chrono::DateTime<chrono::Utc>,\n        limit: usize,\n    ) -> Result<Vec<KnowledgeEntry>> {\n        let rows = sqlx::query(\n            r#\"SELECT * FROM knowledge\n               WHERE scope_id = $1\n               AND valid_from <= $2\n               AND (valid_to IS NULL OR valid_to > $2)\n               LIMIT $3\"#,\n        )\n        .bind(scope_id)\n        .bind(timestamp)\n        .bind(limit as i64)\n        .fetch_all(&self.pool)\n        .await\n        .map_err(|e| CorviaError::Storage(format!(\"as_of query failed: {e}\")))?;\n\n        Ok(rows.iter().filter_map(row_to_entry).collect())\n    }",
+  "source_version": "crates/corvia-kernel/src/postgres_store.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.433922606Z",
+  "valid_from": "2026-03-31T13:20:59.433922606Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/postgres_store.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 567,
+    "end_line": 588,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

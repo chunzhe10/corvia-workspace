@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f822-7391-83ed-31512743b381",
+  "content": "beStatus::Degraded).unwrap(), \"\\\"degraded\\\"\");\n        assert_eq!(serde_json::to_string(&InferenceProbeStatus::Failed).unwrap(), \"\\\"failed\\\"\");\n        assert_eq!(serde_json::to_string(&InferenceProbeStatus::Unreachable).unwrap(), \"\\\"unreachable\\\"\");\n    }\nfn test_gpu_info_new_fields_absent_when_none() {\n        let gpu = GpuInfo {\n            index: 0,\n            name: \"Test GPU\".to_string(),\n            vendor: \"nvidia\".to_string(),\n            utilization_pct: Some(50),\n            memory_used_mb: None,\n            memory_total_mb: None,\n            temperature_c: None,\n            power_draw_w: None,\n            power_limit_w: None,\n            processes: None,\n            render_busy_pct: None,\n            video_busy_pct: None,\n            frequency_mhz: None,\n            frequency_max_mhz: None,\n        };\n        let json = serde_json::to_string(&gpu).unwrap();\n        assert!(!json.contains(\"power_draw_w\"));\n        assert!(!json.contains(\"processes\"));\n        assert!(!json.contains(\"render_busy_pct\"));\n        assert!(!json.contains(\"video_busy_pct\"));\n        assert!(json.contains(\"utilization_pct\")); // present because it's Some\n    }",
+  "source_version": "crates/corvia-common/src/dashboard.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.426076713Z",
+  "valid_from": "2026-03-31T13:20:59.426076713Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/dashboard.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 651,
+    "end_line": 674,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

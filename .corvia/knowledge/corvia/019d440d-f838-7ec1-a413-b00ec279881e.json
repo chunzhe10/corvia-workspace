@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f838-7ec1-a413-b00ec279881e",
+  "content": "    self.queue.mark_complete(&queue_entry.entry_id)?;\n            // Publish MergeFailed for the rejected entry (D4: after mark_complete succeeds)\n            self.event_bus.publish(KernelEvent::MergeFailed {\n                entry_id: queue_entry.entry_id,\n                scope_id: queue_entry.scope_id.clone(),\n            });\n            return Ok(());\n        }\n\n        // Get the entry from the store (embedding is in VECTORS table, not ENTRIES)\n        let mut entry = self.store.get(&queue_entry.entry_id).await?\n            .ok_or_else(|| CorviaError::NotFound(\n                format!(\"Entry {} not found in store\", queue_entry.entry_id)\n            ))?;\n\n        // Restore embedding from VECTORS table for conflict detection and re-insert\n        if entry.embedding.is_none()\n            && let Ok(Some(emb)) = self.store.get_embedding(&queue_entry.entry_id).await\n        {\n            entry.embedding = Some(emb);\n        }\n\n        // Detect conflict\n        match self.detect_conflict(&entry).await? {\n            None => {\n                // No conflict — auto-merge\n                self.auto_merge(&entry, &queue_entry.session_id).await?;\n                self.queue.mark_complete(&queue_entry.entry_id)?;\n                self.session_mgr.increment_merged(&queue_entry.session_id).ok();",
+  "source_version": "crates/corvia-kernel/src/merge_worker.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.448754489Z",
+  "valid_from": "2026-03-31T13:20:59.448754489Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/merge_worker.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 83,
+    "end_line": 107,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-6e81b7995764",
+  "content": "### Phase 2: Instrumentation + Config Infrastructure\n\n### Phase 3: MCP Control Plane\n\n**D83: Tiered safety model**\n\n| Tier | Level | Behavior |\n|------|-------|----------|\n| `ReadOnly` | Auto-approved | Executes immediately, no confirmation |\n| `LowRisk` | Single confirmation | Without `_meta.confirmed`: returns preview + `\"confirmation_required\": true`. With `_meta.confirmed: true`: executes |\n| `MediumRisk` | Confirmation + dry-run | Same as LowRisk, plus accepts `dry_run: true` for preview without mutation |\n| `HighRisk` | Double confirmation + audit | Same as MediumRisk with additional safeguards (future Tier 4 tools) |\n\nImplementation:\n- `ToolTier` enum in `mcp.rs`\n- Each tool definition gets tier in `annotations` metadata\n- Dispatch checks `_meta.confirmed` before executing Tier 2+ operations\n- No MCP protocol upgrade needed — works within `2024-11-05` spec\n- Upgradable to MCP Elicitation when protocol bumps to `2025-06-18`\n\n**D84: Tier 1 MCP tools (read-only, auto-approved) — 5 tools**\n\n| Tool | Calls | Returns |\n|------|-------|---------|",
+  "source_version": "docs/rfcs/2026-03-04-m4-revised-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463287384Z",
+  "valid_from": "2026-03-31T13:20:59.463287384Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-04-m4-revised-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 108,
+    "end_line": 129,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

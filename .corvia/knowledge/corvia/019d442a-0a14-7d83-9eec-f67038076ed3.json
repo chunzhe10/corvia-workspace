@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f67038076ed3",
+  "content": "div class=\"slide\" style=\"background: linear-gradient(160deg, #0f172a 0%, #1a2332 50%, #0f172a 100%);\">\n  <div class=\"slide-label\">Key Takeaways</div>\n  <div class=\"slide-title\">\n    What I Learned<br>\n    <span class=\"highlight-green\">Today</span>\n  </div>\n  <div class=\"takeaway-list\">\n    <div class=\"takeaway-item\">\n      <div class=\"takeaway-icon\">&#128161;</div>\n      <div class=\"takeaway-text\">\n        <strong>Question the OS, not just the hardware.</strong><br>\n        <span style=\"color: var(--text-secondary);\">Linux uses ~1 GB idle vs Windows' 5 GB+. That's 4 GB back for your containers.</span>\n      </div>\n    </div>\n    <div class=\"takeaway-item\">\n      <div class=\"takeaway-icon\">&#127918;</div>\n      <div class=\"takeaway-text\">\n        <strong>Know where your GPU power goes.</strong><br>\n        <span style=\"color: var(--text-secondary);\">A text editor doesn't need an RTX 3060. Linux lets you choose per-app.</span>\n      </div>\n    </div>\n    <div class=\"takeaway-item\">\n      <div class=\"takeaway-icon\">&#128268;</div>\n      <div class=\"takeaway-text\">\n        <strong>Check your cable wiring.</strong><br>\n        <span style=\"color: var(--text-secondary);\">HDMI vs USB-C can mean the difference between GPU always-on and GPU idle.</span>\n      </div>\n    </div>\n    <div class=\"takeaway-item\">\n      <div class=\"takeaway-icon\">&#129300;</div>\n      <div class=\"takeaway-text\">\n        <strong>The best upgrade is understanding your system.</strong><br>\n        <span style=\"color: var(--text-secondary);\">Before buying more hardware, ask: is the software being efficient?</span>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"divider\" style=\"margin-top: 32px;\"></div>\n\n  <div style=\"text-align: center; margin-top: 24px;\">\n    <div style=\"font-size: 20px; font-weight: 600; color: var(--text-secondary); margin-bottom: 12px;\">\n      Have you tried dual-booting for development?\n    </div>\n    <div style=\"font-size: 18px; color: var(--text-muted);\">\n      Let me know your setup in the comments &#128071;\n    </div>\n  </div>\n\n  <div class=\"flex-grow\"></div>\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">08 / 08</div>\n</div>\n\n</body>\n</html>\n",
+  "source_version": "marketing/linkedin/2026-03-11-linux-discovery/linux-discovery-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028331373Z",
+  "valid_from": "2026-03-31T13:51:39.028331373Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-11-linux-discovery/linux-discovery-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 884,
+    "end_line": 933,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

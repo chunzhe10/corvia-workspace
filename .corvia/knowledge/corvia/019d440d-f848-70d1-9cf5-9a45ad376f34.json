@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9a45ad376f34",
+  "content": "  # Phase 5: Serve\n# ── Phase 6: Benchmark ─────────────────────────────────────────────────\n\n# Define queries\nQUERIES=(\n  'How do I configure the embedding model and what dimensions does it use?'\n  'I'\\''m adding a new storage backend. Walk me through what traits I need to implement and how the existing backends do it.'\n  'A search request is returning unexpected results. Trace the full path from the REST API endpoint through the RAG pipeline to the storage layer.'\n  'How does the agent session lifecycle interact with the staging system and conflict resolution during merge?'\n)\nEXPECTED_WINNERS=(\"vector\" \"graph\" \"graph\" \"graph\")\n\nrun_query() {\n  local query=\"$1\" expand_graph=\"$2\"\n  curl -s -X POST \"$BASE_URL/v1/context\" \\\n    -H \"Content-Type: application/json\" \\\n    -d \"$(jq -n \\\n      --arg q \"$query\" \\\n      --arg s \"$SCOPE_ID\" \\\n      --argjson eg \"$expand_graph\" \\\n      '{query: $q, scope_id: $s, limit: 10, expand_graph: $eg}'\n    )\"\n}\n\nfor i in \"${!QUERIES[@]}\"; do\n  n=$((i + 1))\n  query=\"${QUERIES[$i]}\"\n  echo \"\"\n  echo \"Query $n: ${query:0:70}...\"\n\n  echo \"  → vector-only...\"\n  run_query \"$query\" false | jq '.' > \"$RESULTS_DIR/query-${n}-vector.json\"\n\n  echo \"  → graph-expanded...\"\n  run_query \"$query\" true  | jq '.' > \"$RESULTS_DIR/query-${n}-graph.json\"\n\n  echo \"  → saved\"\ndone\n\n\n# ── Build summary.json ──────────────────────────────────────────────────\nphase \"Phase 7: Building summary\"\n\nGIT_SHA=\"$(cd \"$REPO_ROOT\" && git rev-parse --short HEAD 2>/dev/null || echo \"unknown\")\"\n",
+  "source_version": "docs/rfcs/2026-03-03-benchmark-script-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464025321Z",
+  "valid_from": "2026-03-31T13:20:59.464025321Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-03-benchmark-script-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 148,
+    "end_line": 188,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

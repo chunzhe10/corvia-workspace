@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f836-7610-b605-bf3edfd46f18",
+  "content": "  };\n        let score = compute_retention_score(&params);\n        // D = (1+0)^(-0.6) = 1.0, A = 0, G = 0, C = 0.7\n        // score = 0.35*1.0 + 0 + 0 + 0.15*0.7 = 0.455\n        assert!(approx_eq(score, 0.455, 0.01), \"Expected ~0.455, got {score}\");\n    }\n\n    #[test]\n    fn test_never_accessed_entry_access_is_zero() {\n        assert_eq!(access_component(0, None), 0.0);\n        assert_eq!(access_component(100, None), 0.0);\n    }\n\n    #[test]\n    fn test_access_increases_score() {\n        let base = RetentionParams {\n            memory_type: MemoryType::Episodic,\n            days_since_creation: 10.0,\n            confidence: Some(0.7),\n            ..Default::default()\n        };\n        let with_access = RetentionParams {\n            access_count: 10,\n            days_since_access: Some(1.0),\n            ..base\n        };\n        assert!(compute_retention_score(&with_access) > compute_retention_score(&base));\n    }\n\n    #[test]\n    fn test_nan_days_since_creation_returns_zero() {\n        let params = RetentionParams {\n            days_since_creation: f64::NAN,\n            ..Default::default()\n        };\n        let score = compute_retention_score(&params);\n        assert!(!score.is_nan(), \"NaN should not propagate\");\n        assert!(score >= 0.0);\n    }\n\n    #[test]\n    fn test_nan_days_since_access_returns_valid() {\n        let params = RetentionParams {\n            access_count: 5,",
+  "source_version": "crates/corvia-kernel/src/scoring.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.446500482Z",
+  "valid_from": "2026-03-31T13:20:59.446500482Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/scoring.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 484,
+    "end_line": 521,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

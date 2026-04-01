@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82e-71f3-920f-9646b3080d7a",
+  "content": ": {e}\"))\n        })?;\n        let (chunks, relations) = guard.chunk(source, meta).map_err(|e| {\n            corvia_common::errors::CorviaError::Ingestion(format!(\"Adapter chunk failed: {e}\"))\n        })?;\n        Ok(ChunkResult { chunks, relations })\n    }\npub fn register_adapter_chunking(\n    registry: &mut FormatRegistry,\n    adapter: Arc<Mutex<ProcessAdapter>>,\n    chunking_extensions: &[String],\n) {\n    if chunking_extensions.is_empty() {\n        return;\n    }\n    let strategy = Arc::new(ProcessChunkingStrategy::new(adapter));\n    for ext in chunking_extensions {\n        registry.register_override(ext, Arc::clone(&strategy) as Arc<dyn ChunkingStrategy>);\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/chunking_pipeline.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.438976489Z",
+  "valid_from": "2026-03-31T13:20:59.438976489Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_pipeline.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 693,
+    "end_line": 705,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

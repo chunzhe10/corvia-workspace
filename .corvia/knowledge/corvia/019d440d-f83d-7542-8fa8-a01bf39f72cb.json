@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83d-7542-8fa8-a01bf39f72cb",
+  "content": " a known source file extension\n        const KNOWN_EXTENSIONS: &[&str] = &[\n            \".rs\", \".ts\", \".tsx\", \".js\", \".jsx\", \".py\",\n            \".toml\", \".yaml\", \".yml\", \".json\", \".md\",\n        ];\n        KNOWN_EXTENSIONS.iter().any(|ext| s.ends_with(ext))\n    }\n\n    /// Find which chunk a given line number falls in.\n    fn find_chunk_for_line(chunks: &[RawChunk], line: u32) -> Option<&RawChunk> {\n        chunks.iter().find(|c| line >= c.start_line && line <= c.end_line)\n            .or_else(|| chunks.last()) // fallback to last chunk if line is after all chunks\n    }\n}\n```\n\n**Step 3: Update `chunk()` to call `extract_references`**\n\nReplace line 135 in `chunking_markdown.rs`:\n```rust\n// Old:\nOk(ChunkResult { chunks, relations: vec![] })\n\n// New:\nlet relations = Self::extract_references(source, &chunks, meta);\nOk(ChunkResult { chunks, relations })\n```\n\n**Step 4: Add tests**\n\nAdd to the existing test module in `chunking_markdown.rs`:\n\n```rust\n#[test]\nfn test_extract_code_span_references() {\n    let source = \"# Storage\\n\\nThe `QueryableStore` trait defines the interface.\\n\";\n    let meta = SourceMetadata {\n        file_path: \"docs/storage.md\".into(),\n        extension: \"md\".into(),\n        ..Default::default()",
+  "source_version": "docs/rfcs/2026-03-04-m3.4-graph-edge-improvements-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.453562430Z",
+  "valid_from": "2026-03-31T13:20:59.453562430Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-04-m3.4-graph-edge-improvements-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 898,
+    "end_line": 931,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

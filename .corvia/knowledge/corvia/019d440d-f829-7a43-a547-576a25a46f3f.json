@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f829-7a43-a547-576a25a46f3f",
+  "content": "fn context_window(&self) -> usize {\n            4096\n        }\nasync fn setup_coordinator(\n        dir: &std::path::Path,\n    ) -> (Arc<dyn QueryableStore>, AgentCoordinator) {\n        let store = Arc::new(LiteStore::open(dir, 3).unwrap()) as Arc<dyn QueryableStore>;\n        let engine = Arc::new(MockEngine) as Arc<dyn InferenceEngine>;\n        store.init_schema().await.unwrap();\n        let gen_engine = Arc::new(MockGenEngine) as Arc<dyn GenerationEngine>;\n\n        let coord = AgentCoordinator::new(\n            store.clone(),\n            engine,\n            dir,\n            AgentLifecycleConfig::default(),\n            MergeConfig::default(),\n            gen_engine,\n        )\n        .unwrap();\n\n        (store, coord)\n    }",
+  "source_version": "crates/corvia-kernel/src/ops.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.433186470Z",
+  "valid_from": "2026-03-31T13:20:59.433186470Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ops.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 599,
+    "end_line": 618,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

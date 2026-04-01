@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f822-7391-83ed-30f6c743bc7a",
+  "content": " serde_json::to_string(&resp).unwrap();\n        assert!(!json.contains(\"traces\"));\n        // Coverage fields should be present as null\n        assert!(json.contains(\"\\\"index_coverage\\\":null\"));\n        assert!(json.contains(\"\\\"index_stale\\\":null\"));\n    }\nfn gpu_status_response_serializes() {\n        let resp = GpuStatusResponse {\n            gpus: vec![\n                GpuInfo {\n                    index: 0,\n                    name: \"NVIDIA GeForce RTX 4090\".to_string(),\n                    vendor: \"nvidia\".to_string(),\n                    utilization_pct: Some(45),\n                    memory_used_mb: Some(2048),\n                    memory_total_mb: Some(24576),\n                    temperature_c: Some(65),\n                    power_draw_w: None,\n                    power_limit_w: None,\n                    processes: None,\n                    render_busy_pct: None,\n                    video_busy_pct: None,\n                    frequency_mhz: None,\n                    frequency_max_mhz: None,\n                },\n                GpuInfo {\n                    index: 1,\n                    name: \"Intel UHD 770\".to_string(),\n                    vendor: \"intel\".to_string(),\n                    utilization_pct: None,\n                    memory_used_mb: None,\n                    memory_total_mb: None,\n                    temperature_c: None,\n                    power_draw_w: None,\n                    power_limit_w: None,",
+  "source_version": "crates/corvia-common/src/dashboard.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.426035550Z",
+  "valid_from": "2026-03-31T13:20:59.426035550Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/dashboard.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 538,
+    "end_line": 566,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

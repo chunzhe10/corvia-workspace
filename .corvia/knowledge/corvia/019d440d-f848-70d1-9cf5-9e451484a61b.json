@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9e451484a61b",
+  "content": "Run tests**\n\nRun: `cargo test -p corvia-kernel --lib traits`\nExpected: PASS (3 new tests)\n\n**Step 5: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/traits.rs\ngit commit -m \"feat(kernel): add GenerationEngine trait and ChatMessage types (D63)\"\n```\n\n---\n\n### Task F2: TokenEstimator Trait\n\n**Files:**\n- Create: `crates/corvia-kernel/src/token_estimator.rs`\n- Modify: `crates/corvia-kernel/src/lib.rs` (add module)\n\n**Unblocks:** M3.2 (StructuredAugmenter token budget), M3.3 (ChunkingPipeline budget enforcement)\n\n**Step 1: Write the failing test**\n\nCreate `crates/corvia-kernel/src/token_estimator.rs`:\n\n```rust\n/// Pluggable token estimation (shared by M3.2 RAG pipeline and M3.3 chunking).\n///\n/// Default implementation: chars / 4 heuristic. Swap in tiktoken or\n/// sentencepiece later without changing consumers.\npub trait TokenEstimator: Send + Sync {\n    fn estimate(&self, text: &str) -> usize;\n}\n\n/// Default estimator: character count divided by 4.\n/// Industry-standard heuristic for English text. Overestimates slightly\n/// for code (good — conservative budget enforcement).\npub struct CharDivFourEstimator;\n\nimpl TokenEstimator for CharDivFourEstimator {\n    fn estimate(&self, text: &str) -> usize {\n        // Minimum 1 token for non-empty strings\n        if text.is_empty() {\n            0\n        } else {\n            (text.len() / 4).max(1)\n        }\n    }\n}\n\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    #[test]\n    fn test_empty_string() {\n        let est = CharDivFourEstimator;\n        assert_eq!(est.estimate(\"\"), 0);\n    }\n\n    #[test]\n    fn test_short_string() {\n        let est = CharDivFourEstimator;",
+  "source_version": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464480034Z",
+  "valid_from": "2026-03-31T13:20:59.464480034Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 190,
+    "end_line": 239,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

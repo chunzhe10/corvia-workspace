@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0ed9d6ec05e3",
+  "content": "gold); }\n.metric-icon.mint { background: var(--mint-soft); color: var(--mint); }\n.metric-icon.peach { background: var(--peach-soft); color: var(--peach); }\n.metric-icon.lavender { background: var(--lavender-soft); color: var(--lavender); }\n\n.metric-label {\n  font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em;\n  color: var(--text-dim); font-weight: 600; margin-bottom: 4px;\n}\n.metric-row { display: flex; align-items: baseline; justify-content: space-between; }\n.metric-value {\n  font-size: 30px; font-weight: 800; color: var(--text-bright);\n  letter-spacing: -0.03em; font-variant-numeric: tabular-nums;\n}\n.metric-trend {\n  font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 99px;\n}\n.metric-trend.up { background: var(--mint-soft); color: var(--mint); }\n.metric-trend.neutral { background: var(--gold-soft); color: var(--gold); }\n.metric-trend.clear { background: var(--mint-medium); color: var(--mint); }\n\n/* ===== Workspace ===== */\n.workspace {\n  display: grid; grid-template-columns: 7fr 3fr; gap: 16px;\n  padding: 0 28px 28px; height: calc(100vh - 195px); min-height: 400px;\n}\n\n/* ===== Log Panel ===== */\n.log-panel {\n  background: var(--bg-card); border: 1px solid var(--border);\n  border-radius: var(--radius-xl); box-shadow: var(--shadow-card);\n  display: flex; flex-direction: column; overflow: hidden;\n}\n\n.view-tabs {",
+  "source_version": "docs/rfcs/2026-03-10-dashboard-redesign.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457821920Z",
+  "valid_from": "2026-03-31T13:20:59.457821920Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-dashboard-redesign.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 260,
+    "end_line": 288,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

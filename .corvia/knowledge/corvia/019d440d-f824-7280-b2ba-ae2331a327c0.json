@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f824-7280-b2ba-ae2331a327c0",
+  "content": "s.clone())\n        .unwrap_or_default();\n\n    generate_placement_hook(root, &rules, &allowed_subdirs)?;\n    generate_post_commit_hooks(root, ws)?;\n    merge_claude_settings(root)?;\n\n    println!(\"Generated enforcement hooks from corvia.toml\");\n    Ok(())\n}\nfn generate_placement_hook(\n    root: &Path,\n    rules: &DocsRulesConfig,\n    allowed_subdirs: &[String],\n) -> Result<()> {\n    let hook_dir = root.join(\".corvia/hooks\");\n    std::fs::create_dir_all(&hook_dir)\n        .map_err(|e| corvia_common::errors::CorviaError::Config(format!(\"Failed to create hooks dir: {e}\")))?;\n\n    // Sanitize blocked_paths: reject patterns with bash-unsafe characters\n    let safe_blocked: Vec<&str> = rules.blocked_paths.iter()\n        .filter(|p| {\n            let safe = !p.chars().any(|c| UNSAFE_BASH_CHARS.contains(&c));\n            if !safe {\n                eprintln!(\"  Warning: skipping unsafe blocked_path pattern: {:?}\", p);\n            }\n            safe\n        })\n        .map(|s| s.as_str())\n        .collect();\n\n    let blocked_cases: String = safe_blocked.iter()\n        .map(|p| format!(\n            \"  {})\\n    echo \\\"BLOCKED: file is in blocked path '{}'. Save product docs to repos/<repo>/docs/ instead.\\\" >&2\\n    exit 2\\n    ;;\",\n            p, p\n        ))\n        .collect::<Vec<_>>()\n        .join(\"\\n\");\n\n    // Build allow-list from config: repos/*/docs/* + docs/<subdir>/* for each allowed subdir\n    let mut allow_patterns = vec![\"repos/*/docs/*\".to_string()];\n    for subdir in allowed_subdirs {\n        // Sanitize subdir names too\n        if !subdir.chars().any(|c| UNSAFE_BASH_CHARS.contains(&c)) {\n            allow_patterns.push(format!(\"docs/{}/*\", subdir));\n        }\n    }\n    let allow_list = allow_patterns.join(\"|\");",
+  "source_version": "crates/corvia-cli/src/hooks/legacy.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.428900542Z",
+  "valid_from": "2026-03-31T13:20:59.428900542Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/legacy.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 38,
+    "end_line": 75,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

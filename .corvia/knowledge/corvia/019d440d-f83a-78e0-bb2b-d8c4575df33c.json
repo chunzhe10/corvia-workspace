@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83a-78e0-bb2b-d8c4575df33c",
+  "content": "pected_sources\": [\n      \"mcp\",\n      \"ARCHITECTURE\",\n      \"README\"\n    ],\n    \"found_sources\": [\n      \"crates/corvia-server/src/rest.rs\",\n      \"tests/introspect.toml\",\n      \"decisions/2026-03-13-docs-workflow-design.md\",\n      \"tests/introspect.toml\",\n      \"docs/rfcs/2026-02-28-introspect-implementation.md\",\n      \"crates/corvia-kernel/src/rag_types.rs\",\n      \"crates/corvia-server/src/mcp.rs\",\n      \"crates/corvia-common/src/errors.rs\",\n      \"crates/corvia-kernel/src/rag_types.rs\"\n    ],\n    \"fusion_latency_ms\": 0,\n    \"fusion_method\": \"passthrough\",\n    \"graph_expanded\": 1013,\n    \"id\": 10,\n    \"keyword_recall\": 1.0,\n    \"latency_ms\": 1121,\n    \"query\": \"What parameters does corvia_search accept: query, scope_id, limit?\",\n    \"recall_at_5\": 0.0,\n    \"reciprocal_rank\": 0.1429,\n    \"retriever_name\": \"pipeline\",\n    \"stages\": null,\n    \"top_5_files\": [\n      \"crates/corvia-server/src/rest.rs\",\n      \"tests/introspect.toml\",\n      \"decisions/2026-03-13-docs-workflow-design.md\",\n      \"tests/introspect.toml\",\n      \"docs/rfcs/2026-02-28-introspect-implementation.md\"\n    ],\n    \"vector_results\": 30\n  },\n  {\n    \"bm25_latency_ms\": null,\n    \"bm25_results\": null,\n    \"category\": \"api\",\n    \"expected_sources\": [\n      \"mcp\",\n      \"config\",\n      \"pipeline\"\n    ],\n    \"found_sources\": [\n      \"docs/rfcs/2026-03-12-inference-kv-cache-config-design.md\",",
+  "source_version": "benchmarks/rag-retrieval/results/vector-only.json",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.450200004Z",
+  "valid_from": "2026-03-31T13:20:59.450200004Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "benchmarks/rag-retrieval/results/vector-only.json",
+    "language": "json",
+    "chunk_type": "section",
+    "start_line": 424,
+    "end_line": 460,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f834-7df0-9fec-21a3dfb8b724",
+  "content": "fn test_truncate_long_text() {\n        let text = \"a\".repeat(5000);\n        let truncated = GrpcInferenceEngine::truncate(&text);\n        assert_eq!(truncated.len(), MAX_EMBED_CHARS);\n    }\nfn test_truncate_multibyte_utf8() {\n        // Each CJK character is 3 bytes. Build a string where the byte limit\n        // falls in the middle of a character — must not panic.\n        let text = \"\\u{4e16}\".repeat(2000); // 6000 bytes of 3-byte chars\n        let truncated = GrpcInferenceEngine::truncate(&text);\n        assert!(truncated.len() <= MAX_EMBED_CHARS);\n        // Must be a multiple of 3 (each char is 3 bytes) — proves we didn't split mid-char\n        assert_eq!(truncated.len() % 3, 0);\n    }",
+  "source_version": "crates/corvia-kernel/src/grpc_engine.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.444226680Z",
+  "valid_from": "2026-03-31T13:20:59.444226680Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/grpc_engine.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 121,
+    "end_line": 129,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

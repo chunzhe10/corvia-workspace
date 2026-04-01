@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f822-7391-83ed-30b8d21d2d24",
+  "content": "&status).unwrap();\n        assert!(json.contains(\"\\\"healthy\\\"\"));\n        assert!(json.contains(\"\\\"corvia-server\\\"\"));\n\n        let parsed: ServiceStatus = serde_json::from_str(&json).unwrap();\n        assert_eq!(parsed.state, ServiceState::Healthy);\n    }\nfn span_stats_default_is_zeroed() {\n        let stats = SpanStats::default();\n        assert_eq!(stats.count, 0);\n        assert_eq!(stats.avg_ms, 0.0);\n    }",
+  "source_version": "crates/corvia-common/src/dashboard.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.426012746Z",
+  "valid_from": "2026-03-31T13:20:59.426012746Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/dashboard.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 481,
+    "end_line": 485,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

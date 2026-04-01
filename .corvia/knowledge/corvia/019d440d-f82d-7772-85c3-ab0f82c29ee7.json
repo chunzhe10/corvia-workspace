@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82d-7772-85c3-ab0f82c29ee7",
+  "content": "    let dir = tempfile::tempdir().unwrap();\n        let pipeline = setup_pipeline(dir.path(), false).await;\n\n        let result = pipeline.ask(\"test query\", \"proj\", None).await;\n        assert!(result.is_err(), \"ask() without generator should fail\");\n    }\nasync fn test_pipeline_trace_has_uuid() {\n        let dir = tempfile::tempdir().unwrap();\n        let pipeline = setup_pipeline(dir.path(), false).await;\n\n        let resp1 = pipeline.context(\"query 1\", \"proj\", None).await.unwrap();\n        let resp2 = pipeline.context(\"query 2\", \"proj\", None).await.unwrap();\n\n        assert_ne!(\n            resp1.trace.trace_id, resp2.trace.trace_id,\n            \"each call should produce a unique trace_id\"\n        );\n    }",
+  "source_version": "crates/corvia-kernel/src/rag_pipeline.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.437642775Z",
+  "valid_from": "2026-03-31T13:20:59.437642775Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/rag_pipeline.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 389,
+    "end_line": 400,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f831-7562-9884-a9d20924de97",
+  "content": "ones\"\n            );\n        }\n\n        Ok(super::RetrievalPipeline::new(\n            searchers,\n            fusion,\n            expander,\n            reranker,\n            engine,\n            store,\n            config.searcher_timeout_ms,\n        ))\n    }\npub fn with_defaults() -> Self {\n        let mut searchers = ComponentRegistry::new();\n        searchers.register(\"vector\", |deps: &ComponentDeps| {\n            let store = deps.store.clone().ok_or_else(|| {\n                CorviaError::Config(\"VectorSearcher requires a store\".into())\n            })?;\n            let engine = deps.engine.clone().ok_or_else(|| {\n                CorviaError::Config(\"VectorSearcher requires an engine\".into())\n            })?;\n            Ok(Arc::new(VectorSearcher::new(store, engine)) as Arc<dyn Searcher>)\n        });\n\n        searchers.register(\"bm25\", |deps: &ComponentDeps| {\n            let fts = deps.fts.clone().ok_or_else(|| {\n                CorviaError::Config(\n                    \"BM25Searcher requires FullTextSearchable (run `corvia rebuild` to build text index)\".into(),\n                )\n            })?;\n            Ok(Arc::new(BM25Searcher::new(fts)) as Arc<dyn Searcher>)\n        });\n\n        searchers.register(\"multichannel\", |deps: &ComponentDeps| {\n            let store = deps.store.clone().ok_or_else(|| {\n                CorviaError::Config(\"MultiChannelSearcher requires a store\".into())\n            })?;\n            let fts = deps.fts.clone(); // Optional: BM25 channel degrades gracefully without FTS\n            Ok(Arc::new(MultiChannelSearcher::new(\n                store,\n                fts,\n                deps.channels.clone(),\n                deps.searcher_timeout_ms,",
+  "source_version": "crates/corvia-kernel/src/pipeline/registry.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.441275326Z",
+  "valid_from": "2026-03-31T13:20:59.441275326Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/registry.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 205,
+    "end_line": 235,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

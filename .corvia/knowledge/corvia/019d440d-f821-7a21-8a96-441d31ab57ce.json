@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f821-7a21-8a96-441d31ab57ce",
+  "content": "pub struct GcStatusResponse {\n    pub last_run: Option<GcReportDto>,\n    pub history: Vec<GcReportDto>,\n    pub scheduled: bool,\n}\npub struct TiersResponse {\n    pub hot: u64,\n    pub warm: u64,\n    pub cold: u64,\n    pub forgotten: u64,\n    pub total: u64,\n    pub forgetting_enabled: bool,\n}",
+  "source_version": "crates/corvia-common/src/dashboard.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.425834925Z",
+  "valid_from": "2026-03-31T13:20:59.425834925Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/dashboard.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 180,
+    "end_line": 187,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

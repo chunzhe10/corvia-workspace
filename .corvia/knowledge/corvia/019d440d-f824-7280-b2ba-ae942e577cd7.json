@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f824-7280-b2ba-ae942e577cd7",
+  "content": "cesses (reparented to init)\n        if ppid != 1 {\n            continue;\n        }\n\n        // Compute process age in seconds\n        let proc_uptime = if clock_ticks > 0 && uptime_secs > 0 {\n            uptime_secs.saturating_sub(start_time / clock_ticks)\n        } else {\n            0\n        };\n\n        // Read cmdline\n        let cmdline = read_cmdline(pid);\n        if cmdline.is_empty() {\n            continue;\n        }\n\n        // Check against patterns\n        for &(pattern, min_age) in ORPHAN_PATTERNS {\n            if proc_uptime < min_age {\n                continue;\n            }\n\n            let matches = if pattern == \"node\" {\n                // Special case: must contain both \"node\" and \"claude\"\n                cmdline.contains(\"node\") && cmdline.contains(\"claude\")\n            } else if pattern == \"vite\" {\n                cmdline.contains(\"node\") && cmdline.contains(\"vite\")\n            } else {\n                cmdline.contains(pattern)\n            };\n\n            if matches {\n                if !quiet {\n                    let cmd_preview: String = cmdline.chars().take(120).collect();\n                    eprintln!(\"  killing orphaned process: pid={pid} (uptime={proc_uptime}s)\");\n                    eprintln!(\"    cmd: {cmd_preview}\");\n                }\n                // SAFETY: pid > 0 checked by parse, not our own pid (checked above).\n                // TOCTOU: process may have exited between stat read and kill — ESRCH is benign.\n                let ret = unsafe { libc::kill(pid, libc::SIGTERM) };\n                if ret == 0 {\n                    killed += 1;\n                }\n                break;\n            }\n        }\n    }\n\n    // WSL-specific: drop filesystem caches under memory pressure\n    drop_caches_if_needed(quiet);\n\n    if !quiet {\n        if killed > 0 {\n            eprintln!(\"cleaned up {killed} orphaned process(es)\");\n        } else {\n            eprintln!(\"no orphaned processes found\");\n        }\n    }\n}",
+  "source_version": "crates/corvia-cli/src/hooks/cleanup.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.428970676Z",
+  "valid_from": "2026-03-31T13:20:59.428970676Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/cleanup.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 79,
+    "end_line": 131,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

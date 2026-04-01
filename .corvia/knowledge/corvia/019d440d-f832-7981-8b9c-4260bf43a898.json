@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f832-7981-8b9c-4260bf43a898",
+  "content": " entries without embeddings\");\n\n        // move_to_knowledge cleans up .vec file\n        staging.move_to_knowledge(&staging_dir, &entry_id, \"scope\").unwrap();\n        assert!(!vec_path.exists(), \".vec file should be removed after move_to_knowledge\");\n    }\nfn test_git_branch_lifecycle() {\n        let dir = tempfile::tempdir().unwrap();\n        // Initialize a git repo with a valid initial commit\n        std::process::Command::new(\"git\").args([\"init\"]).current_dir(dir.path()).output().unwrap();\n        std::process::Command::new(\"git\")\n            .args([\"-c\", \"user.name=test\", \"-c\", \"user.email=test@test.com\", \"commit\", \"--allow-empty\", \"-m\", \"init\"])\n            .current_dir(dir.path()).output().unwrap();\n\n        let staging = test_staging_in(dir.path());\n        staging.create_branch(\"agents/test/sess-abc\").unwrap();\n        staging.delete_branch(\"agents/test/sess-abc\").unwrap();\n    }",
+  "source_version": "crates/corvia-kernel/src/staging.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.442077866Z",
+  "valid_from": "2026-03-31T13:20:59.442077866Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/staging.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 321,
+    "end_line": 332,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f833-7c00-aaaa-adf4c82e27b9",
+  "content": "pub struct FallbackChunker {\n    max_tokens: usize,\n}\nimpl FallbackChunker {\n    /// Create a new `FallbackChunker` with the given per-chunk token budget.\n    pub fn new(max_tokens: usize) -> Self {\n        Self { max_tokens }\n    }\n\n    /// Estimate tokens using chars/4 heuristic.\n    fn estimate_tokens(text: &str) -> usize {\n        if text.is_empty() {\n            0\n        } else {\n            (text.len() / 4).max(1)\n        }\n    }\n\n    /// Recursively split `text` using the separator cascade.\n    ///\n    /// `sep_index` is the current position in [`SEPARATORS`]. Each piece that\n    /// fits within the budget is collected; oversized pieces recurse with the\n    /// next separator.\n    fn recursive_split(text: &str, max_tokens: usize, sep_index: usize) -> Vec<String> {\n        // Fits in budget — return as a single piece.\n        if Self::estimate_tokens(text) <= max_tokens {\n            return vec![text.to_owned()];\n        }\n\n        // No separators left — return as-is (the pipeline's split_oversized handles it).\n        let Some(&sep) = SEPARATORS.get(sep_index) else {\n            return vec![text.to_owned()];\n        };\n\n        let pieces: Vec<&str> = text.split(sep).collect();\n\n        // Separator not present — skip to the next finer separator.\n        if pieces.len() <= 1 {\n            return Self::recursive_split(text, max_tokens, sep_index + 1);\n        }\n\n        // Greedily accumulate consecutive pieces into chunks that fit the budget.\n        let mut result: Vec<String> = Vec::new();\n        let mut accumulator = String::new();\n\n        for (i, piece) in pieces.iter().enumerate() {\n            // Build the candidate: accumulator + sep + piece (or just piece if empty).",
+  "source_version": "crates/corvia-kernel/src/chunking_fallback.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.443981547Z",
+  "valid_from": "2026-03-31T13:20:59.443981547Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_fallback.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 30,
+    "end_line": 73,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

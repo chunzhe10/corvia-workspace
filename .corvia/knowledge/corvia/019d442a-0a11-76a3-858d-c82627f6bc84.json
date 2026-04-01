@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-c82627f6bc84",
+  "content": "## Problem\n## Proposed Change\n\n### What Changes\n\n1. **Serialization**: When writing JSON to disk, set `embedding: None`\n2. **Deserialization**: When reading JSON, `embedding` remains `Option<Vec<f32>>` (None)\n3. **Ingest pipeline**: After reading from JSON, re-embed if needed (lazy, on-demand)\n4. **`corvia rebuild`**: Already re-embeds from content — no change needed\n5. **HNSW + Redb**: Continue storing embeddings as before — they're the cache\n6. **Backward compatibility**: Old JSON files with embeddings still parse fine (Option field)\n\n\n### What Doesn't Change\n\n- `KnowledgeEntry` struct — `embedding` field stays as `Option<Vec<f32>>`\n- HNSW index — still stores vectors\n- Redb metadata — still maps entry_id → hnsw_id\n- `corvia rebuild` — already handles re-embedding from scratch\n- Search/retrieval — reads from HNSW, not JSON\n",
+  "source_version": "decisions/2026-03-19-json-embedding-exclusion-design.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025210536Z",
+  "valid_from": "2026-03-31T13:51:39.025210536Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-19-json-embedding-exclusion-design.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 23,
+    "end_line": 39,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f923bf75e24d",
+  "content": "div class=\"slide-label\">Claude Steps In</div>\n  <div class=\"slide-title\">Every Fix. <span class=\"highlight-red\">One Mistake.</span></div>\n  <div class=\"slide-subtitle\" style=\"margin-bottom: 24px;\">Claude solved each issue. Then got the big one wrong.</div>\n  <!-- Pipeline: Read → Search → Fix -->\n  <div style=\"display: flex; gap: 12px; align-items: stretch; margin-bottom: 24px;\">\n    <div class=\"pipeline-step\">\n      <div style=\"font-size: 32px; margin-bottom: 8px;\">📖</div>\n      <div style=\"font-size: 18px; font-weight: 700; color: var(--accent-blue);\">Read the error</div>\n      <div style=\"font-size: 15px; color: var(--text-muted); margin-top: 4px;\">Parse logs & messages</div>\n    </div>\n    <div style=\"display: flex; align-items: center; font-size: 24px; color: var(--text-muted);\">→</div>\n    <div class=\"pipeline-step\">\n      <div style=\"font-size: 32px; margin-bottom: 8px;\">🔍</div>\n      <div style=\"font-size: 18px; font-weight: 700; color: var(--accent-blue);\">Search known issues</div>\n      <div style=\"font-size: 15px; color: var(--text-muted); margin-top: 4px;\">Match against patterns</div>\n    </div>\n    <div style=\"display: flex; align-items: center; font-size: 24px; color: var(--text-muted);\">→</div>\n    <div class=\"pipeline-step\">\n      <div style=\"font-size: 32px; margin-bottom: 8px;\">🔧</div>\n      <div style=\"font-size: 18px; font-weight: 700; color: var(--accent-blue);\">Write the fix</div>\n      <div style=\"font-size: 15px; color: var(--text-muted); margin-top: 4px;\">Apply & verify</div>\n    </div>\n    <div style=\"display: flex; align-items: center; font-size: 24px; color: var(--text-muted);\">→</div>\n    <div class=\"pipeline-step\" style=\"border-color: var(--accent-green);\">\n      <div style=\"font-size: 32px; margin-bottom: 8px;\">✅</div>\n      <div style=\"font-size: 18px; font-weight: 700; color: var(--accent-green);\">Repeat</div>\n      <div style=\"font-size: 15px; color: var(--text-muted); margin-top: 4px;\">Next issue</div>\n    </div>\n  </div>\n\n  <div style=\"font-size: 20px; color: var(--text-muted); text-align: center; margin-bottom: 20px; font-style: italic;\">\n    Each fix revealed the next issue. Wayland kept being the common thread. Then came the big one.\n  </div>",
+  "source_version": "marketing/linkedin/2026-03-14-resolve-linux-setup/resolve-linux-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028726100Z",
+  "valid_from": "2026-03-31T13:51:39.028726100Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-14-resolve-linux-setup/resolve-linux-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 471,
+    "end_line": 500,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

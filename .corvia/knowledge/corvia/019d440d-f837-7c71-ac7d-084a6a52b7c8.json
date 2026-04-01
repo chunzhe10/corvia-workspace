@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f837-7c71-ac7d-084a6a52b7c8",
+  "content": "\n        assert!(report.hnsw_rebuild_triggered, \"HNSW rebuild should be triggered on Warm→Cold\");\n\n        // Verify entry is now Cold\n        let updated = store.get(&entry.id).await.unwrap().unwrap();\n        assert_eq!(updated.tier, Tier::Cold);\n    }\nasync fn test_gc_cycle_cold_to_warm_promotion() {\n        let dir = tempfile::tempdir().unwrap();\n        let store = Arc::new(crate::lite_store::LiteStore::open(dir.path(), 768).unwrap());\n        store.init_schema().await.unwrap();\n\n        // Insert a Cold entry with very high score (should promote Cold → Warm)\n        let mut entry = make_entry(Tier::Cold, MemoryType::Structural);\n        entry.scope_id = \"test-scope\".into();\n        entry.recorded_at = Utc::now(); // fresh\n        entry.embedding = Some(vec![0.1; 768]);\n        entry.access_count = 80;\n        entry.last_accessed = Some(Utc::now());\n        entry.confidence = Some(0.95);\n        entry.tier = Tier::Cold;\n\n        crate::knowledge_files::write_entry(dir.path(), &entry).unwrap();\n        store.insert(&entry).await.unwrap();\n\n        let graph: Arc<dyn GraphStore> = store.clone();\n        let store_q: Arc<dyn QueryableStore> = store.clone();\n\n        let config = ForgettingConfig {\n            enabled: true,\n            ..Default::default()\n        };\n\n        let report = run_gc_cycle(&store_q, &graph, dir.path(), Some(&config), &HashMap::new(), None)\n            .await\n            .unwrap();\n\n        assert_eq!(report.cold_to_warm, 1, \"Expected Cold→Warm promotion\");\n\n        let updated = store.get(&entry.id).await.unwrap().unwrap();\n        assert_eq!(updated.tier, Tier::Warm, \"Cold entry with high score should promote to Warm\");\n    }",
+  "source_version": "crates/corvia-kernel/src/gc_worker.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.447815096Z",
+  "valid_from": "2026-03-31T13:20:59.447815096Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/gc_worker.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1384,
+    "end_line": 1418,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

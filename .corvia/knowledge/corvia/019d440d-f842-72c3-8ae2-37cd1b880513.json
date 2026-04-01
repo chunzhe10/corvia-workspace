@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-37cd1b880513",
+  "content": "> Result<Response<ModelInfoResponse>, Status> {\n        let name = req.into_inner().model;\n        let models = self.models.read().await;\n        let loaded = models.contains_key(&name);\n        Ok(Response::new(ModelInfoResponse {\n            model: name,\n            dimensions: 768, // TODO: get from loaded model\n            loaded,\n        }))\n    }\n}\n```\n\n**Step 3: Wire into main.rs and model_manager**\n\nIn `crates/corvia-inference/src/main.rs`, add:\n```rust\nmod embedding_service;\nuse corvia_proto::embedding_service_server::EmbeddingServiceServer;\n```\n\nUpdate the server builder:\n```rust\nlet embed_svc = embedding_service::EmbeddingServiceImpl::new();\n\nServer::builder()\n    .add_service(ModelManagerServer::new(model_mgr))\n    .add_service(EmbeddingServiceServer::new(embed_svc))\n    .serve(addr)\n    .await?;\n```\n\n**Step 4: Verify it compiles**\n\nRun: `cargo build -p corvia-inference`\nExpected: SUCCESS.\n\n**Step 5: Commit**\n\n```bash\ngit add crates/corvia-inference/\ngit commit -m \"feat(d60): implement EmbeddingService with fastembed ONNX backend\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458739897Z",
+  "valid_from": "2026-03-31T13:20:59.458739897Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1363,
+    "end_line": 1402,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

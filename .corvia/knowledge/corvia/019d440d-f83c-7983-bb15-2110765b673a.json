@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-2110765b673a",
+  "content": "### Task 7: Add `corvia demo` CLI Subcommand (Interactive REPL)\n\n        }\n        println!();\n    }\n}\n```\n\nUpdate `cmd_search` to use `print_search_results(&results)` instead of the inline formatting.\n\n**Step 2: Implement `cmd_demo`**\n\n```rust\nasync fn cmd_demo(keep: bool) -> Result<()> {\n    let config = CorviaConfig::default().with_env_overrides();\n    let docker = DockerProvisioner::new()?;\n\n    let introspect = Introspect::from_file_or_default(\n        std::path::Path::new(\"tests/introspect.toml\"),\n    );\n\n    // Phase 1: Check + auto-provision\n    println!(\"  Checking environment...\");\n    let env_status = introspect.check_env(&docker).await;\n    for (service, running) in &env_status {\n        if !*running {\n            print!(\"    {service}: provisioning...\");\n            match *service {\n                \"SurrealDB\" => docker.start(&config.storage.surrealdb_user, &config.storage.surrealdb_pass).await?,\n                \"vLLM\" => docker.start_vllm(&config.embedding.model).await?,\n                _ => {}\n            }\n            println!(\" done\");\n        } else {\n            println!(\"    {service}: running\");\n        }\n    }\n\n    // Phase 2: Self-ingest\n    let store = SurrealStore::connect(\n        &config.storage.surrealdb_url,",
+  "source_version": "docs/rfcs/2026-02-28-introspect-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452359432Z",
+  "valid_from": "2026-03-31T13:20:59.452359432Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-introspect-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 995,
+    "end_line": 1033,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

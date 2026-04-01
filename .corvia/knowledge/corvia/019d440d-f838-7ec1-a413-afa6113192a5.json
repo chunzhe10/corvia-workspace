@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f838-7ec1-a413-afa6113192a5",
+  "content": "milarity > threshold in the same scope.\n    #[tracing::instrument(name = \"corvia.merge.conflict\", skip(self, entry), fields(entry_id = %entry.id, scope_id = %entry.scope_id))]\n    pub async fn detect_conflict(\n        &self,\n        entry: &KnowledgeEntry,\n    ) -> Result<Option<KnowledgeEntry>> {\n        // Read embedding from VECTORS table (primary) or entry field (legacy fallback)\n        let stored_embedding = self.store.get_embedding(&entry.id).await?;\n        let embedding = stored_embedding.as_deref()\n            .or(entry.embedding.as_deref())\n            .ok_or_else(|| CorviaError::Agent(\"Entry has no embedding for conflict detection\".into()))?;\n\n        // Search for similar entries in the same scope\n        let results = self.store.search(embedding, &entry.scope_id, 5).await?;\n\n        for result in results {\n            // Skip self\n            if result.entry.id == entry.id {\n                continue;\n            }\n            // Only compare against Merged entries\n            if result.entry.entry_status != EntryStatus::Merged {\n                continue;\n            }\n            // Check similarity threshold\n            if result.score > self.merge_config.similarity_threshold {\n                return Ok(Some(result.entry));\n            }\n        }\n        Ok(None)\n    }\n\n    /// Auto-merge: move staging file to knowledge/, update entry status to Merged.\n    async fn auto_merge(&self, entry: &KnowledgeEntry, session_id: &str) -> Result<()> {\n        // Move staging file to knowledge/\n        self.move_to_knowledge_if_staged(entry, session_id)?;\n\n        // Update entry status to Merged in the store",
+  "source_version": "crates/corvia-kernel/src/merge_worker.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.448694528Z",
+  "valid_from": "2026-03-31T13:20:59.448694528Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/merge_worker.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 166,
+    "end_line": 198,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

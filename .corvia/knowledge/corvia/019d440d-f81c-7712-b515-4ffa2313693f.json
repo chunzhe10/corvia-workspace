@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81c-7712-b515-4ffa2313693f",
+  "content": "                continue;\n            }\n\n            let Ok(source) = std::fs::read_to_string(file_path) else {\n                debug!(\n                    \"Skipping binary or unreadable file: {}\",\n                    file_path.display()\n                );\n                continue;\n            };\n\n            if source.len() > 100_000 {\n                warn!(\n                    \"Skipping large file ({}KB): {}\",\n                    source.len() / 1024,\n                    file_path.display()\n                );\n                continue;\n            }\n\n            let relative_path = file_path\n                .strip_prefix(path)\n                .unwrap_or(file_path)\n                .to_string_lossy()\n                .to_string();\n\n            let chunk_offset = entries.len();\n            let result =\n                treesitter::chunk_file_with_relations(&relative_path, &source, extension);\n\n            for chunk in &result.chunks {\n                entries.push(chunk.to_knowledge_entry(&scope_id, &source_version));\n            }\n\n            // Offset relation indices by the number of entries collected before this file\n            for mut relation in result.relations {\n                relation.from_chunk_index += chunk_offset;\n                all_relations.push(relation);\n            }\n        }\n\n        info!(\n            \"Ingested {} chunks and {} relations from {}\",\n            entries.len(),\n            all_relations.len(),\n            source_path\n        );\n        Ok(IngestionResult {\n            entries,\n            relations: all_relations,\n        })\n    }",
+  "source_version": "adapters/corvia-adapter-git/rust/src/git.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.420939723Z",
+  "valid_from": "2026-03-31T13:20:59.420939723Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-git/rust/src/git.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 196,
+    "end_line": 239,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

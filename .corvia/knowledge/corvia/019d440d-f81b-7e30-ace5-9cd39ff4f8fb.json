@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81b-7e30-ace5-9cd39ff4f8fb",
+  "content": "            file_path.to_string()\n        };\n\n        relations.push(CodeRelation {\n            from_chunk_index: owner_idx,\n            relation: \"calls\".to_string(),\n            to_file,\n            to_name: Some(fn_name.to_string()),\n        });\n    }\n}\nfn collect_call_expressions<'a>(node: &Node<'a>, results: &mut Vec<Node<'a>>, depth: usize) {\n    if depth > 20 {\n        return;\n    }\n    if node.kind() == \"call_expression\" {\n        results.push(*node);\n    }\n    let mut cursor = node.walk();\n    if cursor.goto_first_child() {\n        loop {\n            collect_call_expressions(&cursor.node(), results, depth + 1);\n            if !cursor.goto_next_sibling() {\n                break;\n            }\n        }\n    }\n}",
+  "source_version": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.419803105Z",
+  "valid_from": "2026-03-31T13:20:59.419803105Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 493,
+    "end_line": 509,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

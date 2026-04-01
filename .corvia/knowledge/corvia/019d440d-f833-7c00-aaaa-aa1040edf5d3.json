@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f833-7c00-aaaa-aa1040edf5d3",
+  "content": "entry.clone();\n                entry.embedding = Some(embedding);\n                store.insert(&entry).await?;\n                stored += 1;\n            }\n        }\n        info!(\"{stored}/{total} source files embedded and stored\");\n        Ok(stored)\n    }\npub async fn query_self(\n        &self,\n        engine: &dyn InferenceEngine,\n        store: &dyn QueryableStore,\n    ) -> Result<Vec<QueryResult>> {\n        let mut results = Vec::new();\n        let default_min = self.config.config.default_min_score;\n\n        for query in &self.config.query {\n            let embedding = engine.embed(&query.text).await?;\n            let search_results = store.search(\n                &embedding,\n                &self.config.config.scope_id,\n                1,\n            ).await?;\n\n            let (actual_file, score) = if let Some(top) = search_results.first() {\n                let file = top.entry.metadata.source_file.clone();\n                (file, top.score as f64)\n            } else {\n                (None, 0.0)\n            };\n\n            results.push(QueryResult {\n                query_text: query.text.clone(),\n                expect_file: query.expect_file.clone(),\n                actual_file,\n                score,\n                min_score: query.effective_min_score(default_min),\n            });\n        }\n\n        Ok(results)\n    }",
+  "source_version": "crates/corvia-kernel/src/introspect.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.443415405Z",
+  "valid_from": "2026-03-31T13:20:59.443415405Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/introspect.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 264,
+    "end_line": 297,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

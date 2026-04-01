@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83a-78e0-bb2b-d7cd4b96ec8b",
+  "content": "026-03-10-m4-observability-control-plane-design.md\",\n      \"docs/rfcs/2026-03-04-m4-control-plane-research.md\",\n      \"crates/corvia-kernel/src/rag_pipeline.rs\"\n    ],\n    \"vector_results\": 60\n  },\n  {\n    \"bm25_latency_ms\": null,\n    \"bm25_results\": null,\n    \"category\": \"api\",\n    \"expected_sources\": [\n      \"server\",\n      \"rest\",\n      \"README\"\n    ],\n    \"found_sources\": [\n      \"docs/rfcs/2026-03-11-dashboard-api-rust.md\",\n      \"docs/rfcs/2026-03-02-m3.2-rag-pipeline-design.md\",\n      \"crates/corvia-server/README.md\",\n      \"crates/corvia-cli/README.md\",\n      \"docs/rfcs/2026-03-11-standalone-dashboard-design.md\",\n      \"crates/corvia-server/src/rest.rs\",\n      \"crates/corvia-server/Cargo.toml\",\n      \"crates/corvia-server/src/rest.rs\",\n      \"docs/rfcs/2026-03-10-m4-observability-control-plane-design.md\",\n      \"docs/rfcs/2026-03-01-m2-agent-coordination.md\"\n    ],\n    \"fusion_latency_ms\": 0,\n    \"fusion_method\": \"rrf\",\n    \"graph_expanded\": 968,\n    \"id\": 12,\n    \"keyword_recall\": 1.0,\n    \"latency_ms\": 1598,\n    \"query\": \"What REST endpoints does the corvia server expose for health and context?\",\n    \"recall_at_5\": 0.6667,\n    \"reciprocal_rank\": 0.3333,\n    \"retriever_name\": \"pipeline\",\n    \"stages\": null,\n    \"top_5_files\": [\n      \"docs/rfcs/2026-03-11-dashboard-api-rust.md\",\n      \"docs/rfcs/2026-03-02-m3.2-rag-pipeline-design.md\",\n      \"crates/corvia-server/README.md\",\n      \"crates/corvia-cli/README.md\",\n      \"docs/rfcs/2026-03-11-standalone-dashboard-design.md\"\n    ],",
+  "source_version": "benchmarks/rag-retrieval/results/hybrid-rrf.json",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.450024402Z",
+  "valid_from": "2026-03-31T13:20:59.450024402Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "benchmarks/rag-retrieval/results/hybrid-rrf.json",
+    "language": "json",
+    "chunk_type": "section",
+    "start_line": 492,
+    "end_line": 527,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

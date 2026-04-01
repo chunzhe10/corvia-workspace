@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-3e227b5c4132",
+  "content": "create_dir_all(&dir);\n        unsafe { libc::umask(old_umask) };\n        result?;\n        // Ensure 0700 even if directory pre-existed with different permissions\n        fs::set_permissions(&dir, fs::Permissions::from_mode(0o700))?;\n        Ok(dir)\n    }\n}\nfn from_home() -> Self {\n        let home = std::env::var(\"HOME\").unwrap_or_else(|_| \"/root\".into());\n        let home = PathBuf::from(home);\n        Self {\n            staging_root: home.join(\".corvia/staging/agent-teams\"),\n            claude_tasks: home.join(\".claude/tasks\"),\n            claude_teams: home.join(\".claude/teams\"),\n        }\n    }",
+  "source_version": "crates/corvia-cli/src/hooks/agent_teams.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429066106Z",
+  "valid_from": "2026-03-31T13:20:59.429066106Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/agent_teams.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 37,
+    "end_line": 45,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

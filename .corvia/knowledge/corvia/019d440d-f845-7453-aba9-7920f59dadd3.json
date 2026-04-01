@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-7920f59dadd3",
+  "content": "## Task 3: GenerationEngine Trait\n\n```\n\n**Step 2: Run test to verify it fails**\n\nRun: `cargo test -p corvia-kernel -- traits::tests::test_generation_engine_mock --nocapture`\nExpected: FAIL — `GenerationEngine` not found\n\n**Step 3: Add GenerationEngine trait**\n\nAdd to `crates/corvia-kernel/src/traits.rs`, after the `GraphStore` trait (after line 116):\n\n```rust\n/// Generation engine for producing text from a prompt (D63).\n/// Named GenerationEngine (capability) not ChatEngine (protocol).\n/// D60 proto service stays ChatService — this trait wraps it.\n#[async_trait]\npub trait GenerationEngine: Send + Sync {\n    /// Identifier for metrics attribution and eval benchmarking.\n    fn name(&self) -> &str;\n\n    /// Generate a text response from a system prompt and user message.\n    async fn generate(\n        &self,\n        system_prompt: &str,\n        user_message: &str,\n    ) -> Result<crate::rag_types::GenerationResult>;\n\n    /// Return the model's context window size in tokens.\n    fn context_window(&self) -> usize;\n}\n```\n\n**Step 4: Run test to verify it passes**\n\nRun: `cargo test -p corvia-kernel -- traits::tests::test_generation_engine_mock --nocapture`\nExpected: PASS\n\n**Step 5: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/traits.rs\ngit commit -m \"feat(m3.2): GenerationEngine trait (D63) — name, generate, context_window\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461778141Z",
+  "valid_from": "2026-03-31T13:20:59.461778141Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 402,
+    "end_line": 447,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f829-7a43-a547-5a362a73581e",
+  "content": "pub fn record(&self, signal: GapSignal) {\n        let mut signals = self.signals.lock().unwrap();\n        if signals.len() >= MAX_SIGNALS {\n            signals.pop_front();\n        }\n        signals.push_back(signal);\n    }\npub fn len(&self) -> usize {\n        self.signals.lock().unwrap().len()\n    }\npub fn is_empty(&self) -> bool {\n        self.signals.lock().unwrap().is_empty()\n    }",
+  "source_version": "crates/corvia-kernel/src/gap_detector.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.433487807Z",
+  "valid_from": "2026-03-31T13:20:59.433487807Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/gap_detector.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 64,
+    "end_line": 71,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

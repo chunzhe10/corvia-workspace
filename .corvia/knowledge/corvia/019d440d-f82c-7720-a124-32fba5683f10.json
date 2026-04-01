@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82c-7720-a124-32fba5683f10",
+  "content": "ove() for a given key will re-insert it,\n        // and that entry will be picked up by the next flush cycle.\n        let keys: Vec<uuid::Uuid> = self.pending.iter().map(|r| *r.key()).collect();\n\n        if keys.is_empty() {\n            return 0;\n        }\n\n        let batch: Vec<(uuid::Uuid, BufferedAccess)> = keys\n            .into_iter()\n            .filter_map(|id| self.pending.remove(&id))\n            .collect();\n\n        if batch.is_empty() {\n            return 0;\n        }\n\n        let write_txn = match db.begin_write() {\n            Ok(txn) => txn,\n            Err(e) => {\n                warn!(error = %e, \"AccessBuffer: failed to begin write txn for flush\");\n                // Re-insert entries so they aren't lost.\n                for (id, ba) in batch {\n                    self.pending.entry(id).or_insert(ba);\n                }\n                return 0;\n            }\n        };\n\n        let mut success_count = 0usize;\n\n        {\n            let mut entries_table = match write_txn.open_table(ENTRIES) {\n                Ok(t) => t,\n                Err(e) => {\n                    warn!(error = %e, \"AccessBuffer: failed to open ENTRIES for flush\");\n                    for (id, ba) in batch {",
+  "source_version": "crates/corvia-kernel/src/access_buffer.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.436428718Z",
+  "valid_from": "2026-03-31T13:20:59.436428718Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/access_buffer.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 177,
+    "end_line": 206,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-22141bbc90f6",
+  "content": "ry(&self.data_dir, &old_entry)?;\n\n    Ok(())\n}\n```\n\n**Step 4: Implement `history`**\n\nReplace the `todo!()` in the `TemporalStore` impl:\n\n```rust\nasync fn history(&self, entry_id: &uuid::Uuid) -> Result<Vec<KnowledgeEntry>> {\n    let mut chain = Vec::new();\n    let mut current_id = *entry_id;\n\n    // Walk forward from this entry to find the newest in the chain\n    loop {\n        let entry = self.get(&current_id).await?\n            .ok_or_else(|| CorviaError::Storage(format!(\"Entry {} not found in chain\", current_id)))?;\n        chain.push(entry.clone());\n\n        // Follow superseded_by backward: find who superseded the current entry's predecessor\n        // Actually, we need to walk the chain. Start from given entry, find older entries.\n        break;\n    }\n\n    // Now walk backward via superseded_by from the starting entry\n    chain.clear();\n    let start = self.get(entry_id).await?\n        .ok_or_else(|| CorviaError::Storage(format!(\"Entry {} not found\", entry_id)))?;\n    chain.push(start.clone());\n\n    // Walk backward: find entries whose superseded_by == current\n    // Since superseded_by points forward (old → new), we need to find entries that were superseded BY this one\n    // Actually: old_entry.superseded_by = new_id. So to go backward from new_id, we search for entries where superseded_by == entry_id\n\n    // For history starting from newest: find older entries by scanning ENTRIES for superseded_by chains\n    // More efficient: use entry's own data. Start entry might have no superseded_by (it's newest).\n    // Walk: find entry where superseded_by == entry_id (that's the predecessor).\n\n    // Simple approach: scan entries looking for superseded_by matches",
+  "source_version": "docs/rfcs/2026-03-02-m3-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452542503Z",
+  "valid_from": "2026-03-31T13:20:59.452542503Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 437,
+    "end_line": 464,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

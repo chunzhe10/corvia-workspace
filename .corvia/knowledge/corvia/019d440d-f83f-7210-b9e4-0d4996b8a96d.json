@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83f-7210-b9e4-0d4996b8a96d",
+  "content": "## Chunk 1: Shared Infrastructure — Enhanced GcReport\n\n### Task 1: Expand GcReport struct\n\n**Files:**\n- Modify: `crates/corvia-kernel/src/agent_coordinator.rs:28-31`\n\n- **Step 1: Write the failing test**\n\nIn the existing `#[cfg(test)] mod tests` at the bottom of `agent_coordinator.rs`, add:\n\n```rust\n#[test]\nfn test_gc_report_has_enhanced_fields() {\n    let report = GcReport {\n        orphans_rolled_back: 1,\n        duration_ms: 150,\n        stale_transitioned: 2,\n        closed_sessions_cleaned: 3,\n        agents_suspended: 0,\n        entries_deduplicated: 0,\n        started_at: \"2026-03-14T00:00:00Z\".to_string(),\n    };\n    assert_eq!(report.orphans_rolled_back, 1);\n    assert_eq!(report.duration_ms, 150);\n    assert_eq!(report.stale_transitioned, 2);\n    assert_eq!(report.closed_sessions_cleaned, 3);\n    assert_eq!(report.started_at, \"2026-03-14T00:00:00Z\");\n}\n```\n\n- **Step 2: Run test to verify it fails**\n\nRun: `cd /workspaces/corvia-workspace/repos/corvia && cargo test -p corvia-kernel test_gc_report_has_enhanced_fields 2>&1 | tail -20`\nExpected: FAIL — `GcReport` has no field named `duration_ms`, etc.\n\n- **Step 3: Expand GcReport struct**\n\nIn `crates/corvia-kernel/src/agent_coordinator.rs`, replace the existing `GcReport` (lines 27-31).\nNote: the existing struct only has `#[derive(Debug, Clone, Default)]` — we add `serde::Serialize, serde::Deserialize`\nso the struct can be serialized for the dashboard API. No `use serde` import is needed — the `serde::` prefix\nworks because `serde` is a workspace dependency.\n\n```rust\n/// Report returned after a GC sweep.\n#[derive(Debug, Clone, Default, serde::Serialize, serde::Deserialize)]\npub struct GcReport {\n    pub orphans_rolled_back: usize,\n    pub duration_ms: u64,\n    pub stale_transitioned: usize,\n    pub closed_sessions_cleaned: usize,\n    pub agents_suspended: usize,",
+  "source_version": "docs/rfcs/2026-03-14-dashboard-completion-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.455303103Z",
+  "valid_from": "2026-03-31T13:20:59.455303103Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-14-dashboard-completion-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 44,
+    "end_line": 93,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

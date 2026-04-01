@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9d2e3022b5b8",
+  "content": "#### Part 8: Observability Contract\n\n# Gauges (current state)\ncorvia.agents.active                — currently active agents\ncorvia.agents.by_identity_type      — count per type (Registered, McpClient, Anonymous)\ncorvia.sessions.active              — currently active sessions\ncorvia.sessions.stale               — stale sessions awaiting recovery\ncorvia.sessions.orphaned            — orphaned sessions awaiting GC\ncorvia.entries.pending              — entries in staging (not yet committed)\ncorvia.merge.queue_depth            — current merge queue depth\n\n\n# Counters (cumulative)\ncorvia.entries.committed            — total entries committed\ncorvia.entries.merged               — total entries merged to main\ncorvia.entries.rejected             — total entries rejected by merge\ncorvia.gc.sessions_cleaned          — total sessions GC'd\ncorvia.gc.entries_discarded         — total entries discarded by GC\ncorvia.merge.conflicts              — total conflicts detected\ncorvia.merge.llm_invocations        — total LLM merge calls\n",
+  "source_version": "docs/rfcs/milestone-revision-notes.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464360244Z",
+  "valid_from": "2026-03-31T13:20:59.464360244Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/milestone-revision-notes.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 558,
+    "end_line": 575,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

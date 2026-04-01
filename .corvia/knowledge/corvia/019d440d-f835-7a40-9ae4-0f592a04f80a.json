@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f835-7a40-9ae4-0f592a04f80a",
+  "content": "   let mut stat: libc::statvfs = std::mem::zeroed();\n        if libc::statvfs(c_path.as_ptr(), &mut stat) == 0 {\n            Ok(stat.f_bavail as u64 * stat.f_frsize as u64)\n        } else {\n            Err(std::io::Error::last_os_error())\n        }\n    }\n}\npub struct CheckResult {\n    pub name: String,\n    pub status: CheckStatus,\n    pub message: String,\n}\npub enum CheckStatus {\n    Pass,\n    Warn,\n    Fail,\n}",
+  "source_version": "crates/corvia-kernel/src/spoke.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.445294489Z",
+  "valid_from": "2026-03-31T13:20:59.445294489Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/spoke.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 787,
+    "end_line": 798,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

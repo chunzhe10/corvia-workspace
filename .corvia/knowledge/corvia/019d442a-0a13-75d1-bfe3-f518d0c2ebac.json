@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a13-75d1-bfe3-f518d0c2ebac",
+  "content": "splay: block;\n  font-size: 15px; font-weight: 700; letter-spacing: 1px;\n  text-transform: uppercase; margin-bottom: 6px;\n  color: var(--accent-blue);\n}\n.chat-bubble.user {\n  background: rgba(139, 92, 246, 0.12);\n  border: 1px solid rgba(139, 92, 246, 0.3);\n  color: #a78bfa;\n}\n.chat-bubble.user::before {\n  content: 'You'; display: block;\n  font-size: 15px; font-weight: 700; letter-spacing: 1px;\n  text-transform: uppercase; margin-bottom: 6px;\n  color: var(--accent-purple);\n}\n\n/* Symptom block (rising from foundation) */\n.symptom-block {\n  background: var(--bg-card);\n  border-radius: 16px; padding: 20px 28px;\n  display: flex; align-items: center; gap: 16px;\n  min-width: 0;\n}\n\n/* Foundation slab */\n.foundation {\n  background: rgba(239, 68, 68, 0.1);\n  border: 2px solid rgba(239, 68, 68, 0.35);\n  border-radius: 12px; padding: 20px 32px;\n  display: flex; justify-content: space-between; align-items: center;\n}\n\n/* Film frame sprocket holes */\n.film-frame {\n  position: relative; border: 3px solid rgba(241, 245, 249, 0.2);\n  border-radius: 8px; padding: 40px 60px;\n}\n.film-frame::before,\n.film-frame::after {\n  content: '';\n  position: absolute; top: 20px; bottom: 20px; width: 24px;\n  background: repeating-linear-gradient(\n    180deg,\n    rgba(241, 245, 249, 0.15) 0px,\n    rgba(241, 245, 249, 0.15) 12px,\n    transparent 12px,\n    transparent 24px\n  );\n  border-radius: 3px;\n}\n.film-frame::before { left: 12px; }\n.film-frame::after { right: 12px; }\n\n/* Tags */\n.tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }\n.tag {\n  font-size: 20px; font-weight: 600; padding: 8px 18px;\n  border-radius: 8px; background: rgba(59, 130, 246, 0.15);\n  color: var(--accent-blue);\n}\n\n/* Cover gradient */\n.slide.cover {\n  background: linear-gradient(160deg, #0f172a 0%, #1a1a3e 50%, #0f172a 100%);\n}",
+  "source_version": "marketing/2026-03-14-resolve-linux-carousel.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.027404427Z",
+  "valid_from": "2026-03-31T13:51:39.027404427Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/2026-03-14-resolve-linux-carousel.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 158,
+    "end_line": 215,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

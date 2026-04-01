@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-72f46ae9ca0a",
+  "content": "## Access Tracking\n\n### What counts as an access\n\n**Tier 1 (strong signal):** Entry returned in a retrieval result set delivered to an agent\nvia `corvia_search`, `corvia_context`, or `corvia_ask`. Updates `last_accessed` and\nincrements `access_count`.\n\n**Tier 2 (not tracked in v1):** Entry was a candidate but filtered out, or traversed\nduring graph operations. Deferred — no clear signal value at current scale.\n\n\n### Write path\n\nDirect Redb write transaction in the retrieval path. All access updates for a single\nretrieval call are batched into one write transaction (not per-entry). No buffering\nbeyond that for v1 — overhead is acceptable at current scale (~5K entries, dozens of\nsearches per session). Buffered writes via DashMap deferred to chunzhe10/corvia#12.\n",
+  "source_version": "docs/rfcs/2026-03-27-tiered-knowledge-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463735706Z",
+  "valid_from": "2026-03-31T13:20:59.463735706Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-27-tiered-knowledge-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 312,
+    "end_line": 327,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-8d7b8d422e0d",
+  "content": "### Task 5: Implement `corvia workspace add` and `remove`\n\n    assert_eq!(ws.repos[0].name, \"b\");\n}\n\n#[test]\nfn test_remove_repo_not_found() {\n    let mut config = generate_workspace_config(\"test\", &[\"https://github.com/org/a\".into()], &[]);\n    let result = remove_repo_from_config(&mut config, \"nonexistent\");\n    assert!(result.is_err());\n}\n```\n\n**Step 2: Run tests to verify they fail**\n\nRun: `cargo test -p corvia-cli -- test_add_repo test_remove_repo`\nExpected: compilation error — functions not defined.\n\n**Step 3: Implement add/remove functions**\n\nIn `workspace.rs`:\n\n```rust\n/// Add a repo to the workspace config\npub fn add_repo_to_config(\n    config: &mut CorviaConfig,\n    url: &str,\n    name: Option<&str>,\n    namespace: Option<&str>,\n    local: Option<&str>,\n) -> Result<()> {\n    let ws = config.workspace.as_mut()\n        .ok_or_else(|| anyhow::anyhow!(\"Not a workspace config\"))?;\n\n    let repo_name = name.map(String::from).unwrap_or_else(|| repo_name_from_url(url));\n    if ws.repos.iter().any(|r| r.name == repo_name) {\n        anyhow::bail!(\"Repo '{}' already exists in workspace\", repo_name);\n    }\n\n    ws.repos.push(RepoConfig {\n        name: repo_name.clone(),\n        url: url.to_string(),\n        local: local.map(String::from),\n        namespace: namespace.map(String::from).unwrap_or(repo_name),\n    });\n    Ok(())\n}\n\n/// Remove a repo from the workspace config",
+  "source_version": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465196737Z",
+  "valid_from": "2026-03-31T13:20:59.465196737Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 834,
+    "end_line": 880,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

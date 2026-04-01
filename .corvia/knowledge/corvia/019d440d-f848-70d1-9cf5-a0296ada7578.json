@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-a0296ada7578",
+  "content": "&split, &mut budget_ok)?;\n                }\n            } else {\n                budget_ok.push(chunk.clone());\n            }\n        }\n\n        // Step 6: Add overlap context\n        let mut final_chunks = Vec::new();\n        for i in 0..budget_ok.len() {\n            let overlap_prefix = if i > 0 {\n                strategy.overlap_context(&budget_ok[i - 1], &budget_ok[i])\n            } else {\n                None\n            };\n\n            let original = &budget_ok[i];\n            let content_with_overlap = match &overlap_prefix {\n                Some(prefix) => format!(\"{}\\n{}\", prefix, original.content),\n                None => original.content.clone(),\n            };\n\n            let overlap_tokens = overlap_prefix\n                .as_ref()\n                .map(|p| self.estimator.estimate(p))\n                .unwrap_or(0);\n\n            final_chunks.push(ProcessedChunk {\n                content: content_with_overlap,\n                original_content: original.content.clone(),\n                chunk_type: original.chunk_type.clone(),\n                start_line: original.start_line,\n                end_line: original.end_line,\n                metadata: original.metadata.clone(),\n                token_estimate: self.estimator.estimate(&original.content) + overlap_tokens,\n                processing: ProcessingInfo {\n                    strategy_name: strategy_name.clone(),\n                    was_split: original.metadata.parent_chunk_id.is_some(),\n                    was_merged: false, // TODO: track merge flag\n                    overlap_tokens,\n                },\n            });\n        }\n",
+  "source_version": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464820462Z",
+  "valid_from": "2026-03-31T13:20:59.464820462Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1424,
+    "end_line": 1457,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

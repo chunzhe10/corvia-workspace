@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84b-7723-860a-1d952d5d2681",
+  "content": " handles persistence |\n| **Redb compound-key range scans for temporal** | Dedicated time-series DB | Redb is already embedded for coordination. Compound keys `(scope, valid_from, entry_id)` give O(log n) temporal lookups without adding another dependency |\n| **Git-trackable JSON knowledge files** | Database-only storage | Storing knowledge as JSON files designed for Git gives auditability and diffability. `corvia rebuild` reconstructs all indexes from JSON files alone — the database is a cache, the files are truth |\n| **Staging hybrid (branches + shared HNSW)** | Full git branch isolation | Pure branch isolation prevents cross-agent search during staging. Shared HNSW lets agents see each other's work-in-progress while writes stay isolated until commit |\n| **Multi-layer agent identity** | Single registration model | Forcing registration blocks MCP clients and anonymous queries. Three tiers (Registered, MCP Client, Anonymous) let any agent framework integrate with appropriate write permissions |\n| **Python SDK via PyO3 (planned)** | HTTP-only Python client | Embedding the Rust kernel in Python (like Polars) gives zero-latency access to all kernel operations — not just what the REST API exposes |\n| **Three-tier MCP safety model** | Single confirmation for all mutations | Graduated risk — read-only tools execute freely, low-risk mutations need one confirmation, medium-risk mutations support dry-run preview. Prevents accidental destructive operations without adding friction to safe queries |\n",
+  "source_version": "ARCHITECTURE.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.467627583Z",
+  "valid_from": "2026-03-31T13:20:59.467627583Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "ARCHITECTURE.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 314,
+    "end_line": 319,
+    "content_role": null,
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

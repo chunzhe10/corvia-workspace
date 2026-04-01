@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f830-7a51-9391-46b2b8ce79ad",
+  "content": "et engine: Arc<dyn InferenceEngine> = Arc::new(MockEngine);\n\n        let pipeline = RetrievalPipeline::new(\n            vec![\n                Arc::new(FailingSearcher) as Arc<dyn crate::pipeline::searcher::Searcher>,\n                Arc::new(SlowSearcher {\n                    delay: std::time::Duration::from_secs(10),\n                }),\n            ],\n            Arc::new(PassThrough),\n            Arc::new(crate::pipeline::expander::NoOpExpander),\n            Arc::new(IdentityReranker),\n            engine.clone(),\n            queryable.clone(),\n            100, // 100ms timeout for SlowSearcher\n        );\n\n        let opts = RetrievalOpts {\n            limit: 10,\n            expand_graph: false,\n            visibility: VisibilityMode::All,\n            ..Default::default()\n        };\n\n        let result = pipeline\n            .retrieve(\"test\", \"all-fail-scope\", &opts)\n            .await;\n\n        assert!(\n            result.is_err(),\n            \"should return error when all searchers fail\"\n        );\n    }\n\n    // -----------------------------------------------------------------------\n    // TEST 9: Hot-swap under concurrent load\n    // -----------------------------------------------------------------------\n\n    #[tokio::test]\n    async fn test_hot_swap_under_concurrent_load() {\n        use arc_swap::ArcSwap;\n\n        let dir = tempfile::tempdir().unwrap();\n        let store = Arc::new(LiteStore::open(dir.path(), 3).unwrap());\n        store.init_schema().await.unwrap();\n\n        let queryable = store.clone() as Arc<dyn QueryableStore>;\n        let engine: Arc<dyn InferenceEngine> = Arc::new(MockEngine);\n\n        insert_entries(&store, \"swap-scope\", 10).await;\n\n        let pipeline = RetrievalPipeline::new(\n            vec![Arc::new(VectorSearcher::new(\n                queryable.clone(),\n                engine.clone(),\n            ))],\n            Arc::new(PassThrough),\n            Arc::new(crate::pipeline::expander::NoOpExpander),\n            Arc::new(IdentityReranker),\n            engine.clone(),\n            queryable.clone(),\n            5000,\n        );\n\n        let hot = Arc::new(ArcSwap::from_pointee(pipeline));\n\n        // Spawn 10 concurrent queries.\n        let mut handles = Vec::new();\n        for i in 0..10 {\n            let hot_ref = Arc::clone(&hot);",
+  "source_version": "crates/corvia-kernel/src/pipeline/core.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.440258655Z",
+  "valid_from": "2026-03-31T13:20:59.440258655Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/core.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 1143,
+    "end_line": 1206,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

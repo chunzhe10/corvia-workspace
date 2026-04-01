@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f835-7a40-9ae4-0da828c58602",
+  "content": " Restart a spoke container, preserving its filesystem.\n    pub async fn restart(&self, spoke_name: &str) -> Result<()> {\n        let span = info_span!(\"corvia.spoke.restart\", spoke_name);\n        self.restart_inner(spoke_name).instrument(span).await\n    }\n\n    async fn restart_inner(&self, spoke_name: &str) -> Result<()> {\n        self.docker\n            .stop_container(spoke_name, Some(StopContainerOptions { t: Some(10), signal: None }))\n            .await\n            .map_err(|e| {\n                CorviaError::Docker(format!(\"Failed to stop spoke '{spoke_name}': {e}\"))\n            })?;\n\n        self.docker\n            .start_container(spoke_name, None::<StartContainerOptions>)\n            .await\n            .map_err(|e| {\n                CorviaError::Docker(format!(\"Failed to restart spoke '{spoke_name}': {e}\"))\n            })?;\n\n        info!(spoke_name, \"Spoke restarted\");\n        Ok(())\n    }\n\n    /// Prune exited spoke containers whose creation time exceeds the given threshold.\n    ///\n    /// Note: uses the container's `Created` timestamp, not its exit time, because\n    /// the Docker list API does not expose `FinishedAt`. A container created 2h ago\n    /// that just exited will be pruned if the threshold is 1h. This is acceptable\n    /// because spoke containers are single-use (one dev-loop run) and are not\n    /// expected to run for longer than the prune threshold.\n    /// Returns the names of pruned containers.\n    pub async fn prune(&self, max_age: std::time::Duration) -> Result<Vec<String>> {\n        let span = info_span!(\"corvia.spoke.prune\", max_age_secs = max_age.as_secs());\n        self.prune_inner(max_age).instrument(span).await\n    }",
+  "source_version": "crates/corvia-kernel/src/spoke.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.445066966Z",
+  "valid_from": "2026-03-31T13:20:59.445066966Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/spoke.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 580,
+    "end_line": 610,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

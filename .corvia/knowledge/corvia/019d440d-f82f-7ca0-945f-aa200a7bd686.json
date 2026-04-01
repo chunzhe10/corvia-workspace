@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82f-7ca0-945f-aa200a7bd686",
+  "content": "eryableStore\".to_string()));\n        assert!(uses.is_some(), \"expected a 'uses' relation for QueryableStore\");\n        let r = uses.unwrap();\n        assert_eq!(r.from_source_file, \"src/lite_store.rs\");\n        assert_eq!(r.to_file, \"src/traits.rs\");\n    }\nfn test_skip_same_file_references() {\n        // Both chunks in the same file — should produce NO relations.\n        let chunks = vec![\n            make_chunk(\n                \"src/traits.rs\",\n                \"trait_item\",\n                1,\n                \"pub trait QueryableStore {\\n    fn query(&self);\\n}\",\n            ),\n            make_chunk(\n                \"src/traits.rs\",\n                \"impl_item\",\n                20,\n                \"impl QueryableStore for DefaultStore {}\",\n            ),\n        ];\n\n        let relations = ChunkingPipeline::discover_cross_file_relations(&chunks);\n        assert!(\n            relations.is_empty(),\n            \"expected no cross-file relations for same-file references, got {:?}\",\n            relations\n        );\n    }",
+  "source_version": "crates/corvia-kernel/src/chunking_pipeline.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.439362600Z",
+  "valid_from": "2026-03-31T13:20:59.439362600Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_pipeline.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1232,
+    "end_line": 1255,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-1a68d360b10f",
+  "content": "## Design Decisions\n\n### D1: FullTextSearchable trait (traits.rs)\n\nNew async trait alongside existing kernel traits:\n\n```rust\n#[async_trait]\npub trait FullTextSearchable: Send + Sync {\n    async fn search_text(&self, query: &str, scope_id: &str, limit: usize) -> Result<Vec<TextSearchResult>>;\n    async fn index_entry(&self, entry: &KnowledgeEntry) -> Result<()>;\n    async fn remove_entry(&self, entry_id: &uuid::Uuid) -> Result<()>;\n    async fn flush(&self) -> Result<()>;\n    async fn rebuild_from_store(&self, entries: &[KnowledgeEntry]) -> Result<usize>;\n    async fn entry_count(&self) -> Result<u64>;\n}\n```\n\nAlgorithm-agnostic naming (`search_text` not `search_bm25`). Default no-op\nfor `flush()` so stores that don't need it can skip.\n\n\n### D2: TextSearchResult type\n\n```rust\npub struct TextSearchResult {\n    pub entry_id: uuid::Uuid,\n    pub score: f32,\n}\n```\n\nLightweight. The Bm25Searcher looks up full KnowledgeEntry from the store\nusing the entry_id. This keeps the FTS layer decoupled from full entry storage.\n",
+  "source_version": "docs/rfcs/2026-03-28-bm25-tantivy-litestore-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456036832Z",
+  "valid_from": "2026-03-31T13:20:59.456036832Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-bm25-tantivy-litestore-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 31,
+    "end_line": 61,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

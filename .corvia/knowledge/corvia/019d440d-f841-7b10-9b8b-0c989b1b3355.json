@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0c989b1b3355",
+  "content": "`\nExpected: All tests PASS\n\n**Step 6: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/chunking_pdf.rs crates/corvia-kernel/src/lib.rs crates/corvia-kernel/Cargo.toml\ngit commit -m \"feat(m3.3): PdfChunker — PDF paragraph-level chunking (D68)\"\n```\n\n---\n\n### Task 6: Wire Default Strategies into FormatRegistry\n\nConnect all four kernel strategies to the FormatRegistry so `ChunkingPipeline` routes to them by default.\n\n**Files:**\n- Modify: `crates/corvia-kernel/src/chunking_pipeline.rs` (add `with_kernel_defaults` constructor)\n\n**Step 1: Write the failing test**\n\nAdd to the tests in `chunking_pipeline.rs`:\n\n```rust\n#[test]\nfn test_with_kernel_defaults_routes_md() {\n    let config = default_config();\n    let pipeline = ChunkingPipeline::with_kernel_defaults(config);\n    let source = \"# Hello\\n\\nWorld.\\n\\n# Goodbye\\n\\nSee you.\";\n    let meta = test_meta(\"md\");\n    let chunks = pipeline.process(source, &meta).unwrap();\n    assert!(chunks.len() >= 2);\n    assert_eq!(chunks[0].processing.strategy_name, \"markdown\");\n}\n\n#[test]\nfn test_with_kernel_defaults_routes_toml() {\n    let config = default_config();\n    let pipeline = ChunkingPipeline::with_kernel_defaults(config);\n    let source = \"[package]\\nname = \\\"test\\\"\\n\\n[deps]\\nserde = \\\"1\\\"\\n\";\n    let meta = test_meta(\"toml\");\n    let chunks = pipeline.process(source, &meta).unwrap();\n    assert_eq!(chunks[0].processing.strategy_name, \"config\");\n}\n\n#[test]\nfn test_with_kernel_defaults_routes_unknown_to_fallback() {\n    let config = default_config();\n    let pipeline = ChunkingPipeline::with_kernel_defaults(config);\n    let source = \"some random content\";\n    let meta = test_meta(\"xyz\");\n    let chunks = pipeline.process(source, &meta).unwrap();\n    assert_eq!(chunks[0].processing.strategy_name, \"fallback\");\n}\n```\n\n**Step 2: Run tests to verify they fail**\n",
+  "source_version": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457482927Z",
+  "valid_from": "2026-03-31T13:20:59.457482927Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1056,
+    "end_line": 1101,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

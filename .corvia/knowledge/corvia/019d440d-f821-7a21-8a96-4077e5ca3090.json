@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f821-7a21-8a96-4077e5ca3090",
+  "content": "to());\n        let json = serde_json::to_string(&entry).unwrap();\n        let deserialized: KnowledgeEntry = serde_json::from_str(&json).unwrap();\n        assert_eq!(entry.id, deserialized.id);\n        assert_eq!(entry.content, deserialized.content);\n    }\nfn test_entry_metadata_new_fields_default() {\n        // Existing JSON without new fields should deserialize with None defaults\n        let json = r#\"{\"source_file\":\"lib.rs\",\"language\":\"rust\",\"chunk_type\":\"function\",\"start_line\":1,\"end_line\":10}\"#;\n        let meta: EntryMetadata = serde_json::from_str(json).unwrap();\n        assert_eq!(meta.source_file, Some(\"lib.rs\".into()));\n        assert!(meta.content_role.is_none());\n        assert!(meta.source_origin.is_none());\n    }",
+  "source_version": "crates/corvia-common/src/types.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.425520539Z",
+  "valid_from": "2026-03-31T13:20:59.425520539Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/types.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 432,
+    "end_line": 439,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

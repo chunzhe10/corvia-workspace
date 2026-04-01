@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-333bc485d475",
+  "content": "### Task 6: End-to-end verification\n\n### Task 7: Rebuild VSIX (optional)\n\n**Files:**\n- Modify: `.devcontainer/extensions/corvia-services/corvia-services-0.2.0.vsix` → rename to `corvia-services-0.3.0.vsix`\n\n-**Step 1: Package the extension**\n\n```bash\ncd .devcontainer/extensions/corvia-services\nnpx @vscode/vsce package --no-dependencies\n```\n\nThis creates `corvia-services-0.3.0.vsix`. Remove the old 0.2.0 vsix.\n\n-**Step 2: Commit**\n\n```bash\ngit add .devcontainer/extensions/corvia-services/\ngit commit -m \"chore(extension): package v0.3.0 VSIX\"\n```",
+  "source_version": "docs/rfcs/2026-03-10-dashboard-redesign.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458104500Z",
+  "valid_from": "2026-03-31T13:20:59.458104500Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-dashboard-redesign.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1147,
+    "end_line": 1166,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

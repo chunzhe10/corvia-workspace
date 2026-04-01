@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f824-7280-b2ba-aa0f68f53860",
+  "content": "pub fn init_hooks(root: &Path, config: &CorviaConfig) -> Result<()> {\n    let settings_dir = root.join(\".claude\");\n    std::fs::create_dir_all(&settings_dir)\n        .map_err(|e| corvia_common::errors::CorviaError::Config(format!(\"Failed to create .claude dir: {e}\")))?;\n\n    let settings_path = settings_dir.join(\"settings.json\");\n    let mut settings: serde_json::Value = if settings_path.exists() {\n        let content = std::fs::read_to_string(&settings_path)\n            .map_err(|e| corvia_common::errors::CorviaError::Config(format!(\"Failed to read settings: {e}\")))?;\n        serde_json::from_str(&content)\n            .map_err(|e| corvia_common::errors::CorviaError::Config(format!(\"Failed to parse settings: {e}\")))?\n    } else {\n        json!({})\n    };\n\n    let mut hooks_config = config.hooks.clone().unwrap_or_default();\n\n    // Auto-enable agent_teams hooks if Agent Teams is enabled in settings.json env block\n    // (checked before taking mutable borrow on settings)\n    if !hooks_config.agent_teams {\n        hooks_config.agent_teams = has_agent_teams_env(&settings);\n    }\n\n    let root_obj = settings.as_object_mut()\n        .ok_or_else(|| corvia_common::errors::CorviaError::Config(\"settings.json root is not a JSON object\".into()))?;\n\n    let hooks = root_obj.entry(\"hooks\").or_insert(json!({}));\n    let hooks_obj = hooks.as_object_mut()\n        .ok_or_else(|| corvia_common::errors::CorviaError::Config(\"settings.json 'hooks' is not a JSON object\".into()))?;\n\n    // Purge old corvia-managed entries from all event arrays",
+  "source_version": "crates/corvia-cli/src/hooks/settings.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.428455751Z",
+  "valid_from": "2026-03-31T13:20:59.428455751Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/settings.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 28,
+    "end_line": 58,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

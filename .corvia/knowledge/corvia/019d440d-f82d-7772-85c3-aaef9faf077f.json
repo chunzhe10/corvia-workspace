@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82d-7772-85c3-aaef9faf077f",
+  "content": "r_name(),\n            \"vector\",\n            \"retriever name should be VectorRetriever\"\n        );\n        assert_eq!(\n            resp.context.metrics.augmenter_name, \"structured\",\n            \"augmenter name should be StructuredAugmenter\"\n        );\n    }\nasync fn test_ask_mode_returns_generated_answer() {\n        let dir = tempfile::tempdir().unwrap();\n        let pipeline = setup_pipeline(dir.path(), true).await;\n\n        let resp = pipeline.ask(\"test query\", \"proj\", None).await.unwrap();\n\n        let answer = resp.answer.expect(\"ask mode should produce an answer\");\n        assert!(\n            answer.contains(\"Generated answer for:\"),\n            \"answer should contain mock generator output, got: {answer}\"\n        );\n\n        let gen_trace = resp\n            .trace\n            .generation\n            .expect(\"generation trace should be present in ask mode\");\n        assert_eq!(gen_trace.model, \"mock-v1\", \"generation model should be mock-v1\");\n    }",
+  "source_version": "crates/corvia-kernel/src/rag_pipeline.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.437630257Z",
+  "valid_from": "2026-03-31T13:20:59.437630257Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/rag_pipeline.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 358,
+    "end_line": 375,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

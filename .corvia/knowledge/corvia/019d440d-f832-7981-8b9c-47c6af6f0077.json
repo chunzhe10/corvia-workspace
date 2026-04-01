@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f832-7981-8b9c-47c6af6f0077",
+  "content": "            .map_err(|e| CorviaError::Agent(format!(\"Failed to deserialize agent: {e}\")))?;\n                Ok(Some(record))\n            }\n            Ok(None) => Ok(None),\n            Err(e) => Err(CorviaError::Agent(format!(\"Failed to get agent: {e}\"))),\n        }\n    }\n\n    /// Update last_seen timestamp.\n    pub fn touch(&self, agent_id: &str) -> Result<()> {\n        let mut record = self.get(agent_id)?\n            .ok_or_else(|| CorviaError::NotFound(format!(\"Agent {agent_id} not found\")))?;\n        record.last_seen = chrono::Utc::now();\n        self.put(&record)\n    }\n\n    /// Grant write access to an additional scope.\n    /// No-op if the agent already has access (or has Admin/wildcard permissions).\n    pub fn grant_scope(&self, agent_id: &str, scope_id: &str) -> Result<()> {\n        let mut record = self.get(agent_id)?\n            .ok_or_else(|| CorviaError::NotFound(format!(\"Agent {agent_id} not found\")))?;\n        match &mut record.permissions {\n            AgentPermission::ReadWrite { scopes } => {\n                if !scopes.iter().any(|s| s == scope_id || s == \"*\") {\n                    scopes.push(scope_id.to_string());\n                    self.put(&record)?;\n                }\n            }\n            // Admin and ReadOnly don't need scope grants\n            _ => {}\n        }\n        Ok(())\n    }\n\n    /// Update agent status.\n    pub fn set_status(&self, agent_id: &str, status: AgentStatus) -> Result<()> {\n        let mut record = self.get(agent_id)?\n            .ok_or_else(|| CorviaError::NotFound(format!(\"Agent {agent_id} not found\")))?;\n        record.status = status;\n        self.put(&record)\n    }\n\n    /// Update agent description.\n    pub fn set_description(&self, agent_id: &str, description: &str) -> Result<()> {\n        let mut record = self.get(agent_id)?\n            .ok_or_else(|| CorviaError::NotFound(format!(\"Agent {agent_id} not found\")))?;\n        record.description = Some(description.to_string());\n        self.put(&record)\n    }\n\n    /// Update agent activity summary.\n    pub fn set_activity_summary(&self, agent_id: &str, summary: &ActivitySummary) -> Result<()> {\n        let mut record = self.get(agent_id)?\n            .ok_or_else(|| CorviaError::NotFound(format!(\"Agent {agent_id} not found\")))?;",
+  "source_version": "crates/corvia-kernel/src/agent_registry.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.442786006Z",
+  "valid_from": "2026-03-31T13:20:59.442786006Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/agent_registry.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 114,
+    "end_line": 162,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

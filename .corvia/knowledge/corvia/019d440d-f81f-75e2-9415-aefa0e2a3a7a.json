@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81f-75e2-9415-aefa0e2a3a7a",
+  "content": "ids\n        .iter()\n        .enumerate()\n        .min_by(|(_, a), (_, b)| {\n            euclidean_dist_sq(point, a)\n                .partial_cmp(&euclidean_dist_sq(point, b))\n                .unwrap()\n        })\n        .map(|(i, _)| i)\n        .unwrap()\n}\nfn kmeans_pp_init(data: &[Vec<f32>], k: usize, rng: &mut impl Rng) -> Vec<Vec<f32>> {\n    let mut centroids = vec![data[rng.gen_range(0..data.len())].clone()];\n\n    for _ in 1..k {\n        let distances: Vec<f32> = data\n            .iter()\n            .map(|p| {\n                centroids\n                    .iter()\n                    .map(|c| euclidean_dist_sq(p, c))\n                    .fold(f32::MAX, f32::min)\n            })\n            .collect();\n        let total: f32 = distances.iter().sum();\n        if total == 0.0 {\n            // All points coincide with existing centroids — pick randomly.\n            centroids.push(data[rng.gen_range(0..data.len())].clone());\n            continue;\n        }\n        let threshold = Rng::r#gen::<f32>(rng) * total;\n        let mut cumulative = 0.0;\n        for (i, &d) in distances.iter().enumerate() {\n            cumulative += d;\n            if cumulative >= threshold {\n                centroids.push(data[i].clone());\n                break;\n            }\n        }\n    }\n    centroids\n}",
+  "source_version": "crates/corvia-server/src/dashboard/clustering.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.423994214Z",
+  "valid_from": "2026-03-31T13:20:59.423994214Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/clustering.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 51,
+    "end_line": 81,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

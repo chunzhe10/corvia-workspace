@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84b-7723-860a-19b149e92507",
+  "content": "dexing\",\n        \"e2e-search-agent\",\n    ).await;\n\n    // Poll until search finds results (replaces fixed sleep)\n    search_with_retry(\n        env, \"vector search algorithm\", \"corvia\", \"e2e-search-agent\",\n        1, Duration::from_secs(15),\n    ).await;\n}\nasync fn test_agent_lifecycle() {\n    skip_if_unavailable!();\n    let env = get_or_init_env().await;\n\n    mcp_write(env, \"corvia\", \"Agent lifecycle test entry\", \"e2e-lifecycle-agent\").await;\n\n    let result = mcp_call(env, \"corvia_agents_list\", json!({}), \"e2e-lifecycle-agent\").await;\n    let text = result[\"result\"][\"content\"][0][\"text\"].as_str().unwrap_or(\"\");\n    let agents: Value = serde_json::from_str(text).unwrap_or(json!({}));\n\n    let agent_list = agents[\"agents\"].as_array().expect(\"agents should be array\");\n    let found = agent_list\n        .iter()\n        .any(|a| a[\"agent_id\"].as_str() == Some(\"e2e-lifecycle-agent\"));\n    assert!(found, \"Agent should appear in agents list: {agents}\");\n}",
+  "source_version": "tests/integration/docker_mcp_e2e_test.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.467248406Z",
+  "valid_from": "2026-03-31T13:20:59.467248406Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "tests/integration/docker_mcp_e2e_test.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 531,
+    "end_line": 546,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

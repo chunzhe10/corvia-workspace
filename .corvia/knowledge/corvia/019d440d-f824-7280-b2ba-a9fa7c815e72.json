@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f824-7280-b2ba-a9fa7c815e72",
+  "content": "_all() {\n        let mut config = HooksConfig::default();\n        config.enabled = false;\n        assert!(!config.is_active(\"session_recording\"));\n        assert!(!config.is_active(\"doc_placement\"));\n        assert!(!config.is_active(\"agent_check\"));\n    }\nfn test_individual_hook_disable() {\n        let mut config = HooksConfig::default();\n        config.doc_placement = false;\n        assert!(config.is_active(\"session_recording\"));\n        assert!(!config.is_active(\"doc_placement\"));\n    }",
+  "source_version": "crates/corvia-cli/src/hooks/mod.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.428450704Z",
+  "valid_from": "2026-03-31T13:20:59.428450704Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/mod.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 290,
+    "end_line": 295,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f838-7ec1-a413-aeafa4e4419e",
+  "content": "  None\n                    }\n                })\n                .collect();\n\n            for key in &keys_to_remove {\n                table.remove(key.as_str())\n                    .map_err(|e| CorviaError::Storage(format!(\"Failed to remove edge: {e}\")))?;\n            }\n        }\n        write_txn.commit()\n            .map_err(|e| CorviaError::Storage(format!(\"Failed to commit remove: {e}\")))?;\n\n        // Remove from petgraph\n        let mut graph = self.graph.lock()\n            .map_err(|e| CorviaError::Storage(format!(\"Lock: {e}\")))?;\n        let node_map = self.node_map.lock()\n            .map_err(|e| CorviaError::Storage(format!(\"Lock: {e}\")))?;\n\n        if let Some(&node_idx) = node_map.get(entry_id) {\n            // Collect all edge indices (outgoing and incoming) to remove\n            let outgoing: Vec<_> = graph\n                .edges_directed(node_idx, petgraph::Direction::Outgoing)\n                .map(|e| e.id())\n                .collect();\n            let incoming: Vec<_> = graph\n                .edges_directed(node_idx, petgraph::Direction::Incoming)\n                .map(|e| e.id())\n                .collect();\n\n            for idx in outgoing.into_iter().chain(incoming) {\n                graph.remove_edge(idx);\n            }\n        }\n\n        Ok(())\n    }",
+  "source_version": "crates/corvia-kernel/src/graph_store.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.448549361Z",
+  "valid_from": "2026-03-31T13:20:59.448549361Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/graph_store.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 376,
+    "end_line": 404,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

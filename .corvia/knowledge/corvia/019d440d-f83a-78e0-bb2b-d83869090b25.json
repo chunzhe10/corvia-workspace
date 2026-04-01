@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83a-78e0-bb2b-d83869090b25",
+  "content": "ocs/rfcs/2026-03-02-m3.2-rag-pipeline-design.md\",\n      \"plans/2026-03-19-rag-abstraction-plan.md\",\n      \"ARCHITECTURE.md\",\n      \"learnings/rag-modes-search-context-ask.md\",\n      \"crates/corvia-kernel/src/rag_pipeline.rs\"\n    ],\n    \"vector_results\": 30\n  },\n  {\n    \"bm25_latency_ms\": null,\n    \"bm25_results\": null,\n    \"category\": \"architecture\",\n    \"expected_sources\": [\n      \"lite_store\",\n      \"store\"\n    ],\n    \"found_sources\": [\n      \"docs/rfcs/store-client-abstraction.md\",\n      \"docs/rfcs/2026-03-01-m1.2-litestore.md\",\n      \"crates/corvia-common/src/config.rs\",\n      \"AGENTS.md\",\n      \"crates/corvia-kernel/src/postgres_store.rs\",\n      \"crates/corvia-kernel/README.md\",\n      \"docs/rfcs/2026-03-03-post2-benchmark-demo-design.md\",\n      \"crates/corvia-kernel/src/lib.rs\",\n      \"ARCHITECTURE.md\",\n      \"ARCHITECTURE.md\"\n    ],\n    \"fusion_latency_ms\": 0,\n    \"fusion_method\": \"passthrough\",\n    \"graph_expanded\": 1236,\n    \"id\": 2,\n    \"keyword_recall\": 1.0,\n    \"latency_ms\": 4476,\n    \"query\": \"How do LiteStore and PostgresStore implement the QueryableStore trait?\",\n    \"recall_at_5\": 0.5,\n    \"reciprocal_rank\": 1.0,\n    \"retriever_name\": \"pipeline\",\n    \"stages\": null,\n    \"top_5_files\": [\n      \"docs/rfcs/store-client-abstraction.md\",\n      \"docs/rfcs/2026-03-01-m1.2-litestore.md\",\n      \"crates/corvia-common/src/config.rs\",\n      \"AGENTS.md\",",
+  "source_version": "benchmarks/rag-retrieval/results/vector-only.json",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.450098371Z",
+  "valid_from": "2026-03-31T13:20:59.450098371Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "benchmarks/rag-retrieval/results/vector-only.json",
+    "language": "json",
+    "chunk_type": "section",
+    "start_line": 90,
+    "end_line": 126,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

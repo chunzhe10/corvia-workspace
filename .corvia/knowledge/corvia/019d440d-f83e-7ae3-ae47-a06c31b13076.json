@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83e-7ae3-ae47-a06c31b13076",
+  "content": "### Task 1: Scaffold Vite + Preact project\n\n    \"jsxImportSource\": \"preact\",\n    \"strict\": true,\n    \"noEmit\": true,\n    \"esModuleInterop\": true,\n    \"skipLibCheck\": true,\n    \"outDir\": \"dist\"\n  },\n  \"include\": [\"src\"]\n}\n```\n\n-**Step 4: Create `index.html`**\n\n```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n  <title>Corvia Dashboard</title>\n  <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\" />\n  <link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap\" rel=\"stylesheet\" />\n</head>\n<body>\n  <div id=\"app\"></div>\n  <script type=\"module\" src=\"/src/main.tsx\"></script>\n</body>\n</html>\n```\n\n-**Step 5: Create `.gitignore`**\n\n```\nnode_modules/\ndist/\n```\n\nSave to `tools/corvia-dashboard/.gitignore`.\n\n-**Step 6: Install dependencies**\n\n```bash\ncd tools/corvia-dashboard && npm install\n```\n\nExpected: `node_modules/` created, no errors\n\n-**Step 7: Verify Vite starts**\n\n```bash\ncd tools/corvia-dashboard && npx vite --port 8021 &\nsleep 2 && curl -s http://localhost:8021/ | head -5\nkill %1\n```\n\nExpected: HTML response containing `<div id=\"app\">`\n\n-**Step 8: Commit**\n\n```bash\ncd /workspaces/corvia-workspace\ngit add tools/corvia-dashboard/package.json tools/corvia-dashboard/vite.config.ts tools/corvia-dashboard/tsconfig.json tools/corvia-dashboard/index.html tools/corvia-dashboard/.gitignore\ngit commit -m \"feat(dashboard-ui): scaffold Vite + Preact project\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-11-dashboard-ui-standalone.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.454006087Z",
+  "valid_from": "2026-03-31T13:20:59.454006087Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-dashboard-ui-standalone.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 128,
+    "end_line": 194,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

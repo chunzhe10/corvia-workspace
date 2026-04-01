@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f832-7981-8b9c-4433ee612521",
+  "content": ":Stale | SessionState::Orphaned)\n            );\n            if has_stale_or_orphaned {\n                reconnectable.push(agent);\n            }\n        }\n        reconnectable.sort_by_key(|a| std::cmp::Reverse(a.last_seen));\n        Ok(reconnectable)\n    }\npub async fn search(\n        &self,\n        query: &str,\n        scope_id: &str,\n        limit: usize,\n        visibility: &VisibilityMode,\n        agent_id: Option<&str>,\n        permissions: Option<&AgentPermission>,\n    ) -> Result<Vec<SearchResult>> {\n        self.context.search(query, scope_id, limit, visibility, agent_id, permissions).await\n    }",
+  "source_version": "crates/corvia-kernel/src/agent_coordinator.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.442327531Z",
+  "valid_from": "2026-03-31T13:20:59.442327531Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/agent_coordinator.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 375,
+    "end_line": 385,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

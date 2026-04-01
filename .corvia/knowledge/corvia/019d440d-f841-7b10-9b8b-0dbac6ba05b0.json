@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0dbac6ba05b0",
+  "content": "n full workspace tests**\n\nRun: `cargo test --workspace`\nExpected: All tests PASS\n\n**Step 4: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/chunking_pipeline.rs\ngit commit -m \"test(m3.3): E2E integration test — mixed format batch processing\"\n```\n\n---\n\n## Summary\n\n| Task | Component | New Files | Tests |\n|------|-----------|-----------|-------|\n| 1 | FallbackChunker | `chunking_fallback.rs` | 6 |\n| 2 | ChunkingPipeline + FormatRegistry | `chunking_pipeline.rs` | 9 |\n| 3 | MarkdownChunker | `chunking_markdown.rs` | 7 |\n| 4 | ConfigChunker | `chunking_config_fmt.rs` | 6 |\n| 5 | PdfChunker | `chunking_pdf.rs` | 5 |\n| 6 | Wire defaults | (modify pipeline) | 3 |\n| 7 | IngestionAdapter D69 | (modify traits.rs) | 1 |\n| 8 | AstChunker | `ast_chunker.rs` | 5 |\n| 9 | GitAdapter D69 | (modify git.rs) | 2 |\n| 10 | CLI wiring | (modify main.rs, workspace.rs, lib.rs) | — |\n| 11 | E2E integration | (modify pipeline tests) | 1 |\n\n**Total: 11 tasks, ~45 new tests, 11 commits.**",
+  "source_version": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457682201Z",
+  "valid_from": "2026-03-31T13:20:59.457682201Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1786,
+    "end_line": 1802,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

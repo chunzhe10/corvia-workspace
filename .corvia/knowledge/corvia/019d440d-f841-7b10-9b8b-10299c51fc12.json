@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-10299c51fc12",
+  "content": "></div>';\n\n    // Source tabs\n    const tabs = buildLogTabs(data.logs || [], data.service_logs || {});\n    const tabNames = Object.keys(tabs);\n    if (tabNames.length > 0 && (!activeLogTab || !tabs[activeLogTab])) {\n      activeLogTab = tabNames[0];\n    }\n\n    html += '<div class=\"log-source-tabs\">';\n    for (const name of tabNames) {\n      html += '<button class=\"source-tab' + (name === activeLogTab ? ' active' : '') + '\" data-log-tab=\"' + esc(name) + '\">' +\n        esc(name) + '<span class=\"source-tab-count\">' + tabs[name].length + '</span></button>';\n    }\n    html += '</div>';\n\n    // Log output\n    html += '<div class=\"log-output\" id=\"logOutput\">';\n    const lines = tabs[activeLogTab] || [];\n    if (lines.length === 0) {\n      html += '<div class=\"log-empty\">No log output yet</div>';\n    } else {\n      for (const line of lines) {\n        const parsed = parseLine(line);\n        const levelMatch = activeFilter === 'all' || parsed.level === activeFilter;\n        const searchMatch = !searchQuery || line.toLowerCase().includes(searchQuery.toLowerCase());\n        const hidden = (!levelMatch || !searchMatch) ? ' hidden' : '';\n        const errClass = parsed.level === 'error' ? ' is-error' : parsed.level === 'warn' ? ' is-warn' : '';\n        html += '<div class=\"log-line' + errClass + hidden + '\">' +\n          '<span class=\"log-ts\">' + esc(parsed.ts) + '</span>' +\n          '<span class=\"log-level ' + parsed.level + '\">' + esc(parsed.levelLabel) + '</span>' +\n          '<span class=\"log-msg\">' + esc(parsed.msg) + '</span>' +\n        '</div>';\n      }\n    }\n    html += '</div>';\n  } else {\n    // Placeholder for Graph / Traces\n    html += '<div class=\"view-placeholder\">' +\n      '<svg width=\"48\" height=\"48\" viewBox=\"0 0 16 16\" fill=\"currentColor\"><path d=\"M1 1v14h14V1H1zm13 13H2V2h12v12zM3 13V8h2v5H3zm3 0V5h2v8H6zm3 0V9h2v4H9zm3 0V3h1v10h-1z\"/></svg>' +",
+  "source_version": "docs/rfcs/2026-03-10-dashboard-redesign.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457996925Z",
+  "valid_from": "2026-03-31T13:20:59.457996925Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-dashboard-redesign.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 793,
+    "end_line": 823,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

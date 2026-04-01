@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f8f74e2bc25f",
+  "content": "iv class=\"slide\">\n  <div class=\"slide-label\" style=\"color: var(--accent-red);\">The Adversary</div>\n  <div class=\"slide-title\"><span class=\"highlight-red\">Wayland + Ubuntu 24.04</span></div>\n  <div class=\"slide-subtitle\">One Root Cause. Many Symptoms.</div>\n  <!-- Symptom blocks - bigger cards with more detail -->\n  <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px;\">\n    <div class=\"symptom-block\" style=\"border-left: 4px solid var(--accent-red); padding: 28px;\">\n      <span style=\"font-size: 32px;\">💥</span>\n      <div style=\"min-width: 0;\">\n        <div style=\"font-size: 24px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px;\">Dependency conflicts</div>\n        <div style=\"font-size: 18px; color: var(--text-secondary); line-height: 1.4;\">Bundled vs system libraries. Resolve ships its own, Ubuntu has different versions.</div>\n      </div>\n    </div>\n    <div class=\"symptom-block\" style=\"border-left: 4px solid var(--accent-amber); padding: 28px;\">\n      <span style=\"font-size: 32px;\">🔗</span>\n      <div style=\"min-width: 0;\">\n        <div style=\"font-size: 24px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px;\">Library mismatches</div>\n        <div style=\"font-size: 18px; color: var(--text-secondary); line-height: 1.4;\">Renamed with t64 suffixes. Package names changed under Resolve's feet.</div>\n      </div>\n    </div>\n    <div class=\"symptom-block\" style=\"border-left: 4px solid var(--accent-red); padding: 28px;\">\n      <span style=\"font-size: 32px;\">🖥️</span>\n      <div style=\"min-width: 0;\">\n        <div style=\"font-size: 24px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px;\">GPU errors</div>\n        <div style=\"font-size: 18px; color: var(--text-secondary); line-height: 1.4;\">Misleading error messages. Pointed at memory when the real issue was elsewhere.</div>\n      </div>\n    </div>\n    <div class=\"symptom-block\" style=\"border-left: 4px solid var(--accent-amber); padding: 28px;\">\n      <span style=\"font-size: 32px;\">📦</span>\n      <div style=\"min-width: 0;\">\n        <div style=\"font-size: 24px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px;\">Missing packages</div>",
+  "source_version": "marketing/linkedin/2026-03-14-resolve-linux-setup/resolve-linux-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028703447Z",
+  "valid_from": "2026-03-31T13:51:39.028703447Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-14-resolve-linux-setup/resolve-linux-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 406,
+    "end_line": 432,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

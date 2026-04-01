@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f823-7d80-90e7-30ce1c65bc62",
+  "content": "# corvia-proto\n\n## Services\n\n- **EmbeddingService** — text-to-vector embedding requests\n- **ChatService** — LLM chat completion with streaming support\n\n\n## Message types\n\n- `EmbedRequest` / `EmbedResponse` — batch text embedding\n- `LoadModelRequest` / `LoadModelResponse` — model loading with device/backend selection\n- `ChatRequest` / `ChatResponse` — chat completion with configurable generation parameters\n",
+  "source_version": "crates/corvia-proto/README.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.427664780Z",
+  "valid_from": "2026-03-31T13:20:59.427664780Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-proto/README.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 5,
+    "end_line": 15,
+    "content_role": "instruction",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "procedural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

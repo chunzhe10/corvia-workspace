@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82b-7733-b219-a938de36a561",
+  "content": "= Reasoner::new(&store, &store);\n        let findings = reasoner\n            .check_dangling_imports(&[e1, e2], \"scope\")\n            .await\n            .unwrap();\n        assert!(findings.is_empty(), \"valid import should not be flagged as dangling\");\n    }\nasync fn test_check_cycles() {\n        let (_dir, store) = test_store().await;\n\n        let a = entry(\"module A\", \"scope\");\n        let b = entry(\"module B\", \"scope\");\n        let c = entry(\"module C\", \"scope\");\n        store.insert(&a).await.unwrap();\n        store.insert(&b).await.unwrap();\n        store.insert(&c).await.unwrap();\n\n        // Create a cycle: A -> B -> C -> A\n        store.relate(&a.id, \"depends_on\", &b.id, None).await.unwrap();\n        store.relate(&b.id, \"depends_on\", &c.id, None).await.unwrap();\n        store.relate(&c.id, \"depends_on\", &a.id, None).await.unwrap();\n\n        let reasoner = Reasoner::new(&store, &store);\n        let findings = reasoner\n            .check_cycles(&[a.clone(), b.clone(), c.clone()], \"scope\")\n            .await\n            .unwrap();\n        assert_eq!(findings.len(), 1);\n        assert_eq!(findings[0].check_type, CheckType::DependencyCycle);\n        // The SCC should contain all 3 nodes\n        assert_eq!(findings[0].target_ids.len(), 3);\n        let cycle_set: HashSet<Uuid> = findings[0].target_ids.iter().cloned().collect();\n        assert!(cycle_set.contains(&a.id));\n        assert!(cycle_set.contains(&b.id));\n        assert!(cycle_set.contains(&c.id));\n    }",
+  "source_version": "crates/corvia-kernel/src/reasoner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.435530935Z",
+  "valid_from": "2026-03-31T13:20:59.435530935Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/reasoner.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 997,
+    "end_line": 1025,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

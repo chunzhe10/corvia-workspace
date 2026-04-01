@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-36c1bcc5371a",
+  "content": "crates/corvia-kernel/src/ollama_chat.rs \\\n  crates/corvia-kernel/src/lib.rs crates/corvia-kernel/src/agent_coordinator.rs \\\n  crates/corvia-cli/src/main.rs\ngit commit -m \"refactor(d60): extract OllamaChatEngine, MergeWorker uses ChatEngine trait\"\n```\n\n---\n\n## Task 5: Implement GrpcInferenceEngine client\n\n**Files:**\n- Create: `crates/corvia-kernel/src/grpc_engine.rs`\n- Modify: `crates/corvia-kernel/Cargo.toml`\n- Modify: `crates/corvia-kernel/src/lib.rs`\n\n**Step 1: Write failing test — GrpcInferenceEngine::new connects**\n\nAdd to `crates/corvia-kernel/src/grpc_engine.rs`:\n```rust\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    #[test]\n    fn test_grpc_engine_dimensions() {\n        let engine = GrpcInferenceEngine::new(\"http://127.0.0.1:8030\", \"test-model\", 768);\n        assert_eq!(engine.dimensions(), 768);\n    }\n}\n```\n\n**Step 2: Run test to verify it fails**\n\nRun: `cargo test -p corvia-kernel test_grpc_engine_dimensions`\nExpected: FAIL — module doesn't exist.\n\n**Step 3: Add corvia-proto dependency to corvia-kernel**\n\nIn `crates/corvia-kernel/Cargo.toml`, add:\n```toml\ncorvia-proto.workspace = true\ntonic = \"0.12\"\n```\n\n**Step 4: Implement GrpcInferenceEngine**\n\nCreate `crates/corvia-kernel/src/grpc_engine.rs`:\n```rust\nuse async_trait::async_trait;\nuse corvia_common::errors::{CorviaError, Result};\nuse corvia_proto::embedding_service_client::EmbeddingServiceClient;\nuse corvia_proto::{EmbedBatchRequest, EmbedRequest};\nuse tonic::transport::Channel;\nuse tracing::warn;\n\nconst MAX_EMBED_CHARS: usize = 4000;\n\npub struct GrpcInferenceEngine {\n    endpoint: String,\n    model: String,\n    dimensions: usize,\n}\n\nimpl GrpcInferenceEngine {\n    pub fn new(endpoint: &str, model: &str, dimensions: usize) -> Self {\n        Self {\n            endpoint: endpoint.to_string(),\n            model: model.to_string(),\n            dimensions,\n        }\n    }\n\n    async fn connect(&self) -> Result<EmbeddingServiceClient<Channel>> {\n        let url = if self.endpoint.starts_with(\"http\") {\n            self.endpoint.clone()\n        } else {\n            format!(\"http://{}\", self.endpoint)\n        };\n        EmbeddingServiceClient::connect(url)\n            .await\n            .map_err(|e| CorviaError::Embedding(format!(\"gRPC connect failed: {e}\")))\n    }",
+  "source_version": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458547886Z",
+  "valid_from": "2026-03-31T13:20:59.458547886Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 631,
+    "end_line": 704,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

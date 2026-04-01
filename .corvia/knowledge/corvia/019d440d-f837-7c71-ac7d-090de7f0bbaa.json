@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f837-7c71-ac7d-090de7f0bbaa",
+  "content": "gotten transitions, got {}\",\n            MAX_FORGOTTEN_PER_CYCLE,\n            report.cold_to_forgotten,\n        );\n        assert!(\n            report.forgotten_rate_limited > 0,\n            \"Expected some rate-limited transitions, got 0\",\n        );\n    }\nfn test_chain_protection_multiple_chains() {\n        // Chain 1: A → B (B is HEAD, Warm) → A protected\n        // Chain 2: C → D (D is HEAD, Forgotten) → C NOT protected\n        let mut b = make_entry(Tier::Warm, MemoryType::Episodic);\n        b.superseded_by = None;\n        let mut a = make_entry(Tier::Cold, MemoryType::Episodic);\n        a.superseded_by = Some(b.id);\n\n        let mut d = make_entry(Tier::Forgotten, MemoryType::Episodic);\n        d.superseded_by = None;\n        let mut c = make_entry(Tier::Cold, MemoryType::Episodic);\n        c.superseded_by = Some(d.id);\n\n        let entries: Vec<&KnowledgeEntry> = vec![&a, &b, &c, &d];\n        let protected = build_chain_protected_set(&entries);\n\n        assert!(protected.contains(&a.id), \"A should be protected (HEAD B is Warm)\");\n        assert!(!protected.contains(&c.id), \"C should NOT be protected (HEAD D is Forgotten)\");\n    }",
+  "source_version": "crates/corvia-kernel/src/gc_worker.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.447920541Z",
+  "valid_from": "2026-03-31T13:20:59.447920541Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/gc_worker.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1755,
+    "end_line": 1773,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f843-7a03-b56b-37935bb49017",
+  "content": "### Step 8: Commit\n\n## Task 5: Store and Engine Factory Functions\n\n**Files:**\n- Modify: `crates/corvia-kernel/src/lib.rs`\n\nFactory functions dispatch the correct `QueryableStore` and `InferenceEngine` implementation based on config. This is the integration point that makes the two-tier architecture work.\n",
+  "source_version": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.459978183Z",
+  "valid_from": "2026-03-31T13:20:59.459978183Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1319,
+    "end_line": 1325,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

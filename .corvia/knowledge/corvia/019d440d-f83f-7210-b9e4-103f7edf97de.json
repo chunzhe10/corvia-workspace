@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83f-7210-b9e4-103f7edf97de",
+  "content": "e={active} />\n    </div>\n  );\n}\n```\n\n- **Step 2: Commit**\n\n```bash\ncd /workspaces/corvia-workspace\ngit add tools/corvia-dashboard/src/components/WaterfallView.tsx\ngit commit -m \"feat(dashboard-ui): add WaterfallView component for OTEL span drill-down\"\n```\n\n### Task 16: Integrate components into TracesView and AgentsView\n\n**Files:**\n- Modify: `tools/corvia-dashboard/src/components/TracesView.tsx`\n- Modify: `tools/corvia-dashboard/src/components/AgentsView.tsx`\n\n- **Step 1: Integrate GcPanel into TracesView**\n\nIn `TracesView.tsx`, add import:\n\n```typescript\nimport { GcPanel } from \"./GcPanel\";\nimport { WaterfallView } from \"./WaterfallView\";\n```\n\nIn the `DetailPanel` usage (around line 395-408), replace the `selectedModule` conditional with:\n\n```tsx\n{!selectedModule ? (\n  <div class=\"trace-card\">\n    <div class=\"trace-empty\">Select a module to inspect its telemetry</div>\n  </div>\n) : selectedModule === \"gc\" ? (\n  <GcPanel />\n) : (\n  <DetailPanel\n    moduleId={selectedModule}\n    modDef={MODULES[selectedModule]}\n    modStats={ms(selectedModule)}\n    spans={data.spans}\n    events={data.recent_events}\n    onNavigate={onNavigate}\n  />\n)}\n```\n\nInside the `traces-workspace` div, after the `trace-detail` div closes (line 409), add the waterfall view as a sibling:\n\n```tsx\n{/* Waterfall drill-down — inside traces-workspace, after trace-detail */}\n<div class=\"trace-waterfall-section\">\n  <WaterfallView />\n</div>\n```\n\n- **Step 2: Update span rows with percentiles**",
+  "source_version": "docs/rfcs/2026-03-14-dashboard-completion-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.455808239Z",
+  "valid_from": "2026-03-31T13:20:59.455808239Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-14-dashboard-completion-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1888,
+    "end_line": 1933,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

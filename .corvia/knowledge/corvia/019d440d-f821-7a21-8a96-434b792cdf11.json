@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f821-7a21-8a96-434b792cdf11",
+  "content": "//! Well-known string constants shared across the Corvia workspace.\n//!\n//! Centralising magic strings here eliminates typo risk and makes\n//! rename-refactors a single-site change.\n\n/// Scope ID for user-history entries (Claude session ingestion).\npub const USER_HISTORY_SCOPE: &str = \"user-history\";\n\n/// Adapter domain identifier for the Claude-sessions adapter.\npub const CLAUDE_SESSIONS_ADAPTER: &str = \"claude-sessions\";\n\n/// Fallback scope ID used when no explicit scope is configured.\npub const DEFAULT_SCOPE_ID: &str = \"corvia\";\n\n/// Timeout for RAG ask operations (seconds). Prevents LLM inference from\n/// blocking the server indefinitely. Used by both REST and dashboard handlers.\npub const RAG_ASK_TIMEOUT_SECS: u64 = 120;\n",
+  "source_version": "crates/corvia-common/src/constants.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.425762763Z",
+  "valid_from": "2026-03-31T13:20:59.425762763Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/constants.rs",
+    "language": "rs",
+    "chunk_type": "file",
+    "start_line": 1,
+    "end_line": 17,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f837-7c71-ac7d-0482dc25bd9b",
+  "content": "ly drop to Forgotten\n            } else if target > Tier::Cold {\n                Tier::Warm // Cold can only promote to Warm\n            } else {\n                target\n            }\n        }\n        Tier::Forgotten => Tier::Forgotten, // terminal\n    }\n}\nfn apply_transitions_batched(\n    store: &crate::lite_store::LiteStore,\n    transitions: &[TierTransition],\n    score_updates: &[(uuid::Uuid, f32)],\n) -> Result<()> {\n    if transitions.is_empty() && score_updates.is_empty() {\n        return Ok(());\n    }\n\n    // Build lookup maps\n    let transition_map: HashMap<uuid::Uuid, &TierTransition> =\n        transitions.iter().map(|t| (t.entry_id, t)).collect();\n    let score_map: HashMap<uuid::Uuid, f32> =\n        score_updates.iter().copied().collect();\n\n    // Collect all entry IDs that need updates\n    let mut all_ids: Vec<uuid::Uuid> = score_map.keys().copied().collect();\n    for t in transitions {\n        if !score_map.contains_key(&t.entry_id) {\n            all_ids.push(t.entry_id);\n        }\n    }\n    all_ids.sort();\n    all_ids.dedup();\n\n    // Build GcEntryUpdate structs (lightweight, no entry cloning)\n    let mut gc_updates: Vec<crate::lite_store::GcEntryUpdate> = Vec::with_capacity(all_ids.len());\n    let mut hnsw_removal_ids: Vec<uuid::Uuid> = Vec::new();\n\n    for &entry_id in &all_ids {\n        let score = match score_map.get(&entry_id) {\n            Some(&s) => s,\n            None => 0.0, // transition-only entry (shouldn't happen, but safe fallback)\n        };\n\n        let (new_tier, tier_changed_at) = if let Some(transition) = transition_map.get(&entry_id) {\n            // Track entries leaving HNSW-indexed tiers for mapping cleanup.\n            // Warm→Cold is the primary case; Cold→Forgotten is defense-in-depth.\n            if transition.new_tier == Tier::Cold || transition.new_tier == Tier::Forgotten {\n                hnsw_removal_ids.push(entry_id);\n            }\n            (Some(transition.new_tier), Some(Utc::now()))",
+  "source_version": "crates/corvia-kernel/src/gc_worker.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.447302210Z",
+  "valid_from": "2026-03-31T13:20:59.447302210Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/gc_worker.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 815,
+    "end_line": 856,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

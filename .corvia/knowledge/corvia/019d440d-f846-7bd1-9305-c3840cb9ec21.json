@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-c3840cb9ec21",
+  "content": "lines.len(), 2, \"got: {:?}\", lines);\n        assert!(lines[0].contains(\"\\\"source_file\\\"\"));\n        assert!(lines[0].contains(\"hello.rs\"));\n        assert!(lines[1].contains(\"\\\"done\\\":true\"));\n        assert!(lines[1].contains(\"\\\"total_files\\\":1\"));\n    }\n\n    #[test]\n    fn test_ingest_skips_large_files() {\n        let dir = tempfile::tempdir().unwrap();\n        let large = vec![b'a'; 200 * 1024]; // 200KB > MAX_FILE_SIZE\n        fs::write(dir.path().join(\"huge.rs\"), &large).unwrap();\n\n        let mut output = Vec::new();\n        ingest_to_writer(&dir.path().to_string_lossy(), \"test\", &mut output);\n\n        let text = String::from_utf8(output).unwrap();\n        assert!(text.contains(\"\\\"total_files\\\":0\"));\n    }\n\n    #[test]\n    fn test_ingest_skips_dot_dirs() {\n        let dir = tempfile::tempdir().unwrap();\n        let hidden = dir.path().join(\".hidden\");\n        fs::create_dir(&hidden).unwrap();\n        fs::write(hidden.join(\"secret.rs\"), \"secret\").unwrap();\n        fs::write(dir.path().join(\"visible.rs\"), \"visible\").unwrap();\n\n        let mut output = Vec::new();\n        ingest_to_writer(&dir.path().to_string_lossy(), \"test\", &mut output);\n\n        let text = String::from_utf8(output).unwrap();\n        assert!(text.contains(\"\\\"total_files\\\":1\"));\n        assert!(text.contains(\"visible.rs\"));\n        assert!(!text.contains(\"secret.rs\"));\n    }\n",
+  "source_version": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462882278Z",
+  "valid_from": "2026-03-31T13:20:59.462882278Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1825,
+    "end_line": 1854,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

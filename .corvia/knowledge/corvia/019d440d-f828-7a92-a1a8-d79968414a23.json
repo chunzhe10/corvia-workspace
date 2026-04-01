@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f828-7a92-a1a8-d79968414a23",
+  "content": "ect_scan = store.scan_cold_entries(&[1.0, 0.0, 0.0], \"scope-graph-cold\", 10).unwrap();\n        assert_eq!(direct_scan.len(), 1, \"scan should find the cold entry directly\");\n        assert_eq!(direct_scan[0].entry.content, \"cold via graph retriever\");\n    }\nasync fn test_search_result_contains_tier_field() {\n        let dir = tempfile::tempdir().unwrap();\n        let store = Arc::new(crate::lite_store::LiteStore::open(dir.path(), 3).unwrap());\n        store.init_schema().await.unwrap();\n\n        let mut entry = KnowledgeEntry::new(\"test tier field\".into(), \"scope-tier\".into(), \"v1\".into());\n        entry.embedding = Some(vec![1.0, 0.0, 0.0]);\n        entry.tier = Tier::Warm;\n        entry.retention_score = Some(0.45);\n        entry.entry_status = EntryStatus::Merged;\n        store.insert(&entry).await.unwrap();\n\n        let results = store.search(&[1.0, 0.0, 0.0], \"scope-tier\", 10).await.unwrap();\n        assert!(!results.is_empty());\n\n        let result = &results[0];\n        assert_eq!(result.tier, Tier::Warm, \"SearchResult should carry tier from entry\");\n        assert_eq!(result.retention_score, Some(0.45), \"SearchResult should carry retention_score from entry\");\n    }",
+  "source_version": "crates/corvia-kernel/src/retriever.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.432704618Z",
+  "valid_from": "2026-03-31T13:20:59.432704618Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/retriever.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 2052,
+    "end_line": 2070,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

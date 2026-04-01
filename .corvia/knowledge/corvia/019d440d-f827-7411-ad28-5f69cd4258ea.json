@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f827-7411-ad28-5f69cd4258ea",
+  "content": "id::Uuid> = results.iter().map(|sr| sr.entry.id).collect();\n    tokio::spawn(async move {\n        match store.record_access(&entry_ids).await {\n            Ok(()) => {}\n            Err(e) => warn!(error = %e, \"Access recording failed\"),\n        }\n    });\n}\nfn merge_cold_results(\n    store: &dyn QueryableStore,\n    embedding: &[f32],\n    scope_id: &str,\n    opts: &RetrievalOpts,\n    results: &mut Vec<SearchResult>,\n) -> (usize, u64) {\n    if !opts.include_cold {\n        return (0, 0);\n    }\n\n    let cold_start = Instant::now();\n\n    // Downcast to LiteStore for cold scan (LiteStore-specific operation).\n    let lite_store = match store.as_any().downcast_ref::<LiteStore>() {\n        Some(ls) => ls,\n        None => {\n            warn!(\"include_cold requested but store is not LiteStore — skipping cold scan\");\n            return (0, 0);\n        }\n    };\n\n    let cold_results = match lite_store.scan_cold_entries(embedding, scope_id, opts.limit) {\n        Ok(r) => r,\n        Err(e) => {\n            warn!(error = %e, \"Cold scan failed, continuing with HNSW results only\");\n            return (0, cold_start.elapsed().as_millis() as u64);\n        }\n    };\n\n    if cold_results.is_empty() {\n        return (0, cold_start.elapsed().as_millis() as u64);\n    }\n\n    // Deduplicate: skip cold entries already present in HNSW results.\n    // Tier weighting is NOT applied here — the caller applies it uniformly to all results.\n    let existing_ids: HashSet<uuid::Uuid> = results.iter().map(|sr| sr.entry.id).collect();\n    let new_cold: Vec<SearchResult> = cold_results\n        .into_iter()\n        .filter(|sr| !existing_ids.contains(&sr.entry.id))\n        .collect();\n    let cold_count = new_cold.len();\n\n    if cold_count > 0 {\n        results.extend(new_cold);\n        // Skip sorting — caller re-sorts after tier weighting.\n    }\n\n    (cold_count, cold_start.elapsed().as_millis() as u64)\n}",
+  "source_version": "crates/corvia-kernel/src/retriever.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.431613556Z",
+  "valid_from": "2026-03-31T13:20:59.431613556Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/retriever.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 116,
+    "end_line": 165,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

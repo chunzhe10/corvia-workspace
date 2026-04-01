@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-8e473bbbc6e3",
+  "content": ": `cargo test --test workspace_e2e_test`\nExpected: all 3 tests PASS.\n\n**Step 3: Commit**\n\n```bash\ngit add tests/integration/workspace_e2e_test.rs\ngit commit -m \"test(m2.1): workspace integration tests — config, multi-namespace, backward compat\"\n```\n\n---\n\n## Stream 2: Demo Repo (`corvia-workspace`)\n",
+  "source_version": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465352605Z",
+  "valid_from": "2026-03-31T13:20:59.465352605Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1427,
+    "end_line": 1428,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

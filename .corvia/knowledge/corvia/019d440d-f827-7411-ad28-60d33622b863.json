@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f827-7411-ad28-60d33622b863",
+  "content": "graph_depth,\n                        )\n                        .await?;\n                    for entry in deep_entries {\n                        if seen.contains(&entry.id) {\n                            // Reinforce with diminishing returns for deeper hops.\n                            // Use neutral weight (0.5) since traverse doesn't expose relation types.\n                            let count = reinforcement_counts.entry(entry.id).or_insert(0);\n                            let decay = 0.5_f32.powi(*count as i32);\n                            let bonus = self.alpha * 0.15 * decay * 0.5;\n                            if bonus > 0.001 {\n                                if let Some(existing) = scored.iter_mut().find(|(_, sr)| sr.entry.id == entry.id) {\n                                    existing.0 += bonus;\n                                    existing.1.score = existing.0;\n                                    graph_reinforced += 1;\n                                }\n                                *count += 1;\n                            }\n                            continue;\n                        }\n                        if entry.scope_id != scope_id {\n                            continue;\n                        }\n                        if entry.tier == Tier::Forgotten {\n                            continue;",
+  "source_version": "crates/corvia-kernel/src/retriever.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.431806799Z",
+  "valid_from": "2026-03-31T13:20:59.431806799Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/retriever.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 602,
+    "end_line": 620,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

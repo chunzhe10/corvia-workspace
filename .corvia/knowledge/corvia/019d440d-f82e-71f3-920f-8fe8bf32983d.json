@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82e-71f3-920f-8fe8bf32983d",
+  "content": "o_string())\n                }\n            }\n        };\n\n        QualitySignal {\n            confidence,\n            top_score,\n            result_count,\n            suggestion,\n            gap_detected,\n            below_threshold_count: 0,\n        }\n    }\nfn extract_key_terms(query: &str) -> String {\n    const STOP_WORDS: &[&str] = &[\n        \"the\", \"a\", \"an\", \"is\", \"are\", \"was\", \"were\", \"be\", \"been\", \"being\",\n        \"have\", \"has\", \"had\", \"do\", \"does\", \"did\", \"will\", \"would\", \"could\",\n        \"should\", \"may\", \"might\", \"shall\", \"can\", \"to\", \"of\", \"in\", \"for\",\n        \"on\", \"with\", \"at\", \"by\", \"from\", \"as\", \"into\", \"through\", \"during\",\n        \"before\", \"after\", \"above\", \"below\", \"between\", \"and\", \"but\", \"or\",\n        \"not\", \"no\", \"nor\", \"so\", \"yet\", \"both\", \"either\", \"neither\", \"each\",\n        \"every\", \"all\", \"any\", \"few\", \"more\", \"most\", \"other\", \"some\", \"such\",\n        \"than\", \"too\", \"very\", \"just\", \"about\", \"how\", \"what\", \"when\", \"where\",\n        \"which\", \"who\", \"whom\", \"why\", \"this\", \"that\", \"these\", \"those\", \"it\",\n        \"its\", \"my\", \"your\", \"his\", \"her\", \"our\", \"their\", \"i\", \"me\", \"we\",\n        \"you\", \"he\", \"she\", \"they\", \"them\",\n    ];\n    let terms: Vec<&str> = query\n        .split_whitespace()\n        .filter(|w| w.len() > 2)\n        .filter(|w| !STOP_WORDS.contains(&w.to_lowercase().as_str()))\n        .take(5)\n        .collect();\n    if terms.is_empty() {\n        query.to_string()\n    } else {\n        terms.join(\", \")\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/rag_types.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.438222047Z",
+  "valid_from": "2026-03-31T13:20:59.438222047Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/rag_types.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 85,
+    "end_line": 110,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

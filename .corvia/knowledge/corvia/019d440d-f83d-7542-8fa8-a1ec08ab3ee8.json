@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83d-7542-8fa8-a1ec08ab3ee8",
+  "content": "### Task 1: Generate gold dark-mode logo\n\n# Inline Playwright script\nfrom playwright.sync_api import sync_playwright\n\nHTML = '''<!DOCTYPE html>\n<html><head><meta charset=\"UTF-8\">\n<style>\n  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');\n  * { margin:0; padding:0; box-sizing:border-box; }\n  body { background:transparent; font-family:'Poppins',sans-serif;\n         display:flex; align-items:center; justify-content:center; padding:20px 40px; }\n  .wordmark { font-weight:700; letter-spacing:-2px; line-height:1;\n              white-space:nowrap; color:#E8C44E; font-size:120px; }\n</style></head>\n<body><div class=\"wordmark\">corvia</div></body></html>'''\n\nwith sync_playwright() as p:\n    browser = p.chromium.launch()\n    page = browser.new_page(viewport={'width':800,'height':300}, device_scale_factor=4)\n    page.set_content(HTML)\n    page.wait_for_timeout(800)\n    el = page.query_selector('.wordmark')\n    el.screenshot(path='/root/corvia/docs/assets/corvia-logo-light.png', omit_background=True)\n    browser.close()\n```\n\n**Step 2: Copy to all repos**\n\n```bash\ncp /root/corvia/docs/assets/corvia-logo-light.png /root/corvia-adapter-git/docs/assets/corvia-logo-light.png\ncp /root/corvia/docs/assets/corvia-logo-light.png /root/corvia-workspace/docs/assets/corvia-logo-light.png\n```\n\n**Step 3: Verify visually**\n\nRead the generated PNG to confirm gold text on transparent background.\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-brand-guideline-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.453789752Z",
+  "valid_from": "2026-03-31T13:20:59.453789752Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-brand-guideline-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 23,
+    "end_line": 60,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

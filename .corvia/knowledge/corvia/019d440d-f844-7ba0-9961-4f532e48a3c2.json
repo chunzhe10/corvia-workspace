@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-4f532e48a3c2",
+  "content": "# MCP Agent Identity Fix — Design\n\n> **Status:** Shipped (v0.3.6)\n\n**Goal:** Enable `corvia_write` and `corvia_agent_status` to work from any MCP client\n(including Claude Code) by accepting `agent_id` as a regular tool parameter.\n\n**Problem:** The MCP server requires `_meta.agent_id` for write operations, but MCP\nclients (Claude Code, Codex, etc.) only send declared `inputSchema` parameters. Since\n`_meta` isn't in the schema, writes fail with \"anonymous clients are read-only\".\n\n**Approach:** Add `agent_id` as an optional parameter to `corvia_write` and\n`corvia_agent_status` inputSchemas. The server resolves agent identity with priority:\n`arguments.agent_id` > `_meta.agent_id` > `None`.\n",
+  "source_version": "docs/rfcs/2026-03-09-mcp-agent-id-fix-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460739027Z",
+  "valid_from": "2026-03-31T13:20:59.460739027Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-09-mcp-agent-id-fix-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1,
+    "end_line": 15,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

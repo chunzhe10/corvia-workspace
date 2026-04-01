@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-48d58e7f785b",
+  "content": "## Post-Implementation Checklist\n\n## Notes for the Implementer\n\n1. **hnsw_rs API uncertainty**: The exact method signatures for `Hnsw::insert()`, `Hnsw::search()`, and `Neighbour` fields are based on docs research. If they don't match, consult [hnsw_rs docs](https://docs.rs/hnsw_rs/latest/hnsw_rs/) and adjust. The test-driven approach will catch mismatches immediately.\n\n2. **Redb version**: Using redb 2.x. The `TableDefinition` API and transaction patterns are stable. If `range()` on `&str` keys doesn't work exactly as shown, check [redb docs](https://docs.rs/redb/latest/redb/).\n\n3. **Ollama model name**: Ollama uses short model names (`nomic-embed-text`) not HuggingFace paths (`nomic-ai/nomic-embed-text-v1.5`). The config defaults reflect this difference.\n\n4. **HNSW stale vectors**: When `delete_scope` is called, vectors remain in the HNSW index but their Redb entries are deleted. The post-filter in `search()` naturally excludes them. `corvia rebuild` cleans up stale vectors by reconstructing the index from scratch.\n\n5. **SurrealDB compile time**: The `surrealdb` crate adds significant compile time. If working only on LiteStore code, use `cargo test -p corvia-kernel -- test_lite_store` to avoid recompiling the full workspace.",
+  "source_version": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460169343Z",
+  "valid_from": "2026-03-31T13:20:59.460169343Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 2027,
+    "end_line": 2037,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

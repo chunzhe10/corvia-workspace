@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f834-7df0-9fec-210fc35d4978",
+  "content": "pub fn new(endpoint: &str, model: &str, dimensions: usize) -> Self {\n        Self {\n            endpoint: endpoint.to_string(),\n            model: model.to_string(),\n            dimensions,\n        }\n    }\nasync fn connect(&self) -> Result<EmbeddingServiceClient<Channel>> {\n        let url = if self.endpoint.starts_with(\"http\") {\n            self.endpoint.clone()\n        } else {\n            format!(\"http://{}\", self.endpoint)\n        };\n        EmbeddingServiceClient::connect(url)\n            .await\n            .map_err(|e| CorviaError::Embedding(format!(\"gRPC connect failed: {e}\")))\n    }",
+  "source_version": "crates/corvia-kernel/src/grpc_engine.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.444164427Z",
+  "valid_from": "2026-03-31T13:20:59.444164427Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/grpc_engine.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 28,
+    "end_line": 37,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

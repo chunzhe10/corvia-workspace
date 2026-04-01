@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a13-75d1-bfe3-f4787ae292bd",
+  "content": "### Slide 3: THE ADVERSARY\n### Slide 4: CLAUDE STEPS IN\n\n### Slide 5: THE BIG ONE\n\n**Slide label:** \"The Big One\"\n**Title:** \"GPU Memory Is Full\"\n**Subtitle:** \"It Wasn't.\"\n**Layout:** Large wall + two chat bubbles + VRAM indicator\n**Visual:**\n- Massive wall (taller and wider than slide 4's walls), \"GPU MEMORY FULL\" in large red text across it\n- Optional: simplified VRAM bar at top showing mostly empty (green fill ~20%, indicating plenty free)\n- Two chat bubbles below/beside the wall:\n  - Blue (Claude): \"Looks like an OOM issue. Let's build proxies.\"\n  - Purple (You): \"Something doesn't add up.\"\n- A hairline crack forming at the wall's base — tension, not yet resolved\n**Text:** Minimal — the visual tells the story. Small caption: \"We started solving the wrong problem.\"\n\n\n### Slide 6: THE REVEAL\n\n**Slide label:** \"The Reveal\"\n**Title:** \"Wayland Again.\"\n**Subtitle:** \"Wall Shattered.\"\n**Layout:** Crumbled wall + before/after + terminal fix\n**Visual:**\n- Top: the wall from slide 5 in rubble. Scattered brick pieces (CSS positioned blocks, rotated, faded). Green glow radiating from behind where the wall was.\n- Middle: simple two-column comparison:\n  - Left card (red border, X icon): \"Wayland\"\n  - Right card (green border, checkmark icon): \"X11\"\n- Bottom: small terminal block showing the fix concept generically:\n  ```",
+  "source_version": "marketing/2026-03-14-resolve-linux-carousel-design.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.027327320Z",
+  "valid_from": "2026-03-31T13:51:39.027327320Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/2026-03-14-resolve-linux-carousel-design.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 106,
+    "end_line": 133,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

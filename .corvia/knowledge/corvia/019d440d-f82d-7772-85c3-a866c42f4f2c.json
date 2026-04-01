@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82d-7772-85c3-a866c42f4f2c",
+  "content": "p to timeout_secs).\n    pub async fn wait_ready(&self, timeout_secs: u64) -> Result<()> {\n        let deadline =\n            tokio::time::Instant::now() + std::time::Duration::from_secs(timeout_secs);\n\n        while tokio::time::Instant::now() < deadline {\n            if self.is_running().await {\n                return Ok(());\n            }\n            tokio::time::sleep(std::time::Duration::from_millis(500)).await;\n        }\n\n        Err(CorviaError::Infra(format!(\n            \"Ollama did not become ready within {timeout_secs}s at {}\",\n            self.url\n        )))\n    }\n\n    /// Pull a model if not already available.\n    pub async fn pull_model(&self, model: &str) -> Result<()> {\n        // Check if model is already available via the tags API\n        let tags_url = format!(\"{}/api/tags\", self.url);\n        let client = reqwest::Client::builder()\n            .timeout(std::time::Duration::from_secs(10))\n            .build()\n            .unwrap_or_default();\n\n        if let Ok(resp) = client.get(&tags_url).send().await\n            && let Ok(body) = resp.text().await\n                && body.contains(model) {\n                    info!(\"Model {model} already available\");\n                    return Ok(());\n                }\n\n        info!(\"Pulling model {model}...\");\n        let status = std::process::Command::new(\"ollama\")\n            .arg(\"pull\")\n            .arg(model)\n            .stdout(std::process::Stdio::inherit())",
+  "source_version": "crates/corvia-kernel/src/ollama_provisioner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.437313331Z",
+  "valid_from": "2026-03-31T13:20:59.437313331Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ollama_provisioner.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 77,
+    "end_line": 109,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

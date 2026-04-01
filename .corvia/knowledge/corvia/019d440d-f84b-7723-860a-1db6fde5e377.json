@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84b-7723-860a-1db6fde5e377",
+  "content": "## Data Model\n\n### KnowledgeEntry\n\nThe fundamental unit of storage. Every piece of knowledge in corvia is a `KnowledgeEntry`.\n\n```\nKnowledgeEntry\n├── id: Uuid (v7, time-ordered)\n├── content: String (the actual knowledge text)\n├── source_version: String (git commit hash or version ref)\n├── scope_id: String (organizational scope, e.g., \"myproject\")\n├── workstream: String (default: \"main\", reserved for future branch isolation)\n├── recorded_at: DateTime<Utc> (transaction time — when it was stored)\n├── valid_from: DateTime<Utc> (valid time — when the knowledge became true)\n├── valid_to: Option<DateTime<Utc>> (None = currently valid)\n├── superseded_by: Option<Uuid> (points to the replacement entry)\n├── embedding: Option<Vec<f32>> (768-dim for nomic-embed-text)\n├── metadata: EntryMetadata\n│   ├── source_file: Option<String>\n│   ├── language: Option<String> (e.g., \"rust\", \"typescript\")\n│   ├── chunk_type: Option<String> (e.g., \"function\", \"struct\", \"module\")\n│   ├── start_line: Option<u32>\n│   └── end_line: Option<u32>\n├── agent_id: Option<String> (which agent wrote this)\n├── session_id: Option<String> (which session wrote this)\n└── entry_status: EntryStatus (Pending | Committed | Merged)\n```\n\n**Bi-temporal model:** Each entry has two time axes. `recorded_at` tracks when the entry was\nstored in corvia (transaction time). `valid_from`/`valid_to` track when the knowledge was\ntrue in the real world (valid time). This enables queries like \"what did we know last Tuesday?\"\n(transaction time) and \"what was the API like before the v3 migration?\" (valid time).\n\n**Supersession:** When knowledge is updated, the old entry gets `valid_to` set and\n`superseded_by` pointing to the new entry. This creates a linked chain that `corvia history`\ntraverses. No entry is ever deleted — the full history is always available.\n",
+  "source_version": "ARCHITECTURE.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.467634994Z",
+  "valid_from": "2026-03-31T13:20:59.467634994Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "ARCHITECTURE.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 322,
+    "end_line": 357,
+    "content_role": null,
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

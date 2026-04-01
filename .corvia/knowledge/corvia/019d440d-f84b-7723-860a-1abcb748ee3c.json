@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84b-7723-860a-1abcb748ee3c",
+  "content": " docs workflow enforcement.\n> Zero-warning build, 625+ tests. API surface may change before 1.0.\n>\n> **Dogfooding:** corvia manages its own development knowledge — 8,769+ entries,\n> 11,756+ graph edges, queried by AI agents in every coding session.\n\n---\n\n## What is corvia?\n\nAI agents are starting to develop memory — CLAUDE.md, Cursor rules, Copilot memory are all\nearly steps in this direction. These work well for individual developers in individual\nsessions. corvia explores what happens when that memory becomes *organizational* — shared\nacross agents, tracked over time, connected as a graph.\n\ncorvia is an open-source knowledge layer (written in Rust) that gives AI agents\n**organizational memory** — knowledge that spans repositories, evolves over time, and stays\nconsistent when multiple agents write concurrently.\n\n```\nPersonal memory:        \"use tabs not spaces\" in this project\nOrganizational memory:  why the auth system was redesigned, which decisions led there,\n                        what changed across three repos, and what a different agent\n                        discovered about the side effects\n```\n\n\n## How it works\n\n1. **Ingest** — tree-sitter parses code into semantic chunks, corvia-inference generates embeddings locally (ONNX Runtime, 12 models; Ollama also supported)\n2. **Store** — knowledge files land in `.corvia/knowledge/` as Git-trackable JSON (the database is a cache, these files are truth)\n3. **Connect** — a knowledge graph links related entries with directed, labeled edges\n4. **Query** — config-driven RAG with swappable retrievers: vector similarity, graph expansion, temporal queries (\"what did we know last week?\")\n5. **Reason** — five deterministic health checks catch stale knowledge, broken chains, orphans, dangling edges, and dependency cycles\n6. **Coordinate** — each agent writes to its own staging area, conflicts go through LLM-assisted merge\n7. **Measure** — `corvia bench` evaluates retrieval quality (NDCG, MRR, Precision@K) against your own knowledge base\n",
+  "source_version": "README.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.467357666Z",
+  "valid_from": "2026-03-31T13:20:59.467357666Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "README.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 31,
+    "end_line": 58,
+    "content_role": "instruction",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "procedural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

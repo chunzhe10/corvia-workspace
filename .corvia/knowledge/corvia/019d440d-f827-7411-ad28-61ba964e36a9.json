@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f827-7411-ad28-61ba964e36a9",
+  "content": "            bm25_latency_ms: None,\n                bm25_results: None,\n                fusion_method: None,\n                fusion_latency_ms: None,\n                stages: None,\n            },\n            query_embedding: Some(embedding),\n        })\n    }\npub fn post_filter_metadata(\n    results: Vec<SearchResult>,\n    content_role: Option<&str>,\n    source_origin: Option<&str>,\n    workstream: Option<&str>,\n) -> Vec<SearchResult> {\n    if content_role.is_none() && source_origin.is_none() && workstream.is_none() {\n        return results;\n    }\n    results.into_iter().filter(|r| {\n        if let Some(role) = content_role\n            && r.entry.metadata.content_role.as_deref() != Some(role) {\n                return false;\n            }\n        if let Some(origin) = source_origin\n            && r.entry.metadata.source_origin.as_deref() != Some(origin) {\n                return false;\n            }\n        if let Some(ws) = workstream\n            && r.entry.workstream.as_str() != ws {\n                return false;\n            }\n        true\n    }).collect()\n}",
+  "source_version": "crates/corvia-kernel/src/retriever.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.431948675Z",
+  "valid_from": "2026-03-31T13:20:59.431948675Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/retriever.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 763,
+    "end_line": 787,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83f-7210-b9e4-0ec7e61a8c8d",
+  "content": "t found\n\n- **Step 3: Implement collect_trace_trees**\n\nAdd the function and its necessary import for `TraceTree` and `SpanNode` from `corvia_common::dashboard`:\n\n```rust\nuse corvia_common::dashboard::{SpanStats, TraceEvent, TracesData, SpanNode, TraceTree};\n```\n\nThen add the function:\n\n```rust\n/// Build trace trees from log lines that have OTEL trace context.\n/// Groups spans by trace_id, sorts by timestamp, builds parent-child trees.\n/// Returns the most recent `limit` traces.\npub fn collect_trace_trees(lines: &[&str], limit: usize) -> Vec<TraceTree> {\n    use std::collections::HashMap;\n\n    // Collect spans with trace context\n    struct RawSpan {\n        trace_id: String,\n        span_id: String,\n        parent_span_id: String,\n        span_name: String,\n        elapsed_ms: f64,\n        timestamp: String,\n        fields: serde_json::Value,\n    }\n\n    let mut spans_by_trace: HashMap<String, Vec<RawSpan>> = HashMap::new();\n\n    for line in lines {\n        if let Some(ParsedTrace::Span {\n            timestamp, span_name, elapsed_ms,\n            trace_id: Some(tid), span_id: Some(sid), parent_span_id, ..\n        }) = parse_trace_line(line) {\n            spans_by_trace.entry(tid.clone()).or_default().push(RawSpan {\n                trace_id: tid,\n                span_id: sid,\n                parent_span_id: parent_span_id.unwrap_or_default(),\n                span_name,\n                elapsed_ms,\n                timestamp,\n                fields: serde_json::Value::Null,\n            });\n        }\n    }\n\n    let mut trees: Vec<TraceTree> = Vec::new();\n\n    for (trace_id, mut trace_spans) in spans_by_trace {\n        // Sort by timestamp\n        trace_spans.sort_by(|a, b| a.timestamp.cmp(&b.timestamp));\n\n        let root_ts = trace_spans.first().map(|s| &s.timestamp).cloned().unwrap_or_default();\n\n        // Find root span (empty parent_span_id)\n        let root_name = trace_spans.iter()\n            .find(|s| s.parent_span_id.is_empty())\n            .map(|s| s.span_name.clone())",
+  "source_version": "docs/rfcs/2026-03-14-dashboard-completion-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.455561418Z",
+  "valid_from": "2026-03-31T13:20:59.455561418Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-14-dashboard-completion-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 998,
+    "end_line": 1050,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

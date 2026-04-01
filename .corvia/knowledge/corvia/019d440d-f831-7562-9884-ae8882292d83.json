@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f831-7562-9884-ae8882292d83",
+  "content": "   }\n        Ok(entry)\n    }\n\n    /// List all entry IDs in a staging directory (from `*.json` filenames).\n    pub fn list_staging_files(&self, staging_dir: &Path) -> Result<Vec<Uuid>> {\n        if !staging_dir.exists() {\n            return Ok(Vec::new());\n        }\n        let mut ids = Vec::new();\n        let entries = std::fs::read_dir(staging_dir)\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to read staging dir: {e}\")))?;\n        for entry in entries {\n            let entry = entry\n                .map_err(|e| CorviaError::Agent(format!(\"Failed to read dir entry: {e}\")))?;\n            let name = entry.file_name();\n            let name_str = name.to_string_lossy();\n            if let Some(stem) = name_str.strip_suffix(\".json\")\n                && let Ok(uuid) = Uuid::parse_str(stem) {\n                    ids.push(uuid);\n                }\n        }\n        Ok(ids)\n    }\n\n    /// Move a staging file to the main knowledge directory.\n    /// From: `{staging_dir}/{entry_id}.json`\n    /// To:   `{data_dir}/knowledge/{scope_id}/{entry_id}.json`\n    /// Also cleans up the companion `.vec` file (embeddings are in VECTORS table).\n    pub fn move_to_knowledge(\n        &self,\n        staging_dir: &Path,\n        entry_id: &Uuid,",
+  "source_version": "crates/corvia-kernel/src/staging.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.441891180Z",
+  "valid_from": "2026-03-31T13:20:59.441891180Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/staging.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 88,
+    "end_line": 112,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-36da08c1148a",
+  "content": "## Task 5: Implement GrpcInferenceEngine client\n\n\n    fn truncate(text: &str) -> String {\n        if text.len() > MAX_EMBED_CHARS {\n            warn!(\"Truncating input from {} to {} chars\", text.len(), MAX_EMBED_CHARS);\n            text[..MAX_EMBED_CHARS].to_string()\n        } else {\n            text.to_string()\n        }\n    }\n}\n\n#[async_trait]\nimpl super::traits::InferenceEngine for GrpcInferenceEngine {\n    async fn embed(&self, text: &str) -> Result<Vec<f32>> {\n        let mut client = self.connect().await?;\n        let request = tonic::Request::new(EmbedRequest {\n            model: self.model.clone(),\n            text: Self::truncate(text),\n        });\n        let response = client.embed(request).await\n            .map_err(|e| CorviaError::Embedding(format!(\"gRPC Embed failed: {e}\")))?;\n        Ok(response.into_inner().embedding)\n    }\n\n    async fn embed_batch(&self, texts: &[String]) -> Result<Vec<Vec<f32>>> {\n        let mut client = self.connect().await?;\n        let request = tonic::Request::new(EmbedBatchRequest {\n            model: self.model.clone(),\n            texts: texts.iter().map(|t| Self::truncate(t)).collect(),\n        });\n        let response = client.embed_batch(request).await\n            .map_err(|e| CorviaError::Embedding(format!(\"gRPC EmbedBatch failed: {e}\")))?;\n        let mut embeddings: Vec<_> = response.into_inner().embeddings;\n        embeddings.sort_by_key(|e| e.index);\n        Ok(embeddings.into_iter().map(|e| e.values).collect())\n    }\n",
+  "source_version": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458565087Z",
+  "valid_from": "2026-03-31T13:20:59.458565087Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 705,
+    "end_line": 741,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83d-7542-8fa8-a0f49619829f",
+  "content": "# Standalone Dashboard & corvia-dev Rust Migration — Design\n\n## Problem\n\nThe corvia dashboard is embedded as a ~1200-line HTML blob inside the VS Code extension\n(`extension.js`). This means:\n- Only accessible inside VS Code — developers using Neovim, JetBrains, or terminal-only workflows can't see it\n- Not testable with browser automation (Playwright)\n- Dashboard changes require extension rebuild + reload\n- Three languages in the data path: Python (trace parsing) → Rust (API) → JS (rendering)\n- Maintenance burden from duplicated/embedded UI code\n\n\n## Goals\n\n1. Standalone browser-accessible dashboard with full parity to current VS Code UI\n2. Eliminate Python dependency — migrate `corvia-dev` functionality to Rust\n3. Single source of truth — VS Code extension becomes a thin wrapper embedding the standalone UI\n4. Playwright-testable dashboard\n5. Reduce maintenance to 2-language data path: Rust (API) → TypeScript (UI)\n",
+  "source_version": "docs/rfcs/2026-03-11-standalone-dashboard-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.453712657Z",
+  "valid_from": "2026-03-31T13:20:59.453712657Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-standalone-dashboard-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 6,
+    "end_line": 23,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

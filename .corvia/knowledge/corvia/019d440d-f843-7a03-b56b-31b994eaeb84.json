@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f843-7a03-b56b-31b994eaeb84",
+  "content": "cing::warn!(key = %key_str, \"graph_edges_key_malformed\");\n\n// Line 203 — replace:\n// tracing::warn!(\"Skipping edge with invalid from_id '{}': {e}\", parts[0]);\ntracing::warn!(from_id = parts[0], err = %e, \"edge_from_id_invalid\");\n\n// Line 210 — replace:\n// tracing::warn!(\"Skipping edge with invalid to_id '{}': {e}\", parts[2]);\ntracing::warn!(to_id = parts[2], err = %e, \"edge_to_id_invalid\");\n```\n\n-**Step 3: Fix staging.rs logging**\n\n```rust\n// Line 119 — replace:\n// warn!(\"Not a git repo, skipping branch creation for {branch_name}\");\nwarn!(branch = %branch_name, \"git_branch_create_skipped_not_repo\");\n\n// Line 136 — replace:\n// warn!(\"Not a git repo, skipping commit on {branch_name}\");\nwarn!(branch = %branch_name, \"git_commit_skipped_not_repo\");\n\n// Line 152 — replace:\n// warn!(\"Not a git repo, skipping merge for {branch_name}\");\nwarn!(branch = %branch_name, \"git_merge_skipped_not_repo\");\n\n// Line 164 — replace:\n// warn!(\"Not a git repo, skipping branch deletion for {branch_name}\");\nwarn!(branch = %branch_name, \"git_branch_delete_skipped_not_repo\");\n```\n\n-**Step 4: Fix ollama_engine.rs logging**\n\n```rust\n// Line 68 — replace:\n// warn!(\"Truncating input from {} to {} chars for embedding\", t.len(), MAX_EMBED_CHARS);\nwarn!(input_len = t.len(), max_len = MAX_EMBED_CHARS, \"embedding_input_truncated\");\n```",
+  "source_version": "docs/rfcs/2026-03-11-otel-standardization.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.459266599Z",
+  "valid_from": "2026-03-31T13:20:59.459266599Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-otel-standardization.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 936,
+    "end_line": 966,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

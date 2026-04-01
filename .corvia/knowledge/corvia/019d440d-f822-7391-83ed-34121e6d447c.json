@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f822-7391-83ed-34121e6d447c",
+  "content": "         reranker: default_pipeline_reranker(),\n            searcher_timeout_ms: default_searcher_timeout_ms(),\n            rrf: RrfConfig::default(),\n            bm25: Bm25Config::default(),\n            channels: ChannelsConfig::default(),\n        }\n    }\npub struct RrfConfig {\n    /// RRF constant k. Default: 60.\n    #[serde(default = \"default_rrf_k\")]\n    pub k: usize,\n}\nimpl Default for RrfConfig {\n    fn default() -> Self {\n        Self { k: default_rrf_k() }\n    }\n}",
+  "source_version": "crates/corvia-common/src/config.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.426376637Z",
+  "valid_from": "2026-03-31T13:20:59.426376637Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/config.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 573,
+    "end_line": 585,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

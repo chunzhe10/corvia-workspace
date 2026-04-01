@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9e68746179fd",
+  "content": "ernel token_estimator`\nExpected: PASS (5 tests)\n\n**Step 4: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/token_estimator.rs crates/corvia-kernel/src/lib.rs\ngit commit -m \"feat(kernel): add TokenEstimator trait with chars/4 default (D64/D65)\"\n```\n\n---\n\n### Task F3: ChunkingStrategy Trait + Core Types\n\n**Files:**\n- Create: `crates/corvia-kernel/src/chunking_strategy.rs`\n- Modify: `crates/corvia-kernel/src/lib.rs` (add module)\n\n**Unblocks:** M3.3 (all chunker implementations + pipeline)\n\n**Step 1: Write the trait and types**\n\nCreate `crates/corvia-kernel/src/chunking_strategy.rs`:\n\n```rust\nuse corvia_common::errors::Result;\nuse uuid::Uuid;\n\n/// Metadata about the source file being chunked.\n#[derive(Debug, Clone)]\npub struct SourceMetadata {\n    pub file_path: String,\n    pub extension: String,\n    pub language: Option<String>,\n    pub scope_id: String,\n    pub source_version: String,\n}\n\n/// Raw chunk produced by a ChunkingStrategy (pre-budget, pre-merge).\n#[derive(Debug, Clone)]\npub struct RawChunk {\n    pub content: String,\n    /// Semantic type: \"function_item\", \"heading_section\", \"key_value\", \"file\", etc.\n    pub chunk_type: String,\n    pub start_line: u32,\n    pub end_line: u32,\n    pub metadata: ChunkMetadata,\n}",
+  "source_version": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464506424Z",
+  "valid_from": "2026-03-31T13:20:59.464506424Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 290,
+    "end_line": 325,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

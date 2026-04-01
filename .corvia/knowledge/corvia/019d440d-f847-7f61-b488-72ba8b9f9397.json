@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-72ba8b9f9397",
+  "content": "### Supersession Penalty\n### Properties\n\n### Worked Examples\n\n**Episodic entry, 14 days old, accessed twice (last access 1 day ago), no edges, confidence 0.6:**\n```\nD = (1+14)^(-0.6) = 15^(-0.6) = 1/5.08     = 0.197\nA = (log(3)/log(101)) × (1+1)^(-0.3)\n  = 0.238 × 0.812                            = 0.193\nG = 0, C = 0.6\n\nscore = 0.35×0.197 + 0.30×0.193 + 0 + 0.15×0.6\n      = 0.069 + 0.058 + 0 + 0.090            = 0.217 → Cold\n```\nEpisodic entries decay fast (α=0.60). Two accesses in 14 days is low engagement — Cold\nis correct. The entry auto-promotes if accessed again.\n\n**Decisional entry, 180 days old, accessed 30 times (last access 2 days ago), 6 inbound edges, confidence 0.9:**\n```\nD = (1+180)^(-0.15) = 181^(-0.15) = 1/2.181 = 0.458\nA = (log(31)/log(101)) × (1+2)^(-0.3)\n  = 0.744 × 0.719                            = 0.535\nG = min(6/10, 1.0) = 0.6, C = 0.9\n\nscore = 0.35×0.458 + 0.30×0.535 + 0.20×0.6 + 0.15×0.9\n      = 0.160 + 0.161 + 0.120 + 0.135        = 0.576 → Hot (stays Hot)\n```\nScore 0.576 is above the Hot→Warm demotion threshold (0.50), so the entry remains Hot.\nIt would not *promote* to Hot from Warm (needs ≥ 0.60), but it doesn't get demoted either.\nA 6-month-old decision stays Hot because it is frequently accessed and well-connected.\n\n**Episodic entry, 60 days old, never accessed, no edges, confidence 0.5:**\n```\nD = (1+60)^(-0.6) = 61^(-0.6) = 1/11.78     = 0.085\nA = 0, G = 0, C = 0.5\n\nscore = 0.35×0.085 + 0 + 0 + 0.15×0.5\n      = 0.030 + 0 + 0 + 0.075                = 0.105 → Cold\n```\nUnused episodic entry at 60 days — Cold. Still retrievable via brute-force fallback.\n",
+  "source_version": "docs/rfcs/2026-03-27-tiered-knowledge-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463707565Z",
+  "valid_from": "2026-03-31T13:20:59.463707565Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-27-tiered-knowledge-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 220,
+    "end_line": 258,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

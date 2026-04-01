@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83a-78e0-bb2b-db79e124307e",
+  "content": "## Task 2: corvia-common — Core Types\n\n        let now = Utc::now();\n        Self {\n            id: Uuid::now_v7(),\n            content,\n            source_version,\n            scope_id,\n            workstream: \"main\".to_string(),\n            recorded_at: now,\n            valid_from: now,\n            valid_to: None,\n            superseded_by: None,\n            embedding: None,\n            metadata: EntryMetadata::default(),\n        }\n    }\n\n    pub fn with_metadata(mut self, metadata: EntryMetadata) -> Self {\n        self.metadata = metadata;\n        self\n    }\n\n    pub fn with_embedding(mut self, embedding: Vec<f32>) -> Self {\n        self.embedding = Some(embedding);\n        self\n    }\n\n    /// Returns true if this entry is currently valid (not superseded).\n    pub fn is_current(&self) -> bool {\n        self.valid_to.is_none() && self.superseded_by.is_none()\n    }\n}\n\n/// Result from a semantic search query.\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct SearchResult {\n    pub entry: KnowledgeEntry,\n    pub score: f32,\n}\n\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    #[test]",
+  "source_version": "docs/rfcs/2026-02-28-m1-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.450543300Z",
+  "valid_from": "2026-03-31T13:20:59.450543300Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-m1-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 272,
+    "end_line": 315,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

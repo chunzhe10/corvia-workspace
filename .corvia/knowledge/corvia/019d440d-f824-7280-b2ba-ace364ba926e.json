@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f824-7280-b2ba-ace364ba926e",
+  "content": " JSONL\n    if let Err(e) = gzip_session(&path) {\n        eprintln!(\"Warning: failed to gzip session {session_id}: {e}\");\n        // JSONL is still on disk, adapter can pick it up later\n    }\n\n    // Trigger ingest with bounded retry\n    trigger_ingest();\n}\nfn gzip_session(jsonl_path: &std::path::Path) -> Result<()> {\n    use flate2::write::GzEncoder;\n    use flate2::Compression;\n\n    let data = fs::read(jsonl_path)?;\n    let gz_path = jsonl_path.with_extension(\"jsonl.gz\");\n\n    // Write to temp file, fsync for durability, then rename (atomic directory entry)\n    let tmp_path = jsonl_path.with_extension(\"jsonl.gz.tmp\");\n    {\n        let file = fs::File::create(&tmp_path)?;\n        let mut encoder = GzEncoder::new(file, Compression::default());\n        encoder.write_all(&data)?;\n        let file = encoder.finish()?;\n        file.sync_all()?; // Ensure compressed data is on disk before removing original\n    }\n    fs::rename(&tmp_path, &gz_path)?;\n    fs::remove_file(jsonl_path).ok(); // Ignore remove error — gz is already safe\n    Ok(())\n}",
+  "source_version": "crates/corvia-cli/src/hooks/session.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.428766660Z",
+  "valid_from": "2026-03-31T13:20:59.428766660Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/session.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 267,
+    "end_line": 286,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

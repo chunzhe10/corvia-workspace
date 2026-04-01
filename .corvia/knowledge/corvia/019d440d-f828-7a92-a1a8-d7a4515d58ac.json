@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f828-7a92-a1a8-d7a4515d58ac",
+  "content": ".is_empty());\n\n        let result = &results[0];\n        assert_eq!(result.tier, Tier::Warm, \"SearchResult should carry tier from entry\");\n        assert_eq!(result.retention_score, Some(0.45), \"SearchResult should carry retention_score from entry\");\n    }\nmod edge_weight_tests {\n    use super::*;\n\n    #[test]\n    fn test_relation_weight_known_types() {\n        assert_eq!(relation_weight(\"implements\"), 0.9);\n        assert_eq!(relation_weight(\"extends\"), 0.85);\n        assert_eq!(relation_weight(\"calls\"), 0.7);\n        assert_eq!(relation_weight(\"imports\"), 0.5);\n        assert_eq!(relation_weight(\"uses\"), 0.4);\n        assert_eq!(relation_weight(\"contains\"), 0.3);\n        assert_eq!(relation_weight(\"references\"), 0.2);\n    }\n\n    #[test]\n    fn test_relation_weight_unknown_fallback() {\n        assert_eq!(relation_weight(\"custom_edge\"), 0.5);\n        assert_eq!(relation_weight(\"\"), 0.5);\n    }\n\n    #[test]\n    fn test_implements_scores_higher_than_imports() {\n        // Same cosine, different relation -> implements should score higher\n        let alpha = 0.3;\n        let cosine = 0.6;\n        let implements_score = (1.0 - alpha) * cosine + alpha * relation_weight(\"implements\");\n        let imports_score = (1.0 - alpha) * cosine + alpha * relation_weight(\"imports\");\n        assert!(\n            implements_score > imports_score,\n            \"implements ({}) should score higher than imports ({})\",\n            implements_score,\n            imports_score\n        );\n    }\n\n    #[test]\n    fn test_direction_bias_calls_outgoing_higher() {\n        let outgoing = direction_bias(\"calls\", true);\n        let incoming = direction_bias(\"calls\", false);\n        assert!(\n            outgoing > incoming,\n            \"Outgoing calls ({}) should score higher than incoming ({})\",\n            outgoing,\n            incoming\n        );\n    }\n\n    #[test]\n    fn test_direction_bias_references_incoming_higher() {\n        let outgoing = direction_bias(\"references\", true);",
+  "source_version": "crates/corvia-kernel/src/retriever.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.432711195Z",
+  "valid_from": "2026-03-31T13:20:59.432711195Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/retriever.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 2078,
+    "end_line": 2127,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

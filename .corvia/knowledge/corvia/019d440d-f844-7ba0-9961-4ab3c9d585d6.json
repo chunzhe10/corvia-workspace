@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-4ab3c9d585d6",
+  "content": "### 4a. Structured fields everywhere\n### 4b. `error!()` events at API boundaries\n\n### 4c. Remove unused span constants\n\n- `SEARCH` — removed (`STORE_SEARCH` covers it)\n- `ENTRY_INSERT` — removed (`STORE_INSERT` covers it)\n\n\n### 4d. `embed_batch()` instrumentation\n\nAdd `#[tracing::instrument]` to `grpc_engine.rs:embed_batch()` and\n`ollama_engine.rs` equivalent with `batch_size` field.\n",
+  "source_version": "docs/rfcs/2026-03-11-otel-standardization-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460335096Z",
+  "valid_from": "2026-03-31T13:20:59.460335096Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-otel-standardization-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 116,
+    "end_line": 125,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

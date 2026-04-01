@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82c-7720-a124-3111c7195e13",
+  "content": "me group\n        let sim = MockSimilarity {\n            matrix: vec![\n                vec![1.0, 0.9],\n                vec![0.9, 1.0],\n            ],\n        };\n        let groups = max_min_split(2, &sim);\n        assert_eq!(groups, vec![vec![0, 1]]);\n    }\nfn test_max_min_two_sentences_always_group() {\n        // With only 2 sentences, they always form one group (no coherence\n        // baseline exists for a single-sentence group). The split decision\n        // requires at least 2 sentences in the group to establish a floor.\n        let sim = MockSimilarity {\n            matrix: vec![\n                vec![1.0, 0.1],\n                vec![0.1, 1.0],\n            ],\n        };\n        let groups = max_min_split(2, &sim);\n        assert_eq!(groups.len(), 1);\n        assert_eq!(groups[0], vec![0, 1]);\n    }",
+  "source_version": "crates/corvia-kernel/src/semantic_split.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.436250841Z",
+  "valid_from": "2026-03-31T13:20:59.436250841Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/semantic_split.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 315,
+    "end_line": 328,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a17-7981-a483-6ce7ad02cf34",
+  "content": "### Task 4.3: Env var spike — RESOLVED\n### Task 4.4: Extend workstream filter to `corvia_ask` / `corvia_context` — SHIPPED\n\n## Test Strategy\n\n| Component | Approach | Status |\n|-----------|----------|--------|\n| Hook event recording | Unit: JSON schema, truncation, turn counter | **DONE** (9 tests) |\n| Adapter ingest pipeline | Unit + Integration: parse, format, archive, state file | **DONE** (14 tests) |\n| LLM classification | Unit: empty queue, promotion, batching, failure retry | **DONE** (6 tests) |\n| Session watcher | Unit: state machine, partial lines, symlink rejection | **DONE** (16 tests) |\n| Session manager | Unit: create, transition, heartbeat, listing | **DONE** (10 tests) |\n| Workstream filter | Unit: post_filter with workstream match/mismatch/None | **DONE** (2 tests) |\n| Graph edges | Unit: parent_session_id on turn-1 only, main has none | **DONE** (2 tests) |\n| Env var detection | Manual: log env vars in main + subagent contexts | **RESOLVED** (stdin-based) |\n| End-to-end | Manual: full session → gzip → ingest → search → promote cycle | **TODO** |\n\n---\n\n\n## Open Questions (from design spec Section 11)\n\n| Item | Status | Notes |\n|------|--------|-------|\n| `Stop` hook response capture | Deferred | Claude Code may not expose response text; design degrades gracefully |\n| Env var names for subagent detection | **RESOLVED** | Hooks use stdin `agent_id` field; `CORVIA_AGENT_ID` for user identity |\n| TTL enforcement in kernel | Future | `ttl_days` is metadata only today |\n| Scoped GC CLI (`corvia gc --scope`) | Future | Deletion via REST API + `corvia rebuild` |\n| Per-scope HNSW indices | Future | Permanent fix for cross-scope HNSW pollution |\n| Workstream filter in `corvia_ask`/`corvia_context` | Follow-on after Task 4.1 | Extend to all RAG tools, not just `corvia_search` |\n\n---\n",
+  "source_version": "plans/2026-03-14-claude-session-history-impl.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.031013333Z",
+  "valid_from": "2026-03-31T13:51:39.031013333Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "plans/2026-03-14-claude-session-history-impl.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 124,
+    "end_line": 152,
+    "content_role": "plan",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

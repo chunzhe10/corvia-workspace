@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83d-7542-8fa8-a217ed413366",
+  "content": "### Task 3: Export to PDF\n### Task 4: Update README copy\n\n### Task 5: Commit + push all repos\n\n**corvia repo:**\n```bash\ncd /root/corvia\ngit add docs/assets/corvia-logo-light.png docs/brand/ README.md\ngit commit -m \"brand: add brand guideline, gold dark-mode logo, refine README copy\"\ngit push\n```\n\n**adapter-git repo:**\n```bash\ncd /root/corvia-adapter-git\ngit add docs/assets/corvia-logo-light.png\ngit commit -m \"brand: gold dark-mode logo\"\ngit push\n```\n\n**workspace repo:**\n```bash\ncd /root/corvia-workspace\ngit add docs/assets/corvia-logo-light.png\ngit commit -m \"brand: gold dark-mode logo\"\ngit push\n```",
+  "source_version": "docs/rfcs/2026-03-02-brand-guideline-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.453823310Z",
+  "valid_from": "2026-03-31T13:20:59.453823310Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-brand-guideline-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 162,
+    "end_line": 186,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

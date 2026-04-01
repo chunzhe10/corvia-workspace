@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-7492a9cf5d4c",
+  "content": "<class 'NoneType'>` if no logs yet — both are valid)\n\n-**Step 4: Commit**\n\n```bash\ngit add tools/corvia-dev/corvia_dev/manager.py tools/corvia-dev/corvia_dev/cli.py\ngit commit -m \"feat(corvia-dev): wire trace collection into status JSON output\"\n```\n\n---\n\n## Chunk 2: Frontend — CSS and Graph Structure\n",
+  "source_version": "docs/rfcs/2026-03-10-telemetry-traces-page.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461224540Z",
+  "valid_from": "2026-03-31T13:20:59.461224540Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-telemetry-traces-page.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 464,
+    "end_line": 465,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

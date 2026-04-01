@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f94b52c1212d",
+  "content": "size: 15px; color: var(--accent-green); font-weight: 600;\">4.8 GB free of 6 GB</span>\n      </div>\n      <div class=\"vram-bar\">\n        <div class=\"vram-used\" style=\"width: 20%;\"></div>\n        <div class=\"vram-free\"></div>\n      </div>\n    </div>\n  </div>\n  <!-- Conversation panel - visually distinct from popup above -->\n  <div style=\"background: rgba(30, 41, 59, 0.7); border: 1px solid var(--border); border-radius: 16px; padding: 24px 28px;\">\n    <div style=\"font-size: 15px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px;\">The Conversation</div>\n    <div style=\"display: flex; flex-direction: column; gap: 16px;\">\n      <!-- Claude message with avatar -->\n      <div style=\"display: flex; gap: 14px; align-items: flex-start;\">\n        <div style=\"width: 40px; height: 40px; background: rgba(59, 130, 246, 0.15); border: 2px solid rgba(59, 130, 246, 0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;\">\n          <span style=\"font-size: 18px; color: var(--accent-blue); font-weight: 800;\">C</span>\n        </div>\n        <div class=\"chat-bubble claude\" style=\"flex: 1; max-width: none;\">Looks like an OOM issue. Let's build proxies.</div>\n      </div>\n      <!-- User message with avatar -->\n      <div style=\"display: flex; gap: 14px; align-items: flex-start; flex-direction: row-reverse;\">\n        <div style=\"width: 40px; height: 40px; background: rgba(139, 92, 246, 0.15); border: 2px solid rgba(139, 92, 246, 0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;\">\n          <span style=\"font-size: 18px; color: var(--accent-purple); font-weight: 800;\">Y</span>\n        </div>\n        <div class=\"chat-bubble user\" style=\"flex: 1; max-width: none;\">Something doesn't add up.</div>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">04 / 07</div>\n</div>\n\n<!-- Slide 5: THE REVEAL -->\n<div class=\"slide\">\n  <div class=\"slide-label\" style=\"color: var(--accent-green);\">The Reveal</div>\n  <div class=\"slide-title\"><span class=\"highlight-red\">Wayland</span> Again.</div>\n  <div class=\"slide-subtitle\">Not a memory problem. A display server problem.</div>",
+  "source_version": "marketing/linkedin/2026-03-14-resolve-linux-setup/resolve-linux-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028744847Z",
+  "valid_from": "2026-03-31T13:51:39.028744847Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-14-resolve-linux-setup/resolve-linux-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 532,
+    "end_line": 561,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9fd5d28a45fc",
+  "content": "Some(last) = sub.last() {\n                                current_start = last.end_line + 1;\n                            }\n                            chunks.extend(sub);\n                            current = String::new();\n                        } else {\n                            current = part.to_string();\n                        }\n                    }\n                }\n\n                if !current.is_empty() {\n                    let line_count = current.matches('\\n').count() as u32;\n                    chunks.push(RawChunk {\n                        content: current,\n                        chunk_type: \"text_block\".into(),\n                        start_line: current_start,\n                        end_line: current_start + line_count,\n                        metadata: ChunkMetadata::default(),\n                    });\n                }\n\n                return chunks;\n            }\n        }\n\n        // Final fallback: character-level split\n        let mut chunks = Vec::new();\n        let target_chars = self.max_tokens * 4; // reverse the chars/4 heuristic\n        let mut pos = 0;\n        let content = text.as_bytes();\n        while pos < content.len() {\n            let end = (pos + target_chars).min(content.len());",
+  "source_version": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464763298Z",
+  "valid_from": "2026-03-31T13:20:59.464763298Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1219,
+    "end_line": 1245,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

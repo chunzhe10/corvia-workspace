@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-4026b5237e7f",
+  "content": "et dir = TempDir::new().unwrap();\n        let dirs = test_dirs(dir.path());\n        team_sweep_inner(&dirs, \"sess-abc\").unwrap();\n    }\n\n    // ─── Missing file / edge case tests (from QA review) ──────────────────\n\n    #[test]\n    fn test_task_created_missing_task_file_is_noop() {\n        let dir = TempDir::new().unwrap();\n        let dirs = test_dirs(dir.path());\n        // task_id \"99\" has no file on disk\n        let stdin = serde_json::json!({\n            \"task_id\": \"99\",\n            \"task_subject\": \"ghost task\",\n            \"task_description\": \"does not exist\"\n        });\n        handle_task_created_inner(&dirs, &stdin).unwrap();\n        assert!(!dirs.staging_root.exists());\n    }\n\n    #[test]\n    fn test_task_completed_oversized_full_task_truncates() {\n        let dir = TempDir::new().unwrap();\n        let dirs = test_dirs(dir.path());\n\n        // Create a task file with a very large description field\n        let big_task = serde_json::json!({\n            \"status\": \"completed\",\n            \"owner\": \"researcher\",\n            \"description\": \"x\".repeat(MAX_EVENT_LINE_BYTES + 1000),\n        });\n        setup_task(&dirs, \"my-team\", \"1\", &big_task);\n\n        let stdin = serde_json::json!({\n            \"task_id\": \"1\",\n            \"task_subject\": \"big task\"\n        });",
+  "source_version": "crates/corvia-cli/src/hooks/agent_teams.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429405710Z",
+  "valid_from": "2026-03-31T13:20:59.429405710Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/agent_teams.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 832,
+    "end_line": 863,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

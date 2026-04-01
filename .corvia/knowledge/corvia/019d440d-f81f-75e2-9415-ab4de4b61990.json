@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81f-75e2-9415-ab4de4b61990",
+  "content": "| t.as_str()) {\n                fs.session.started_at = ts.to_string();\n            }\n            fs.session.state = HookSessionState::Active;\n        }\n        \"user_prompt\" => {\n            if let Some(turn) = event.get(\"turn\").and_then(|t| t.as_u64()) {\n                fs.session.turn_count = turn as u32;\n            }\n        }\n        \"tool_start\" => {\n            fs.pending_tools += 1;\n            if let Some(tool) = event.get(\"tool\").and_then(|v| v.as_str()) {\n                fs.session.active_tool = Some(tool.to_string());\n                if !fs.session.tools_used.contains(&tool.to_string()) {\n                    fs.session.tools_used.push(tool.to_string());\n                }\n            }\n        }\n        \"tool_end\" => {\n            fs.session.tool_calls += 1;\n            fs.pending_tools = fs.pending_tools.saturating_sub(1);\n            if fs.pending_tools == 0 {\n                fs.session.active_tool = None;\n            }\n        }\n        \"session_end\" => {\n            fs.session.state = HookSessionState::Ended;\n            fs.session.active_tool = None;\n            if let Some(turns) = event.get(\"total_turns\").and_then(|t| t.as_u64()) {\n                fs.session.turn_count = turns as u32;\n            }\n        }\n        other => {\n            tracing::debug!(event_type = other, \"ignoring unknown session event type\");\n        }\n    }\n\n    // Recompute duration from timestamps.\n    if !fs.session.started_at.is_empty() && !fs.session.last_activity.is_empty() {\n        fs.session.duration_secs = compute_duration(&fs.session.started_at, &fs.session.last_activity);\n    }\n}",
+  "source_version": "crates/corvia-server/src/dashboard/session_watcher.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.423567001Z",
+  "valid_from": "2026-03-31T13:20:59.423567001Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/session_watcher.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 499,
+    "end_line": 534,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

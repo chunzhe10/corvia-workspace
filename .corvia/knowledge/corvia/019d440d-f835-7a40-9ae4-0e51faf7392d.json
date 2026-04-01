@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f835-7a40-9ae4-0e51faf7392d",
+  "content": " = issue.unwrap_or(0),\n        );\n        self.create_inner(\n            spoke_name, agent_id, hub, config, spoke_config, network,\n            repo_name, repo_url, issue, branch_name, workspace_root,\n        )\n        .instrument(span)\n        .await\n    }\nasync fn create_inner(\n        &self,\n        spoke_name: &str,\n        agent_id: &str,\n        hub: &HubContext,\n        config: &CorviaConfig,\n        spoke_config: &SpokeConfig,\n        network: &str,\n        repo_name: &str,\n        repo_url: &str,\n        issue: Option<u32>,\n        branch_name: &str,\n        workspace_root: &str,\n    ) -> Result<()> {\n        // Read the MCP token from data dir\n        let data_dir = std::path::Path::new(&config.storage.data_dir);\n        let mcp_token_path = data_dir.join(\"mcp-token\");\n        let mcp_token = match std::fs::read_to_string(&mcp_token_path) {\n            Ok(t) => t.trim().to_string(),\n            Err(_) => {\n                warn!(\n                    \"MCP token not found at {}. Spoke MCP writes will fail. \\\n                     Start the server with 0.0.0.0 binding to generate it.\",\n                    mcp_token_path.display()\n                );\n                String::new()\n            }\n        };\n\n        // Per-spoke auth token (Phase 2: register with AgentCoordinator for verification)\n        // TODO(phase2): register bcrypt-hashed token in agent registry for spoke identity verification\n        let spoke_token = uuid::Uuid::new_v4().to_string();\n\n        // Resolve GitHub token from env\n        let github_token = std::env::var(\"GITHUB_TOKEN\").unwrap_or_default();\n\n        // Build bind mounts for credentials and workspace instruction files\n        let mut binds = Vec::new();\n\n        // Credentials mount",
+  "source_version": "crates/corvia-kernel/src/spoke.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.445155004Z",
+  "valid_from": "2026-03-31T13:20:59.445155004Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/spoke.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 342,
+    "end_line": 381,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-4db4bf9ee023",
+  "content": "# Adapter Plugin System — Design Document\n\n## Overview\n\nAdapters become standalone binaries discovered at runtime via JSONL over stdin/stdout.\nThe kernel never touches the filesystem for source discovery. All first-party adapters\nlive in the corvia monorepo as workspace crates. Third-party adapters can be written in\nany language.\n\n\n## 1. JSONL Protocol Types\n\nNew module: `corvia-kernel/src/adapter_protocol.rs`\n",
+  "source_version": "docs/rfcs/2026-03-03-adapter-plugin-system-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460583792Z",
+  "valid_from": "2026-03-31T13:20:59.460583792Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-03-adapter-plugin-system-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 11,
+    "end_line": 21,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81d-7d20-aabb-bc3753583047",
+  "content": "eq!(files.len(), 2, \"expected 2 source files (.rs + .md), got {}\", files.len());\n\n        let rs_file = files.iter().find(|f| f.metadata.extension == \"rs\");\n        assert!(rs_file.is_some(), \"expected a .rs SourceFile\");\n        let rs = rs_file.unwrap();\n        assert_eq!(rs.metadata.language.as_deref(), Some(\"rust\"));\n        assert!(rs.content.contains(\"fn main()\"));\n        assert!(!rs.metadata.source_version.is_empty());\n\n        let md_file = files.iter().find(|f| f.metadata.extension == \"md\");\n        assert!(md_file.is_some(), \"expected a .md SourceFile\");\n        let md = md_file.unwrap();\n        assert_eq!(md.metadata.language.as_deref(), Some(\"markdown\"));\n        assert!(md.content.contains(\"# Hello\"));\n    }\n\n    #[test]\n    fn test_register_chunking_adds_ast_strategy() {\n        use corvia_kernel::chunking_pipeline::FormatRegistry;\n        use corvia_kernel::chunking_strategy::ChunkingStrategy;\n        use std::sync::Arc;\n\n        // Create a registry with a dummy fallback\n        struct DummyFallback;\n        impl ChunkingStrategy for DummyFallback {\n            fn name(&self) -> &str { \"dummy\" }\n            fn supported_extensions(&self) -> &[&str] { &[] }\n            fn chunk(\n                &self,\n                _source: &str,\n                _meta: &corvia_kernel::chunking_strategy::SourceMetadata,",
+  "source_version": "adapters/corvia-adapter-git/rust/src/git.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.421007940Z",
+  "valid_from": "2026-03-31T13:20:59.421007940Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-git/rust/src/git.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 418,
+    "end_line": 443,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

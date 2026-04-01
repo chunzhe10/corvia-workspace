@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-780f1d94c71c",
+  "content": "### Step 5: Augmenter — skill injection\n\npipeline passes. Or, since `StructuredAugmenter` owns the `SkillRegistry`, it can do\nskill matching internally if given the query embedding.\n\n**Recommended approach:** Keep trait unchanged. Extend `TokenBudget` to carry optional\nskill config. The augmenter checks internally:\n\n```rust\npub struct TokenBudget {\n    pub max_context_tokens: Option<usize>,\n    pub reserve_for_answer: f32,\n    pub reserve_for_skills: f32,          // NEW, default 0.0\n    pub query_embedding: Option<Vec<f32>>, // NEW\n    pub max_skills: usize,                // NEW, default 0\n    pub skill_threshold: f32,             // NEW, default 0.3\n}\n```\n\nWhen `StructuredAugmenter` has a `SkillRegistry` and `query_embedding` is Some:\n1. Match skills using `registry.match_skills(embedding, threshold, max)`\n2. Compute skills token budget: `effective_budget * reserve_for_skills`\n3. Collect skill content within budget (drop lowest-scoring if over)\n4. Prepend to system prompt: `[skill1 content]\\n\\n[skill2 content]\\n\\n---\\n{base prompt}`\n5. Record `skills_used` in metrics\n\nWhen no registry or no embedding → identical to current behavior.\n\n**Tests:** Augmenter tests with mock skills, verify system prompt modification,\ntoken budget respected, metrics populated.\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-10-skill-system-implementation-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461618134Z",
+  "valid_from": "2026-03-31T13:20:59.461618134Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-skill-system-implementation-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 157,
+    "end_line": 187,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

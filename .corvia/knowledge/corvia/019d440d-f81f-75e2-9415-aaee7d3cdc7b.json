@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81f-75e2-9415-aaee7d3cdc7b",
+  "content": "   event_type: new_data\n                .last_event_type\n                .clone()\n                .unwrap_or_else(|| \"unknown\".into()),\n            session: Some(fs.session.clone()),\n        };\n        drop(guard);\n\n        state.broadcast(update);\n    }\n}\nfn find_oldest_session(map: &HashMap<String, FileState>) -> Option<&String> {\n    map.iter()\n        .min_by_key(|(_, fs)| fs.last_event_at)\n        .map(|(id, _)| id)\n}",
+  "source_version": "crates/corvia-server/src/dashboard/session_watcher.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.423518022Z",
+  "valid_from": "2026-03-31T13:20:59.423518022Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/session_watcher.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 357,
+    "end_line": 361,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

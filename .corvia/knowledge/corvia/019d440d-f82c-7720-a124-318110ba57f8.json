@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82c-7720-a124-318110ba57f8",
+  "content": "bout agents.\";\n        let segments = split_into_segments(content);\n        assert_eq!(segments.len(), 3);\n        assert!(segments[0].contains(\"HNSW\"));\n        assert!(segments[1].contains(\"graph\"));\n        assert!(segments[2].contains(\"agents\"));\n    }\nfn test_split_preserves_code_blocks() {\n        let content = \"Some intro text.\\n\\n```rust\\nfn main() {\\n    println!(\\\"hello\\\");\\n}\\n```\\n\\nMore text after.\";\n        let segments = split_into_segments(content);\n        assert_eq!(segments.len(), 3, \"Should have intro, code block, and outro\");\n        assert!(segments[1].contains(\"fn main()\"), \"Code block should be atomic\");\n        assert!(segments[1].contains(\"```\"), \"Code block should include fences\");\n    }",
+  "source_version": "crates/corvia-kernel/src/semantic_split.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.436294671Z",
+  "valid_from": "2026-03-31T13:20:59.436294671Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/semantic_split.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 426,
+    "end_line": 432,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

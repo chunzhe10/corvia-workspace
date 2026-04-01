@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0bd997ac25e5",
+  "content": "       let chunks = pipeline.process(\"Some text content.\", &test_meta(\"txt\")).unwrap();\n        assert_eq!(chunks[0].processing.strategy_name, \"fallback\");\n        assert!(!chunks[0].processing.was_split);\n        assert!(!chunks[0].processing.was_merged);\n    }\n}\n```\n\n**Step 2: Register module and run tests to verify they fail**\n\nAdd to `crates/corvia-kernel/src/lib.rs` after `pub mod chunking_fallback;`:\n```rust\npub mod chunking_pipeline;\n```\n\nRun: `cargo test -p corvia-kernel chunking_pipeline -- --nocapture`\nExpected: FAIL (todo!() panics)\n\n**Step 3: Implement ChunkingPipeline**\n\nImplement `process()` and `process_batch()` following the design doc's pipeline steps:\n\n1. Resolve strategy via registry\n2. Call `strategy.chunk()`\n3. Kernel default merge: combine adjacent chunks where both are below `min_tokens` and combined fits `max_tokens`\n4. Enforce budget: for each chunk exceeding `max_tokens`, call `strategy.split_oversized()`, recurse until all fit\n5. Overlap: if `overlap_tokens > 0`, prepend trailing text from previous chunk\n6. Build `ProcessedChunk` with token estimates and processing info\n\nThe merge pass should respect `merge_group` metadata — only merge chunks with the same `merge_group` (or both `None`). The strategy's `merge_small()` override takes priority if it returns `Some`.\n\n**Step 4: Run tests to verify they pass**\n\nRun: `cargo test -p corvia-kernel chunking_pipeline -- --nocapture`\nExpected: All tests PASS\n\nRun: `cargo test -p corvia-kernel -- --nocapture` (full crate)\nExpected: All tests PASS\n\n**Step 5: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/chunking_pipeline.rs crates/corvia-kernel/src/lib.rs\ngit commit -m \"feat(m3.3): ChunkingPipeline + FormatRegistry — kernel orchestrator (D65/D66)\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457350960Z",
+  "valid_from": "2026-03-31T13:20:59.457350960Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 570,
+    "end_line": 613,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

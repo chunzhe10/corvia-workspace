@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f824-7280-b2ba-acf109c4d96a",
+  "content": "t file = encoder.finish()?;\n        file.sync_all()?; // Ensure compressed data is on disk before removing original\n    }\n    fs::rename(&tmp_path, &gz_path)?;\n    fs::remove_file(jsonl_path).ok(); // Ignore remove error — gz is already safe\n    Ok(())\n}\nfn trigger_ingest() {\n    let client = match reqwest::blocking::Client::builder()\n        .connect_timeout(std::time::Duration::from_millis(500))\n        .timeout(std::time::Duration::from_secs(5))\n        .build()\n    {\n        Ok(c) => c,\n        Err(_) => return,\n    };\n\n    for attempt in 0..3 {\n        if attempt > 0 {\n            std::thread::sleep(std::time::Duration::from_secs(1));\n        }\n        match client\n            .post(\"http://127.0.0.1:8020/v1/ingest/sessions\")\n            .json(&serde_json::json!({}))\n            .send()\n        {\n            Ok(resp) if resp.status().is_success() => return,\n            _ => continue,\n        }\n    }\n    // All retries exhausted — session data is safe in .jsonl.gz, adapter picks it up later\n}",
+  "source_version": "crates/corvia-cli/src/hooks/session.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.428774331Z",
+  "valid_from": "2026-03-31T13:20:59.428774331Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/session.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 289,
+    "end_line": 313,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

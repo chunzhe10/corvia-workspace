@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-1fbb67da715b",
+  "content": "tainer::RemoveContainerOptions>).await;\n\n    info!(\"Creating vLLM container: {VLLM_CONTAINER_NAME}\");\n    self.docker.create_container(Some(options), config).await\n        .map_err(|e| CorviaError::Docker(format!(\"Failed to create vLLM container: {e}\")))?;\n\n    self.docker.start_container(VLLM_CONTAINER_NAME, None::<StartContainerOptions<String>>).await\n        .map_err(|e| CorviaError::Docker(format!(\"Failed to start vLLM container: {e}\")))?;\n\n    info!(\"vLLM started on port {VLLM_PORT}\");\n\n    // vLLM takes longer to load model than SurrealDB\n    tokio::time::sleep(std::time::Duration::from_secs(10)).await;\n\n    Ok(())\n}\n\n/// Stop and remove the vLLM container.\npub async fn stop_vllm(&self) -> Result<()> {\n    info!(\"Stopping vLLM container\");\n    self.docker.stop_container(VLLM_CONTAINER_NAME, None::<bollard::container::StopContainerOptions>).await\n        .map_err(|e| CorviaError::Docker(format!(\"Failed to stop vLLM: {e}\")))?;\n    self.docker.remove_container(VLLM_CONTAINER_NAME, None::<bollard::container::RemoveContainerOptions>).await\n        .map_err(|e| CorviaError::Docker(format!(\"Failed to remove vLLM: {e}\")))?;\n    Ok(())\n}\n```\n\n**Step 4: Run test to verify it passes**\n\nRun: `cargo test -p corvia-kernel test_vllm_container_config -- --nocapture`\nExpected: PASS\n\n**Step 5: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/docker.rs\ngit commit -m \"feat(kernel): extend DockerProvisioner with vLLM container support\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-02-28-introspect-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452116245Z",
+  "valid_from": "2026-03-31T13:20:59.452116245Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-introspect-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 126,
+    "end_line": 162,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

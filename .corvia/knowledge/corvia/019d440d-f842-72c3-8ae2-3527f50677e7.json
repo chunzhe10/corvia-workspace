@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-3527f50677e7",
+  "content": "## Relation Types (Complete Set After P1-P5)\n## Decisions\n\n### D-SI-1: Build Native, Not Integrate GitNexus\n- **Decision:** Build structural intelligence in adapter-git rather than consuming GitNexus output\n- **Rationale:** GitNexus has no export format. LadybugDB schema is undocumented. MCP responses\n  are for LLM consumption. Adapter would be fragile and tightly coupled.\n\n\n### D-SI-2: 80/20 Scope (P1-P5), Expand Later\n- **Decision:** Ship the highest-impact relation extractors for 4 languages first. Defer Leiden\n  clustering, execution flow tracing, blast radius, LLM summaries, and additional languages.\n- **Rationale:** P1-P5 leverages existing infrastructure. Each is independently shippable.\n  LLM-assisted summaries (originally P6) deferred to a separate RFC due to fundamentally\n  different architecture (LLM dependency, new entry type, runtime optionality).\n",
+  "source_version": "docs/rfcs/2026-03-28-structural-intelligence-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458314545Z",
+  "valid_from": "2026-03-31T13:20:59.458314545Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-structural-intelligence-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 629,
+    "end_line": 640,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

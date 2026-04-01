@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83f-7210-b9e4-0be4f13db01c",
+  "content": "### Task 12: Final verification\n\n## Summary\n\n| Task | Deliverable | Tests Added |\n|------|-------------|-------------|\n| 1 | D80: corvia-telemetry crate + TelemetryConfig | 2 |\n| 2 | D82 prereq: MergeQueue rename | 0 (rename only) |\n| 3 | D82: ops::system_status | 1 |\n| 4 | D82: remaining ops functions | 5 |\n| 5 | D81: kernel instrumentation | 0 (spans are passive) |\n| 6 | D87+D89: AppState config + telemetry wiring | 0 (verified via existing tests) |\n| 7 | D83: ToolTier enum + helpers | 0 (definitions only) |\n| 8 | D84: 5 Tier 1 MCP tools | 5 |\n| 9 | D85: 3 Tier 2 MCP tools | 3 |\n| 10 | D86: 2 Tier 3 MCP tools | 2 |\n| 11 | D88: CLI --metrics | 0 (manual verification) |\n| 12 | Final verification | 0 |\n| **Total** | **10 deliverables** | **~18 new tests** |",
+  "source_version": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.455178534Z",
+  "valid_from": "2026-03-31T13:20:59.455178534Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1663,
+    "end_line": 1679,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

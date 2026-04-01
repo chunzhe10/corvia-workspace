@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-33f0bea9736a",
+  "content": "### P3: JS/TS Target Resolution Improvements\n\n### P4: Edge Weight Scoring in Retriever\n\n**File:** `retriever.rs` (GraphExpandRetriever)\n\n**Current state:** All edges are treated equally. The graph expansion blend formula:\n```\nhop 1: ((1-alpha)*cosine + alpha*0.5) * tier_weight\nhop 2+: ((1-alpha)*cosine + alpha*0.33) * tier_weight\n```\nThe `0.5` and `0.33` proximity constants are the same regardless of relation type.\nThe reinforcement bonus (`alpha * 0.25 * decay`) also ignores relation type.\n\n**Changes:**\n\n1. **Relation-type weight map:**\n   ```rust\n   fn relation_weight(relation: &str) -> f32 {\n       match relation {\n           \"implements\" => 0.9,   // Interface conformance (Rust traits, TS implements)\n           \"extends\"    => 0.85,  // Class inheritance (JS/TS extends, Python)\n           \"calls\"      => 0.7,   // Direct invocation\n           \"imports\"    => 0.5,   // Dependency (current default)\n           \"uses\"       => 0.4,   // Cross-file symbol reference\n           \"contains\"   => 0.3,   // Parent-child nesting\n           \"references\" => 0.2,   // Weak: doc mentions code\n           _            => 0.5,   // Unknown: use current default\n       }\n   }\n   ```\n   These are initial values subject to tuning. See Evaluation section.\n\n2. **Modified blend formula (new neighbors):**\n   ```\n   hop 1: ((1-alpha)*cosine + alpha*relation_weight) * tier_weight\n   hop 2+: ((1-alpha)*cosine + alpha*relation_weight*0.67) * tier_weight\n   ```\n\n3. **Modified reinforcement bonus (already-seen neighbors):**\n   ```\n   bonus = alpha * 0.25 * decay * relation_weight(&edge.relation)\n   ```\n   This ensures repeated low-value `references` edges don't out-score a single high-value\n   `implements` edge.\n\n4. **Per-relation direction weighting:**",
+  "source_version": "docs/rfcs/2026-03-28-structural-intelligence-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458199564Z",
+  "valid_from": "2026-03-31T13:20:59.458199564Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-structural-intelligence-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 281,
+    "end_line": 325,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83e-7ae3-ae47-a366ec44df64",
+  "content": "### Task 5: Implement chat_stream() with real streaming\n\n\n        let (tx, rx) = tokio::sync::mpsc::channel(32);\n\n        tokio::task::spawn_blocking(move || {\n            let result = Self::generate_streaming_sync(&model, &messages, temperature, max_tokens, &tx);\n            if let Err(e) = result {\n                let _ = tx.blocking_send(Ok(ChatChunk {\n                    delta: String::new(),\n                    done: true,\n                    prompt_tokens: 0,\n                    completion_tokens: 0,\n                }));\n            }\n        });\n\n        Ok(Response::new(tokio_stream::wrappers::ReceiverStream::new(rx)))\n    }\n```\n\n**Step 2: Implement generate_streaming_sync**\n\nThis is similar to `generate_sync` but sends each token through the channel:\n\n```rust\n    fn generate_streaming_sync(\n        model: &LlamaModel,\n        messages: &[(String, String)],\n        temperature: f32,\n        max_tokens: u32,\n        tx: &tokio::sync::mpsc::Sender<Result<ChatChunk, Status>>,\n    ) -> Result<(), Status> {\n        // Same setup as generate_sync: apply template, tokenize, create context, decode prompt",
+  "source_version": "docs/rfcs/2026-03-09-chat-inference.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.454640888Z",
+  "valid_from": "2026-03-31T13:20:59.454640888Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-09-chat-inference.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 449,
+    "end_line": 480,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

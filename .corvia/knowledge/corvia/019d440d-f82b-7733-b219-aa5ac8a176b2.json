@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82b-7733-b219-aa5ac8a176b2",
+  "content": "asoner::new(&store, &store);\n        let findings = reasoner\n            .check_contradictions(&[a, b], \"scope\")\n            .await\n            .unwrap();\n\n        assert!(findings.is_empty(), \"low similarity should not be flagged as contradiction\");\n    }\nasync fn test_llm_checks_with_empty_entries() {\n        let (_dir, store) = test_store().await;\n\n        let reasoner = Reasoner::new(&store, &store);\n        let engine = MockEngine;\n\n        let findings = reasoner\n            .run_llm_checks(&[], \"scope\", &engine)\n            .await\n            .unwrap();\n\n        // Semantic gaps should still be found (store queries), but no contradictions (no entries)\n        let gap_count = findings\n            .iter()\n            .filter(|f| f.check_type == CheckType::SemanticGap)\n            .count();\n        let contradiction_count = findings\n            .iter()\n            .filter(|f| f.check_type == CheckType::Contradiction)\n            .count();\n        assert_eq!(gap_count, 8, \"semantic gaps should be detected even with no entries\");\n        assert_eq!(contradiction_count, 0, \"no entries means no contradictions\");\n    }",
+  "source_version": "crates/corvia-kernel/src/reasoner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.435645090Z",
+  "valid_from": "2026-03-31T13:20:59.435645090Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/reasoner.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1306,
+    "end_line": 1328,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

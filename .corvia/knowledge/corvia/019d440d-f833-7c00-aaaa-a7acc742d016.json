@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f833-7c00-aaaa-a7acc742d016",
+  "content": "fn name(&self) -> &str {\n        \"config\"\n    }\nfn supported_extensions(&self) -> &[&str] {\n        &[\"toml\", \"yaml\", \"yml\", \"json\"]\n    }\nfn chunk(&self, source: &str, meta: &SourceMetadata) -> Result<ChunkResult> {\n        if source.is_empty() {\n            return Ok(ChunkResult::default());\n        }\n\n        let chunks = match meta.extension.as_str() {\n            \"toml\" => Self::chunk_toml(source, meta),\n            \"yaml\" | \"yml\" => Self::chunk_yaml(source, meta),\n            \"json\" => Self::chunk_json(source, meta),\n            _ => {\n                // Unknown extension — return whole source as a single chunk.\n                vec![RawChunk {\n                    content: source.to_owned(),\n                    chunk_type: \"section\".into(),\n                    start_line: 1,\n                    end_line: source.lines().count().max(1) as u32,\n                    metadata: Self::make_meta(meta),\n                }]\n            }\n        };\n\n        Ok(ChunkResult { chunks, relations: vec![] })\n    }",
+  "source_version": "crates/corvia-kernel/src/chunking_config_fmt.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.443138016Z",
+  "valid_from": "2026-03-31T13:20:59.443138016Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_config_fmt.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 246,
+    "end_line": 268,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

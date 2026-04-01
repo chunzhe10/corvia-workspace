@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-8ff4c217edd1",
+  "content": "## Core Types\n\n## ChunkingPipeline\n\n```rust\npub struct ChunkingPipeline {\n    registry: FormatRegistry,\n    estimator: Arc<dyn TokenEstimator>,\n    config: ChunkingConfig,\n}\n\nimpl ChunkingPipeline {\n    /// Process a single source file through the full pipeline.\n    pub fn process(\n        &self,\n        source: &str,\n        meta: &SourceMetadata,\n    ) -> Result<Vec<ProcessedChunk>>;\n\n    /// Batch process multiple source files.\n    pub fn process_batch(\n        &self,\n        files: &[(String, SourceMetadata)],\n    ) -> Result<Vec<ProcessedChunk>>;\n}\n```\n",
+  "source_version": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465528600Z",
+  "valid_from": "2026-03-31T13:20:59.465528600Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 207,
+    "end_line": 231,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

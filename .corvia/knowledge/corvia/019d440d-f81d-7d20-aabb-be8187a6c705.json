@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81d-7d20-aabb-be8187a6c705",
+  "content": ",\n            r#\"{\"type\":\"user_prompt\",\"session_id\":\"ses-sub-researcher\",\"turn\":1,\"timestamp\":\"2026-03-28T10:00:01Z\",\"content\":\"<teammate-message teammate_id=\\\"team-lead\\\" summary=\\\"Research auth patterns\\\">Full research prompt</teammate-message>\"}\"#, \"\\n\"\n        );\n        std::fs::write(subagent_dir.join(\"agent-abc123.jsonl\"), sub1_jsonl).unwrap();\n\n        // Subagent 2 (reviewer)\n        let sub2_jsonl = concat!(\n            r#\"{\"type\":\"session_start\",\"session_id\":\"ses-sub-reviewer\",\"timestamp\":\"2026-03-28T10:00:02Z\",\"workspace\":\"/tmp\",\"git_branch\":\"main\",\"agent_type\":\"subagent\",\"parent_session_id\":\"ses-lead-001\"}\"#, \"\\n\",\n            r#\"{\"type\":\"user_prompt\",\"session_id\":\"ses-sub-reviewer\",\"turn\":1,\"timestamp\":\"2026-03-28T10:00:02Z\",\"content\":\"<teammate-message teammate_id=\\\"team-lead\\\" summary=\\\"Review code quality\\\">Full review prompt</teammate-message>\"}\"#, \"\\n\"\n        );\n        std::fs::write(subagent_dir.join(\"agent-def456.jsonl\"), sub2_jsonl).unwrap();\n\n        let members = vec![\n            (\"researcher\".to_string(), \"2026-03-28T10:00:01Z\".to_string()),\n            (\"reviewer\".to_string(), \"2026-03-28T10:00:02Z\".to_string()),\n        ];\n\n        let result = correlate_teammates(lead_session_id, sessions_dir, &members);\n\n        assert_eq!(result.len(), 2, \"expected 2 correlations, got {:?}\", result);\n        assert_eq!(result.get(\"researcher\").unwrap(), \"ses-sub-researcher\");\n        assert_eq!(result.get(\"reviewer\").unwrap(), \"ses-sub-reviewer\");\n    }\n\n    // T8b: Empty lead session returns empty map\n    #[test]\n    fn test_empty_lead_session() {\n        let dir = tempfile::tempdir().unwrap();\n        let result = correlate_teammates(\"\", dir.path(), &[]);\n        assert!(result.is_empty());\n    }\n\n    // T8c: Missing transcript files returns empty map\n    #[test]\n    fn test_missing_transcripts() {\n        let dir = tempfile::tempdir().unwrap();\n        let members = vec![(\"worker\".to_string(), \"2026-03-28T10:00:00Z\".to_string())];\n        let result = correlate_teammates(\"ses-nonexistent\", dir.path(), &members);\n        assert!(result.is_empty());\n    }\n}",
+  "source_version": "adapters/corvia-adapter-claude-sessions/rust/src/correlation.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.421322969Z",
+  "valid_from": "2026-03-31T13:20:59.421322969Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-claude-sessions/rust/src/correlation.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 481,
+    "end_line": 519,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

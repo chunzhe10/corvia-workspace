@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f835-7a40-9ae4-0fef61e250bb",
+  "content": "orks() {\n        let networks = HashMap::from([\n            (\"bridge\".into(), NetworkInfo { network_id: \"1\".into() }),\n            (\"host\".into(), NetworkInfo { network_id: \"2\".into() }),\n            (\"none\".into(), NetworkInfo { network_id: \"3\".into() }),\n        ]);\n        assert!(select_network(&networks, None).is_err());\n    }\n\n    #[test]\n    fn test_select_network_ambiguous() {\n        let networks = HashMap::from([\n            (\"net-a\".into(), NetworkInfo { network_id: \"1\".into() }),\n            (\"net-b\".into(), NetworkInfo { network_id: \"2\".into() }),\n        ]);\n        assert!(select_network(&networks, None).is_err());\n    }\n\n    #[test]\n    fn test_parse_memory_limit_gigabytes() {\n        assert_eq!(parse_memory_limit(\"4g\").unwrap(), 4 * 1024 * 1024 * 1024);\n        assert_eq!(parse_memory_limit(\"2G\").unwrap(), 2 * 1024 * 1024 * 1024);\n        assert_eq!(parse_memory_limit(\"  8G  \").unwrap(), 8 * 1024 * 1024 * 1024);\n    }\n\n    #[test]\n    fn test_parse_memory_limit_megabytes() {\n        assert_eq!(parse_memory_limit(\"512m\").unwrap(), 512 * 1024 * 1024);\n        assert_eq!(parse_memory_limit(\"1024M\").unwrap(), 1024 * 1024 * 1024);\n    }\n\n    #[test]\n    fn test_parse_memory_limit_invalid_returns_error() {\n        assert!(parse_memory_limit(\"xyzg\").is_err());\n        assert!(parse_memory_limit(\"banana\").is_err());\n        assert!(parse_memory_limit(\"100\").is_err()); // No suffix\n    }\n\n    #[test]\n    fn test_host_path_boundary_no_false_prefix_match() {\n        // Mount for /data should NOT match /datafiles\n        let hub = HubContext {\n            container_name: \"test\".into(),\n            networks: HashMap::new(),\n            host_mounts: HashMap::from([(\"/data\".into(), \"/host/data\".into())]),\n        };\n        assert_eq!(hub.host_path(\"/datafiles\"), None);\n        assert_eq!(\n            hub.host_path(\"/data/file.txt\"),\n            Some(\"/host/data/file.txt\".into())\n        );\n        // Exact match\n        assert_eq!(hub.host_path(\"/data\"), Some(\"/host/data\".into()));\n    }\n\n    #[test]\n    fn test_host_path_trailing_slash_mount() {\n        let hub = HubContext {\n            container_name: \"test\".into(),",
+  "source_version": "crates/corvia-kernel/src/spoke.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.445366138Z",
+  "valid_from": "2026-03-31T13:20:59.445366138Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/spoke.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 970,
+    "end_line": 1023,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

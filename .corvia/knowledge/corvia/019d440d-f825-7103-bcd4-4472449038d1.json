@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-4472449038d1",
+  "content": "fn default() -> Self {\n        Self {\n            interval_secs: 60,\n            drift_threshold_pct: 100.0,\n        }\n    }\npub struct ModelManagerService {\n    /// Registry tracking all loaded models (for health/list).\n    models: Arc<RwLock<HashMap<String, ModelEntry>>>,\n    /// Delegates embedding model loads to the actual EmbeddingService.\n    embed_svc: EmbeddingServiceImpl,\n    /// Delegates chat model loads to the actual ChatService.\n    chat_svc: ChatServiceImpl,\n    /// Probed GPU capabilities (re-probeable at runtime).\n    gpu: Arc<std::sync::RwLock<GpuCapabilities>>,\n    /// Shared probe state for health reporting.\n    probe_state: crate::probe::SharedProbeState,\n    /// Probe configuration.\n    probe_config: ProbeConfig,\n    /// Handle to the background probe loop task (if running).\n    probe_handle: tokio::sync::Mutex<Option<tokio::task::JoinHandle<()>>>,\n}",
+  "source_version": "crates/corvia-inference/src/model_manager.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429873910Z",
+  "valid_from": "2026-03-31T13:20:59.429873910Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/src/model_manager.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 45,
+    "end_line": 60,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

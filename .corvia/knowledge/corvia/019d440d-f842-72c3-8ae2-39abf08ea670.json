@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-39abf08ea670",
+  "content": "### Bug fix: Route existing search through pipeline\n### AppState update\n\n## Dependency Chain\n\n```\nM3  (GraphStore impl)  ──┐\n                          ├──► M3.2 (RAG Pipeline)\nM3.1 (GenerationEngine) ─┘\n```\n\nM3.2 can partially function without M3.1 — `context()` mode works without `GenerationEngine`. Only `ask()` mode requires M3.1.\n\n\n## Test Strategy\n\n| Component | Approach |\n|-----------|----------|\n| `VectorRetriever` | Unit test: MockEngine + LiteStore (same pattern as ContextBuilder tests) |\n| `GraphExpandRetriever` | Unit test: MockEngine + LiteStore + LiteGraphStore |\n| `StructuredAugmenter` | Pure unit test: `Vec<SearchResult>` → formatted string, no I/O |\n| `TokenEstimator` | Unit test: chars/4 heuristic, budget enforcement |\n| `RagPipeline` | Integration test: mock all three traits, verify orchestration + trace |\n| REST/MCP endpoints | Extend existing server tests with new endpoints |\n| E2E with Ollama | Integration test (skip if unavailable): full vector → augment → generate |",
+  "source_version": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458991789Z",
+  "valid_from": "2026-03-31T13:20:59.458991789Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 406,
+    "end_line": 426,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0c33501223ff",
+  "content": "### Task 4: ConfigChunker\n\n            file_path: \"Cargo.toml\".into(),\n            extension: \"toml\".into(),\n            language: Some(\"toml\".into()),\n            scope_id: \"test\".into(),\n            source_version: \"v1\".into(),\n        }\n    }\n\n    fn json_meta() -> SourceMetadata {\n        SourceMetadata {\n            file_path: \"package.json\".into(),\n            extension: \"json\".into(),\n            language: Some(\"json\".into()),\n            scope_id: \"test\".into(),\n            source_version: \"v1\".into(),\n        }\n    }\n\n    fn yaml_meta() -> SourceMetadata {\n        SourceMetadata {\n            file_path: \"config.yaml\".into(),\n            extension: \"yaml\".into(),\n            language: Some(\"yaml\".into()),\n            scope_id: \"test\".into(),\n            source_version: \"v1\".into(),\n        }\n    }\n\n    #[test]\n    fn test_toml_section_splitting() {\n        let source = \"[package]\\nname = \\\"test\\\"\\nversion = \\\"0.1.0\\\"\\n\\n[dependencies]\\nserde = \\\"1\\\"\\ntokio = \\\"1\\\"\\n\";\n        let chunker = ConfigChunker::new();\n        let chunks = chunker.chunk(source, &toml_meta()).unwrap();\n        assert!(chunks.len() >= 2, \"expected at least 2 TOML sections, got {}\", chunks.len());\n        assert!(chunks[0].content.contains(\"[package]\"));\n        assert!(chunks.iter().any(|c| c.content.contains(\"[dependencies]\")));\n    }\n",
+  "source_version": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457417238Z",
+  "valid_from": "2026-03-31T13:20:59.457417238Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 807,
+    "end_line": 844,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

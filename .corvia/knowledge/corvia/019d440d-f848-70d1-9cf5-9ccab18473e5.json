@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9ccab18473e5",
+  "content": "#### Part 2: Internal Identity Scheme (Registered Agents)\n#### Part 3: Knowledge Ownership\n\n#### Part 4: Atomic Write Path (Revised from D43)\n\nThe original D43 write path (JSON → embed → HNSW → Redb) has a crash-safety gap: a vector inserted into HNSW without Redb metadata creates a ghost entry. Revised path eliminates this.\n\n**Revised write path** (per entry):\n```\nStep 1: Write JSON file to staging dir (filesystem)\n        → Cheap, recoverable. Orphaned file is harmless.\nStep 2: Embed content via Ollama/vLLM (network call)\n        → Idempotent: same content always produces same vector.\n        → If crash here: orphaned staging file, re-embed on recovery.\nStep 3: Redb transaction (ATOMIC) {\n          - Write entry metadata (agent_id, session_id, status: Pending)\n          - Write HNSW mapping (uuid ↔ hnsw_id)\n          - Insert vector into HNSW index\n        }\n        → All-or-nothing. No partial state possible.\n```\n\n**Why this is crash-safe**: Step 1 alone = orphaned file (recovery: re-embed + insert). Steps 1+2 without 3 = orphaned file + lost embedding (recovery: same — re-embed is idempotent). Step 3 is atomic via Redb transaction. No inconsistent state is possible.\n\n**Recovery scan** (runs on session resume):\n```\nFor each JSON file in staging dir:\n  Check Redb: does entry metadata exist for this file's entry_id?\n  YES → already inserted, skip\n  NO  → re-embed content → atomic Redb transaction (insert metadata + HNSW vector)\n```\n",
+  "source_version": "docs/rfcs/milestone-revision-notes.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464309056Z",
+  "valid_from": "2026-03-31T13:20:59.464309056Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/milestone-revision-notes.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 376,
+    "end_line": 404,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

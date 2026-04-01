@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-1f343a05db77",
+  "content": "### Step 3: Write crash recovery test\n### Step 4: Write conflict merge test\n\n### Step 5: Run all tests\n\nRun: `cargo test --workspace`\nExpected: All tests pass (new M2 tests + existing M1 tests).\n\n\n### Step 6: Commit\n\n```bash\ngit add tests/integration/agent_e2e_test.rs\ngit commit -m \"test(m2): integration tests for agent lifecycle, concurrency, and recovery\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452057122Z",
+  "valid_from": "2026-03-31T13:20:59.452057122Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1864,
+    "end_line": 1877,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

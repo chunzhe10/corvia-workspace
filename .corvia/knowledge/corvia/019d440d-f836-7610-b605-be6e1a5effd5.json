@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f836-7610-b605-be6e1a5effd5",
+  "content": "pub fn compute_retention_score(params: &RetentionParams) -> f32 {\n    compute_retention_score_breakdown(params).total\n}\npub fn determine_tier_transition(current_tier: Tier, score: f32) -> Option<Tier> {\n    match current_tier {\n        Tier::Hot if score < THRESHOLD_HOT_TO_WARM => Some(Tier::Warm),\n        Tier::Warm if score >= THRESHOLD_WARM_TO_HOT => Some(Tier::Hot),\n        Tier::Warm if score < THRESHOLD_WARM_TO_COLD => Some(Tier::Cold),\n        Tier::Cold if score >= THRESHOLD_COLD_TO_WARM => Some(Tier::Warm),\n        Tier::Cold if score < THRESHOLD_COLD_TO_FORGOTTEN => Some(Tier::Forgotten),\n        _ => None, // includes Forgotten (terminal) and all in-range cases\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/scoring.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.446401981Z",
+  "valid_from": "2026-03-31T13:20:59.446401981Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/scoring.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 172,
+    "end_line": 181,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

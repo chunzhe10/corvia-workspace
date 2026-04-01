@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f832-7981-8b9c-423e3d01a54e",
+  "content": "let entry = KnowledgeEntry::new(\"test\".into(), \"scope\".into(), \"v1\".into());\n        staging.write_staging_file(&staging_dir, &entry).unwrap();\n        let files = staging.list_staging_files(&staging_dir).unwrap();\n        assert_eq!(files.len(), 1);\n    }\nfn test_cleanup_staging_dir() {\n        let dir = tempfile::tempdir().unwrap();\n        let staging = test_staging_in(dir.path());\n        let path = staging.create_staging_dir(\"test::agent\", \"sess-abc\").unwrap();\n        assert!(path.exists());\n        staging.cleanup_staging_dir(&path).unwrap();\n        assert!(!path.exists());\n    }",
+  "source_version": "crates/corvia-kernel/src/staging.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.442057100Z",
+  "valid_from": "2026-03-31T13:20:59.442057100Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/staging.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 261,
+    "end_line": 268,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

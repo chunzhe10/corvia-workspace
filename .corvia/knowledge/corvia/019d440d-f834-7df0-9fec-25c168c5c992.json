@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f834-7df0-9fec-25c168c5c992",
+  "content": "sert_eq!(\n                linear_idx, hash_idx,\n                \"Source index should match linear scan for {}:{}\",\n                pc.metadata.source_file, pc.start_line\n            );\n            assert_eq!(hash_idx, Some(expected_idx));\n        }\n    }\n}\nfn test_infer_content_role() {\n        assert_eq!(infer_content_role(\"AGENTS.md\"), Some(\"instruction\".into()));\n        assert_eq!(infer_content_role(\"CLAUDE.md\"), Some(\"instruction\".into()));\n        assert_eq!(infer_content_role(\"README.md\"), Some(\"instruction\".into()));\n        assert_eq!(infer_content_role(\"src/.memory/foo.md\"), Some(\"memory\".into()));\n        assert_eq!(infer_content_role(\"docs/rfcs/design.md\"), Some(\"design\".into()));\n        assert_eq!(infer_content_role(\"docs/plans/plan.md\"), Some(\"plan\".into()));\n        assert_eq!(infer_content_role(\"docs/decisions/d.md\"), Some(\"decision\".into()));\n        assert_eq!(infer_content_role(\"docs/learnings/l.md\"), Some(\"learning\".into()));\n        assert_eq!(infer_content_role(\"docs/other.md\"), Some(\"design\".into()));\n        assert_eq!(infer_content_role(\"src/main.rs\"), Some(\"code\".into()));\n        assert_eq!(infer_content_role(\"image.png\"), None);\n    }",
+  "source_version": "crates/corvia-kernel/src/ingest.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.444763655Z",
+  "valid_from": "2026-03-31T13:20:59.444763655Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ingest.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1434,
+    "end_line": 1446,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

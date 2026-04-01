@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-2091e32cfc1d",
+  "content": "{}: {e}, using defaults\", path.display());\n                IntrospectConfig::default_queries()\n            })\n        } else {\n            info!(\"No introspect.toml found, using built-in queries\");\n            IntrospectConfig::default_queries()\n        };\n        Self::new(config)\n    }\n\n    /// Phase 1: Check environment. Returns a list of (service, status) pairs.\n    pub async fn check_env(\n        &self,\n        docker: &crate::docker::DockerProvisioner,\n    ) -> Vec<(&'static str, bool)> {\n        let surrealdb = docker.is_running().await.unwrap_or(false);\n        let vllm = docker.is_vllm_running().await.unwrap_or(false);\n        vec![\n            (\"SurrealDB\", surrealdb),\n            (\"vLLM\", vllm),\n        ]\n    }\n\n    /// Phase 2: Ingest Corvia's own source code. Returns number of chunks stored.\n    pub async fn ingest_self(\n        &self,\n        source_path: &str,\n        adapter: &dyn IngestionAdapter,\n        engine: &dyn InferenceEngine,\n        store: &dyn QueryableStore,\n    ) -> Result<usize> {\n        let entries = adapter.ingest(source_path).await?;\n        let total = entries.len();\n        info!(\"{total} chunks extracted from {source_path}\");\n\n        let batch_size = 32;\n        let mut stored = 0;\n        for batch in entries.chunks(batch_size) {\n            let texts: Vec<String> = batch.iter().map(|e| e.content.clone()).collect();\n            let embeddings = engine.embed_batch(&texts).await?;\n\n            for (entry, embedding) in batch.iter().zip(embeddings) {\n                let mut entry = entry.clone();",
+  "source_version": "docs/rfcs/2026-02-28-introspect-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452263507Z",
+  "valid_from": "2026-03-31T13:20:59.452263507Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-introspect-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 643,
+    "end_line": 678,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

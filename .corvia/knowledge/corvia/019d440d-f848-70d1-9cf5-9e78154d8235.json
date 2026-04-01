@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9e78154d8235",
+  "content": "### Task F3: ChunkingStrategy Trait + Core Types\n\n\n/// Additional chunk metadata for provenance and graph linking.\n#[derive(Debug, Clone, Default)]\npub struct ChunkMetadata {\n    pub source_file: String,\n    pub language: Option<String>,\n    /// For split chunks — links back to original.\n    pub parent_chunk_id: Option<Uuid>,\n    /// Hint for which chunks can merge (e.g., same impl block).\n    pub merge_group: Option<String>,\n}\n\n/// Final chunk after pipeline processing — ready for embedding.\n#[derive(Debug, Clone)]\npub struct ProcessedChunk {\n    /// Content including overlap prefix (for embedding).\n    pub content: String,\n    /// Original content without overlap (for display/citation).\n    pub original_content: String,\n    pub chunk_type: String,\n    pub start_line: u32,\n    pub end_line: u32,\n    pub metadata: ChunkMetadata,\n    pub token_estimate: usize,\n    pub processing: ProcessingInfo,\n}\n\n/// How this chunk was processed by the pipeline.\n#[derive(Debug, Clone)]\npub struct ProcessingInfo {\n    pub strategy_name: String,\n    pub was_split: bool,\n    pub was_merged: bool,\n    pub overlap_tokens: usize,\n}\n\n/// Raw source file returned by IngestionAdapter (D69).",
+  "source_version": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464517441Z",
+  "valid_from": "2026-03-31T13:20:59.464517441Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 326,
+    "end_line": 362,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

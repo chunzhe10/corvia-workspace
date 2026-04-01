@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0c6490fa5470",
+  "content": "fmt -- --nocapture`\nExpected: All tests PASS\n\n**Step 5: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/chunking_config_fmt.rs crates/corvia-kernel/src/lib.rs\ngit commit -m \"feat(m3.3): ConfigChunker — TOML/YAML/JSON section splitting (D68)\"\n```\n\n---\n\n### Task 5: PdfChunker\n\nPDF text extraction and paragraph-level chunking.\n\n**Files:**\n- Create: `crates/corvia-kernel/src/chunking_pdf.rs`\n- Modify: `crates/corvia-kernel/src/lib.rs` (add module declaration)\n- Modify: `crates/corvia-kernel/Cargo.toml` (add `pdf-extract` dependency)\n\n**Step 1: Add dependency**\n\nAdd to `crates/corvia-kernel/Cargo.toml` under `[dependencies]`:\n```toml\npdf-extract = \"0.7\"\n```\n\nRun: `cargo check -p corvia-kernel` to verify the dep resolves.\n\n**Step 2: Write the failing tests**\n\nCreate `crates/corvia-kernel/src/chunking_pdf.rs` with stub + tests:\n\n```rust\n//! PdfChunker — PDF text extraction and paragraph-level chunking (D68).\n//!\n//! Uses the `pdf-extract` crate for pure-Rust PDF text extraction.\n//! Falls back gracefully if PDF parsing fails (scanned PDFs, encrypted).\n\nuse corvia_common::errors::Result;\nuse crate::chunking_strategy::*;\n\npub struct PdfChunker;\n\nimpl PdfChunker {\n    pub fn new() -> Self { Self }\n}\n\nimpl ChunkingStrategy for PdfChunker {\n    fn name(&self) -> &str { \"pdf\" }\n    fn supported_extensions(&self) -> &[&str] { &[\"pdf\"] }\n    fn chunk(&self, _source: &str, _meta: &SourceMetadata) -> Result<Vec<RawChunk>> {\n        todo!()\n    }\n}\n\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    fn meta() -> SourceMetadata {\n        SourceMetadata {\n            file_path: \"doc.pdf\".into(),\n            extension: \"pdf\".into(),\n            language: None,\n            scope_id: \"test\".into(),\n            source_version: \"v1\".into(),\n        }\n    }\n\n    #[test]\n    fn test_paragraph_splitting() {\n        // PdfChunker receives pre-extracted text (the caller reads the PDF bytes\n        // and passes extracted text as `source`). This tests the paragraph splitting.\n        let source = \"First paragraph of the document.\\n\\nSecond paragraph with more content.\\n\\nThird paragraph concludes.\";\n        let chunker = PdfChunker::new();\n        let chunks = chunker.chunk(source, &meta()).unwrap();\n        assert!(chunks.len() >= 2, \"expected paragraph-level chunks, got {}\", chunks.len());",
+  "source_version": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457448658Z",
+  "valid_from": "2026-03-31T13:20:59.457448658Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 921,
+    "end_line": 987,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

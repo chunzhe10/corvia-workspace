@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f834-7df0-9fec-21fd2ad4b2c5",
+  "content": "pub struct IngestReport {\n    pub repos: Vec<RepoIngestStats>,\n    pub docs_chunks: usize,\n    pub session_turns: usize,\n    pub total_chunks: usize,\n}\npub struct IngestStatus {\n    pub state: IngestState,\n    pub started_at: Option<chrono::DateTime<chrono::Utc>>,\n    pub finished_at: Option<chrono::DateTime<chrono::Utc>>,\n    pub error: Option<String>,\n    pub report: Option<IngestReport>,\n}",
+  "source_version": "crates/corvia-kernel/src/ingest.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.444250666Z",
+  "valid_from": "2026-03-31T13:20:59.444250666Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ingest.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 81,
+    "end_line": 87,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f827-7411-ad28-5ef18bf50177",
+  "content": "# corvia-telemetry\n\n## Features\n\n- **Telemetry initialization** from `TelemetryConfig` (stdout, file, OTLP exporters)\n- **Span name constants** — canonical span names shared across all crates\n- **OpenTelemetry integration** — OTLP gRPC export, W3C trace context propagation\n- **Configurable exporters** — stdout (default), JSON file, OTLP endpoint\n\n\n## Configuration\n\nConfigured via `[telemetry]` in `corvia.toml`:\n\n```toml\n[telemetry]\nexporter = \"stdout\"        # stdout | file | otlp\notlp_endpoint = \"\"         # gRPC endpoint for OTLP\nlog_format = \"json\"        # json | pretty\nmetrics_enabled = true\n```\n",
+  "source_version": "crates/corvia-telemetry/README.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.431570484Z",
+  "valid_from": "2026-03-31T13:20:59.431570484Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-telemetry/README.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 5,
+    "end_line": 23,
+    "content_role": "instruction",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "procedural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

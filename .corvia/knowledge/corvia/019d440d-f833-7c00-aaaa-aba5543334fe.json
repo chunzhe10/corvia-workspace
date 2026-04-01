@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f833-7c00-aaaa-aba5543334fe",
+  "content": "        }\n                Event::Text(text) if in_code_block => {\n                    // Scan code block text for file-path patterns.\n                    let line = byte_offset_to_line(range.start);\n                    for word in text.split_whitespace() {\n                        // Strip surrounding quotes/punctuation.\n                        let cleaned = word.trim_matches(|c: char| {\n                            c == '\"' || c == '\\'' || c == ',' || c == ';' || c == '('  || c == ')'\n                        });\n                        if Self::is_file_path_reference(cleaned)\n                            && let Some(chunk) = Self::find_chunk_for_line(chunks, line) {\n                                let key = (\n                                    chunk.start_line,\n                                    cleaned.to_string(),\n                                    String::new(),\n                                );\n                                if seen.insert(key) {\n                                    relations.push(ChunkRelation {\n                                        from_source_file: meta.file_path.clone(),\n                                        from_start_line: chunk.start_line,\n                                        relation: \"references\".into(),\n                                        to_file: cleaned.to_string(),\n                                        to_name: None,\n                                    });\n                                }\n                            }\n                    }\n                }\n                _ => {}\n            }\n        }\n\n        relations\n    }",
+  "source_version": "crates/corvia-kernel/src/chunking_markdown.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.443649126Z",
+  "valid_from": "2026-03-31T13:20:59.443649126Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_markdown.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 188,
+    "end_line": 216,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

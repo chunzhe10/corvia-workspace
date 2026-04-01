@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82e-71f3-920f-90c625e3a2f7",
+  "content": "the HNSW index work with embeddings\");\n        assert!(terms.contains(\"HNSW\"));\n        assert!(terms.contains(\"index\"));\n        assert!(terms.contains(\"embeddings\"));\n        assert!(!terms.contains(\"how\"));\n        assert!(!terms.contains(\"the\"));\n    }\npub struct TokenBudget {\n    /// Override for max context tokens. None = model-aware auto-sizing.\n    pub max_context_tokens: Option<usize>,\n    /// Fraction of context window reserved for answer generation.\n    pub reserve_for_answer: f32,\n    /// Fraction of context window reserved for skill content. 0.0 = skills disabled.\n    pub reserve_for_skills: f32,\n    /// Query embedding for skill matching. None = skip skill matching.\n    pub query_embedding: Option<Vec<f32>>,\n    /// Maximum number of skills to inject.\n    pub max_skills: usize,\n    /// Minimum cosine similarity to select a skill.\n    pub skill_threshold: f32,\n}",
+  "source_version": "crates/corvia-kernel/src/rag_types.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.438318945Z",
+  "valid_from": "2026-03-31T13:20:59.438318945Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/rag_types.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 240,
+    "end_line": 253,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

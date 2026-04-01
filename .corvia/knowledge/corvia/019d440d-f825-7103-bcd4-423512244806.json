@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-423512244806",
+  "content": "() {\n        let dir = TempDir::new().unwrap();\n        let dirs = test_dirs(dir.path());\n        let stdin = serde_json::json!({\"task_id\": \"\"});\n        handle_task_created_inner(&dirs, &stdin).unwrap();\n        assert!(!dirs.staging_root.exists());\n    }\nfn test_description_truncation() {\n        let dir = TempDir::new().unwrap();\n        let dirs = test_dirs(dir.path());\n\n        let big_desc = \"x\".repeat(MAX_EVENT_LINE_BYTES + 1000);\n        setup_task(&dirs, \"my-team\", \"1\", &serde_json::json!({}));\n\n        let stdin = serde_json::json!({\n            \"task_id\": \"1\",\n            \"task_subject\": \"big task\",\n            \"task_description\": big_desc,\n        });\n\n        handle_task_created_inner(&dirs, &stdin).unwrap();\n\n        let content = fs::read_to_string(dirs.staging_root.join(\"my-team/tasks.jsonl\")).unwrap();\n        let parsed: serde_json::Value = serde_json::from_str(content.trim()).unwrap();\n        let desc = parsed[\"description\"].as_str().unwrap();\n        assert!(desc.len() <= MAX_EVENT_LINE_BYTES);\n    }",
+  "source_version": "crates/corvia-cli/src/hooks/agent_teams.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429627161Z",
+  "valid_from": "2026-03-31T13:20:59.429627161Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/agent_teams.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 968,
+    "end_line": 987,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

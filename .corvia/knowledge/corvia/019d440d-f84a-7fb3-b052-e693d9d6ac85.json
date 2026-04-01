@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84a-7fb3-b052-e693d9d6ac85",
+  "content": "## File Map\n\n### Task 1: Add dashmap dependency\n\n**Files:**\n- Modify: `crates/corvia-kernel/Cargo.toml`\n\n- [ ] **Step 1: Add dashmap to dependencies**\n\nIn `crates/corvia-kernel/Cargo.toml`, add after the `chrono` line:\n\n```toml\ndashmap = \"6\"\n```\n\n- [ ] **Step 2: Verify it compiles**\n\nRun: `cargo check -p corvia-kernel`\nExpected: compiles with no errors\n\n- [ ] **Step 3: Commit**\n\n```bash\ngit add crates/corvia-kernel/Cargo.toml\ngit commit -m \"feat(kernel): add dashmap dependency for buffered access tracking\"\n```\n\n---\n",
+  "source_version": "docs/superpowers/plans/2026-03-28-buffered-access-tracking-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.466463634Z",
+  "valid_from": "2026-03-31T13:20:59.466463634Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/superpowers/plans/2026-03-28-buffered-access-tracking-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 24,
+    "end_line": 50,
+    "content_role": "plan",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

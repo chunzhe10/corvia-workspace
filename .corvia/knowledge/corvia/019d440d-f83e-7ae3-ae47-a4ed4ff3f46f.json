@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83e-7ae3-ae47-a4ed4ff3f46f",
+  "content": "e config sections.\nconst STRUCTURAL_SECTIONS: &[&str] = &[\"storage\", \"server\", \"embedding\", \"project\", \"telemetry\"];\n\n/// Write a config value. Returns the updated config.\npub fn config_set(\n    config_path: &std::path::Path,\n    config: &mut CorviaConfig,\n    section: &str,\n    key: &str,\n    value: serde_json::Value,\n) -> Result<CorviaConfig> {\n    if STRUCTURAL_SECTIONS.contains(&section) {\n        return Err(CorviaError::Config(\n            format!(\"Section '{section}' is not hot-reloadable; requires server restart\")\n        ));\n    }\n\n    // Serialize to Value, mutate, deserialize back\n    let mut config_value = serde_json::to_value(&*config)\n        .map_err(|e| CorviaError::Config(format!(\"Serialize error: {e}\")))?;\n\n    let section_obj = config_value.get_mut(section)\n        .ok_or_else(|| CorviaError::Config(format!(\"Unknown section: {section}\")))?;\n\n    let obj = section_obj.as_object_mut()\n        .ok_or_else(|| CorviaError::Config(format!(\"Section '{section}' is not an object\")))?;\n\n    obj.insert(key.to_string(), value);\n\n    let updated: CorviaConfig = serde_json::from_value(config_value)\n        .map_err(|e| CorviaError::Config(format!(\"Invalid config after update: {e}\")))?;\n\n    // Write TOML to disk\n    let toml_str = toml::to_string_pretty(&updated)\n        .map_err(|e| CorviaError::Config(format!(\"TOML serialize error: {e}\")))?;\n    std::fs::write(config_path, toml_str)\n        .map_err(|e| CorviaError::Config(format!(\"Failed to write config: {e}\")))?;\n\n    *config = updated.clone();\n    Ok(updated)",
+  "source_version": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.454869199Z",
+  "valid_from": "2026-03-31T13:20:59.454869199Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 612,
+    "end_line": 644,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

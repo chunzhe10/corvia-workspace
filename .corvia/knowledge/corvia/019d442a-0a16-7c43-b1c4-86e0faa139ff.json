@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a16-7c43-b1c4-86e0faa139ff",
+  "content": "═════════════════════════════════════════════════ */\n  .slide-wave { background: var(--bg-dark); }\n  .slide-wave .slide-label { color: var(--accent-amber); }\n  .slide-wave .wave-events {\n    display: flex;\n    flex-direction: column;\n    gap: 20px;\n    margin-bottom: 28px;\n  }\n  .slide-wave .wave-event {\n    background: var(--bg-card);\n    border-radius: 16px;\n    padding: 28px 32px;\n    display: flex;\n    gap: 20px;\n    align-items: center;\n    border-left: 4px solid;\n  }\n  .slide-wave .wave-trigger {\n    flex: 1;\n    font-size: 19px;\n    color: var(--text-secondary);\n    line-height: 1.5;\n  }\n  .slide-wave .wave-trigger strong {\n    color: var(--text-primary);\n    font-weight: 700;\n    display: block;\n    margin-bottom: 4px;\n    font-size: 21px;\n  }\n  .slide-wave .wave-arrow {\n    font-size: 28px;\n    flex-shrink: 0;\n  }\n  .slide-wave .wave-response {\n    flex: 1;\n    font-size: 20px;\n    font-weight: 600;\n    line-height: 1.5;\n  }\n  .slide-wave .wave-insight {\n    background: rgba(245,158,11,0.08);\n    border: 1px solid rgba(245,158,11,0.25);\n    border-radius: 16px;\n    padding: 32px 36px;\n    font-size: 24px;\n    font-weight: 500;\n    color: var(--text-primary);\n    line-height: 1.6;\n  }\n</style>\n</head>\n<body>",
+  "source_version": "marketing/linkedin/2026-03-29-recursive-loop-reflection/recursive-loop-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.030023232Z",
+  "valid_from": "2026-03-31T13:51:39.030023232Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-29-recursive-loop-reflection/recursive-loop-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 559,
+    "end_line": 609,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f838-7ec1-a413-ab2d015e8bbe",
+  "content": "    CorviaError::Storage(format!(\"Failed to read {}: {e}\", path.display()))\n            })?;\n            if let Ok(entry) = serde_json::from_str::<KnowledgeEntry>(&json) {\n                entries.push(entry);\n            }\n        }\n    }\n    Ok(entries)\n}\npub fn read_all(data_dir: &Path) -> Result<Vec<KnowledgeEntry>> {\n    let knowledge_dir = data_dir.join(\"knowledge\");\n    if !knowledge_dir.exists() {\n        return Ok(Vec::new());\n    }\n    let mut entries = Vec::new();\n    for scope_entry in std::fs::read_dir(&knowledge_dir)\n        .map_err(|e| CorviaError::Storage(format!(\"Failed to read knowledge dir: {e}\")))?\n    {\n        let scope_entry = scope_entry.map_err(|e| CorviaError::Storage(e.to_string()))?;\n        if scope_entry.path().is_dir() {\n            let scope_id = scope_entry.file_name().to_string_lossy().to_string();\n            let scope_entries = read_scope(data_dir, &scope_id)?;\n            entries.extend(scope_entries);\n        }\n    }\n    Ok(entries)\n}",
+  "source_version": "crates/corvia-kernel/src/knowledge_files.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.448022874Z",
+  "valid_from": "2026-03-31T13:20:59.448022874Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/knowledge_files.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 82,
+    "end_line": 99,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

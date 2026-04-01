@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-1c9dabb032be",
+  "content": "### Task 2: ClusterStore — Hierarchy Builder and Background Recompute\n\n    pub fn build(entries: &[(String, Vec<f32>)], k_min: usize, k_max: usize) -> Self {\n        let embeddings: Vec<Vec<f32>> = entries.iter().map(|(_, e)| e.clone()).collect();\n        let k_max = k_max.min(entries.len());\n        let k_min = k_min.min(k_max);\n\n        // L0: super-clusters\n        let best_k = find_best_k(&embeddings, k_min, k_max, 500);\n        let l0_assignments = kmeans(&embeddings, best_k, 100);\n\n        let mut super_clusters = Vec::new();\n        for c in 0..best_k {\n            let member_indices: Vec<usize> = l0_assignments.iter().enumerate()\n                .filter(|(_, &a)| a == c).map(|(i, _)| i).collect();\n            if member_indices.is_empty() { continue; }\n\n            let entry_ids: Vec<String> = member_indices.iter().map(|&i| entries[i].0.clone()).collect();\n            let centroid = compute_centroid(&member_indices.iter().map(|&i| &embeddings[i]).collect::<Vec<_>>());\n\n            // Label from nearest entry to centroid\n            let nearest_idx = member_indices.iter()\n                .min_by(|&&a, &&b| euclidean_dist_sq(&embeddings[a], &centroid)\n                    .partial_cmp(&euclidean_dist_sq(&embeddings[b], &centroid)).unwrap())\n                .copied().unwrap();\n            let label = entries[nearest_idx].0.clone(); // Will be replaced with content preview by caller\n\n            super_clusters.push(ClusterNode {\n                cluster_id: format!(\"sc-{c}\"),\n                label,\n                level: 0,",
+  "source_version": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456300439Z",
+  "valid_from": "2026-03-31T13:20:59.456300439Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 399,
+    "end_line": 427,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

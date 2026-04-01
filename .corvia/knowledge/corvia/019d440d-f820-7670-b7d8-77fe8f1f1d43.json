@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f820-7670-b7d8-77fe8f1f1d43",
+  "content": " = vec![\"graph store\".to_string(), \"edge handling\".to_string()];\n        let current = vec![\n            \"merge pipeline\".to_string(),\n            \"conflict resolution\".to_string(),\n        ];\n        assert!(is_topic_drifted(&historical, &current));\n    }\nfn test_no_drift_when_overlap() {\n        let historical = vec![\"graph store\".to_string(), \"edge handling\".to_string()];\n        let current = vec![\"graph store\".to_string(), \"traversal\".to_string()];\n        assert!(!is_topic_drifted(&historical, &current));\n    }",
+  "source_version": "crates/corvia-server/src/dashboard/clustering.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.424406035Z",
+  "valid_from": "2026-03-31T13:20:59.424406035Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/clustering.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 747,
+    "end_line": 751,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

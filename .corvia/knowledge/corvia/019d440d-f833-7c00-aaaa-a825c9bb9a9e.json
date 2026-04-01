@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f833-7c00-aaaa-a825c9bb9a9e",
+  "content": "git:v1\".into(),\n            source_version: \"abc123\".into(),\n            workstream: None,\n            content_role: None,\n            source_origin: None,\n                    parent_session_id: None,\n                    edge_hints: vec![],\n        }\n    }\nfn test_toml_section_splitting() {\n        let chunker = ConfigChunker::new();\n        let source = \"[package]\\nname=\\\"test\\\"\\n\\n[deps]\\nserde=\\\"1\\\"\";\n        let chunks = chunker.chunk(source, &toml_meta()).unwrap().chunks;\n\n        assert!(\n            chunks.len() >= 2,\n            \"expected at least 2 chunks, got {}: {:?}\",\n            chunks.len(),\n            chunks.iter().map(|c| &c.content).collect::<Vec<_>>()\n        );\n\n        let all_content: String = chunks.iter().map(|c| c.content.as_str()).collect::<Vec<_>>().join(\"\");\n        assert!(all_content.contains(\"[package]\"), \"should contain [package]\");\n        assert!(all_content.contains(\"[deps]\"), \"should contain [deps]\");\n    }",
+  "source_version": "crates/corvia-kernel/src/chunking_config_fmt.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.443206614Z",
+  "valid_from": "2026-03-31T13:20:59.443206614Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_config_fmt.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 325,
+    "end_line": 340,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

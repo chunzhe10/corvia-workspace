@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82c-7720-a124-32d93b4fdb83",
+  "content": "\n            return 0;\n        }\n\n        // CAS to claim the flush lock.\n        if self\n            .flushing\n            .compare_exchange(false, true, Ordering::AcqRel, Ordering::Relaxed)\n            .is_err()\n        {\n            return 0;\n        }\n\n        let flushed = self.flush_inner(db);\n\n        self.last_flush.store(now, Ordering::Release);\n        self.flushing.store(false, Ordering::Release);\n\n        flushed\n    }\n\n    /// Synchronous flush of all pending events. Called from `LiteStore::Drop`\n    /// and `LiteStore::flush_access_buffer()`.\n    ///\n    /// Acquires the flush lock to prevent concurrent `try_flush` from racing.\n    /// Spins briefly if another flush is in progress (unlikely in practice\n    /// since this is called during shutdown).\n    pub(crate) fn flush_sync(&self, db: &Arc<Database>) -> usize {\n        if self.pending.is_empty() {\n            return 0;\n        }\n\n        // Spin until we acquire the flush lock. In practice, contention only\n        // happens if try_flush is mid-flight during Drop, which is rare.\n        loop {\n            match self.flushing.compare_exchange(\n                false,\n                true,\n                Ordering::AcqRel,\n                Ordering::Relaxed,\n            ) {\n                Ok(_) => break,\n                Err(_) => std::hint::spin_loop(),",
+  "source_version": "crates/corvia-kernel/src/access_buffer.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.436408197Z",
+  "valid_from": "2026-03-31T13:20:59.436408197Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/access_buffer.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 117,
+    "end_line": 146,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

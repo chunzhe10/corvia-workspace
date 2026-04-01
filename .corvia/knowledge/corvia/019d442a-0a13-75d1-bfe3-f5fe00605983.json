@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a13-75d1-bfe3-f5fe00605983",
+  "content": "\"slide-number\">05 / 08</div>\n</div>\n```\n\n- [ ] **Step 2: Visual check**\n\nVerify: VRAM bar mostly green (free), massive wall with \"GPU MEMORY FULL\" in red, Claude bubble on left suggesting proxies, user bubble on right pushing back, hairline crack at base.\n\n### Task 7: Build Slide 6 (The Reveal)\n\n- [ ] **Step 1: Add Slide 6 HTML**\n\n```html\n<!-- Slide 6: THE REVEAL -->\n<div class=\"slide\">\n  <div class=\"slide-label\" style=\"color: var(--accent-green);\">The Reveal</div>\n  <div class=\"slide-title\"><span class=\"highlight-red\">Wayland</span> Again.</div>\n  <div class=\"slide-subtitle\">Wall Shattered.</div>\n\n  <!-- Rubble from shattered wall with green glow -->\n  <div style=\"position: relative; display: flex; justify-content: center; align-items: flex-end; height: 100px; margin-bottom: 24px;\" class=\"green-glow\">\n    <div style=\"display: flex; gap: 8px; align-items: flex-end;\">\n      <div style=\"width: 40px; height: 22px; background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.2); border-radius: 4px; transform: rotate(-12deg);\"></div>\n      <div style=\"width: 30px; height: 16px; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.15); border-radius: 3px; transform: rotate(8deg);\"></div>\n      <div style=\"width: 50px; height: 20px; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.18); border-radius: 4px; transform: rotate(-5deg);\"></div>",
+  "source_version": "marketing/2026-03-14-resolve-linux-carousel.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.027538546Z",
+  "valid_from": "2026-03-31T13:51:39.027538546Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/2026-03-14-resolve-linux-carousel.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 584,
+    "end_line": 600,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

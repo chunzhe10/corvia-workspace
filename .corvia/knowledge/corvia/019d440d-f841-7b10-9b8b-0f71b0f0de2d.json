@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0f71b0f0de2d",
+  "content": "should be pasted inside the existing `<style>...</style>` tags.\n\n-**Step 3: Commit**\n\n```bash\ngit add .devcontainer/extensions/corvia-services/extension.js\ngit commit -m \"feat(extension): replace dashboard CSS with warm dark Figma-inspired theme\"\n```\n\n---\n\n## Chunk 3: HTML Skeleton\n",
+  "source_version": "docs/rfcs/2026-03-10-dashboard-redesign.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457914156Z",
+  "valid_from": "2026-03-31T13:20:59.457914156Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-dashboard-redesign.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 548,
+    "end_line": 549,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

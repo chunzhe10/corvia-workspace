@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-76474aee6484",
+  "content": "### D6: Self-Documenting (Dogfooding)\n### D7: Target Audience\n\n### D8: LLM Techniques to Showcase\n- **Decision**: All 12 techniques — must-have for all\n- **No alternatives** — user requested all techniques to demonstrate comprehensive LLM mastery.\n\n| # | Technique | Status |\n|---|-----------|--------|\n| 1 | RAG pipeline (dual-index, AST chunking, embeddings, vector search) | Must have |\n| 2 | Agent orchestration (indexer, distiller, doc-generator, reviewer) | Must have |\n| 3 | Agent optimization (benchmarking, prompt tuning, cost tracking) | Must have |\n| 4 | Hooks / middleware (event-driven pipeline) | Must have |\n| 5 | MCP servers (custom Model Context Protocol tools) | Must have |\n| 6 | Prompt engineering (skills, context routing, chain-of-thought) | Must have |\n| 7 | Evaluation / evals (automated doc quality checks) | Must have |\n| 8 | Streaming / real-time (live VS Code updates) | Must have |\n| 9 | Memory / state (persistent cross-session memory) | Must have |\n| 10 | Fine-tuning / custom models (embeddings, classifiers, summarizers) | Must have |\n| 11 | Tool use / function calling (LLM tool invocation, structured output) | Must have |\n| 12 | Multi-modal (diagrams, screenshots, architecture images) | Must have |\n",
+  "source_version": "docs/rfcs/2026-02-25-corvia-brainstorm.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461445517Z",
+  "valid_from": "2026-03-31T13:20:59.461445517Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-25-corvia-brainstorm.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 96,
+    "end_line": 114,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

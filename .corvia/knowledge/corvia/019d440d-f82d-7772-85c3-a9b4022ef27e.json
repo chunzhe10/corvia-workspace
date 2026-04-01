@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82d-7772-85c3-a9b4022ef27e",
+  "content": "de(\n        &self,\n        query: &str,\n        scope_id: &str,\n        opts: Option<RetrievalOpts>,\n        max_tokens: usize,\n    ) -> Result<RagResponse> {\n        self.run_pipeline_with_budget(query, scope_id, opts, false, Some(max_tokens)).await\n    }\npub async fn ask(\n        &self,\n        query: &str,\n        scope_id: &str,\n        opts: Option<RetrievalOpts>,\n    ) -> Result<RagResponse> {\n        // Validate generator exists before running the pipeline.\n        self.generator.as_ref().ok_or_else(|| {\n            corvia_common::errors::CorviaError::Config(\n                \"GenerationEngine not configured — cannot use ask() mode\".into(),\n            )\n        })?;\n        self.run_pipeline(query, scope_id, opts, true).await\n    }",
+  "source_version": "crates/corvia-kernel/src/rag_pipeline.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.437479966Z",
+  "valid_from": "2026-03-31T13:20:59.437479966Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/rag_pipeline.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 88,
+    "end_line": 101,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

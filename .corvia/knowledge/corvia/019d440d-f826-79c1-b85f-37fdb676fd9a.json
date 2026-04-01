@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f826-79c1-b85f-37fdb676fd9a",
+  "content": " CPU-intensive ONNX inference on a blocking thread\n        let embeddings_raw = tokio::task::spawn_blocking(move || {\n            let mut guard = models\n                .lock()\n                .map_err(|e| Status::internal(format!(\"Lock poisoned: {e}\")))?;\n            let loaded = guard\n                .get_mut(&model_name)\n                .ok_or_else(|| Status::not_found(format!(\"Model '{model_name}' not loaded\")))?;\n\n            let text_refs: Vec<&str> = texts.iter().map(|s| s.as_str()).collect();\n            loaded\n                .engine\n                .embed(text_refs, None)\n                .map_err(|e| Status::internal(format!(\"EmbedBatch failed: {e}\")))\n        })\n        .await\n        .map_err(|e| Status::internal(format!(\"Spawn failed: {e}\")))?\n        ?;\n\n        let embeddings = embeddings_raw\n            .into_iter()\n            .enumerate()\n            .map(|(i, values)| Embedding {\n                values,\n                index: i as u32,\n            })\n            .collect();\n\n        Ok(Response::new(EmbedBatchResponse { embeddings }))\n    }\n\n    async fn model_info(\n        &self,\n        req: Request<ModelInfoRequest>,\n    ) -> Result<Response<ModelInfoResponse>, Status> {\n        let name = req.into_inner().model;\n        let models = self\n            .models\n            .lock()\n            .map_err(|e| Status::internal(format!(\"Lock poisoned: {e}\")))?;\n        let loaded = models.contains_key(&name);\n\n        let dimensions = if let Some(entry) = models.get(&name) {\n            fastembed::TextEmbedding::get_model_info(&entry.variant)\n                .map(|info| info.dim as u32)\n                .unwrap_or(0)\n        } else {\n            0\n        };\n\n        Ok(Response::new(ModelInfoResponse {\n            model: name,\n            dimensions,\n            loaded,\n        }))\n    }\n}",
+  "source_version": "crates/corvia-inference/src/embedding_service.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.430643741Z",
+  "valid_from": "2026-03-31T13:20:59.430643741Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/src/embedding_service.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 473,
+    "end_line": 524,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

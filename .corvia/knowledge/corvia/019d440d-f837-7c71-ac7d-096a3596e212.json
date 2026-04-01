@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f837-7c71-ac7d-096a3596e212",
+  "content": ";\n        counter.increment();\n        counter.increment();\n        assert_eq!(counter.load(), 3);\n\n        // take() returns current and resets to 0\n        let val = counter.take();\n        assert_eq!(val, 3);\n        assert_eq!(counter.load(), 0);\n    }\nasync fn test_gc_cycle_transition_emits_with_score_breakdown() {\n        let dir = tempfile::tempdir().unwrap();\n        let store = Arc::new(crate::lite_store::LiteStore::open(dir.path(), 768).unwrap());\n        store.init_schema().await.unwrap();\n\n        // Insert an old Episodic entry that will transition\n        let mut entry = make_entry(Tier::Hot, MemoryType::Episodic);\n        entry.scope_id = \"test-scope\".into();\n        entry.recorded_at = Utc::now() - chrono::Duration::days(90);\n        entry.embedding = Some(vec![0.1; 768]);\n        entry.confidence = Some(0.3);\n\n        crate::knowledge_files::write_entry(dir.path(), &entry).unwrap();\n        store.insert(&entry).await.unwrap();\n\n        let graph: Arc<dyn GraphStore> = store.clone();\n        let store_q: Arc<dyn QueryableStore> = store.clone();\n\n        let config = ForgettingConfig {\n            enabled: true,\n            ..Default::default()\n        };\n\n        let counter = ForgottenAccessCounter::new();\n        counter.increment(); // simulate one forgotten access\n\n        let report = run_gc_cycle(&store_q, &graph, dir.path(), Some(&config), &HashMap::new(), Some(&counter))\n            .await\n            .unwrap();\n\n        // Should have at least one transition\n        assert!(report.entries_scored > 0);\n        assert!(\n            report.hot_to_warm > 0 || report.warm_to_cold > 0 || report.cold_to_forgotten > 0,\n            \"Expected a transition for old episodic entry\"\n        );\n\n        // Counter should be reset after GC cycle takes it\n        assert_eq!(counter.load(), 0);\n    }",
+  "source_version": "crates/corvia-kernel/src/gc_worker.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.447968642Z",
+  "valid_from": "2026-03-31T13:20:59.447968642Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/gc_worker.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1911,
+    "end_line": 1950,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

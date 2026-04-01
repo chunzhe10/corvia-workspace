@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-1bad9a959dba",
+  "content": "### Offline State\n\n## Responsive Behavior\n\nBelow 700px width:\n- Workspace collapses to single column (log panel above sidebar)\n- Metrics grid becomes 2x2\n- Log panel gets min-height: 50vh\n\n---\n\n\n## What Does NOT Change\n- Extension activation logic, polling interval (3s), status bar item\n- `corvia-dev` CLI JSON contract\n- Command execution via VS Code terminal\n- `package.json` manifest structure (just version bump to 0.3.0)\n- `onDidReceiveMessage` handler (command, refresh message types)\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-10-dashboard-redesign-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456149228Z",
+  "valid_from": "2026-03-31T13:20:59.456149228Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-dashboard-redesign-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 181,
+    "end_line": 198,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

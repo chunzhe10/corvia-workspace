@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82e-71f3-920f-91c8e18be487",
+  "content": "tes.as_slice())\n                .map_err(|e| CorviaError::Agent(format!(\"Failed to write session: {e}\")))?;\n        }\n        write_txn.commit()\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to commit session: {e}\")))?;\n        Ok(())\n    }\n}\npub fn from_db(db: std::sync::Arc<Database>) -> Result<Self> {\n        let write_txn = db.begin_write()\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to begin write txn: {e}\")))?;\n        { let _ = write_txn.open_table(SESSIONS); }\n        write_txn.commit()\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to init sessions table: {e}\")))?;\n        Ok(Self { db })\n    }",
+  "source_version": "crates/corvia-kernel/src/session_manager.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.438436165Z",
+  "valid_from": "2026-03-31T13:20:59.438436165Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/session_manager.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 17,
+    "end_line": 24,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

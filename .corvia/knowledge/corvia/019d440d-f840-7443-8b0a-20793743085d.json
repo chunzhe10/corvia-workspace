@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-20793743085d",
+  "content": "### Processing Pipeline\n\n- `crates/corvia-cli/src/workspace.rs` — adapter-driven ingest path (the path\n  this new adapter uses; currently sets `entry.workstream` from repo config but\n  does not propagate `content_role` or `source_origin` from `SourceMetadata`)\n- `crates/corvia-cli/src/main.rs` — single-repo ingest path\n\nBoth sites must be updated to propagate the three new optional fields:\n- `metadata.workstream` → `entry.workstream` (if `Some`)\n- `metadata.content_role` → `entry.metadata.content_role`\n- `metadata.source_origin` → `entry.metadata.source_origin`\n\nThe Claude session ID is already encoded in `source_version`\n(`\"<ses-abc123>:turn-3\"`) and is recoverable without a dedicated field.\n`KnowledgeEntry.session_id` is reserved for corvia staging sessions and is\n**not set** by this adapter.\n\n**Entry metadata per turn:**\n\n```\nscope_id:       \"user-history\"\nworkstream:     git branch from session_start (e.g. \"feat/auth\")\nsource_version: \"<claude-session-id>:turn-<N>\"\ncontent_role:   \"session-turn\" | \"research\"\n                (\"research\" if agent_type=subagent and turn contains\n                 semantic research patterns: search + read + synthesise)\nsource_origin:  \"claude:main\" | \"claude:subagent\"\nfile_path:      \"<claude-session-id>\"   (reused as session identifier)\n```\n\n`agent_id` on `KnowledgeEntry` is not set by this adapter (it carries the\ncorvia write-agent identity, not the recording agent). The Claude Code user",
+  "source_version": "docs/rfcs/2026-03-14-claude-session-history-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456884006Z",
+  "valid_from": "2026-03-31T13:20:59.456884006Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-14-claude-session-history-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 321,
+    "end_line": 350,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-452aba92b45a",
+  "content": "ormat!(\"GPU lock poisoned: {e}\")))?;\n                match backend::resolve_backend(&req.device, effective_backend, model_type, &gpu) {\n                    Ok(r) => r,\n                    Err(e) => {\n                        results.push(ModelReloadResult {\n                            name: entry.name.clone(),\n                            model_type: entry.model_type.clone(),\n                            success: false,\n                            error: e,\n                            actual_device: String::new(),\n                            actual_backend: String::new(),\n                        });\n                        all_success = false;\n                        continue;\n                    }\n                }\n            };\n\n            let kv_cache_type = match resolve_kv_quant(&req.kv_quant) {\n                Ok(t) => t,\n                Err(e) => {\n                    results.push(ModelReloadResult {\n                        name: entry.name.clone(),\n                        model_type: entry.model_type.clone(),\n                        success: false,\n                        error: e,\n                        actual_device: String::new(),\n                        actual_backend: String::new(),\n                    });",
+  "source_version": "crates/corvia-inference/src/model_manager.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429982257Z",
+  "valid_from": "2026-03-31T13:20:59.429982257Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/src/model_manager.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 374,
+    "end_line": 397,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

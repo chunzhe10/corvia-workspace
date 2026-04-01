@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f827-7411-ad28-5cf6178bca94",
+  "content": "let mut mo = 0u64;\n    for (i, &md) in month_days.iter().enumerate() {\n        if days < md {\n            mo = i as u64 + 1;\n            break;\n        }\n        days -= md;\n    }\n    if mo == 0 {\n        mo = 12;\n    }\n\n    (y, mo, days + 1, h, mi, sec)\n}\nmod tests {\n    use super::*;\n\n    #[test]\n    fn default_path_uses_tmp() {\n        let path = DashboardTraceLayer::default_path();\n        assert!(path.to_str().unwrap().contains(\"corvia-traces.log\"));\n    }\n\n    #[test]\n    fn unix_to_utc_known_date() {\n        // 2026-03-19 00:00:00 UTC = 1773878400\n        let (y, mo, d, h, mi, s) = unix_to_utc(1773878400);\n        assert_eq!((y, mo, d, h, mi, s), (2026, 3, 19, 0, 0, 0));\n    }\n}",
+  "source_version": "crates/corvia-telemetry/src/dashboard_trace_layer.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.431344031Z",
+  "valid_from": "2026-03-31T13:20:59.431344031Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-telemetry/src/dashboard_trace_layer.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 217,
+    "end_line": 232,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

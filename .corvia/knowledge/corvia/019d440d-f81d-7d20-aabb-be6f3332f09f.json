@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81d-7d20-aabb-be6f3332f09f",
+  "content": " #[test]\n    fn test_timestamp_diff_ms() {\n        let a = \"2026-03-28T10:00:00Z\";\n        let b = \"2026-03-28T10:00:05Z\";\n        assert_eq!(timestamp_diff_ms(a, b), Some(-5000));\n        assert_eq!(timestamp_diff_ms(b, a), Some(5000));\n    }\n\n    #[test]\n    fn test_timestamp_diff_ms_same() {\n        let a = \"2026-03-28T10:00:00Z\";\n        assert_eq!(timestamp_diff_ms(a, a), Some(0));\n    }\n\n    // T8: Description-based subagent correlation finds correct matches\n    #[test]\n    fn t8_description_based_correlation() {\n        let dir = tempfile::tempdir().unwrap();\n        let sessions_dir = dir.path();\n\n        let lead_session_id = \"ses-lead-001\";\n\n        // Create lead transcript with Agent tool calls\n        let lead_jsonl = format!(\n            concat!(\n                r#\"{{\"type\":\"session_start\",\"session_id\":\"{}\",\"timestamp\":\"2026-03-28T10:00:00Z\",\"workspace\":\"/tmp\",\"git_branch\":\"main\",\"agent_type\":\"main\",\"parent_session_id\":null}}\"#, \"\\n\",\n                r#\"{{\"type\":\"tool_start\",\"session_id\":\"{}\",\"turn\":1,\"timestamp\":\"2026-03-28T10:00:01Z\",\"tool\":\"Agent\",\"input\":{{\"name\":\"researcher\",\"description\":\"Research auth patterns\",\"prompt\":\"...\"}}}}\"#, \"\\n\",\n                r#\"{{\"type\":\"tool_start\",\"session_id\":\"{}\",\"turn\":1,\"timestamp\":\"2026-03-28T10:00:02Z\",\"tool\":\"Agent\",\"input\":{{\"name\":\"reviewer\",\"description\":\"Review code quality\",\"prompt\":\"...\"}}}}\"#, \"\\n\",",
+  "source_version": "adapters/corvia-adapter-claude-sessions/rust/src/correlation.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.421304776Z",
+  "valid_from": "2026-03-31T13:20:59.421304776Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-claude-sessions/rust/src/correlation.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 443,
+    "end_line": 461,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

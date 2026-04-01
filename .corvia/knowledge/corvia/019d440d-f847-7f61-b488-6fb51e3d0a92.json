@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-6fb51e3d0a92",
+  "content": "## Type Change\n## Lock Site Migration (4 sites + rebuild refactor)\n\n## Unsafe Transmute\n\nThe existing `unsafe { std::mem::transmute(loaded) }` for lifetime erasure in\n`open()` is preserved identically. The transmute happens on the bare `Hnsw` value\nbefore wrapping in `ArcSwap`. Safety argument is unchanged: without mmap, all\nHNSW data is owned `Vec<T>`, making the lifetime a phantom artifact.\n\n\n## Blue-Green Rebuild\n\n```\n1. Build new Hnsw (MAX_NB_CONNECTION, MAX_ELEMENTS, etc.)\n2. Insert all entries into new_hnsw directly (via index_entry_into)\n3. old = self.hnsw.swap(Arc::new(new_hnsw))  // atomic pointer swap\n4. std::thread::spawn(move || drop(old))      // deferred deallocation\n```\n\nDuring steps 1-2, searches continue using the old index via `load()`.\nStep 3 is an atomic pointer swap — searches after this use the new index.\nStep 4 deallocates the old index on a background thread.\n",
+  "source_version": "docs/rfcs/2026-03-27-arcswap-hnsw-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463403554Z",
+  "valid_from": "2026-03-31T13:20:59.463403554Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-27-arcswap-hnsw-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 49,
+    "end_line": 68,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

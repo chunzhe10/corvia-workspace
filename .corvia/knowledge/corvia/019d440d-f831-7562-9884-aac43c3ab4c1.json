@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f831-7562-9884-aac43c3ab4c1",
+  "content": "async fn embed_batch(&self, texts: &[String]) -> corvia_common::errors::Result<Vec<Vec<f32>>> {\n                Ok(texts.iter().map(|_| vec![1.0, 0.0, 0.0]).collect())\n            }\nfn test_validate_and_build_all_unknown_searchers() {\n        use corvia_common::config::PipelineConfig;\n\n        let mut config = PipelineConfig::default();\n        config.searchers = vec![\"nonexistent1\".into(), \"nonexistent2\".into()];\n\n        let deps = ComponentDeps {\n            store: None,\n            engine: None,\n            graph: None,\n            fts: None,\n            rrf_k: 60,\n            channels: Default::default(),\n            searcher_timeout_ms: 5000,\n        };\n\n        let result = PipelineRegistry::validate_and_build(&config, &deps, None, 0.3);\n        assert!(result.is_err(), \"all unknown searchers should fail\");\n        let err = format!(\"{}\", result.err().unwrap());\n        assert!(err.contains(\"no valid searchers\"), \"error should mention no valid searchers, got: {err}\");\n    }",
+  "source_version": "crates/corvia-kernel/src/pipeline/registry.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.441404696Z",
+  "valid_from": "2026-03-31T13:20:59.441404696Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/registry.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 395,
+    "end_line": 415,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

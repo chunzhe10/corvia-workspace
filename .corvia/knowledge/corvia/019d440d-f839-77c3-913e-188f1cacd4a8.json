@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f839-77c3-913e-188f1cacd4a8",
+  "content": "           .read_line(&mut line)\n            .map_err(|e| format!(\"Read from adapter stdout: {e}\"))?;\n        if bytes == 0 {\n            return Err(\"Adapter closed stdout unexpectedly (EOF)\".into());\n        }\n        Ok(line.trim_end().to_string())\n    }\nimpl Drop for ProcessAdapter {\n    fn drop(&mut self) {\n        if self.child.is_some() {\n            let _ = self.shutdown();\n        }\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/process_adapter.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.449422866Z",
+  "valid_from": "2026-03-31T13:20:59.449422866Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/process_adapter.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 183,
+    "end_line": 189,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

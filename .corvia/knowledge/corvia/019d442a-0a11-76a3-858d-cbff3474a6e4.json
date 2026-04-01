@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-cbff3474a6e4",
+  "content": "#### Option A: Docker Compose sidecar spokes\n#### Option B: corvia provisions, user starts Claude Code\n\n# Output: Spoke \"spoke-42\" ready at container \"corvia-spoke-42\"\n\n#         Run: docker exec -it corvia-spoke-42 claude\n```\n\n**Pros:** Simpler. corvia doesn't need to manage Claude Code process lifecycle.\n**Cons:** Extra manual step per spoke.\n",
+  "source_version": "decisions/2026-03-28-multi-spoke-workspace-brainstorm.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025611926Z",
+  "valid_from": "2026-03-31T13:51:39.025611926Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-multi-spoke-workspace-brainstorm.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 72,
+    "end_line": 78,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

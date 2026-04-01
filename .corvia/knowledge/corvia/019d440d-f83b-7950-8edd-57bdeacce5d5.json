@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-57bdeacce5d5",
+  "content": "### Step 3: Implement AgentRegistry\n\n\n    pub fn db(&self) -> &std::sync::Arc<Database> {\n        &self.db\n    }\n\n    /// Register a new agent. If already exists, returns existing record.\n    pub fn register(\n        &self,\n        agent_id: &str,\n        display_name: &str,\n        identity_type: IdentityType,\n        permissions: AgentPermission,\n    ) -> Result<AgentRecord> {\n        // Check if already exists\n        if let Some(existing) = self.get(agent_id)? {\n            return Ok(existing);\n        }\n\n        let now = chrono::Utc::now();\n        let record = AgentRecord {\n            agent_id: agent_id.into(),\n            display_name: display_name.into(),\n            identity_type,\n            registered_at: now,\n            permissions,\n            last_seen: now,\n            status: AgentStatus::Active,\n        };\n\n        let bytes = serde_json::to_vec(&record)\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to serialize agent: {e}\")))?;\n\n        let write_txn = self.db.begin_write()\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to begin write txn: {e}\")))?;\n        {\n            let mut table = write_txn.open_table(AGENTS)\n                .map_err(|e| CorviaError::Agent(format!(\"Failed to open agents table: {e}\")))?;\n            table.insert(agent_id, bytes.as_slice())\n                .map_err(|e| CorviaError::Agent(format!(\"Failed to insert agent: {e}\")))?;\n        }\n        write_txn.commit()\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to commit agent: {e}\")))?;\n\n        info!(agent_id, \"agent_registered\");\n        Ok(record)",
+  "source_version": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451680617Z",
+  "valid_from": "2026-03-31T13:20:59.451680617Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 616,
+    "end_line": 660,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

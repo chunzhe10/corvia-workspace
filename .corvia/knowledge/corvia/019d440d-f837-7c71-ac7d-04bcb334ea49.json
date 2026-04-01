@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f837-7c71-ac7d-04bcb334ea49",
+  "content": " for entry in entries.flatten() {\n            if entry.path().is_dir()\n                && let Some(name) = entry.file_name().to_str()\n            {\n                scopes.push(name.to_string());\n            }\n        }\n    }\n    scopes.sort();\n    scopes\n}\nmod tests {\n    use super::*;\n    use corvia_common::types::{MemoryType, PinInfo, Tier};\n\n    // ── clamp_one_step ─────────────────────────────────────────────────────\n\n    #[test]\n    fn test_clamp_hot_to_forgotten_becomes_warm() {\n        assert_eq!(clamp_one_step(Tier::Hot, Tier::Forgotten), Tier::Warm);\n    }\n\n    #[test]\n    fn test_clamp_hot_to_cold_becomes_warm() {\n        assert_eq!(clamp_one_step(Tier::Hot, Tier::Cold), Tier::Warm);\n    }\n\n    #[test]\n    fn test_clamp_hot_to_warm_stays() {\n        assert_eq!(clamp_one_step(Tier::Hot, Tier::Warm), Tier::Warm);\n    }\n\n    #[test]\n    fn test_clamp_warm_to_forgotten_becomes_cold() {\n        assert_eq!(clamp_one_step(Tier::Warm, Tier::Forgotten), Tier::Cold);\n    }\n\n    #[test]\n    fn test_clamp_cold_to_warm_stays() {\n        assert_eq!(clamp_one_step(Tier::Cold, Tier::Warm), Tier::Warm);\n    }\n\n    #[test]\n    fn test_clamp_cold_to_hot_becomes_warm() {",
+  "source_version": "crates/corvia-kernel/src/gc_worker.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.447333075Z",
+  "valid_from": "2026-03-31T13:20:59.447333075Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/gc_worker.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 919,
+    "end_line": 951,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

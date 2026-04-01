@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f821-7a21-8a96-42b07d9ec8a4",
+  "content": "s[4].to_string())\n        };\n        Ok(Self {\n            org: parts[0].to_string(),\n            scope: parts[1].to_string(),\n            workstream: parts[2].to_string(),\n            source: parts[3].to_string(),\n            version_ref,\n        })\n    }\nimpl fmt::Display for Namespace {\n    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {\n        let ref_str = match &self.version_ref {\n            VersionRef::Immutable(hash) => format!(\"@{hash}\"),\n            VersionRef::Mutable(label) => label.clone(),\n        };\n        write!(f, \"{}:{}:{}:{}:{}\", self.org, self.scope, self.workstream, self.source, ref_str)\n    }\n}",
+  "source_version": "crates/corvia-common/src/namespace.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.425710231Z",
+  "valid_from": "2026-03-31T13:20:59.425710231Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/namespace.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 64,
+    "end_line": 72,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

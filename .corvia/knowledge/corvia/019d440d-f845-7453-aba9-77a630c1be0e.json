@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-77a630c1be0e",
+  "content": "## Research References\n\n- [Official Rust MCP SDK](https://github.com/modelcontextprotocol/rust-sdk)\n- [Building High-Performance MCP Server with Rust](https://medium.com/@bohachu/building-a-high-performance-mcp-server-with-rust-a-complete-implementation-guide-8a18ab16b538)\n- [UltraFast MCP (Rust)](https://lib.rs/crates/ultrafast-mcp)\n- [Benchmarking AI Agent Frameworks 2026: AutoAgents (Rust)](https://dev.to/saivishwak/benchmarking-ai-agent-frameworks-in-2026-autoagents-rust-vs-langchain-langgraph-llamaindex-338f)\n- [Go vs Python AI Infrastructure Throughput 2026](https://dasroot.net/posts/2026/02/go-vs-python-ai-infrastructure-throughput-benchmarks-2026/)\n- [ast-grep (Rust + NAPI)](https://github.com/ast-grep/ast-grep)\n- [tree-sitter Rust crate](https://docs.rs/tree-sitter)\n- [MCP Server Performance Benchmarks](https://www.tmdevlab.com/mcp-server-performance-benchmark.html)\n- [NAPI-RS Framework](https://napi-rs.github.io/napi-rs/)\n- [How MyCoder Builds Itself (Recursive Dev)](https://docs.mycoder.ai/blog/how-we-use-mycoder-to-build-mycoder)\n- [VS Code Extension Development Host](https://code.visualstudio.com/api/advanced-topics/extension-host)\n- [VS Code Multi-Root Workspaces](https://code.visualstudio.com/docs/editing/workspaces/multi-root-workspaces)",
+  "source_version": "docs/rfcs/2026-02-25-corvia-brainstorm.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461570495Z",
+  "valid_from": "2026-03-31T13:20:59.461570495Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-25-corvia-brainstorm.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 452,
+    "end_line": 463,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

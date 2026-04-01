@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-35a00c06f02f",
+  "content": "### Architecture\n### GC Cycle Algorithm\n\n### Key Design Decisions\n\n1. **Redb-first, not file-first**: Read entries from Redb (fast, in-process) rather\n   than JSON files. JSON files are the source of truth for rebuilds, but Redb is the\n   hot path for reads.\n\n2. **Batch size = 100**: Matches the issue spec. Keeps write transactions short to\n   avoid blocking concurrent access tracking writes. Each batch is an independent\n   Redb write transaction.\n\n3. **One-tier-step-per-cycle**: Even if score = 0.01 (below Cold→Forgotten), a Hot\n   entry only moves to Warm this cycle. This prevents data loss from scoring spikes.\n\n4. **Inactivity policy is additive**: It can only demote, never promote. It produces\n   a \"worst-case\" tier that is combined with score-based transitions.\n\n5. **HNSW rebuild only on Warm→Cold**: Hot→Warm doesn't change HNSW membership.\n   Cold→Forgotten doesn't change HNSW either (Cold already excluded). Only Warm→Cold\n   removes entries from HNSW, requiring a rebuild.\n\n6. **Graph edge count via LiteGraphStore**: Count inbound edges synchronously per\n   entry. For the skeleton, this is acceptable — batched graph queries can be optimized\n   in a follow-up.\n\n7. **Forgotten = discard embedding**: Set `embedding = None` on the entry. The entry\n   stays in JSON files but without its vector. This is irreversible at the entry level\n   but the JSON file persists for audit.\n\n8. **Knowledge file updates**: Tier changes and retention_score updates are persisted\n   to both Redb AND JSON files, keeping the dual-write contract intact.\n",
+  "source_version": "docs/rfcs/2026-03-27-gc-worker-skeleton-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458356713Z",
+  "valid_from": "2026-03-31T13:20:59.458356713Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-27-gc-worker-skeleton-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 55,
+    "end_line": 85,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

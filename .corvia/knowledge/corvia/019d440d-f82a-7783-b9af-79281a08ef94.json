@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82a-7783-b9af-79281a08ef94",
+  "content": "pub struct Finding {\n    pub check_type: CheckType,\n    pub scope_id: String,\n    pub target_ids: Vec<Uuid>,\n    pub confidence: f32,\n    pub rationale: String,\n    pub found_at: DateTime<Utc>,\n}\nimpl Finding {\n    /// Create a new finding with the current timestamp.\n    pub fn new(\n        check_type: CheckType,\n        scope_id: impl Into<String>,\n        target_ids: Vec<Uuid>,\n        confidence: f32,\n        rationale: impl Into<String>,\n    ) -> Self {\n        Self {\n            check_type,\n            scope_id: scope_id.into(),\n            target_ids,\n            confidence,\n            rationale: rationale.into(),\n            found_at: Utc::now(),\n        }\n    }\n\n    /// Convert this finding to a `KnowledgeEntry` with `chunk_type = \"finding\"`.\n    ///\n    /// The caller decides whether to store the resulting entry.\n    pub fn to_knowledge_entry(&self) -> KnowledgeEntry {\n        let content = format!(\n            \"[{}] {}\\nTargets: {}\\nConfidence: {:.0}%\",\n            self.check_type.as_str(),\n            self.rationale,\n            self.target_ids\n                .iter()\n                .map(|id| id.to_string())\n                .collect::<Vec<_>>()\n                .join(\", \"),\n            self.confidence * 100.0,\n        );\n        let mut entry = KnowledgeEntry::new(\n            content,\n            self.scope_id.clone(),\n            \"reasoner\".to_string(),\n        );\n        entry.metadata.chunk_type = Some(\"finding\".to_string());\n        entry\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/reasoner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.434859080Z",
+  "valid_from": "2026-03-31T13:20:59.434859080Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/reasoner.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 92,
+    "end_line": 134,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

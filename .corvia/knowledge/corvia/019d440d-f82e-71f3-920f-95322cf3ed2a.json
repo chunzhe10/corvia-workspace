@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82e-71f3-920f-95322cf3ed2a",
+  "content": "               count = cross_file_relations.len(),\n                \"discovered cross-file declaration→usage relations\"\n            );\n            all_relations.extend(cross_file_relations);\n        }\n\n        Ok((all_chunks, all_relations, report))\n    }\nfn merge_step(\n        &self,\n        strategy: &Arc<dyn ChunkingStrategy>,\n        chunks: &mut [RawChunk],\n    ) -> (Vec<RawChunk>, Vec<bool>) {\n        // Try strategy-specific merge first.\n        if let Some(merged) = strategy.merge_small(chunks, self.config.max_tokens) {\n            let flags = vec![true; merged.len()];\n            return (merged, flags);\n        }\n\n        // Kernel default merge algorithm.\n        let mut result: Vec<RawChunk> = Vec::new();\n        let mut merge_flags: Vec<bool> = Vec::new();\n        let mut i = 0;\n\n        while i < chunks.len() {\n            let current = &chunks[i];\n            let current_tokens = self.estimator.estimate(&current.content);\n\n            if current_tokens < self.config.min_tokens && i + 1 < chunks.len() {\n                let next = &chunks[i + 1];\n                let next_tokens = self.estimator.estimate(&next.content);\n\n                if next_tokens < self.config.min_tokens\n                    && Self::same_merge_group(current, next)\n                {\n                    let combined = format!(\"{}\\n{}\", current.content, next.content);\n                    let combined_tokens = self.estimator.estimate(&combined);\n\n                    if combined_tokens <= self.config.max_tokens {\n                        // Merge current and next.\n                        let merged_chunk = RawChunk {\n                            content: combined,\n                            chunk_type: current.chunk_type.clone(),\n                            start_line: current.start_line,\n                            end_line: next.end_line,\n                            metadata: current.metadata.clone(),\n                        };\n                        result.push(merged_chunk);\n                        merge_flags.push(true);\n                        i += 2;\n                        continue;\n                    }\n                }\n            }\n\n            result.push(chunks[i].clone());\n            merge_flags.push(false);\n            i += 1;\n        }\n\n        (result, merge_flags)\n    }",
+  "source_version": "crates/corvia-kernel/src/chunking_pipeline.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.438841238Z",
+  "valid_from": "2026-03-31T13:20:59.438841238Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_pipeline.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 307,
+    "end_line": 360,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a15-7ca3-b9db-50dac0564b9d",
+  "content": "       ~45-50ms of every request is CLI + HTTP + gRPC + HNSW search. Pure inference\n          time is only ~5-10ms on GPU. The backend matters less than you'd think.\n        </div>\n      </div>\n    </div>\n\n    <div class=\"divider\" style=\"margin: 0;\"></div>\n    <!-- Caveat 3 -->\n    <div style=\"display: flex; align-items: flex-start; gap: 24px;\">\n      <div style=\"width: 64px; height: 64px; border-radius: 50%; background: rgba(139, 92, 246, 0.15); display: flex; align-items: center; justify-content: center; font-size: 32px; flex-shrink: 0;\">&#128640;</div>\n      <div>\n        <div style=\"font-size: 22px; font-weight: 800; margin-bottom: 8px;\">NVIDIA wins on <span class=\"highlight-purple\">different workloads</span></div>\n        <div style=\"font-size: 18px; color: var(--text-secondary); line-height: 1.65;\">\n          Bigger models, longer sequences, larger batch sizes — that's where 6 GB VRAM\n          and 3840 CUDA cores pull ahead. This test used a 137M param model with small batches.\n        </div>\n      </div>\n    </div>\n\n    <div class=\"divider\" style=\"margin: 0;\"></div>\n\n    <!-- Caveat 4 -->\n    <div style=\"display: flex; align-items: flex-start; gap: 24px;\">\n      <div style=\"width: 64px; height: 64px; border-radius: 50%; background: rgba(16, 185, 129, 0.15); display: flex; align-items: center; justify-content: center; font-size: 32px; flex-shrink: 0;\">&#128736;</div>\n      <div>\n        <div style=\"font-size: 22px; font-weight: 800; margin-bottom: 8px;\">This is <span class=\"highlight-green\">one machine</span></div>\n        <div style=\"font-size: 18px; color: var(--text-secondary); line-height: 1.65;\">\n          A laptop i7 + RTX 3060. Your hardware will differ. The pattern (shared memory\n          wins for small models) likely generalizes, but the specific numbers won't.\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <div style=\"margin-top: 36px;\"></div>\n  <div class=\"insight-box\">\n    <p>The takeaway: these numbers are directionally useful, but your mileage will vary. Always benchmark on your own hardware.</p>\n  </div>\n\n  <div class=\"flex-grow\"></div>\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">06 / 08</div>\n</div>",
+  "source_version": "marketing/linkedin/2026-03-16-embedding-benchmark/embedding-benchmark-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.029145232Z",
+  "valid_from": "2026-03-31T13:51:39.029145232Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-16-embedding-benchmark/embedding-benchmark-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 698,
+    "end_line": 733,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a16-7c43-b1c4-87b2a45b5dd1",
+  "content": "v>\n      <div class=\"arch-item\">\n        <div class=\"arch-label\" style=\"color: var(--accent-amber);\">corvia-workspace</div>\n        <div class=\"arch-desc\">The lab. Wraps repos, holds the knowledge store, runs the devcontainer.</div>\n      </div>\n    </div>\n    <div class=\"footer\">\n      <span>Lim Chun Zhe</span>\n      <span>9 / 10</span>\n    </div>\n  </div>\n</div>\n\n<!-- ═══════════════════════════════════════════════════ -->\n<!-- SLIDE 8 — TAKEAWAY                                -->\n<!-- ═══════════════════════════════════════════════════ -->\n<div class=\"slide slide-8\">\n  <div class=\"slide-inner\">\n    <div class=\"slide-label\">Key Takeaways</div>\n    <div class=\"slide-title\">What I <span class=\"hl-amber\">Learned</span></div>\n\n    <div class=\"takeaway-list\">\n      <div class=\"takeaway-item\">\n        <span class=\"tk-icon\">🔁</span>\n        <div>\n          <h3>Dogfood as early as possible</h3>\n          <p>Race to self-host. The sooner the tool builds itself, the sooner the loop reveals what's actually needed.</p>\n        </div>\n      </div>\n      <div class=\"takeaway-item\">\n        <span class=\"tk-icon\">🖐️</span>\n        <div>\n          <h3>Hands-on beats reading</h3>\n          <p>You can't understand AI development from blog posts. You have to build, feel it break, and build intuition firsthand.</p>\n        </div>\n      </div>\n      <div class=\"takeaway-item\">\n        <span class=\"tk-icon\">🌊</span>\n        <div>\n          <h3>Grab every emerging capability</h3>\n          <p>Claude shipped Agent Teams. I built an adapter. GitNexus showed structural intelligence. I started building that too. AI moves fast. Ride the wave.</p>\n        </div>\n      </div>\n      <div class=\"takeaway-item\">\n        <span class=\"tk-icon\">🌐</span>\n        <div>\n          <h3>Personal memory is table stakes</h3>\n          <p>CLAUDE.md, Cursor rules, Copilot memory. What's still open is the organizational layer. Memory across repos, over time, between agents.</p>\n        </div>\n      </div>\n    </div>\n\n    <hr class=\"cta-divider\">",
+  "source_version": "marketing/linkedin/2026-03-29-recursive-loop-reflection/recursive-loop-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.030170799Z",
+  "valid_from": "2026-03-31T13:51:39.030170799Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-29-recursive-loop-reflection/recursive-loop-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 992,
+    "end_line": 1038,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-fadb127c8fc7",
+  "content": "eight: 800; color: var(--accent-purple);\">NVIDIA dGPU</div>\n      <div style=\"font-size: 15px; color: var(--text-secondary); margin-top: 8px; line-height: 1.6;\">\n        RTX 3060 Laptop<br>CUDA 12.8 / cuDNN 9.2<br>6 GB VRAM\n      </div>\n    </div>\n  </div>\n  <!-- What we're testing -->\n  <div class=\"card\" style=\"border-left: 4px solid var(--accent-blue);\">\n    <div style=\"font-size: 15px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-blue); margin-bottom: 12px;\">Model Under Test</div>\n    <div style=\"font-size: 22px; font-weight: 700;\">nomic-embed-text-v1.5</div>\n    <div style=\"font-size: 17px; color: var(--text-secondary); margin-top: 6px;\">\n      ~137M parameters &bull; 768 dimensions &bull; ONNX format &bull; via fastembed-rs\n    </div>\n  </div>\n\n  <div class=\"insight-box\">\n    <p>All three backends use the same ONNX Runtime — only the execution provider differs. Same model, same code path, different hardware.</p>\n  </div>\n\n  <div class=\"flex-grow\"></div>\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">02 / 08</div>\n</div>\n\n<!-- SLIDE 3: WHERE THE TIME GOES — visual waterfall with measured data -->\n<div class=\"slide\">\n  <div class=\"slide-label\">Where The Time Goes</div>\n  <div class=\"slide-title\" style=\"margin-bottom: 24px;\">\n    I Instrumented<br>\n    <span class=\"highlight-amber\">Every Stage.</span>\n  </div>\n  <div class=\"slide-subtitle\" style=\"font-size: 20px; margin-bottom: 28px;\">\n    Most benchmarks show total latency. I added per-stage timing to the server\n    to see where time is actually spent. Here's a typical request on CUDA.\n  </div>\n\n  <!-- Waterfall chart — visual timeline of a ~106ms request -->\n  <div style=\"margin-bottom: 28px;\">\n    <!-- Scale bar -->\n    <div style=\"display: flex; justify-content: space-between; margin-bottom: 8px; padding: 0 180px 0 160px;\">\n      <span style=\"font-size: 15px; color: var(--text-muted);\">0ms</span>\n      <span style=\"font-size: 15px; color: var(--text-muted);\">50ms</span>\n      <span style=\"font-size: 15px; color: var(--text-muted);\">106ms</span>\n    </div>",
+  "source_version": "marketing/linkedin/2026-03-16-embedding-benchmark/embedding-benchmark-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028993073Z",
+  "valid_from": "2026-03-31T13:51:39.028993073Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-16-embedding-benchmark/embedding-benchmark-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 236,
+    "end_line": 273,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

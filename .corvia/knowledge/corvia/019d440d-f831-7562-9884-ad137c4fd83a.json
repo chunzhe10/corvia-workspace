@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f831-7562-9884-ad137c4fd83a",
+  "content": "pub fn new(\n        store: Arc<dyn QueryableStore>,\n        engine: Arc<dyn InferenceEngine>,\n    ) -> Self {\n        Self { store, engine }\n    }\npub async fn search(\n        &self,\n        query: &str,\n        scope_id: &str,\n        limit: usize,\n        visibility: &VisibilityMode,\n        agent_id: Option<&str>,\n        permissions: Option<&AgentPermission>,\n    ) -> Result<Vec<SearchResult>> {\n        // RBAC check: does the agent have access to this scope?\n        // - Admin: can read all scopes\n        // - ReadOnly: can read all scopes (D39 — isolation is for correctness, not security)\n        // - ReadWrite: can only read scopes in their allowed list\n        if let Some(perms) = permissions\n            && let AgentPermission::ReadWrite { scopes } = perms\n                && !scopes.iter().any(|s| s == scope_id || s == \"*\") {\n                    return Ok(Vec::new());\n                }\n\n        // Embed the query\n        let embedding = self.engine.embed(query).await?;\n\n        // Search with 2x limit to allow for post-filtering\n        let fetch_limit = std::cmp::max(limit * 2, 10);\n        let results = self.store.search(&embedding, scope_id, fetch_limit).await?;\n\n        // Post-filter by visibility mode (delegates to retriever::visibility_filter)\n        let filtered: Vec<SearchResult> = results\n            .into_iter()\n            .filter(|r| visibility_filter(&r.entry, visibility, agent_id))\n            .take(limit)\n            .collect();\n\n        Ok(filtered)\n    }",
+  "source_version": "crates/corvia-kernel/src/context_builder.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.441700636Z",
+  "valid_from": "2026-03-31T13:20:59.441700636Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/context_builder.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 39,
+    "end_line": 73,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

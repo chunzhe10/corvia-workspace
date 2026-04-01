@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f829-7a43-a547-5c1514268e21",
+  "content": "   // an existing index's WHERE clause.\n        sqlx::query(\"DROP INDEX IF EXISTS idx_knowledge_embedding\")\n            .execute(&self.pool)\n            .await\n            .map_err(|e| CorviaError::Storage(format!(\"Failed to drop old HNSW index: {e}\")))?;\n\n        sqlx::query(\n            \"CREATE INDEX IF NOT EXISTS idx_knowledge_embedding_active ON knowledge \\\n             USING hnsw (embedding vector_cosine_ops) WITH (m = 16, ef_construction = 64) \\\n             WHERE tier IN ('hot', 'warm')\"\n        )\n            .execute(&self.pool)\n            .await\n            .map_err(|e| CorviaError::Storage(format!(\"Failed to create partial HNSW index: {e}\")))?;\n\n        // Tier index for fast scope+tier filtering.\n        sqlx::query(\n            \"CREATE INDEX IF NOT EXISTS idx_knowledge_tier ON knowledge(scope_id, tier)\"\n        )\n        .execute(&self.pool)\n        .await\n        .map_err(|e| CorviaError::Storage(format!(\"Failed to create tier index: {e}\")))?;\n\n        // Partial index for pinned entry queries (only indexes pinned rows).\n        sqlx::query(\n            \"CREATE INDEX IF NOT EXISTS idx_knowledge_pinned ON knowledge(scope_id) WHERE pinned = true\"\n        )\n        .execute(&self.pool)\n        .await\n        .map_err(|e| CorviaError::Storage(format!(\"Failed to create pinned index: {e}\")))?;\n\n        // Full-text search: tsvector column + GIN index (Phase 2b).\n        // GENERATED ALWAYS AS stored column: tsvector updates automatically on\n        // INSERT/UPDATE with zero application-side maintenance. Verified on PG 12+\n        // (to_tsvector accepted despite STABLE volatility). English config only.\n        sqlx::query(\n            \"ALTER TABLE knowledge ADD COLUMN IF NOT EXISTS tsv tsvector \\\n             GENERATED ALWAYS AS (to_tsvector('english', content)) STORED\"\n        )\n        .execute(&self.pool)\n        .await\n        .map_err(|e| CorviaError::Storage(format!(\"Failed to add tsvector column: {e}\")))?;\n\n        sqlx::query(\n            \"CREATE INDEX IF NOT EXISTS idx_knowledge_fts ON knowledge USING GIN (tsv)\"\n        )",
+  "source_version": "crates/corvia-kernel/src/postgres_store.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.433716664Z",
+  "valid_from": "2026-03-31T13:20:59.433716664Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/postgres_store.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 325,
+    "end_line": 364,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

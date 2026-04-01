@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f833-7c00-aaaa-ad03ca4b41a3",
+  "content": "        chunks.len() >= 2,\n            \"expected at least 2 chunks, got {}\",\n            chunks.len()\n        );\n\n        // All should be heading sections.\n        for c in &chunks {\n            assert_eq!(c.chunk_type, \"heading_section\");\n        }\n    }\nfn test_no_headings_returns_single_chunk() {\n        let chunker = MarkdownChunker::new();\n        let source = \"Just plain text.\\nNo headings here.\";\n        let chunks = chunker.chunk(source, &test_meta()).unwrap().chunks;\n\n        assert_eq!(chunks.len(), 1, \"expected 1 chunk, got {}\", chunks.len());\n        assert_eq!(chunks[0].chunk_type, \"text\");\n        assert_eq!(chunks[0].content, source);\n    }",
+  "source_version": "crates/corvia-kernel/src/chunking_markdown.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.443876023Z",
+  "valid_from": "2026-03-31T13:20:59.443876023Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_markdown.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 437,
+    "end_line": 445,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

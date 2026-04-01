@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81f-75e2-9415-ae0dfbabe7b3",
+  "content": "ut buf)).await {\n        Ok(Ok(_)) if buf[3] == 0x04 => HealthResult {\n            healthy: Some(true),\n            latency_ms: start.elapsed().as_secs_f64() * 1000.0,\n        },\n        _ => HealthResult { healthy: Some(false), latency_ms: -1.0 },\n    }\n}\npub async fn check_tcp(host: &str, port: u16) -> HealthResult {\n    let start = Instant::now();\n    let addr = format!(\"{host}:{port}\");\n    match timeout(HEALTH_TIMEOUT, TcpStream::connect(&addr)).await {\n        Ok(Ok(_)) => HealthResult {\n            healthy: Some(true),\n            latency_ms: start.elapsed().as_secs_f64() * 1000.0,\n        },\n        _ => HealthResult { healthy: Some(false), latency_ms: -1.0 },\n    }\n}",
+  "source_version": "crates/corvia-server/src/dashboard/health.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.423897854Z",
+  "valid_from": "2026-03-31T13:20:59.423897854Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/health.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 105,
+    "end_line": 115,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

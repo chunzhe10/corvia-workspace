@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81d-7d20-aabb-c39ac0e41137",
+  "content": "ze > 1 {\n            let group_id = format!(\"group-{i}\");\n            for item in &mut items[i..j] {\n                item.group_id = Some(group_id.clone());\n                item.group_count = Some(group_size);\n            }\n        }\n        i = j;\n    }\n}\nmod tests {\n    use super::*;\n\n    fn make_item(\n        entry_id: &str,\n        agent_id: Option<&str>,\n        topic: Option<&str>,\n        recorded_at: DateTime<Utc>,\n    ) -> ActivityItem {\n        ActivityItem {\n            entry_id: entry_id.into(),\n            action: \"wrote\".into(),\n            title: \"test\".into(),\n            agent_id: agent_id.map(String::from),\n            agent_name: None,\n            topic_tags: topic.map(|t| vec![t.to_string()]).unwrap_or_default(),\n            delta_bytes: Some(100),\n            recorded_at: recorded_at.to_rfc3339(),\n            superseded_id: None,\n            group_id: None,\n            group_count: None,\n        }\n    }\n\n    #[test]\n    fn test_group_activity_items_same_agent_same_topic() {\n        let now = chrono::Utc::now();\n        let mut items = vec![\n            make_item(\"a\", Some(\"agent1\"), Some(\"graph\"), now),\n            make_item(\n                \"b\",\n                Some(\"agent1\"),\n                Some(\"graph\"),\n                now - chrono::Duration::seconds(60),\n            ),\n        ];\n        group_activity_items(&mut items);\n        assert!(items[0].group_id.is_some());\n        assert_eq!(items[0].group_count, Some(2));\n        assert_eq!(items[0].group_id, items[1].group_id);",
+  "source_version": "crates/corvia-server/src/dashboard/activity.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.421910290Z",
+  "valid_from": "2026-03-31T13:20:59.421910290Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/activity.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 282,
+    "end_line": 321,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

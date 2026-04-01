@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f830-7a51-9391-49407a91d646",
+  "content": "              stage_name: \"mock_bm25\".into(),\n                    latency_ms: 1,\n                    input_count: 0,\n                    output_count: self.results.len(),\n                    warnings: Vec::new(),\n                },\n            })\n        }\nasync fn test_embedding_failure_degrades_to_bm25() {\n        let dir = tempfile::tempdir().unwrap();\n        let store = Arc::new(LiteStore::open(dir.path(), 3).unwrap());\n        store.init_schema().await.unwrap();\n\n        let queryable = store.clone() as Arc<dyn QueryableStore>;\n        let engine: Arc<dyn InferenceEngine> = Arc::new(FailingEngine);\n\n        // Create a mock entry for the BM25 searcher to return.\n        let entry = KnowledgeEntry::new(\n            \"test entry from BM25\".to_string(),\n            \"embed-fail-scope\".to_string(),\n            \"v1\".to_string(),\n        );\n        let mock_candidate = crate::pipeline::RankedCandidate {\n            entry: Arc::new(entry),\n            scores: crate::pipeline::CandidateScores {\n                components: {\n                    let mut m = HashMap::new();\n                    m.insert(\"mock_bm25\".to_string(), 0.8);\n                    m\n                },\n                final_score: crate::pipeline::NormalizedScore::new(0.8),\n            },\n        };\n\n        let pipeline = RetrievalPipeline::new(\n            vec![\n                Arc::new(VectorSearcher::new(queryable.clone(), engine.clone())),\n                Arc::new(MockBM25Searcher {\n                    results: vec![mock_candidate],\n                }),",
+  "source_version": "crates/corvia-kernel/src/pipeline/core.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.440587886Z",
+  "valid_from": "2026-03-31T13:20:59.440587886Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/core.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1016,
+    "end_line": 1047,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

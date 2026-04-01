@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-1fd2bbcb62ff",
+  "content": "### Goals\n### Non-Goals\n\n## 2. Architecture\n\n```\nClaude Code session\n  ├── UserPromptSubmit hook  ─┐\n  ├── PreToolUse hook         ├──▶  ~/.claude/sessions/<session-id>.jsonl\n  ├── PostToolUse hook        │         (append-only, one line per event)\n  └── SessionEnd hook        ─┘\n                                      │\n                              gzip + trigger ingest\n                                      │\n                                      ▼\n                      corvia-adapter-claude-sessions\n                        (reads ~/.claude/sessions/*.jsonl.gz)\n                                      │\n                          ┌───────────┴───────────┐\n                          │                       │\n                    path heuristics          LLM classifier\n                    (fast, free)             (ambiguous cases)\n                          │                       │\n                          ▼                       ▼\n              scope: \"user-history\"     scope: \"user-history\"\n              (personal, deletable)     (queued in .classify-queue)\n                                                  │\n                                        auto-discovery pass\n                                                  │\n                                                  ▼\n                                        scope: \"corvia\"\n                                      (promoted product entries)\n```\n\n---\n\n\n## 3. Session Log Format\n",
+  "source_version": "docs/rfcs/2026-03-14-claude-session-history-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456806876Z",
+  "valid_from": "2026-03-31T13:20:59.456806876Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-14-claude-session-history-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 40,
+    "end_line": 74,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

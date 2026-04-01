@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f838-7ec1-a413-aca6851c5330",
+  "content": "in;\n        let entry = entry.with_embedding(embedding);\n\n        if let Some(dir) = staging_dir {\n            self.staging.write_staging_file(dir, &entry)?;\n        }\n        self.store.insert(&entry).await?;\n\n        Ok(WriteResult::Written(entry))\n    }\nmod tests {\n    use super::*;\n    use crate::lite_store::LiteStore;\n    use crate::traits::QueryableStore;\n    use corvia_common::agent_types::EntryStatus;\n\n    struct MockEngine;\n    #[async_trait::async_trait]\n    impl crate::traits::InferenceEngine for MockEngine {\n        async fn embed(&self, _text: &str) -> corvia_common::errors::Result<Vec<f32>> {\n            Ok(vec![1.0, 0.0, 0.0])\n        }\n        async fn embed_batch(&self, texts: &[String]) -> corvia_common::errors::Result<Vec<Vec<f32>>> {\n            Ok(texts.iter().map(|_| vec![1.0, 0.0, 0.0]).collect())\n        }\n        fn dimensions(&self) -> usize { 3 }\n    }\n\n    #[tokio::test]\n    async fn test_write_entry_for_registered_agent() {\n        let dir = tempfile::tempdir().unwrap();\n        let store = LiteStore::open(dir.path(), 3).unwrap();\n        store.init_schema().await.unwrap();\n        let engine = Arc::new(MockEngine);\n        let staging = StagingManager::new(dir.path());\n        let writer = AgentWriter::new(\n            Arc::new(store),\n            engine,\n            staging,\n        );\n\n        let staging_dir = writer.staging.create_staging_dir(\"test::agent\", \"sess-abc\").unwrap();\n        let entry = writer.write(\n            \"test knowledge\",",
+  "source_version": "crates/corvia-kernel/src/agent_writer.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.448219532Z",
+  "valid_from": "2026-03-31T13:20:59.448219532Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/agent_writer.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 180,
+    "end_line": 213,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

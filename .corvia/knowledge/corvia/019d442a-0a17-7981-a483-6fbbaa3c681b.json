@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a17-7981-a483-6fbbaa3c681b",
+  "content": "### Task 5: Update `search()` for union across all indexes\n### Task 6: Add `search_by_memory_type()` to LiteStore\n\n### Task 7: Add `search_by_memory_type()` to QueryableStore trait\n**File:** `crates/corvia-kernel/src/traits.rs` (lines 8-59)\n**What:** Add method with default impl that falls back to search + filter:\n```rust\nasync fn search_by_memory_type(\n    &self,\n    embedding: &[f32],\n    scope_id: &str,\n    limit: usize,\n    memory_type: corvia_common::types::MemoryType,\n) -> Result<Vec<SearchResult>> {\n    // Default: search all, post-filter by memory_type\n    let results = self.search(embedding, scope_id, limit * 3).await?;\n    Ok(results.into_iter()\n        .filter(|r| r.entry.memory_type == memory_type)\n        .take(limit)\n        .collect())\n}\n```\n\nLiteStore overrides with the efficient per-type index search from Task 6.\n\n\n### Task 8: Update `rebuild_from_files()` for 5 indexes\n**File:** `crates/corvia-kernel/src/lite_store.rs` (lines 930-1012)\n**What:**\n1. Create 5 new HNSW instances (one per MemoryType)\n2. Reset global counter to 0\n3. For each entry, route to `new_indexes[entry.memory_type]`\n4. Atomic swap all 5: `self.hnsw_indexes[type].swap(Arc::new(new_hnsw))`\n5. Defer old indexes deallocation\n\n```rust\nlet mut new_indexes: HashMap<MemoryType, Hnsw<'static, f32, DistCosine>> = HashMap::new();\nfor mt in MemoryType::ALL {\n    new_indexes.insert(mt, Hnsw::new(MAX_NB_CONNECTION, MAX_ELEMENTS, MAX_LAYER, EF_CONSTRUCTION, DistCosine {}));\n}\n\n// ... for each entry:\nlet target_hnsw = new_indexes.get(&entry.memory_type)\n    .expect(\"all types initialized\");\nself.index_entry_into(entry, embedding, target_hnsw)?;\n\n// Atomic swap all 5\nfor (mt, new_hnsw) in new_indexes {\n    let old = self.hnsw_indexes.get(&mt).expect(\"all types exist\").swap(Arc::new(new_hnsw));\n    std::thread::spawn(move || drop(old));\n}\n```\n",
+  "source_version": "plans/2026-03-31-multichannel-rag-plan.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.031389535Z",
+  "valid_from": "2026-03-31T13:51:39.031389535Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "plans/2026-03-31-multichannel-rag-plan.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 134,
+    "end_line": 182,
+    "content_role": "plan",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

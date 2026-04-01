@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-bf0a5df63036",
+  "content": "mut next_emb = || { idx += 1; vec![1.0, idx as f32 * 0.001, 0.0] };\n\n        for i in 0..10 {\n            let mut e = KnowledgeEntry::new(\n                format!(\"knowledge entry {i}\"), \"proj\".into(), \"v1\".into(),\n            ).with_embedding(next_emb());\n            e.entry_status = EntryStatus::Merged;\n            store.insert(&e).await.unwrap();\n        }\n\n        let retriever = Arc::new(VectorRetriever::new(store, engine)) as Arc<dyn Retriever>;\n        let augmenter = Arc::new(StructuredAugmenter::new(None)) as Arc<dyn Augmenter>;\n        let generator: Option<Arc<dyn GenerationEngine>> = if with_generator {\n            Some(Arc::new(MockGenerator))\n        } else {\n            None\n        };\n\n        RagPipeline::new(retriever, augmenter, generator, RagConfig::default())\n    }\n\n    #[tokio::test]\n    async fn test_context_mode_returns_no_answer() {\n        let dir = tempfile::tempdir().unwrap();\n        let pipeline = setup_pipeline(dir.path(), false).await;\n\n        let response = pipeline.context(\"what is entry 0?\", \"proj\", None).await.unwrap();\n\n        assert!(response.answer.is_none());\n        assert!(!response.context.context.is_empty());\n        assert!(response.context.metrics.sources_included > 0);\n        assert!(response.trace.generation.is_none());\n        assert!(response.trace.total_latency_ms < 5000);\n        assert_eq!(response.trace.retrieval.retriever_name, \"vector\");\n        assert_eq!(response.trace.augmentation.augmenter_name, \"structured\");\n    }\n\n    #[tokio::test]\n    async fn test_ask_mode_returns_generated_answer() {\n        let dir = tempfile::tempdir().unwrap();\n        let pipeline = setup_pipeline(dir.path(), true).await;\n\n        let response = pipeline.ask(\"what is entry 0?\", \"proj\", None).await.unwrap();\n\n        assert!(response.answer.is_some());\n        let answer = response.answer.unwrap();\n        assert!(answer.contains(\"Generated answer for:\"));\n        assert!(response.trace.generation.is_some());",
+  "source_version": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462065500Z",
+  "valid_from": "2026-03-31T13:20:59.462065500Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1390,
+    "end_line": 1431,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

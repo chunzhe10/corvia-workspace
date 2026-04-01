@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f835-7a40-9ae4-11023a9acb6b",
+  "content": "fn test_generate_agent_id_none_none() {\n        let id = generate_agent_id(None, None);\n        assert!(id.starts_with(\"spoke-\"));\n        assert_eq!(id.len(), 14); // \"spoke-\" + 8 hex chars\n    }\nfn test_select_network_empty() {\n        let networks = HashMap::new();\n        assert!(select_network(&networks, None).is_err());\n    }",
+  "source_version": "crates/corvia-kernel/src/spoke.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.445477455Z",
+  "valid_from": "2026-03-31T13:20:59.445477455Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/spoke.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1041,
+    "end_line": 1044,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

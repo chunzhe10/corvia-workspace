@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83d-7542-8fa8-9f7c199d745e",
+  "content": "et(\"beta::baz\"), Some(&\"crates/beta/src/baz.rs\".to_string()));\n    }\n\n    #[test]\n    fn test_resolve_crate_internal() {\n        let dir = tempfile::tempdir().unwrap();\n        let root = dir.path();\n\n        fs::write(\n            root.join(\"Cargo.toml\"),\n            \"[package]\\nname = \\\"my-crate\\\"\\nversion = \\\"0.1.0\\\"\\nedition = \\\"2021\\\"\\n\",\n        ).unwrap();\n        fs::create_dir_all(root.join(\"src\")).unwrap();\n        fs::write(root.join(\"src/lib.rs\"), \"mod config;\\nmod utils;\\n\").unwrap();\n        fs::write(root.join(\"src/config.rs\"), \"pub struct Config {}\\n\").unwrap();\n        fs::create_dir_all(root.join(\"src/utils\")).unwrap();\n        fs::write(root.join(\"src/utils/mod.rs\"), \"\").unwrap();\n\n        let map = RustModuleMap::build(root);\n\n        // crate::config from src/lib.rs should resolve to src/config.rs\n        assert_eq!(\n            map.resolve(\"src/lib.rs\", \"crate::config\"),\n            Some(\"src/config.rs\".to_string())\n        );\n    }\n\n    #[test]\n    fn test_resolve_external_returns_none() {\n        let dir = tempfile::tempdir().unwrap();\n        let root = dir.path();\n\n        fs::write(\n            root.join(\"Cargo.toml\"),\n            \"[package]\\nname = \\\"my-crate\\\"\\nversion = \\\"0.1.0\\\"\\nedition = \\\"2021\\\"\\n\",\n        ).unwrap();\n        fs::create_dir_all(root.join(\"src\")).unwrap();\n        fs::write(root.join(\"src/lib.rs\"), \"\").unwrap();\n\n        let map = RustModuleMap::build(root);\n\n        // std::collections should return None (external crate)\n        assert_eq!(map.resolve(\"src/lib.rs\", \"std::collections\"), None);\n    }\n}\n```\n\n**Step 3: Register the module in `lib.rs`**\n\nIn `corvia-adapter-git/src/lib.rs`, add:\n```rust\npub mod module_resolver;\n```\nAnd add to the re-exports:\n```rust\npub use module_resolver::RustModuleMap;\n```\n\n**Step 4: Run the tests**\n\nRun: `cd /root/corvia-project/corvia-workspace/repos/corvia-adapter-git && cargo test module_resolver`\nExpected: All 5 tests pass.\n\n**Step 5: Commit**\n\n```bash\ngit add -A && git commit -m \"feat(m3.4): add RustModuleMap for cross-file import resolution (D72)\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-04-m3.4-graph-edge-improvements-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.453432438Z",
+  "valid_from": "2026-03-31T13:20:59.453432438Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-04-m3.4-graph-edge-improvements-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 438,
+    "end_line": 498,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

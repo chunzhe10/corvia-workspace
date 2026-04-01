@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81d-7d20-aabb-bdbcf8114bc2",
+  "content": ":new();\n        let mut summary = String::new();\n\n        for line in content.lines() {\n            let line = line.trim();\n            if line.is_empty() {\n                continue;\n            }\n\n            // Extract session_id from session_start event\n            if let Ok(val) = serde_json::from_str::<serde_json::Value>(line) {\n                let event_type = val.get(\"type\").and_then(|v| v.as_str()).unwrap_or(\"\");\n\n                if event_type == \"session_start\" {\n                    session_id = val\n                        .get(\"session_id\")\n                        .and_then(|v| v.as_str())\n                        .unwrap_or(\"\")\n                        .to_string();\n                }\n\n                // Look for teammate-message summary in user_prompt content\n                if event_type == \"user_prompt\"\n                    && let Some(content) = val.get(\"content\").and_then(|v| v.as_str())\n                        && let Some(s) = extract_teammate_message_summary(content) {\n                            summary = s;\n                        }\n            }\n\n            // We have what we need after session_start + first user_prompt\n            if !session_id.is_empty() && !summary.is_empty() {\n                break;\n            }\n        }\n\n        if !session_id.is_empty() {\n            results.push((session_id, summary));\n        }\n    }\n\n    results\n}",
+  "source_version": "adapters/corvia-adapter-claude-sessions/rust/src/correlation.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.421211819Z",
+  "valid_from": "2026-03-31T13:20:59.421211819Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-claude-sessions/rust/src/correlation.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 183,
+    "end_line": 214,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

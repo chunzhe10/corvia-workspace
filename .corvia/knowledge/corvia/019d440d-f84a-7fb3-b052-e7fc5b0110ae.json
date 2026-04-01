@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84a-7fb3-b052-e7fc5b0110ae",
+  "content": "rver().await;\n\n    let mut mgr = ModelManagerClient::connect(url).await.unwrap();\n    let resp = mgr\n        .health(tonic::Request::new(HealthRequest {}))\n        .await\n        .unwrap();\n    let health = resp.into_inner();\n    assert!(health.healthy);\n}\nasync fn test_grpc_model_lifecycle() {\n    let url = ensure_server().await;\n\n    // Use a real fastembed model name (smallest available).\n    // Loading downloads from HuggingFace on first run (~33 MB).\n    let model_name = \"bge-small-en-v1.5\";\n\n    let mut mgr = ModelManagerClient::connect(url).await.unwrap();\n\n    // Load a model via ModelManager\n    let resp = mgr\n        .load_model(tonic::Request::new(LoadModelRequest {\n            name: model_name.into(),\n            model_type: \"embedding\".into(),\n            device: \"auto\".into(),\n            backend: String::new(),\n            kv_quant: String::new(),\n            flash_attention: false,\n            hf_repo: String::new(),\n            hf_filename: String::new(),\n        }))\n        .await\n        .unwrap();\n    let load_resp = resp.into_inner();\n    assert!(\n        load_resp.success,\n        \"load_model failed: {}\",\n        load_resp.error\n    );\n\n    // Verify model is listed\n    let resp = mgr\n        .list_models(tonic::Request::new(ListModelsRequest {}))\n        .await\n        .unwrap();\n    let models = resp.into_inner().models;\n    assert!(models.iter().any(|m| m.name == model_name));\n\n    // Unload model\n    let resp = mgr\n        .unload_model(tonic::Request::new(UnloadModelRequest {\n            name: model_name.into(),\n        }))\n        .await\n        .unwrap();\n    assert!(resp.into_inner().success);\n\n    // Verify it's gone\n    let resp = mgr\n        .list_models(tonic::Request::new(ListModelsRequest {}))\n        .await\n        .unwrap();\n    let models = resp.into_inner().models;\n    assert!(!models.iter().any(|m| m.name == model_name));\n}",
+  "source_version": "tests/integration/grpc_inference_test.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.466683649Z",
+  "valid_from": "2026-03-31T13:20:59.466683649Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "tests/integration/grpc_inference_test.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 155,
+    "end_line": 209,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

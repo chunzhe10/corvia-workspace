@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f830-7a51-9391-4bc35f2fe426",
+  "content": "struct Accumulator {\n            rrf_score: f64,\n            components: HashMap<String, f32>,\n            entry: Arc<corvia_common::types::KnowledgeEntry>,\n        }\nmod tests {\n    use super::*;\n    use crate::pipeline::CandidateScores;\n    use corvia_common::types::KnowledgeEntry;\n    use std::sync::Arc;\n\n    fn make_candidate(id_suffix: u8, score: f32) -> RankedCandidate {\n        let mut entry = KnowledgeEntry::new(\n            format!(\"entry-{id_suffix}\"),\n            \"scope\".into(),\n            \"v1\".into(),\n        );\n        // Set a deterministic UUID for testing.\n        entry.id = uuid::Uuid::from_bytes([\n            id_suffix, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\n        ]);\n        let mut components = HashMap::new();\n        components.insert(\"test\".to_string(), score);\n        RankedCandidate {\n            entry: Arc::new(entry),\n            scores: CandidateScores {\n                components,\n                final_score: NormalizedScore::new(score),\n            },\n        }\n    }\n\n    fn make_set(candidates: Vec<RankedCandidate>) -> RankedSet {\n        let count = candidates.len();\n        RankedSet {\n            candidates,\n            metrics: StageMetrics {",
+  "source_version": "crates/corvia-kernel/src/pipeline/fusion.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.440938811Z",
+  "valid_from": "2026-03-31T13:20:59.440938811Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/fusion.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 246,
+    "end_line": 277,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

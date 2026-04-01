@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a13-75d1-bfe3-f455346e8a76",
+  "content": "## Slide Specifications\n\n### Slide 1: COVER\n\n**Title:** \"I Installed DaVinci Resolve on Linux. Here's Every Wall I Hit.\"\n**Subtitle:** \"Ubuntu 24.04 + Wayland + NVIDIA. With Claude as my copilot.\"\n**Tags:** Ubuntu 24.04, Wayland, NVIDIA, Claude, DaVinci Resolve\n**Slide label:** \"A Developer's Discovery\"\n**Layout:** cover template — gradient background (`#0f172a → #1a1a3e → #0f172a`)\n**Visual:** CSS film frame element with sprocket holes along left/right edges (repeating radial-gradient circles). Title inside the frame. Emoji anchor: 🎬 (80px).\n**Footer:** Author tag left, `01 / 08` right.\n\n\n### Slide 2: THE SETUP\n\n**Title:** \"Linux for Engineering Was Working. Now: Creative Work.\"\n**Layout:** Three \"achievement\" cards in a row + arrow + question card\n**Visual:**\n- 3 cards with green checkmarks: \"Low RAM baseline\" / \"Native Docker\" / \"iGPU assignment\"\n- Each card: icon (32px emoji), title (20px bold green), brief description (18px secondary)\n- Right arrow (→) leading to a fourth card with amber border and question mark icon\n- Fourth card: \"Video editing?\" with \"Can I edit here?\" subtitle\n**Slide label:** \"The Setup\"\n**Text below cards:** \"A few days ago I moved to Linux for engineering. The benefits were clear. Now the real test.\"\n**Insight box:** None — clean setup slide.\n",
+  "source_version": "marketing/2026-03-14-resolve-linux-carousel-design.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.027309637Z",
+  "valid_from": "2026-03-31T13:51:39.027309637Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/2026-03-14-resolve-linux-carousel-design.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 50,
+    "end_line": 72,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

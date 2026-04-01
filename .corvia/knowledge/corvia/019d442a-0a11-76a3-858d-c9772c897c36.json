@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-c9772c897c36",
+  "content": "## Problem\n## Decision\n\n### Why Redb Over a Custom Binary Sidecar\n\nA custom binary sidecar (`.corvia/vectors/{scope}.bin`) was evaluated and rejected:\n\n| Concern | Custom Sidecar | Redb |\n|---------|---------------|------|\n| Crash safety | Must implement (fsync, partial write recovery) | Built-in ACID transactions |\n| Concurrency | Must implement (flock, torn writes) | Built-in MVCC |\n| Compaction | Must implement (tombstones, write-then-rename) | Automatic page reuse |\n| Alignment | Must ensure (bytemuck + mmap alignment) | Handled internally |\n| Code cost | ~500-1000 lines | ~30 lines |\n| Rebuild 100K | ~0.1-0.2s | ~0.3-0.5s |\n\nThe 0.2s rebuild difference does not justify 500+ lines of crash-safety and compaction code.\nRedb is already a dependency with battle-tested ACID guarantees.\n",
+  "source_version": "decisions/2026-03-27-embedding-storage-redb-vectors.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025322715Z",
+  "valid_from": "2026-03-31T13:51:39.025322715Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-27-embedding-storage-redb-vectors.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 23,
+    "end_line": 38,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

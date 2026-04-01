@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-92fdeb95cf80",
+  "content": "## Chunk 4: API Endpoints & Router\n\n### Task 7: Status endpoint handler\n\n**Files:**\n- Modify: `crates/corvia-server/src/dashboard/mod.rs`\n\n-**Step 1: Implement the status endpoint handler**\n\nReplace `crates/corvia-server/src/dashboard/mod.rs`:\n\n```rust\npub mod health;\npub mod traces;\n\nuse std::sync::Arc;\n\nuse axum::extract::{Query, State};\nuse axum::routing::get;\nuse axum::{Json, Router};\n\nuse corvia_common::dashboard::{\n    DashboardConfig, DashboardStatusResponse, LogEntry, LogsResponse,\n    TracesResponse,\n};\nuse crate::rest::AppState;\n\n/// Dashboard REST API router — mounts at /api/dashboard/*\npub fn router(state: Arc<AppState>) -> Router {\n    Router::new()\n        .route(\"/api/dashboard/status\", get(status_handler))\n        .route(\"/api/dashboard/traces\", get(traces_handler))\n        .route(\"/api/dashboard/logs\", get(logs_handler))\n        .route(\"/api/dashboard/config\", get(config_handler))\n        .route(\"/api/dashboard/graph\", get(graph_handler))\n        .with_state(state)\n}\n\n/// GET /api/dashboard/status\n/// Returns service health, store metrics, config summary, and optional traces.\nasync fn status_handler(\n    State(state): State<Arc<AppState>>,\n) -> Json<DashboardStatusResponse> {\n    // Health check all services\n    let services = health::check_all_services().await;\n\n    // Store metrics via kernel ops (same as corvia_system_status MCP tool)\n    let scope_id = state\n        .default_scope_id\n        .as_deref()\n        .unwrap_or(\"corvia\");\n\n    let entry_count = state\n        .store\n        .count(scope_id)\n        .await\n        .unwrap_or(0);\n\n    let agent_count = state\n        .coordinator\n        .registry\n        .list_active()\n        .map(|v| v.len())\n        .unwrap_or(0);\n\n    let session_count = state\n        .coordinator\n        .sessions",
+  "source_version": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465943963Z",
+  "valid_from": "2026-03-31T13:20:59.465943963Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1160,
+    "end_line": 1225,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-cd94289bbbf3",
+  "content": "## Spawning Mechanism (Verified 2026-03-28)\n\n### Proof of Concept Results\n\nSpawned a test spoke container from inside the hub devcontainer. All components verified:\n\n| Component | Result | Notes |\n|-----------|--------|-------|\n| Auth propagation | Pass | `.credentials.json` mounted via host path, Claude Code authenticated |\n| Git repo | Pass | Fresh `git clone --depth 1` into spoke. Branch created. |\n| Docker network | Pass | Spoke reached hub at `http://app:8020` via compose network |\n| MCP connectivity | Pass | `corvia_system_status` returned 9864 entries from spoke |\n| MCP search | Pass (after warmup) | Requires inference server to be loaded |\n\n\n### Docker-from-Docker Architecture\n\nThis devcontainer uses Docker-from-Docker (host Docker socket mounted at\n`/var/run/docker.sock`). This means:\n\n- **Bind mounts must use HOST paths**, not container paths\n- Container path `/workspaces/corvia-workspace` = host path `/home/chunzhe/corvia-project/corvia-workspace`\n- Container path `/root/.claude` = host path `/home/chunzhe/.claude`\n- The hub can resolve these by inspecting its own container: `docker inspect $(hostname)`\n",
+  "source_version": "decisions/2026-03-28-multi-spoke-workspace-brainstorm.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025759335Z",
+  "valid_from": "2026-03-31T13:51:39.025759335Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-multi-spoke-workspace-brainstorm.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 446,
+    "end_line": 467,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-25e7a5062785",
+  "content": "                let path = root.join(pattern);\n                        if path.join(\"Cargo.toml\").exists() {\n                            dirs.push(path);\n                        }\n                    }\n                }\n            }\n        }\n        dirs\n    }\n\n    /// Index a single crate: find its root file and walk `mod` declarations.\n    fn index_crate(&mut self, crate_dir: &Path, workspace_root: &Path) {\n        let cargo_toml = crate_dir.join(\"Cargo.toml\");\n        let Ok(content) = std::fs::read_to_string(&cargo_toml) else {\n            return;\n        };\n        let Ok(doc) = content.parse::<toml::Table>() else {\n            return;\n        };\n\n        // Get package name\n        let pkg_name = doc\n            .get(\"package\")\n            .and_then(|p| p.as_table())\n            .and_then(|p| p.get(\"name\"))\n            .and_then(|n| n.as_str())\n            .unwrap_or(\"\");\n\n        if pkg_name.is_empty() {\n            return;\n        }\n\n        // Convert package name to module name (hyphens → underscores)\n        let module_name = pkg_name.replace('-', \"_\");\n\n        // Find crate root file\n        let lib_rs = crate_dir.join(\"src/lib.rs\");\n        let main_rs = crate_dir.join(\"src/main.rs\");\n        let root_file = if lib_rs.exists() {",
+  "source_version": "docs/rfcs/2026-03-04-m3.4-graph-edge-improvements-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452987497Z",
+  "valid_from": "2026-03-31T13:20:59.452987497Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-04-m3.4-graph-edge-improvements-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 225,
+    "end_line": 255,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

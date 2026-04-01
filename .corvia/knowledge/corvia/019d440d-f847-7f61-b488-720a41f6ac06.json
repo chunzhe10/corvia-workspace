@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-720a41f6ac06",
+  "content": "# Tiered Knowledge with Access Tracking and Decay\n\n## Summary\n\nAdd tiered knowledge lifecycle management to corvia: track how entries are accessed,\nclassify them by memory type, compute retention scores via a composite formula, and\nmove entries through Hot → Warm → Cold → Forgotten tiers. Includes forgetting policies\n(inactivity-based, budget-based), HNSW index management for tier transitions, and a\nbackground GC worker. Designed to keep the active knowledge store lean while preserving\nall knowledge for audit (archive-only compaction in v1).\n\n\n## Motivation\n\n1. **Unbounded growth.** Every ingestion and agent write adds entries. Without lifecycle\n   management, the knowledge store grows monotonically. At 100K+ entries, HNSW search\n   quality degrades and retrieval latency increases.\n\n2. **Signal-to-noise ratio.** Systems that actively forget outperform systems that\n   remember everything (Redis Agent Memory Server, SAGE). A debugging note from 3 months\n   ago should not compete equally with a design decision made yesterday.\n\n3. **Differentiated decay.** Not all knowledge ages the same way. A build instruction\n   (Procedural) stays relevant for years. A session discovery (Episodic) fades in days.\n   The system needs per-type decay profiles.\n\n4. **Access-aware retention.** Knowledge that gets used should be strengthened. Knowledge\n   that goes unused should fade. This is the spaced repetition principle applied to\n   organizational memory.\n\n5. **Forward compatibility.** The `memory_type` field enables future multi-channel RAG\n   (one retrieval pipeline per type) without retrofit.\n",
+  "source_version": "docs/rfcs/2026-03-27-tiered-knowledge-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463637188Z",
+  "valid_from": "2026-03-31T13:20:59.463637188Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-27-tiered-knowledge-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 8,
+    "end_line": 37,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82d-7772-85c3-aaf9a2bd33de",
+  "content": "{answer}\"\n        );\n\n        let gen_trace = resp\n            .trace\n            .generation\n            .expect(\"generation trace should be present in ask mode\");\n        assert_eq!(gen_trace.model, \"mock-v1\", \"generation model should be mock-v1\");\n    }\nasync fn test_ask_without_generator_returns_error() {\n        let dir = tempfile::tempdir().unwrap();\n        let pipeline = setup_pipeline(dir.path(), false).await;\n\n        let result = pipeline.ask(\"test query\", \"proj\", None).await;\n        assert!(result.is_err(), \"ask() without generator should fail\");\n    }",
+  "source_version": "crates/corvia-kernel/src/rag_pipeline.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.437637470Z",
+  "valid_from": "2026-03-31T13:20:59.437637470Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/rag_pipeline.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 379,
+    "end_line": 385,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

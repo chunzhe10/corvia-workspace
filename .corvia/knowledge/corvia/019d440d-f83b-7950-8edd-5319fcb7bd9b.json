@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-5319fcb7bd9b",
+  "content": "### Phase 3: MCP Control Plane\n\n#### D83: Tiered safety model\n\n| Tier | Level | Behavior |\n|------|-------|----------|\n| `ReadOnly` | Auto-approved | Executes immediately |\n| `LowRisk` | Single confirmation | Without `_meta.confirmed`: returns preview + `\"confirmation_required\": true`. With `_meta.confirmed: true`: executes |\n| `MediumRisk` | Confirmation + dry-run | Same as LowRisk + accepts `dry_run: true` argument for preview without mutation |\n\nImplementation:\n- `ToolTier` enum in `mcp.rs` (`ReadOnly`, `LowRisk`, `MediumRisk`)\n- Each tool definition includes tier in `annotations` metadata\n- Dispatch checks `_meta.confirmed` before executing Tier 2+ operations\n- Works within both `2024-11-05` and `2025-03-26` protocol versions\n- Upgradable to MCP Elicitation when protocol bumps to `2025-06-18`\n\nExisting 8 tools: `corvia_search`, `corvia_context`, `corvia_ask`, `corvia_history`, `corvia_graph`, `corvia_reason`, `corvia_agent_status` are all classified as `ReadOnly`. `corvia_write` keeps its existing auth guard (`_meta.agent_id` required) and is classified as `ReadOnly` tier — the agent_id check is orthogonal to the safety tier system (it's identity-based access control, not mutation confirmation).\n\n**Confirmation response format:** When a Tier 2+ tool is called without `_meta.confirmed`, it returns a **successful MCP response** (`isError: false`) with a content block containing:\n```json\n{\n  \"content\": [{ \"type\": \"text\", \"text\": \"{\\\"confirmation_required\\\": true, \\\"preview\\\": {...}, \\\"message\\\": \\\"...\\\"}\" }]\n}\n```\nThis is a normal response, not an error. The client (LLM or human) reads the preview and re-calls with `_meta.confirmed: true` to execute.\n",
+  "source_version": "docs/rfcs/2026-03-10-m4-observability-control-plane-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451131587Z",
+  "valid_from": "2026-03-31T13:20:59.451131587Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-m4-observability-control-plane-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 188,
+    "end_line": 212,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

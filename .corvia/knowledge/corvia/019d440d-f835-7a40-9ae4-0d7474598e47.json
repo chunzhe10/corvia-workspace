@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f835-7a40-9ae4-0d7474598e47",
+  "content": "     ..Default::default()\n        };\n\n        // Remove existing container if present\n        let _ = self\n            .docker\n            .remove_container(spoke_name, Some(RemoveContainerOptions { force: true, ..Default::default() }))\n            .await;\n\n        let create_options = CreateContainerOptionsBuilder::new()\n            .name(spoke_name)\n            .build();\n\n        self.docker\n            .create_container(Some(create_options), container_config)\n            .await\n            .map_err(|e| CorviaError::Docker(format!(\"Failed to create spoke '{spoke_name}': {e}\")))?;\n\n        self.docker\n            .start_container(spoke_name, None::<StartContainerOptions>)\n            .await\n            .map_err(|e| CorviaError::Docker(format!(\"Failed to start spoke '{spoke_name}': {e}\")))?;\n\n        info!(spoke_name, repo = repo_name, ?issue, \"Spoke started\");\n        Ok(())\n    }\n\n    /// Stream logs from a spoke container.\n    pub async fn logs(\n        &self,\n        spoke_name: &str,\n        follow: bool,\n        tail: u32,\n    ) -> Result<impl futures_util::Stream<Item = std::result::Result<bollard::container::LogOutput, bollard::errors::Error>>>\n    {\n        let options = LogsOptionsBuilder::new()\n            .follow(follow)\n            .stdout(true)\n            .stderr(true)\n            .tail(&tail.to_string())",
+  "source_version": "crates/corvia-kernel/src/spoke.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.445037454Z",
+  "valid_from": "2026-03-31T13:20:59.445037454Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/spoke.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 486,
+    "end_line": 517,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

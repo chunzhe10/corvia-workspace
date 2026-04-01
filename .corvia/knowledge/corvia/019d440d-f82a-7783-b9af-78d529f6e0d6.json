@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82a-7783-b9af-78d529f6e0d6",
+  "content": "time ranges from different origins.\n    TemporalContradiction,\n    /// Topic cluster has only memory-role entries, no formal design doc.\n    CoverageGap,\n    /// Entry has a content_role value not in the MemoryType mapping table.\n    UnmappedContentRole,\n}\nimpl CheckType {\n    /// Machine-readable string label for this check type.\n    pub fn as_str(&self) -> &'static str {\n        match self {\n            CheckType::StaleEntry => \"stale_entry\",\n            CheckType::BrokenChain => \"broken_chain\",\n            CheckType::OrphanedNode => \"orphaned_node\",\n            CheckType::DanglingImport => \"dangling_import\",\n            CheckType::DependencyCycle => \"dependency_cycle\",\n            CheckType::SemanticGap => \"semantic_gap\",\n            CheckType::Contradiction => \"contradiction\",\n            CheckType::MisplacedDoc => \"misplaced_doc\",\n            CheckType::TemporalContradiction => \"temporal_contradiction\",\n            CheckType::CoverageGap => \"coverage_gap\",\n            CheckType::UnmappedContentRole => \"unmapped_content_role\",\n        }\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/reasoner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.434823937Z",
+  "valid_from": "2026-03-31T13:20:59.434823937Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/reasoner.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 39,
+    "end_line": 56,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

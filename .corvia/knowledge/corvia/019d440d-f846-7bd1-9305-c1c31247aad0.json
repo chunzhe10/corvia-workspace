@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-c1c31247aad0",
+  "content": "ws)\n        let adapter_name = adapter_name.trim_end_matches(\".exe\");\n\n        if adapter_name.is_empty() || seen.contains(adapter_name) {\n            continue;\n        }\n\n        // Check executable\n        if !is_executable(&path) {\n            continue;\n        }\n\n        // Probe metadata\n        match probe_metadata(&path) {\n            Ok(meta) => {\n                seen.insert(adapter_name.to_string());\n                out.push(DiscoveredAdapter {\n                    binary_path: path,\n                    metadata: meta,\n                });\n            }\n            Err(e) => {\n                warn!(\"Failed to probe {}: {}\", path.display(), e);\n            }\n        }\n    }\n}\n\nfn probe_metadata(binary: &Path) -> Result<AdapterMetadata, String> {\n    let output = Command::new(binary)\n        .arg(\"--corvia-metadata\")\n        .output()\n        .map_err(|e| format!(\"spawn failed: {e}\"))?;\n\n    if !output.status.success() {\n        return Err(format!(\n            \"exit code {:?}: {}\",\n            output.status.code(),\n            String::from_utf8_lossy(&output.stderr)\n        ));\n    }\n\n    serde_json::from_slice(&output.stdout)\n        .map_err(|e| format!(\"invalid metadata JSON: {e}\"))\n}\n\nfn is_executable(path: &Path) -> bool {\n    use std::os::unix::fs::PermissionsExt;\n    path.is_file()\n        && std::fs::metadata(path)\n            .map(|m| m.permissions().mode() & 0o111 != 0)\n            .unwrap_or(false)\n}\n\nfn home_dir() -> Option<PathBuf> {\n    std::env::var(\"HOME\").ok().map(PathBuf::from)\n}\n\nfn shellexpand_home(path: &str) -> PathBuf {\n    if let Some(rest) = path.strip_prefix(\"~/\") {\n        if let Some(home) = home_dir() {\n            return home.join(rest);\n        }\n    }\n    PathBuf::from(path)",
+  "source_version": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462529991Z",
+  "valid_from": "2026-03-31T13:20:59.462529991Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 528,
+    "end_line": 582,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

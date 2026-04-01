@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84b-7723-860a-1dc9be66a123",
+  "content": "### KnowledgeEntry\n\n### GraphEdge\n\nRelationships between knowledge entries.\n\n```\nGraphEdge\n├── from: Uuid (source entry)\n├── to: Uuid (target entry)\n├── relation: String (e.g., \"imports\", \"depends_on\", \"tests\", \"documents\")\n└── metadata: Option<Value> (arbitrary JSON, e.g., {\"weight\": 0.8})\n```\n\nEdges are directed and labeled. The `relation` field enables typed traversal — for example,\n`corvia graph --relation imports <entry-id>` shows only import relationships. The reasoner\nuses graph structure for its `DanglingImport` and `DependencyCycle` checks.\n\n\n### Agent Identity\n\ncorvia supports three layers of agent identity:\n\n| Layer | Type | Write access | Staging |\n|-------|------|-------------|---------|\n| **Registered** | `{scope}::{agent-name}` | Yes | Full (git branch + staging dir) |\n| **MCP Client** | Client info + `_meta.agent_id` | Yes (with hint) | Lightweight |\n| **Anonymous** | No identity | Read-only | None |\n\nThis multi-layer model allows corvia to work with any agent framework — from fully registered\nlong-lived agents to anonymous one-shot queries — while maintaining write safety through\nidentity-based access control.",
+  "source_version": "ARCHITECTURE.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.467644344Z",
+  "valid_from": "2026-03-31T13:20:59.467644344Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "ARCHITECTURE.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 358,
+    "end_line": 386,
+    "content_role": null,
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

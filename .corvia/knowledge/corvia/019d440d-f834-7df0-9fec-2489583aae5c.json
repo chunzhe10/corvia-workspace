@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f834-7df0-9fec-2489583aae5c",
+  "content": "\"));\n                            }\n                        }\n\n                        progress.log(&format!(\"  {} session turns stored\", stored));\n                        report.session_turns = stored;\n                        report.total_chunks += stored;\n                    }\n\n                    process.shutdown().map_err(|e| anyhow::anyhow!(e))?;\n                }\n            }\n        }\n    }\n\n    // --- Phase 4: Agent Teams entries + graph edge wiring ---\n    if repo_filter.is_none() {\n        let session_scope = config\n            .scope\n            .as_ref()\n            .and_then(|scopes| scopes.iter().find(|s| s.id == USER_HISTORY_SCOPE));\n\n        if session_scope.is_some() {\n            let adapter_info = discovered.iter().find(|a| a.metadata.domain == CLAUDE_SESSIONS_ADAPTER);\n            if let Some(adapter_info) = adapter_info {\n                let home = std::env::var(\"HOME\").unwrap_or_else(|_| \"/root\".into());\n                let staging_root = PathBuf::from(&home)\n                    .join(\".corvia\")\n                    .join(\"staging\")\n                    .join(\"agent-teams\");",
+  "source_version": "crates/corvia-kernel/src/ingest.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.444581700Z",
+  "valid_from": "2026-03-31T13:20:59.444581700Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ingest.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1107,
+    "end_line": 1129,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

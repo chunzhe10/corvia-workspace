@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83e-7ae3-ae47-a45426dc5ce4",
+  "content": "            .with(fmt::layer().json())\n                    .init();\n            } else {\n                tracing_subscriber::registry()\n                    .with(env_filter)\n                    .with(fmt::layer())\n                    .init();\n            }\n        }\n    }\n\n    Ok(())\n}\n\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    #[test]\n    fn test_span_constants_are_dotted() {\n        // All span names must use dotted notation\n        let all = [\n            spans::AGENT_REGISTER, spans::SESSION_CREATE, spans::ENTRY_WRITE,\n            spans::ENTRY_EMBED, spans::ENTRY_INSERT, spans::SESSION_COMMIT,\n            spans::MERGE_PROCESS, spans::MERGE_CONFLICT, spans::MERGE_LLM_RESOLVE,\n            spans::GC_RUN, spans::SEARCH, spans::STORE_INSERT, spans::STORE_SEARCH,\n            spans::STORE_GET, spans::RAG_CONTEXT, spans::RAG_ASK,\n        ];\n        for name in &all {\n            assert!(name.starts_with(\"corvia.\"), \"{name} must start with 'corvia.'\");\n            assert!(name.contains('.'), \"{name} must use dotted notation\");\n        }\n    }\n\n    #[test]\n    fn test_default_telemetry_config() {\n        let config = TelemetryConfig::default();\n        assert_eq!(config.exporter, \"stdout\");\n        assert_eq!(config.log_format, \"text\");\n        assert!(config.metrics_enabled);\n        assert!(config.otlp_endpoint.is_empty());\n    }\n}\n```\n\n-**Step 5: Verify telemetry crate compiles and tests pass**\n\nRun: `cd /workspaces/corvia-workspace/repos/corvia && cargo test -p corvia-telemetry`\nExpected: 2 tests pass\n\n-**Step 6: Verify full workspace still compiles**\n\nRun: `cargo build --workspace`\nExpected: Compiles with no errors. `TelemetryConfig` added to `CorviaConfig` with `#[serde(default)]` so existing configs still deserialize.\n\n-**Step 7: Commit**\n\n```bash\ngit add crates/corvia-telemetry/ Cargo.toml crates/corvia-common/src/config.rs crates/corvia-common/Cargo.toml\ngit commit -m \"feat(m4): add corvia-telemetry crate with TelemetryConfig, span constants, and init_telemetry\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.454762325Z",
+  "valid_from": "2026-03-31T13:20:59.454762325Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 216,
+    "end_line": 271,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

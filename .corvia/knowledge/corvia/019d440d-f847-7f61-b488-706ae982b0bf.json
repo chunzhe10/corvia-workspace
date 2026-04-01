@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-706ae982b0bf",
+  "content": "### Types\n### Trait\n\n### Auto-Extraction During Ingestion (D58)\n\nThe `corvia-adapter-git` crate already uses tree-sitter to parse code into chunks. M3 extends the adapter to also extract structural relations alongside chunks:\n\n| Language Pattern | Relation | Example |\n|---|---|---|\n| `use foo::bar` / `import x` | `imports` | file A imports file B |\n| `fn_call(...)` expression | `calls` | function A calls function B |\n| `impl Trait for Type` | `implements` | type implements trait |\n| Module/function nesting | `contains` | module contains function |\n\nRelations are emitted from the adapter as `Vec<(chunk_index, relation, chunk_index)>` alongside the `Vec<KnowledgeEntry>` chunks. The kernel resolves chunk indices to UUIDs after insert and calls `GraphStore::relate()`.\n\nRelation extraction is **best-effort** — tree-sitter gives AST structure, but cross-file resolution (which `bar` does `use foo::bar` refer to?) requires matching against the scope's entry set by source file path. Unresolvable references are skipped silently.\n\n**Relation types are strings, not enums.** The above are conventions. Agents can create custom relation types via the API.\n\n\n### CLI\n\n```\ncorvia graph <entry-id>                        # show edges\ncorvia relate <from-id> depends_on <to-id>     # manual edge creation\ncorvia graph --scope kernel --relation imports  # all import edges in scope\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-m3-temporal-graph-reasoning-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463475516Z",
+  "valid_from": "2026-03-31T13:20:59.463475516Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-temporal-graph-reasoning-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 189,
+    "end_line": 215,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

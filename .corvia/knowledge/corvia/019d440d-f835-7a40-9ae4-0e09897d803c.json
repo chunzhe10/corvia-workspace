@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f835-7a40-9ae4-0e09897d803c",
+  "content": "           &format!(\"Only {}GB free. Each spoke needs ~2-4GB.\", free_gb),\n                ));\n            } else {\n                results.push(CheckResult::pass(&format!(\"Disk space: {}GB free\", free_gb)));\n            }\n        }\n\n        results\n    }\n}\npub fn new() -> Result<Self> {\n        let docker = Docker::connect_with_local_defaults()\n            .map_err(|e| CorviaError::Docker(format!(\"Failed to connect to Docker: {e}\")))?;\n        Ok(Self { docker })\n    }",
+  "source_version": "crates/corvia-kernel/src/spoke.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.445125840Z",
+  "valid_from": "2026-03-31T13:20:59.445125840Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/spoke.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 268,
+    "end_line": 272,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

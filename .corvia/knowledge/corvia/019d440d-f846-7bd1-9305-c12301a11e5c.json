@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-c12301a11e5c",
+  "content": "serde tests pass.\n\n**Step 4: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/chunking_strategy.rs\ngit commit -m \"feat: add Serialize/Deserialize derives to all chunking types\n\nEnables JSONL serialization for the adapter plugin protocol (D75).\"\n```\n\n---\n\n## Task 2: Create Adapter Protocol Types\n\nDefine the JSONL wire protocol types for host ↔ adapter communication.\n\n**Files:**\n- Create: `crates/corvia-kernel/src/adapter_protocol.rs`\n- Modify: `crates/corvia-kernel/src/lib.rs` (add module export)\n\n**Step 1: Write the protocol type tests**\n\nCreate `crates/corvia-kernel/src/adapter_protocol.rs`:\n\n```rust\n//! JSONL wire protocol types for adapter ↔ host communication (D75).\n//!\n//! Adapters are standalone binaries that communicate with the kernel via\n//! newline-delimited JSON over stdin/stdout. This module defines the shared\n//! types for metadata probing, request messages, and response messages.\n\nuse serde::{Deserialize, Serialize};\n\nuse crate::chunking_strategy::{ChunkRelation, RawChunk, SourceMetadata};\n\n// ---------------------------------------------------------------------------\n// Metadata (returned by `--corvia-metadata`)\n// ---------------------------------------------------------------------------\n\n/// Self-description returned by `corvia-adapter-* --corvia-metadata`.\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct AdapterMetadata {\n    pub name: String,",
+  "source_version": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462412868Z",
+  "valid_from": "2026-03-31T13:20:59.462412868Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 118,
+    "end_line": 148,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

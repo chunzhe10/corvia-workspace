@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-920486601edf",
+  "content": "### Task 4: Module classification functions\n\nRun: `cd repos/corvia && cargo test -p corvia-server dashboard::traces`\nExpected: FAIL — `span_to_module` not found\n\n-**Step 3: Implement `span_to_module`**\n\nAdd above the `#[cfg(test)]` block:\n\n```rust\n/// Classify a span name into a module.\n/// Exact matches checked first, then prefix matches (first match wins).\npub fn span_to_module(span: &str) -> &'static str {\n    // Exact overrides\n    if span == \"corvia.entry.embed\" {\n        return \"inference\";\n    }\n\n    // Prefix matches (order matters — first match wins)\n    const PREFIX_MAP: &[(&str, &str)] = &[\n        (\"corvia.agent.\", \"agent\"),\n        (\"corvia.session.\", \"agent\"),\n        (\"corvia.entry.\", \"entry\"),\n        (\"corvia.merge.\", \"merge\"),\n        (\"corvia.store.\", \"storage\"),\n        (\"corvia.rag.\", \"rag\"),\n        (\"corvia.gc.\", \"gc\"),\n    ];\n\n    for (prefix, module) in PREFIX_MAP {\n        if span.starts_with(prefix) {\n            return module;\n        }\n    }\n\n    \"unknown\"\n}\n```\n\n-**Step 4: Run tests to verify they pass**\n",
+  "source_version": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465780453Z",
+  "valid_from": "2026-03-31T13:20:59.465780453Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 598,
+    "end_line": 636,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

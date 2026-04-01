@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f822-7391-83ed-30ac1061b73c",
+  "content": "s(\"power_draw_w\"));\n        assert!(!json.contains(\"processes\"));\n        assert!(!json.contains(\"render_busy_pct\"));\n        assert!(!json.contains(\"video_busy_pct\"));\n        assert!(json.contains(\"utilization_pct\")); // present because it's Some\n    }\n}\nfn service_state_serializes_lowercase() {\n        let status = ServiceStatus {\n            name: \"corvia-server\".to_string(),\n            state: ServiceState::Healthy,\n            port: Some(8020),\n            latency_ms: Some(1.5),\n        };\n        let json = serde_json::to_string(&status).unwrap();\n        assert!(json.contains(\"\\\"healthy\\\"\"));\n        assert!(json.contains(\"\\\"corvia-server\\\"\"));\n\n        let parsed: ServiceStatus = serde_json::from_str(&json).unwrap();\n        assert_eq!(parsed.state, ServiceState::Healthy);\n    }",
+  "source_version": "crates/corvia-common/src/dashboard.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.426006406Z",
+  "valid_from": "2026-03-31T13:20:59.426006406Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/dashboard.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 465,
+    "end_line": 478,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f838-7ec1-a413-ae6435d54579",
+  "content": "       let already_exists = graph\n            .edges_connecting(from_idx, to_idx)\n            .any(|e| e.weight() == relation);\n        if !already_exists {\n            graph.add_edge(from_idx, to_idx, relation.to_string());\n        }\n\n        Ok(())\n    }\nasync fn edges(\n        &self,\n        entry_id: &Uuid,\n        direction: EdgeDirection,\n    ) -> Result<Vec<GraphEdge>> {\n        let graph = self.graph.lock()\n            .map_err(|e| CorviaError::Storage(format!(\"Lock: {e}\")))?;\n        let node_map = self.node_map.lock()\n            .map_err(|e| CorviaError::Storage(format!(\"Lock: {e}\")))?;\n\n        let node_idx = match node_map.get(entry_id) {\n            Some(idx) => *idx,\n            None => return Ok(Vec::new()),\n        };\n\n        let mut edges = Vec::new();\n\n        match direction {\n            EdgeDirection::Outgoing | EdgeDirection::Both => {\n                for edge in graph.edges_directed(node_idx, petgraph::Direction::Outgoing) {\n                    let to_uuid = graph[edge.target()];\n                    edges.push(GraphEdge {\n                        from: *entry_id,\n                        to: to_uuid,\n                        relation: edge.weight().clone(),\n                        metadata: None,\n                    });\n                }\n            }\n            _ => {}\n        }\n\n        match direction {\n            EdgeDirection::Incoming | EdgeDirection::Both => {\n                for edge in graph.edges_directed(node_idx, petgraph::Direction::Incoming) {\n                    let from_uuid = graph[edge.source()];\n                    edges.push(GraphEdge {\n                        from: from_uuid,\n                        to: *entry_id,\n                        relation: edge.weight().clone(),\n                        metadata: None,\n                    });\n                }\n            }\n            _ => {}\n        }\n\n        Ok(edges)\n    }",
+  "source_version": "crates/corvia-kernel/src/graph_store.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.448515152Z",
+  "valid_from": "2026-03-31T13:20:59.448515152Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/graph_store.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 273,
+    "end_line": 321,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

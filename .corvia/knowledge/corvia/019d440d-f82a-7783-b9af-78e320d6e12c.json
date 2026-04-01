@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82a-7783-b9af-78e320d6e12c",
+  "content": "kType::MisplacedDoc => \"misplaced_doc\",\n            CheckType::TemporalContradiction => \"temporal_contradiction\",\n            CheckType::CoverageGap => \"coverage_gap\",\n            CheckType::UnmappedContentRole => \"unmapped_content_role\",\n        }\n    }\n}\npub fn as_str(&self) -> &'static str {\n        match self {\n            CheckType::StaleEntry => \"stale_entry\",\n            CheckType::BrokenChain => \"broken_chain\",\n            CheckType::OrphanedNode => \"orphaned_node\",\n            CheckType::DanglingImport => \"dangling_import\",\n            CheckType::DependencyCycle => \"dependency_cycle\",\n            CheckType::SemanticGap => \"semantic_gap\",\n            CheckType::Contradiction => \"contradiction\",\n            CheckType::MisplacedDoc => \"misplaced_doc\",\n            CheckType::TemporalContradiction => \"temporal_contradiction\",\n            CheckType::CoverageGap => \"coverage_gap\",\n            CheckType::UnmappedContentRole => \"unmapped_content_role\",\n        }\n    }",
+  "source_version": "crates/corvia-kernel/src/reasoner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.434832758Z",
+  "valid_from": "2026-03-31T13:20:59.434832758Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/reasoner.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 41,
+    "end_line": 55,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

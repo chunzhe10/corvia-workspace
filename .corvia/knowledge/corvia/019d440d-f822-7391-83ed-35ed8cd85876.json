@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f822-7391-83ed-35ed8cd85876",
+  "content": "ed = e;\n            }\n            if !enabled {\n                return ResolvedPolicy { enabled, max_inactive_days, budget_top_n };\n            }\n            if let Some(d) = type_cfg.max_inactive_days {\n                max_inactive_days = d;\n            }\n            if let Some(b) = type_cfg.budget_top_n {\n                budget_top_n = b;\n            }\n        }\n\n        // Layer 3: per-scope override (most specific)\n        if let Some(scope_cfg) = scope_override {\n            if let Some(e) = scope_cfg.enabled {\n                enabled = e;\n            }\n            if let Some(d) = scope_cfg.max_inactive_days {\n                max_inactive_days = d;\n            }\n            if let Some(b) = scope_cfg.budget_top_n {\n                budget_top_n = b;\n            }\n        }\n\n        ResolvedPolicy { enabled, max_inactive_days, budget_top_n }\n    }\n\n    /// Validate configuration values. Call after deserialization.\n    pub fn validate(&self) -> Result<()> {\n        if self.interval_minutes == 0 {\n            return Err(CorviaError::Config(\n                \"forgetting.interval_minutes must be > 0\".into(),\n            ));\n        }\n        if self.defaults.max_inactive_days == 0 {\n            return Err(CorviaError::Config(\n                \"forgetting.defaults.max_inactive_days must be > 0\".into(),\n            ));\n        }\n        for (memory_type, cfg) in &self.by_type {\n            if let Some(0) = cfg.max_inactive_days {\n                return Err(CorviaError::Config(format!(\n                    \"forgetting.by_type.{memory_type}.max_inactive_days must be > 0\"\n                )));\n            }\n        }\n        Ok(())\n    }\n}",
+  "source_version": "crates/corvia-common/src/config.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.426544822Z",
+  "valid_from": "2026-03-31T13:20:59.426544822Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/config.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 913,
+    "end_line": 955,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

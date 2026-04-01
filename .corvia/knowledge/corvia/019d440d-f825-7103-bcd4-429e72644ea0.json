@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-429e72644ea0",
+  "content": "ith: cargo build --features postgres\"\n        );\n    }\n\n    let source_name = store_type_name(&config.storage.store_type);\n    let target_name = store_type_name(&target);\n\n    println!(\"Corvia migrate: {} -> {}\", source_name, target_name);\n    if dry_run {\n        println!(\"  (dry run — no changes will be made)\\n\");\n    } else {\n        println!();\n    }\n\n    // Load all data from source\n    println!(\"Reading entries from {} store...\", source_name);\n    let (entries, all_edges) = load_source(&config).await?;\n\n    if entries.is_empty() {\n        println!(\"No knowledge entries found. Nothing to migrate.\");\n        return Ok(());\n    }\n\n    // Group entries by scope for reporting and verification\n    let mut entries_by_scope: HashMap<String, Vec<&KnowledgeEntry>> = HashMap::new();\n    for entry in &entries {\n        entries_by_scope\n            .entry(entry.scope_id.clone())\n            .or_default()\n            .push(entry);\n    }\n\n    let mut scope_names: Vec<_> = entries_by_scope.keys().cloned().collect();\n    scope_names.sort();\n    println!(\n        \"Found {} entries across {} scope(s):\",\n        entries.len(),\n        entries_by_scope.len()\n    );\n    for scope in &scope_names {\n        println!(\"  {}: {} entries\", scope, entries_by_scope[scope].len());",
+  "source_version": "crates/corvia-cli/src/upgrade.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429669415Z",
+  "valid_from": "2026-03-31T13:20:59.429669415Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/upgrade.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 109,
+    "end_line": 140,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

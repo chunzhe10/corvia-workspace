@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-6cc0ff0a31c8",
+  "content": "# Initialize (if not already)\n# Ingest (should auto-discover basic adapter since no .git/)\n\n## Summary of All Files Changed\n\n| Task | Files | Type |\n|------|-------|------|\n| 1 | `crates/corvia-kernel/src/chunking_strategy.rs` | Modify |\n| 2 | `crates/corvia-kernel/src/adapter_protocol.rs` | Create |\n| 2 | `crates/corvia-kernel/src/lib.rs` | Modify |\n| 3 | `crates/corvia-kernel/src/adapter_discovery.rs` | Create |\n| 3 | `crates/corvia-kernel/src/lib.rs` | Modify |\n| 4 | `crates/corvia-kernel/src/process_adapter.rs` | Create |\n| 4 | `crates/corvia-kernel/src/lib.rs` | Modify |\n| 5 | `crates/corvia-kernel/src/chunking_pipeline.rs` | Modify |\n| 6 | `crates/corvia-common/src/config.rs` | Modify |\n| 7 | `crates/corvia-adapter-basic/Cargo.toml` | Create |\n| 7 | `crates/corvia-adapter-basic/src/main.rs` | Create |\n| 7 | `Cargo.toml` | Modify |\n| 8 | `crates/corvia-adapter-git/Cargo.toml` | Create |\n| 8 | `crates/corvia-adapter-git/src/main.rs` | Create |\n| 8 | `crates/corvia-adapter-git/src/lib.rs` | Copy |\n| 8 | `crates/corvia-adapter-git/src/git.rs` | Copy |\n| 8 | `crates/corvia-adapter-git/src/ast_chunker.rs` | Copy |\n| 8 | `crates/corvia-adapter-git/src/treesitter.rs` | Copy |\n| 8 | `Cargo.toml` | Modify |\n| 9 | `crates/corvia-cli/src/main.rs` | Modify |\n| 9 | `crates/corvia-cli/Cargo.toml` | Modify |\n| 10 | `Cargo.toml` | Modify |\n| 11 | `.github/workflows/release.yml` | Modify |\n| 12 | `crates/corvia-kernel/src/process_adapter.rs` | Modify |",
+  "source_version": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463117104Z",
+  "valid_from": "2026-03-31T13:20:59.463117104Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 2654,
+    "end_line": 2681,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

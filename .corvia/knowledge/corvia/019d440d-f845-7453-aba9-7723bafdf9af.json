@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-7723bafdf9af",
+  "content": "### D15: Client Repo Integration & Recursive Architecture\n### D16: Licensing\n\n### D17: VS Code Extension UI\n- **Decision**: Full 7-surface UI approach\n- **Surfaces used**:\n  1. **Activity Bar** — Raven icon, badge for stale docs / agent attention needed\n  2. **Sidebar Tree View** — Living doc tree (with freshness icons), agent status tree, decision log\n  3. **Sidebar Webview** — Chat panel (documentation-focused, conversations auto-captured to tier pipeline, \"Save as decision\" button)\n  4. **Code Lens** — Per-function/class doc status inline (✅ Documented, ⚠️ Stale, 🔴 Undocumented) with clickable actions (View/Generate/Regenerate)\n  5. **Editor Tab (Webview)** — Full dashboard: agent pipeline visualization, cost tracker, eval scores, coverage heatmap, conversation timeline\n  6. **Status Bar** — Always-visible: chunks indexed, active agents, doc coverage %, daily cost\n  7. **Notifications** — Event-driven toasts for indexing, staleness, distillation events\n- **Differentiation from Cursor/Cody**: Code Lens doc status (no other tool does this), living doc tree with freshness, agent pipeline visualization, cost tracking, self-documentation visible in same UI\n- **Alternatives considered**: Minimal UI (sidebar only), CLI-only interface. Rejected: misses portfolio showcase opportunity, VS Code surfaces are the demo.\n\n\n### D18: Doc Versioning & Historical Semantic Understanding\n- **Decision**: Tiered versioning (git for text, DVC for binaries) + temporal knowledge graph\n- **Priority order**: Semantic diff (P1) → Decision provenance (P2) → Evolution narratives (P3) → Temporal queries (P4) → Drift detection (P5)\n",
+  "source_version": "docs/rfcs/2026-02-25-corvia-brainstorm.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461525573Z",
+  "valid_from": "2026-03-31T13:20:59.461525573Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-25-corvia-brainstorm.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 326,
+    "end_line": 342,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

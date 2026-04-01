@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-41ca34d6d23a",
+  "content": "(\"hello\", 10), \"hello\");\n        assert_eq!(truncate_to_bytes(\"hello\", 3), \"hel\");\n        assert_eq!(truncate_to_bytes(\"\", 5), \"\");\n        assert_eq!(truncate_to_bytes(\"café\", 4), \"caf\");\n        assert_eq!(truncate_to_bytes(\"café\", 5), \"café\");\n    }\nfn test_should_copy_target_missing() {\n        let dir = TempDir::new().unwrap();\n        let src = dir.path().join(\"src.json\");\n        fs::write(&src, \"{}\").unwrap();\n        let dst = dir.path().join(\"dst.json\");\n        assert!(should_copy(&src, &dst));\n    }",
+  "source_version": "crates/corvia-cli/src/hooks/agent_teams.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429594393Z",
+  "valid_from": "2026-03-31T13:20:59.429594393Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/agent_teams.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 903,
+    "end_line": 909,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

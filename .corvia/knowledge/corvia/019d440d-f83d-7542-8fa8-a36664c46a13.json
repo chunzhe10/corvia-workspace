@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83d-7542-8fa8-a36664c46a13",
+  "content": "## File Structure\n\n### New Files\n\n```\ntools/corvia-dashboard/\n├── package.json\n├── vite.config.ts\n├── tsconfig.json\n├── index.html\n├── src/\n│   ├── main.tsx                    # Entry point, router setup\n│   ├── types.ts                    # TypeScript types (mirrors Rust dashboard types)\n│   ├── api.ts                      # Typed fetch wrapper for /api/dashboard/*\n│   ├── hooks/\n│   │   └── use-poll.ts             # Generic polling hook (3s default)\n│   ├── styles/\n│   │   └── theme.css               # Design tokens (colors, typography, shadows)\n│   ├── components/\n│   │   ├── Layout.tsx              # Shell: header + metrics + main area\n│   │   ├── Header.tsx              # Brand, status pills, scope badge\n│   │   ├── MetricsGrid.tsx         # 4 metric cards with trends\n│   │   ├── LogsView.tsx            # Log terminal with level filters and search\n│   │   ├── TracesView.tsx          # Module topology graph + detail panel\n│   │   ├── GraphView.tsx           # Knowledge graph (placeholder, extend later)\n│   │   ├── ConfigPanel.tsx         # Config sidebar (read-only)\n│   │   └── OfflineState.tsx        # Error/offline fallback\n│   └── test/\n│       └── dashboard.spec.ts       # Playwright test suite\n```\n\n\n### Modified Files\n\n| File | Change |\n|------|--------|\n| `.devcontainer/extensions/corvia-services/extension.js` | Retrofit: replace HTML blob with webview pointing at dashboard URL |\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-11-dashboard-ui-standalone.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.453978473Z",
+  "valid_from": "2026-03-31T13:20:59.453978473Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-dashboard-ui-standalone.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 23,
+    "end_line": 59,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

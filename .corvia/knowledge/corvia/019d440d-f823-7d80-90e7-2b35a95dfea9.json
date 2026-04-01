@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f823-7d80-90e7-2b35a95dfea9",
+  "content": "fn test_reasoning_config_none_by_default() {\n        let config = CorviaConfig::default();\n        assert!(config.reasoning.is_none());\n    }\nfn test_reasoning_config_from_toml() {\n        let toml_str = r#\"\n[project]\nname = \"test\"\nscope_id = \"test\"\n\n[storage]\nstore_type = \"lite\"\ndata_dir = \".corvia\"\n\n[embedding]\nprovider = \"ollama\"\nmodel = \"nomic-embed-text\"\nurl = \"http://127.0.0.1:11434\"\ndimensions = 768\n\n[server]\nhost = \"127.0.0.1\"\nport = 8020\n\n[reasoning]\nprovider = \"ollama\"\nmodel = \"llama3.2:3b\"\n\"#;\n        let config: CorviaConfig = toml::from_str(toml_str).unwrap();\n        let reasoning = config.reasoning.as_ref().unwrap();\n        assert_eq!(reasoning.provider, InferenceProvider::Ollama);\n        assert_eq!(reasoning.model, \"llama3.2:3b\");\n    }",
+  "source_version": "crates/corvia-common/src/config.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.427018281Z",
+  "valid_from": "2026-03-31T13:20:59.427018281Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/config.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1289,
+    "end_line": 1317,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-09ce9f30ee6a",
+  "content": "## 4. Adapter Extension\n\n### Domain mode and D75 dispatch\n\nThe adapter gains a second domain mode. Dispatch uses the `source_path` field\nin the D75 `Ingest` request, which the current adapter ignores (it always reads\n`~/.claude/sessions/`). The extension gives it meaning:\n\n- `source_path` containing `\"agent-teams\"` -> teams ingestion path\n- Any other `source_path` (or empty) -> existing sessions ingestion path\n\n**Adapter metadata** (unchanged `--corvia-metadata` response):\n```json\n{\n  \"name\": \"claude-sessions\",\n  \"version\": \"0.2.0\",\n  \"domain\": \"claude-sessions\",\n  \"protocol_version\": 1,\n  \"supported_extensions\": [\"jsonl\", \"json\"],\n  \"chunking_extensions\": []\n}\n```\n\nThe adapter name and domain stay `\"claude-sessions\"`. Multi-domain is an\ninternal dispatch detail, not a protocol change. The kernel treats it as one\nadapter invoked twice with different `source_path` values.\n\n**corvia.toml configuration** (two source entries for one adapter):\n```toml\n[[sources]]\npath = \"~/.claude/sessions\"\nadapter = \"claude-sessions\"\n\n[[sources]]\npath = \"agent-teams\"\nadapter = \"claude-sessions\"\n```\n\nThe workspace ingest pipeline calls the adapter once per source entry.\nWhen `source_path = \"agent-teams\"`, the adapter reads from\n`~/.corvia/staging/agent-teams/` (the path is a sentinel, not a literal\ndirectory). This matches the existing pattern where the sessions adapter\nignores `source_path` and always reads from a fixed location.\n\n\n### Ingestion flow\n\n```\n1. Scan ~/.corvia/staging/agent-teams/ for team directories\n2. Read .ingested state file, skip already-processed teams\n3. For each unprocessed team:\n   a. Parse config.json -> team structure entry\n   b. Parse tasks.jsonl -> task entries (grouped by task_id)\n   c. Parse inbox snapshots -> message entries (grouped by task)\n   d. Emit SourceFile objects via D75 JSONL\n4. Append team name to .ingested\n5. Optionally: scan ~/.claude/teams/ for live teams not yet in staging\n   (fallback for hooks that didn't fire)\n```\n",
+  "source_version": "docs/rfcs/2026-03-28-agent-teams-adapter-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457041923Z",
+  "valid_from": "2026-03-31T13:20:59.457041923Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-agent-teams-adapter-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 237,
+    "end_line": 293,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

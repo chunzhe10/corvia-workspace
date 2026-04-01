@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0fb0e1fb56d7",
+  "content": "## Chunk 4: JavaScript — Render Logic & Interactivity\n\n### Task 5: Rewrite the JavaScript section\n\n**Files:**\n- Modify: `.devcontainer/extensions/corvia-services/extension.js` — the `<script>` block inside `getDashboardHtml()`\n\nThis is the core logic rewrite. Replace the entire `<script>...</script>` block with new code that:\n\n1. Renders metrics, workspace (log panel + sidebar) from status JSON\n2. Implements log filtering (All/Info/Warn/Error)\n3. Implements log search\n4. Implements view tabs (Logs active, Graph/Traces placeholder)\n5. Implements auto-scroll toggle\n6. Computes metric trends from previous poll data\n7. Updates header pills with correct state dots and hover restart icons\n8. Handles offline state\n\n-**Step 1: Write the complete JavaScript**\n\nReplace the `<script>...</script>` block with:\n\n```javascript\nconst vscode = acquireVsCodeApi();\n\n// --- State ---\nlet activeView = 'logs';\nlet activeLogTab = null;\nlet activeFilter = 'all';\nlet autoScroll = true;\nlet searchQuery = '';\nlet lastLogData = {};\n",
+  "source_version": "docs/rfcs/2026-03-10-dashboard-redesign.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457938673Z",
+  "valid_from": "2026-03-31T13:20:59.457938673Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-dashboard-redesign.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 605,
+    "end_line": 635,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

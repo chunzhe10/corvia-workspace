@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f796e077b38c",
+  "content": "e: 14px; color: var(--text-secondary); margin-top: 6px; line-height: 1.5;\">Probe hardware<br>auto-assign GPUs</div>\n      <div style=\"position: absolute; top: 50px; left: -2px; width: 50%; height: 3px; background: var(--border);\"></div>\n    </div>\n  </div>\n  <!-- What the dev gets -->\n  <div style=\"display: flex; gap: 16px; margin-bottom: 24px;\">\n    <div style=\"flex: 1; background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; text-align: center;\">\n      <div style=\"font-size: 40px; margin-bottom: 8px;\">&#128396;</div>\n      <div style=\"font-size: 15px; font-weight: 700;\">NVIDIA passed through</div>\n      <div style=\"font-size: 13px; color: var(--text-muted); margin-top: 4px;\">nvidia-smi detected</div>\n    </div>\n    <div style=\"flex: 1; background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; text-align: center;\">\n      <div style=\"font-size: 40px; margin-bottom: 8px;\">&#128204;</div>\n      <div style=\"font-size: 15px; font-weight: 700;\">Intel /dev/dri mounted</div>\n      <div style=\"font-size: 13px; color: var(--text-muted); margin-top: 4px;\">render nodes detected</div>\n    </div>\n    <div style=\"flex: 1; background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; text-align: center;\">\n      <div style=\"font-size: 40px; margin-bottom: 8px;\">&#129302;</div>\n      <div style=\"font-size: 15px; font-weight: 700;\"><span class=\"corvia-wm\" style=\"font-size: 15px;\">corvia</span> server live</div>\n      <div style=\"font-size: 13px; color: var(--text-muted); margin-top: 4px;\">AI coding assistant gets project memory</div>\n    </div>\n  </div>\n\n  <div class=\"insight-box\">\n    <p><span class=\"corvia-wm\">corvia</span> is organizational memory for AI agents, and the devcontainer dogfoods it. The AI assistant that helps build <span class=\"corvia-wm\">corvia</span> uses <span class=\"corvia-wm\">corvia</span>'s own knowledge base.</p>\n  </div>\n\n  <div class=\"flex-grow\"></div>\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">06 / 08</div>\n</div>\n\n<!-- SLIDE 7: THE STACK -->\n<div class=\"slide\">\n  <div class=\"slide-label\">The Full Stack</div>\n  <div class=\"slide-title\">\n    What's Actually<br>\n    <span class=\"highlight-amber\">Running</span>\n  </div>",
+  "source_version": "marketing/linkedin/2026-03-13-dual-gpu-inference/dual-gpu-inference-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028497407Z",
+  "valid_from": "2026-03-31T13:51:39.028497407Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-13-dual-gpu-inference/dual-gpu-inference-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 462,
+    "end_line": 496,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

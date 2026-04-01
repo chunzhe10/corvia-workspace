@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-57223eeb8ce3",
+  "content": "### Step 4: Wire up module and extend KnowledgeEntry\n\n### Step 5: Extend config with agent_lifecycle and merge sections\n\nAdd to `crates/corvia-common/src/config.rs`:\n\n```rust\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct AgentLifecycleConfig {\n    #[serde(default = \"default_heartbeat_interval_secs\")]\n    pub heartbeat_interval_secs: u64,\n    #[serde(default = \"default_stale_timeout_secs\")]\n    pub stale_timeout_secs: u64,\n    #[serde(default = \"default_orphan_grace_secs\")]\n    pub orphan_grace_secs: u64,\n    #[serde(default = \"default_gc_orphan_after_secs\")]\n    pub gc_orphan_after_secs: u64,\n    #[serde(default = \"default_gc_closed_session_after_secs\")]\n    pub gc_closed_session_after_secs: u64,\n    #[serde(default = \"default_gc_inactive_agent_after_secs\")]\n    pub gc_inactive_agent_after_secs: u64,\n}\n\nfn default_heartbeat_interval_secs() -> u64 { 30 }\nfn default_stale_timeout_secs() -> u64 { 300 }      // 5 min\nfn default_orphan_grace_secs() -> u64 { 1200 }      // 20 min\nfn default_gc_orphan_after_secs() -> u64 { 86400 }  // 24 hr\nfn default_gc_closed_session_after_secs() -> u64 { 604800 } // 7 days\nfn default_gc_inactive_agent_after_secs() -> u64 { 2592000 } // 30 days\n\nimpl Default for AgentLifecycleConfig {\n    fn default() -> Self {\n        Self {\n            heartbeat_interval_secs: default_heartbeat_interval_secs(),\n            stale_timeout_secs: default_stale_timeout_secs(),\n            orphan_grace_secs: default_orphan_grace_secs(),\n            gc_orphan_after_secs: default_gc_orphan_after_secs(),\n            gc_closed_session_after_secs: default_gc_closed_session_after_secs(),\n            gc_inactive_agent_after_secs: default_gc_inactive_agent_after_secs(),\n        }",
+  "source_version": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451603893Z",
+  "valid_from": "2026-03-31T13:20:59.451603893Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 378,
+    "end_line": 415,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

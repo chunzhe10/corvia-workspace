@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f835-7a40-9ae4-0dbc740d960a",
+  "content": "of pruned containers.\n    pub async fn prune(&self, max_age: std::time::Duration) -> Result<Vec<String>> {\n        let span = info_span!(\"corvia.spoke.prune\", max_age_secs = max_age.as_secs());\n        self.prune_inner(max_age).instrument(span).await\n    }\n\n    async fn prune_inner(&self, max_age: std::time::Duration) -> Result<Vec<String>> {\n        let mut filters: HashMap<String, Vec<String>> = HashMap::new();\n        filters.insert(\"label\".into(), vec![\"corvia.spoke=true\".into()]);\n        filters.insert(\"status\".into(), vec![\"exited\".into()]);\n\n        let options = ListContainersOptionsBuilder::new()\n            .all(true)\n            .filters(&filters)\n            .build();\n\n        let containers = self\n            .docker\n            .list_containers(Some(options))\n            .await\n            .map_err(|e| CorviaError::Docker(format!(\"Failed to list exited spokes: {e}\")))?;\n\n        let now = chrono::Utc::now().timestamp();\n        let threshold = max_age.as_secs() as i64;\n        let mut pruned = Vec::new();\n\n        for container in &containers {\n            let created = container.created.unwrap_or(0);\n            let age = now - created;\n            if age < threshold {\n                continue; // Too young to prune\n            }\n\n            let name = container\n                .names\n                .as_ref()\n                .and_then(|n| n.first())",
+  "source_version": "crates/corvia-kernel/src/spoke.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.445076341Z",
+  "valid_from": "2026-03-31T13:20:59.445076341Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/spoke.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 611,
+    "end_line": 642,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

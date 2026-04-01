@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-9297dcfe7cb0",
+  "content": "en() >= 8 {\n            return rest[..8].to_string();\n        }\n    }\n    ts.to_string()\n}\n\n/// Parse ISO timestamp to epoch seconds (for 1-hour window filtering)\nfn timestamp_to_epoch(ts: &str) -> Option<i64> {\n    chrono::DateTime::parse_from_rfc3339(ts)\n        .ok()\n        .map(|dt| dt.timestamp())\n        .or_else(|| {\n            // Try without timezone suffix\n            chrono::NaiveDateTime::parse_from_str(ts, \"%Y-%m-%dT%H:%M:%S\")\n                .ok()\n                .map(|ndt| ndt.and_utc().timestamp())\n        })\n}\n\n/// Aggregate trace data from parsed log lines.\n/// Computes span statistics (all-time + 1-hour window) and collects recent events.\npub fn collect_traces_from_lines(lines: &[&str]) -> TracesData {\n    let now = chrono::Utc::now().timestamp();\n    let one_hour_ago = now - 3600;\n\n    let mut span_all: HashMap<String, Vec<f64>> = HashMap::new();\n    let mut span_1h: HashMap<String, Vec<f64>> = HashMap::new();\n    let mut span_errors: HashMap<String, u64> = HashMap::new();\n    let mut events: Vec<TraceEvent> = Vec::new();\n\n    for line in lines {\n        let parsed = match parse_trace_line(line) {\n            Some(p) => p,\n            None => continue,\n        };\n\n        match parsed {\n            ParsedTrace::Span {\n                level,\n                timestamp,\n                span_name,\n                elapsed_ms,\n            } => {\n                span_all\n                    .entry(span_name.clone())\n                    .or_default()\n                    .push(elapsed_ms);\n",
+  "source_version": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465883479Z",
+  "valid_from": "2026-03-31T13:20:59.465883479Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 965,
+    "end_line": 1003,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a17-7981-a483-6f6c5eeb26c5",
+  "content": "# Multi-Channel RAG: Implementation Plan\n\n## Overview\n\nSplit LiteStore's single HNSW index into per-memory-type indexes (Structural, Decisional, Episodic, Analytical, Procedural). Add a `MultiChannelSearcher` to the composable pipeline that runs per-type retrieval strategies in parallel and fuses via RRF.\n\n\n## Key Design Simplification\n\n**D2 (HNSW ID spaces):** The spec calls for per-type counters with prefixed string keys in HNSW_TO_UUID/UUID_TO_HNSW. However, these tables use `u64` and `&str` keys respectively. Changing table types would break existing databases and require complex migration.\n\n**Simplification:** Use a **single global counter** (`next_hnsw_id: AtomicU64`). Each entry gets a globally unique HNSW ID regardless of which per-type index it's inserted into. The existing u64-keyed mapping tables work unchanged. This is functionally equivalent because:\n- HNSW IDs are globally unique (no collisions across types)\n- Lookup path (HNSW ID -> UUID -> entry) works identically\n- `delete_scope()` works unchanged (removes by UUID)\n- No table schema migration needed\n\n**D3 (File naming):** Per-type persistence files use the hnsw_rs `file_dump` convention:\n- `structural.hnsw.graph` / `structural.hnsw.data`\n- `decisional.hnsw.graph` / `decisional.hnsw.data`\n- etc.\n",
+  "source_version": "plans/2026-03-31-multichannel-rag-plan.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.031351494Z",
+  "valid_from": "2026-03-31T13:51:39.031351494Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "plans/2026-03-31-multichannel-rag-plan.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 7,
+    "end_line": 25,
+    "content_role": "plan",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

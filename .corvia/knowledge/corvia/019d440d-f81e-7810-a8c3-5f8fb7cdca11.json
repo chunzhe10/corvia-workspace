@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81e-7810-a8c3-5f8fb7cdca11",
+  "content": "pub struct GraphQuery {\n    pub entry_id: Option<String>,\n}\nasync fn graph_handler(\n    State(state): State<Arc<AppState>>,\n    Query(params): Query<GraphQuery>,\n) -> Result<Json<serde_json::Value>, (axum::http::StatusCode, String)> {\n    let entry_id = match params.entry_id {\n        Some(id) => id\n            .parse::<uuid::Uuid>()\n            .map_err(|e| (axum::http::StatusCode::BAD_REQUEST, format!(\"Invalid entry_id: {e}\")))?,\n        None => {\n            return Ok(Json(serde_json::json!({ \"edges\": [] })));\n        }\n    };\n\n    let edges = state\n        .graph\n        .edges(&entry_id, corvia_common::types::EdgeDirection::Both)\n        .await\n        .map_err(|e| (axum::http::StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;\n\n    let edge_dtos: Vec<serde_json::Value> = edges\n        .iter()\n        .map(|e| {\n            serde_json::json!({\n                \"from\": e.from.to_string(),\n                \"to\": e.to.to_string(),\n                \"relation\": e.relation,\n            })\n        })\n        .collect();\n\n    Ok(Json(serde_json::json!({ \"edges\": edge_dtos })))\n}",
+  "source_version": "crates/corvia-server/src/dashboard/mod.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.422172755Z",
+  "valid_from": "2026-03-31T13:20:59.422172755Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/mod.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 394,
+    "end_line": 425,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

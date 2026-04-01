@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-c3c99a2758dc",
+  "content": "de ingestion\".into(),\n        supported_extensions: vec![\n            \"rs\".into(), \"js\".into(), \"jsx\".into(), \"ts\".into(), \"tsx\".into(),\n            \"py\".into(), \"md\".into(), \"toml\".into(), \"yaml\".into(), \"yml\".into(),\n            \"json\".into(),\n        ],\n        chunking_extensions: exts,\n    }\n}\n\nfn main() {\n    let args: Vec<String> = std::env::args().collect();\n\n    if args.len() < 2 {\n        session_mode();\n        return;\n    }\n\n    match args[1].as_str() {\n        \"--corvia-metadata\" => {\n            println!(\"{}\", serde_json::to_string(&metadata()).unwrap());\n        }\n        _ => {\n            eprintln!(\"Usage: corvia-adapter-git [--corvia-metadata]\");\n            eprintln!(\"  No args: session mode (read JSONL from stdin)\");\n            std::process::exit(1);\n        }\n    }\n}\n\nfn session_mode() {\n    let rt = tokio::runtime::Runtime::new().expect(\"Failed to create tokio runtime\");\n    let stdin = io::stdin();\n    let stdout = io::stdout();\n    let mut out = io::BufWriter::new(stdout.lock());\n\n    for line in stdin.lock().lines() {\n        let line = match line {\n            Ok(l) => l,\n            Err(_) => break,",
+  "source_version": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462931847Z",
+  "valid_from": "2026-03-31T13:20:59.462931847Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 2016,
+    "end_line": 2049,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

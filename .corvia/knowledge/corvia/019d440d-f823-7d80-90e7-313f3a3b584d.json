@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f823-7d80-90e7-313f3a3b584d",
+  "content": "map(|s| {\n            let (name, path) = s\n                .split_once('=')\n                .with_context(|| format!(\"Invalid local override '{s}': expected name=path\"))?;\n            Ok((name.to_string(), path.to_string()))\n        })\n        .collect()\n}\npub fn generate_workspace_config(\n    name: &str,\n    repo_urls: &[String],\n    local_overrides: &[(String, String)],\n) -> Result<CorviaConfig> {\n    validate_dir_name(name)?;\n    let repos: Vec<RepoConfig> = repo_urls\n        .iter()\n        .map(|url| {\n            let repo_name = repo_name_from_url(url);\n            validate_dir_name(&repo_name)?;\n            let local = local_overrides\n                .iter()\n                .find(|(n, _)| n == &repo_name)\n                .map(|(_, p)| p.clone());\n            Ok(RepoConfig {\n                name: repo_name.clone(),\n                url: url.clone(),\n                local,\n                namespace: repo_name,\n            })\n        })\n        .collect::<Result<Vec<_>>>()?;\n\n    let mut config = CorviaConfig::default();\n    config.project.name = name.to_string();\n    config.project.scope_id = name.to_string();\n    config.workspace = Some(WorkspaceConfig {\n        repos_dir: \"repos\".into(),\n        repos,\n        docs: None,\n        spokes: None,\n    });\n    Ok(config)\n}",
+  "source_version": "crates/corvia-cli/src/workspace.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.427703600Z",
+  "valid_from": "2026-03-31T13:20:59.427703600Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/workspace.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 75,
+    "end_line": 109,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f826-79c1-b85f-36829b330e41",
+  "content": " // RTLD_LAZY: resolve symbols on first use (matches ORT behavior)\n    let handle = unsafe { libc::dlopen(name.as_ptr(), libc::RTLD_LAZY) };\n    if handle.is_null() {\n        false\n    } else {\n        unsafe { libc::dlclose(handle) };\n        true\n    }\n}\nfn can_find_library(lib_name: &str) -> bool {\n    // Check common library paths\n    let search_paths = [\n        \"/usr/lib\",\n        \"/usr/lib/x86_64-linux-gnu\",\n        \"/usr/local/lib\",\n        \"/usr/local/bin\",\n    ];\n    for dir in &search_paths {\n        if std::path::Path::new(dir).join(lib_name).exists() {\n            return true;\n        }\n    }\n    // Also check LD_LIBRARY_PATH\n    if let Ok(paths) = std::env::var(\"LD_LIBRARY_PATH\") {\n        for dir in paths.split(':') {\n            if std::path::Path::new(dir).join(lib_name).exists() {\n                return true;\n            }\n        }\n    }\n    false\n}",
+  "source_version": "crates/corvia-inference/src/embedding_service.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.430433325Z",
+  "valid_from": "2026-03-31T13:20:59.430433325Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/src/embedding_service.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 88,
+    "end_line": 110,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

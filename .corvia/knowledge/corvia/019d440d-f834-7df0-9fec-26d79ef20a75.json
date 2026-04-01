@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f834-7df0-9fec-26d79ef20a75",
+  "content": "pub struct NetworkInfo {\n    pub network_id: String,\n}\nimpl HubContext {\n    /// Detect the hub container by inspecting the current hostname.\n    /// Returns an error if not running inside a Docker container.\n    pub async fn detect(docker: &Docker) -> Result<Self> {\n        if !is_in_container() {\n            return Err(CorviaError::Config(\n                \"Spoke management requires running inside a Docker container \\\n                 with the host Docker socket mounted. \\\n                 Run `corvia workspace spoke check` to diagnose.\"\n                    .into(),\n            ));\n        }\n\n        let hostname = std::env::var(\"HOSTNAME\")\n            .or_else(|_| {\n                std::fs::read_to_string(\"/etc/hostname\").map(|s| s.trim().to_string())\n            })\n            .map_err(|_| CorviaError::Config(\"Cannot determine container hostname\".into()))?;\n\n        let inspect = docker\n            .inspect_container(&hostname, None::<InspectContainerOptions>)\n            .await\n            .map_err(|e| {\n                CorviaError::Docker(format!(\"Cannot inspect hub container '{hostname}': {e}\"))\n            })?;\n\n        let mut host_mounts = HashMap::new();\n        if let Some(mounts) = inspect.mounts {\n            for m in mounts {\n                if let (Some(src), Some(dst)) = (m.source, m.destination) {\n                    host_mounts.insert(dst, src);\n                }\n            }\n        }\n\n        let mut networks = HashMap::new();\n        if let Some(ns) = inspect.network_settings.and_then(|ns| ns.networks) {\n            for (name, endpoint) in ns {\n                networks.insert(\n                    name,\n                    NetworkInfo {\n                        network_id: endpoint.network_id.unwrap_or_default(),\n                    },\n                );\n            }",
+  "source_version": "crates/corvia-kernel/src/spoke.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.444872035Z",
+  "valid_from": "2026-03-31T13:20:59.444872035Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/spoke.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 46,
+    "end_line": 90,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

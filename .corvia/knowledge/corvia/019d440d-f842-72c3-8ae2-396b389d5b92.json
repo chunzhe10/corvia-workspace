@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-396b389d5b92",
+  "content": "### Layer A: OTel Spans\n### Layer A: Metrics\n\n### Layer A: Structured Log Events\n\n```\nrag_query_started       — INFO, query + scope_id + mode\nrag_retrieved           — INFO, result_count + vector_count + graph_expanded\nrag_augmented           — INFO, sources_included + token_estimate\nrag_generated           — INFO, model + output_tokens\nrag_query_completed     — INFO, total_latency_ms\nrag_budget_exceeded     — WARN, token_estimate > budget\n```\n\n\n### Layer B: PipelineTrace (returned to caller)\n\n```rust\npub struct PipelineTrace {\n    pub trace_id: Uuid,\n    pub retrieval: RetrievalMetrics,\n    pub augmentation: AugmentationMetrics,\n    pub generation: Option<GenerationMetrics>,\n    pub total_latency_ms: u64,\n}\n\npub struct RetrievalMetrics {\n    pub latency_ms: u64,\n    pub vector_results: usize,\n    pub graph_expanded: usize,\n    pub post_filter_count: usize,\n    pub retriever_name: String,\n}\n\npub struct AugmentationMetrics {\n    pub latency_ms: u64,\n    pub token_estimate: usize,\n    pub token_budget: usize,\n    pub sources_included: usize,\n    pub sources_truncated: usize,\n    pub augmenter_name: String,\n}\n\npub struct GenerationMetrics {\n    pub latency_ms: u64,\n    pub model: String,\n    pub input_tokens: usize,\n    pub output_tokens: usize,\n}\n```\n\nOne measurement, two outputs. Timing values populate both tracing spans and the returned struct.\n",
+  "source_version": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458962381Z",
+  "valid_from": "2026-03-31T13:20:59.458962381Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 303,
+    "end_line": 351,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

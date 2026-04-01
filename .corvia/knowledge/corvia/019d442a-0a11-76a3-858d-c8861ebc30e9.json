@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-c8861ebc30e9",
+  "content": "## Top Frameworks Evaluated\n## Key Methodologies\n\n### Jason Liu's 6 RAG Evals (Priority P0)\nThe minimal, complete evaluation surface for any RAG system:\n1. Context Relevance (C|Q) — Is retrieved context relevant to the question?\n2. Context Support (C|A) — Does context support the answer?\n3. Answer Relevance (A|Q) — Does the answer address the question?\n4. Answer Faithfulness (A|C) — Is the answer grounded in context?\n5. Question Clarity (Q|C) — Is the question well-formed given context?\n6. Question Coverage (Q|A) — Does the question capture what the answer provides?\n\n\n### Hamel Husain's Error Analysis First (Priority P0)\n1. Gather traces, review manually, note failures\n2. Build failure taxonomy, count frequencies\n3. Use binary pass/fail judgments\n4. Write evaluators for discovered errors, not imagined ones\n5. LLM-as-a-judge: error analysis → prompt iteration → labeled examples\n",
+  "source_version": "decisions/2026-03-19-llmops-benchmarking-research.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025245376Z",
+  "valid_from": "2026-03-31T13:51:39.025245376Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-19-llmops-benchmarking-research.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 18,
+    "end_line": 33,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

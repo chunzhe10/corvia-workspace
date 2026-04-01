@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83d-7542-8fa8-9fb14bf2b4cc",
+  "content": "`register_chunking()`.\n    pub fn prepare(&mut self, workspace_root: &str) {\n        let path = Path::new(workspace_root);\n        let map = crate::module_resolver::RustModuleMap::build(path);\n        self.module_map = Some(std::sync::Arc::new(map));\n    }\n}\n```\n\nUpdate the struct:\n```rust\npub struct GitAdapter {\n    module_map: Option<std::sync::Arc<crate::module_resolver::RustModuleMap>>,\n}\n```\n\nUpdate `register_chunking`:\n```rust\nfn register_chunking(&self, registry: &mut corvia_kernel::chunking_pipeline::FormatRegistry) {\n    use corvia_kernel::chunking_strategy::ChunkingStrategy;\n    use std::sync::Arc;\n    let ast = if let Some(ref map) = self.module_map {\n        Arc::new(crate::ast_chunker::AstChunker::with_module_map(Arc::clone(map)))\n    } else {\n        Arc::new(crate::ast_chunker::AstChunker::new())\n    };\n    for ext in ast.supported_extensions() {\n        registry.register_override(ext, ast.clone());\n    }\n}\n```\n\n**Step 5: Update CLI to call `adapter.prepare()` before `register_chunking()`**\n\nIn `corvia-cli/src/main.rs` `cmd_ingest` function (around line 455):\n\nChange:\n```rust\nlet adapter = GitAdapter::new();\n```\nTo:\n```rust\nlet mut adapter = GitAdapter::new();\nadapter.prepare(path);\n```\n\n**Step 6: Fix all existing tests that call `chunk_file_with_relations` without module_map**\n\nSearch for all calls to `chunk_file_with_relations` in tests and add `None` as the last parameter.\n\n**Step 7: Run all tests**\n\nRun: `cd /root/corvia-project/corvia-workspace/repos/corvia-adapter-git && cargo test`\nThen: `cd /root/corvia-project/corvia-workspace/repos/corvia && cargo test --workspace`\nExpected: All tests pass.\n\n**Step 8: Commit**\n\n```bash\ngit add -A && git commit -m \"feat(m3.4): integrate RustModuleMap into AstChunker and treesitter (D72)\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-04-m3.4-graph-edge-improvements-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.453495788Z",
+  "valid_from": "2026-03-31T13:20:59.453495788Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-04-m3.4-graph-edge-improvements-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 671,
+    "end_line": 728,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

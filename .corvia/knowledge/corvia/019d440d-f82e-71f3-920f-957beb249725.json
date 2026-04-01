@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82e-71f3-920f-957beb249725",
+  "content": " 1 {\n            return Ok(pieces);\n        }\n\n        let mut result = Vec::new();\n        for piece in &pieces {\n            let sub = self.recursive_split(strategy, piece, max_tokens)?;\n            result.extend(sub);\n        }\n\n        Ok(result)\n    }\nfn overlap_step(\n        &self,\n        strategy: &Arc<dyn ChunkingStrategy>,\n        chunks: &[RawChunk],\n    ) -> (Vec<String>, Vec<usize>) {\n        let mut contents = Vec::with_capacity(chunks.len());\n        let mut overlap_tokens_vec = Vec::with_capacity(chunks.len());\n\n        for (i, chunk) in chunks.iter().enumerate() {\n            if i == 0 || self.config.overlap_tokens == 0 {\n                // First chunk or overlap disabled — no prefix.\n                contents.push(chunk.content.clone());\n                overlap_tokens_vec.push(0);\n                continue;\n            }\n\n            let prev = &chunks[i - 1];\n\n            // Try strategy-specific overlap.\n            if let Some(overlap_text) = strategy.overlap_context(prev, chunk) {\n                let overlap_est = self.estimator.estimate(&overlap_text);\n                let with_overlap = format!(\"{}\\n{}\", overlap_text, chunk.content);\n                contents.push(with_overlap);\n                overlap_tokens_vec.push(overlap_est);\n            } else {",
+  "source_version": "crates/corvia-kernel/src/chunking_pipeline.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.438880587Z",
+  "valid_from": "2026-03-31T13:20:59.438880587Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_pipeline.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 442,
+    "end_line": 466,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

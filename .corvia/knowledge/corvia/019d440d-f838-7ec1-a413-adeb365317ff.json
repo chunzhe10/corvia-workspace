@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f838-7ec1-a413-adeb365317ff",
+  "content": "pth >= max_depth {\n                continue;\n            }\n\n            let petgraph_dir = match direction {\n                EdgeDirection::Outgoing => petgraph::Direction::Outgoing,\n                EdgeDirection::Incoming => petgraph::Direction::Incoming,\n                EdgeDirection::Both => petgraph::Direction::Outgoing, // Handle Both below\n            };\n\n            let mut process_neighbors = |dir: petgraph::Direction| {\n                for edge in graph.edges_directed(current, dir) {\n                    let neighbor = if dir == petgraph::Direction::Outgoing {\n                        edge.target()\n                    } else {\n                        edge.source()\n                    };\n\n                    // Filter by relation if specified\n                    if let Some(rel) = relation\n                        && edge.weight() != rel {\n                            continue;\n                        }\n\n                    if visited.insert(neighbor) {\n                        results.push(graph[neighbor]);\n                        queue.push_back((neighbor, depth + 1));\n                    }\n                }\n            };\n\n            process_neighbors(petgraph_dir);\n            if direction == EdgeDirection::Both {\n                process_neighbors(petgraph::Direction::Incoming);\n            }\n        }\n\n        Ok(results)\n    }",
+  "source_version": "crates/corvia-kernel/src/graph_store.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.448420021Z",
+  "valid_from": "2026-03-31T13:20:59.448420021Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/graph_store.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 112,
+    "end_line": 143,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

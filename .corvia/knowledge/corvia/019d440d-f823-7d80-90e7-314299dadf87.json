@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f823-7d80-90e7-314299dadf87",
+  "content": ";\n    config.project.name = name.to_string();\n    config.project.scope_id = name.to_string();\n    config.workspace = Some(WorkspaceConfig {\n        repos_dir: \"repos\".into(),\n        repos,\n        docs: None,\n        spokes: None,\n    });\n    Ok(config)\n}\npub fn resolve_repo_path(workspace_root: &Path, repos_dir: &str, repo: &RepoConfig) -> PathBuf {\n    if let Some(local) = &repo.local {\n        let local_path = PathBuf::from(local);\n        if local_path.join(\".git\").exists() {\n            return local_path;\n        }\n    }\n    workspace_root.join(repos_dir).join(&repo.name)\n}",
+  "source_version": "crates/corvia-cli/src/workspace.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.427714604Z",
+  "valid_from": "2026-03-31T13:20:59.427714604Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/workspace.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 116,
+    "end_line": 124,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

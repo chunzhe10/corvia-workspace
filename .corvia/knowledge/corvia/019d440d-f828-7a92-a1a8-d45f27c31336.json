@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f828-7a92-a1a8-d45f27c31336",
+  "content": "}\n\n    /// Cold entry with higher cosine similarity ranks above Warm entry.\n    #[tokio::test]\n    async fn test_cold_entry_ranks_above_warm_when_higher_similarity() {\n        use corvia_common::types::Tier;\n\n        let dir = tempfile::tempdir().unwrap();\n        let store = Arc::new(LiteStore::open(dir.path(), 3).unwrap());\n        store.init_schema().await.unwrap();\n        let engine: Arc<dyn InferenceEngine> = Arc::new(MockEngine);\n\n        // Insert 10 filler entries for HNSW connectivity.\n        let mut idx: usize = 0;\n        let mut next_emb = || {\n            idx += 1;\n            vec![0.5, idx as f32 * 0.01, 0.5]\n        };\n        for i in 0..10 {\n            let mut entry = KnowledgeEntry::new(\n                format!(\"filler {i}\"),\n                \"scope-rank\".to_string(),\n                \"v1\".to_string(),\n            );\n            entry.embedding = Some(next_emb());\n            store.insert(&entry).await.unwrap();\n        }\n\n        // Warm entry with low similarity to query [1,0,0].\n        let mut warm_entry = KnowledgeEntry::new(\n            \"warm entry\".to_string(),\n            \"scope-rank\".to_string(),\n            \"v1\".to_string(),\n        );\n        warm_entry.embedding = Some(vec![0.0, 1.0, 0.0]); // orthogonal to query\n        warm_entry.tier = Tier::Warm;\n        store.insert(&warm_entry).await.unwrap();\n\n        // Cold entry with high similarity to query [1,0,0].\n        let mut cold_entry = KnowledgeEntry::new(\n            \"cold entry high score\".to_string(),\n            \"scope-rank\".to_string(),\n            \"v1\".to_string(),\n        );\n        cold_entry.embedding = Some(vec![1.0, 0.0, 0.0]); // exact match",
+  "source_version": "crates/corvia-kernel/src/retriever.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.432213633Z",
+  "valid_from": "2026-03-31T13:20:59.432213633Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/retriever.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 1513,
+    "end_line": 1549,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

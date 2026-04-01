@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f843-7a03-b56b-37139de7d8a5",
+  "content": " scope_key = format!(\"{}:{}\", entry.scope_id, uuid_str);\n            scope_table.insert(scope_key.as_str(), uuid_str.as_str())\n                .map_err(|e| CorviaError::Storage(e.to_string()))?;\n\n            let mut h2u = write_txn.open_table(HNSW_TO_UUID)\n                .map_err(|e| CorviaError::Storage(e.to_string()))?;\n            h2u.insert(hnsw_id, uuid_str.as_str())\n                .map_err(|e| CorviaError::Storage(e.to_string()))?;\n\n            let mut u2h = write_txn.open_table(UUID_TO_HNSW)\n                .map_err(|e| CorviaError::Storage(e.to_string()))?;\n            u2h.insert(uuid_str.as_str(), hnsw_id)\n                .map_err(|e| CorviaError::Storage(e.to_string()))?;\n        }\n        write_txn.commit()\n            .map_err(|e| CorviaError::Storage(format!(\"Redb commit error: {e}\")))?;\n\n        Ok(())\n    }\n\n    /// Rebuild indexes from knowledge JSON files. Clears Redb and re-indexes all entries.\n    pub fn rebuild_from_files(&self) -> Result<usize> {\n        let entries = crate::knowledge_files::read_all(&self.data_dir)?;\n        if entries.is_empty() {\n            info!(\"No knowledge files found, nothing to rebuild\");\n            return Ok(0);\n        }\n\n        // Reset HNSW\n        self.next_hnsw_id.store(0, Ordering::SeqCst);\n        let max_elements = entries.len().max(100_000);\n        let new_hnsw = Hnsw::<f32, DistCosine>::new(24, max_elements, 16, 400, DistCosine {});\n        {\n            let mut hnsw = self.hnsw.lock().unwrap();\n            *hnsw = new_hnsw;\n        }\n\n        // Re-index each entry (Redb tables will be overwritten)\n        let mut count = 0;\n        for entry in &entries {\n            if let Some(embedding) = &entry.embedding {\n                self.index_entry(entry, embedding)?;\n                count += 1;\n            }\n        }\n\n        self.persist_next_id()?;\n        self.flush_hnsw()?;\n        info!(\"Rebuilt LiteStore from {count} knowledge files\");\n        Ok(count)\n    }\n}\n```\n",
+  "source_version": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.459899507Z",
+  "valid_from": "2026-03-31T13:20:59.459899507Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1046,
+    "end_line": 1094,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f843-7a03-b56b-359365ace58d",
+  "content": "arse Ollama response: {e}\")))?;\n\n        let mut data = embed_response.data;\n        data.sort_by_key(|d| d.index);\n\n        Ok(data.into_iter().map(|d| d.embedding).collect())\n    }\n\n    fn dimensions(&self) -> usize {\n        self.dimensions\n    }\n}\n```\n\n### Step 4: Register module in lib.rs\n\nAdd to `crates/corvia-kernel/src/lib.rs`:\n\n```rust\npub mod ollama_engine;\n```\n\n\n### Step 5: Run test to verify it passes\n\nRun: `cargo test -p corvia-kernel -- test_ollama_engine`\nExpected: PASS\n",
+  "source_version": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.459720596Z",
+  "valid_from": "2026-03-31T13:20:59.459720596Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 484,
+    "end_line": 496,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-cf0534b8bd4c",
+  "content": "### Entrypoint Script (embedded in container or generated)\n\n# --- Error reporting ---\nreport_failure() {\n    local msg=\"$1\"\n    echo \"SPOKE FAILURE: ${msg}\"\n    curl -sf -X POST \"${MCP_URL}\" \\\n        -H \"Content-Type: application/json\" \\\n        -H \"Authorization: Bearer ${MCP_TOKEN}\" \\\n        -d \"{\\\"jsonrpc\\\":\\\"2.0\\\",\\\"id\\\":1,\\\"method\\\":\\\"tools/call\\\",\n             \\\"params\\\":{\\\"name\\\":\\\"corvia_write\\\",\\\"arguments\\\":{\n               \\\"scope_id\\\":\\\"corvia\\\",\\\"agent_id\\\":\\\"${AGENT_ID}\\\",\n               \\\"content_role\\\":\\\"finding\\\",\\\"source_origin\\\":\\\"workspace\\\",\n               \\\"content\\\":\\\"Spoke ${AGENT_ID} failed: ${msg}\\\"\n             }}}\" 2>/dev/null || true\n}\ntrap 'report_failure \"Entrypoint failed at line $LINENO (exit $?)\"' ERR\n\n\n# --- 1. Verify Claude Code is installed (pre-built image) ---\nif ! command -v claude &>/dev/null; then\n    if [ \"${ALLOW_RUNTIME_INSTALL:-}\" = \"1\" ]; then\n        echo \"Warning: Installing Claude Code at runtime (slow, use pre-built image)\"\n        npm install -g @anthropic-ai/claude-code@latest 2>&1 | tail -3\n    else\n        report_failure \"Claude Code not installed. Use pre-built spoke image.\"\n        exit 1\n    fi\nfi\n",
+  "source_version": "decisions/2026-03-28-spoke-cli-design.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025927171Z",
+  "valid_from": "2026-03-31T13:51:39.025927171Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-cli-design.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 277,
+    "end_line": 303,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82d-7772-85c3-a8231bc61aa1",
+  "content": "mod tests {\n    use super::*;\n\n    #[test]\n    fn test_vllm_container_config() {\n        assert_eq!(VLLM_CONTAINER_NAME, \"corvia-vllm\");\n        assert_eq!(VLLM_PORT, 8001);\n        assert!(!VLLM_IMAGE.is_empty());\n    }\n}\nfn test_vllm_container_config() {\n        assert_eq!(VLLM_CONTAINER_NAME, \"corvia-vllm\");\n        assert_eq!(VLLM_PORT, 8001);\n        assert!(!VLLM_IMAGE.is_empty());\n    }",
+  "source_version": "crates/corvia-kernel/src/docker.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.437284717Z",
+  "valid_from": "2026-03-31T13:20:59.437284717Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/docker.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 228,
+    "end_line": 232,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

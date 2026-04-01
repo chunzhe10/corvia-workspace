@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f824-7280-b2ba-a9992159c65e",
+  "content": "ch CorviaConfig::load(&config_path) {\n            Ok(config) => return config.hooks.unwrap_or_default(),\n            Err(e) => eprintln!(\"Warning: failed to load corvia.toml hooks config: {e} (using defaults)\"),\n        }\n    }\n    HooksConfig::default()\n}\nmod tests {\n    use super::*;\n\n    #[test]\n    fn test_parse_hook_event() {\n        assert_eq!(\"SessionStart\".parse::<HookEvent>().unwrap(), HookEvent::SessionStart);\n        assert_eq!(\"PreToolUse\".parse::<HookEvent>().unwrap(), HookEvent::PreToolUse);\n        assert_eq!(\"PostToolUse\".parse::<HookEvent>().unwrap(), HookEvent::PostToolUse);\n        assert_eq!(\"UserPromptSubmit\".parse::<HookEvent>().unwrap(), HookEvent::UserPromptSubmit);\n        assert_eq!(\"SessionEnd\".parse::<HookEvent>().unwrap(), HookEvent::SessionEnd);\n        assert_eq!(\"TaskCreated\".parse::<HookEvent>().unwrap(), HookEvent::TaskCreated);\n        assert_eq!(\"TaskCompleted\".parse::<HookEvent>().unwrap(), HookEvent::TaskCompleted);\n        assert_eq!(\"TeammateIdle\".parse::<HookEvent>().unwrap(), HookEvent::TeammateIdle);\n        assert!(\"Invalid\".parse::<HookEvent>().is_err());\n    }\n\n    #[test]\n    fn test_parse_hook_handler() {\n        assert_eq!(\"doc-placement\".parse::<HookHandler>().unwrap(), HookHandler::DocPlacement);\n        assert_eq!(\"write-reminder\".parse::<HookHandler>().unwrap(), HookHandler::WriteReminder);\n        assert_eq!(\"corvia-first-reminder\".parse::<HookHandler>().unwrap(), HookHandler::CorviaFirstReminder);\n        assert!(\"invalid\".parse::<HookHandler>().is_err());\n    }\n\n    #[test]\n    fn test_default_hooks_config_all_enabled() {",
+  "source_version": "crates/corvia-cli/src/hooks/mod.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.428412086Z",
+  "valid_from": "2026-03-31T13:20:59.428412086Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/mod.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 244,
+    "end_line": 269,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

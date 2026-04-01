@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82f-7ca0-945f-ace94afc2419",
+  "content": "pub fn value(self) -> f32 {\n        self.0\n    }\nimpl PartialEq for NormalizedScore {\n    fn eq(&self, other: &Self) -> bool {\n        self.0 == other.0\n    }\n}\nfn eq(&self, other: &Self) -> bool {\n        self.0 == other.0\n    }",
+  "source_version": "crates/corvia-kernel/src/pipeline/mod.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.439708799Z",
+  "valid_from": "2026-03-31T13:20:59.439708799Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/mod.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 72,
+    "end_line": 74,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

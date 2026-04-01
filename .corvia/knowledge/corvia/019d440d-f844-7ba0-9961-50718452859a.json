@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-50718452859a",
+  "content": "    }\n```\n\nwith:\n\n```rust\n    /// Get a loaded model with its KV cache settings.\n    async fn get_model_with_settings(&self, name: &str) -> Result<(Arc<LlamaModel>, KvCacheType, bool), Status> {\n        let models = self.models.read().await;\n        models\n            .get(name)\n            .map(|e| (Arc::clone(&e.model), e.kv_cache_type, e.flash_attention))\n            .ok_or_else(|| Status::not_found(format!(\"Chat model '{}' not loaded\", name)))\n    }\n```\n\n-**Step 6: Update GenerateParams to include KV settings**\n\nReplace `GenerateParams` (lines 157-162):\n\n```rust\nstruct GenerateParams {\n    model: Arc<LlamaModel>,\n    prompt: String,\n    temperature: f32,\n    max_tokens: u32,\n    kv_cache_type: KvCacheType,\n    flash_attention: bool,\n}\n```\n\n-**Step 7: Add build_context_params helper**\n\nAdd after `build_prompt` (after line 188):\n\n```rust\n/// Build LlamaContextParams with KV cache quantization and flash attention.\nfn build_context_params(ctx_size: u32, kv_cache_type: KvCacheType, flash_attention: bool) -> LlamaContextParams {\n    let flash_policy = if flash_attention && kv_cache_type == KvCacheType::Q4_0 {\n        tracing::warn!(\"Flash attention not compatible with Q4 KV cache, disabling\");\n        LLAMA_FLASH_ATTN_TYPE_DISABLED\n    } else if flash_attention {\n        LLAMA_FLASH_ATTN_TYPE_ENABLED\n    } else {\n        LLAMA_FLASH_ATTN_TYPE_DISABLED",
+  "source_version": "docs/rfcs/2026-03-12-inference-kv-cache-config.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460908711Z",
+  "valid_from": "2026-03-31T13:20:59.460908711Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-12-inference-kv-cache-config.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 596,
+    "end_line": 630,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

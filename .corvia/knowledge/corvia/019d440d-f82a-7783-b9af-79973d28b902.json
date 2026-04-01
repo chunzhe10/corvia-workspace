@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82a-7783-b9af-79973d28b902",
+  "content": " but no `superseded_by` replacement.\n    /// These are \"expired\" knowledge with no successor — potentially stale.\n    async fn check_stale_entries(\n        &self,\n        entries: &[KnowledgeEntry],\n        scope_id: &str,\n    ) -> Result<Vec<Finding>> {\n        let scoped: Vec<&KnowledgeEntry> = entries\n            .iter()\n            .filter(|e| e.scope_id == scope_id)\n            .collect();\n\n        let mut findings = Vec::new();\n        for entry in scoped {\n            if entry.valid_to.is_some() && entry.superseded_by.is_none() {\n                findings.push(Finding::new(\n                    CheckType::StaleEntry,\n                    scope_id,\n                    vec![entry.id],\n                    1.0,\n                    format!(\n                        \"Entry {} has valid_to set but no superseded_by replacement\",\n                        entry.id\n                    ),\n                ));\n            }\n        }\n        Ok(findings)\n    }\n\n    /// Entries where `superseded_by` points to a nonexistent entry.\n    async fn check_broken_chains(\n        &self,\n        entries: &[KnowledgeEntry],\n        scope_id: &str,",
+  "source_version": "crates/corvia-kernel/src/reasoner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.434941850Z",
+  "valid_from": "2026-03-31T13:20:59.434941850Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/reasoner.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 226,
+    "end_line": 253,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

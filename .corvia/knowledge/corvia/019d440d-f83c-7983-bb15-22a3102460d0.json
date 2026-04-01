@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-22a3102460d0",
+  "content": "t]\n    async fn test_remove_edges() {\n        let db = test_db();\n        { let w = db.begin_write().unwrap(); w.open_table(GRAPH_EDGES).unwrap(); w.commit().unwrap(); }\n        let store = LiteGraphStore::new(db).unwrap();\n\n        let a = Uuid::now_v7();\n        let b = Uuid::now_v7();\n        store.relate(&a, \"imports\", &b, None).await.unwrap();\n        assert_eq!(store.edges(&a, EdgeDirection::Outgoing).await.unwrap().len(), 1);\n\n        store.remove_edges(&a).await.unwrap();\n        assert_eq!(store.edges(&a, EdgeDirection::Outgoing).await.unwrap().len(), 0);\n    }\n}\n```\n\n**Step 2: Implement `relate`**\n\nWrite to both Redb and petgraph:\n\n```rust\nasync fn relate(&self, from: &Uuid, relation: &str, to: &Uuid, metadata: Option<serde_json::Value>) -> Result<()> {\n    let key = format!(\"{}:{}:{}\", from, relation, to);\n    let value = serde_json::to_vec(&metadata.unwrap_or(serde_json::Value::Null))\n        .map_err(|e| CorviaError::Storage(format!(\"Failed to serialize: {e}\")))?;\n\n    // Persist to Redb\n    let write_txn = self.db.begin_write()\n        .map_err(|e| CorviaError::Storage(format!(\"Failed to begin write: {e}\")))?;\n    {\n        let mut table = write_txn.open_table(GRAPH_EDGES)\n            .map_err(|e| CorviaError::Storage(format!(\"Failed to open GRAPH_EDGES: {e}\")))?;\n        table.insert(key.as_str(), value.as_slice())\n            .map_err(|e| CorviaError::Storage(format!(\"Failed to insert edge: {e}\")))?;\n    }\n    write_txn.commit()\n        .map_err(|e| CorviaError::Storage(format!(\"Failed to commit edge: {e}\")))?;\n\n    // Update in-memory graph",
+  "source_version": "docs/rfcs/2026-03-02-m3-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452637303Z",
+  "valid_from": "2026-03-31T13:20:59.452637303Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 761,
+    "end_line": 793,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

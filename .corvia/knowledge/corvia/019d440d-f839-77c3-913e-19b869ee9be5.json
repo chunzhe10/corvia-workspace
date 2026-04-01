@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f839-77c3-913e-19b869ee9be5",
+  "content": " \"0.7\"\ntantivy = \"0.22\"\npulldown-cmark = \"0.12\"\nglob = \"0.3\"\nsqlx = { version = \"0.8\", features = [\"runtime-tokio\", \"tls-rustls\", \"postgres\", \"uuid\", \"chrono\", \"json\"], optional = true }\npgvector = { version = \"0.4\", features = [\"sqlx\"], optional = true }\n\n[features]\ndefault = []\npostgres = [\"sqlx\", \"pgvector\"]\n\n[dev-dependencies]\ntempfile = \"3\"",
+  "source_version": "crates/corvia-kernel/Cargo.toml",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.449573093Z",
+  "valid_from": "2026-03-31T13:20:59.449573093Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/Cargo.toml",
+    "language": "toml",
+    "chunk_type": "section",
+    "start_line": 50,
+    "end_line": 55,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

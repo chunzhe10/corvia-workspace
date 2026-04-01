@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-1feb1fadb071",
+  "content": "t thread-safe. If they flake, add `--test-threads=1`. This is acceptable for config tests.\n\n**Step 5: Commit**\n\n```bash\ngit add crates/corvia-common/src/config.rs\ngit commit -m \"feat(common): add CORVIA_* environment variable overrides to config\"\n```\n\n---\n\n### Task 3: Create Canonical Queries TOML File\n\nDefine the self-knowledge queries that Introspect will use to validate Corvia understands its own codebase.\n\n**Files:**\n- Create: `tests/introspect.toml`\n\n**Step 1: Create the TOML file**\n\n```toml",
+  "source_version": "docs/rfcs/2026-02-28-introspect-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452151326Z",
+  "valid_from": "2026-03-31T13:20:59.452151326Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-introspect-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 239,
+    "end_line": 248,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

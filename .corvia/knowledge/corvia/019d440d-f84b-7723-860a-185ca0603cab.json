@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84b-7723-860a-185ca0603cab",
+  "content": "fn is_extended() -> bool {\n    std::env::var(\"CORVIA_E2E_EXTENDED\").is_ok()\n}\nstruct E2eEnv {\n    container_name: String,\n    client: reqwest::Client,\n    trace_dir: PathBuf,\n    _workdir: tempfile::TempDir,\n}",
+  "source_version": "tests/integration/docker_mcp_e2e_test.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.467082660Z",
+  "valid_from": "2026-03-31T13:20:59.467082660Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "tests/integration/docker_mcp_e2e_test.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 44,
+    "end_line": 49,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

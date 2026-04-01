@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82a-7783-b9af-795fbcb6df86",
+  "content": "nce * 100.0,\n        );\n        let mut entry = KnowledgeEntry::new(\n            content,\n            self.scope_id.clone(),\n            \"reasoner\".to_string(),\n        );\n        entry.metadata.chunk_type = Some(\"finding\".to_string());\n        entry\n    }\npub struct Reasoner<'a> {\n    store: &'a dyn QueryableStore,\n    graph: &'a dyn GraphStore,\n    docs_rules: Option<corvia_common::config::DocsRulesConfig>,\n}",
+  "source_version": "crates/corvia-kernel/src/reasoner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.434886502Z",
+  "valid_from": "2026-03-31T13:20:59.434886502Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/reasoner.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 139,
+    "end_line": 143,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

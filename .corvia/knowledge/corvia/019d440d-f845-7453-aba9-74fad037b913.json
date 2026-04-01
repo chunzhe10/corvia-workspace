@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-74fad037b913",
+  "content": "### Task 5: Add Traces JS data structures and module map\n\n  ['corvia.gc.', 'gc'],\n];\n\n// Span fields reference\nconst SPAN_FIELDS = {\n  'corvia.agent.register': 'display_name',\n  'corvia.session.create': 'agent_id, with_staging',\n  'corvia.session.commit': 'session_id',\n  'corvia.entry.write': 'session_id',\n  'corvia.entry.embed': 'gRPC / Ollama',\n  'corvia.entry.insert': 'entry_id, scope_id',\n  'corvia.merge.process': '',\n  'corvia.merge.process_entry': 'entry_id',\n  'corvia.merge.conflict': 'entry_id, scope_id',\n  'corvia.merge.llm_resolve': 'new_id, existing_id',\n  'corvia.store.insert': 'entry_id, scope_id',\n  'corvia.store.search': 'scope_id',\n  'corvia.store.get': '',\n  'corvia.rag.context': 'scope_id',\n  'corvia.rag.ask': 'scope_id',\n  'corvia.gc.run': '',\n};\n\nfunction spanToModule(name) {\n  if (SPAN_MODULE_SPECIFIC[name]) return SPAN_MODULE_SPECIFIC[name];\n  for (var i = 0; i < SPAN_MODULE_PREFIX.length; i++) {\n    if (name.startsWith(SPAN_MODULE_PREFIX[i][0])) return SPAN_MODULE_PREFIX[i][1];\n  }\n  return 'unknown';\n}\n\nlet traceMode = 'map';\nlet selectedModule = null;\n```\n\n-**Step 2: Commit**\n\n```bash\ngit add .devcontainer/extensions/corvia-services/extension.js\ngit commit -m \"feat(extension): add Traces module topology constants and helpers\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-10-telemetry-traces-page.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461286803Z",
+  "valid_from": "2026-03-31T13:20:59.461286803Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-telemetry-traces-page.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 678,
+    "end_line": 721,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

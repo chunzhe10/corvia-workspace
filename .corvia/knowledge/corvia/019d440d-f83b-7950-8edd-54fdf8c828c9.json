@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-54fdf8c828c9",
+  "content": " updates** (`corvia-kernel/src/inference_provisioner.rs`):\n\n`load_models()` and `ensure_ready()` must accept and pass `kv_quant` and `flash_attention` parameters alongside `device` and `backend`. These are added to `LoadModelRequest` fields sent via gRPC.\n\n### 5. Hot-Reloadable Config\n\nAdd `\"inference\"` to `HOT_RELOADABLE_SECTIONS` in `corvia-kernel/src/ops.rs`:\n```rust\nconst HOT_RELOADABLE_SECTIONS: &[&str] = &[\n    \"agent_lifecycle\", \"merge\", \"rag\", \"chunking\", \"reasoning\", \"adapters\", \"inference\"\n];\n```\n\nKeep `\"embedding\"` in `RESTART_REQUIRED_SECTIONS` — the remaining `[embedding]` fields (`provider`, `model`, `url`, `dimensions`) still require restart. The device/backend field removal from `EmbeddingConfig` is orthogonal to section reload classification.\n\n\n### 6. Telemetry\n\nAdd span constants to `corvia-telemetry/src/lib.rs`:\n```rust\npub const INFERENCE_LOAD: &str = \"corvia.inference.load\";\npub const INFERENCE_RELOAD: &str = \"corvia.inference.reload\";\npub const INFERENCE_CONFIG_RELOAD: &str = \"corvia.inference.config_reload\";\n```\n\nUpdate the `test_span_constants_are_dotted` test to include the new constants.\n\n**Structured log events** (emitted within spans):\n- `corvia.inference.load`: `model`, `device`, `backend`, `kv_quant`, `flash_attention` at INFO\n- `corvia.inference.reload`: `model`, `from_device`, `to_device`, `from_kv_quant`, `to_kv_quant` at INFO\n- `corvia.inference.config_reload`: `section = \"inference\"`, `changed_keys` at INFO\n- KV quant set on embedding model: `model`, `kv_quant = \"ignored\"` at DEBUG\n",
+  "source_version": "docs/rfcs/2026-03-12-inference-kv-cache-config-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451330958Z",
+  "valid_from": "2026-03-31T13:20:59.451330958Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-12-inference-kv-cache-config-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 183,
+    "end_line": 210,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

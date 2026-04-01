@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f834-7df0-9fec-231e2552ea31",
+  "content": "    }\n        if i >= stored_ids.len() {\n            continue;\n        }\n\n        let original_id = stored_ids[i];\n\n        // Split into Markdown-aware segments (code blocks atomic, paragraph-first)\n        let segments = split_into_segments(&pc.content);\n        if segments.len() <= 1 {\n            continue; // Single segment, nothing to sub-split\n        }\n\n        // Bail if too many segments (N^2 similarity is too expensive)\n        if segments.len() > MAX_SEGMENTS_PER_CHUNK {\n            tracing::debug!(\n                source_file = %pc.metadata.source_file,\n                segments = segments.len(),\n                \"semantic_subsplit: too many segments, skipping\"\n            );\n            continue;\n        }\n\n        // Embed all segments\n        let texts: Vec<String> = segments.to_vec();\n        let embeddings = match engine.embed_batch(&texts).await {\n            Ok(embs) => embs,\n            Err(e) => {\n                tracing::warn!(\n                    source_file = %pc.metadata.source_file,\n                    error = %e,\n                    \"semantic_subsplit: embedding failed, skipping\"\n                );\n                continue;\n            }\n        };\n\n        // Run Max-Min grouping\n        let similarity = EmbeddingSimilarity::new(embeddings);\n        let groups = max_min_split(segments.len(), &similarity);\n\n        if groups.len() <= 1 {\n            continue; // All segments are coherent, no split needed",
+  "source_version": "crates/corvia-kernel/src/ingest.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.444376764Z",
+  "valid_from": "2026-03-31T13:20:59.444376764Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ingest.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 437,
+    "end_line": 470,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

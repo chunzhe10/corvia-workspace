@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83e-7ae3-ae47-a236514f2eb3",
+  "content": "ces Detail Panel --- */\n.traces-detail {\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n}\n\n.detail-header h3 {\n  font-size: 15px;\n  font-weight: 700;\n  color: var(--text-bright);\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n\n.detail-dot {\n  width: 10px;\n  height: 10px;\n  border-radius: 50%;\n  display: inline-block;\n}\n\n.detail-desc {\n  font-size: 12px;\n  color: var(--text-muted);\n  margin-top: 4px;\n}\n\n.detail-stats {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 8px;\n}\n\n.stat {\n  background: var(--bg-card);\n  border: 1px solid var(--border);\n  border-radius: var(--radius-sm);\n  padding: 10px;\n}\n\n.stat-label {\n  font-size: 10px;\n  text-transform: uppercase;\n  letter-spacing: 0.06em;\n  font-weight: 600;\n  color: var(--text-muted);\n  display: block;\n}\n\n.stat-value {\n  font-size: 18px;\n  font-weight: 800;\n  color: var(--text-bright);\n  font-variant-numeric: tabular-nums;\n}\n\n.detail-card {\n  background: var(--bg-card);\n  border: 1px solid var(--border);\n  border-radius: var(--radius-md);\n  padding: 14px;\n}\n\n.detail-card h4 {\n  font-size: 11px;\n  text-transform: uppercase;\n  letter-spacing: 0.06em;\n  font-weight: 700;\n  color: var(--text-muted);\n  margin-bottom: 10px;\n}\n\n.span-row {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 4px 0;\n  border-bottom: 1px solid var(--border-subtle);\n}\n\n.span-name {\n  font-family: var(--font-mono);\n  font-size: 11px;\n  color: var(--text-primary);\n}\n\n.span-latency {\n  font-family: var(--font-mono);\n  font-size: 11px;\n  font-weight: 600;\n}\n\n.event-row {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  padding: 4px 0;\n  font-size: 11px;\n}\n\n.event-dot {",
+  "source_version": "docs/rfcs/2026-03-11-dashboard-ui-standalone.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.454398669Z",
+  "valid_from": "2026-03-31T13:20:59.454398669Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-dashboard-ui-standalone.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1702,
+    "end_line": 1787,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-91fb1f8dbfde",
+  "content": "## Chunk 3: Trace Parsing\n\n### Task 4: Module classification functions\n\n**Files:**\n- Modify: `crates/corvia-server/src/dashboard/traces.rs`\n\n-**Step 1: Write tests for `span_to_module`**\n\n```rust\n// crates/corvia-server/src/dashboard/traces.rs\n\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    #[test]\n    fn span_to_module_exact_override() {\n        assert_eq!(span_to_module(\"corvia.entry.embed\"), \"inference\");\n    }\n\n    #[test]\n    fn span_to_module_prefix_match() {\n        assert_eq!(span_to_module(\"corvia.agent.register\"), \"agent\");\n        assert_eq!(span_to_module(\"corvia.session.create\"), \"agent\");\n        assert_eq!(span_to_module(\"corvia.entry.write\"), \"entry\");\n        assert_eq!(span_to_module(\"corvia.merge.resolve\"), \"merge\");\n        assert_eq!(span_to_module(\"corvia.store.insert\"), \"storage\");\n        assert_eq!(span_to_module(\"corvia.rag.retrieve\"), \"rag\");\n        assert_eq!(span_to_module(\"corvia.gc.sweep\"), \"gc\");\n    }\n\n    #[test]\n    fn span_to_module_unknown() {\n        assert_eq!(span_to_module(\"something.else\"), \"unknown\");\n    }\n}\n```\n\n-**Step 2: Run tests to verify they fail**\n",
+  "source_version": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465770911Z",
+  "valid_from": "2026-03-31T13:20:59.465770911Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 559,
+    "end_line": 597,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

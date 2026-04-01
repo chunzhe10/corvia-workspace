@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-74554c2a9563",
+  "content": "# D60: gRPC Inference Server Design\n\n## Summary\n\nAdd a custom gRPC inference server (`corvia-inference`) that handles both embedding and chat/reasoning inference. This replaces Ollama as the default inference backend for LiteStore, making the zero-Docker promise truly dependency-free. gRPC (HTTP/2 + protobuf) replaces HTTP/JSON on all inference paths except legacy Ollama.\n\n\n## Motivation\n\n1. **Ollama is overhead for embeddings.** Ollama is a 500MB Go binary wrapping llama.cpp, designed for LLM serving. For embeddings (a single forward pass), most of its features are dead weight. The HTTP/JSON layer adds network latency and 2x serialization overhead for float vectors.\n\n2. **Zero-Docker gap.** D35 promised \"LiteStore = full product, zero Docker\" but LiteStore still requires Ollama installed. Users must `ollama pull nomic-embed-text` before `corvia ingest` works. This is adoption friction.\n\n3. **Multi-model future.** Different knowledge formats may need different embedding models. LLM reasoning (merge, summarization) needs chat models. A unified inference server supports multiple models simultaneously with shared GPU memory.\n\n4. **Hardware optimization.** ONNX Runtime's execution providers (CoreML on Apple, OpenVINO on Intel, TensorRT on NVIDIA) give automatic hardware acceleration. Ollama's llama.cpp has narrower hardware support for encoder models.\n\n5. **Protocol efficiency.** A 768-dim f32 vector is 3,072 bytes in packed protobuf vs ~6,000 bytes in JSON. gRPC's HTTP/2 multiplexing eliminates head-of-line blocking for concurrent embedding requests.\n",
+  "source_version": "docs/rfcs/2026-03-02-grpc-inference-server-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463875025Z",
+  "valid_from": "2026-03-31T13:20:59.463875025Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-grpc-inference-server-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 7,
+    "end_line": 22,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

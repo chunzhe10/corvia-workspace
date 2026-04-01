@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82f-7ca0-945f-acdf425022ca",
+  "content": "alizedScore received NaN, clamping to 0.0\");\n            return Self(0.0);\n        }\n        if !(0.0..=1.0).contains(&value) {\n            warn!(value, \"NormalizedScore out of range, clamping to [0,1]\");\n        }\n        Self(value.clamp(0.0, 1.0))\n    }\npub fn value(self) -> f32 {\n        self.0\n    }\nimpl PartialEq for NormalizedScore {\n    fn eq(&self, other: &Self) -> bool {\n        self.0 == other.0\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/pipeline/mod.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.439703369Z",
+  "valid_from": "2026-03-31T13:20:59.439703369Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/mod.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 66,
+    "end_line": 75,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

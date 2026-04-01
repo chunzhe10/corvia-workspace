@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-4c1d451ad2c5",
+  "content": "### 3.1 Activity Feed (New Default View)\n### 3.2 Entry Detail (Existing, Enhanced)\n\n### 3.3 Cross-Tab Deeplinks\n\nAny entry reference elsewhere in the dashboard becomes clickable:\n\n| Source tab | Clickable element | Navigates to |\n|-----------|-------------------|--------------|\n| Graph | Entry node | Sidebar: entry detail with \"View history →\" link |\n| Agents | Session entry list | History tab with entry pre-loaded |\n| Health | Finding target IDs | History tab with entry pre-loaded |\n| RAG | Source entries | History tab with entry pre-loaded |\n| Traces | Entry IDs in span events | History tab with entry pre-loaded |\n| Logs | Entry IDs in log messages | History tab with entry pre-loaded |\n\n\n### 3.4 Backend\n\n**New endpoint:** `GET /api/dashboard/activity?limit=50&offset=0&agent=X&topic=Y`\n\nReturns the activity feed. Data access: uses `knowledge_files::read_scope()` to load entries, sorted by `recorded_at` descending, paginated by limit/offset. This is the same access pattern as the graph endpoint.\n\n**Semantic grouping is precomputed server-side**, not per-request. The ClusterStore (Section 1) already assigns each entry to a cluster. The activity endpoint reads the cluster assignment for each entry and groups adjacent feed items that share the same cluster and agent within a 5-minute window. Grouping results are cached and invalidated when ClusterStore recomputes.\n\nTopic tags computed by finding the nearest super-cluster centroid for each entry's embedding (reuses graph clustering from Section 1).\n\n**Content delta:** Computed as UTF-8 byte difference between current entry content and its superseded predecessor (if any). New entries with no predecessor show `+N` only. Stored as part of the activity response, not precomputed.\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460448553Z",
+  "valid_from": "2026-03-31T13:20:59.460448553Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 166,
+    "end_line": 192,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

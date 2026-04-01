@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84a-7fb3-b052-e8eda1a6edb9",
+  "content": "   },\n        query: vec![\n            CanonicalQuery {\n                text: \"what CLI commands are available?\".into(),\n                expect_file: \"crates/corvia-cli/src/main.rs\".into(),\n                min_score: None,\n            },\n        ],\n    };\n\n    let introspect = Introspect::new(introspect_config);\n\n    let chunks = match introspect.ingest_self(\".\", &adapter, &engine, &store).await {\n        Ok(c) => c,\n        Err(e) => {\n            eprintln!(\n                \"SKIPPING test_ollama_lite_store_introspect: \\\n                 ingest failed (model may not be pulled): {e}\"\n            );\n            return;\n        }\n    };\n    assert!(chunks > 0, \"Expected at least one chunk ingested\");\n\n    let results = match introspect.query_self(&engine, &store).await {\n        Ok(r) => r,\n        Err(e) => {\n            eprintln!(\"SKIPPING query phase: {e}\");\n            return;\n        }\n    };\n\n    let report = IntrospectReport {\n        results,\n        chunks_ingested: chunks,\n    };\n\n    println!(\"Ollama+LiteStore Introspect: {}/{} passed, avg score: {:.3}\",\n        report.pass_count(), report.results.len(), report.avg_score());\n\n    for r in &report.results {\n        println!(\"  [{}] \\\"{}\\\" -> {} (score: {:.3})\",\n            if r.passed() { \"PASS\" } else { \"FAIL\" },\n            r.query_text,\n            r.actual_file.as_deref().unwrap_or(\"none\"),\n            r.score);\n    }\n\n    assert!(report.pass_count() > 0, \"Expected at least one passing query\");\n}",
+  "source_version": "tests/integration/e2e_test.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.466824252Z",
+  "valid_from": "2026-03-31T13:20:59.466824252Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "tests/integration/e2e_test.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 201,
+    "end_line": 240,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f837-7c71-ac7d-044dd1651501",
+  "content": "0,\n                        a_score: 0.0,\n                        g_score: 0.0,\n                        c_score: 0.0,\n                        superseded: entry.superseded_by.is_some(),\n                        reason: \"budget_policy\",\n                    });\n                    demoted += 1;\n                }\n                // If already Warm and auto-protected, skip (can't go to Cold)\n                continue;\n            }\n\n            // Chain-protected entries also can't go to Forgotten\n            if chain_protected_ids.contains(entry_id) && target == Tier::Forgotten {\n                continue;\n            }\n        }\n\n        budget_transitions.push(TierTransition {\n            entry_id: *entry_id,\n            scope_id: entry_map.get(entry_id).map(|e| e.scope_id.clone()).unwrap_or_default(),\n            memory_type: entry_map.get(entry_id).map(|e| e.memory_type).unwrap_or_default(),\n            old_tier: *current_tier,\n            new_tier: target,\n            retention_score: *score,\n            d_score: 0.0,\n            a_score: 0.0,\n            g_score: 0.0,\n            c_score: 0.0,\n            superseded: entry_map.get(entry_id).map(|e| e.superseded_by.is_some()).unwrap_or(false),\n            reason: \"budget_policy\",\n        });\n        demoted += 1;\n    }\n\n    budget_transitions\n}",
+  "source_version": "crates/corvia-kernel/src/gc_worker.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.447267718Z",
+  "valid_from": "2026-03-31T13:20:59.447267718Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/gc_worker.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 701,
+    "end_line": 731,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

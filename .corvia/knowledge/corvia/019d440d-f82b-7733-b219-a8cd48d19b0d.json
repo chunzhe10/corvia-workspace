@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82b-7733-b219-a8cd48d19b0d",
+  "content": " Reasoner::new(&store, &store);\n        let findings = reasoner\n            .check_stale_entries(&[e], \"scope\")\n            .await\n            .unwrap();\n        assert!(findings.is_empty(), \"entry with superseded_by should not be flagged as stale\");\n    }\nasync fn test_check_broken_chains() {\n        let (_dir, store) = test_store().await;\n\n        let nonexistent = Uuid::now_v7();\n        let mut e = entry(\"broken chain\", \"scope\");\n        e.superseded_by = Some(nonexistent);\n        store.insert(&e).await.unwrap();\n\n        let reasoner = Reasoner::new(&store, &store);\n        let findings = reasoner\n            .check_broken_chains(&[e.clone()], \"scope\")\n            .await\n            .unwrap();\n        assert_eq!(findings.len(), 1);\n        assert_eq!(findings[0].check_type, CheckType::BrokenChain);\n        assert_eq!(findings[0].target_ids, vec![e.id, nonexistent]);\n    }",
+  "source_version": "crates/corvia-kernel/src/reasoner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.435482841Z",
+  "valid_from": "2026-03-31T13:20:59.435482841Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/reasoner.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 857,
+    "end_line": 873,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

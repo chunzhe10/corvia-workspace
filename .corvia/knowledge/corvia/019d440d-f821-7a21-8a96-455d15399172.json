@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f821-7a21-8a96-455d15399172",
+  "content": "pub struct GpuStatusResponse {\n    pub gpus: Vec<GpuInfo>,\n    pub inference_backend: HashMap<String, InferenceBackendInfo>,\n    #[serde(skip_serializing_if = \"Option::is_none\")]\n    pub inference_health: Option<InferenceHealthStatus>,\n}\nmod tests {\n    use super::*;\n\n    #[test]\n    fn service_state_serializes_lowercase() {\n        let status = ServiceStatus {\n            name: \"corvia-server\".to_string(),\n            state: ServiceState::Healthy,\n            port: Some(8020),\n            latency_ms: Some(1.5),\n        };\n        let json = serde_json::to_string(&status).unwrap();\n        assert!(json.contains(\"\\\"healthy\\\"\"));\n        assert!(json.contains(\"\\\"corvia-server\\\"\"));\n\n        let parsed: ServiceStatus = serde_json::from_str(&json).unwrap();\n        assert_eq!(parsed.state, ServiceState::Healthy);\n    }\n\n    #[test]\n    fn span_stats_default_is_zeroed() {\n        let stats = SpanStats::default();\n        assert_eq!(stats.count, 0);\n        assert_eq!(stats.avg_ms, 0.0);\n    }\n\n    #[test]\n    fn span_stats_default_includes_percentiles() {\n        let stats = SpanStats::default();\n        assert_eq!(stats.p50_ms, 0.0);\n        assert_eq!(stats.p95_ms, 0.0);\n        assert_eq!(stats.p99_ms, 0.0);\n    }\n\n    #[test]\n    fn gc_status_response_serializes() {\n        let resp = GcStatusResponse {\n            last_run: None,\n            history: vec![],\n            scheduled: false,\n        };\n        let json = serde_json::to_string(&resp).unwrap();\n        assert!(json.contains(\"\\\"scheduled\\\":false\"));\n        assert!(json.contains(\"\\\"last_run\\\":null\"));\n    }\n\n    #[test]\n    fn status_response_omits_none_traces() {\n        let resp = DashboardStatusResponse {\n            services: vec![],\n            entry_count: 0,\n            agent_count: 0,\n            merge_queue_depth: 0,",
+  "source_version": "crates/corvia-common/src/dashboard.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.425944196Z",
+  "valid_from": "2026-03-31T13:20:59.425944196Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/dashboard.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 461,
+    "end_line": 513,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

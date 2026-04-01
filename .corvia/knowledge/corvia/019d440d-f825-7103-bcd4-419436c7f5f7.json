@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-419436c7f5f7",
+  "content": "json::json!({\n            \"task_id\": \"99\",\n            \"task_subject\": \"ghost task\",\n            \"task_description\": \"does not exist\"\n        });\n        handle_task_created_inner(&dirs, &stdin).unwrap();\n        assert!(!dirs.staging_root.exists());\n    }\nfn test_task_completed_oversized_full_task_truncates() {\n        let dir = TempDir::new().unwrap();\n        let dirs = test_dirs(dir.path());\n\n        // Create a task file with a very large description field\n        let big_task = serde_json::json!({\n            \"status\": \"completed\",\n            \"owner\": \"researcher\",\n            \"description\": \"x\".repeat(MAX_EVENT_LINE_BYTES + 1000),\n        });\n        setup_task(&dirs, \"my-team\", \"1\", &big_task);\n\n        let stdin = serde_json::json!({\n            \"task_id\": \"1\",\n            \"task_subject\": \"big task\"\n        });\n\n        handle_task_completed_inner(&dirs, &stdin).unwrap();\n\n        let content = fs::read_to_string(dirs.staging_root.join(\"my-team/tasks.jsonl\")).unwrap();\n        let parsed: serde_json::Value = serde_json::from_str(content.trim()).unwrap();\n        assert_eq!(parsed[\"full_task_truncated\"], true);\n        assert!(parsed.get(\"full_task\").is_none());\n    }",
+  "source_version": "crates/corvia-cli/src/hooks/agent_teams.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429575200Z",
+  "valid_from": "2026-03-31T13:20:59.429575200Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/agent_teams.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 848,
+    "end_line": 871,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

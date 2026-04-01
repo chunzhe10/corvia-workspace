@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-78b72579cd15",
+  "content": "## Task 1: RAG Types\n\n\n/// Token budget for context assembly.\n#[derive(Debug, Clone)]\npub struct TokenBudget {\n    /// Override for max context tokens. None = model-aware auto-sizing.\n    pub max_context_tokens: Option<usize>,\n    /// Fraction of context window reserved for answer generation.\n    pub reserve_for_answer: f32,\n}\n\nimpl Default for TokenBudget {\n    fn default() -> Self {\n        Self {\n            max_context_tokens: None,\n            reserve_for_answer: 0.2,\n        }\n    }\n}\n\n/// Output of the retrieval stage.\n#[derive(Debug, Clone)]\npub struct RetrievalResult {\n    pub results: Vec<SearchResult>,\n    pub metrics: RetrievalMetrics,\n}\n\n/// Metrics from the retrieval stage.\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct RetrievalMetrics {\n    pub latency_ms: u64,\n    pub vector_results: usize,\n    pub graph_expanded: usize,\n    pub post_filter_count: usize,\n    pub retriever_name: String,\n}\n\n/// Output of the augmentation stage.\n#[derive(Debug, Clone)]\npub struct AugmentedContext {\n    pub system_prompt: String,\n    pub context: String,\n    pub sources: Vec<SearchResult>,\n    pub metrics: AugmentationMetrics,\n}\n\n/// Metrics from the augmentation stage.\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct AugmentationMetrics {",
+  "source_version": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461689459Z",
+  "valid_from": "2026-03-31T13:20:59.461689459Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 63,
+    "end_line": 110,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

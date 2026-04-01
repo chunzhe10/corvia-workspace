@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f7eb564a57ee",
+  "content": "00; margin-bottom: 6px;\">Your iGPU is free compute.</div>\n        <div style=\"font-size: 17px; color: var(--text-secondary);\">Split workloads instead of fighting for one GPU.</div>\n      </div>\n    </div>\n\n    <div class=\"divider\" style=\"margin: 0;\"></div>\n    <div style=\"display: flex; align-items: center; gap: 24px;\">\n      <div style=\"width: 80px; height: 80px; border-radius: 50%; background: rgba(16, 185, 129, 0.15); display: flex; align-items: center; justify-content: center; font-size: 40px; flex-shrink: 0;\">&#128268;</div>\n      <div>\n        <div style=\"font-size: 24px; font-weight: 800; margin-bottom: 6px;\">ONNX sessions are independent.</div>\n        <div style=\"font-size: 17px; color: var(--text-secondary);\">One on CUDA, one on OpenVINO, one on CPU. All parallel.</div>\n      </div>\n    </div>\n\n    <div class=\"divider\" style=\"margin: 0;\"></div>\n\n    <div style=\"display: flex; align-items: center; gap: 24px;\">\n      <div style=\"width: 80px; height: 80px; border-radius: 50%; background: rgba(245, 158, 11, 0.15); display: flex; align-items: center; justify-content: center; font-size: 40px; flex-shrink: 0;\">&#128736;</div>\n      <div>\n        <div style=\"font-size: 24px; font-weight: 800; margin-bottom: 6px;\">Detect at startup, not at build time.</div>\n        <div style=\"font-size: 17px; color: var(--text-secondary);\">One binary. Probe hardware. Pick backends. Fall back gracefully.</div>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"divider\" style=\"margin: 40px 0;\"></div>\n\n  <div style=\"text-align: center;\">\n    <div style=\"font-size: 24px; font-weight: 700; color: var(--text-primary); margin-bottom: 16px;\">\n      Running local inference on<br>heterogeneous hardware?\n    </div>\n    <div style=\"font-size: 20px; color: var(--text-secondary);\">\n      Curious what setups people have landed on &#128071;\n    </div>\n  </div>\n\n  <div class=\"flex-grow\"></div>\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">08 / 08</div>\n</div>\n\n</body>\n</html>\n",
+  "source_version": "marketing/linkedin/2026-03-13-dual-gpu-inference/dual-gpu-inference-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028537228Z",
+  "valid_from": "2026-03-31T13:51:39.028537228Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-13-dual-gpu-inference/dual-gpu-inference-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 568,
+    "end_line": 605,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

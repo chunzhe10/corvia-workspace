@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82e-71f3-920f-9225a6b03db4",
+  "content": "tten(&self, session_id: &str) -> Result<()> {\n        let mut record = self.get(session_id)?\n            .ok_or_else(|| CorviaError::NotFound(format!(\"Session {session_id} not found\")))?;\n        record.entries_written += 1;\n        self.put(&record)\n    }\npub fn increment_merged(&self, session_id: &str) -> Result<()> {\n        let mut record = self.get(session_id)?\n            .ok_or_else(|| CorviaError::NotFound(format!(\"Session {session_id} not found\")))?;\n        record.entries_merged += 1;\n        self.put(&record)\n    }",
+  "source_version": "crates/corvia-kernel/src/session_manager.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.438478405Z",
+  "valid_from": "2026-03-31T13:20:59.438478405Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/session_manager.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 124,
+    "end_line": 129,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0aafa550fcdf",
+  "content": "### Phase 1: Hooks (3 scripts)\n### Phase 2: Adapter extension\n\n### Phase 3: Graph edges\n\n| Deliverable | Description | Effort |\n|-------------|-------------|--------|\n| G1 | `ran_during` edge (team to lead session) | Small |\n| G2 | `has_member` edges (team to teammate sessions) | Small |\n| G3 | `assigned_to` edges (task to teammate session) | Medium |\n| G4 | `depends_on` edges (task to task) | Small |\n| G5 | `discusses` edges (message to task) | Small |\n| G6 | Subagent correlation (description matching) | Medium |\n| G7 | Deferred edge wiring (`.pending-edges` retry) | Medium |\n\n\n### Phase 4: Optional extraction\n\n| Deliverable | Description | Effort |\n|-------------|-------------|--------|\n| E1 | LLM extraction pass for decisions/findings | Medium |\n| E2 | Promotion to product scope | Small |\n",
+  "source_version": "docs/rfcs/2026-03-28-agent-teams-adapter-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457160691Z",
+  "valid_from": "2026-03-31T13:20:59.457160691Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-agent-teams-adapter-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 654,
+    "end_line": 672,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

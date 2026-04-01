@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9db639117fa5",
+  "content": "### Competitive Landscape (2026-03-01)\n### Inference Serving Landscape (2026-03-01)\n\n### Git Worktree Analysis (2026-03-01)\n- Full worktrees rejected: HNSW binary duplication, knowledge file duplication, cross-agent search\n- Staging hybrid adopted: lightweight staging dirs + git branches + shared HNSW\n\n\n### Agent Orchestrator Landscape (2026-03-01)\n\n**Key finding**: No Rust-native orchestrator mature enough to adopt. MCP is the universal integration surface.\n\n**Tier 1 (>20k stars)**: OpenHands (65k), AutoGen/MS Agent FW (50k), MetaGPT (46k), CrewAI (44k), LangGraph (25k)\n**Tier 2 (5k-20k)**: OpenAI Agents SDK (19k), PydanticAI (15k), SWE-agent (10.5k)\n**Rust emerging**: Rig, OpenFang (4k stars in 4 days), AutoAgents\n\n**Memory gap**: Most orchestrators lack persistent memory. Only Letta and CrewAI have serious memory. Nobody does organizational memory.\n**Suggestion pattern gap**: No system produces structured findings as first-class artifacts flowing between agents. Open niche.\n\n**Corvia strategy**: Own agent coordination (M1-M2), MCP as universal adapter, monitor A2A protocol for M5+.\n",
+  "source_version": "docs/rfcs/milestone-revision-notes.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464410048Z",
+  "valid_from": "2026-03-31T13:20:59.464410048Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/milestone-revision-notes.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 690,
+    "end_line": 706,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

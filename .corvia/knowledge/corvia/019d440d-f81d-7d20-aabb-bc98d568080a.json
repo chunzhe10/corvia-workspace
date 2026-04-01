@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81d-7d20-aabb-bc98d568080a",
+  "content": "async fn test_ingest_with_relations_nonexistent_path() {\n        let adapter = GitAdapter::new();\n        let result = adapter.ingest_with_relations(\"/nonexistent/path\").await;\n        assert!(result.is_err());\n    }\nasync fn test_ingest_with_relations_empty_dir() {\n        let dir = TempDir::new().unwrap();\n        let adapter = GitAdapter::new();\n        let result = adapter\n            .ingest_with_relations(dir.path().to_str().unwrap())\n            .await\n            .unwrap();\n        assert!(result.entries.is_empty());\n        assert!(result.relations.is_empty());\n    }",
+  "source_version": "adapters/corvia-adapter-git/rust/src/git.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.421059896Z",
+  "valid_from": "2026-03-31T13:20:59.421059896Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-git/rust/src/git.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 378,
+    "end_line": 387,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

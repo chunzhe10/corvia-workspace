@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f820-7670-b7d8-7a3b9276b01a",
+  "content": "esh(tmp.path(), scope, &store).await;\n\n        assert_eq!(snap.coverage, Some(0.7));\n        assert_eq!(snap.stale, Some(true));\n        assert_eq!(snap.disk_count, 10);\n        assert_eq!(snap.store_count, 7);\n        assert_eq!(snap.hnsw_count, 7);\n    }\nasync fn test_threshold_boundary_exact() {\n        let tmp = tempdir().unwrap();\n        let store = make_store(tmp.path());\n        store.init_schema().await.unwrap();\n\n        let scope = \"boundary\";\n        // 9 indexed + 1 unindexed = coverage 9/10 = 0.9\n        insert_entries(&store, scope, 9).await;\n        write_dummy_json_files(tmp.path(), scope, 1);\n\n        // threshold=0.9, coverage=0.9 → NOT stale (< not <=)\n        let cache = IndexCoverageCache::new(0.9, 60);\n        let snap = cache.refresh(tmp.path(), scope, &store).await;\n\n        assert_eq!(snap.coverage, Some(0.9));\n        assert_eq!(snap.stale, Some(false));\n    }",
+  "source_version": "crates/corvia-server/src/dashboard/coverage.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.424693625Z",
+  "valid_from": "2026-03-31T13:20:59.424693625Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/coverage.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 357,
+    "end_line": 373,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

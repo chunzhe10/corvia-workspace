@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f835-7a40-9ae4-126f58644963",
+  "content": "s::read_to_string(&self.gen_meta_path)\n            && let Ok(json) = serde_json::from_str::<serde_json::Value>(&data) {\n            return json.get(\"last_synced_generation\")\n                .and_then(|v| v.as_u64())\n                .unwrap_or(0);\n        }\n        0\n    }\n\n    /// Flush pending writes: commit the writer and reload the reader.\n    async fn do_flush(&self) -> Result<()> {\n        let mut writer = self.writer.lock().await;\n        writer.commit()\n            .map_err(|e| CorviaError::Storage(format!(\"tantivy commit: {e}\")))?;\n        self.reader.reload()\n            .map_err(|e| CorviaError::Storage(format!(\"tantivy reader reload: {e}\")))?;\n        self.pending_count.store(0, Ordering::Relaxed);\n        Ok(())\n    }\n\n    /// Remove all entries for a scope in a single writer lock acquisition.\n    pub async fn remove_scope(&self, scope_id: &str) -> Result<()> {\n        let term = tantivy::Term::from_field_text(self.field_scope_id, scope_id);\n        let mut writer = self.writer.lock().await;\n        writer.delete_term(term);\n        writer.commit()\n            .map_err(|e| CorviaError::Storage(format!(\"tantivy commit remove_scope: {e}\")))?;\n        drop(writer);\n        self.reader.reload()\n            .map_err(|e| CorviaError::Storage(format!(\"tantivy reader reload: {e}\")))?;\n        self.pending_count.store(0, Ordering::SeqCst);\n        Ok(())\n    }\n\n    /// Build a tantivy document from a knowledge entry.\n    fn build_document(&self, entry: &KnowledgeEntry) -> TantivyDocument {\n        let mut doc = TantivyDocument::default();\n        doc.add_text(self.field_content, &entry.content);\n        doc.add_text(self.field_entry_id, entry.id.to_string());\n        doc.add_text(self.field_scope_id, &entry.scope_id);\n        if let Some(ref role) = entry.metadata.content_role {\n            doc.add_text(self.field_content_role, role);\n        }\n        if let Some(ref origin) = entry.metadata.source_origin {\n            doc.add_text(self.field_source_origin, origin);\n        }\n        doc\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/tantivy_index.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.445628759Z",
+  "valid_from": "2026-03-31T13:20:59.445628759Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/tantivy_index.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 372,
+    "end_line": 414,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

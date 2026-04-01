@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f831-7562-9884-aee750a0b0dc",
+  "content": "_id(agent_id);\n        let path = self.data_dir.join(\"staging\").join(&sanitized).join(session_short);\n        std::fs::create_dir_all(&path)\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to create staging dir: {e}\")))?;\n        Ok(path)\n    }\npub fn write_staging_file(&self, staging_dir: &Path, entry: &KnowledgeEntry) -> Result<()> {\n        let path = staging_dir.join(format!(\"{}.json\", entry.id));\n        let json = serde_json::to_string_pretty(entry)\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to serialize entry: {e}\")))?;\n        std::fs::write(&path, json)\n            .map_err(|e| CorviaError::Agent(format!(\"Failed to write staging file: {e}\")))?;\n\n        // Write companion .vec file with raw embedding bytes\n        if let Some(ref embedding) = entry.embedding {\n            let vec_path = staging_dir.join(format!(\"{}.vec\", entry.id));\n            let vec_bytes: &[u8] = bytemuck::cast_slice(embedding);\n            std::fs::write(&vec_path, vec_bytes)\n                .map_err(|e| CorviaError::Agent(format!(\"Failed to write staging vec file: {e}\")))?;\n        }\n        Ok(())\n    }",
+  "source_version": "crates/corvia-kernel/src/staging.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.441941901Z",
+  "valid_from": "2026-03-31T13:20:59.441941901Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/staging.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 47,
+    "end_line": 62,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f831-7562-9884-a9a2496dc223",
+  "content": "<dyn Searcher>)\n        });\n\n        searchers.register(\"multichannel\", |deps: &ComponentDeps| {\n            let store = deps.store.clone().ok_or_else(|| {\n                CorviaError::Config(\"MultiChannelSearcher requires a store\".into())\n            })?;\n            let fts = deps.fts.clone(); // Optional: BM25 channel degrades gracefully without FTS\n            Ok(Arc::new(MultiChannelSearcher::new(\n                store,\n                fts,\n                deps.channels.clone(),\n                deps.searcher_timeout_ms,\n                deps.rrf_k,\n            )) as Arc<dyn Searcher>)\n        });\n\n        let mut fusions = ComponentRegistry::new();\n        fusions.register(\"passthrough\", |_deps: &ComponentDeps| {\n            Ok(Arc::new(PassThrough) as Arc<dyn Fusion>)\n        });\n        fusions.register(\"rrf\", |deps: &ComponentDeps| {\n            Ok(Arc::new(RRFusion::new(deps.rrf_k)) as Arc<dyn Fusion>)\n        });\n\n        let mut expanders = ComponentRegistry::new();\n        // Note: \"graph\" expander is NOT registered here because it requires\n        // config-driven alpha. It is constructed directly in build_pipeline_retriever.\n        expanders.register(\"noop\", |_deps: &ComponentDeps| {\n            Ok(Arc::new(NoOpExpander) as Arc<dyn Expander>)\n        });\n\n        let mut rerankers = ComponentRegistry::new();\n        rerankers.register(\"identity\", |_deps: &ComponentDeps| {\n            Ok(Arc::new(IdentityReranker) as Arc<dyn Reranker>)\n        });\n\n        Self {\n            searchers,\n            fusions,\n            expanders,\n            rerankers,\n        }\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/pipeline/registry.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.441242136Z",
+  "valid_from": "2026-03-31T13:20:59.441242136Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/pipeline/registry.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 230,
+    "end_line": 267,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

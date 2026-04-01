@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-1f9d1374e58d",
+  "content": "### Task 1: Extend DockerProvisioner for vLLM\n\nconst VLLM_IMAGE: &str = \"vllm/vllm-openai:latest\";\nconst VLLM_PORT: u16 = 8001;\n```\n\nAdd new methods to `impl DockerProvisioner`:\n\n```rust\n/// Check if vLLM container is running.\npub async fn is_vllm_running(&self) -> Result<bool> {\n    let filters: HashMap<String, Vec<String>> = HashMap::from([\n        (\"name\".into(), vec![VLLM_CONTAINER_NAME.into()]),\n    ]);\n    let options = ListContainersOptions {\n        filters,\n        ..Default::default()\n    };\n    let containers = self.docker.list_containers(Some(options)).await\n        .map_err(|e| CorviaError::Docker(format!(\"Failed to list containers: {e}\")))?;\n    Ok(!containers.is_empty())\n}\n\n/// Start vLLM container with the specified model.\npub async fn start_vllm(&self, model: &str) -> Result<()> {\n    if self.is_vllm_running().await? {\n        info!(\"vLLM container already running\");\n        return Ok(());\n    }\n\n    // Pull image\n    info!(\"Pulling vLLM image: {VLLM_IMAGE}\");\n    let pull_options = CreateImageOptions {\n        from_image: VLLM_IMAGE,\n        ..Default::default()\n    };\n    self.docker.create_image(Some(pull_options), None, None)\n        .try_collect::<Vec<_>>().await\n        .map_err(|e| CorviaError::Docker(format!(\"Failed to pull vLLM image: {e}\")))?;",
+  "source_version": "docs/rfcs/2026-02-28-introspect-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452095978Z",
+  "valid_from": "2026-03-31T13:20:59.452095978Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-introspect-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 52,
+    "end_line": 88,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

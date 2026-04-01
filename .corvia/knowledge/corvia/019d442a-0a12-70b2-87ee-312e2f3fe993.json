@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-312e2f3fe993",
+  "content": "### 3. Telemetry\n### 4. Hub-side prune\n\n### 5. Hub restart resilience\n\n- `spoke restart --all` flag to restart all running spokes after hub restart\n- Document the hub restart procedure for spoke environments\n\n\n### 6. Credential expiry handling\n\n- Entrypoint validates credentials before starting Claude Code\n- Document apiKeyHelper for long-running sessions\n- Document credential rotation/revocation workflow\n",
+  "source_version": "decisions/2026-03-28-spoke-phase3-autonomous-design.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026734109Z",
+  "valid_from": "2026-03-31T13:51:39.026734109Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-phase3-autonomous-design.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 53,
+    "end_line": 63,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

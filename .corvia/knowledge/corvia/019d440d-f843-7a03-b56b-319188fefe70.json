@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f843-7a03-b56b-319188fefe70",
+  "content": "## Chunk 5: Logging Standardization Sweep\n\n### Task 9: Structured logging sweep — corvia-kernel\n\n**Files:**\n- Modify: `crates/corvia-kernel/src/lite_store.rs` (lines 99, 154, 184, 337, 499, 718, 779, 868)\n- Modify: `crates/corvia-kernel/src/graph_store.rs` (lines 58, 196, 203, 210)\n- Modify: `crates/corvia-kernel/src/staging.rs` (lines 119, 136, 152, 164)\n- Modify: `crates/corvia-kernel/src/ollama_engine.rs` (line 68)\n\n-**Step 1: Fix lite_store.rs logging**\n\nReplace each string-interpolated log with structured fields:\n\n```rust\n// Line 99 — replace:\n// warn!(\"Failed to load HNSW from disk, will rebuild: {e}\");\nwarn!(err = %e, \"hnsw_load_failed_rebuilding\");\n\n// Line 154 — replace:\n// warn!(\"Failed to persist rebuilt HNSW index: {e}\");\nwarn!(err = %e, \"hnsw_persist_failed\");\n\n// Line 184 — replace:\n// tracing::warn!(\"Skipping malformed entry in Redb: {e}\");\ntracing::warn!(err = %e, \"redb_entry_malformed_skipping\");\n\n// Line 337 — replace:\n// info!(\"HNSW flushed to {}\", hnsw_dir.display());\ninfo!(path = %hnsw_dir.display(), \"hnsw_flushed\");\n\n// Line 499 — replace:\n// info!(\"LiteStore schema initialized (dimensions={})\", self.dimensions);",
+  "source_version": "docs/rfcs/2026-03-11-otel-standardization.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.459249345Z",
+  "valid_from": "2026-03-31T13:20:59.459249345Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-otel-standardization.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 874,
+    "end_line": 904,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

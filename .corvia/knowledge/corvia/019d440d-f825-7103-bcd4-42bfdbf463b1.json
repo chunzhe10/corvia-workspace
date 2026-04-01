@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-42bfdbf463b1",
+  "content": "[cfg(not(feature = \"postgres\"))]\n        StoreType::Postgres => {\n            unreachable!(\"Postgres feature gate checked above\");\n        }\n    }\n\n    // Update config\n    println!(\"\\nUpdating corvia.toml...\");\n    let mut updated_config = config.clone();\n    updated_config.storage.store_type = target.clone();\n\n    match target {\n        StoreType::Postgres => {\n            if updated_config.storage.postgres_url.is_none() {\n                updated_config.storage.postgres_url =\n                    Some(\"postgres://corvia:corvia@127.0.0.1:5432/corvia\".to_string());\n            }\n        }\n        StoreType::Lite => {\n            // No connection details needed for Lite\n        }\n    }\n\n    updated_config.save(&config_path)?;\n    println!(\"  store_type changed to '{}'\", target_name);\n\n    println!(\"\\nMigration complete!\");\n    println!(\"  Entries migrated: {}\", entries.len());\n    println!(\"  Edges migrated: {}\", all_edges.len());\n    println!(\"  Scopes: {}\", scope_names.join(\", \"));\n\n    if config.storage.store_type == StoreType::Lite {\n        println!(\n            \"\\nNote: LiteStore files in {}/ are preserved as backup.\",\n            data_dir.display()\n        );\n        println!(\"You can remove them manually after confirming the migration.\");\n    }\n\n    Ok(())\n}",
+  "source_version": "crates/corvia-cli/src/upgrade.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429689176Z",
+  "valid_from": "2026-03-31T13:20:59.429689176Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/upgrade.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 172,
+    "end_line": 203,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

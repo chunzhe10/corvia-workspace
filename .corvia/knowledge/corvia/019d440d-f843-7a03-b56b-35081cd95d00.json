@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f843-7a03-b56b-35081cd95d00",
+  "content": "              model: \"nomic-ai/nomic-embed-text-v1.5\".into(),\n                url: \"http://127.0.0.1:8001\".into(),\n                dimensions: 768,\n            },\n            ..Self::default()\n        }\n    }\n\n    pub fn load(path: &Path) -> Result<Self> {\n        let content = std::fs::read_to_string(path)\n            .map_err(|e| CorviaError::Config(format!(\"Failed to read {}: {}\", path.display(), e)))?;\n        toml::from_str(&content)\n            .map_err(|e| CorviaError::Config(format!(\"Failed to parse config: {e}\")))\n    }\n\n    pub fn save(&self, path: &Path) -> Result<()> {\n        let content = toml::to_string_pretty(self)\n            .map_err(|e| CorviaError::Config(format!(\"Failed to serialize config: {e}\")))?;\n        std::fs::write(path, content)\n            .map_err(|e| CorviaError::Config(format!(\"Failed to write {}: {}\", path.display(), e)))?;\n        Ok(())\n    }\n\n    pub fn config_path() -> PathBuf {\n        PathBuf::from(\"corvia.toml\")\n    }\n\n    /// Apply environment variable overrides.\n    pub fn with_env_overrides(mut self) -> Self {\n        if let Ok(val) = std::env::var(\"CORVIA_SURREALDB_URL\") {\n            self.storage.surrealdb_url = Some(val);\n        }\n        if let Ok(val) = std::env::var(\"CORVIA_VLLM_URL\") {\n            self.embedding.url = val;\n        }\n        if let Ok(val) = std::env::var(\"CORVIA_OLLAMA_URL\") {\n            self.embedding.url = val;\n        }\n        if let Ok(val) = std::env::var(\"CORVIA_TEST_NAMESPACE\") {\n            self.storage.surrealdb_ns = Some(val);\n        }\n        if let Ok(val) = std::env::var(\"CORVIA_STORE_TYPE\") {\n            match val.as_str() {\n                \"lite\" => self.storage.store_type = StoreType::Lite,\n                \"surrealdb\" => self.storage.store_type = StoreType::Surrealdb,\n                _ => {}\n            }\n        }\n        self\n    }\n}\n```\n",
+  "source_version": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.459619975Z",
+  "valid_from": "2026-03-31T13:20:59.459619975Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 212,
+    "end_line": 255,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

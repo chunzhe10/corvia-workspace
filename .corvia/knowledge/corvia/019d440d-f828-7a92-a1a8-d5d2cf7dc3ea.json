@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f828-7a92-a1a8-d5d2cf7dc3ea",
+  "content": ".to_string(),\n            \"graph-scope\".to_string(),\n            \"v1\".to_string(),\n        );\n        eb.embedding = Some(next_emb());\n        queryable.insert(&eb).await.unwrap();\n\n        // 8 filler entries for HNSW connectivity.\n        for i in 0..8 {\n            let mut filler = KnowledgeEntry::new(\n                format!(\"filler {i}\"),\n                \"graph-scope\".to_string(),\n                \"v1\".to_string(),\n            );\n            filler.embedding = Some(next_emb());\n            queryable.insert(&filler).await.unwrap();\n        }\n\n        // Create a graph edge: ea depends_on eb.\n        graph.relate(&ea.id, \"depends_on\", &eb.id, None).await.unwrap();\n\n        let retriever = GraphExpandRetriever::new(\n            queryable,\n            engine,\n            graph,\n            0.3, // alpha\n        );\n\n        let opts = RetrievalOpts {\n            limit: 10,\n            expand_graph: true,\n            graph_depth: 1,\n            visibility: VisibilityMode::All,\n            ..Default::default()\n        };\n\n        let result = retriever.retrieve(\"auth\", \"graph-scope\", &opts).await.unwrap();\n\n        // HNSW approximate recall is unreliable at small N — use >= assertions.\n        assert!(\n            result.results.len() >= 2,\n            \"expected at least 2 results (vector + graph expanded), got {}\",\n            result.results.len()\n        );\n        assert_eq!(result.metrics.retriever_name, \"graph_expand\");\n    }",
+  "source_version": "crates/corvia-kernel/src/retriever.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.432442729Z",
+  "valid_from": "2026-03-31T13:20:59.432442729Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/retriever.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1116,
+    "end_line": 1152,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

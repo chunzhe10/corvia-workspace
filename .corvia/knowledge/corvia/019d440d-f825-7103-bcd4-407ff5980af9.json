@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f825-7103-bcd4-407ff5980af9",
+  "content": "ging_root.join(\"my-team/tasks.jsonl\")).unwrap();\n        let parsed: serde_json::Value = serde_json::from_str(content.trim()).unwrap();\n        let desc = parsed[\"description\"].as_str().unwrap();\n        assert!(desc.len() <= MAX_EVENT_LINE_BYTES);\n    }\n}\nfn test_dirs(base: &Path) -> Dirs {\n        Dirs {\n            staging_root: base.join(\"staging/agent-teams\"),\n            claude_tasks: base.join(\"claude/tasks\"),\n            claude_teams: base.join(\"claude/teams\"),\n        }\n    }",
+  "source_version": "crates/corvia-cli/src/hooks/agent_teams.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.429452989Z",
+  "valid_from": "2026-03-31T13:20:59.429452989Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/agent_teams.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 495,
+    "end_line": 501,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

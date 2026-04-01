@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f843-7a03-b56b-3130993e85e8",
+  "content": "### Task 7: Add trace context extraction to corvia-inference\n\n}\n```\n\n**Important:** The `Context::attach()` guard approach does not work in tonic interceptors because the guard is dropped at the end of the function, before handler spans are created. Instead, store the context in request extensions. The embedding service handler should then extract it:\n\n```rust\n// In embedding_service.rs handler methods, at the top:\nuse opentelemetry::Context;\nif let Some(parent_cx) = request.extensions().get::<Context>() {\n    let _guard = parent_cx.clone().attach();\n}\n```\n\nAlternatively, if tonic interceptors don't support extensions propagation cleanly, use a tonic `tower::Layer` instead of an interceptor, which gives you control over the async scope where the context guard lives. The implementer should verify which approach works and add a note to the integration test (Task 15, Step 1).\n\n#[tokio::main]\nasync fn main() -> Result<(), Box<dyn std::error::Error>> {\n    let telem_cfg = TelemetryConfig {\n        service_name: \"corvia-inference\".into(),\n        ..TelemetryConfig::default()\n    };\n    let _telemetry_guard = corvia_telemetry::init_telemetry(&telem_cfg)?;\n\n    let cli = Cli::parse();\n\n    match cli.command {\n        Commands::Serve { port } => {\n            let addr = format!(\"0.0.0.0:{port}\").parse()?;\n            let embed_svc = embedding_service::EmbeddingServiceImpl::new();\n            let chat_svc = chat_service::ChatServiceImpl::new();\n            let model_mgr = model_manager::ModelManagerService::new(\n                embed_svc.clone(),",
+  "source_version": "docs/rfcs/2026-03-11-otel-standardization.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.459200423Z",
+  "valid_from": "2026-03-31T13:20:59.459200423Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-otel-standardization.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 717,
+    "end_line": 748,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

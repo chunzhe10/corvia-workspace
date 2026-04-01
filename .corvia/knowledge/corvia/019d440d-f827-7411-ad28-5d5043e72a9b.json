@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f827-7411-ad28-5d5043e72a9b",
+  "content": "pub struct TelemetryGuard {\n    _file_guard: Option<tracing_appender::non_blocking::WorkerGuard>,\n    _tracer_provider: Option<opentelemetry_sdk::trace::SdkTracerProvider>,\n}\npub fn init_telemetry(config: &TelemetryConfig) -> anyhow::Result<TelemetryGuard> {\n    use tracing_subscriber::{\n        fmt, layer::SubscriberExt, util::SubscriberInitExt, EnvFilter, Layer,\n    };\n\n    // 1. Register W3C TraceContext propagator globally\n    global::set_text_map_propagator(TraceContextPropagator::new());\n\n    // 2. Build env filter\n    let env_filter =\n        EnvFilter::try_from_default_env().unwrap_or_else(|_| EnvFilter::new(\"info\"));\n\n    // 3. Resolve OTLP endpoint: env var overrides config\n    let otlp_endpoint = std::env::var(\"OTEL_EXPORTER_OTLP_ENDPOINT\")\n        .unwrap_or_else(|_| config.otlp_endpoint.clone());\n\n    // 4. Resolve service name: env var overrides config\n    let service_name =\n        std::env::var(\"OTEL_SERVICE_NAME\").unwrap_or_else(|_| config.service_name.clone());\n\n    // 5. Build tracer provider + OTEL layer.\n    //\n    // When an OTLP endpoint is configured, spans are exported externally.\n    // Otherwise, a local-only provider is created so that trace_id/span_id\n    // still appear in structured logs — the dashboard traces page depends\n    // on these fields even without an external collector.\n    let tracer_provider;\n    let otel_layer = if !otlp_endpoint.is_empty() {\n        let exporter = opentelemetry_otlp::SpanExporter::builder()\n            .with_tonic()\n            .with_endpoint(&otlp_endpoint)",
+  "source_version": "crates/corvia-telemetry/src/lib.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.431380180Z",
+  "valid_from": "2026-03-31T13:20:59.431380180Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-telemetry/src/lib.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 78,
+    "end_line": 108,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

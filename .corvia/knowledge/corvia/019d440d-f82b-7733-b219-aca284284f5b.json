@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82b-7733-b219-aca284284f5b",
+  "content": "\n\n        let adapters = discover_adapters_inner(&[\n            dir1.path().to_string_lossy().to_string(),\n            dir2.path().to_string_lossy().to_string(),\n        ], false);\n        assert_eq!(adapters.len(), 1, \"should deduplicate by name\");\n    }\n\n    #[test]\n    fn test_discover_skips_non_executable() {\n        let dir = tempfile::tempdir().unwrap();\n        let path = dir.path().join(\"corvia-adapter-test\");\n        fs::write(&path, \"not executable\").unwrap();\n        fs::set_permissions(&path, fs::Permissions::from_mode(0o644)).unwrap();\n\n        let adapters = discover_adapters_inner(&[dir.path().to_string_lossy().to_string()], false);\n        assert!(adapters.is_empty());\n    }\n\n    #[test]\n    fn test_resolve_explicit_adapter() {\n        let adapters = vec![\n            DiscoveredAdapter {\n                binary_path: PathBuf::from(\"/usr/bin/corvia-adapter-git\"),\n                metadata: AdapterMetadata {\n                    name: \"git\".into(),\n                    version: \"0.3.1\".into(),\n                    domain: \"git\".into(),\n                    protocol_version: 1,\n                    description: \"Git adapter\".into(),\n                    supported_extensions: vec![\"rs\".into()],\n                    chunking_extensions: vec![\"rs\".into()],\n                },\n            },\n            DiscoveredAdapter {\n                binary_path: PathBuf::from(\"/usr/bin/corvia-adapter-basic\"),\n                metadata: AdapterMetadata {\n                    name: \"basic\".into(),\n                    version: \"0.1.0\".into(),\n                    domain: \"filesystem\".into(),\n                    protocol_version: 1,\n                    description: \"Basic adapter\".into(),\n                    supported_extensions: vec![\"txt\".into()],\n                    chunking_extensions: vec![],\n                },\n            },\n        ];\n\n        // Explicit name takes priority\n        let resolved = resolve_adapter(\"/some/path\", &adapters, Some(\"basic\"), None);\n        assert_eq!(resolved.unwrap().metadata.name, \"basic\");\n    }\n\n    #[test]",
+  "source_version": "crates/corvia-kernel/src/adapter_discovery.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.435863899Z",
+  "valid_from": "2026-03-31T13:20:59.435863899Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/adapter_discovery.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 258,
+    "end_line": 303,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

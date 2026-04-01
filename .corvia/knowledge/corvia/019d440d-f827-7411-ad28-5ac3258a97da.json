@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f827-7411-ad28-5ac3258a97da",
+  "content": "pub fn status_from_drift(drift_pct: f64, threshold_pct: f64) -> ProbeStatus {\n        if drift_pct >= threshold_pct {\n            ProbeStatus::Degraded\n        } else {\n            ProbeStatus::Healthy\n        }\n    }\npub fn new_shared_probe_state() -> SharedProbeState {\n    Arc::new(RwLock::new(ProbeState::default()))\n}",
+  "source_version": "crates/corvia-inference/src/probe.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.431056936Z",
+  "valid_from": "2026-03-31T13:20:59.431056936Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/src/probe.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 62,
+    "end_line": 64,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

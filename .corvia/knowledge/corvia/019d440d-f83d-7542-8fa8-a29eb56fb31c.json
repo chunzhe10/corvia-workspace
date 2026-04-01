@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83d-7542-8fa8-a29eb56fb31c",
+  "content": "    # Install CUDA toolkit and cuDNN\n        # The server will be restarted by corvia serve on next request,\n\n        # or user can run corvia-workspace status to verify\n    fi\n}\n\nenable_cuda() {\n    echo \"Enabling CUDA...\"\n\n\n    # 1. Check for NVIDIA GPU\n    if ! command -v nvidia-smi &>/dev/null; then",
+  "source_version": "docs/rfcs/2026-03-04-m4.5-cuda-toggle-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.453873357Z",
+  "valid_from": "2026-03-31T13:20:59.453873357Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-04-m4.5-cuda-toggle-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 115,
+    "end_line": 123,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

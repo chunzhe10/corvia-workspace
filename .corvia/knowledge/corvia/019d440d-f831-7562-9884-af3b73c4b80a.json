@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f831-7562-9884-af3b73c4b80a",
+  "content": "r(&self, staging_dir: &Path) -> Result<()> {\n        if staging_dir.exists() {\n            std::fs::remove_dir_all(staging_dir)\n                .map_err(|e| CorviaError::Agent(format!(\"Failed to cleanup staging dir: {e}\")))?;\n        }\n        Ok(())\n    }\npub fn create_branch(&self, branch_name: &str) -> Result<()> {\n        if !self.is_git_repo() {\n            warn!(\"Not a git repo, skipping branch creation for {branch_name}\");\n            return Ok(());\n        }\n        run_git(&self.data_dir, &[\"branch\", branch_name])?;\n        info!(branch_name, \"git_branch_created\");\n        Ok(())\n    }",
+  "source_version": "crates/corvia-kernel/src/staging.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.441975754Z",
+  "valid_from": "2026-03-31T13:20:59.441975754Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/staging.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 142,
+    "end_line": 150,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

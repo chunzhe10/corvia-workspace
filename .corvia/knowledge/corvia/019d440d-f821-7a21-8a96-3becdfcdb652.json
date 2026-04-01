@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f821-7a21-8a96-3becdfcdb652",
+  "content": "fn test_parse_nvidia_processes_empty() {\n        assert!(parse_nvidia_processes(\"\").is_empty());\n    }\nfn test_parse_intel_gpu_top_json() {\n        let json = r#\"{\"period\":{\"duration\":0.500},\"engines\":{\"Render/3D/0\":{\"busy\":45.2},\"Video/0\":{\"busy\":12.8}}}\"#;\n        let (render, video) = parse_intel_gpu_top(json);\n        assert_eq!(render, Some(45));\n        assert_eq!(video, Some(12));\n    }",
+  "source_version": "crates/corvia-server/src/dashboard/gpu.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.425029012Z",
+  "valid_from": "2026-03-31T13:20:59.425029012Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/gpu.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 647,
+    "end_line": 652,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

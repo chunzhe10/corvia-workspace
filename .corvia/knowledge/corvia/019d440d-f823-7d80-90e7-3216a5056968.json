@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f823-7d80-90e7-3216a5056968",
+  "content": "t!(\"{:.1} GB\", bytes as f64 / GB as f64)\n    } else if bytes >= MB {\n        format!(\"{:.1} MB\", bytes as f64 / MB as f64)\n    } else if bytes >= KB {\n        format!(\"{:.1} KB\", bytes as f64 / KB as f64)\n    } else {\n        format!(\"{} B\", bytes)\n    }\n}\npub async fn workspace_status(root: &Path) -> Result<()> {\n    let config_path = root.join(\"corvia.toml\");\n    let config = CorviaConfig::load(&config_path)?;\n    let ws = config\n        .workspace\n        .as_ref()\n        .ok_or_else(|| anyhow::anyhow!(\"Not a workspace\"))?;\n\n    println!(\n        \"Workspace: {} (scope: {})\",\n        config.project.name, config.project.scope_id\n    );\n    println!(\n        \"Store: {:?} at {}\",\n        config.storage.store_type, config.storage.data_dir\n    );\n    println!(\n        \"Embedding: {:?} ({})\",\n        config.embedding.provider, config.embedding.model\n    );\n    println!();\n\n    // Try to open store for entry counts\n    let data_dir = root.join(&config.storage.data_dir);\n    let store = if data_dir.exists() {\n        corvia_kernel::create_store_at(&config, &data_dir).await.ok()\n    } else {\n        None\n    };\n\n    println!(\"Repos ({}):\", ws.repos.len());\n    for repo in &ws.repos {\n        let repo_path = resolve_repo_path(root, &ws.repos_dir, repo);\n        let exists = repo_path.exists();\n        let is_local = repo\n            .local\n            .as_ref()\n            .map(|l| std::path::PathBuf::from(l).exists())\n            .unwrap_or(false);\n\n        let source = if is_local {\n            \"local\"\n        } else if exists {\n            \"cloned\"\n        } else {\n            \"missing\"\n        };\n\n        println!(\"  {} [{}] namespace:{}\", repo.name, source, repo.namespace);\n        println!(\"    url: {}\", repo.url);\n        if let Some(local) = &repo.local {\n            println!(\"    local: {}\", local);\n        }\n        println!(\"    path: {}\", repo_path.display());\n    }\n\n    if let Some(ref store) = store {\n        let total = store.count(&config.project.scope_id).await.unwrap_or(0);\n        println!(\"\\nTotal knowledge entries: {}\", total);\n    }\n\n    Ok(())\n}",
+  "source_version": "crates/corvia-cli/src/workspace.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.427828672Z",
+  "valid_from": "2026-03-31T13:20:59.427828672Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/workspace.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 495,
+    "end_line": 557,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

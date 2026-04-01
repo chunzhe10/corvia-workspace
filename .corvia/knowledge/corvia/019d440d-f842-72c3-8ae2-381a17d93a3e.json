@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-381a17d93a3e",
+  "content": "## Task 11: Wire Corvia provider into CLI\n\n```\n\n**Step 3: Update cmd_serve to construct correct ChatEngine**\n\nIn `cmd_serve()`, construct the appropriate `ChatEngine` based on merge config:\n```rust\nuse corvia_kernel::traits::ChatEngine;\n\nlet chat_engine: Arc<dyn ChatEngine> = match config.merge.provider {\n    corvia_common::config::InferenceProvider::Corvia => {\n        Arc::new(corvia_kernel::grpc_chat::GrpcChatEngine::new(&config.embedding.url))\n    }\n    corvia_common::config::InferenceProvider::Ollama => {\n        Arc::new(corvia_kernel::ollama_chat::OllamaChatEngine::new(&config.embedding.url))\n    }\n    corvia_common::config::InferenceProvider::Vllm => {\n        // TODO: vLLM chat via gRPC\n        Arc::new(corvia_kernel::ollama_chat::OllamaChatEngine::new(&config.embedding.url))\n    }\n};\n```\n\nPass `chat_engine` to `AgentCoordinator::new()`.\n\n**Step 4: Run tests**\n\nRun: `cargo build -p corvia`\nExpected: SUCCESS.\n\n**Step 5: Commit**\n\n```bash\ngit add crates/corvia-cli/\ngit commit -m \"feat(d60): wire Corvia inference provider into CLI init/serve\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458798811Z",
+  "valid_from": "2026-03-31T13:20:59.458798811Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1575,
+    "end_line": 1612,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

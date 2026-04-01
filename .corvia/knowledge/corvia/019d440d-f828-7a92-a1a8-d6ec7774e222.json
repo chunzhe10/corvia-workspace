@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f828-7a92-a1a8-d6ec7774e222",
+  "content": "re = result.results[hot_pos.unwrap()].score;\n        let warm_score = result.results[warm_pos.unwrap()].score;\n        assert!(\n            hot_score > warm_score,\n            \"hot score ({hot_score}) should be > warm score ({warm_score})\"\n        );\n    }\nasync fn test_forgotten_entry_never_in_results() {\n        use corvia_common::types::Tier;\n\n        let dir = tempfile::tempdir().unwrap();\n        let store = Arc::new(LiteStore::open(dir.path(), 3).unwrap());\n        store.init_schema().await.unwrap();\n        let engine: Arc<dyn InferenceEngine> = Arc::new(MockEngine);\n\n        // Insert filler Hot entries.\n        for i in 0..10 {\n            let mut entry = KnowledgeEntry::new(\n                format!(\"hot item {i}\"),\n                \"forgotten-scope\".to_string(),\n                \"v1\".to_string(),\n            );\n            entry.embedding = Some(vec![1.0, i as f32 * 0.1, 0.0]);\n            store.insert(&entry).await.unwrap();\n        }\n\n        // Forgotten entry with exact match embedding — would rank #1 without tier filtering.\n        let mut forgotten = KnowledgeEntry::new(\n            \"forgotten entry\".to_string(),\n            \"forgotten-scope\".to_string(),\n            \"v1\".to_string(),\n        );\n        forgotten.embedding = Some(vec![1.0, 0.0, 0.0]);\n        forgotten.tier = Tier::Forgotten;\n        store.insert(&forgotten).await.unwrap();\n\n        let retriever = VectorRetriever::new(store.clone() as Arc<dyn QueryableStore>, engine);\n        let opts = RetrievalOpts {\n            limit: 20,\n            visibility: VisibilityMode::All,\n            ..Default::default()\n        };\n        let result = retriever.retrieve(\"test\", \"forgotten-scope\", &opts).await.unwrap();\n\n        let has_forgotten = result.results.iter().any(|r| r.entry.content == \"forgotten entry\");\n        assert!(!has_forgotten, \"forgotten entries must never appear in results\");\n    }",
+  "source_version": "crates/corvia-kernel/src/retriever.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.432598151Z",
+  "valid_from": "2026-03-31T13:20:59.432598151Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/retriever.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1663,
+    "end_line": 1702,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

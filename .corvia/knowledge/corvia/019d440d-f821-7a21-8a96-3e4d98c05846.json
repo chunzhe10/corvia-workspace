@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f821-7a21-8a96-3e4d98c05846",
+  "content": "efault)]\n    pub retention_score: Option<f32>,\n    /// Pin state. `Some(info)` = pinned (exempt from GC demotion), `None` = not pinned.\n    /// Pinned entries cannot be demoted below their current tier.\n    #[serde(default)]\n    pub pin: Option<PinInfo>,\n}\npub struct EntryMetadata {\n    pub source_file: Option<String>,\n    pub language: Option<String>,\n    pub chunk_type: Option<String>,\n    pub start_line: Option<u32>,\n    pub end_line: Option<u32>,\n    #[serde(default)]\n    pub content_role: Option<String>,\n    #[serde(default)]\n    pub source_origin: Option<String>,\n}",
+  "source_version": "crates/corvia-common/src/types.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.425270761Z",
+  "valid_from": "2026-03-31T13:20:59.425270761Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/types.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 211,
+    "end_line": 221,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

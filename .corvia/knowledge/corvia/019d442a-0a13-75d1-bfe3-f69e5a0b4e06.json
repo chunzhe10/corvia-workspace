@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a13-75d1-bfe3-f69e5a0b4e06",
+  "content": "## Chunk 5: Render + Validate\n\n### Task 10: Render PNGs and PDF\n\n- [ ] **Step 1: Start HTTP server if not running**\n\n```bash\ncd /workspaces/corvia-workspace\nnpx http-server -p 8099 -c-1 &\n```\n\n- [ ] **Step 2: Run render script**\n\n```bash\nnode tools/carousel-render/render.js \\\n  --url http://localhost:8099/docs/marketing/linkedin/2026-03-14-resolve-linux-setup/resolve-linux-carousel.html \\\n  --outdir docs/marketing/linkedin/2026-03-14-resolve-linux-setup/output\n```\n\nExpected: 8 PNG files (slide-01.png through slide-08.png) + carousel.pdf + validation report.\n\n- [ ] **Step 3: Check validation output**\n\nVerify ALL pass:\n- All 8 PNGs exist and >10KB\n- No text overflow on any slide\n- No fonts below 15px minimum\n- Content fits within safe area height\n\n- [ ] **Step 4: Visual review of rendered PNGs**\n\nUse Playwright or Read tool to inspect each rendered PNG. Check:\n- Slide 1: film frame, gradient, tags readable\n- Slide 4: brick walls visible, progression clear\n- Slide 5: VRAM bar, chat bubbles distinguishable\n- Slide 6: rubble, Wayland/X11 comparison, green stat\n- Slide 7: underwater gradient renders, bubbles visible, glass cards readable\n\n- [ ] **Step 5: Fix any issues found and re-render**\n\nIf validation fails or visual issues found, fix the HTML and re-run render.\n\n- [ ] **Step 6: Final commit**\n\n```bash\ngit add docs/marketing/linkedin/2026-03-14-resolve-linux-setup/\ngit commit -m \"feat(carousel): render resolve-linux carousel PNGs + PDF\"\n```",
+  "source_version": "marketing/2026-03-14-resolve-linux-carousel.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.027619116Z",
+  "valid_from": "2026-03-31T13:51:39.027619116Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/2026-03-14-resolve-linux-carousel.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 800,
+    "end_line": 845,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

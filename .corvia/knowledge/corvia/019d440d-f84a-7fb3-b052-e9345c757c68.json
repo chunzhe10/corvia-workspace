@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84a-7fb3-b052-e9345c757c68",
+  "content": "Outgoing) returns 1 edge to B ---\n    let a_out = store.edges(&id_a, EdgeDirection::Outgoing).await.unwrap();\n    assert_eq!(a_out.len(), 1, \"A should have 1 outgoing edge\");\n    assert_eq!(a_out[0].to, id_b);\n    assert_eq!(a_out[0].relation, \"imports\");\n\n    // --- Verify edges(B, Both) returns 2 edges (incoming from A, outgoing to C) ---\n    let b_both = store.edges(&id_b, EdgeDirection::Both).await.unwrap();\n    assert_eq!(\n        b_both.len(),\n        2,\n        \"B should have 2 edges (1 incoming, 1 outgoing), got {}\",\n        b_both.len()\n    );\n\n    // --- Verify traverse(A, None, Outgoing, 3) reaches B and C ---\n    let traversed = store\n        .traverse(&id_a, None, EdgeDirection::Outgoing, 3)\n        .await\n        .unwrap();\n    assert_eq!(\n        traversed.len(),\n        2,\n        \"Traversal from A should reach B and C, got {}\",\n        traversed.len()\n    );\n    let traversed_ids: Vec<Uuid> = traversed.iter().map(|e| e.id).collect();\n    assert!(traversed_ids.contains(&id_b), \"Traversal should include B\");\n    assert!(traversed_ids.contains(&id_c), \"Traversal should include C\");\n\n    // --- Verify shortest_path(A, C) returns a path of 3 entries: A -> B -> C ---\n    let path = store.shortest_path(&id_a, &id_c).await.unwrap();\n    assert!(path.is_some(), \"A path from A to C should exist\");\n    let path = path.unwrap();\n    assert_eq!(path.len(), 3, \"Shortest path A->B->C should have 3 entries\");\n    assert_eq!(path[0].id, id_a);\n    assert_eq!(path[1].id, id_b);\n    assert_eq!(path[2].id, id_c);\n\n    // No reverse path (directed graph)\n    let reverse = store.shortest_path(&id_c, &id_a).await.unwrap();\n    assert!(reverse.is_none(), \"No reverse path should exist in a directed graph\");\n}",
+  "source_version": "tests/integration/m3_e2e_test.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.466873487Z",
+  "valid_from": "2026-03-31T13:20:59.466873487Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "tests/integration/m3_e2e_test.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 164,
+    "end_line": 200,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

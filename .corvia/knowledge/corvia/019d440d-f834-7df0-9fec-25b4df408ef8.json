@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f834-7df0-9fec-25b4df408ef8",
+  "content": "            .collect();\n\n        // Exact match\n        assert_eq!(source_index.get(&(\"src/main.rs\", 1)), Some(&0));\n        assert_eq!(source_index.get(&(\"src/main.rs\", 15)), Some(&1));\n        assert_eq!(source_index.get(&(\"src/utils.rs\", 1)), Some(&2));\n\n        // Miss\n        assert_eq!(source_index.get(&(\"src/main.rs\", 99)), None);\n        assert_eq!(source_index.get(&(\"nonexistent.rs\", 1)), None);\n    }\n\n    #[test]\n    fn test_source_index_consistency_with_linear_scan() {\n        // Verify HashMap produces same result as the old linear scan\n        let chunks = vec![\n            make_processed_chunk(\"a.rs\", 1, \"fn a() {}\"),\n            make_processed_chunk(\"b.rs\", 5, \"fn b() {}\"),\n            make_processed_chunk(\"a.rs\", 20, \"fn c() {}\"),\n        ];\n\n        let source_index: HashMap<(&str, u32), usize> = chunks\n            .iter()\n            .enumerate()\n            .map(|(i, pc)| ((pc.metadata.source_file.as_str(), pc.start_line), i))\n            .collect();\n\n        // Compare with linear scan for each chunk\n        for (expected_idx, pc) in chunks.iter().enumerate() {\n            let linear_idx = chunks.iter().position(|c| {\n                c.metadata.source_file == pc.metadata.source_file && c.start_line == pc.start_line\n            });\n            let hash_idx = source_index.get(&(pc.metadata.source_file.as_str(), pc.start_line)).copied();\n            assert_eq!(\n                linear_idx, hash_idx,\n                \"Source index should match linear scan for {}:{}\",\n                pc.metadata.source_file, pc.start_line\n            );\n            assert_eq!(hash_idx, Some(expected_idx));\n        }\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/ingest.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.444753375Z",
+  "valid_from": "2026-03-31T13:20:59.444753375Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ingest.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 1678,
+    "end_line": 1713,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

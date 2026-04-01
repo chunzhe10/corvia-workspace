@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-58411b3ab3a4",
+  "content": "### Step 2: Run test to verify it fails\n### Step 3: Implement SessionManager\n\n### Step 4: Wire up module and run tests\n\nAdd to `crates/corvia-kernel/src/lib.rs`:\n```rust\npub mod session_manager;\n```\n\nRun: `cargo test -p corvia-kernel -- session_manager`\nExpected: All 8 tests pass.\n\n\n### Step 5: Commit\n\n```bash\ngit add crates/corvia-kernel/src/session_manager.rs crates/corvia-kernel/src/lib.rs\ngit commit -m \"feat(m2): session manager with state machine and heartbeat (D45 Part 5)\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451765010Z",
+  "valid_from": "2026-03-31T13:20:59.451765010Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2-agent-coordination.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 899,
+    "end_line": 917,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

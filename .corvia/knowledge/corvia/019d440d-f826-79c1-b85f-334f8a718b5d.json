@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f826-79c1-b85f-334f8a718b5d",
+  "content": "       }\n            }\n        }\n\n        Ok(Response::new(ReloadModelsResponse {\n            success: all_success,\n            error: if all_success { String::new() } else { \"Some models failed to reload\".into() },\n            results,\n        }))\n    }\n}\nasync fn health(\n        &self,\n        _req: Request<HealthRequest>,\n    ) -> Result<Response<HealthResponse>, Status> {\n        let models = self.models.read().await;\n        let probe = self.probe_state.read().await;\n        Ok(Response::new(HealthResponse {\n            healthy: true,\n            models_loaded: models.values().filter(|m| m.loaded).count() as u32,\n            ep_name: probe.ep_name.clone(),\n            ep_requested: probe.ep_requested.clone(),\n            fallback_used: probe.fallback_used,\n            baseline_us: probe.baseline_us,\n            last_probe_us: probe.last_probe_us,\n            drift_pct: probe.drift_pct,\n            probe_status: match probe.status {\n                crate::probe::ProbeStatus::Pending => \"pending\",\n                crate::probe::ProbeStatus::Healthy => \"healthy\",\n                crate::probe::ProbeStatus::Degraded => \"degraded\",\n                crate::probe::ProbeStatus::Failed => \"failed\",\n            }\n            .to_string(),\n            last_probe_at: probe\n                .last_probe_at\n                .map(|t| t.to_rfc3339())\n                .unwrap_or_default(),\n        }))\n    }",
+  "source_version": "crates/corvia-inference/src/model_manager.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.430010805Z",
+  "valid_from": "2026-03-31T13:20:59.430010805Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/src/model_manager.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 84,
+    "end_line": 111,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

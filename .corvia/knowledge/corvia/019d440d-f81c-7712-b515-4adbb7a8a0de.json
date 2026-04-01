@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81c-7712-b515-4adbb7a8a0de",
+  "content": "r.to_name.as_deref()).collect();\n        assert!(names.contains(&Some(\"inner_fn\")));\n        assert!(names.contains(&Some(\"InnerStruct\")));\n    }\n\n    #[test]\n    fn test_js_import_extraction() {\n        let source = r#\"\nimport { foo, bar } from './utils';\nimport defaultExport from 'module-name';\nimport * as name from 'module-name';\n\nfunction doStuff() {\n    return 42;\n}\n\"#;\n        let result = chunk_file_with_relations(\"app.js\", source, \"js\");\n        let imports: Vec<&CodeRelation> = result\n            .relations\n            .iter()\n            .filter(|r| r.relation == \"imports\")\n            .collect();\n        // { foo, bar } → 2 imports from './utils'\n        // defaultExport → 1 import from 'module-name'\n        // * as name → 1 import from 'module-name'\n        assert!(\n            imports.len() >= 4,\n            \"Expected at least 4 import relations, got {}\",\n            imports.len()\n        );\n        assert!(imports.iter().any(|r| r.to_name.as_deref() == Some(\"foo\")));\n        assert!(imports.iter().any(|r| r.to_name.as_deref() == Some(\"bar\")));\n        assert!(imports.iter().any(|r| r.to_file == \"./utils\"));\n        assert!(imports.iter().any(|r| r.to_file == \"module-name\"));\n    }\n\n    #[test]\n    fn test_ts_import_extraction() {\n        let source = r#\"\nimport { foo } from './utils';\nimport type { Bar } from './types';\n\nfunction doStuff(): number {\n    return 42;\n}\n\"#;",
+  "source_version": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.420127634Z",
+  "valid_from": "2026-03-31T13:20:59.420127634Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 1572,
+    "end_line": 1608,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

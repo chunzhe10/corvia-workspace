@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-35b0bae0d53f",
+  "content": "### Key Design Decisions\n\n### Files to Create/Modify\n\n| File | Action | Purpose |\n|------|--------|---------|\n| `crates/corvia-kernel/src/gc_worker.rs` | CREATE | GC cycle logic, `spawn_gc_worker()`, `run_gc_cycle()` |\n| `crates/corvia-kernel/src/lite_store.rs` | MODIFY | Add `update_tiers_batch()`, `entries_by_scope()` methods |\n| `crates/corvia-kernel/src/lib.rs` | MODIFY | `pub mod gc_worker;` |\n| `crates/corvia-cli/src/main.rs` | MODIFY | Spawn GC worker in `cmd_serve()` |\n| `crates/corvia-kernel/src/ops.rs` | MODIFY | Update `gc_run` to also trigger a knowledge GC cycle |\n\n\n### GcCycleReport struct\n\n```rust\npub struct GcCycleReport {\n    pub entries_scanned: usize,\n    pub entries_scored: usize,       // non-pinned, non-forgotten\n    pub hot_to_warm: usize,\n    pub warm_to_cold: usize,\n    pub cold_to_forgotten: usize,\n    pub warm_to_hot: usize,          // promotions\n    pub cold_to_warm: usize,         // promotions\n    pub hnsw_rebuild_triggered: bool,\n    pub cycle_duration_ms: u64,\n    pub scopes_processed: usize,\n}\n```\n",
+  "source_version": "docs/rfcs/2026-03-27-gc-worker-skeleton-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458364954Z",
+  "valid_from": "2026-03-31T13:20:59.458364954Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-27-gc-worker-skeleton-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 86,
+    "end_line": 112,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

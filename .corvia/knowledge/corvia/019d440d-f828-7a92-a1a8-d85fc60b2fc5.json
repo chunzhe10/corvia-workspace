@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f828-7a92-a1a8-d85fc60b2fc5",
+  "content": "pub struct TierDistribution {\n    pub hot: u64,\n    pub warm: u64,\n    pub cold: u64,\n    pub forgotten: u64,\n}",
+  "source_version": "crates/corvia-kernel/src/ops.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.432784610Z",
+  "valid_from": "2026-03-31T13:20:59.432784610Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ops.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 22,
+    "end_line": 27,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

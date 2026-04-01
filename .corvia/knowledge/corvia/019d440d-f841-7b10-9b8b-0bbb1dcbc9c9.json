@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0bbb1dcbc9c9",
+  "content": "      assert_eq!(chunks[0].processing.strategy_name, \"fallback\");\n        assert!(chunks[0].token_estimate > 0);\n    }\n\n    #[test]\n    fn test_process_enforces_token_budget() {\n        let config = ChunkingConfig {\n            max_tokens: 10, // ~40 chars\n            min_tokens: 2,\n            overlap_tokens: 0,\n            strategy: \"auto\".into(),\n        };\n        let pipeline = make_pipeline(config);\n        let source = \"a]\".repeat(200); // 400 chars = 100 tokens, way over budget\n        let chunks = pipeline.process(&source, &test_meta(\"txt\")).unwrap();\n        for chunk in &chunks {\n            assert!(\n                chunk.token_estimate <= 20, // some tolerance for split boundaries\n                \"chunk has {} tokens, exceeds budget of 10\",\n                chunk.token_estimate\n            );\n        }\n    }\n\n    #[test]\n    fn test_process_merges_small_chunks() {\n        let config = ChunkingConfig {\n            max_tokens: 512,\n            min_tokens: 50, // 200 chars minimum\n            overlap_tokens: 0,\n            strategy: \"auto\".into(),\n        };\n        let pipeline = make_pipeline(config);\n        // Paragraphs that are individually small (< min_tokens)\n        let source = \"Short paragraph.\\n\\nAnother short one.\\n\\nThird short paragraph.\";\n        let chunks = pipeline.process(source, &test_meta(\"txt\")).unwrap();\n        // Should merge into fewer chunks since each paragraph is small\n        assert!(\n            chunks.len() <= 2,\n            \"expected merging to reduce chunk count, got {}\",\n            chunks.len()\n        );\n    }\n\n    #[test]\n    fn test_process_batch() {\n        let pipeline = make_pipeline(default_config());\n        let files = vec![\n            SourceFile {\n                content: \"File one content here.\".into(),\n                metadata: test_meta(\"txt\"),",
+  "source_version": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457326930Z",
+  "valid_from": "2026-03-31T13:20:59.457326930Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 484,
+    "end_line": 526,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

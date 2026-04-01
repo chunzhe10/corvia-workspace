@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f831-7562-9884-ab2bd23b3c1a",
+  "content": "nfig.embedding.dimensions,\n        )),\n        InferenceProvider::Corvia => Arc::new(grpc_engine::GrpcInferenceEngine::new(\n            &config.embedding.url,\n            &config.embedding.model,\n            config.embedding.dimensions,\n        )),\n    }\n}\nasync fn connect_postgres(config: &CorviaConfig) -> Result<postgres_store::PostgresStore> {\n    let url = config\n        .storage\n        .postgres_url\n        .as_deref()\n        .unwrap_or(\"postgres://corvia:corvia@127.0.0.1:5432/corvia\");\n    postgres_store::PostgresStore::connect(url, config.embedding.dimensions).await\n}",
+  "source_version": "crates/corvia-kernel/src/lib.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.441441799Z",
+  "valid_from": "2026-03-31T13:20:59.441441799Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/lib.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 137,
+    "end_line": 144,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9d04ed08d4ac",
+  "content": "Client agents**: No crash recovery. Writes go direct to merge queue (no staging dir or git branch). Completed writes are safe in queue. In-flight MCP tool calls are lost per MCP spec. This is acceptable — external agents retry at the orchestrator level.\n\n#### Part 6: Garbage Collection\n\n```\nCorvia background GC thread (runs every hour):\n  │\n  ├─ Orphaned sessions with last_heartbeat > 24h:\n  │   → Auto-rollback (delete staging, branch, pending vectors)\n  │   → Session status → Closed\n  │   → Log: \"GC: cleaned orphaned session {id}, discarded {n} entries\"\n  │\n  ├─ Closed sessions with closed_at > 7d:\n  │   → Delete Redb session record (metadata cleanup)\n  │\n  └─ Active agents with last_seen > 30d:\n      → Status → Suspended (reactivated on next connect)\n```\n\n**Configuration** (`corvia.toml`):\n```toml\n[agent_lifecycle]\nheartbeat_interval = \"30s\"\nstale_timeout = \"5m\"\norphan_grace_period = \"20m\"\ngc_orphan_after = \"24h\"\ngc_closed_session_after = \"7d\"\ngc_inactive_agent_after = \"30d\"\n```\n\nAll GC thresholds configurable. GC events are OpenTelemetry-traced (feeds into M4 observability).\n\n\n#### Part 7: API Surface\n\n**REST API** (registered agents):\n- `POST /agents` — register new agent\n- `POST /agents/{agent_id}/sessions` — create or reconnect (returns recoverable sessions)\n- `POST /sessions/{session_id}/heartbeat` — keep alive\n- `POST /sessions/{session_id}/commit` — commit and merge\n- `POST /sessions/{session_id}/rollback` — discard\n- `POST /sessions/{session_id}/recover` — resume/commit/rollback orphaned session\n- `GET /agents/{agent_id}/knowledge` — agent's contribution summary\n- `GET /sessions/{session_id}/state` — session's current entries and status\n\n**MCP tools** (all identity types):\n- `corvia_search` — search knowledge (all identity types)\n- `corvia_write` — write knowledge entry (Registered + McpClient with `_meta`)\n- `corvia_history` — temporal history query (all identity types)\n- `corvia_agent_status` — agent's own contribution summary (Registered + McpClient with `_meta`)\n",
+  "source_version": "docs/rfcs/milestone-revision-notes.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464341679Z",
+  "valid_from": "2026-03-31T13:20:59.464341679Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/milestone-revision-notes.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 488,
+    "end_line": 535,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

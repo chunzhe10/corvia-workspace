@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83a-78e0-bb2b-db87ed56ab3d",
+  "content": "uperseded_by.is_none()\n    }\n}\n\n/// Result from a semantic search query.\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct SearchResult {\n    pub entry: KnowledgeEntry,\n    pub score: f32,\n}\n\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    #[test]\n    fn test_knowledge_entry_new_defaults() {\n        let entry = KnowledgeEntry::new(\n            \"fn hello() {}\".to_string(),\n            \"my-repo\".to_string(),\n            \"abc123\".to_string(),\n        );\n        assert_eq!(entry.content, \"fn hello() {}\");\n        assert_eq!(entry.scope_id, \"my-repo\");\n        assert_eq!(entry.workstream, \"main\");\n        assert!(entry.is_current());\n        assert!(entry.embedding.is_none());\n    }\n\n    #[test]\n    fn test_knowledge_entry_with_embedding() {\n        let entry = KnowledgeEntry::new(\"test\".into(), \"scope\".into(), \"v1\".into())\n            .with_embedding(vec![0.1, 0.2, 0.3]);\n        assert_eq!(entry.embedding.unwrap().len(), 3);\n    }\n\n    #[test]\n    fn test_knowledge_entry_is_current() {\n        let mut entry = KnowledgeEntry::new(\"test\".into(), \"scope\".into(), \"v1\".into());\n        assert!(entry.is_current());\n\n        entry.valid_to = Some(Utc::now());\n        assert!(!entry.is_current());\n    }\n\n    #[test]\n    fn test_knowledge_entry_serialization() {\n        let entry = KnowledgeEntry::new(\"test\".into(), \"scope\".into(), \"v1\".into());\n        let json = serde_json::to_string(&entry).unwrap();\n        let deserialized: KnowledgeEntry = serde_json::from_str(&json).unwrap();\n        assert_eq!(entry.id, deserialized.id);\n        assert_eq!(entry.content, deserialized.content);\n    }\n}\n```\n\n**Step 2: Write error types**\n\n`crates/corvia-common/src/errors.rs`:\n```rust",
+  "source_version": "docs/rfcs/2026-02-28-m1-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.450554176Z",
+  "valid_from": "2026-03-31T13:20:59.450554176Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-m1-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 316,
+    "end_line": 359,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

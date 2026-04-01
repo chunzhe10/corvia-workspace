@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-311f0c9528f3",
+  "content": "### 1. Entrypoint fixes and status reporting\n### 2. Permission hardening\n\n### 3. Telemetry\n\nAdd `spoke.*` span constants to corvia-telemetry. Instrument SpokeProvisioner\ncreate/destroy/prune/restart methods with structured spans.\n\n\n### 4. Hub-side prune\n\n**Problem:** Exited spoke containers accumulate.\n\n**Fix:**\n- `spoke prune` CLI command: remove exited containers older than threshold (default 1h)\n- Server background task: prune every 5 minutes\n- Prune only containers with `corvia.spoke=true` label in `exited` state\n",
+  "source_version": "decisions/2026-03-28-spoke-phase3-autonomous-design.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026728414Z",
+  "valid_from": "2026-03-31T13:51:39.026728414Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-phase3-autonomous-design.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 39,
+    "end_line": 52,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

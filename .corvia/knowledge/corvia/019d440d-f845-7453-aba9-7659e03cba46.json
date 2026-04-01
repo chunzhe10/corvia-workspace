@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-7659e03cba46",
+  "content": "### D8: LLM Techniques to Showcase\n\n### D9: Tech Stack\n- **Extension / UI**: TypeScript (native VS Code extension language)\n- **Core backend**: Rust (speed, safety, tree-sitter has native Rust bindings)\n- **ML / agent glue**: ~~Python~~ → Rust (all agent orchestration, LLM calls, evals in Rust)\n- **Python**: Fine-tuning only (M5c milestone) — PyTorch/HuggingFace remain Python-only\n- **LLM provider**: Provider-agnostic with local model support. Abstract LLM layer.\n- **Embedding model**: Configurable — local default (e.g., Nomic ONNX), cloud option (e.g., OpenAI)\n- **Vector store**: Configurable — USearch default, pluggable backends\n- **Alternatives considered for language**: TypeScript-only (simpler but slower for core), Python+TS+Rust tri-language (Python for agent glue). Chose all-Rust because benchmarks show Rust MCP servers at 4,700 QPS vs Python's ~300 QPS, Rust agent frameworks (AutoAgents) 25-84% faster than LangChain/LangGraph, and <1.1GB memory vs >4.7GB for Python. Portfolio story: \"entire agent stack in Rust\" > \"used LangChain like everyone else.\"\n- **Alternatives considered for LLM provider**: Claude-only (simpler), OpenAI-only, provider-agnostic without local. Chose full agnostic + local for maximum OSS adoption and offline capability.\n- **Alternatives considered for embeddings**: Nomic-only local, cloud-only. Chose configurable to support both offline and quality-optimized use cases.\n- **Alternatives considered for vector store**: USearch-only, ChromaDB/LanceDB, Qdrant/Weaviate. Chose configurable with lightweight default to keep onboarding simple while allowing production scaling.\n",
+  "source_version": "docs/rfcs/2026-02-25-corvia-brainstorm.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461451667Z",
+  "valid_from": "2026-03-31T13:20:59.461451667Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-25-corvia-brainstorm.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 115,
+    "end_line": 127,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

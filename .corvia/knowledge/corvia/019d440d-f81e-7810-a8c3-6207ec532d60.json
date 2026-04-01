@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81e-7810-a8c3-6207ec532d60",
+  "content": "sessions\n        .iter()\n        .filter(|s| s.state == corvia_common::dashboard::HookSessionState::Stale)\n        .count();\n    Ok(Json(corvia_common::dashboard::HookSessionsResponse {\n        sessions,\n        total_active,\n        total_stale,\n    }))\n}\nasync fn hook_sessions_stream(\n    State(state): State<Arc<AppState>>,\n) -> axum::response::sse::Sse<impl futures_core::Stream<Item = Result<axum::response::sse::Event, std::convert::Infallible>>>\n{\n    let mut rx = state.hook_sessions.subscribe();\n    let hook_sessions = state.hook_sessions.clone();\n\n    let stream = async_stream::stream! {\n        // Send initial snapshot.\n        let sessions = hook_sessions.snapshot().await;\n        let total_active = sessions.iter()\n            .filter(|s| s.state == corvia_common::dashboard::HookSessionState::Active)\n            .count();\n        let total_stale = sessions.iter()\n            .filter(|s| s.state == corvia_common::dashboard::HookSessionState::Stale)\n            .count();\n        let initial = corvia_common::dashboard::HookSessionsResponse {\n            sessions,\n            total_active,\n            total_stale,\n        };\n        if let Ok(data) = serde_json::to_string(&initial) {\n            yield Ok(axum::response::sse::Event::default()\n                .event(\"snapshot\")\n                .data(data));\n        }\n\n        // Stream deltas.\n        loop {\n            match rx.recv().await {\n                Ok(update) => {\n                    if let Ok(data) = serde_json::to_string(&update) {\n                        yield Ok(axum::response::sse::Event::default()",
+  "source_version": "crates/corvia-server/src/dashboard/mod.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.422494961Z",
+  "valid_from": "2026-03-31T13:20:59.422494961Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/mod.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1398,
+    "end_line": 1430,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

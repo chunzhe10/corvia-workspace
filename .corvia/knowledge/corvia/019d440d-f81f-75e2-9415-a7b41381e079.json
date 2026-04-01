@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81f-75e2-9415-a7b41381e079",
+  "content": "struct RawSpan {\n        trace_id: String,\n        span_id: String,\n        parent_span_id: String,\n        span_name: String,\n        elapsed_ms: f64,\n        timestamp: String,\n    }\nfn build_tree(\n            id: &str,\n            depth: usize,\n            node_map: &mut HashMap<String, SpanNode>,\n            children_map: &HashMap<String, Vec<String>>,\n        ) -> Option<SpanNode> {\n            let mut node = node_map.remove(id)?;\n            node.depth = depth;\n            if let Some(child_ids) = children_map.get(id) {\n                for cid in child_ids {\n                    if let Some(child) = build_tree(cid, depth + 1, node_map, children_map) {\n                        node.children.push(child);\n                    }\n                }\n            }\n            Some(node)\n        }",
+  "source_version": "crates/corvia-server/src/dashboard/traces.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.423120308Z",
+  "valid_from": "2026-03-31T13:20:59.423120308Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/traces.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 407,
+    "end_line": 423,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

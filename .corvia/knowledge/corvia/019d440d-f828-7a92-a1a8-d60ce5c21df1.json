@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f828-7a92-a1a8-d60ce5c21df1",
+  "content": "ograph-scope\", &opts).await.unwrap();\n\n        assert_eq!(\n            result.metrics.graph_expanded, 0,\n            \"graph_expanded should be 0 when expand_graph is false\"\n        );\n        assert_eq!(result.metrics.retriever_name, \"graph_expand\");\n    }\nasync fn test_graph_reinforcement_boosts_overlapping_results() {\n        use crate::traits::GraphStore;\n\n        let dir = tempfile::tempdir().unwrap();\n        let store = Arc::new(LiteStore::open(dir.path(), 3).unwrap());\n        store.init_schema().await.unwrap();\n\n        let queryable = store.clone() as Arc<dyn QueryableStore>;\n        let graph = store.clone() as Arc<dyn GraphStore>;\n        let engine: Arc<dyn InferenceEngine> = Arc::new(MockEngine);\n\n        let mut idx: usize = 0;\n        let mut next_emb = || {\n            idx += 1;\n            vec![1.0, idx as f32 * 0.1, 0.0]\n        };\n\n        // Entry A — close to query vector [1,0,0]\n        let mut ea = KnowledgeEntry::new(\n            \"auth module\".to_string(),\n            \"reinforce-scope\".to_string(),\n            \"v1\".to_string(),\n        );\n        ea.embedding = Some(next_emb());\n        queryable.insert(&ea).await.unwrap();\n\n        // Entry B — also close (both in top-N vector results)\n        let mut eb = KnowledgeEntry::new(\n            \"auth middleware\".to_string(),\n            \"reinforce-scope\".to_string(),\n            \"v1\".to_string(),\n        );\n        eb.embedding = Some(next_emb());\n        queryable.insert(&eb).await.unwrap();\n\n        // 8 filler entries for HNSW connectivity\n        for i in 0..8 {\n            let mut filler = KnowledgeEntry::new(\n                format!(\"filler {i}\"),",
+  "source_version": "crates/corvia-kernel/src/retriever.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.432474303Z",
+  "valid_from": "2026-03-31T13:20:59.432474303Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/retriever.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1233,
+    "end_line": 1271,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f843-7a03-b56b-351c46bbb936",
+  "content": "{\n            match val.as_str() {\n                \"lite\" => self.storage.store_type = StoreType::Lite,\n                \"surrealdb\" => self.storage.store_type = StoreType::Surrealdb,\n                _ => {}\n            }\n        }\n        self\n    }\n}\n```\n\n### Step 4: Update existing tests to match new defaults\n\nThe existing tests reference `config.storage.surrealdb_url` as a `String` — now it's `Option<String>`. Fix the existing tests:\n\n```rust\n#[test]\nfn test_default_config() {\n    let config = CorviaConfig::default();\n    assert_eq!(config.storage.store_type, StoreType::Lite);\n    assert_eq!(config.embedding.dimensions, 768);\n    assert_eq!(config.server.port, 8020);\n}\n\n#[test]\nfn test_config_save_load_roundtrip() {\n    let config = CorviaConfig::default();\n    config.save(std::path::Path::new(\"/tmp/corvia-test-config.toml\")).unwrap();\n    let loaded = CorviaConfig::load(std::path::Path::new(\"/tmp/corvia-test-config.toml\")).unwrap();\n    assert_eq!(config.project.name, loaded.project.name);\n    assert_eq!(config.storage.store_type, loaded.storage.store_type);\n}\n\n#[test]\nfn test_env_override_surrealdb_url() {\n    unsafe { std::env::set_var(\"CORVIA_SURREALDB_URL\", \"ws://ci-host:9000\"); }\n    let config = CorviaConfig::default().with_env_overrides();\n    assert_eq!(config.storage.surrealdb_url, Some(\"ws://ci-host:9000\".into()));\n    unsafe { std::env::remove_var(\"CORVIA_SURREALDB_URL\"); }\n}\n\n#[test]\nfn test_env_override_vllm_url() {\n    unsafe { std::env::set_var(\"CORVIA_VLLM_URL\", \"http://ci-host:9001\"); }\n    let config = CorviaConfig::default().with_env_overrides();\n    assert_eq!(config.embedding.url, \"http://ci-host:9001\");\n    unsafe { std::env::remove_var(\"CORVIA_VLLM_URL\"); }\n}\n\n#[test]\nfn test_no_env_override_preserves_defaults() {\n    unsafe {\n        std::env::remove_var(\"CORVIA_SURREALDB_URL\");\n        std::env::remove_var(\"CORVIA_VLLM_URL\");\n        std::env::remove_var(\"CORVIA_OLLAMA_URL\");\n        std::env::remove_var(\"CORVIA_TEST_NAMESPACE\");\n        std::env::remove_var(\"CORVIA_STORE_TYPE\");\n    }\n    let config = CorviaConfig::default().with_env_overrides();\n    assert!(config.storage.surrealdb_url.is_none());\n    assert_eq!(config.embedding.url, \"http://127.0.0.1:11434\");\n}\n```\n",
+  "source_version": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.459632430Z",
+  "valid_from": "2026-03-31T13:20:59.459632430Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 256,
+    "end_line": 308,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

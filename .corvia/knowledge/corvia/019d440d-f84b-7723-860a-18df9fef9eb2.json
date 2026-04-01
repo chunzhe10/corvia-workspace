@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84b-7723-860a-18df9fef9eb2",
+  "content": "        // Patch corvia.toml\n        let toml_content = std::fs::read_to_string(ws.join(\"corvia.toml\"))\n            .expect(\"Failed to read corvia.toml\");\n        let patched = toml_content\n            .replace(\"port = 8020\", &format!(\"port = {API_PORT}\"))\n            .replace(\n                \"http://127.0.0.1:8030\",\n                &format!(\"http://127.0.0.1:{INFERENCE_PORT}\"),\n            );\n        std::fs::write(workdir_path.join(\"corvia.toml\"), patched)\n            .expect(\"Failed to write patched toml\");\n\n        let entrypoint = format!(\n            r#\"#!/bin/bash\nset -e\ncd /e2e-workdir\n\n# Init workspace store (creates redb tables)\nCORVIA_WORKSPACE=/e2e-workdir corvia workspace init 2>/dev/null || true\n\n# Start inference server\nFASTEMBED_CACHE_PATH=/root/.fastembed_cache corvia-inference serve --port {INFERENCE_PORT} &\n\n# Wait for inference gRPC\nfor i in $(seq 1 60); do\n    if bash -c \"echo > /dev/tcp/127.0.0.1/{INFERENCE_PORT}\" 2>/dev/null; then\n        break\n    fi\n    [ \"$i\" = \"60\" ] && {{ echo \"ERROR: inference timeout\"; exit 1; }}\n    sleep 1\ndone\n\n# Start corvia server\nexport CORVIA_LOG_DIR=/e2e-traces\nexport CORVIA_WORKSPACE=/e2e-workdir\nexec corvia serve\n\"#\n        );\n        std::fs::write(workdir_path.join(\"entrypoint.sh\"), entrypoint)\n            .expect(\"Failed to write entrypoint\");\n\n        let traces_dir = workdir_path.join(\"traces\");\n        std::fs::create_dir_all(&traces_dir).expect(\"Failed to create traces dir\");",
+  "source_version": "tests/integration/docker_mcp_e2e_test.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.467138424Z",
+  "valid_from": "2026-03-31T13:20:59.467138424Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "tests/integration/docker_mcp_e2e_test.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 180,
+    "end_line": 217,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

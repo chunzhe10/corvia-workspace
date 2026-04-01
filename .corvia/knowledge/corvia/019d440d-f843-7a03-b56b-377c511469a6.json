@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f843-7a03-b56b-377c511469a6",
+  "content": "to_string()))?;\n\n        // Delete knowledge files for this scope\n        crate::knowledge_files::delete_scope_files(&self.data_dir, scope_id)?;\n\n        info!(\"Deleted {} entries for scope '{scope_id}'\", uuids_to_delete.len());\n        Ok(())\n    }\n}\n```\n\n### Step 6: Register module in lib.rs\n\nAdd to `crates/corvia-kernel/src/lib.rs`:\n\n```rust\npub mod lite_store;\n```\n\n\n### Step 7: Run tests to verify they pass\n\nRun: `cargo test -p corvia-kernel -- test_lite_store`\nExpected: PASS\n\nIf hnsw_rs API doesn't match exactly, fix the following:\n- Check `Hnsw::new()` — may need different argument order or types\n- Check `hnsw.insert()` — the tuple type `(&Vec<f32>, usize)` vs `(&[f32], usize)`\n- Check `hnsw.search()` — parameter types and `Neighbour` field names\n- Check if `Hnsw` needs a lifetime parameter — if so, use `'static` or `Box::leak` pattern\n- The `file_dump` method signature: `(&Path, &str)` — may need `Path` vs `&Path` adjustment\n",
+  "source_version": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.459966202Z",
+  "valid_from": "2026-03-31T13:20:59.459966202Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m1.2-litestore.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1289,
+    "end_line": 1308,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

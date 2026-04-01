@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a16-7c43-b1c4-8706fcb5e012",
+  "content": "════════════════════════ -->\n<div class=\"slide slide-2\">\n  <div class=\"slide-inner\">\n    <div class=\"slide-label\">The Why</div>\n    <div class=\"slide-title\">Why Build <span class=\"hl-blue\">This</span>?</div>\n    <div class=\"motivation-list\">\n      <div class=\"motivation-item\">\n        <span class=\"m-icon\">🧠</span>\n        <div class=\"m-text\">Learn about generative AI firsthand. Not by reading. By building in it and feeling the impact directly.</div>\n      </div>\n      <div class=\"motivation-item\">\n        <span class=\"m-icon\">🧰</span>\n        <div class=\"m-text\">Own my development tool. Every role change, I waste time rebuilding my environment. I wanted something portable.</div>\n      </div>\n      <div class=\"motivation-item\">\n        <span class=\"m-icon\">📂</span>\n        <div class=\"m-text\">Build a portfolio that ships. Not a tutorial project. A real product I'd use every day.</div>\n      </div>\n    </div>\n\n    <div class=\"distinction\">\n      <div class=\"distinction-card\" style=\"border-top: 3px solid var(--text-muted);\">\n        <div class=\"d-label\" style=\"color: var(--text-muted);\">Personal memory</div>\n        <div class=\"d-example\">\"use tabs not spaces in this project\"</div>\n        <div class=\"d-note\" style=\"color: var(--text-muted);\">CLAUDE.md, Cursor rules, Copilot</div>\n      </div>\n      <div class=\"distinction-card\" style=\"border-top: 3px solid var(--accent-cyan);\">\n        <div class=\"d-label\" style=\"color: var(--accent-cyan);\">Organizational memory</div>\n        <div class=\"d-example\">\"auth was redesigned across 3 repos last month. Here are the trade-offs and what testing revealed.\"</div>\n        <div class=\"d-note\" style=\"color: var(--accent-cyan);\">corvia</div>\n      </div>\n    </div>\n\n    <div class=\"footer\">\n      <span>Lim Chun Zhe</span>\n      <span>2 / 10</span>\n    </div>\n  </div>\n</div>",
+  "source_version": "marketing/linkedin/2026-03-29-recursive-loop-reflection/recursive-loop-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.030050007Z",
+  "valid_from": "2026-03-31T13:51:39.030050007Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-29-recursive-loop-reflection/recursive-loop-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 650,
+    "end_line": 683,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82b-7733-b219-ab5b051caa95",
+  "content": "emporal\".parse::<CheckType>().unwrap(), CheckType::TemporalContradiction);\n        assert_eq!(\"coverage_gap\".parse::<CheckType>().unwrap(), CheckType::CoverageGap);\n        assert_eq!(\"coverage\".parse::<CheckType>().unwrap(), CheckType::CoverageGap);\n    }\nfn test_new_check_types_as_str() {\n        assert_eq!(CheckType::MisplacedDoc.as_str(), \"misplaced_doc\");\n        assert_eq!(CheckType::TemporalContradiction.as_str(), \"temporal_contradiction\");\n        assert_eq!(CheckType::CoverageGap.as_str(), \"coverage_gap\");\n    }",
+  "source_version": "crates/corvia-kernel/src/reasoner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.435731083Z",
+  "valid_from": "2026-03-31T13:20:59.435731083Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/reasoner.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1509,
+    "end_line": 1513,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

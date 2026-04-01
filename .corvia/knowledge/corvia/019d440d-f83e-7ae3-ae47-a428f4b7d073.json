@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83e-7ae3-ae47-a428f4b7d073",
+  "content": "### Task 1: Create `corvia-telemetry` crate with `TelemetryConfig`\n\n-**Step 2: Add workspace deps and member for telemetry crate**\n\nIn workspace `Cargo.toml`, add to `[workspace.members]`:\n```toml\n\"crates/corvia-telemetry\"\n```\n\nAdd to `[workspace.dependencies]`:\n```toml\ncorvia-telemetry = { path = \"crates/corvia-telemetry\" }\ntracing-appender = \"0.2\"\n```\n\nAlso update the existing `tracing-subscriber` workspace dep to include required features:\n```toml\ntracing-subscriber = { version = \"0.3\", features = [\"env-filter\", \"json\", \"fmt\"] }\n```\n(It currently only has `env-filter`; add `json` and `fmt`.)\n\n-**Step 3: Create `crates/corvia-telemetry/Cargo.toml`**\n\n```toml\n[package]\nname = \"corvia-telemetry\"\nversion = \"0.1.0\"\nedition = \"2021\"\n\n[dependencies]\ncorvia-common = { workspace = true }\ntracing.workspace = true\ntracing-subscriber = { workspace = true, features = [\"env-filter\", \"json\", \"fmt\"] }\ntracing-appender = { workspace = true }\nanyhow.workspace = true\n```\n\n-**Step 4: Create `crates/corvia-telemetry/src/lib.rs`**\n\n```rust\nuse corvia_common::config::TelemetryConfig;\n\n/// Span name constants matching the D45 observability contract.\n/// Leaf crates import these; they use `tracing` directly for `#[instrument]`.\npub mod spans {\n    pub const AGENT_REGISTER: &str = \"corvia.agent.register\";\n    pub const SESSION_CREATE: &str = \"corvia.session.create\";\n    pub const ENTRY_WRITE: &str = \"corvia.entry.write\";\n    pub const ENTRY_EMBED: &str = \"corvia.entry.embed\";\n    pub const ENTRY_INSERT: &str = \"corvia.entry.insert\";\n    pub const SESSION_COMMIT: &str = \"corvia.session.commit\";\n    pub const MERGE_PROCESS: &str = \"corvia.merge.process\";\n    pub const MERGE_CONFLICT: &str = \"corvia.merge.conflict\";\n    pub const MERGE_LLM_RESOLVE: &str = \"corvia.merge.llm_resolve\";\n    pub const GC_RUN: &str = \"corvia.gc.run\";\n    pub const SEARCH: &str = \"corvia.search\";\n    pub const STORE_INSERT: &str = \"corvia.store.insert\";\n    pub const STORE_SEARCH: &str = \"corvia.store.search\";",
+  "source_version": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.454731486Z",
+  "valid_from": "2026-03-31T13:20:59.454731486Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 105,
+    "end_line": 160,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

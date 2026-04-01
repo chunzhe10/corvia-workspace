@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f834-7df0-9fec-2128ce54d463",
+  "content": ".g. CJK, emoji).\n            let mut end = MAX_EMBED_CHARS;\n            while end > 0 && !text.is_char_boundary(end) {\n                end -= 1;\n            }\n            text[..end].to_string()\n        } else {\n            text.to_string()\n        }\n    }\nimpl super::traits::InferenceEngine for GrpcInferenceEngine {\n    #[tracing::instrument(name = \"corvia.entry.embed\", skip(self, text))]\n    async fn embed(&self, text: &str) -> Result<Vec<f32>> {\n        let mut client = self.connect().await?;\n        let mut request = tonic::Request::new(EmbedRequest {\n            model: self.model.clone(),\n            text: Self::truncate(text),\n        });\n        let cx = tracing::Span::current().context();\n        global::get_text_map_propagator(|propagator| {\n            propagator.inject_context(&cx, &mut MetadataInjector(request.metadata_mut()));\n        });\n        let response = client.embed(request).await\n            .map_err(|e| CorviaError::Embedding(format!(\"gRPC Embed failed: {e}\")))?;\n        Ok(response.into_inner().embedding)\n    }\n\n    #[tracing::instrument(name = \"corvia.entry.embed_batch\", skip(self, texts), fields(batch_size = texts.len()))]\n    async fn embed_batch(&self, texts: &[String]) -> Result<Vec<Vec<f32>>> {\n        let mut client = self.connect().await?;\n        let mut request = tonic::Request::new(EmbedBatchRequest {\n            model: self.model.clone(),\n            texts: texts.iter().map(|t| Self::truncate(t)).collect(),\n        });\n        let cx = tracing::Span::current().context();\n        global::get_text_map_propagator(|propagator| {\n            propagator.inject_context(&cx, &mut MetadataInjector(request.metadata_mut()));\n        });\n        let response = client.embed_batch(request).await\n            .map_err(|e| CorviaError::Embedding(format!(\"gRPC EmbedBatch failed: {e}\")))?;\n        let mut embeddings: Vec<_> = response.into_inner().embeddings;\n        embeddings.sort_by_key(|e| e.index);\n        Ok(embeddings.into_iter().map(|e| e.values).collect())\n    }\n\n    fn dimensions(&self) -> usize {\n        self.dimensions\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/grpc_engine.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.444176902Z",
+  "valid_from": "2026-03-31T13:20:59.444176902Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/grpc_engine.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 56,
+    "end_line": 94,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

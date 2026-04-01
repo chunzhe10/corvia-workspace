@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9b2c8c17558f",
+  "content": "## Proposed Control Tools — Tiered Safety Model\n\n### Tier 1: Read-only (auto-approved)\n\n| Tool | Purpose | Notes |\n|------|---------|-------|\n| `corvia_config_get` | Read any config section | Returns current `corvia.toml` values as structured JSON |\n| `corvia_status` | System health + metrics | Entry counts, index size, active sessions, merge queue depth |\n| `corvia_adapters_list` | Discovered adapters | Already exists as CLI `adapters list` |\n| `corvia_agents_list` | Registered agents + sessions | Already exists as CLI `agent list` |\n| `corvia_merge_queue` | Inspect pending merges | New — exposes merge queue state |\n\n\n### Tier 2: Low-risk mutation (single confirmation via Elicitation)\n\n| Tool | Purpose | Notes |\n|------|---------|-------|\n| `corvia_config_set` | Update a config value | Validates schema, writes TOML, triggers hot-reload |\n| `corvia_gc_run` | Trigger garbage collection | Runs GC sweep on demand, returns cleanup report |\n| `corvia_rebuild_index` | Rebuild HNSW from knowledge files | Async via Tasks primitive |\n| `corvia_adapter_reload` | Re-discover adapters from PATH | Refresh adapter registry |\n",
+  "source_version": "docs/rfcs/2026-03-04-m4-control-plane-research.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464115846Z",
+  "valid_from": "2026-03-31T13:20:59.464115846Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-04-m4-control-plane-research.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 87,
+    "end_line": 105,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

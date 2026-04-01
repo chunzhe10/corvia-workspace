@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82e-71f3-920f-8f7ec0447209",
+  "content": "  match resp {\n            AdapterResponse::Error { error } => {\n                assert_eq!(error.code, \"PARSE_FAILED\");\n                assert_eq!(error.file, Some(\"bad.rs\".into()));\n            }\n            _ => panic!(\"expected Error\"),\n        }\n    }\nfn test_python_adapter_metadata_compat() {\n        let json = r#\"{\"name\":\"basic\",\"version\":\"0.1.0\",\"domain\":\"filesystem\",\"protocol_version\":1,\"description\":\"Basic filesystem adapter\",\"supported_extensions\":[\"rs\",\"py\"],\"chunking_extensions\":[]}\"#;\n        let meta: AdapterMetadata = serde_json::from_str(json).unwrap();\n        assert_eq!(meta.name, \"basic\");\n        assert!(meta.chunking_extensions.is_empty());\n    }",
+  "source_version": "crates/corvia-kernel/src/adapter_protocol.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.438175221Z",
+  "valid_from": "2026-03-31T13:20:59.438175221Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/adapter_protocol.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 190,
+    "end_line": 195,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

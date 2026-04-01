@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f828-7a92-a1a8-d6d830b22caa",
+  "content": "er-scope\".to_string(),\n            \"v1\".to_string(),\n        );\n        hot.embedding = Some(vec![1.0, 0.1, 0.0]);\n        hot.tier = Tier::Hot;\n        store.insert(&hot).await.unwrap();\n\n        // Warm entry with same embedding (same cosine similarity).\n        let mut warm = KnowledgeEntry::new(\n            \"warm entry\".to_string(),\n            \"tier-scope\".to_string(),\n            \"v1\".to_string(),\n        );\n        warm.embedding = Some(vec![1.0, 0.002, 0.0]);\n        warm.tier = Tier::Warm;\n        store.insert(&warm).await.unwrap();\n\n        let retriever = VectorRetriever::new(store.clone() as Arc<dyn QueryableStore>, engine);\n        let opts = RetrievalOpts {\n            limit: 20,\n            visibility: VisibilityMode::All,\n            ..Default::default()\n        };\n        let result = retriever.retrieve(\"test\", \"tier-scope\", &opts).await.unwrap();\n\n        let hot_pos = result.results.iter().position(|r| r.entry.content == \"hot entry\");\n        let warm_pos = result.results.iter().position(|r| r.entry.content == \"warm entry\");\n\n        assert!(hot_pos.is_some(), \"hot entry should be in results\");\n        assert!(warm_pos.is_some(), \"warm entry should be in results\");\n        assert!(\n            hot_pos.unwrap() < warm_pos.unwrap(),\n            \"hot entry (weight=1.0) should rank above warm entry (weight=0.7)\"\n        );\n\n        // Verify warm entry's score is lower.\n        let hot_score = result.results[hot_pos.unwrap()].score;\n        let warm_score = result.results[warm_pos.unwrap()].score;\n        assert!(\n            hot_score > warm_score,\n            \"hot score ({hot_score}) should be > warm score ({warm_score})\"\n        );\n    }",
+  "source_version": "crates/corvia-kernel/src/retriever.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.432587855Z",
+  "valid_from": "2026-03-31T13:20:59.432587855Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/retriever.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1625,
+    "end_line": 1659,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

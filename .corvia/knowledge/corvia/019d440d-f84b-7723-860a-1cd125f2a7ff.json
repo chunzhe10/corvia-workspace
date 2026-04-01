@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84b-7723-860a-1cd125f2a7ff",
+  "content": "### Session State Machine\n\n## Storage Tiers\n\ncorvia has two storage backends that implement the same kernel traits. The **two-tier storage**\ndesign exists because requiring Docker for a dev tool kills adoption — but PostgreSQL is the\nstandard in production environments. Both tiers implement the same traits: LiteStore is the full\nproduct with zero external dependencies, while PostgresStore is an opt-in upgrade for users\nwho need production-grade PostgreSQL capabilities.\n",
+  "source_version": "ARCHITECTURE.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.467550904Z",
+  "valid_from": "2026-03-31T13:20:59.467550904Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "ARCHITECTURE.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 100,
+    "end_line": 107,
+    "content_role": null,
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

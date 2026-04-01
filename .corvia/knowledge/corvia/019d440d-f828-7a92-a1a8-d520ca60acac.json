@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f828-7a92-a1a8-d520ca60acac",
+  "content": "        let mut idx: usize = 0;\n        let mut next_emb = || {\n            idx += 1;\n            vec![1.0, idx as f32 * 0.1, 0.0]\n        };\n        for i in 0..10 {\n            let mut entry = KnowledgeEntry::new(\n                format!(\"hot item {i}\"),\n                \"scope-graph-cold\".to_string(),\n                \"v1\".to_string(),\n            );\n            entry.embedding = Some(next_emb());\n            queryable.insert(&entry).await.unwrap();\n        }\n\n        // Insert a Cold entry with high similarity.\n        let mut cold_entry = KnowledgeEntry::new(\n            \"cold via graph retriever\".to_string(),\n            \"scope-graph-cold\".to_string(),\n            \"v1\".to_string(),\n        );\n        cold_entry.embedding = Some(vec![1.0, 0.0, 0.0]);\n        cold_entry.tier = Tier::Cold;\n        queryable.insert(&cold_entry).await.unwrap();\n\n        let alpha = 0.3;\n        let retriever = GraphExpandRetriever::new(queryable, engine, graph, alpha);\n\n        // Test with include_cold=true — entry is found (may be via HNSW since insert\n        // adds to HNSW regardless of tier; cold_results may be 0 after dedup).\n        let opts = RetrievalOpts {\n            limit: 15,\n            expand_graph: true,\n            graph_depth: 1,\n            include_cold: true,\n            visibility: VisibilityMode::All,\n            ..Default::default()\n        };\n        let result = retriever.retrieve(\"test\", \"scope-graph-cold\", &opts).await.unwrap();\n\n        let cold_hit = result.results.iter().find(|r| r.entry.content == \"cold via graph retriever\");\n        assert!(cold_hit.is_some(), \"cold entry should be in graph retriever results\");\n\n        // Test with include_cold=false — entry still found (it's in HNSW).\n        let opts_no_cold = RetrievalOpts {",
+  "source_version": "crates/corvia-kernel/src/retriever.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.432350633Z",
+  "valid_from": "2026-03-31T13:20:59.432350633Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/retriever.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 1997,
+    "end_line": 2033,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

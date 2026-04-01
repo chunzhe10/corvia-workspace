@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-cac8c246be06",
+  "content": "# corvia-adapter-agent-teams: Design Exploration\n\n## 1. What This Is\n\nA corvia adapter that ingests Claude Code Agent Teams artifacts into persistent,\nsearchable organizational memory. When a team shuts down, its coordination state\n(tasks, messages, decisions, findings) would otherwise be deleted. This adapter\ncaptures it before cleanup.\n\n\n## 2. Data Sources\n\nAgent Teams store state in two directories:\n\n```\n~/.claude/teams/{team-name}/\n  config.json                    # Team members, roles, agent IDs, agent types\n  inboxes/{agent-name}.json      # Mailbox messages (JSON arrays)\n\n~/.claude/tasks/{team-name}/\n  {task-id}.json                 # Individual tasks with status, owner, deps\n```\n\nAll of this is deleted when the lead runs cleanup.\n",
+  "source_version": "decisions/2026-03-28-adapter-agent-teams-exploration.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025482833Z",
+  "valid_from": "2026-03-31T13:51:39.025482833Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-adapter-agent-teams-exploration.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 8,
+    "end_line": 29,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

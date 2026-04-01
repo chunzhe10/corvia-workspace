@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-7950c209d5d4",
+  "content": "::Merged;\n        store.insert(&e2).await.unwrap();\n\n        // Filler for HNSW connectivity\n        for i in 0..8 {\n            let mut f = KnowledgeEntry::new(format!(\"filler-{i}\"), \"proj\".into(), \"v1\".into())\n                .with_embedding(next_emb());\n            f.entry_status = EntryStatus::Merged;\n            store.insert(&f).await.unwrap();\n        }\n\n        let retriever = VectorRetriever::new(store, engine);\n        assert_eq!(retriever.name(), \"vector\");\n\n        let opts = RetrievalOpts { limit: 5, ..Default::default() };\n        let result = retriever.retrieve(\"test query\", \"proj\", &opts).await.unwrap();\n\n        assert!(result.results.len() >= 2, \"Expected at least 2 results, got {}\", result.results.len());\n        assert_eq!(result.metrics.retriever_name, \"vector\");\n        assert_eq!(result.metrics.graph_expanded, 0);\n        assert!(result.metrics.latency_ms < 5000); // sanity check\n    }\n\n    #[tokio::test]\n    async fn test_vector_retriever_rbac_filtering() {\n        let dir = tempfile::tempdir().unwrap();\n        let store = Arc::new(LiteStore::open(dir.path(), 3).unwrap()) as Arc<dyn QueryableStore>;\n        let engine = Arc::new(MockEngine) as Arc<dyn InferenceEngine>;\n        store.init_schema().await.unwrap();\n\n        let mut e = KnowledgeEntry::new(\"secret\".into(), \"scope-a\".into(), \"v1\".into())\n            .with_embedding(vec![1.0, 0.0, 0.0]);\n        e.entry_status = EntryStatus::Merged;\n        store.insert(&e).await.unwrap();\n\n        let retriever = VectorRetriever::new(store, engine);\n        let opts = RetrievalOpts {\n            limit: 10,\n            permissions: Some(AgentPermission::ReadWrite { scopes: vec![\"scope-b\".into()] }),\n            ..Default::default()\n        };\n\n        // Agent only has access to scope-b, searching scope-a should return empty\n        let result = retriever.retrieve(\"query\", \"scope-a\", &opts).await.unwrap();\n        assert_eq!(result.results.len(), 0);\n    }\n",
+  "source_version": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461810905Z",
+  "valid_from": "2026-03-31T13:20:59.461810905Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 527,
+    "end_line": 566,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

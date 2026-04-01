@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f823-7d80-90e7-30393408ca9c",
+  "content": "fn test_visibility_mode_default() {\n        let mode = VisibilityMode::default();\n        assert_eq!(mode, VisibilityMode::Own);\n    }\nfn test_session_record_serialization() {\n        let record = SessionRecord {\n            session_id: \"test::agent/sess-12345678\".into(),\n            agent_id: \"test::agent\".into(),\n            created_at: chrono::Utc::now(),\n            last_heartbeat: chrono::Utc::now(),\n            state: SessionState::Active,\n            git_branch: Some(\"test-agent/sess-12345678\".into()),\n            staging_dir: Some(\".corvia/staging/test-agent\".into()),\n            entries_written: 0,\n            entries_merged: 0,\n        };\n        let json = serde_json::to_string(&record).unwrap();\n        let deser: SessionRecord = serde_json::from_str(&json).unwrap();\n        assert_eq!(record.session_id, deser.session_id);\n    }",
+  "source_version": "crates/corvia-common/src/agent_types.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.427621596Z",
+  "valid_from": "2026-03-31T13:20:59.427621596Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/agent_types.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 345,
+    "end_line": 360,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

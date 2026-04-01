@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-a077b35ed2d3",
+  "content": "imator),\n        ChunkingConfig::default(),\n    );\n    let files = vec![\n        SourceFile {\n            content: \"File one\".into(),\n            metadata: SourceMetadata {\n                file_path: \"a.txt\".into(),\n                extension: \"txt\".into(),\n                language: None,\n                scope_id: \"test\".into(),\n                source_version: \"abc\".into(),\n            },\n        },\n        SourceFile {\n            content: \"File two\".into(),\n            metadata: SourceMetadata {\n                file_path: \"b.txt\".into(),\n                extension: \"txt\".into(),\n                language: None,\n                scope_id: \"test\".into(),\n                source_version: \"abc\".into(),\n            },\n        },\n    ];\n    let (chunks, report) = pipeline.process_batch(&files).unwrap();\n    assert_eq!(chunks.len(), 2);\n    assert_eq!(report.files_processed, 2);\n    assert_eq!(report.total_chunks, 2);\n}\n```\n\n**Step 3: Run tests, commit**\n\nRun: `cargo test -p corvia-kernel chunking_pipeline`\nExpected: PASS (6 tests: 4 FormatRegistry + 2 pipeline)\n\n```bash\ngit add crates/corvia-kernel/src/chunking_pipeline.rs\ngit commit -m \"feat(kernel): add ChunkingPipeline 6-step orchestrator (D65)\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464874537Z",
+  "valid_from": "2026-03-31T13:20:59.464874537Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1597,
+    "end_line": 1631,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

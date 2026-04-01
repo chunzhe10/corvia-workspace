@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-8fad785425c5",
+  "content": "## Summary\n## Motivation\n\n## Architecture\n\n```\n┌──────────────────────────────────────────────────────────┐\n│                    ChunkingPipeline                       │\n│                   (kernel orchestrator)                    │\n│                                                           │\n│  1. Format detect → route to strategy                     │\n│  2. strategy.chunk() → raw chunks                         │\n│  3. strategy.merge_small() OR kernel default merge        │\n│  4. Token budget check                                    │\n│  5. strategy.split_oversized() for budget violations      │\n│  6. strategy.overlap_context() between final chunks       │\n│  7. Emit metrics → return Vec<ProcessedChunk>             │\n└───────────────┬─────────────────────────────────────┬─────┘\n                │                                     │\n     ┌──────────▼──────────┐             ┌────────────▼────────┐\n     │  ChunkingStrategy   │             │   FormatRegistry     │\n     │     (trait)          │             │                      │\n     │                      │             │  .rs  → AstChunker   │\n     │  chunk()             │             │  .md  → MarkdownChkr │\n     │  split_oversized()   │  ◄───────  │  .toml → ConfigChkr  │\n     │  merge_small()       │   selects  │  .pdf → PdfChunker   │\n     │  overlap_context()   │             │  *   → FallbackChkr  │\n     └─────────────────────┘             └──────────────────────┘\n```\n",
+  "source_version": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465481698Z",
+  "valid_from": "2026-03-31T13:20:59.465481698Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 24,
+    "end_line": 50,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f836-7610-b605-be03ce2d7114",
+  "content": "aph edges pointing to this entry.\n    pub inbound_edges: u32,\n    /// Confidence score in `[0.0, 1.0]`. `None` defaults to 0.7.\n    pub confidence: Option<f32>,\n    /// Whether this entry has been superseded by a newer entry.\n    pub is_superseded: bool,\n}\nimpl Default for RetentionParams {\n    fn default() -> Self {\n        Self {\n            memory_type: MemoryType::default(),\n            days_since_creation: 0.0,\n            access_count: 0,\n            days_since_access: None,\n            inbound_edges: 0,\n            confidence: None,\n            is_superseded: false,\n        }\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/scoring.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.446365182Z",
+  "valid_from": "2026-03-31T13:20:59.446365182Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/scoring.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 85,
+    "end_line": 97,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

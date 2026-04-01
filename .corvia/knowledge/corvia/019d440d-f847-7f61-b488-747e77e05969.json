@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-747e77e05969",
+  "content": "## Architecture\n\n### Product Matrix\n\n|                  | LiteStore (default)        | FullStore (opt-in)                  |\n|------------------|----------------------------|-------------------------------------|\n| Store            | HNSW + Redb + Git          | SurrealDB + Git                     |\n| Inference        | corvia-inference (gRPC)    | vLLM (gRPC) or corvia-inference     |\n| Chat (merge)     | corvia-inference (gRPC)    | vLLM/Ollama or corvia-inference     |\n| Prerequisites    | None                       | Docker + SurrealDB                  |\n| Zero-Docker      | Yes, truly                 | No (by design)                      |\n\n\n### Three Inference Backends\n\n| Backend            | Protocol | Default for | Best when                                    | Dependencies         |\n|--------------------|----------|-------------|----------------------------------------------|----------------------|\n| corvia-inference   | gRPC     | LiteStore   | Zero-dependency, single-machine, dev/teams   | None (auto-starts)   |\n| vLLM               | gRPC     | FullStore   | Scale, multi-GPU, production inference       | Python + CUDA        |\n| Ollama             | HTTP     | (opt-in)    | Already have Ollama, share GPU across apps   | Ollama binary        |\n\n**Protocol principle:** gRPC everywhere. HTTP only for legacy Ollama compatibility.\n",
+  "source_version": "docs/rfcs/2026-03-02-grpc-inference-server-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463884691Z",
+  "valid_from": "2026-03-31T13:20:59.463884691Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-grpc-inference-server-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 32,
+    "end_line": 51,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

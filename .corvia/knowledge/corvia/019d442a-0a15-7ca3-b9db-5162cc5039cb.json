@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a15-7ca3-b9db-5162cc5039cb",
+  "content": "x {\n    background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.25);\n    border-radius: 16px; padding: 24px 28px; margin: 16px 0;\n  }\n  .warning-box p { font-size: 20px; font-weight: 500; color: var(--accent-amber); line-height: 1.5; }\n  .divider { height: 1px; background: var(--border); margin: 28px 0; }\n  .flex-grow { flex: 1; }\n  .cover-center { flex: 1; display: flex; flex-direction: column; justify-content: center; }\n  .cover-tags { margin-top: 40px; display: flex; flex-wrap: wrap; gap: 12px; }\n  .cover-tags .tag {\n    display: inline-block; padding: 10px 20px; border-radius: 20px;\n    font-size: 16px; font-weight: 600;\n    background: rgba(59, 130, 246, 0.15); color: var(--accent-blue);\n  }\n\n  .stat-box {\n    background: var(--bg-card); border: 1px solid var(--border);\n    border-radius: 16px; padding: 28px; text-align: center;\n  }\n\n  /* Evolution arrow flow */\n  .evo-step {\n    background: var(--bg-card); border: 1px solid var(--border);\n    border-radius: 16px; padding: 24px 28px;\n  }\n  .evo-arrow {\n    font-size: 28px; color: var(--text-muted); text-align: center;\n    padding: 8px 0;\n  }\n</style>\n</head>\n<body>\n\n<!-- SLIDE 1: COVER -->\n<div class=\"slide\" style=\"background: linear-gradient(160deg, #0f172a 0%, #1a1a3e 50%, #0f172a 100%);\">\n  <div class=\"slide-label\">A Developer's Discovery</div>\n  <div class=\"cover-center\">\n    <div style=\"font-size: 72px; margin-bottom: 32px;\">&#9989;</div>\n    <div class=\"slide-title\" style=\"font-size: 58px; line-height: 1.12;\">\n      I Run Every Commit<br>\n      Through 5 AI Reviewers.<br>\n      <span class=\"highlight\">Here's What They Caught.</span>\n    </div>\n    <div class=\"slide-subtitle\" style=\"font-size: 22px;\">\n      How a solo developer iterated from \"review this\" to<br>\n      five independent AI personas catching real bugs<br>\n      before they ship.\n    </div>\n    <div class=\"cover-tags\">\n      <span class=\"tag\">Claude Code</span>\n      <span class=\"tag\">Subagents</span>\n      <span class=\"tag\">Code Review</span>\n      <span class=\"tag\">Solo Dev</span>\n      <span class=\"tag\">Rust</span>\n    </div>\n  </div>\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">01 / 09</div>\n</div>",
+  "source_version": "marketing/linkedin/2026-03-27-five-persona-review/five-persona-review-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.029241409Z",
+  "valid_from": "2026-03-31T13:51:39.029241409Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-27-five-persona-review/five-persona-review-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 112,
+    "end_line": 165,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

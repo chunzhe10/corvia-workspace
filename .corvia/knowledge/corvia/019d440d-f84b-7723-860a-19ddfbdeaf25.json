@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84b-7723-860a-19ddfbdeaf25",
+  "content": "// Verify entry count is positive (not just present)\n    let count = status[\"entry_count\"].as_u64()\n        .or_else(|| status[\"entries\"].as_u64())\n        .unwrap_or(0);\n    assert!(count >= 1, \"System status entry count should be >= 1, got: {status}\");\n}\nasync fn test_config_get() {\n    skip_if_unavailable!();\n    let env = get_or_init_env().await;\n\n    let result = mcp_call(\n        env, \"corvia_config_get\",\n        json!({\"section\": \"server\"}), \"e2e-config-agent\",\n    ).await;\n\n    let text = result[\"result\"][\"content\"][0][\"text\"].as_str().unwrap_or(\"\");\n    let config: Value = serde_json::from_str(text).unwrap_or(json!({}));\n\n    // Verify the patched port is returned (confirms real config is loaded)\n    let port = config[\"port\"].as_u64().unwrap_or(0);\n    assert_eq!(port, API_PORT as u64, \"Config port should match patched value: {config}\");\n}",
+  "source_version": "tests/integration/docker_mcp_e2e_test.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.467262451Z",
+  "valid_from": "2026-03-31T13:20:59.467262451Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "tests/integration/docker_mcp_e2e_test.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 571,
+    "end_line": 586,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

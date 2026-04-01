@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-8f48ffc6e622",
+  "content": "### Task 12: Pre-Ingest Knowledge and Validate Demo\n\n# Use local overrides since we have the repos locally\n\n# Temporarily point to local paths for ingestion\ngit clone /root/corvia repos/corvia\ngit clone /root/corvia-adapter-git repos/corvia-adapter-git\n```\n\n**Step 2: Run workspace ingest**\n\n```bash\ncd /root/corvia-workspace\ncorvia workspace init\ncorvia workspace ingest\n```\n\nExpected output: entries ingested from both repos, embeddings generated via Ollama.\n\n**Step 3: Validate with searches**\n\n```bash\ncorvia search \"IngestionAdapter\"",
+  "source_version": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465449118Z",
+  "valid_from": "2026-03-31T13:20:59.465449118Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1713,
+    "end_line": 1732,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

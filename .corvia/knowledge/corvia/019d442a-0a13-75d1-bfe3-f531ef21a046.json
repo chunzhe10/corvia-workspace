@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a13-75d1-bfe3-f531ef21a046",
+  "content": "ads in browser**\n\nRun:\n```bash\ncd /workspaces/corvia-workspace && npx http-server -p 8099 -c-1 &\n```\nOpen: `http://localhost:8099/docs/marketing/linkedin/2026-03-14-resolve-linux-setup/resolve-linux-carousel.html`\nExpected: blank dark page (no slides yet)\n\n### Task 2: Build Slide 1 (Cover)\n\n**Files:**\n- Modify: `docs/marketing/linkedin/2026-03-14-resolve-linux-setup/resolve-linux-carousel.html`\n\n- [ ] **Step 1: Add Slide 1 HTML**\n\nAdd after `</style></head><body>`:\n\n```html\n<!-- Slide 1: COVER -->\n<div class=\"slide cover\">\n  <div class=\"slide-label\">A Developer's Discovery</div>\n  <div style=\"font-size: 80px; margin-bottom: 20px;\">🎬</div>\n  <div class=\"film-frame\">\n    <div class=\"cover-title\">\n      I Installed <span class=\"highlight\">DaVinci Resolve</span> on Linux.<br>\n      Here's Every Wall I Hit.\n    </div>\n  </div>\n  <div class=\"slide-subtitle\" style=\"margin-top: 28px;\">\n    Ubuntu 24.04 + Wayland + NVIDIA.<br>With Claude as my copilot.\n  </div>\n  <div class=\"tags\">\n    <span class=\"tag\">Ubuntu 24.04</span>\n    <span class=\"tag\" style=\"background: rgba(245, 158, 11, 0.15); color: var(--accent-amber);\">Wayland</span>\n    <span class=\"tag\" style=\"background: rgba(16, 185, 129, 0.15); color: var(--accent-green);\">NVIDIA</span>\n    <span class=\"tag\" style=\"background: rgba(139, 92, 246, 0.15); color: var(--accent-purple);\">Claude</span>\n    <span class=\"tag\" style=\"background: rgba(239, 68, 68, 0.15); color: var(--accent-red);\">DaVinci Resolve</span>\n  </div>\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">01 / 08</div>\n</div>\n```\n\n- [ ] **Step 2: Visual check via Playwright**\n\nUse Playwright MCP `browser_navigate` to the URL, then `browser_take_screenshot`. Verify:\n- Film frame visible with sprocket holes\n- Title is 68px, readable\n- Tags visible with distinct colors\n- Gradient background visible\n- Author tag and slide number positioned correctly\n",
+  "source_version": "marketing/2026-03-14-resolve-linux-carousel.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.027435266Z",
+  "valid_from": "2026-03-31T13:51:39.027435266Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/2026-03-14-resolve-linux-carousel.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 275,
+    "end_line": 318,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

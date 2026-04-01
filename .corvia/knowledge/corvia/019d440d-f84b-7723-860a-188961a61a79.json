@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84b-7723-860a-188961a61a79",
+  "content": "fn drop(&mut self) {\n        let _ = Command::new(\"docker\")\n            .args([\"rm\", \"-f\", &self.container_name])\n            .output();\n    }\nfn check_prerequisites() -> bool {\n    *E2E_AVAILABLE.get_or_init(|| {\n        if !Command::new(\"docker\")\n            .args([\"info\"])\n            .output()\n            .map(|o| o.status.success())\n            .unwrap_or(false)\n        {\n            eprintln!(\"E2E SKIP: Docker not available\");\n            return false;\n        }\n\n        let image_check = Command::new(\"docker\")\n            .args([\"images\", \"--format\", \"{{.Repository}}:{{.Tag}}\", DOCKER_IMAGE])\n            .output();\n        if !image_check.map(|o| !o.stdout.is_empty()).unwrap_or(false) {\n            eprintln!(\"E2E SKIP: Docker image {DOCKER_IMAGE} not found\");\n            return false;\n        }\n\n        let workspace = workspace_root();\n        let corvia_bin = workspace.join(\"repos/corvia/target/debug/corvia\");\n        let inference_bin = workspace.join(\"repos/corvia/target/debug/corvia-inference\");\n        if !corvia_bin.exists() || !inference_bin.exists() {\n            eprintln!(\n                \"E2E SKIP: Debug binaries not built (run: cargo build -p corvia-cli -p corvia-inference)\"\n            );\n            return false;\n        }\n\n        if resolve_host_path().is_none() {\n            eprintln!(\"E2E SKIP: Cannot determine host workspace path (not in a devcontainer?)\");\n            return false;\n        }\n\n        true\n    })\n}",
+  "source_version": "tests/integration/docker_mcp_e2e_test.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.467095755Z",
+  "valid_from": "2026-03-31T13:20:59.467095755Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "tests/integration/docker_mcp_e2e_test.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 60,
+    "end_line": 97,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f824-7280-b2ba-aae662c07728",
+  "content": "fn test_is_corvia_hook_rust() {\n        let entry = json!({\n            \"hooks\": [{\"command\": \"corvia hooks run --event SessionStart\"}]\n        });\n        assert!(is_corvia_hook(&entry));\n    }\nfn test_is_not_corvia_hook() {\n        let entry = json!({\n            \"hooks\": [{\"command\": \"bash my-custom-hook.sh\"}]\n        });\n        assert!(!is_corvia_hook(&entry));\n    }",
+  "source_version": "crates/corvia-cli/src/hooks/settings.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.428566773Z",
+  "valid_from": "2026-03-31T13:20:59.428566773Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-cli/src/hooks/settings.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 228,
+    "end_line": 233,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

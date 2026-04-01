@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a15-7ca3-b9db-4ff44c072b8f",
+  "content": "round: rgba(245,158,11,0.45);\"></div>\n        <span>HNSW ~5ms</span>\n      </div>\n      <div style=\"display: flex; align-items: center; gap: 6px;\">\n        <div style=\"width: 12px; height: 12px; border-radius: 3px; background: rgba(245,158,11,0.7);\"></div>\n        <span>Graph expand ~88ms</span>\n      </div>\n      <div style=\"display: flex; align-items: center; gap: 6px;\">\n        <div style=\"width: 12px; height: 12px; border-radius: 3px; background: rgba(245,158,11,0.3);\"></div>\n        <span>Filter ~1ms</span>\n      </div>\n    </div>\n    <div style=\"padding-left: 156px; font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px;\">\n      Graph expansion: 30 vector seeds &rarr; 1,104 neighbors across 11,756 edges. Each neighbor = point lookup + 768-dim cosine.\n    </div>",
+  "source_version": "marketing/linkedin/2026-03-16-embedding-benchmark/embedding-benchmark-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.029020184Z",
+  "valid_from": "2026-03-31T13:51:39.029020184Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-16-embedding-benchmark/embedding-benchmark-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 320,
+    "end_line": 329,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

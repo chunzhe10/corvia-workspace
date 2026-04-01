@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83f-7210-b9e4-0db0c6fad733",
+  "content": "### Task 4: Add dashboard response types in corvia-common\n\nThis is a temporary fix — Task 8 will replace it with actual percentile values.\n\n- **Step 2: Add GC response types**\n\nAdd after `TracesResponse`:\n\n```rust\n/// GC report (mirrors corvia-kernel GcReport)\n#[derive(Debug, Clone, Default, Serialize, Deserialize)]\npub struct GcReportDto {\n    pub orphans_rolled_back: usize,\n    pub duration_ms: u64,\n    pub stale_transitioned: usize,\n    pub closed_sessions_cleaned: usize,\n    pub agents_suspended: usize,\n    pub entries_deduplicated: usize,\n    pub started_at: String,\n}\n\n/// GET /api/dashboard/gc response\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct GcStatusResponse {\n    pub last_run: Option<GcReportDto>,\n    pub history: Vec<GcReportDto>,\n    pub scheduled: bool,\n}\n\n/// Live session entry\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct LiveSession {\n    pub session_id: String,\n    pub agent_id: String,\n    pub agent_name: String,\n    pub state: String,\n    pub started_at: String,\n    pub duration_secs: u64,\n    pub entries_written: u64,\n    pub entries_merged: u64,\n    pub pending_entries: u64,\n    pub git_branch: Option<String>,\n    pub has_staging_dir: bool,\n}\n\n/// Live sessions summary",
+  "source_version": "docs/rfcs/2026-03-14-dashboard-completion-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.455388384Z",
+  "valid_from": "2026-03-31T13:20:59.455388384Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-14-dashboard-completion-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 376,
+    "end_line": 419,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-78ac5fb044a5",
+  "content": "# M3.2 RAG Pipeline Implementation Plan\n\n## Task 1: RAG Types\n\nDefine all shared types used across the pipeline. No logic, just data structures.\n\n**Files:**\n- Create: `crates/corvia-kernel/src/rag_types.rs`\n- Modify: `crates/corvia-kernel/src/lib.rs` (add module declaration)\n\n**Step 1: Write the type definitions**\n\nCreate `crates/corvia-kernel/src/rag_types.rs`:\n\n```rust\nuse corvia_common::agent_types::{AgentPermission, VisibilityMode};\nuse corvia_common::types::SearchResult;\nuse serde::{Deserialize, Serialize};\nuse uuid::Uuid;\n\n/// Options controlling the retrieval stage.\n#[derive(Debug, Clone)]\npub struct RetrievalOpts {\n    /// Maximum number of results to return.\n    pub limit: usize,\n    /// Whether to expand results by following graph edges.\n    pub expand_graph: bool,\n    /// Maximum graph traversal depth (hops).\n    pub graph_depth: usize,\n    /// Visibility mode for entry filtering.\n    pub visibility: VisibilityMode,\n    /// Agent ID for visibility filtering.\n    pub agent_id: Option<String>,\n    /// Agent permissions for RBAC scope filtering.\n    pub permissions: Option<AgentPermission>,\n}\n\nimpl Default for RetrievalOpts {\n    fn default() -> Self {\n        Self {\n            limit: 10,\n            expand_graph: true,\n            graph_depth: 2,\n            visibility: VisibilityMode::All,\n            agent_id: None,\n            permissions: None,\n        }\n    }\n}",
+  "source_version": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461678018Z",
+  "valid_from": "2026-03-31T13:20:59.461678018Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 16,
+    "end_line": 62,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

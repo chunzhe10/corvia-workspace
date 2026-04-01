@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83e-7ae3-ae47-a4d97a338e90",
+  "content": "t_id)\n}\n\n/// Merge queue status snapshot.\n#[derive(Debug, Clone, serde::Serialize)]\npub struct MergeQueueStatus {\n    pub depth: u64,\n    pub entries: Vec<MergeQueueEntry>,\n}\n\npub fn merge_queue_status(\n    coordinator: &AgentCoordinator,\n    limit: usize,\n) -> Result<MergeQueueStatus> {\n    let depth = coordinator.merge_queue.depth()?;\n    let entries = coordinator.merge_queue.list(limit)?;\n    Ok(MergeQueueStatus { depth, entries })\n}\n\n/// Discover available adapters.\npub fn adapters_list(extra_dirs: &[String]) -> Vec<DiscoveredAdapter> {\n    discover_adapters(extra_dirs)\n}\n\n/// Read config as JSON, optionally a specific section.\npub fn config_get(\n    config: &CorviaConfig,\n    section: Option<&str>,\n) -> Result<serde_json::Value> {\n    let full = serde_json::to_value(config)\n        .map_err(|e| CorviaError::Config(format!(\"Failed to serialize config: {e}\")))?;\n\n    match section {\n        None => Ok(full),\n        Some(s) => full.get(s).cloned()\n            .ok_or_else(|| CorviaError::Config(format!(\"Unknown config section: {s}\"))),\n    }\n}\n\n/// Non-hot-reloadable config sections.\nconst STRUCTURAL_SECTIONS: &[&str] = &[\"storage\", \"server\", \"embedding\", \"project\", \"telemetry\"];\n\n/// Write a config value. Returns the updated config.\npub fn config_set(\n    config_path: &std::path::Path,\n    config: &mut CorviaConfig,",
+  "source_version": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.454858309Z",
+  "valid_from": "2026-03-31T13:20:59.454858309Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-m4-observability-control-plane-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 579,
+    "end_line": 611,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

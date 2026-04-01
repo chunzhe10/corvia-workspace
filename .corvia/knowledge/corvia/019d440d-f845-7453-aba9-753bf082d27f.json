@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-753bf082d27f",
+  "content": " '';\n    if (traceMode === 'heat') {\n      var heatScore = (st.count / maxCount) * 0.6 + (st.errors > 0 ? 0.4 : 0);\n      if (heatScore > 0.7) heatCls = ' heat-hot';\n      else if (heatScore > 0.3) heatCls = ' heat-warm';\n      else heatCls = ' heat-cool';\n    }\n\n    // Selected border color\n    var selStyle = selectedModule === id ? 'border-color:var(--' + mod.color + ');' : '';\n\n    html += '<div class=\"tnode' + sel + heatCls + '\" style=\"left:' + mod.pos[0] + '%;top:' + mod.pos[1] + '%;' + selStyle + '\" data-tnode=\"' + id + '\">';\n    html += '<div class=\"tnode-icon\" style=\"background:var(--' + mod.color + '-soft);color:var(--' + mod.color + ');\">' + mod.icon + '</div>';\n    html += '<div class=\"tnode-label\" style=\"color:var(--' + mod.color + ');\">' + esc(mod.label) + '</div>';\n    html += '<div class=\"tnode-stat\">' + formatNum(st.count) + ' ops &middot; ' + st.spanCount + ' spans</div>';\n    html += '<div class=\"tnode-bar\"><div class=\"tnode-bar-fill\" style=\"width:' + barW + '%;background:var(--' + mod.color + ');\"></div></div>';\n    html += '</div>';\n  }\n\n  html += '</div>'; // close graph-canvas\n  html += '</div>'; // close graph-panel\n\n  // Detail panel\n  html += '<div class=\"trace-detail\">';\n  if (!selectedModule) {\n    html += '<div class=\"trace-card\"><div class=\"trace-empty\">Select a module to inspect its telemetry</div></div>';\n  } else {\n    var sm = MODULES[selectedModule];\n    var ss = modStats[selectedModule] || {};\n    var modColor = sm.color;\n\n    // Module summary card\n    html += '<div class=\"trace-card\">';\n    html += '<div class=\"module-hdr\">';\n    html += '<div class=\"module-dot\" style=\"background:var(--' + modColor + ');box-shadow:0 0 6px var(--' + modColor + '-soft);\"></div>';\n    html += '<div><div class=\"module-name\">' + esc(sm.label) + '</div>';\n    html += '<div class=\"module-desc\">' + esc(sm.desc) + '</div></div>';\n    html += '</div>';\n    html += '<div class=\"mini-stats\">';\n    html += miniStat(formatNum(ss.count), 'Total');\n    html += miniStat(formatNum(ss.count_1h), 'Last hour');",
+  "source_version": "docs/rfcs/2026-03-10-telemetry-traces-page.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461321756Z",
+  "valid_from": "2026-03-31T13:20:59.461321756Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-telemetry-traces-page.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 793,
+    "end_line": 827,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

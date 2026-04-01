@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f832-7981-8b9c-45b0182b94dc",
+  "content": "ession.session_id, \"denied\", \"scope-b\", \"v1\", None, None).await;\n        assert!(result.is_err());\n        let err_msg = format!(\"{}\", result.unwrap_err());\n        assert!(err_msg.contains(\"write permission\"), \"Expected RBAC error, got: {err_msg}\");\n    }\nfn test_gc_report_has_enhanced_fields() {\n        let report = GcReport {\n            orphans_rolled_back: 1,\n            duration_ms: 150,\n            stale_transitioned: 2,\n            closed_sessions_cleaned: 3,\n            agents_suspended: 0,\n            entries_deduplicated: 0,\n            started_at: \"2026-03-14T00:00:00Z\".to_string(),\n        };\n        assert_eq!(report.orphans_rolled_back, 1);\n        assert_eq!(report.duration_ms, 150);\n        assert_eq!(report.stale_transitioned, 2);\n        assert_eq!(report.closed_sessions_cleaned, 3);\n        assert_eq!(report.started_at, \"2026-03-14T00:00:00Z\");\n    }",
+  "source_version": "crates/corvia-kernel/src/agent_coordinator.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.442530361Z",
+  "valid_from": "2026-03-31T13:20:59.442530361Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/agent_coordinator.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 718,
+    "end_line": 733,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f826-79c1-b85f-34b75eb4060d",
+  "content": "  let models = self.models.read().await;\n        models\n            .get(name)\n            .map(|e| (Arc::clone(&e.model), e.kv_cache_type, e.flash_attention))\n            .ok_or_else(|| Status::not_found(format!(\"Chat model '{}' not loaded\", name)))\n    }\nstruct GenerateParams {\n    model: Arc<LlamaModel>,\n    prompt: String,\n    temperature: f32,\n    max_tokens: u32,\n    kv_cache_type: KvCacheType,\n    flash_attention: bool,\n}",
+  "source_version": "crates/corvia-inference/src/chat_service.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.430206845Z",
+  "valid_from": "2026-03-31T13:20:59.430206845Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/src/chat_service.rs",
+    "language": "rs",
+    "chunk_type": "struct_item",
+    "start_line": 175,
+    "end_line": 182,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

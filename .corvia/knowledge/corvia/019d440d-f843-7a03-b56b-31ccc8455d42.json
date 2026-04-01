@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f843-7a03-b56b-31ccc8455d42",
+  "content": "``\n\n-**Step 4: Fix ollama_engine.rs logging**\n\n```rust\n// Line 68 — replace:\n// warn!(\"Truncating input from {} to {} chars for embedding\", t.len(), MAX_EMBED_CHARS);\nwarn!(input_len = t.len(), max_len = MAX_EMBED_CHARS, \"embedding_input_truncated\");\n```\n\n-**Step 5: Add #[instrument] to ollama_engine embed_batch**\n\nIn `ollama_engine.rs`, find the `embed_batch` method and add instrumentation. The method should get:\n\n```rust\n#[tracing::instrument(name = \"corvia.entry.embed_batch\", skip(self, texts), fields(batch_size = texts.len()))]\n```\n\n-**Step 6: Fix grpc_engine.rs logging**\n\nIn `grpc_engine.rs` line 38, replace:\n\n```rust\n// warn!(\"Truncating input from {} to {} bytes\", text.len(), MAX_EMBED_CHARS);\nwarn!(input_len = text.len(), max_len = MAX_EMBED_CHARS, \"embedding_input_truncated\");\n```\n\n-**Step 7: Verify it compiles and tests pass**\n\nRun: `cd /workspaces/corvia-workspace/repos/corvia && cargo test -p corvia-kernel -- --nocapture`\nExpected: All tests PASS\n\n-**Step 8: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/lite_store.rs crates/corvia-kernel/src/graph_store.rs crates/corvia-kernel/src/staging.rs crates/corvia-kernel/src/ollama_engine.rs crates/corvia-kernel/src/grpc_engine.rs\ngit commit -m \"refactor(kernel): standardize all logging to structured OTEL fields\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-11-otel-standardization.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.459276194Z",
+  "valid_from": "2026-03-31T13:20:59.459276194Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-otel-standardization.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 967,
+    "end_line": 998,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

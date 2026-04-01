@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81b-7e30-ace5-9d109e925ac9",
+  "content": "d() {\n        loop {\n            let node = cursor.node();\n            if node.is_named() {\n                match node.kind() {\n                    \"import_statement\" => {\n                        extract_js_ts_import(&mut relations, source, &node, chunks);\n                    }\n                    \"class_declaration\" | \"abstract_class_declaration\" => {\n                        extract_js_ts_class_heritage(\n                            &mut relations, source, &node, file_path, chunks,\n                        );\n                    }\n                    \"export_statement\" => {\n                        // Check for exported class: `export class Foo extends Bar {}`\n                        for i in 0..node.child_count() {\n                            if let Some(child) = node.child(i as u32)\n                                && matches!(child.kind(),\n                                    \"class_declaration\" | \"abstract_class_declaration\" | \"class\")\n                            {\n                                extract_js_ts_class_heritage(\n                                    &mut relations, source, &child, file_path, chunks,\n                                );\n                            }\n                        }\n                    }\n                    _ => {}\n                }\n            }\n            if !cursor.goto_next_sibling() {\n                break;\n            }\n        }\n    }\n\n    // Pass 2: Recursive walk for call expressions (catches nested/arrow/method calls)\n    extract_js_ts_calls(&mut relations, source, &root, file_path, chunks);\n\n    relations\n}",
+  "source_version": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.419840785Z",
+  "valid_from": "2026-03-31T13:20:59.419840785Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 625,
+    "end_line": 657,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

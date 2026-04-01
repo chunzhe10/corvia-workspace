@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f828-7a92-a1a8-d8fee2c5033d",
+  "content": "pub fn adapters_list(extra_dirs: &[String]) -> Vec<DiscoveredAdapter> {\n    discover_adapters(extra_dirs)\n}\nfn all_sections() -> Vec<&'static str> {\n    RESTART_REQUIRED_SECTIONS.iter().chain(HOT_RELOADABLE_SECTIONS.iter()).copied().collect()\n}",
+  "source_version": "crates/corvia-kernel/src/ops.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.432834059Z",
+  "valid_from": "2026-03-31T13:20:59.432834059Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ops.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 149,
+    "end_line": 151,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

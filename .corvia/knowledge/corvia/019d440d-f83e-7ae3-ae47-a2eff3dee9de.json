@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83e-7ae3-ae47-a2eff3dee9de",
+  "content": "### Task 2: Model resolution\n\n\n/// A loaded chat model backed by llama.cpp.\nstruct ChatModelEntry {\n    model: Arc<LlamaModel>,\n}\n\n#[derive(Clone)]\npub struct ChatServiceImpl {\n    models: Arc<RwLock<HashMap<String, ChatModelEntry>>>,\n    backend: Arc<llama_cpp_2::llama_backend::LlamaBackend>,\n}\n\nimpl ChatServiceImpl {\n    pub fn new() -> Self {\n        let backend = llama_cpp_2::llama_backend::LlamaBackend::init()\n            .expect(\"Failed to initialize llama.cpp backend\");\n        Self {\n            models: Arc::new(RwLock::new(HashMap::new())),\n            backend: Arc::new(backend),\n        }\n    }\n\n    /// Resolve a short model name to (hf_repo, gguf_filename).\n    pub fn resolve_model(name: &str) -> Result<(String, String), Status> {\n        match name {\n            \"llama3.2\" | \"llama3.2:3b\" => Ok((\n                \"bartowski/Llama-3.2-3B-Instruct-GGUF\".to_string(),\n                \"Llama-3.2-3B-Instruct-Q4_K_M.gguf\".to_string(),\n            )),\n            \"llama3.2:1b\" => Ok((\n                \"bartowski/Llama-3.2-1B-Instruct-GGUF\".to_string(),\n                \"Llama-3.2-1B-Instruct-Q4_K_M.gguf\".to_string(),\n            )),\n            other => Err(Status::not_found(format!(\n                \"Unknown chat model: '{other}'. Available: llama3.2, llama3.2:1b\"\n            ))),\n        }\n    }\n}\n```\n\n**Step 4: Run tests to verify they pass**\n\nRun: `cargo test --package corvia-inference -- tests::test_resolve`\nExpected: 3 tests PASS.\n\n**Step 5: Commit**\n\n```bash\ngit add crates/corvia-inference/src/chat_service.rs\ngit commit -m \"feat(corvia-inference): add chat model name resolution\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-09-chat-inference.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.454549043Z",
+  "valid_from": "2026-03-31T13:20:59.454549043Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-09-chat-inference.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 107,
+    "end_line": 161,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82b-7733-b219-aa9fe127d9ed",
+  "content": "fn test_docs_rules() -> corvia_common::config::DocsRulesConfig {\n        corvia_common::config::DocsRulesConfig {\n            blocked_paths: vec![\"docs/superpowers/*\".into()],\n            repo_docs_pattern: Some(\"docs/\".into()),\n        }\n    }\nfn test_temporal_contradiction_skips_without_embeddings() {\n        let mut e1 = KnowledgeEntry::new(\"auth uses JWT\".into(), \"test\".into(), \"v1\".into());\n        e1.metadata.source_origin = Some(\"repo:backend\".into());\n        let mut e2 = KnowledgeEntry::new(\"auth uses session cookies\".into(), \"test\".into(), \"v2\".into());\n        e2.metadata.source_origin = Some(\"repo:frontend\".into());\n        // No embeddings\n        let findings = check_temporal_contradiction(&[e1, e2], 0.85);\n        assert!(findings.is_empty());\n    }",
+  "source_version": "crates/corvia-kernel/src/reasoner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.435667928Z",
+  "valid_from": "2026-03-31T13:20:59.435667928Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/reasoner.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 1367,
+    "end_line": 1375,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

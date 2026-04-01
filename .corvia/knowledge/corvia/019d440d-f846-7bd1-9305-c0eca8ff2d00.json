@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-c0eca8ff2d00",
+  "content": "### Pre-Ingested vs. Fresh\n### Two Operating Modes\n\n## What the Demo Showcases\n\nBefore M5 (VS Code extension), the demo is CLI-driven:\n\n- `corvia search \"IngestionAdapter\"` → finds trait in kernel + impl in adapter (cross-repo)\n- `corvia search \"how does chunking work\"` → surfaces tree-sitter logic from adapter\n- `corvia workspace status` → shows both repos, entry counts, namespace breakdown\n- `corvia agent list` → agent coordination via REST/MCP\n- Cross-repo knowledge queries that span both namespaces\n\n\n## Implementation Approach (Approach C — Parallel Tracks)\n\n**Keystone**: Define the `[workspace]` config format first — it's the contract both tracks depend on.\n\n**Stream 1 — Workspace CLI** (in `corvia` monorepo):\n1. Parse `[workspace]` section in config\n2. `corvia workspace create` (scaffold + generate config)\n3. `corvia workspace init` (clone repos, set up `.corvia/`)\n4. `corvia workspace add/remove` (config manipulation)\n5. `corvia workspace ingest` (multi-repo ingest with namespace isolation)\n6. `corvia workspace status` (workspace-aware status display)\n7. Adapt existing commands (`ingest`, `search`, `status`) for workspace mode\n\n**Stream 2 — Demo Repo** (`corvia-workspace` repo):\n1. Create repo structure (directory layout, `.gitignore`, README)\n2. Write `corvia.toml` with workspace config for corvia + adapter\n3. Devcontainer: Dockerfile (Corvia + Ollama), lifecycle scripts\n4. Pre-ingest knowledge from both repos\n5. Validate: clone → open devcontainer → search works immediately\n\n**Convergence**: Stream 2 exercises Stream 1's commands as they're delivered. If the demo doesn't work, the CLI isn't done.\n\n---\n\n*Design approved: 2026-03-01*\n*Brainstorm decisions: D46-D52 in `2026-02-27-corvia-v0.2.0-brainstorm.md`*",
+  "source_version": "docs/rfcs/2026-03-01-m2.1-workspace-devcontainer-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462372774Z",
+  "valid_from": "2026-03-31T13:20:59.462372774Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2.1-workspace-devcontainer-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 231,
+    "end_line": 266,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

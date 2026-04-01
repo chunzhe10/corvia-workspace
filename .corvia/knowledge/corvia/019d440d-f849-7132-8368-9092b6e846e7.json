@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-9092b6e846e7",
+  "content": "### OTel Spans\n### Metrics\n\n### Structured Log Events\n\n```\nchunking_started         — INFO, file_path + extension + strategy_name\nchunking_completed       — INFO, chunks_produced + splits + merges + token_stats\nchunking_oversized       — WARN, chunk exceeds budget, triggering split\nchunking_fallback        — WARN, no strategy found, using FallbackChunker\n```\n\n\n### ProcessingReport (returned to caller)\n\n```rust\npub struct ProcessingReport {\n    pub files_processed: usize,\n    pub total_chunks: usize,\n    pub chunks_split: usize,\n    pub chunks_merged: usize,\n    pub token_stats: TokenStats,\n    pub per_strategy: HashMap<String, StrategyStats>,\n}\n\npub struct TokenStats {\n    pub min: usize,\n    pub max: usize,\n    pub mean: usize,\n    pub median: usize,\n}\n\npub struct StrategyStats {\n    pub files: usize,\n    pub chunks: usize,\n    pub splits: usize,\n    pub merges: usize,\n}\n```\n",
+  "source_version": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465584922Z",
+  "valid_from": "2026-03-31T13:20:59.465584922Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 373,
+    "end_line": 408,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

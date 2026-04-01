@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-398fbede94b8",
+  "content": "## Config\n## Server Integration\n\n### New REST endpoints\n\n```\nPOST /v1/context    — context-only mode (R+A)\nPOST /v1/ask        — full RAG mode (R+A+G)\n```\n\nRequest body (shared):\n```json\n{\n  \"query\": \"How does authentication work?\",\n  \"scope_id\": \"project-alpha\",\n  \"limit\": 10,\n  \"expand_graph\": true\n}\n```\n\n\n### New MCP tools\n\n```\ncorvia_context   — context-only (returns assembled context + sources)\ncorvia_ask       — full RAG (returns generated answer + sources + trace)\n```\n",
+  "source_version": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458979466Z",
+  "valid_from": "2026-03-31T13:20:59.458979466Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 367,
+    "end_line": 390,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

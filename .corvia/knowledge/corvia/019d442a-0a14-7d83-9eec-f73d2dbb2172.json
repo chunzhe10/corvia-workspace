@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f73d2dbb2172",
+  "content": "CTION — visual flow chart -->\n<div class=\"slide\">\n  <div class=\"slide-label\">Runtime Detection</div>\n  <div class=\"slide-title\" style=\"margin-bottom: 48px;\">\n    Probe. Resolve. Load.<br>\n    <span class=\"highlight-cyan\">No Config Needed.</span>\n  </div>\n  <!-- Visual flow chart -->\n  <div style=\"display: flex; align-items: flex-start; gap: 12px; margin-bottom: 48px;\">\n    <div class=\"flow-node\">\n      <div class=\"flow-circle\" style=\"background: rgba(6, 182, 212, 0.15); color: var(--accent-cyan);\">&#128269;</div>\n      <div class=\"flow-label highlight-cyan\">Probe</div>\n      <div class=\"flow-desc\">Check nvidia-smi,<br>/dev/dri render nodes,<br>libopenvino.so</div>\n    </div>\n    <div style=\"display: flex; align-items: center; padding-top: 30px;\" class=\"arrow-right\">&#10132;</div>\n    <div class=\"flow-node\">\n      <div class=\"flow-circle\" style=\"background: rgba(59, 130, 246, 0.15); color: var(--accent-blue);\">&#9881;</div>\n      <div class=\"flow-label highlight\">Resolve</div>\n      <div class=\"flow-desc\">Best backend<br>per model type:<br>CUDA → OV → CPU</div>\n    </div>\n    <div style=\"display: flex; align-items: center; padding-top: 30px;\" class=\"arrow-right\">&#10132;</div>\n    <div class=\"flow-node\">\n      <div class=\"flow-circle\" style=\"background: rgba(16, 185, 129, 0.15); color: var(--accent-green);\">&#9889;</div>\n      <div class=\"flow-label highlight-green\">Load</div>\n      <div class=\"flow-desc\">Each model<br>gets its own<br>hardware backend</div>\n    </div>\n    <div style=\"display: flex; align-items: center; padding-top: 30px;\" class=\"arrow-right\">&#10132;</div>\n    <div class=\"flow-node\">\n      <div class=\"flow-circle\" style=\"background: rgba(245, 158, 11, 0.15); color: var(--accent-amber);\">&#128737;</div>\n      <div class=\"flow-label highlight-amber\">Fallback</div>\n      <div class=\"flow-desc\">GPU missing?<br>Use CPU, but<br>log it. No silence.</div>\n    </div>\n  </div>",
+  "source_version": "marketing/linkedin/2026-03-13-dual-gpu-inference/dual-gpu-inference-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028448018Z",
+  "valid_from": "2026-03-31T13:51:39.028448018Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-13-dual-gpu-inference/dual-gpu-inference-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 322,
+    "end_line": 347,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

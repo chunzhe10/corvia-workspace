@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-c92251835abd",
+  "content": "### M3: Temporal + Graph + Reasoning — COMPLETE\n### M4: Observability — COMPLETE (with today's fix)\n\n### M5: VS Code Extension — REVISED → Standalone Dashboard\n**Original plan**: VS Code extension via MCP.\n**Current reality**: Standalone dashboard (Vite+React) at port 8021 already provides:\n- Pipeline flow visualization, agent status, merge queue, RAG traces\n- Interactive knowledge graph, temporal history, activity feed\n- Configuration panel, OTEL span drill-down, GC operations\n- Live session monitoring\n\n**Decision**: M5 is effectively COMPLETE via the standalone dashboard. The VS Code\nextension is a nice-to-have for later but the dashboard delivers the same value.\nThe MCP server is the integration surface — any tool can connect.\n\n\n### M6: Evals & Benchmarks — NOT STARTED → PRIORITY\nThis is the most important remaining milestone. Without evals, we can't prove\nquality claims. Key deliverables:\n1. Retrieval precision/recall benchmarks\n2. Embedding model comparison (nomic vs MiniLM vs alternatives)\n3. RAG pipeline approach comparison\n4. Temporal accuracy tests\n5. Graph connectivity tests\n6. With-vs-without comparison (agent quality with/without corvia)\n7. Cost tracking\n\n**Decision**: Start M6 benchmarks now. Create reproducible benchmark suite.\n",
+  "source_version": "decisions/2026-03-19-milestone-evaluation.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025294512Z",
+  "valid_from": "2026-03-31T13:51:39.025294512Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-19-milestone-evaluation.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 38,
+    "end_line": 62,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

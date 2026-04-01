@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-905d12d6af7c",
+  "content": "### AstChunker (corvia-adapter-git)\n### MarkdownChunker (corvia-kernel)\n\n### ConfigChunker (corvia-kernel)\n\n**Formats:** .toml, .yaml, .yml, .json\n\n- `chunk()`: Top-level key/section chunking. Each `[section]` in TOML, each top-level key in JSON/YAML.\n- `split_oversized()`: Recurse into nested keys.\n- `merge_small()`: Returns None — kernel default.\n- `overlap_context()`: Prepend parent key path.\n\n\n### PdfChunker (corvia-kernel)\n\n**Formats:** .pdf\n\n- `chunk()`: Page-based extraction → paragraph splitting. Adjacent paragraphs on same page merge up to budget.\n- `split_oversized()`: Sentence-level splitting within paragraph.\n- `merge_small()`: Returns None — kernel default.\n- `overlap_context()`: Returns None (domain adapters can override via FormatRegistry).\n\nPDF dependency: pure Rust crate (`pdf-extract` or `lopdf`). Feature-gated if heavy.\n",
+  "source_version": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465562846Z",
+  "valid_from": "2026-03-31T13:20:59.465562846Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.3-embedding-chunking-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 312,
+    "end_line": 331,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

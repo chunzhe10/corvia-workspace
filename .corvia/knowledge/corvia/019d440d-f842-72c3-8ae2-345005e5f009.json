@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-345005e5f009",
+  "content": "### Duplicate edge prevention\n\n## User-Facing Observability\n\nStructural intelligence is only valuable if users and agents can verify it works, debug\nfailures, and leverage the edges in queries.\n",
+  "source_version": "docs/rfcs/2026-03-28-structural-intelligence-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458245420Z",
+  "valid_from": "2026-03-31T13:20:59.458245420Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-structural-intelligence-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 440,
+    "end_line": 444,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

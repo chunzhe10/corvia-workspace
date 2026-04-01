@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83e-7ae3-ae47-a30fa09febf3",
+  "content": "### Task 3: Model loading with hf-hub\n\n        let backend = self.backend.clone();\n        let model = tokio::task::spawn_blocking(move || {\n            let params = llama_cpp_2::model::params::LlamaModelParams::default();\n            LlamaModel::load_from_file(&backend, &path, &params)\n                .map_err(|e| Status::internal(format!(\"GGUF load failed: {e}\")))\n        })\n        .await\n        .map_err(|e| Status::internal(format!(\"Spawn failed: {e}\")))?\n        ?;\n\n        let mut models = self.models.write().await;\n        models.insert(\n            name.to_string(),\n            ChatModelEntry {\n                model: Arc::new(model),\n            },\n        );\n        tracing::info!(model = %name, \"Chat model loaded and ready\");\n        Ok(())\n    }\n```\n\n**Step 2: Verify it compiles**\n\nRun: `cargo check --package corvia-inference`\nExpected: compiles (the existing `ChatService` trait impl will still have stubs, that's OK).\n\n**Step 3: Commit**\n\n```bash\ngit add crates/corvia-inference/src/chat_service.rs\ngit commit -m \"feat(corvia-inference): implement GGUF model download and loading\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-09-chat-inference.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.454573070Z",
+  "valid_from": "2026-03-31T13:20:59.454573070Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-09-chat-inference.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 198,
+    "end_line": 233,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

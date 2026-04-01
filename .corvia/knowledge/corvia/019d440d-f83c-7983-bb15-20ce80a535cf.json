@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-20ce80a535cf",
+  "content": "xpected: PASS (all tests including the TOML parsing tests from Task 4)\n\n**Step 6: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/introspect.rs\ngit commit -m \"feat(kernel): implement Introspect pipeline with check_env, ingest_self, query_self\"\n```\n\n---\n\n### Task 6: Add `corvia test` CLI Subcommand\n\nWire the Introspect pipeline into the CLI as `corvia test`.\n\n**Files:**\n- Modify: `crates/corvia-cli/src/main.rs`\n\n**Step 1: Add the Test and Demo subcommands to the Commands enum**\n\nIn `main.rs`, extend the `Commands` enum:\n\n```rust\n#[derive(Subcommand)]\nenum Commands {\n    /// Initialize Corvia: provision SurrealDB, create config\n    Init,\n\n    /// Start the REST API server\n    Serve,\n\n    /// Ingest a Git repository\n    Ingest {\n        /// Path to the repository to ingest\n        path: String,\n    },\n\n    /// Search ingested knowledge\n    Search {\n        /// The search query\n        query: String,\n\n        /// Maximum number of results\n        #[arg(short, long, default_value = \"5\")]\n        limit: usize,\n    },\n\n    /// Show status of Corvia services\n    Status,\n\n    /// Run Introspect: self-ingest + self-query validation\n    Test {\n        /// Only check environment (Phase 1)\n        #[arg(long)]\n        check_only: bool,\n\n        /// Keep test data after run (skip teardown)\n        #[arg(long)]\n        keep: bool,\n\n        /// CI mode: strict thresholds, JSON-compatible output\n        #[arg(long)]",
+  "source_version": "docs/rfcs/2026-02-28-introspect-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452294389Z",
+  "valid_from": "2026-03-31T13:20:59.452294389Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-introspect-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 751,
+    "end_line": 801,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

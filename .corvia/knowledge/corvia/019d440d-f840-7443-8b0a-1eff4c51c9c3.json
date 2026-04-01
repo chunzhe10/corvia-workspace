@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f840-7443-8b0a-1eff4c51c9c3",
+  "content": "t**\n\n```bash\ncd /workspaces/corvia-workspace/repos/corvia\ngit add crates/corvia-server/src/dashboard/activity.rs crates/corvia-server/src/dashboard/mod.rs\ngit commit -m \"feat(dashboard): activity feed endpoint with semantic grouping and topic filters\"\n```\n\n### Task 14: History Tab Frontend — Activity Feed\n\n**Files:**\n- Modify: `tools/corvia-dashboard/src/components/HistoryView.tsx`\n- Modify: `tools/corvia-dashboard/src/api.ts`\n- Modify: `tools/corvia-dashboard/src/types.ts`\n\n-**Step 1: Add types**\n\nIn `types.ts`:\n\n```typescript\nexport interface ActivityItem {\n  entry_id: string;\n  action: string;\n  title: string;\n  agent_id?: string;\n  agent_name?: string;\n  topic_tags: string[];\n  delta_bytes?: number;\n  recorded_at: string;\n  superseded_id?: string;\n  group_id?: string;\n  group_count?: number;\n}\n\nexport interface ActivityFeedResponse {\n  items: ActivityItem[];\n  total: number;\n  topics: string[];\n}\n```\n\n-**Step 2: Add API function**\n\nIn `api.ts`:\n\n```typescript\nexport async function fetchActivityFeed(params?: {\n  limit?: number; offset?: number; agent?: string; topic?: string;\n}): Promise<ActivityFeedResponse> {\n  const query = new URLSearchParams();\n  if (params?.limit) query.set('limit', String(params.limit));\n  if (params?.offset) query.set('offset', String(params.offset));\n  if (params?.agent) query.set('agent', params.agent);\n  if (params?.topic) query.set('topic', params.topic);",
+  "source_version": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.456692714Z",
+  "valid_from": "2026-03-31T13:20:59.456692714Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-13-dashboard-ux-overhaul-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1829,
+    "end_line": 1874,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

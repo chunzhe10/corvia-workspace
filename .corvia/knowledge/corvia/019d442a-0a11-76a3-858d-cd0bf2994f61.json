@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-cd0bf2994f61",
+  "content": "### What Claude Code Teams Would Give Us (When They Ship Network Support)\n### What We Have Now (Bridge)\n\n### Bridge Architecture\n\n```\nHuman Owner\n    │\n    ├── Assigns issues on GitHub\n    ├── Monitors corvia dashboard\n    └── Starts/stops spokes via CLI\n\nHub Container (corvia server)\n    │\n    ├── Knowledge store (.corvia/)\n    ├── Agent registry (who's active)\n    ├── Dashboard (visibility)\n    ├── Inference server (embeddings)\n    └── MCP endpoint (0.0.0.0:8020, bearer token auth on writes)\n\nSpoke Containers (N independent)\n    │\n    ├── Git repo checkout (own branch)\n    ├── Claude Code instance (pinned version, non-root)\n    ├── .mcp.json -> hub:8020/mcp (with auth token)\n    ├── Credentials (piped at creation, not bind-mounted)\n    ├── Scoped GITHUB_TOKEN (fine-grained PAT)\n    ├── Per-spoke CORVIA_AGENT_ID + CORVIA_SPOKE_TOKEN\n    ├── Resource limits (4GB memory, 512 cpu_shares default)\n    └── Dev-loop running on assigned issue\n```\n\n\n### Migration Path to Claude Code Network Teams\n\nWhen Claude Code ships network-based teams:\n1. Spokes join a team via whatever mechanism Claude Code provides\n2. corvia remains the MCP server every agent talks to (unchanged)\n3. The agent-teams adapter (already designed) captures team coordination artifacts\n4. Knowledge pooling continues to work exactly as before\n5. Team-level messaging supplements (not replaces) knowledge-based coordination\n\n**Key principle:** corvia is infrastructure, not orchestration. Don't build what\nClaude Code will build. Build what they won't: persistent organizational memory\nacross teams, sessions, and time.\n\n---\n",
+  "source_version": "decisions/2026-03-28-multi-spoke-workspace-brainstorm.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025703197Z",
+  "valid_from": "2026-03-31T13:51:39.025703197Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-multi-spoke-workspace-brainstorm.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 294,
+    "end_line": 337,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

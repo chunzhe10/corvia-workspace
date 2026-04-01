@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f844-7ba0-9961-491170c7b3cd",
+  "content": "### Problem\n### Solution\n\n### Design Points\n\n1. **Conditional** — when `OTEL_EXPORTER_OTLP_ENDPOINT` is unset, the layer is a\n   no-op. No trace context fields appear. Zero overhead.\n\n2. **Separate from RAG trace_id** — the RAG pipeline's `trace_id: Uuid::now_v7()` is\n   a business-logic correlation ID. Both coexist without conflict.\n\n3. **New file** — `crates/corvia-telemetry/src/otel_context_layer.rs` (~120 lines).\n   Existing `lib.rs` requires a refactor of `init_telemetry()`: the current code\n   uses `.boxed()` layers with a match on `config.exporter` for stdout vs file.\n   The refactor restructures composition so the OTEL layer is composed before the\n   fmt layer, with `OtelContextLayer` inserted between them. All code paths\n   (stdout, file, no-exporter) must be updated. This is more than \"one extra `.with()`\"\n   — expect ~40 lines changed in `lib.rs`.\n\n4. **Implementation mechanism** — reads `tracing_opentelemetry::OtelData` from span\n   extensions to extract `SpanContext`. Stores extracted IDs as a custom `OtelFields`\n   struct in extensions. A custom `FormatEvent` wrapper reads these when formatting.\n\n5. **No new dependencies** — uses `tracing`, `tracing-subscriber`, `tracing-opentelemetry`,\n   and `opentelemetry` already in the dependency tree.\n\n6. **Tests** — unit tests with a mock subscriber verifying trace_id/span_id appear in\n   JSON output when OTEL is configured, and are absent when it's not.\n\n\n### Dashboard Consumption\n\n`traces.rs` parser gains 3 new fields on `ParsedTrace::Span`: `trace_id: Option<String>`,\n`span_id: Option<String>`, `parent_span_id: Option<String>`. These are `Option` because\nlog lines predating the `OtelContextLayer` (or emitted without OTEL) will not have them.\nThe parser handles both formats gracefully. The Span Drill-Down UI uses these to build\nparent-child trees when present.\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-13-dashboard-completion-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.460191083Z",
+  "valid_from": "2026-03-31T13:20:59.460191083Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-13-dashboard-completion-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 52,
+    "end_line": 87,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

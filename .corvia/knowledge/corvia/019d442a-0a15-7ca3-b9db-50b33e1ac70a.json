@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a15-7ca3-b9db-50b33e1ac70a",
+  "content": "<!-- Output -->\n      <div style=\"background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; text-align: center; font-size: 15px; font-weight: 600; color: var(--text-secondary);\">\n        768-d vector\n      </div>\n      <!-- Result badge -->\n      <div style=\"background: rgba(139,92,246,0.08); border: 2px solid var(--accent-purple); border-radius: 12px; padding: 16px; text-align: center; margin-top: 12px;\">\n        <div style=\"font-size: 36px; font-weight: 900; color: var(--accent-purple);\">56ms</div>\n        <div style=\"font-size: 14px; color: var(--text-secondary); margin-top: 2px;\">2 copies &bull; PCIe transfer tax</div>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"warning-box\">\n    <p>This does NOT mean iGPU &gt; dGPU in general. For larger models, the RTX 3060's raw throughput wins. And in a 106ms pipeline, this 5ms gap is &lt;5% of what users experience — optimizing retrieval matters more.</p>\n  </div>\n\n  <div class=\"flex-grow\"></div>\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">05 / 08</div>\n</div>\n\n<!-- SLIDE 6: THE NUANCE — fair analysis -->\n<div class=\"slide\">\n  <div class=\"slide-label\">The Nuance</div>\n  <div class=\"slide-title\" style=\"margin-bottom: 24px;\">\n    What the Numbers<br>\n    <span class=\"highlight-amber\">Don't Tell You</span>\n  </div>\n  <div class=\"slide-subtitle\" style=\"font-size: 19px; margin-bottom: 36px;\">\n    A benchmark is only as honest as its caveats. Here are the things I'd want to know\n    before drawing conclusions from these numbers.\n  </div>",
+  "source_version": "marketing/linkedin/2026-03-16-embedding-benchmark/embedding-benchmark-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.029126606Z",
+  "valid_from": "2026-03-31T13:51:39.029126606Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-16-embedding-benchmark/embedding-benchmark-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 640,
+    "end_line": 667,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

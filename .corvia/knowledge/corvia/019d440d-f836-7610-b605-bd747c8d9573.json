@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f836-7610-b605-bd747c8d9573",
+  "content": "   serde_json::json!({\n                    \"agent_id\": agent_id,\n                    \"session_id\": session_id,\n                    \"scope_id\": scope_id,\n                }),\n            ),\n            KernelEvent::SessionClosed { session_id, scope_id } => (\n                EventType::SessionClosed,\n                serde_json::json!({\n                    \"session_id\": session_id,\n                    \"scope_id\": scope_id,\n                }),\n            ),\n            KernelEvent::GcCompleted { scope_id, entries_removed } => (\n                EventType::GcCompleted,\n                serde_json::json!({\n                    \"scope_id\": scope_id,\n                    \"entries_removed\": entries_removed,\n                }),\n            ),\n            KernelEvent::IngestCompleted { scope_id, entries_added, duration_ms } => (\n                EventType::IngestionCompleted,\n                serde_json::json!({\n                    \"scope_id\": scope_id,\n                    \"entries_added\": entries_added,\n                    \"duration_ms\": duration_ms,\n                }),\n            ),\n            // Non-exhaustive: future variants logged as unhandled.\n            // Within this crate the compiler sees all variants; the arm is needed\n            // for when new variants are added (non_exhaustive guarantee).\n            #[allow(unreachable_patterns)]\n            _ => {\n                debug!(event = ?event, \"event_logger: unhandled event variant\");\n                return;\n            }\n        };\n\n        let common_event = Event::new(event_type, data);\n        if let Err(e) = append_event(path, &common_event) {\n            warn!(error = %e, \"event_logger: failed to append event\");\n        }\n    }",
+  "source_version": "crates/corvia-kernel/src/event_bus.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.446290822Z",
+  "valid_from": "2026-03-31T13:20:59.446290822Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/event_bus.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 208,
+    "end_line": 243,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

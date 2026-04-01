@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f831-7562-9884-abe3ccde2775",
+  "content": "          Err(e) => {\n                            warn!(error = %e, \"Failed to open TantivyIndex during hot-swap\");\n                            None\n                        }\n                    }\n                }\n            } else {\n                None\n            }\n        } else {\n            None\n        };\n\n    let deps = pipeline::ComponentDeps {\n        store: Some(store.clone()),\n        engine: Some(engine.clone()),\n        graph: graph.clone(),\n        fts,\n        rrf_k: pipeline_cfg.rrf.k,\n        channels: pipeline_cfg.channels.clone(),\n        searcher_timeout_ms: pipeline_cfg.searcher_timeout_ms,\n    };\n\n    let retriever = pipeline::PipelineRegistry::validate_and_build(\n        pipeline_cfg,\n        &deps,\n        graph.clone(),\n        config.rag.graph_alpha,\n    )?;\n\n    let system_prompt = if config.rag.system_prompt.is_empty() {\n        String::new()\n    } else {\n        config.rag.system_prompt.clone()\n    };\n\n    let aug: Arc<dyn augmenter::Augmenter> = if system_prompt.is_empty() {\n        Arc::new(augmenter::StructuredAugmenter::new())\n    } else {\n        Arc::new(augmenter::StructuredAugmenter::with_system_prompt(system_prompt))\n    };\n\n    Ok(rag_pipeline::RagPipeline::new(\n        Arc::new(retriever),\n        aug,\n        generator,\n        config.rag.clone(),\n    ))\n}",
+  "source_version": "crates/corvia-kernel/src/lib.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.441539668Z",
+  "valid_from": "2026-03-31T13:20:59.441539668Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/lib.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 447,
+    "end_line": 487,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

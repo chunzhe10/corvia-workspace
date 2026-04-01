@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-705ed443dea2",
+  "content": "### Storage: Redb Edges + petgraph In-Memory (LiteStore)\n### Storage: SurrealDB (FullStore)\n\n### Types\n\n```rust\npub struct GraphEdge {\n    pub from: Uuid,\n    pub to: Uuid,\n    pub relation: String,\n    pub metadata: Option<serde_json::Value>,\n}\n\npub enum EdgeDirection {\n    Outgoing,\n    Incoming,\n    Both,\n}\n```\n\n\n### Trait\n\n```rust\n#[async_trait]\npub trait GraphStore: Send + Sync {\n    /// Create a directed edge between two entries.\n    async fn relate(\n        &self,\n        from: &Uuid,\n        relation: &str,\n        to: &Uuid,\n        metadata: Option<serde_json::Value>,\n    ) -> Result<()>;\n\n    /// Get all edges from/to an entry.\n    async fn edges(\n        &self,\n        entry_id: &Uuid,\n        direction: EdgeDirection,\n    ) -> Result<Vec<GraphEdge>>;\n\n    /// BFS/DFS traversal from a starting node, optionally filtering by relation type.\n    async fn traverse(\n        &self,\n        start: &Uuid,\n        relation: Option<&str>,\n        direction: EdgeDirection,\n        max_depth: usize,\n    ) -> Result<Vec<KnowledgeEntry>>;\n\n    /// Shortest path between two entries.\n    async fn shortest_path(\n        &self,\n        from: &Uuid,\n        to: &Uuid,\n    ) -> Result<Option<Vec<KnowledgeEntry>>>;\n\n    /// Delete edges involving an entry (called during delete_scope).\n    async fn remove_edges(&self, entry_id: &Uuid) -> Result<()>;\n}\n```\n",
+  "source_version": "docs/rfcs/2026-03-02-m3-temporal-graph-reasoning-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463461459Z",
+  "valid_from": "2026-03-31T13:20:59.463461459Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-temporal-graph-reasoning-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 130,
+    "end_line": 188,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

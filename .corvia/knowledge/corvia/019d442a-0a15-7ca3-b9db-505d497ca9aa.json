@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a15-7ca3-b9db-505d497ca9aa",
+  "content": "iv style=\"position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 7px solid transparent; border-right: 7px solid transparent; border-top: 8px solid var(--accent-green);\"></div>\n        </div>\n      </div>\n      <!-- Shared memory block: CPU + iGPU + RAM in ONE enclosure -->\n      <div style=\"border: 2px solid var(--accent-cyan); border-radius: 14px; padding: 20px 16px; background: rgba(6,182,212,0.04); position: relative; display: flex; flex-direction: column; gap: 12px;\">\n        <div style=\"position: absolute; top: -11px; left: 20px; background: var(--bg-dark); padding: 0 10px; font-size: 13px; font-weight: 700; color: var(--accent-cyan); letter-spacing: 1px;\">SAME CHIP + SHARED MEMORY</div>\n\n        <!-- CPU sub-block -->\n        <div style=\"background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.25); border-radius: 8px; padding: 12px; text-align: center;\">\n          <div style=\"font-size: 14px; font-weight: 700; color: var(--accent-amber);\">CPU</div>\n          <div style=\"font-size: 13px; color: var(--text-muted);\">Tokenize &rarr; prepare tensors</div>\n        </div>\n\n        <!-- Internal arrow (no copy!) -->\n        <div style=\"display: flex; justify-content: center; align-items: center; gap: 8px; padding: 2px 0;\">\n          <div style=\"width: 3px; height: 16px; background: var(--accent-green); border-radius: 2px; position: relative;\">\n            <div style=\"position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 7px solid var(--accent-green);\"></div>\n          </div>\n          <div style=\"font-size: 13px; font-weight: 700; color: var(--accent-green); padding: 3px 10px; background: rgba(16,185,129,0.1); border-radius: 10px;\">ZERO COPY</div>\n        </div>\n\n        <!-- iGPU sub-block -->\n        <div style=\"background: rgba(6,182,212,0.1); border: 1px solid rgba(6,182,212,0.3); border-radius: 8px; padding: 12px; text-align: center;\">\n          <div style=\"font-size: 14px; font-weight: 700; color: var(--accent-cyan);\">iGPU &mdash; Iris Xe</div>\n          <div style=\"font-size: 13px; color: var(--text-muted);\">96 EU &bull; OpenVINO</div>\n        </div>",
+  "source_version": "marketing/linkedin/2026-03-16-embedding-benchmark/embedding-benchmark-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.029077706Z",
+  "valid_from": "2026-03-31T13:51:39.029077706Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-16-embedding-benchmark/embedding-benchmark-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 507,
+    "end_line": 529,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

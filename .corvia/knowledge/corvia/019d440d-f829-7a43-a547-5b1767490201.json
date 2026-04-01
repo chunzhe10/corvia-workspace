@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f829-7a43-a547-5b1767490201",
+  "content": "pub struct PostgresStore {\n    pool: PgPool,\n    dimensions: usize,\n}\nimpl PostgresStore {\n    pub async fn connect(url: &str, dimensions: usize) -> Result<Self> {\n        let pool = PgPoolOptions::new()\n            .max_connections(10)\n            .connect(url)\n            .await\n            .map_err(|e| CorviaError::Storage(format!(\"Failed to connect to PostgreSQL: {e}\")))?;\n\n        info!(\"Connected to PostgreSQL at {url}\");\n        Ok(Self { pool, dimensions })\n    }\n\n    /// Fetch all knowledge entries (used for migration export).\n    pub async fn fetch_all_entries(&self) -> Result<Vec<KnowledgeEntry>> {\n        let rows = sqlx::query(\"SELECT * FROM knowledge\")\n            .fetch_all(&self.pool)\n            .await\n            .map_err(|e| CorviaError::Storage(format!(\"Failed to fetch all entries: {e}\")))?;\n\n        Ok(rows.iter().filter_map(row_to_entry).collect())\n    }\n\n    /// Search including cold-tier entries (excludes forgotten).\n    /// This query cannot use the partial HNSW index and may fall back to\n    /// sequential scan. Intended for opt-in use when cold entries are needed.\n    pub async fn search_with_cold(\n        &self,\n        embedding: &[f32],\n        scope_id: &str,\n        limit: usize,\n    ) -> Result<Vec<SearchResult>> {\n        let query_vec = Vector::from(embedding.to_vec());\n",
+  "source_version": "crates/corvia-kernel/src/postgres_store.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.433572676Z",
+  "valid_from": "2026-03-31T13:20:59.433572676Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/postgres_store.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 15,
+    "end_line": 47,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

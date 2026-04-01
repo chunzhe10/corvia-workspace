@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82e-71f3-920f-9607539de283",
+  "content": "fn new(adapter: Arc<Mutex<ProcessAdapter>>) -> Self {\n        Self { adapter }\n    }\nimpl ChunkingStrategy for ProcessChunkingStrategy {\n    fn name(&self) -> &str {\n        \"process_adapter\"\n    }\n\n    fn supported_extensions(&self) -> &[&str] {\n        // This is only used for registration metadata; the registry routes by\n        // extension key, not by asking the strategy.\n        &[]\n    }\n\n    fn chunk(&self, source: &str, meta: &SourceMetadata) -> Result<ChunkResult> {\n        let mut guard = self.adapter.lock().map_err(|e| {\n            corvia_common::errors::CorviaError::Ingestion(format!(\"Adapter lock poisoned: {e}\"))\n        })?;\n        let (chunks, relations) = guard.chunk(source, meta).map_err(|e| {\n            corvia_common::errors::CorviaError::Ingestion(format!(\"Adapter chunk failed: {e}\"))\n        })?;\n        Ok(ChunkResult { chunks, relations })\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/chunking_pipeline.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.438956280Z",
+  "valid_from": "2026-03-31T13:20:59.438956280Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_pipeline.rs",
+    "language": "rs",
+    "chunk_type": "impl_item",
+    "start_line": 667,
+    "end_line": 687,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

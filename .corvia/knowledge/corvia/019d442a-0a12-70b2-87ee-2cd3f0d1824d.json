@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-2cd3f0d1824d",
+  "content": "### Estimated effort\n\n## What This Looks Like\n\n```\n┌─────────────────────────────────────────────────────────┐\n│ corvia dashboard     [server: healthy] [inference: healthy] │\n│                                              3 spokes    │\n├─────────────────────────────────────────────────────────┤\n│ [Traces] [Agents] [RAG] [Tiers] [Logs] [Graph] [History]│\n├─────────────────────────────────────────────────────────┤\n│                                                         │\n│  3 spokes running                    #42  #55  #61      │\n│                                                         │\n│  ┌─────────────────────┐  ┌─────────────────────┐      │\n│  │ spoke-42       spoke │  │ spoke-55       spoke │      │\n│  │ ● Active             │  │ ● Active             │      │\n│  │                      │  │                      │      │\n│  │ Issue:  #42          │  │ Issue:  #55          │      │\n│  │ Branch: feat/42-bm25 │  │ Branch: feat/55-viz  │      │\n│  │ Container: healthy   │  │ Container: healthy   │      │\n│  │ Up 2 hours           │  │ Up 45 minutes        │      │",
+  "source_version": "decisions/2026-03-28-spoke-dashboard-design.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026260423Z",
+  "valid_from": "2026-03-31T13:51:39.026260423Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-dashboard-design.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 413,
+    "end_line": 432,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

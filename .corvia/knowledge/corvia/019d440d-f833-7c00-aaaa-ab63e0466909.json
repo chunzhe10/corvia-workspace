@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f833-7c00-aaaa-ab63e0466909",
+  "content": "\n            return false;\n        }\n        const EXTENSIONS: &[&str] = &[\n            \".rs\", \".ts\", \".tsx\", \".js\", \".jsx\", \".py\",\n            \".toml\", \".yaml\", \".yml\", \".json\", \".md\",\n        ];\n        EXTENSIONS.iter().any(|ext| s.ends_with(ext))\n    }\nfn find_chunk_for_line(chunks: &[RawChunk], line: u32) -> Option<&RawChunk> {\n        chunks\n            .iter()\n            .find(|c| line >= c.start_line && line <= c.end_line)\n            .or_else(|| chunks.last())\n    }",
+  "source_version": "crates/corvia-kernel/src/chunking_markdown.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.443616167Z",
+  "valid_from": "2026-03-31T13:20:59.443616167Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_markdown.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 95,
+    "end_line": 100,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

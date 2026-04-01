@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83f-7210-b9e4-0dabf605fefc",
+  "content": "### Task 3: Add GcHistory to AppState\n\n### Task 4: Add dashboard response types in corvia-common\n\n**Files:**\n- Modify: `crates/corvia-common/src/dashboard.rs`\n\n- **Step 1: Add p50/p95/p99 to SpanStats**\n\nAdd three fields to the existing `SpanStats` struct:\n\n```rust\n#[derive(Debug, Clone, Default, Serialize, Deserialize, PartialEq)]\npub struct SpanStats {\n    pub count: u64,\n    pub count_1h: u64,\n    pub avg_ms: f64,\n    pub last_ms: f64,\n    pub errors: u64,\n    #[serde(default)]\n    pub p50_ms: f64,\n    #[serde(default)]\n    pub p95_ms: f64,\n    #[serde(default)]\n    pub p99_ms: f64,\n}\n```\n\nThe `#[serde(default)]` ensures backward compatibility with existing JSON that lacks these fields.\n\n**Important:** After adding these fields, the existing `SpanStats` construction in\n`crates/corvia-server/src/dashboard/traces.rs` (line ~240) will fail to compile. Add\n`..Default::default()` to the existing struct literal so Tasks 5-7 can compile:\n\n```rust\n// In traces.rs collect_traces_from_lines(), existing SpanStats construction:\nSpanStats {\n    count,\n    count_1h,\n    avg_ms,\n    last_ms,\n    errors,\n    ..Default::default()  // ← add this line for p50/p95/p99\n}\n```\n",
+  "source_version": "docs/rfcs/2026-03-14-dashboard-completion-plan.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.455377748Z",
+  "valid_from": "2026-03-31T13:20:59.455377748Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-14-dashboard-completion-plan.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 332,
+    "end_line": 375,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-ca02425e402b",
+  "content": "# corvia-adapter-agent-teams: Brainstorm Results\n\n## How Agent Teams Work (Verified via Spike)\n\n**Spawning:** Lead uses Agent tool to spawn teammates as in-process subagents.\nTeammates can be spawned at any time during the team's lifetime (not just at\ncreation). Multiple teammates spawned \"simultaneously\" are actually sequential\n(~1-2s apart in our test).\n\n**CORRECTION:** Teammates get NO team-specific env vars. Only `CLAUDECODE=1`,\n`CLAUDE_CODE_ENTRYPOINT=cli`, `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`. The\n`CLAUDE_CODE_TEAM_NAME` reported in external articles is NOT an env var. It exists\nonly in internal AsyncLocalStorage (JavaScript runtime context, not shell env).\n\n**Teammate transcripts** are stored as subagent JSONL files under the lead's\nsession directory:\n```\n~/.claude/projects/{project}/{leadSessionId}/subagents/agent-{agentId}.jsonl\n```\n\n**File formats (verified):**\n\n```\n~/.claude/teams/{team-name}/\n  config.json          # Full schema below\n  inboxes/\n    {agent-name}.json      # JSON array of messages\n    {agent-name}.json.lock # Lock directory (not file)\n\n~/.claude/tasks/{team-name}/\n  {task-id}.json       # {id, subject, description, status, blocks, blockedBy}\n  .lock                # flock() for task claiming race prevention\n```\n\n**config.json verified schema:**\n```json\n{\n  \"name\": \"team-name\",\n  \"description\": \"...\",\n  \"createdAt\": 1774672217745,\n  \"leadAgentId\": \"team-lead@team-name\",\n  \"leadSessionId\": \"658150a6-...\",\n  \"members\": [\n    {\n      \"agentId\": \"team-lead@team-name\",\n      \"name\": \"team-lead\",\n      \"agentType\": \"team-lead\",\n      \"model\": \"claude-opus-4-6[1m]\",\n      \"joinedAt\": 1774672217745,\n      \"tmuxPaneId\": \"\",\n      \"cwd\": \"/workspaces/corvia-workspace\",\n      \"subscriptions\": []\n    },\n    {\n      \"agentId\": \"researcher@team-name\",\n      \"name\": \"researcher\",\n      \"model\": \"haiku\",\n      \"prompt\": \"full spawn prompt here...\",\n      \"color\": \"blue\",\n      \"planModeRequired\": false,\n      \"joinedAt\": 1774672260425,\n      \"tmuxPaneId\": \"in-process\",\n      \"cwd\": \"/workspaces/corvia-workspace\",",
+  "source_version": "decisions/2026-03-28-adapter-agent-teams-brainstorm.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025375679Z",
+  "valid_from": "2026-03-31T13:51:39.025375679Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-adapter-agent-teams-brainstorm.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 9,
+    "end_line": 69,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

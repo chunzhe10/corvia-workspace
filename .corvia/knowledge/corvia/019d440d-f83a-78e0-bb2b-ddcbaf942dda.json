@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83a-78e0-bb2b-ddcbaf942dda",
+  "content": ".\");\n    println!(\"Next: corvia search \\\"your query\\\"\");\n    Ok(())\n}\n\nasync fn cmd_search(query: &str, limit: usize) -> Result<()> {\n    let config = load_config()?;\n    let store = connect_store(&config).await?;\n    let engine = connect_engine(&config);\n\n    let embedding = engine.embed(query).await?;\n    let results = store.search(&embedding, &config.project.scope_id, limit).await?;\n\n    if results.is_empty() {\n        println!(\"No results found for: {query}\");\n        return Ok(());\n    }\n\n    println!(\"Found {} results for: {query}\\n\", results.len());\n    for (i, result) in results.iter().enumerate() {\n        let file = result.entry.metadata.source_file.as_deref().unwrap_or(\"unknown\");\n        let lines = match (result.entry.metadata.start_line, result.entry.metadata.end_line) {\n            (Some(s), Some(e)) => format!(\":{s}-{e}\"),\n            _ => String::new(),\n        };\n        println!(\"--- Result {} (score: {:.3}) ---\", i + 1, result.score);\n        println!(\"File: {file}{lines}\");\n        // Show first 5 lines of content\n        let preview: String = result.entry.content.lines().take(5).collect::<Vec<_>>().join(\"\\n\");\n        println!(\"{preview}\");\n        if result.entry.content.lines().count() > 5 {\n            println!(\"  ...\");\n        }\n        println!();\n    }\n\n    Ok(())\n}\n\nasync fn cmd_status() -> Result<()> {\n    let docker = DockerProvisioner::new()?;",
+  "source_version": "docs/rfcs/2026-02-28-m1-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.450999181Z",
+  "valid_from": "2026-03-31T13:20:59.450999181Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-02-28-m1-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 2023,
+    "end_line": 2053,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

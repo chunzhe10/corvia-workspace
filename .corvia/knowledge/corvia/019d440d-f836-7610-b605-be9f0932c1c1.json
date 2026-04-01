@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f836-7610-b605-be9f0932c1c1",
+  "content": "       None => 0.0,\n        Some(days) => {\n            let freq = ((1.0 + access_count as f64).ln() / FREQ_NORMALIZER).min(1.0);\n            let recency = (1.0 + sanitize_f64(days)).powf(-ACCESS_RECENCY_ALPHA);\n            freq * recency\n        }\n    }\n}\nfn graph_component(inbound_edges: u32) -> f64 {\n    (inbound_edges as f64 / GRAPH_EDGE_CAP).min(1.0)\n}",
+  "source_version": "crates/corvia-kernel/src/scoring.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.446417020Z",
+  "valid_from": "2026-03-31T13:20:59.446417020Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/scoring.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 216,
+    "end_line": 218,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

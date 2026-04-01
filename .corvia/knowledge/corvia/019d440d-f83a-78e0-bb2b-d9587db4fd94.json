@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83a-78e0-bb2b-d9587db4fd94",
+  "content": "def print_header(labels: list[str]):\n    col_w = 16\n    header = f\"{'Metric':<25s}\"\n    for lbl in labels:\n        header += f\"{lbl:>{col_w}s}\"\n    if len(labels) >= 2:\n        header += f\"{'Delta':>{col_w}s}\"\n    print(header)\n    print(\"-\" * len(header))\ndef print_row(metric: str, values: list, fmt: str = \".4f\", delta_fmt: str = \"+.4f\",\n              higher_is_better: bool = True):\n    col_w = 16\n    row = f\"{metric:<25s}\"\n    for v in values:\n        row += f\"{v:{col_w}{fmt}}\"\n    if len(values) >= 2:\n        delta = values[1] - values[0]\n        indicator = \"\"\n        if delta > 0.001:\n            indicator = \" ^\" if higher_is_better else \" v\"\n        elif delta < -0.001:\n            indicator = \" v\" if higher_is_better else \" ^\"\n        delta_str = f\"{delta:{delta_fmt}}{indicator}\"\n        row += f\"{delta_str:>{col_w}}\"\n    print(row)",
+  "source_version": "benchmarks/rag-retrieval/compare.py",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.450282921Z",
+  "valid_from": "2026-03-31T13:20:59.450282921Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "benchmarks/rag-retrieval/compare.py",
+    "language": "py",
+    "chunk_type": "function_definition",
+    "start_line": 51,
+    "end_line": 66,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

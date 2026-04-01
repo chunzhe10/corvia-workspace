@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f843-7a03-b56b-3178c16125df",
+  "content": "### Task 8: Add TraceLayer to Axum routers\n\n```\n\n-**Step 2: Add TraceLayer to MCP router**\n\nIn `mcp.rs`, add import at top of file:\n\n```rust\nuse tower_http::trace::TraceLayer;\n```\n\nUpdate `mcp_router()` function (line 330-340):\n\n```rust\npub fn mcp_router(state: Arc<AppState>) -> Router {\n    let mcp_state = Arc::new(McpState {\n        app: state,\n    });\n    Router::new()\n        .route(\"/mcp\", post(handle_mcp_post))\n        .route(\"/mcp\", get(handle_mcp_get))\n        .route(\"/mcp\", delete(handle_mcp_delete))\n        .layer(TraceLayer::new_for_http())\n        .with_state(mcp_state)\n}\n```\n\n-**Step 3: Verify it compiles**\n\nRun: `cd /workspaces/corvia-workspace/repos/corvia && cargo check -p corvia-server`\nExpected: Compiles\n\n-**Step 4: Run existing server tests**\n\nRun: `cd /workspaces/corvia-workspace/repos/corvia && cargo test -p corvia-server -- --nocapture`\nExpected: All tests PASS\n\n-**Step 5: Commit**\n\n```bash\ngit add crates/corvia-server/src/rest.rs crates/corvia-server/src/mcp.rs\ngit commit -m \"feat(server): add tower-http TraceLayer to REST and MCP routers\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-11-otel-standardization.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.459233950Z",
+  "valid_from": "2026-03-31T13:20:59.459233950Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-otel-standardization.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 827,
+    "end_line": 871,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

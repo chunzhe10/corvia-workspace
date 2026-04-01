@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82c-7720-a124-3233ee67b26f",
+  "content": "fn estimate(&self, text: &str) -> usize {\n        if text.is_empty() {\n            0\n        } else {\n            (text.len() / 4).max(1)\n        }\n    }\nmod tests {\n    use super::*;\n\n    #[test]\n    fn test_empty_string() {\n        let est = CharDivFourEstimator;\n        assert_eq!(est.estimate(\"\"), 0);\n    }\n\n    #[test]\n    fn test_short_string() {\n        let est = CharDivFourEstimator;\n        assert_eq!(est.estimate(\"hi\"), 1);\n    }\n\n    #[test]\n    fn test_typical_text() {\n        let est = CharDivFourEstimator;\n        let text = \"The quick brown fox jumps over the lazy dog.\";\n        assert_eq!(est.estimate(text), 11);\n    }\n\n    #[test]\n    fn test_code_text() {\n        let est = CharDivFourEstimator;\n        let code = \"fn main() {\\n    println!(\\\"hello\\\");\\n}\";\n        let tokens = est.estimate(code);\n        assert!(tokens > 0);\n        assert_eq!(tokens, code.len() / 4);\n    }\n\n    #[test]\n    fn test_object_safety() {\n        let est: Box<dyn TokenEstimator> = Box::new(CharDivFourEstimator);\n        assert_eq!(est.estimate(\"test\"), 1);\n    }\n}",
+  "source_version": "crates/corvia-kernel/src/token_estimator.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.436345323Z",
+  "valid_from": "2026-03-31T13:20:59.436345323Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/token_estimator.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 25,
+    "end_line": 61,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

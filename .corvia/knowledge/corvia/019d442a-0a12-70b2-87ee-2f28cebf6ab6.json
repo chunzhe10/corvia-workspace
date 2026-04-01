@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-2f28cebf6ab6",
+  "content": "### L11: Container Name Collision Across Workspaces (DevOps)\n### L12: Log Rotation (DevOps, PM)\n\n### L13: Non-Root Spoke Containers (Security)\n\nUpdated Dockerfile:\n```dockerfile\nFROM node:22-bookworm\n\nRUN apt-get update && apt-get install -y git curl build-essential gh && \\\n    rm -rf /var/lib/apt/lists/*\n\nARG CLAUDE_CODE_VERSION=2.1.86\nRUN npm install -g @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}\n",
+  "source_version": "decisions/2026-03-28-spoke-design-review-fixes.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026556822Z",
+  "valid_from": "2026-03-31T13:51:39.026556822Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-design-review-fixes.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 855,
+    "end_line": 866,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

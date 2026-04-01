@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-7316595ac929",
+  "content": "## Forgetting Policies\n\n### Two policies for v1\n\n**1. Inactivity-based (primary)**\n\nForce entry to Cold if `last_accessed` exceeds `max_inactive_days` AND retention_score\nis below 0.60. For entries that have never been accessed (`last_accessed: None`),\nuse `recorded_at` as the fallback — the entry is considered inactive since creation.\n\nThis prevents the cliff-edge scenario where a well-connected, high-confidence entry\n(e.g., a foundational design decision known by heart but never explicitly queried)\nis forced Cold purely due to inactivity. Entries with `retention_score >= 0.60` are\nexempt from inactivity-based demotion — their graph connectivity and confidence signals\nare strong enough to justify retention even without recent access.\n\n**2. Budget-based (capacity)**\n\nPer-scope cap on total active entries (Hot + Warm). Pinned entries are excluded from the\ncount — the effective capacity is `budget_top_n + pinned_count`. When the non-pinned\nactive count exceeds `budget_top_n`, rank all non-pinned entries by retention_score,\ndemote the lowest by one tier step. Auto-protected entries can be budget-demoted to\nWarm but not to Cold or Forgotten.\n\n\n### Configuration\n\n```toml\n[forgetting]\nenabled = true\ninterval_minutes = 60\n\n[forgetting.defaults]\nmax_inactive_days = 90\nbudget_top_n = 10000\n\n[forgetting.by_type.episodic]\nmax_inactive_days = 14    # safety net; score-based demotion handles most episodic",
+  "source_version": "docs/rfcs/2026-03-27-tiered-knowledge-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463744255Z",
+  "valid_from": "2026-03-31T13:20:59.463744255Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-27-tiered-knowledge-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 330,
+    "end_line": 364,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f831-7562-9884-abf2f40e1a9a",
+  "content": "menter::new())\n    } else {\n        Arc::new(augmenter::StructuredAugmenter::with_system_prompt(system_prompt))\n    };\n\n    Ok(rag_pipeline::RagPipeline::new(\n        Arc::new(retriever),\n        aug,\n        generator,\n        config.rag.clone(),\n    ))\n}\nfn build_pipeline_retriever(\n    store: Arc<dyn traits::QueryableStore>,\n    engine: Arc<dyn traits::InferenceEngine>,\n    graph: Option<Arc<dyn traits::GraphStore>>,\n    config: &CorviaConfig,\n    pipeline_cfg: &corvia_common::config::PipelineConfig,\n) -> Arc<dyn retriever::Retriever> {\n    use pipeline::{ComponentDeps, PipelineRegistry};\n\n    // Initialize tantivy if \"bm25\" or \"multichannel\" is in the searchers list and store is LiteStore.\n    // MultiChannelSearcher may use BM25 for the structural channel.\n    let fts: Option<Arc<dyn traits::FullTextSearchable>> =\n        if pipeline_cfg.searchers.iter().any(|s| s == \"bm25\" || s == \"multichannel\") {\n            if let Some(ls) = store.as_any().downcast_ref::<lite_store::LiteStore>() {\n                let cache_dir = std::path::Path::new(&config.storage.data_dir)\n                    .join(\"cache\")\n                    .join(\"tantivy\");\n                match tantivy_index::TantivyIndex::open(&cache_dir, ls.db().clone(), store.clone()) {\n                    Ok(idx) => {\n                        let idx = Arc::new(idx);\n                        info!(\"TantivyIndex initialized at {}\", cache_dir.display());\n                        // Wire tantivy back into LiteStore for insert/delete mirroring.\n                        ls.set_tantivy(Arc::clone(&idx));\n                        // Check staleness and rebuild if needed.\n                        match idx.is_stale() {\n                            Ok(true) => {\n                                info!(\"Tantivy index is stale, rebuild will be triggered on first use or via 'corvia rebuild'\");\n                            }\n                            Ok(false) => {\n                                info!(\"Tantivy index is up-to-date\");\n                            }\n                            Err(e) => {",
+  "source_version": "crates/corvia-kernel/src/lib.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.441551364Z",
+  "valid_from": "2026-03-31T13:20:59.441551364Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/lib.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 490,
+    "end_line": 521,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

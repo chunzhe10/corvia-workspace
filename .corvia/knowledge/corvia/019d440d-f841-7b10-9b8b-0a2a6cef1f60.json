@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0a2a6cef1f60",
+  "content": "### Deferred edge wiring\n### Team to session (lifecycle)\n\n### Team to members\n\n```\nrelate(\n  from: team_structure_entry_id,\n  relation: \"has_member\",\n  to: teammate_subagent_first_turn_entry_id   // one edge per teammate\n)\n```\n\nThe lead session's first turn entry is found by querying:\n`scope:\"user-history\" source_version:\"<leadSessionId>:turn-1\"`\n\nFor teammate sessions, the adapter uses the description-matching correlation\nfrom Section 6 to find the subagent transcript entry. The query:\n`scope:\"user-history\" source_origin:\"claude:subagent\"` filtered by\n`source_version` prefix matching the lead's session ID.\n\nThe existing `spawned_by` edges (from the session history adapter) link\nsubagent entries to the lead's session. The `has_member` edges from the\nteams adapter add the team-level grouping on top.\n\n\n### Task to owner (teammate)\n\n```\nrelate(\n  from: task_entry_id,\n  relation: \"assigned_to\",\n  to: teammate_subagent_first_turn_entry_id   // the specific teammate\n)\n```\n\nThe task's `owner` field (e.g., `\"security-reviewer\"`) is matched to the\nteammate's subagent entry via the same correlation used for `has_member`.\nIf the teammate's session entry is not yet available (deferred wiring),\nthe edge is queued in `.pending-edges`.\n\nThis enables \"what tasks did security-reviewer work on?\" via a single\nincoming-edge traversal from the teammate's session entry.\n",
+  "source_version": "docs/rfcs/2026-03-28-agent-teams-adapter-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457093464Z",
+  "valid_from": "2026-03-31T13:20:59.457093464Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-agent-teams-adapter-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 431,
+    "end_line": 470,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

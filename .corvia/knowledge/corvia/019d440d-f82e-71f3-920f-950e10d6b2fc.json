@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82e-71f3-920f-950e10d6b2fc",
+  "content": "pub fn registry_mut(&mut self) -> &mut FormatRegistry {\n        &mut self.registry\n    }\npub fn process(\n        &self,\n        source: &str,\n        meta: &SourceMetadata,\n    ) -> Result<(Vec<ProcessedChunk>, Vec<ChunkRelation>)> {\n        // Step 1: Resolve strategy via FormatRegistry.\n        let strategy = self.registry.resolve(&meta.extension);\n        let strategy_name = strategy.name().to_string();\n\n        info!(\n            strategy = %strategy_name,\n            file = %meta.file_path,\n            \"chunking_started\"\n        );\n\n        // Step 2: Domain chunking.\n        let chunk_result = strategy.chunk(source, meta)?;\n        let mut chunks = chunk_result.chunks;\n        let relations = chunk_result.relations;\n\n        // Step 3: Merge small chunks.\n        let (chunks_after_merge, merge_flags_pre_split) =\n            self.merge_step(&strategy, &mut chunks);\n\n        // Step 4: Enforce token budget — split oversized chunks.\n        let (chunks_after_split, split_flags, merge_count) =\n            self.split_step(&strategy, chunks_after_merge, merge_flags_pre_split)?;\n\n        // Step 5: Add overlap context.\n        let (final_contents, overlap_tokens_vec) =\n            self.overlap_step(&strategy, &chunks_after_split);\n\n        // Step 6: Build ProcessedChunks.\n        let processed: Vec<ProcessedChunk> = chunks_after_split",
+  "source_version": "crates/corvia-kernel/src/chunking_pipeline.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.438806973Z",
+  "valid_from": "2026-03-31T13:20:59.438806973Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/chunking_pipeline.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 173,
+    "end_line": 206,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

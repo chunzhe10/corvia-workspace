@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-8c8a99d4a2fa",
+  "content": "to()\n}\n\n#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]\npub struct RepoConfig {\n    pub name: String,\n    pub url: String,\n    #[serde(default, skip_serializing_if = \"Option::is_none\")]\n    pub local: Option<String>,\n    pub namespace: String,\n}\n\n#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]\npub struct WorkspaceConfig {\n    #[serde(default = \"default_repos_dir\")]\n    pub repos_dir: String,\n    #[serde(default)]\n    pub repos: Vec<RepoConfig>,\n}\n```\n\nAdd the workspace field to `CorviaConfig`:\n\n```rust\npub struct CorviaConfig {\n    pub project: ProjectConfig,\n    pub storage: StorageConfig,\n    pub embedding: EmbeddingConfig,\n    pub server: ServerConfig,\n    #[serde(default)]\n    pub agent_lifecycle: AgentLifecycleConfig,\n    #[serde(default)]\n    pub merge: MergeConfig,\n    #[serde(default, skip_serializing_if = \"Option::is_none\")]\n    pub workspace: Option<WorkspaceConfig>,\n}\n```\n\nAdd the helper method to `CorviaConfig`:\n\n```rust\npub fn is_workspace(&self) -> bool {\n    self.workspace.is_some()\n}\n```\n\n**Step 4: Run tests to verify they pass**\n\nRun: `cargo test -p corvia-common -- test_workspace`\nExpected: all 5 new tests PASS.\n\nRun: `cargo test -p corvia-common`\nExpected: all existing tests still PASS (backward compatible).\n\n**Step 5: Commit**\n\n```bash\ngit add crates/corvia-common/src/config.rs\ngit commit -m \"feat(m2.1): add WorkspaceConfig and RepoConfig to corvia.toml schema\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465014838Z",
+  "valid_from": "2026-03-31T13:20:59.465014838Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-01-m2.1-workspace-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 174,
+    "end_line": 225,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

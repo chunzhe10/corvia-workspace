@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82d-7772-85c3-aa1593bc6d45",
+  "content": "elf,\n            _system: &str,\n            user: &str,\n        ) -> corvia_common::errors::Result<GenerationResult> {\n            Ok(GenerationResult {\n                text: format!(\"Generated answer for: {user}\"),\n                model: \"mock-v1\".into(),\n                input_tokens: user.len() / 4,\n                output_tokens: 20,\n            })\n        }\n        fn context_window(&self) -> usize {\n            4096\n        }\n    }\n\n    /// Build a pipeline with 10 test entries and optional generator.\n    async fn setup_pipeline(dir: &std::path::Path, with_generator: bool) -> RagPipeline {\n        let store =\n            Arc::new(LiteStore::open(dir, 3).unwrap()) as Arc<dyn QueryableStore>;\n        let engine = Arc::new(MockEngine) as Arc<dyn InferenceEngine>;\n        store.init_schema().await.unwrap();\n\n        // Insert 10 entries with varied embeddings for HNSW connectivity.\n        let mut idx = 0_usize;\n        let mut next_emb = || {\n            idx += 1;\n            vec![1.0, idx as f32 * 0.1, 0.0]\n        };\n\n        for i in 0..10 {\n            let mut e = KnowledgeEntry::new(\n                format!(\"knowledge entry {i}\"),\n                \"proj\".into(),\n                \"v1\".into(),\n            )\n            .with_embedding(next_emb());\n            e.entry_status = EntryStatus::Merged;\n            store.insert(&e).await.unwrap();\n        }\n\n        let retriever =\n            Arc::new(VectorRetriever::new(store, engine)) as Arc<dyn Retriever>;\n        let augmenter =\n            Arc::new(StructuredAugmenter::new()) as Arc<dyn Augmenter>;\n        let generator: Option<Arc<dyn GenerationEngine>> = if with_generator {\n            Some(Arc::new(MockGenerator))\n        } else {\n            None",
+  "source_version": "crates/corvia-kernel/src/rag_pipeline.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.437538163Z",
+  "valid_from": "2026-03-31T13:20:59.437538163Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/rag_pipeline.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 276,
+    "end_line": 317,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

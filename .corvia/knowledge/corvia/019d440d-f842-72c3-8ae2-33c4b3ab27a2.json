@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-33c4b3ab27a2",
+  "content": " tree-sitter still extracts valid parts\n- Empty class body produces no relations\n- TypeScript generics in extends: `class Foo extends Bar<Baz>` extracts \"Bar\" not \"Bar<Baz>\"\n- Minified single-line JS: extraction still works (tree-sitter handles this)\n\n---\n\n### P2: Python Class Inheritance and Function Calls\n\n**File:** `treesitter.rs` (extend `extract_python_relations()`)\n\n**Current state:** Only extracts `import_statement` and `import_from_statement` nodes.\nThe `_file_path` parameter is unused. P2 will use it; remove the underscore.\n\n**Changes:**\n\n1. **Class inheritance extraction:**\n   - Match `class_definition` nodes\n   - Access superclass list via `node.child_by_field_name(\"superclasses\")`, which returns\n     an `argument_list` node containing the base class expressions as named children.\n   - Iterate the `argument_list`'s named children. Each is an `identifier` (simple base\n     class) or `attribute` (dotted base class like `module.ClassName`).\n   - For `class Foo(Bar, Baz):`, emit:\n     ```\n     CodeRelation {\n         relation: \"extends\",\n         to_file: <current_file>,\n         to_name: Some(\"Bar\"),\n     }\n     CodeRelation {\n         relation: \"extends\",\n         to_file: <current_file>,\n         to_name: Some(\"Baz\"),\n     }\n     ```\n   - Skip common base classes that add noise: `object`, `ABC`, `Exception`,\n     `BaseException`, `type`, `dict`, `list`, `tuple`, `set`\n\n2. **Function call extraction:**\n   - Use a recursive walker applied to `function_definition` and `class_definition` bodies\n   - Match `call` nodes (tree-sitter-python's call expression kind, NOT `call_expression`).\n     The `function` field (via `child_by_field_name(\"function\")`) gives the callable:\n     - Simple: `foo()` -> `to_name: \"foo\"`",
+  "source_version": "docs/rfcs/2026-03-28-structural-intelligence-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458168416Z",
+  "valid_from": "2026-03-31T13:20:59.458168416Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-structural-intelligence-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 168,
+    "end_line": 203,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

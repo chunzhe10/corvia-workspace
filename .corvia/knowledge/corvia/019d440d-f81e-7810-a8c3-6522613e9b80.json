@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81e-7810-a8c3-6522613e9b80",
+  "content": "wait;\n\n        assert_eq!(status, axum::http::StatusCode::OK);\n        assert!(json.get(\"history\").is_some(), \"missing history\");\n        assert!(json[\"history\"].is_array(), \"history should be an array\");\n        assert_eq!(json[\"scheduled\"], false);\n    }\nasync fn test_live_sessions_handler() {\n        let tmp = tempfile::tempdir().unwrap();\n        let state = test_state(tmp.path()).await;\n\n        let (status, json) = get_json(state, \"/api/dashboard/sessions/live\").await;\n\n        assert_eq!(status, axum::http::StatusCode::OK);\n        assert!(json.get(\"sessions\").is_some(), \"missing sessions\");\n        assert!(json[\"sessions\"].is_array(), \"sessions should be an array\");\n        assert!(json.get(\"summary\").is_some(), \"missing summary\");\n        assert_eq!(json[\"summary\"][\"total_active\"], 0);\n    }",
+  "source_version": "crates/corvia-server/src/dashboard/mod.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.422899086Z",
+  "valid_from": "2026-03-31T13:20:59.422899086Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-server/src/dashboard/mod.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 2046,
+    "end_line": 2057,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

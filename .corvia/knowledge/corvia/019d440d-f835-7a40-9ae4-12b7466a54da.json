@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f835-7a40-9ae4-12b7466a54da",
+  "content": "KEY, next)\n                .map_err(|e| CorviaError::Storage(format!(\"redb META insert: {e}\")))?;\n            next\n        };\n        write_txn.commit()\n            .map_err(|e| CorviaError::Storage(format!(\"redb commit: {e}\")))?;\n        Ok(new_gen)\n    }\nfn persist_synced_generation(&self) -> Result<()> {\n        let current_gen = self.read_redb_generation()?;\n        let json = serde_json::json!({ \"last_synced_generation\": current_gen });\n        std::fs::write(&self.gen_meta_path, serde_json::to_string_pretty(&json).unwrap())\n            .map_err(|e| CorviaError::Storage(format!(\"write gen meta: {e}\")))?;\n        Ok(())\n    }",
+  "source_version": "crates/corvia-kernel/src/tantivy_index.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.445673149Z",
+  "valid_from": "2026-03-31T13:20:59.445673149Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/tantivy_index.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 345,
+    "end_line": 351,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

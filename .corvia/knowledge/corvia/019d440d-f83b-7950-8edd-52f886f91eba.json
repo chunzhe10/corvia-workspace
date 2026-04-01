@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83b-7950-8edd-52f886f91eba",
+  "content": "#### D81: Kernel instrumentation\n#### D87: Config hot-reload\n\n#### D89: Telemetry config wiring\n\nAdd `telemetry: TelemetryConfig` to `CorviaConfig` with `#[serde(default)]` for backward compat:\n\n```toml\n[telemetry]\nexporter = \"stdout\"        # stdout | file | otlp\notlp_endpoint = \"\"         # only when exporter = \"otlp\"\nlog_format = \"text\"        # text | json\nmetrics_enabled = true\n```\n\nWire `init_telemetry()` into `cmd_serve` startup path. Existing `corvia.toml` files without `[telemetry]` get defaults automatically.\n\n**Gate:** Spans visible in logs at `RUST_LOG=debug`, config read/write works programmatically.\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-10-m4-observability-control-plane-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.451118472Z",
+  "valid_from": "2026-03-31T13:20:59.451118472Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-10-m4-observability-control-plane-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 168,
+    "end_line": 185,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

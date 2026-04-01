@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f835-7a40-9ae4-0fa80a36dea8",
+  "content": "fn fail(name: &str, message: &str) -> Self {\n        Self {\n            name: name.into(),\n            status: CheckStatus::Fail,\n            message: message.into(),\n        }\n    }\npub fn generate_spoke_name(workspace_name: &str, issue: Option<u32>, branch: Option<&str>) -> String {\n    let slug = workspace_name\n        .chars()\n        .map(|c| if c.is_alphanumeric() { c } else { '-' })\n        .collect::<String>();\n    let timestamp = chrono::Utc::now().format(\"%m%d%H%M%S\");\n    let suffix = if let Some(n) = issue {\n        n.to_string()\n    } else if let Some(b) = branch {\n        b.chars()\n            .take(20)\n            .map(|c| if c.is_alphanumeric() { c } else { '-' })\n            .collect()\n    } else {\n        \"manual\".into()\n    };\n    format!(\"corvia-{slug}-spoke-{suffix}-{timestamp}\")\n}",
+  "source_version": "crates/corvia-kernel/src/spoke.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.445324229Z",
+  "valid_from": "2026-03-31T13:20:59.445324229Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/spoke.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 825,
+    "end_line": 842,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

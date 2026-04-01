@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83c-7983-bb15-2400ba3bd74c",
+  "content": "## Design Area 4: Retrieval Feedback Loop\n\n### Server-side changes (extends issue #12)\n\nIssue #12 (buffered access tracking) is implemented in `access_buffer.rs`.\nExtend with usage-based implicit feedback:\n\n**Tracked signals:**\n1. Results returned to agent (already tracked via access_buffer.record())\n2. Re-search patterns: same topic searched again within a session = first results\n   insufficient. Detect via embedding similarity of consecutive queries.\n3. Session-level write correlation: if agent calls `corvia_write` with content\n   similar to recent search results (cosine > 0.7), infer the search was useful.\n\n**Implementation:** Add a `SessionSearchLog` to the gap detector that tracks\nper-session query history. On each search, compare against previous queries\nin the same session. If similarity > 0.8 = re-search (gap signal). If a write\nfollows with similar content = useful search (positive signal).\n\n**No explicit rating protocol.** Implicit signals only.\n\n\n### Implementation locations:\n- Extend: `crates/corvia-kernel/src/gap_detector.rs` (SessionSearchLog)\n- Integration: `crates/corvia-server/src/mcp.rs` (record session-level signals)\n",
+  "source_version": "docs/rfcs/2026-03-31-agentic-retrieval-protocol-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.452795115Z",
+  "valid_from": "2026-03-31T13:20:59.452795115Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-31-agentic-retrieval-protocol-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 155,
+    "end_line": 177,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

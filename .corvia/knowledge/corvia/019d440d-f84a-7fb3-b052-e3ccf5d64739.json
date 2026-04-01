@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84a-7fb3-b052-e3ccf5d64739",
+  "content": "### Task 12: Wire dashboard router into server + CORS\n\n### Task 13: Manual integration test\n\n-**Step 1: Start the server**\n\n```bash\ncd /workspaces/corvia-workspace && corvia serve &\n```\n\nWait for \"Server listening on 127.0.0.1:8020\"\n\n-**Step 2: Test status endpoint**\n\n```bash\ncurl -s http://localhost:8020/api/dashboard/status | python3 -m json.tool\n```\n\nExpected: JSON with `services`, `entry_count`, `agent_count`, `merge_queue_depth`, `session_count`, `config` fields.\n\n-**Step 3: Test traces endpoint**\n\n```bash\ncurl -s http://localhost:8020/api/dashboard/traces | python3 -m json.tool\n```\n\nExpected: JSON with `spans` (possibly empty) and `recent_events` (possibly empty).\n\n-**Step 4: Test logs endpoint with filters**\n\n```bash\ncurl -s \"http://localhost:8020/api/dashboard/logs?level=error&limit=10\" | python3 -m json.tool\n```\n\nExpected: JSON with `entries` array and `total` count.\n\n-**Step 5: Test config endpoint**\n\n```bash\ncurl -s http://localhost:8020/api/dashboard/config | python3 -m json.tool\n```\n\nExpected: JSON with `embedding_provider`, `merge_provider`, `storage`, `workspace`.\n\n-**Step 6: Test graph endpoint**\n\n```bash\ncurl -s \"http://localhost:8020/api/dashboard/graph\" | python3 -m json.tool\n```\n\nExpected: JSON with `edges` array (possibly empty).\n\n-**Step 7: Run full test suite**\n\n```bash\ncd repos/corvia && cargo test -p corvia-server dashboard && cargo test -p corvia-common dashboard\n```\n\nExpected: All tests PASS\n\n-**Step 8: Final commit**\n\n```bash\ncd repos/corvia\ngit add crates/corvia-server/src/dashboard/ crates/corvia-common/src/dashboard.rs crates/corvia-common/src/lib.rs crates/corvia-server/src/lib.rs crates/corvia-cli/src/main.rs\ngit commit -m \"feat(dashboard): complete REST API — status, traces, logs, config, graph endpoints\"\n```",
+  "source_version": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.466061301Z",
+  "valid_from": "2026-03-31T13:20:59.466061301Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1629,
+    "end_line": 1693,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

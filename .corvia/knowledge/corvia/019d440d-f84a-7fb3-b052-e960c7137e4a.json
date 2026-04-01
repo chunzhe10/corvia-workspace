@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84a-7fb3-b052-e960c7137e4a",
+  "content": "/ Verify OrphanedNode findings\n    let orphan_findings: Vec<_> = findings\n        .iter()\n        .filter(|f| f.check_type == CheckType::OrphanedNode)\n        .collect();\n    // The orphan entry has no edges. The stale entry also has no edges.\n    assert!(\n        orphan_findings.len() >= 1,\n        \"Expected at least 1 orphaned node finding, got {}\",\n        orphan_findings.len()\n    );\n    let orphan_ids: Vec<Uuid> = orphan_findings\n        .iter()\n        .flat_map(|f| f.target_ids.clone())\n        .collect();\n    assert!(\n        orphan_ids.contains(&orphan.id),\n        \"The orphan entry should be flagged\"\n    );\n\n    // Verify DanglingImport findings\n    let dangling_findings: Vec<_> = findings\n        .iter()\n        .filter(|f| f.check_type == CheckType::DanglingImport)\n        .collect();\n    assert_eq!(\n        dangling_findings.len(),\n        1,\n        \"Expected 1 dangling import finding, got {}\",\n        dangling_findings.len()\n    );\n    assert!(\n        dangling_findings[0].target_ids.contains(&importer.id),\n        \"Dangling finding should reference the importer entry\"\n    );\n    assert!(\n        dangling_findings[0].target_ids.contains(&ghost_id),\n        \"Dangling finding should reference the ghost target\"\n    );\n\n    // Verify StaleEntry findings\n    let stale_findings: Vec<_> = findings\n        .iter()\n        .filter(|f| f.check_type == CheckType::StaleEntry)\n        .collect();\n    assert_eq!(\n        stale_findings.len(),\n        1,\n        \"Expected 1 stale entry finding, got {}\",\n        stale_findings.len()\n    );\n    assert_eq!(stale_findings[0].target_ids, vec![stale.id]);\n\n    // Also verify run_check for a single type\n    let single = reasoner\n        .run_check(&entries, \"reason\", CheckType::StaleEntry)\n        .await\n        .unwrap();\n    assert_eq!(\n        single.len(),\n        1,\n        \"run_check(StaleEntry) should find exactly 1\"\n    );\n}",
+  "source_version": "tests/integration/m3_e2e_test.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.466900852Z",
+  "valid_from": "2026-03-31T13:20:59.466900852Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "tests/integration/m3_e2e_test.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 263,
+    "end_line": 319,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

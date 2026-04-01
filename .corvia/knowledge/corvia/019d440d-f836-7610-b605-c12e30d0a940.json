@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f836-7610-b605-c12e30d0a940",
+  "content": "fn test_confidence_zero() {\n        assert_eq!(confidence_component(Some(0.0)), 0.0);\n    }\nfn test_confidence_over_one_clamped() {\n        assert_eq!(confidence_component(Some(1.5)), 1.0);\n    }\nfn test_confidence_nan_uses_default() {\n        assert_eq!(confidence_component(Some(f32::NAN)), DEFAULT_CONFIDENCE);\n    }\nfn test_hysteresis_hot_stays_hot_at_051() {\n        assert_eq!(determine_tier_transition(Tier::Hot, 0.51), None);\n    }",
+  "source_version": "crates/corvia-kernel/src/scoring.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.446723279Z",
+  "valid_from": "2026-03-31T13:20:59.446723279Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/scoring.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 570,
+    "end_line": 579,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

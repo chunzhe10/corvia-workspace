@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f848-70d1-9cf5-9f1c3a598e11",
+  "content": "tokens(),\n            strategy: default_chunking_strategy(),\n        }\n    }\n}\n```\n\n**Step 3: Add fields to CorviaConfig**\n\nAdd to the `CorviaConfig` struct:\n```rust\n#[serde(default)]\npub rag: RagConfig,\n#[serde(default)]\npub chunking: ChunkingConfig,\n```\n\nUpdate `Default for CorviaConfig` to include:\n```rust\nrag: RagConfig::default(),\nchunking: ChunkingConfig::default(),\n```\n\n**Step 4: Write tests**\n\n```rust\n#[test]\nfn test_rag_config_defaults() {\n    let config = RagConfig::default();\n    assert_eq!(config.default_limit, 10);\n    assert!(config.graph_expand);\n    assert_eq!(config.graph_depth, 2);\n    assert!((config.graph_alpha - 0.3).abs() < f32::EPSILON);\n    assert!((config.reserve_for_answer - 0.2).abs() < f32::EPSILON);\n    assert_eq!(config.max_context_tokens, 0);\n    assert!(config.system_prompt.is_empty());\n}\n\n#[test]\nfn test_chunking_config_defaults() {\n    let config = ChunkingConfig::default();\n    assert_eq!(config.max_tokens, 512);\n    assert_eq!(config.min_tokens, 32);\n    assert_eq!(config.overlap_tokens, 64);\n    assert_eq!(config.strategy, \"auto\");\n}\n\n#[test]\nfn test_rag_config_roundtrip() {\n    let mut config = CorviaConfig::default();\n    config.rag.default_limit = 20;\n    config.rag.graph_alpha = 0.5;\n    let toml_str = toml::to_string_pretty(&config).unwrap();\n    let loaded: CorviaConfig = toml::from_str(&toml_str).unwrap();\n    assert_eq!(loaded.rag.default_limit, 20);\n    assert!((loaded.rag.graph_alpha - 0.5).abs() < f32::EPSILON);\n}\n\n#[test]\nfn test_chunking_config_roundtrip() {\n    let mut config = CorviaConfig::default();\n    config.chunking.max_tokens = 1024;\n    config.chunking.overlap_tokens = 128;\n    let toml_str = toml::to_string_pretty(&config).unwrap();",
+  "source_version": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.464625960Z",
+  "valid_from": "2026-03-31T13:20:59.464625960Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3-unified-parallel-implementation.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 708,
+    "end_line": 754,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a14-7d83-9eec-f5a44352aeee",
+  "content": "     <span class=\"tag\">Memory Management</span>\n      <span class=\"tag\">GPU Optimization</span>\n      <span class=\"tag\">Developer Setup</span>\n    </div>\n  </div>\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">01 / 08</div>\n</div>\n<!-- ════════════════════════════════════════════════ -->\n<!-- SLIDE 2: THE PROBLEM                            -->\n<!-- ════════════════════════════════════════════════ -->\n<div class=\"slide\">\n  <div class=\"slide-label\">The Problem</div>\n  <div class=\"slide-title\">\n    OOM Crashes.<br>\n    <span class=\"highlight-red\">Every. Single. Day.</span>\n  </div>\n  <div class=\"slide-subtitle\">\n    VS Code Devcontainers need Docker. On Windows, that means WSL2.<br>\n    My laptop kept running out of memory and crashing.\n  </div>\n\n  <div class=\"card\" style=\"border-left: 4px solid var(--accent-red);\">\n    <div class=\"card-header\">My setup</div>\n    <div style=\"font-size: 22px; line-height: 2;\">\n      <strong>RAM:</strong> 40 GB &nbsp;&bull;&nbsp;\n      <strong>GPU:</strong> RTX 3060 Laptop &nbsp;&bull;&nbsp;\n      <strong>OS:</strong> Windows 11<br>\n      <strong>Workload:</strong> VS Code Devcontainers + Browser + Video Editing\n    </div>\n  </div>\n\n  <div class=\"card\" style=\"border-left: 4px solid var(--accent-amber);\">\n    <div class=\"card-header\">First instinct</div>\n    <div style=\"font-size: 22px; line-height: 1.7;\">\n      \"I need more RAM.\" &#8594; Ordered 32 GB upgrade.<br>\n      But RAM isn't cheap &mdash; <strong>especially these days.</strong><br>\n      There has to be a more efficient way.\n    </div>\n  </div>\n\n  <div class=\"insight-box\">\n    <p>Instead of throwing hardware at the problem, I decided to<br>understand <strong>why</strong> 40 GB wasn't enough.</p>\n  </div>\n\n  <div class=\"flex-grow\"></div>\n  <div class=\"author-tag\">Lim Chun Zhe</div>\n  <div class=\"slide-number\">02 / 08</div>\n</div>",
+  "source_version": "marketing/linkedin/2026-03-11-linux-discovery/linux-discovery-carousel.html",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.028199404Z",
+  "valid_from": "2026-03-31T13:51:39.028199404Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "marketing/linkedin/2026-03-11-linux-discovery/linux-discovery-carousel.html",
+    "language": null,
+    "chunk_type": "text",
+    "start_line": 482,
+    "end_line": 522,
+    "content_role": null,
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "episodic",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

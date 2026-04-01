@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-37aecc9af835",
+  "content": "## Task 9: Implement EmbeddingService with fastembed\n\n        self.models.clone()\n    }\n\n    /// Load an embedding model by name. Downloads from HuggingFace if not cached.\n    pub async fn load_model(&self, name: &str) -> Result<(), Status> {\n        let model_enum = match name {\n            \"nomic-embed-text-v1.5\" | \"nomic-ai/nomic-embed-text-v1.5\" =>\n                EmbeddingModel::NomicEmbedTextV15,\n            \"nomic-embed-text-v1\" | \"nomic-ai/nomic-embed-text-v1\" =>\n                EmbeddingModel::NomicEmbedTextV1,\n            \"bge-small-en-v1.5\" | \"BAAI/bge-small-en-v1.5\" =>\n                EmbeddingModel::BGESmallENV15,\n            \"bge-base-en-v1.5\" | \"BAAI/bge-base-en-v1.5\" =>\n                EmbeddingModel::BGEBaseENV15,\n            \"bge-large-en-v1.5\" | \"BAAI/bge-large-en-v1.5\" =>\n                EmbeddingModel::BGELargeENV15,\n            other => return Err(Status::not_found(format!(\"Unknown embedding model: {other}\"))),\n        };\n\n        tracing::info!(model = %name, \"Loading embedding model...\");\n        let model = tokio::task::spawn_blocking(move || {\n            TextEmbedding::try_new(InitOptions::new(model_enum).with_show_download_progress(true))\n        })\n        .await\n        .map_err(|e| Status::internal(format!(\"Spawn failed: {e}\")))?\n        .map_err(|e| Status::internal(format!(\"Model load failed: {e}\")))?;\n\n        self.models.write().await.insert(name.to_string(), model);\n        tracing::info!(model = %name, \"Embedding model loaded\");\n        Ok(())\n    }\n\n    fn get_model_or_err<'a>(\n        models: &'a HashMap<String, TextEmbedding>,\n        name: &str,\n    ) -> Result<&'a TextEmbedding, Status> {\n        models.get(name).ok_or_else(|| Status::not_found(format!(\"Model '{name}' not loaded\")))\n    }\n}\n",
+  "source_version": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458718125Z",
+  "valid_from": "2026-03-31T13:20:59.458718125Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1284,
+    "end_line": 1323,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

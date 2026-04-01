@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-3549b6f77cb2",
+  "content": "### D-SI-3: Reuse Rust's Deny-List Pattern for JS/TS and Python\n### D-SI-4: Separate Relation Types for Inheritance vs. Interface Conformance\n\n### D-SI-5: Edge Weights by Relation Type with Per-Relation Direction Bias\n- **Decision:** Weight graph expansion by relation type and direction. `implements` > `extends`\n  > `calls` > `imports` > `uses` > `contains` > `references`. Direction bias is per-relation,\n  not global.\n- **Rationale:** Not all edges are equally informative. Outgoing `calls`/`imports` are more\n  relevant than incoming for most queries. But incoming `references` (docs pointing at code)\n  are more valuable than outgoing. A blanket direction discount is too blunt.\n\n\n### D-SI-6: Stale Edge Cleanup on Re-ingestion\n- **Decision:** Call `remove_edges()` for superseded/replaced entries before wiring new edges.\n- **Rationale:** Without cleanup, refactored files accumulate ghost relationships. The graph\n  diverges from the code over time, degrading traversal quality.\n",
+  "source_version": "docs/rfcs/2026-03-28-structural-intelligence-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458325050Z",
+  "valid_from": "2026-03-31T13:20:59.458325050Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-structural-intelligence-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 654,
+    "end_line": 666,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

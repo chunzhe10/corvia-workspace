@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f82b-7733-b219-a795f658f204",
+  "content": "new(&store, &store);\n\n        // Run only the stale check\n        let stale_findings = reasoner\n            .run_check(&[stale.clone()], \"scope\", CheckType::StaleEntry)\n            .await\n            .unwrap();\n        assert_eq!(stale_findings.len(), 1);\n\n        // Run the broken chain check — should find nothing for this data\n        let chain_findings = reasoner\n            .run_check(&[stale], \"scope\", CheckType::BrokenChain)\n            .await\n            .unwrap();\n        assert!(chain_findings.is_empty());\n    }\n\n    // ---- Finding -> KnowledgeEntry ----\n\n    #[tokio::test]\n    async fn test_finding_to_knowledge_entry() {\n        let target_id = Uuid::now_v7();\n        let finding = Finding::new(\n            CheckType::StaleEntry,\n            \"my-scope\",\n            vec![target_id],\n            1.0,\n            \"test rationale\",\n        );\n\n        let ke = finding.to_knowledge_entry();\n        assert_eq!(ke.scope_id, \"my-scope\");\n        assert_eq!(ke.source_version, \"reasoner\");\n        assert_eq!(ke.metadata.chunk_type.as_deref(), Some(\"finding\"));\n        assert!(ke.content.contains(\"[stale_entry]\"));\n        assert!(ke.content.contains(\"test rationale\"));\n        assert!(ke.content.contains(&target_id.to_string()));\n        assert!(ke.content.contains(\"100%\"));\n    }\n\n    // ---- Scope filtering ----\n\n    #[tokio::test]\n    async fn test_checks_respect_scope_filter() {\n        let (_dir, store) = test_store().await;\n\n        // Stale entry in a different scope should not appear\n        let mut stale_other = entry(\"stale in other scope\", \"other-scope\");\n        stale_other.valid_to = Some(Utc::now());\n        store.insert(&stale_other).await.unwrap();\n\n        let reasoner = Reasoner::new(&store, &store);\n        let findings = reasoner\n            .check_stale_entries(&[stale_other], \"scope\")\n            .await\n            .unwrap();\n        assert!(findings.is_empty(), \"entries in a different scope should be excluded\");\n    }\n\n    // ---- LLM-powered checks ----\n",
+  "source_version": "crates/corvia-kernel/src/reasoner.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.435311207Z",
+  "valid_from": "2026-03-31T13:20:59.435311207Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/reasoner.rs",
+    "language": "rs",
+    "chunk_type": "mod_item",
+    "start_line": 1104,
+    "end_line": 1155,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

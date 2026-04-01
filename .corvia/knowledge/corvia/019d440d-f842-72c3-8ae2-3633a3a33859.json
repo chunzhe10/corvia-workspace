@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f842-72c3-8ae2-3633a3a33859",
+  "content": "p corvia-proto`\nExpected: SUCCESS — tonic-build generates server/client stubs from proto files.\n\n**Step 6: Commit**\n\n```bash\ngit add crates/corvia-proto/ Cargo.toml\ngit commit -m \"feat(d60): add corvia-proto crate with gRPC service definitions\"\n```\n\n---\n\n## Task 2: Add ChatEngine trait and ChatMessage type\n\n**Files:**\n- Modify: `crates/corvia-kernel/src/traits.rs`\n- Modify: `crates/corvia-common/src/types.rs`\n- Test: existing tests in `crates/corvia-kernel/src/merge_worker.rs`\n\n**Step 1: Write ChatMessage type in corvia-common**\n\nAdd to `crates/corvia-common/src/types.rs`:\n```rust\n/// A chat message for LLM inference (used by ChatEngine trait).\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct ChatMessage {\n    pub role: String,\n    pub content: String,\n}\n\nimpl ChatMessage {\n    pub fn user(content: impl Into<String>) -> Self {\n        Self { role: \"user\".into(), content: content.into() }\n    }\n\n    pub fn system(content: impl Into<String>) -> Self {\n        Self { role: \"system\".into(), content: content.into() }\n    }\n\n    pub fn assistant(content: impl Into<String>) -> Self {\n        Self { role: \"assistant\".into(), content: content.into() }\n    }\n}\n```\n\n**Step 2: Add ChatEngine trait to traits.rs**\n\nAdd to `crates/corvia-kernel/src/traits.rs`:\n```rust\nuse corvia_common::types::ChatMessage;\n\n/// Chat/reasoning provider for LLM inference (D60).\n/// Used by MergeWorker for conflict resolution.\n#[async_trait]\npub trait ChatEngine: Send + Sync {\n    /// Send messages to a chat model and return the response text.\n    async fn chat(&self, messages: &[ChatMessage], model: &str) -> Result<String>;\n}\n```\n\n**Step 3: Verify existing tests still pass**\n\nRun: `cargo test -p corvia-kernel`\nExpected: All 117 tests PASS (no behavioral changes yet).\n\n**Step 4: Commit**\n\n```bash\ngit add crates/corvia-common/src/types.rs crates/corvia-kernel/src/traits.rs\ngit commit -m \"feat(d60): add ChatEngine trait and ChatMessage type\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.458439578Z",
+  "valid_from": "2026-03-31T13:20:59.458439578Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-grpc-inference-server-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 224,
+    "end_line": 285,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

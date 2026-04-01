@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f834-7df0-9fec-23c1cfc30fff",
+  "content": "       let docs_path = root.join(workspace_docs_dir);\n        if docs_path.exists() && docs_path.is_dir() {\n            let docs_path_str = docs_path\n                .to_str()\n                .ok_or_else(|| anyhow::anyhow!(\"Invalid workspace docs path\"))?;\n\n            let blocked = docs_config\n                .rules\n                .as_ref()\n                .map(|r| r.blocked_paths.clone())\n                .unwrap_or_default();\n\n            let adapter_info = adapter_discovery::resolve_adapter(\n                docs_path_str,\n                &discovered,\n                None,\n                default_name,\n            );\n\n            if let Some(adapter_info) = adapter_info {\n                progress.log(&format!(\n                    \"\\nIngesting workspace docs ({})...\",\n                    workspace_docs_dir\n                ));\n\n                let mut process = ProcessAdapter::new(\n                    adapter_info.binary_path.clone(),\n                    adapter_info.metadata.clone(),\n                );\n                process.spawn().map_err(|e| anyhow::anyhow!(e))?;\n\n                let source_files = process\n                    .ingest(docs_path_str, &config.project.scope_id)\n                    .map_err(|e| anyhow::anyhow!(e))?;\n\n                // Filter: only allowed subdirs, exclude blocked paths and excluded files\n                let allowed = &docs_config.allowed_workspace_subdirs;\n                let source_files: Vec<_> = source_files\n                    .into_iter()\n                    .filter(|sf| {\n                        let path = &sf.metadata.file_path;\n                        if is_excluded_file(path) {\n                            return false;\n                        }\n                        let in_allowed = allowed.is_empty()\n                            || allowed.iter().any(|sub| {\n                                path.starts_with(&format!(\"{sub}/\"))\n                                    || path.starts_with(sub.as_str())\n                            });\n                        let is_blocked = blocked\n                            .iter()",
+  "source_version": "crates/corvia-kernel/src/ingest.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.444483236Z",
+  "valid_from": "2026-03-31T13:20:59.444483236Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/ingest.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 808,
+    "end_line": 853,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

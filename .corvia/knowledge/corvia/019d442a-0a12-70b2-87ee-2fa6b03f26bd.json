@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a12-70b2-87ee-2fa6b03f26bd",
+  "content": "### M5: Issue Link from Repo URL (PM, QA)\n### M6: MCP Rate Limiting (Security)\n\n### M7: Secret Content Filter (Security)\n\nDefer to Phase 2. When implemented, add regex scan on `corvia_write` content:\n- API key patterns (`sk-`, `ghp_`, `gho_`, `AKIA`)\n- Base64-encoded credentials\n- Connection strings with passwords\n\nWarn, don't block (false positives are worse than missed secrets for dev use).\n\n\n### M8, M9: Merged into M1 (corvia-telemetry)\n\nSee M1 above. Audit log and spoke log capture are both telemetry concerns,\nhandled via `corvia-telemetry` spans and metrics, not `corvia_write`.\n",
+  "source_version": "decisions/2026-03-28-spoke-design-review-fixes.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.026607737Z",
+  "valid_from": "2026-03-31T13:51:39.026607737Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-28-spoke-design-review-fixes.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 996,
+    "end_line": 1009,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

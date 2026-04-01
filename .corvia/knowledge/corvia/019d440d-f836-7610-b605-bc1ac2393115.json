@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f836-7610-b605-bc1ac2393115",
+  "content": "rnel's ChunkingPipeline.\n    /// Files are returned as-is (content + metadata); the pipeline\n    /// handles all chunking, embedding, and storage.\n    async fn ingest_sources(&self, source_path: &str) -> Result<Vec<crate::chunking_strategy::SourceFile>>;\n}\npub trait TemporalStore: Send + Sync {\n    /// Return entries valid at a point in time within a scope.\n    async fn as_of(\n        &self,\n        scope_id: &str,\n        timestamp: chrono::DateTime<chrono::Utc>,\n        limit: usize,\n    ) -> Result<Vec<KnowledgeEntry>>;\n\n    /// Follow the supersession chain for an entry (newest -> oldest).\n    async fn history(&self, entry_id: &uuid::Uuid) -> Result<Vec<KnowledgeEntry>>;\n\n    /// Return entries that changed within a time range (created, superseded, or expired).\n    async fn evolution(\n        &self,\n        scope_id: &str,\n        from: chrono::DateTime<chrono::Utc>,\n        to: chrono::DateTime<chrono::Utc>,\n    ) -> Result<Vec<KnowledgeEntry>>;\n}",
+  "source_version": "crates/corvia-kernel/src/traits.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.446125677Z",
+  "valid_from": "2026-03-31T13:20:59.446125677Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-kernel/src/traits.rs",
+    "language": "rs",
+    "chunk_type": "trait_item",
+    "start_line": 120,
+    "end_line": 139,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

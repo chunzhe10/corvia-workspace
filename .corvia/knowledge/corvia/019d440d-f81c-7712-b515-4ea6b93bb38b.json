@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f81c-7712-b515-4ea6b93bb38b",
+  "content": ".len(), 2, \"Expected 2 extends relations for multiple inheritance\");\n        let names: Vec<&str> = extends.iter().filter_map(|r| r.to_name.as_deref()).collect();\n        assert!(names.contains(&\"Mixin1\"));\n        assert!(names.contains(&\"Mixin2\"));\n    }\nfn test_python_class_skips_object_and_abc() {\n        let source = r#\"\nfrom abc import ABC\n\nclass Foo(object):\n    def run(self):\n        pass\n\nclass Bar(ABC):\n    def run(self):\n        pass\n\"#;\n        let result = chunk_file_with_relations(\"app.py\", source, \"py\");\n        let extends: Vec<&CodeRelation> = result\n            .relations\n            .iter()\n            .filter(|r| r.relation == \"extends\")\n            .collect();\n        assert!(\n            extends.is_empty(),\n            \"object and ABC should be skipped, got: {:?}\",\n            extends.iter().map(|r| r.to_name.as_deref()).collect::<Vec<_>>()\n        );\n    }",
+  "source_version": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.420740984Z",
+  "valid_from": "2026-03-31T13:20:59.420740984Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "adapters/corvia-adapter-git/rust/src/treesitter.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 2312,
+    "end_line": 2335,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

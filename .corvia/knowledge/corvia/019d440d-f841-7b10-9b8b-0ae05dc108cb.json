@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f841-7b10-9b8b-0ae05dc108cb",
+  "content": "## 11. Query Patterns Enabled\n\n## 12. Open for Discussion\n\n1. **Should team entries promote to the product scope by default?** Team structure\n   entries are metadata. Task and message entries may contain product-relevant\n   decisions. Current design: all start in `user-history`, optional LLM extraction\n   promotes relevant ones.\n\n2. **Lead transcript tagging.** The lead's transcript entries have a `teamName`\n   field during team activity. A future Phase 3 deliverable could tag these\n   entries to enable \"what did the lead do while the team was active?\" queries.\n   Not blocking for v1.\n\n3. **Dashboard integration.** Team data is inherently visual (task dependency\n   graphs, message flow, member contribution timelines). A future dashboard\n   enhancement could render team timelines. Not in scope for this RFC.\n\n4. **Multi-tool generalization.** The capture and parsing layers are Claude Code\n   specific. If other tools (Codex, Cursor) develop team features, consider\n   factoring the entry emitters into a shared module that takes a normalized\n   intermediate representation. The current design does not preclude this.",
+  "source_version": "docs/rfcs/2026-03-28-agent-teams-adapter-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.457187128Z",
+  "valid_from": "2026-03-31T13:20:59.457187128Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-28-agent-teams-adapter-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 738,
+    "end_line": 757,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

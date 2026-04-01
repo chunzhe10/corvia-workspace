@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f827-7411-ad28-5b1051b94734",
+  "content": "fn test_calc_drift_normal() {\n        let drift = ProbeState::calc_drift(1000, 1500);\n        assert!((drift - 50.0).abs() < f64::EPSILON, \"expected ~50.0, got {drift}\");\n    }\nfn test_calc_drift_zero_baseline() {\n        assert_eq!(ProbeState::calc_drift(0, 500), 0.0);\n    }\nfn test_calc_drift_same_value() {\n        assert_eq!(ProbeState::calc_drift(1000, 1000), 0.0);\n    }",
+  "source_version": "crates/corvia-inference/src/probe.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.431103178Z",
+  "valid_from": "2026-03-31T13:20:59.431103178Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-inference/src/probe.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 163,
+    "end_line": 170,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

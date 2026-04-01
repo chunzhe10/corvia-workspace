@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f847-7f61-b488-73c77b3a5354",
+  "content": "## Observability\n\n### Entry-Level Fields\n\nEvery entry exposes its lifecycle state for debugging and dashboard display:\n\n- `tier`: Current tier (Hot/Warm/Cold/Forgotten) — included in all search results\n- `tier_changed_at`: Timestamp of last tier transition\n- `retention_score`: Last computed composite score (updated each GC cycle)\n- `pinned_by` / `pinned_at`: Audit trail for explicit pins\n\n\n### Span Constants (corvia-telemetry)\n\nNew span constants following the `corvia.{subsystem}.{operation}` convention:\n\n```rust\n// In crates/corvia-telemetry/src/lib.rs, add to pub mod spans:\n// GC_CYCLE is a child span of the existing GC_RUN (corvia.gc.run).\n// GC_RUN is the top-level trigger (manual or periodic); GC_CYCLE is one\n// evaluation pass over a scope.\npub const GC_CYCLE: &str = \"corvia.gc.cycle\";\npub const GC_SCORE: &str = \"corvia.gc.score\";\npub const GC_TRANSITION: &str = \"corvia.gc.transition\";\npub const GC_REBUILD: &str = \"corvia.gc.rebuild\";\npub const ACCESS_RECORD: &str = \"corvia.access.record\";\n```\n",
+  "source_version": "docs/rfcs/2026-03-27-tiered-knowledge-design.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.463811996Z",
+  "valid_from": "2026-03-31T13:20:59.463811996Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-27-tiered-knowledge-design.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 531,
+    "end_line": 555,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

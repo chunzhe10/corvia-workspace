@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f845-7453-aba9-7a43de20be6e",
+  "content": "## Task 6: Augmenter Trait + StructuredAugmenter\n\n    use corvia_common::agent_types::EntryStatus;\n    use corvia_common::types::{EntryMetadata, KnowledgeEntry};\n\n    fn mock_result(content: &str, score: f32, source_file: Option<&str>) -> SearchResult {\n        let mut entry = KnowledgeEntry::new(content.into(), \"proj\".into(), \"v1\".into());\n        entry.entry_status = EntryStatus::Merged;\n        entry.metadata = EntryMetadata {\n            source_file: source_file.map(|s| s.into()),\n            language: Some(\"rust\".into()),\n            chunk_type: Some(\"function\".into()),\n            ..Default::default()\n        };\n        SearchResult { entry, score }\n    }\n\n    #[test]\n    fn test_structured_augmenter_formats_sources() {\n        let augmenter = StructuredAugmenter::new(None);\n        let results = vec![\n            mock_result(\"fn authenticate() { ... }\", 0.94, Some(\"src/auth.rs\")),\n            mock_result(\"fn validate_token() { ... }\", 0.87, Some(\"src/token.rs\")),\n        ];\n        let budget = TokenBudget { max_context_tokens: Some(4096), reserve_for_answer: 0.2 };\n        let ctx = augmenter.augment(\"How does auth work?\", &results, &budget).unwrap();\n\n        assert!(ctx.context.contains(\"[1]\"));\n        assert!(ctx.context.contains(\"[2]\"));\n        assert!(ctx.context.contains(\"src/auth.rs\"));\n        assert!(ctx.context.contains(\"src/token.rs\"));\n        assert!(ctx.context.contains(\"How does auth work?\"));\n        assert_eq!(ctx.metrics.sources_included, 2);\n        assert_eq!(ctx.metrics.sources_truncated, 0);",
+  "source_version": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.461971816Z",
+  "valid_from": "2026-03-31T13:20:59.461971816Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1079,
+    "end_line": 1110,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d442a-0a11-76a3-858d-c9ee0ac23a0b",
+  "content": "## Files Changed\n## Impact\n\n## Risks\n\n- **Redb file growth**: VECTORS table adds ~380-440 MB at 100K entries. Acceptable\n  for a gitignored ephemeral cache. `corvia rebuild` can regenerate from content.\n- **Fresh clone**: No embeddings in JSON or Redb after clone. `corvia rebuild` must\n  re-embed from content (requires inference server). Document expected time.\n- **Model change**: If embedding dimensions change, VECTORS table has stale data.\n  Detect dimension mismatch on startup → force rebuild.\n\n\n## Review History\n\n5-persona review (2026-03-27):\n- **Senior SWE**: Recommended Redb over custom sidecar. Flagged `skip_serializing` data loss during transition.\n- **Product Manager**: Approved — strengthens git-trackable value prop. Requires rollback path + migration UX.\n- **QA Engineer**: 5 blocking issues (concurrency, corruption, rollback, fresh clone, migration resume). All resolved by Redb choice.\n- **Storage/Data Engineer**: Custom sidecar has crash-safety gaps (header atomicity, torn writes, compaction). Redb eliminates all.\n- **Security Engineer**: Validate scope_id on vector paths. Use `try_cast_slice`. Two-phase migration. Set restrictive permissions.",
+  "source_version": "decisions/2026-03-27-embedding-storage-redb-vectors.md",
+  "scope_id": "corvia",
+  "workstream": "docs",
+  "recorded_at": "2026-03-31T13:51:39.025364489Z",
+  "valid_from": "2026-03-31T13:51:39.025364489Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "decisions/2026-03-27-embedding-storage-redb-vectors.md",
+    "language": null,
+    "chunk_type": "heading_section",
+    "start_line": 137,
+    "end_line": 153,
+    "content_role": "decision",
+    "source_origin": "workspace"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

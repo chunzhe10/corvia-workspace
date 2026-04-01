@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83a-78e0-bb2b-d977e1e3c450",
+  "content": " = base_cats[cat][\"mrr\"]\n            cand_m = cand_cats[cat][\"mrr\"]\n            if cand_m < base_m - 0.01:\n                regressions.append(\n                    f\"{cat}: MRR regressed {base_m:.2f} -> {cand_m:.2f}\"\n                )\n    return regressions\ndef main():\n    parser = argparse.ArgumentParser(description=\"Compare RAG retrieval benchmarks\")\n    parser.add_argument(\"files\", nargs=\"+\",\n                        help=\"Eval result JSON files. First file is the baseline, \"\n                             \"second is the candidate (checked against ship gates). \"\n                             \"Additional files are shown in tables but not gate-checked.\")\n    args = parser.parse_args()\n\n    if len(args.files) < 2:\n        print(\"Need at least 2 result files to compare.\", file=sys.stderr)\n        sys.exit(1)\n\n    results = [load_result(f) for f in args.files]\n    labels = [label_for(r) for r in results]\n\n    print()\n    print(\"=\" * 70)\n    print(\"  RAG Retrieval Benchmark Comparison\")\n    print(\"=\" * 70)\n    print()\n\n    # ── Aggregate Metrics ──\n    print(\"## Aggregate Metrics\")\n    print()\n    print_header(labels)\n\n    aggs = [r[\"aggregate\"] for r in results]\n    print_row(\"Recall@5\", [a[\"recall_at_5\"] for a in aggs])\n    print_row(\"MRR\", [a[\"mrr\"] for a in aggs])\n    print_row(\"Keyword Recall\", [a[\"keyword_recall\"] for a in aggs])\n    print_row(\"Latency p50 (ms)\", [a[\"latency_p50_ms\"] for a in aggs],\n              fmt=\".1f\", delta_fmt=\"+.1f\", higher_is_better=False)\n    print_row(\"Latency p95 (ms)\", [a[\"latency_p95_ms\"] for a in aggs],\n              fmt=\".1f\", delta_fmt=\"+.1f\", higher_is_better=False)\n    print_row(\"Latency p99 (ms)\", [a[\"latency_p99_ms\"] for a in aggs],\n              fmt=\".1f\", delta_fmt=\"+.1f\", higher_is_better=False)\n    print()\n\n    # ── Per-Category Breakdown ──",
+  "source_version": "benchmarks/rag-retrieval/compare.py",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.450297859Z",
+  "valid_from": "2026-03-31T13:20:59.450297859Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "benchmarks/rag-retrieval/compare.py",
+    "language": "py",
+    "chunk_type": "function_definition",
+    "start_line": 92,
+    "end_line": 130,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f839-77c3-913e-1a7cc674167d",
+  "content": "\"aggregate\": {\n  \"by_category\": {\n    \"api\": {\n      \"keyword_recall\": 0.6667,\n      \"mrr\": 0.0417,\n      \"query_count\": 3,\n      \"recall_at_5\": 0.0\n    },\n    \"architecture\": {\n      \"keyword_recall\": 0.8889,\n      \"mrr\": 0.3889,\n      \"query_count\": 3,\n      \"recall_at_5\": 0.4444\n    },\n    \"config\": {\n      \"keyword_recall\": 0.8889,\n      \"mrr\": 0.1778,\n      \"query_count\": 3,\n      \"recall_at_5\": 0.2222\n    },\n    \"feature\": {\n      \"keyword_recall\": 0.8889,\n      \"mrr\": 0.5,\n      \"query_count\": 3,\n      \"recall_at_5\": 0.5\n    },\n    \"performance\": {\n      \"keyword_recall\": 0.8333,\n      \"mrr\": 0.3333,\n      \"query_count\": 3,\n      \"recall_at_5\": 0.1111\n    }\n  },\n  \"keyword_recall\": 0.8333,\n  \"latency_p50_ms\": 26.0,\n  \"latency_p95_ms\": 32.0,\n  \"latency_p99_ms\": 32.0,\n  \"mrr\": 0.2883,\n  \"query_count\": 15,\n  \"recall_at_5\": 0.2555\n}",
+  "source_version": "benchmarks/rag-retrieval/results/bm25-only.json",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.449672977Z",
+  "valid_from": "2026-03-31T13:20:59.449672977Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "benchmarks/rag-retrieval/results/bm25-only.json",
+    "language": "json",
+    "chunk_type": "section",
+    "start_line": 1,
+    "end_line": 41,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

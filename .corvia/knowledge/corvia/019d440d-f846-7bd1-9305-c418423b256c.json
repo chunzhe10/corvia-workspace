@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-c418423b256c",
+  "content": "## Task 9: Refactor cmd_ingest to Use Discovery\n\n        let explicit = config\n            .sources\n            .as_ref()\n            .and_then(|sources| {\n                sources.iter().find(|s| s.path == path).and_then(|s| s.adapter.as_deref())\n            });\n        let default_name = config.adapters.as_ref().and_then(|a| a.default.as_deref());\n        let adapter_info = adapter_discovery::resolve_adapter(path, &discovered, explicit, default_name)\n            .ok_or_else(|| anyhow::anyhow!(\"No suitable adapter found for '{}'\", path))?;\n\n        println!(\"Ingesting {} (adapter: {})...\", path, adapter_info.metadata.name);\n\n        // Step 3: Spawn adapter process\n        let mut process = ProcessAdapter::new(\n            adapter_info.binary_path.clone(),\n            adapter_info.metadata.clone(),\n        );\n        process.spawn().map_err(|e| anyhow::anyhow!(e))?;\n\n        // Step 4: Ingest source files via IPC\n        let source_files = process\n            .ingest(path, &config.project.scope_id)\n            .map_err(|e| anyhow::anyhow!(e))?;\n        let total_files = source_files.len();\n\n        // Step 5: Build chunking pipeline with adapter strategies\n        let mut pipeline = corvia_kernel::create_chunking_pipeline(&config);\n\n        // Register adapter's chunking extensions via IPC",
+  "source_version": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462996506Z",
+  "valid_from": "2026-03-31T13:20:59.462996506Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-03-adapter-plugin-system.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 2243,
+    "end_line": 2271,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

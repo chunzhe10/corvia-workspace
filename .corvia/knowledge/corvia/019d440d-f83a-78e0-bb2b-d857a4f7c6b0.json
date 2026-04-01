@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f83a-78e0-bb2b-d857a4f7c6b0",
+  "content": "w does the agent staging system isolate writes and handle merge conflicts?\",\n    \"recall_at_5\": 0.6667,\n    \"reciprocal_rank\": 1.0,\n    \"retriever_name\": \"pipeline\",\n    \"stages\": null,\n    \"top_5_files\": [\n      \"crates/corvia-kernel/src/merge_worker.rs\",\n      \"decisions/d45-multi-agent-lifecycle.md\",\n      \"docs/rfcs/2026-03-01-m2-agent-coordination.md\",\n      \"docs/rfcs/2026-03-01-m2-agent-coordination.md\",\n      \"docs/rfcs/milestone-revision-notes.md\"\n    ],\n    \"vector_results\": 30\n  },\n  {\n    \"bm25_latency_ms\": null,\n    \"bm25_results\": null,\n    \"category\": \"feature\",\n    \"expected_sources\": [\n      \"graph\",\n      \"README\"\n    ],\n    \"found_sources\": [\n      \"crates/corvia-kernel/README.md\",\n      \"ARCHITECTURE.md\",\n      \"docs/rfcs/2026-03-02-m3-implementation.md\",\n      \"crates/corvia-kernel/src/lite_store.rs\",\n      \"docs/rfcs/2026-03-02-m3-implementation.md\",\n      \"docs/rfcs/2026-03-10-m4-observability-control-plane-design.md\",\n      \"crates/corvia-kernel/src/reasoner.rs\",\n      \"crates/corvia-common/src/types.rs\",\n      \"crates/corvia-kernel/src/lite_store.rs\"\n    ],\n    \"fusion_latency_ms\": 0,\n    \"fusion_method\": \"passthrough\",\n    \"graph_expanded\": 722,\n    \"id\": 4,\n    \"keyword_recall\": 1.0,\n    \"latency_ms\": 840,\n    \"query\": \"What graph traversal and relationship operations does corvia support?\",\n    \"recall_at_5\": 0.5,\n    \"reciprocal_rank\": 1.0,\n    \"retriever_name\": \"pipeline\",\n    \"stages\": null,",
+  "source_version": "benchmarks/rag-retrieval/results/vector-only.json",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.450120239Z",
+  "valid_from": "2026-03-31T13:20:59.450120239Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "benchmarks/rag-retrieval/results/vector-only.json",
+    "language": "json",
+    "chunk_type": "section",
+    "start_line": 164,
+    "end_line": 200,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

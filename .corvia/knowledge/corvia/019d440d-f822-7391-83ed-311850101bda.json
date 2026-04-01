@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f822-7391-83ed-311850101bda",
+  "content": "t\\\":null\"));\n\n        let roundtrip: GpuStatusResponse = serde_json::from_str(&json).unwrap();\n        assert_eq!(roundtrip.gpus.len(), 2);\n        assert_eq!(roundtrip.gpus[0].vendor, \"nvidia\");\n        assert_eq!(roundtrip.gpus[1].vendor, \"intel\");\n    }\nfn gpu_status_empty_gpus() {\n        let resp = GpuStatusResponse {\n            gpus: vec![],\n            inference_backend: HashMap::new(),\n            inference_health: None,\n        };\n        let json = serde_json::to_string(&resp).unwrap();\n        assert!(json.contains(\"\\\"gpus\\\":[]\"));\n    }",
+  "source_version": "crates/corvia-common/src/dashboard.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.426053393Z",
+  "valid_from": "2026-03-31T13:20:59.426053393Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "crates/corvia-common/src/dashboard.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 598,
+    "end_line": 606,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

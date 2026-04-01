@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f849-7132-8368-91b2945b37d8",
+  "content": "t start = Instant::now();\n    let addr = format!(\"{host}:{port}\");\n    let stream = match timeout(HEALTH_TIMEOUT, TcpStream::connect(&addr)).await {\n        Ok(Ok(s)) => s,\n        _ => return HealthResult { healthy: Some(false), latency_ms: -1.0 },\n    };\n    let mut stream = stream;\n    let request = format!(\"GET {path} HTTP/1.1\\r\\nHost: {host}:{port}\\r\\nConnection: close\\r\\n\\r\\n\");\n    if stream.write_all(request.as_bytes()).await.is_err() {\n        return HealthResult { healthy: Some(false), latency_ms: -1.0 };\n    }\n    let mut buf = [0u8; 64];\n    match timeout(HEALTH_TIMEOUT, stream.read(&mut buf)).await {\n        Ok(Ok(n)) if n > 12 => {\n            let response = String::from_utf8_lossy(&buf[..n]);\n            if response.contains(\"200\") || response.contains(\"204\") {\n                HealthResult {\n                    healthy: Some(true),\n                    latency_ms: start.elapsed().as_secs_f64() * 1000.0,\n                }\n            } else {\n                HealthResult { healthy: Some(false), latency_ms: -1.0 }\n            }\n        }\n        _ => HealthResult { healthy: Some(false), latency_ms: -1.0 },\n    }\n}\n\n/// gRPC health check — TCP connect + HTTP/2 preface handshake\npub async fn check_grpc(host: &str, port: u16) -> HealthResult {\n    let start = Instant::now();\n    let addr = format!(\"{host}:{port}\");\n    let stream = match timeout(HEALTH_TIMEOUT, TcpStream::connect(&addr)).await {\n        Ok(Ok(s)) => s,\n        _ => return HealthResult { healthy: Some(false), latency_ms: -1.0 },\n    };\n    let mut stream = stream;\n    let preface = b\"PRI * HTTP/2.0\\r\\n\\r\\nSM\\r\\n\\r\\n\";\n    if stream.write_all(preface).await.is_err() {",
+  "source_version": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.465736542Z",
+  "valid_from": "2026-03-31T13:20:59.465736542Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-11-dashboard-api-rust.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 458,
+    "end_line": 490,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f84a-7fb3-b052-e9a3dbf27fe9",
+  "content": "to_id {\n                    store\n                        .relate(&from_id, &rel.relation, &to_id, None)\n                        .await\n                        .unwrap();\n                    edge_count += 1;\n                }\n            }\n        }\n    }\n\n    // 6. Run Reasoner\n    let scope = &stored_entries[0].scope_id;\n    let reasoner = Reasoner::new(&store, &store);\n    let findings = reasoner.run_all(&stored_entries, scope).await.unwrap();\n\n    // 7. Verify non-empty: entries were ingested, some graph edges exist\n    assert!(\n        stored_entries.len() >= 2,\n        \"Should have at least 2 entries from 2 Rust files\"\n    );\n    assert!(\n        edge_count >= 1,\n        \"Should have wired at least 1 graph edge from relations\"\n    );\n\n    // The reasoner should produce findings (some entries will be orphaned\n    // since we only wired partial relations)\n    // This is the self-dogfood validation: the full pipeline works end-to-end.\n    eprintln!(\n        \"Self-dogfood: {} entries, {} edges, {} findings\",\n        stored_entries.len(),\n        edge_count,\n        findings.len()\n    );\n\n    // Verify entries are searchable in the store\n    let search_results = store\n        .search(&[1.0, 0.0, 0.0], scope, 10)\n        .await\n        .unwrap();\n    assert!(\n        !search_results.is_empty(),\n        \"Entries should be searchable after ingestion\"\n    );\n\n    // Verify knowledge files are readable\n    let read_back = knowledge_files::read_all(store_dir.path()).unwrap();\n    assert_eq!(\n        read_back.len(),\n        stored_entries.len(),\n        \"All entries should be readable from knowledge files\"\n    );\n}",
+  "source_version": "tests/integration/m3_e2e_test.rs",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.466951647Z",
+  "valid_from": "2026-03-31T13:20:59.466951647Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "tests/integration/m3_e2e_test.rs",
+    "language": "rs",
+    "chunk_type": "function_item",
+    "start_line": 455,
+    "end_line": 497,
+    "content_role": "code",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "structural",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}

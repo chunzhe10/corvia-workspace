@@ -1,0 +1,31 @@
+{
+  "id": "019d440d-f846-7bd1-9305-bedfec43d5c1",
+  "content": "unk}\")\n                }\n                None => \"source: unknown\".into(),\n            };\n\n            let entry_text = format!(\n                \"\\n[{}] (score: {:.2}, {})\\n{}\\n\",\n                i + 1,\n                r.score,\n                source_info,\n                r.entry.content,\n            );\n\n            let entry_tokens = estimate_tokens(&entry_text);\n            if tokens_used + entry_tokens > token_budget {\n                truncated += 1;\n                continue;\n            }\n\n            tokens_used += entry_tokens;\n            context_parts.push(entry_text);\n            included.push(r.clone());\n        }\n\n        // Footer with query\n        let footer = format!(\n            \"\\nAnswer the following question using ONLY the context above. \\\n             Cite sources using [N] notation.\\nQuestion: {query}\"\n        );\n        tokens_used += estimate_tokens(&footer);\n        context_parts.push(footer);\n\n        let sources_included = included.len();\n        let remaining = results.len() - sources_included;\n        truncated += remaining.saturating_sub(truncated); // count any we skipped\n\n        Ok(AugmentedContext {\n            system_prompt: self.system_prompt.clone(),\n            context: context_parts.join(\"\"),\n            sources: included,\n            metrics: AugmentationMetrics {\n                latency_ms: start.elapsed().as_millis() as u64,\n                token_estimate: tokens_used,\n                token_budget,\n                sources_included,\n                sources_truncated: truncated,\n                augmenter_name: self.name().into(),\n            },\n        })\n    }\n}\n```\n\n**Step 4: Add module to lib.rs**\n\nIn `crates/corvia-kernel/src/lib.rs`, add after `pub mod retriever;`:\n\n```rust\npub mod augmenter;\n```\n\n**Step 5: Run tests to verify they pass**\n\nRun: `cargo test -p corvia-kernel -- augmenter::tests --nocapture`\nExpected: all 4 tests PASS\n\n**Step 6: Commit**\n\n```bash\ngit add crates/corvia-kernel/src/augmenter.rs crates/corvia-kernel/src/lib.rs\ngit commit -m \"feat(m3.2): Augmenter trait + StructuredAugmenter — token budget, citations\"\n```\n\n---\n",
+  "source_version": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+  "scope_id": "corvia",
+  "workstream": "kernel",
+  "recorded_at": "2026-03-31T13:20:59.462023851Z",
+  "valid_from": "2026-03-31T13:20:59.462023851Z",
+  "valid_to": null,
+  "superseded_by": null,
+  "metadata": {
+    "source_file": "docs/rfcs/2026-03-02-m3.2-rag-pipeline-impl.md",
+    "language": "markdown",
+    "chunk_type": "heading_section",
+    "start_line": 1241,
+    "end_line": 1305,
+    "content_role": "design",
+    "source_origin": "repo:corvia"
+  },
+  "agent_id": null,
+  "session_id": null,
+  "entry_status": "Merged",
+  "memory_type": "decisional",
+  "confidence": null,
+  "last_accessed": null,
+  "access_count": 0,
+  "tier": "hot",
+  "tier_changed_at": null,
+  "retention_score": null,
+  "pin": null
+}
