@@ -181,10 +181,6 @@ into a single autonomous pipeline.
 
 ## AI Development Learnings
 
-This workspace incorporates proven patterns from community best practices.
-See [.agents/skills/ai-assisted-development.md](.agents/skills/ai-assisted-development.md)
-for the full reference.
-
 Key principles applied here:
 - **Context engineering > prompt engineering** — AGENTS.md is essential infrastructure
 - **Verify explicitly** — give pass/fail criteria, run tests before claiming success
