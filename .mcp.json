@@ -1,9 +1,8 @@
 {
   "mcpServers": {
     "corvia": {
-      "type": "stdio",
-      "command": "corvia",
-      "args": ["mcp"]
+      "type": "http",
+      "url": "http://127.0.0.1:8020/mcp"
     }
   }
 }

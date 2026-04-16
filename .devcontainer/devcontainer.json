@@ -8,7 +8,8 @@
     "initializeCommand": ".devcontainer/scripts/init-host.sh",
     "postCreateCommand": "python3 .devcontainer/scripts/setup_wrapper.py post-create",
     "postStartCommand": "python3 .devcontainer/scripts/setup_wrapper.py post-start",
-    // No ports to forward — corvia v2 uses stdio MCP (no HTTP server).
+    // corvia serve (HTTP MCP at 127.0.0.1:8020) is auto-started by post-start.
+    // No forwardPorts needed — server binds to localhost only (container-internal).
     "mounts": [
         "source=${localEnv:HOME}${localEnv:USERPROFILE}/.config/gh,target=/root/.config/gh-host,type=bind,consistency=cached,readonly",
         "source=${localEnv:HOME}${localEnv:USERPROFILE}/.claude,target=/root/.claude,type=bind,consistency=cached"
