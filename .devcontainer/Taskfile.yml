@@ -32,6 +32,7 @@ tasks:
       - cmd: "printf '\\033[1m=== Corvia Workspace: post-start ===\\033[0m\\n'"
       - task: post-start:auth
       - task: post-start:corvia-init
+      - task: post-start:corvia-serve
       - task: post-start:claude-integration
       - task: post-start:ensure-extensions
       - task: post-start:sweep
@@ -55,6 +56,34 @@ tasks:
         else
           logw services "corvia not on PATH — run post-create first"
         fi
+
+  post-start:corvia-serve:
+    desc: "Start corvia serve (HTTP MCP server) in background"
+    cmds:
+      - |
+        source {{.SCRIPT_DIR}}/lib.sh
+        # 1. Capability guard — skip if binary doesn't support serve
+        if ! corvia serve --help >/dev/null 2>&1; then
+          logw services "corvia serve: not supported by installed binary — skipping"
+          exit 0
+        fi
+        # 2. Already-running check — skip if port 8020 is already listening
+        if bash -c 'echo > /dev/tcp/127.0.0.1/8020' 2>/dev/null; then
+          logg services "corvia serve: already running on port 8020"
+          exit 0
+        fi
+        # 3. Start server in background
+        logg services "corvia serve: starting on port 8020"
+        nohup corvia serve --port 8020 >> {{.WORKSPACE_ROOT}}/.corvia/serve.log 2>&1 &
+        # 4. Health probe — wait up to 5s for TCP connection
+        for i in 1 2 3 4 5; do
+          sleep 1
+          if bash -c 'echo > /dev/tcp/127.0.0.1/8020' 2>/dev/null; then
+            logg services "corvia serve: ready (${i}s)"
+            exit 0
+          fi
+        done
+        logw services "corvia serve: not responding after 5s — check .corvia/serve.log"
 
   post-start:claude-integration:
     desc: "Install superpowers plugin"
