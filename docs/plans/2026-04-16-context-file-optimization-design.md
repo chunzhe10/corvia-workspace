@@ -52,7 +52,21 @@ Default model: opus (set in settings.json).
 | Design, review, debugging, E2E (default) | opus |
 ```
 
-## Part 4: Dev-Loop Model Upgrades
+## Part 4: Phase 5 Implementation Subagent Models
+
+Within `subagent-driven-development`, the orchestrator (main context = opus) dispatches subagents. Be explicit about model per role:
+
+| Subagent role | Model | Rationale |
+|---|---|---|
+| Implementer (1-2 files, clear spec) | sonnet | Mechanical execution |
+| Implementer (multi-file, integration) | sonnet | Still execution |
+| Per-task spec reviewer | sonnet | Checklist comparison |
+| Per-task code quality reviewer | **opus** | Judgment call |
+| Final code reviewer (whole impl) | **opus** | Judgment call |
+
+This is orchestrator guidance, not a file change — main context (opus) applies it at dispatch time.
+
+## Part 5: Dev-Loop Phase File Model Upgrades
 
 | File | Line 1 change | Rationale |
 |------|--------------|-----------|
@@ -62,11 +76,11 @@ Default model: opus (set in settings.json).
 
 Unchanged: `phases/INTAKE.md` (haiku — gathering), `phases/POC.md` (sonnet — execution).
 
-## Part 5: Global Settings
+## Part 6: Global Settings
 
 - `~/.claude/settings.json`: change `"model": "sonnet"` → `"model": "opus"`
 
-## Files Changed
+## Part 7: Files Changed
 
 - `CLAUDE.md`
 - `AGENTS.md`
@@ -77,7 +91,7 @@ Unchanged: `phases/INTAKE.md` (haiku — gathering), `phases/POC.md` (sonnet —
 - `.agents/skills/dev-loop/E2E-TESTER.md`
 - `~/.claude/settings.json`
 
-## Success Criteria
+## Part 8: Success Criteria
 
 - CLAUDE.md + AGENTS.md total token count drops from ~5,400 to ~2,950
 - All removed content is accessible via pointers or moved to appropriate files
