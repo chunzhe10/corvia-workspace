@@ -4,9 +4,8 @@ on:
   workflow_dispatch: {}
   pull_request:
     paths:
-      - 'repos/corvia/crates/corvia-server/src/**'
-      - 'repos/corvia/crates/corvia-kernel/**'
-      - 'repos/corvia/crates/corvia-inference/**'
+      - 'repos/corvia/crates/corvia-cli/**'
+      - 'repos/corvia/crates/corvia-core/**'
       - 'benchmarks/**'
       - 'corvia.toml'
 
@@ -48,34 +47,17 @@ jobs:
           restore-keys: |
             eval-gate-${{ runner.os }}-cargo-
 
-      - name: Build corvia (server + inference + CLI)
+      - name: Build corvia
         working-directory: repos/corvia
-        run: cargo build --bin corvia --bin corvia-inference --release
+        run: cargo build --release -p corvia
 
-      - name: Cache HuggingFace models
+      - name: Cache fastembed models
         uses: actions/cache@v4
         with:
           path: ~/.cache/huggingface
           key: hf-models-nomic-embed-text-v1.5-${{ hashFiles('corvia.toml') }}
           restore-keys: |
             hf-models-nomic-embed-text-v1.5-
-
-      - name: Start inference server
-        working-directory: repos/corvia
-        run: |
-          ./target/release/corvia-inference &
-          echo "Waiting for inference server on port 8030..."
-          for i in $(seq 1 60); do
-            if curl -sf --max-time 2 http://127.0.0.1:8030/health > /dev/null 2>&1; then
-              echo "Inference server ready"
-              break
-            fi
-            if [ "$i" -eq 60 ]; then
-              echo "ERROR: Inference server did not start within 60s"
-              exit 1
-            fi
-            sleep 1
-          done
 
       - name: Start corvia server
         run: |
