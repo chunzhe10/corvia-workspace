@@ -113,7 +113,7 @@ instead for iterative development.
 
 ## Autonomous Development Protocol
 
-For autonomous sessions (owner away), import `@CLAUDE-AUTONOMOUS.md` which provides:
+For autonomous sessions (owner away), import `@.claude/CLAUDE-AUTONOMOUS.md` which provides:
 - Pre-implementation review gate (Research → Design → 3-Persona Review → Plan → Implement)
 - Session logging, commit cadence, error recovery
 - Setback recording and learning persistence
