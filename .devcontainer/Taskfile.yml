@@ -133,7 +133,7 @@ tasks:
   post-create:corvia-init:
     desc: "Initialize corvia workspace"
     status:
-      - test -d {{.WORKSPACE_ROOT}}/.corvia/index
+      - test -f {{.WORKSPACE_ROOT}}/.corvia/corvia.toml
     cmds:
       - cmd: 'source {{.SCRIPT_DIR}}/lib.sh && logg workspace "initializing"'
       - corvia init --yes

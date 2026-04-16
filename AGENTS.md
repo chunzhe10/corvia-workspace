@@ -35,42 +35,21 @@ corvia serve &                   # Start server (auto-started by devcontainer)
 corvia workspace init-hooks      # Generate doc-placement hooks from config
 ```
 
-## Service Ports
-
-| Port | Service | Description |
-|------|---------|-------------|
-| 8020 | API server + Dashboard | REST + MCP protocol + embedded dashboard |
-| 8021 | Vite dev server (dev only) | Dashboard hot-reload for frontend development |
-| 8030 | Inference | gRPC embedding + chat (ONNX Runtime) |
-
 ## MCP Server (Dogfooding)
 
-This workspace uses corvia's own MCP server at `http://localhost:8020/mcp`.
-Any MCP-compatible AI tool can connect to it. The server is started automatically
-by the devcontainer's `post-start.sh`.
+This workspace uses corvia's own MCP server via **stdio** (not HTTP). It is
+configured in `.mcp.json` and started automatically by the devcontainer.
 
-Available MCP tools (use `scope_id: "corvia"` for all calls):
+Available MCP tools:
 - `corvia_search` — semantic search across ingested knowledge
-- `corvia_write` — write knowledge entries (requires agent identity)
-- `corvia_history` — entry supersession history
-- `corvia_graph` — graph edges for an entry
-- `corvia_reason` — run health checks on a scope
-- `corvia_agent_status` — agent contribution summary
-- `corvia_context` — retrieve assembled context (RAG retrieval only)
-- `corvia_ask` — full RAG: question → AI-generated answer from knowledge
-- `corvia_system_status` — system status (entry counts, agents, sessions, queue)
-- `corvia_config_get` — read config section as JSON
-- `corvia_config_set` — update hot-reloadable config value (requires confirmation)
-- `corvia_adapters_list` — discovered adapter binaries
-- `corvia_agents_list` — all registered agents
-- `corvia_gc_run` — trigger garbage collection (requires confirmation)
-- `corvia_rebuild_index` — rebuild HNSW vector index (requires confirmation)
-- `corvia_agent_suspend` — suspend an agent (requires confirmation)
-- `corvia_merge_retry` — retry failed merge entries (requires confirmation)
-- `corvia_merge_queue` — inspect merge queue status
+- `corvia_write` — write a knowledge entry (auto-deduplicates: cosine similarity ≥ 0.85 triggers supersession)
+- `corvia_status` — check system health and indexed entry counts
+- `corvia_traces` — inspect recent operation traces
 
-**IMPORTANT:** The `scope_id` for this workspace is `"corvia"` (defined in `corvia.toml`).
-Do NOT use `"corvia-workspace"`, `"corvia-demo"`, or any other variant.
+**Entry schema**: `id`, `created_at`, `kind`, `supersedes`, `tags` + markdown body.
+**Entry storage**: flat `.md` files with TOML frontmatter in `.corvia/entries/`.
+**Lifecycle**: supersession only — no GC, TTL, or decay.
+**Write model**: each `corvia_write` is an individual operation (no batch writes).
 
 ## Hybrid Tool Usage (corvia MCP + native tools)
 
@@ -81,17 +60,14 @@ established patterns. This applies to ALL agents (Claude Code, Codex, etc.).
 
 ### When to use corvia MCP tools (ALWAYS do this first)
 
-- **Starting ANY task**: Call `corvia_search` or `corvia_ask` first to find prior decisions,
-  design context, or patterns relevant to the work. **This is mandatory, not optional.**
-- **Answering ANY question about the project**: Call `corvia_ask` before searching code.
-- **Understanding "why"**: Use `corvia_ask` for questions about architecture, rationale,
+- **Starting ANY task**: Call `corvia_search` first to find prior decisions, design
+  context, or patterns relevant to the work. **This is mandatory, not optional.**
+- **Answering ANY question about the project**: Call `corvia_search` before searching code.
+- **Understanding "why"**: Use `corvia_search` for questions about architecture, rationale,
   or past discussions (e.g., "why does LiteStore use JSON files?").
-- **Exploring relationships**: Use `corvia_graph` to understand how concepts, components,
-  or entries relate to each other.
-- **Checking history**: Use `corvia_history` to see how a piece of knowledge evolved.
 - **Recording decisions**: Use `corvia_write` to persist design decisions, architectural
   context, or implementation notes that future sessions should know.
-- **Health checks**: Use `corvia_reason` to validate knowledge consistency in a scope.
+- **Health checks**: Use `corvia_status` to verify the store is healthy before heavy work.
 
 ### When to use native tools
 
@@ -105,10 +81,10 @@ established patterns. This applies to ALL agents (Claude Code, Codex, etc.).
 | Task | corvia first | Then native tools |
 |------|-------------|-------------------|
 | Start a feature | `corvia_search` for prior art/decisions | Read relevant files, implement |
-| Debug an issue | `corvia_ask` "how does X work?" | Search code, read files, fix |
+| Debug an issue | `corvia_search` "how does X work?" | Search code, read files, fix |
 | Explore unfamiliar area | `corvia_search` for high-level context | Search/read for code details |
-| Make a design decision | `corvia_ask` for existing patterns | Write design doc, `corvia_write` to record |
-| Review a PR or change | `corvia_context` for relevant knowledge | Read changed files, search for impact |
+| Make a design decision | `corvia_search` for existing patterns | Write design doc, `corvia_write` to record |
+| Review a PR or change | `corvia_search` for relevant knowledge | Read changed files, search for impact |
 
 ### Rule of thumb
 
@@ -127,16 +103,11 @@ simple unconditional rules.
    `quality_signal` object with `confidence` (high/medium/low) and `suggestion`.
    If confidence is `low`, follow the `suggestion` field and retry once (max 1 retry).
 
-2. **Inject context into subagents.** Before spawning subagents for non-trivial work,
-   call `corvia_context` with `max_tokens` (recommended: 2000-3000) and `format: "compact"`.
-   Include the returned context in the subagent prompt so it has organizational knowledge.
+2. **Write discipline.** After discovering non-obvious insights, call `corvia_write`
+   immediately. Auto-dedup runs on every write: if cosine similarity to an existing entry
+   is ≥ 0.85, the server automatically creates a supersession instead of a duplicate.
 
-3. **Write discipline.** After discovering non-obvious insights, call `corvia_write`
-   immediately. The server handles deduplication automatically. If a near-duplicate is
-   detected, the server returns a message instead of writing. Use `force_write: true`
-   to bypass if the content is intentionally similar but distinct.
-
-4. **Use `min_score` when precision matters.** Pass `min_score` to `corvia_search`
+3. **Use `min_score` when precision matters.** Pass `min_score` to `corvia_search`
    to filter out low-relevance results at the server level.
 
 ## Auto-Save Research Findings
@@ -150,8 +121,8 @@ persist it** without waiting for the user to ask. This includes:
 - **Configuration gotchas**: Non-obvious settings, version incompatibilities, ordering constraints
 - **Performance observations**: Benchmark results, resource consumption patterns
 
-Use `content_role: "learning"` and `source_origin: "workspace"` for workspace-level
-findings, or `source_origin: "repo:corvia"` for product-specific knowledge.
+Use `kind: "learning"` when writing insights. Entry fields are limited to `id`,
+`created_at`, `kind`, `supersedes`, and `tags` — there is no session or source metadata.
 
 **Do NOT auto-save**: trivial facts easily found in code comments, temporary debugging
 state, or user-specific preferences. The bar is: "Would a future agent session benefit
@@ -332,7 +303,7 @@ For detailed build/test/architecture guidance, see:
 ## Development
 
 - **Language**: Rust workspace (cargo)
-- **Storage**: LiteStore (default, zero-Docker) — data in `.corvia/`
+- **Storage**: LiteStore (default, zero-Docker) — flat `.md` files in `.corvia/entries/`
 - **Embedding**: corvia-inference server at `http://127.0.0.1:8030` (default: nomic-embed-text-v1.5 768d; also supports all-MiniLM-L6-v2 384d)
-- **API server**: `http://127.0.0.1:8020` (REST + MCP)
+- **MCP transport**: stdio only (no HTTP server)
 - **Config**: `corvia.toml` at workspace root

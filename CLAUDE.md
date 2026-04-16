@@ -3,13 +3,13 @@
 ## STOP — Read this FIRST before doing ANYTHING
 
 **Your FIRST tool call in EVERY conversation and EVERY new task MUST be a corvia MCP
-tool** (`corvia_search`, `corvia_ask`, or `corvia_context`). This overrides your
-default behavior of reaching for Grep/Glob/Read first.
+tool** (`corvia_search` or `corvia_write`). This overrides your default behavior of
+reaching for Grep/Glob/Read first.
 
 **DO NOT use Grep, Glob, or code search as your first action.** Always query corvia
 for project context before touching code. The order is:
 
-1. `corvia_search` or `corvia_ask` — get project knowledge and prior decisions
+1. `corvia_search` — get project knowledge and prior decisions
 2. THEN use Grep/Glob/Read for code-level details
 
 This is the single most important instruction in this file. If you skip corvia and
@@ -20,12 +20,12 @@ go straight to code search, you are violating this project's workflow.
 ## corvia MCP tool usage (detailed)
 
 - Before writing or modifying code: `corvia_search` for prior decisions and patterns
-- Before answering any question about the project: `corvia_ask` first
-- Before designing a feature: `corvia_search` + `corvia_context` for existing context
+- Before answering any question about the project: `corvia_search` first
+- Before designing a feature: `corvia_search` for existing context and prior decisions
 - After making a design decision: `corvia_write` to record it for future sessions
 - After discovering non-obvious insights during a task: `corvia_write` immediately —
   do not wait to be asked. See AGENTS.md "Auto-Save Research Findings" for criteria.
-- When exploring unfamiliar areas: `corvia_ask` before diving into code
+- When exploring unfamiliar areas: `corvia_search` before diving into code
 
 **Do NOT skip corvia lookups to save time.** The knowledge base exists to prevent
 re-discovering things that were already decided. Always check corvia first, then
@@ -131,6 +131,6 @@ Do NOT create `docs/superpowers/` — that path is blocked by enforcement hooks.
 
 ## Recording Decisions
 
-Use `corvia_write` with `content_role` and `source_origin` params:
-- corvia product decisions: `source_origin = "repo:corvia"`
-- Workspace decisions: `source_origin = "workspace"`
+Use `corvia_write` to persist decisions. Entry fields are `id`, `created_at`, `kind`,
+`supersedes`, and `tags` — there is no `source_origin` or session metadata. Use
+`kind` to categorize entries (e.g., `"decision"`, `"learning"`).

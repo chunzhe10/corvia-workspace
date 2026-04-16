@@ -1,6 +1,10 @@
-hnsw/
-lite_store.redb
-lite_store.redb.tmp
-coordination.redb
-coordination.redb.tmp
-staging/
+# Derived data (rebuilt by corvia init / corvia ingest)
+index/
+models/
+traces.jsonl
+version
+*.lock
+
+# Source-of-truth files are NOT ignored:
+# - corvia.toml (config)
+# - entries/ (knowledge entries)
