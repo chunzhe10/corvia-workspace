@@ -1,7 +1,7 @@
 #!/bin/bash
 # Runs on the HOST before the container is created (initializeCommand).
-# Detects GPU availability, allocates non-clashing host ports, and generates
-# docker-compose.override.yml with device passthrough + port mappings.
+# Detects GPU availability and generates docker-compose.override.yml with
+# device passthrough.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -105,76 +105,6 @@ if [ -n "$STALE_IDS" ]; then
     echo "$STALE_IDS" | xargs docker rm 2>/dev/null || true
 fi
 
-# ── Port allocation ──────────────────────────────────────────────────
-# Derive deterministic host-port offset from workspace directory name.
-# "corvia-workspace" → offset 0, "corvia-workspace-2" → offset 200, etc.
-# Container-internal ports stay fixed (8020/8021/8030/11434); only the
-# host↔container mapping changes. Override: set CORVIA_PORT_OFFSET on host.
-
-# Check if a host port is in use. Works on Linux (ss) and macOS (lsof).
-port_in_use() {
-    local port="$1"
-    if command -v ss >/dev/null 2>&1; then
-        ss -tln 2>/dev/null | grep -q ":${port} "
-    elif command -v lsof >/dev/null 2>&1; then
-        lsof -iTCP:"$port" -sTCP:LISTEN >/dev/null 2>&1
-    else
-        return 1  # can't check, assume free
-    fi
-}
-
-# Try computed port, if in use increment by 1 up to 10 attempts.
-# Tracks claimed ports via a temp file (bash subshells from $() can't
-# modify parent arrays, so we use a file for cross-call coordination).
-CLAIMED_FILE=$(mktemp)
-trap 'rm -f "$CLAIMED_FILE"' EXIT
-
-find_free_port() {
-    local base="$1"
-    local name="${2:-}"  # optional label for logging
-    local port
-    for i in $(seq 0 10); do
-        port=$(( base + i ))
-        # Skip ports already claimed by earlier calls in this script
-        if grep -qx "$port" "$CLAIMED_FILE" 2>/dev/null; then
-            continue
-        fi
-        if ! port_in_use "$port"; then
-            echo "$port" >> "$CLAIMED_FILE"
-            [ "$i" -gt 0 ] && [ -n "$name" ] && echo "  Port $base in use, using $port for $name" >&2
-            echo "$port"
-            return 0
-        fi
-    done
-    # Give up — Docker will error clearly at bind time.
-    echo "$base" >> "$CLAIMED_FILE"
-    echo "$base"
-    return 0
-}
-
-WORKSPACE_NAME="$(basename "$WORKSPACE_DIR")"
-WORKSPACE_NUM=$(echo "$WORKSPACE_NAME" | grep -oE '[0-9]+$' || true)
-[ -z "$WORKSPACE_NUM" ] && WORKSPACE_NUM=1
-PORT_OFFSET="${CORVIA_PORT_OFFSET:-$(( (WORKSPACE_NUM - 1) * 200 ))}"
-
-# Validate PORT_OFFSET is numeric (CORVIA_PORT_OFFSET could be anything)
-if ! [[ "$PORT_OFFSET" =~ ^[0-9]+$ ]]; then
-    echo "ERROR: CORVIA_PORT_OFFSET='$PORT_OFFSET' is not a valid number."
-    exit 1
-fi
-
-# Sanity cap: offset must keep ports within valid range (max 65535)
-if [ "$PORT_OFFSET" -gt 57000 ]; then
-    echo "ERROR: Port offset $PORT_OFFSET too high (workspace number too large)."
-    echo "       Use CORVIA_PORT_OFFSET env var to set a custom offset."
-    exit 1
-fi
-
-HOST_API=$(find_free_port $(( 8020 + PORT_OFFSET )) "api")
-HOST_VITE=$(find_free_port $(( 8021 + PORT_OFFSET )) "vite")
-HOST_INFERENCE=$(find_free_port $(( 8030 + PORT_OFFSET )) "inference")
-HOST_OLLAMA=$(find_free_port $(( 11434 + PORT_OFFSET )) "ollama")
-
 # ── Platform detection ───────────────────────────────────────────────
 IS_WSL=false
 if grep -qi "microsoft\|wsl" /proc/version 2>/dev/null; then
@@ -239,13 +169,6 @@ fi
 
     echo "services:"
     echo "  app:"
-
-    # Port mapping (always emitted — maps host ports to fixed container ports)
-    # Ollama port is on the ollama sidecar service, not the app container.
-    echo "    ports:"
-    echo "      - \"$HOST_API:8020\""
-    echo "      - \"$HOST_VITE:8021\""
-    echo "      - \"$HOST_INFERENCE:8030\""
 
     # Collect devices, groups, and volumes into arrays — initialized before the
     # GPU conditional so they exist for both the app and ollama stanzas.
@@ -318,72 +241,18 @@ fi
             echo "              capabilities: [gpu]"
         fi
     fi
-
-    # ── Ollama sidecar GPU passthrough ────────────────────────────────
-    # The ollama service (docker-compose.yml, profiles: [ollama]) needs the
-    # same GPU access as the app container for accelerated inference.
-    echo ""
-    echo "  ollama:"
-    echo "    ports:"
-    echo "      - \"$HOST_OLLAMA:11434\""
-
-    if [ "$HAS_NVIDIA" = true ] || [ "$HAS_DRI" = true ] || [ "$HAS_DXG" = true ]; then
-        # Reuse the same device/group arrays built for the app container
-        if [ ${#DEVICES[@]} -gt 0 ]; then
-            echo "    devices:"
-            for d in "${DEVICES[@]}"; do
-                echo "      - $d"
-            done
-        fi
-        if [ ${#GROUP_ADD[@]} -gt 0 ]; then
-            echo "    group_add:"
-            for g in "${GROUP_ADD[@]}"; do
-                echo "      - $g"
-            done
-        fi
-        if [ "$HAS_NVIDIA" = true ]; then
-            echo "    deploy:"
-            echo "      resources:"
-            echo "        reservations:"
-            echo "          devices:"
-            echo "            - driver: nvidia"
-            echo "              count: all"
-            echo "              capabilities: [gpu]"
-        fi
-    fi
 } > "$OVERRIDE"
 
-# ── Compose profiles from workspace flags ─────────────────────────────
-# If coding-llm=enabled, activate the 'ollama' compose profile so the
-# sidecar starts alongside the app container.
-FLAGS_FILE="$DC_DIR/.corvia-workspace-flags"
-PROFILES=""
-if [ -f "$FLAGS_FILE" ] && grep -q "^coding-llm=enabled$" "$FLAGS_FILE"; then
-    PROFILES="ollama"
-    echo "Flags: coding-llm → ollama profile activated"
+# ── Clean up stale files from v1 ────────────────────────────────────
+rm -f "$DC_DIR/.port-manifest.json"
+# Only remove .env if it only contains COMPOSE_PROFILES (v1 artifact).
+if [ -f "$DC_DIR/.env" ] && grep -qx "COMPOSE_PROFILES=.*" "$DC_DIR/.env" 2>/dev/null; then
+    line_count=$(wc -l < "$DC_DIR/.env")
+    if [ "$line_count" -le 3 ]; then
+        rm -f "$DC_DIR/.env"
+    fi
 fi
-cat > "$DC_DIR/.env" <<ENVEOF
-# Auto-generated by init-host.sh — do not edit manually.
-COMPOSE_PROFILES=${PROFILES}
-ENVEOF
-
-# ── Port manifest + summary ──────────────────────────────────────────
-# Write port manifest so users and scripts can discover allocated ports.
-cat > "$DC_DIR/.port-manifest.json" <<MANIFEST
-{
-  "workspace": "$WORKSPACE_NAME",
-  "offset": $PORT_OFFSET,
-  "host": { "api": $HOST_API, "vite": $HOST_VITE, "inference": $HOST_INFERENCE, "ollama": $HOST_OLLAMA },
-  "container": { "api": 8020, "vite": 8021, "inference": 8030, "ollama": 11434 }
-}
-MANIFEST
 
 echo "GPU: $GPU_SUMMARY"
-echo ""
-echo "=== $WORKSPACE_NAME ports ==="
-echo "  API + Dashboard:  http://localhost:$HOST_API"
-echo "  Vite dev server:  http://localhost:$HOST_VITE"
-echo "  Inference gRPC:   localhost:$HOST_INFERENCE"
-echo "  Ollama:           localhost:$HOST_OLLAMA"
 echo ""
 echo "Host init complete."
