@@ -68,7 +68,7 @@ tasks:
           exit 0
         fi
         # 2. Already-running check — skip if port 8020 is already listening
-        if bash -c 'echo > /dev/tcp/127.0.0.1/8020' 2>/dev/null; then
+        if bash -c ': > /dev/tcp/127.0.0.1/8020' 2>/dev/null; then
           logg services "corvia serve: already running on port 8020"
           exit 0
         fi
@@ -78,7 +78,7 @@ tasks:
         # 4. Health probe — wait up to 5s for TCP connection
         for i in 1 2 3 4 5; do
           sleep 1
-          if bash -c 'echo > /dev/tcp/127.0.0.1/8020' 2>/dev/null; then
+          if bash -c ': > /dev/tcp/127.0.0.1/8020' 2>/dev/null; then
             logg services "corvia serve: ready (${i}s)"
             exit 0
           fi

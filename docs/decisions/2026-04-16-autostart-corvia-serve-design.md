@@ -1,7 +1,7 @@
 # Auto-start corvia serve in devcontainer
 
 **Date:** 2026-04-16
-**Status:** Proposed
+**Status:** Implemented
 **Scope:** `.devcontainer/Taskfile.yml`, `.devcontainer/scripts/post-start.sh`, `.devcontainer/devcontainer.json`
 
 ## Problem
