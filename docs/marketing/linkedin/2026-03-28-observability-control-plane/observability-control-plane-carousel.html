@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Observability + Control Plane for AI Agents — LinkedIn Carousel</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --bg-dark: #0f172a;
+    --bg-card: #1e293b;
+    --bg-card-alt: #334155;
+    --accent-blue: #3b82f6;
+    --accent-cyan: #06b6d4;
+    --accent-green: #10b981;
+    --accent-amber: #f59e0b;
+    --accent-red: #ef4444;
+    --accent-purple: #8b5cf6;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --border: #334155;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    padding: 40px;
+  }
+
+  .slide {
+    width: 1080px;
+    height: 1350px;
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    padding: 72px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+  }
+
+  @page { size: 1080px 1350px; margin: 0; }
+  @media print {
+    body { padding: 0; gap: 0; background: none; }
+    .slide { break-after: page; }
+  }
+
+  .slide::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .slide-number {
+    position: absolute; bottom: 48px; right: 72px;
+    font-size: 18px; font-weight: 600; color: var(--text-muted); letter-spacing: 2px;
+  }
+  .author-tag {
+    position: absolute; bottom: 48px; left: 72px;
+    font-size: 18px; font-weight: 500; color: var(--text-muted);
+  }
+  .slide-label {
+    font-size: 15px; font-weight: 700; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--accent-blue); margin-bottom: 24px;
+  }
+  .slide-title {
+    font-size: 58px; font-weight: 800; line-height: 1.15;
+    margin-bottom: 32px; letter-spacing: -1px;
+  }
+  .slide-subtitle {
+    font-size: 24px; font-weight: 500; line-height: 1.5;
+    color: var(--text-secondary); margin-bottom: 40px;
+  }
+
+  .highlight { color: var(--accent-blue); }
+  .highlight-green { color: var(--accent-green); }
+  .highlight-amber { color: var(--accent-amber); }
+  .highlight-red { color: var(--accent-red); }
+  .highlight-cyan { color: var(--accent-cyan); }
+  .highlight-purple { color: var(--accent-purple); }
+
+  .card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 16px; padding: 32px; margin-bottom: 20px;
+  }
+
+  .insight-box {
+    background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25);
+    border-radius: 16px; padding: 24px 28px; margin: 16px 0;
+  }
+  .insight-box p { font-size: 20px; font-weight: 500; color: var(--accent-green); line-height: 1.5; }
+
+  .warning-box {
+    background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.25);
+    border-radius: 16px; padding: 24px 28px; margin: 16px 0;
+  }
+  .warning-box p { font-size: 20px; font-weight: 500; color: var(--accent-amber); line-height: 1.5; }
+
+  .blue-box {
+    background: rgba(59, 130, 246, 0.08); border: 1px solid rgba(59, 130, 246, 0.25);
+    border-radius: 16px; padding: 24px 28px; margin: 16px 0;
+  }
+  .blue-box p { font-size: 20px; font-weight: 500; color: var(--accent-blue); line-height: 1.5; }
+
+  .divider { height: 1px; background: var(--border); margin: 28px 0; }
+  .flex-grow { flex: 1; }
+  .cover-center { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  .cover-tags { margin-top: 40px; display: flex; flex-wrap: wrap; gap: 12px; }
+  .cover-tags .tag {
+    display: inline-block; padding: 10px 20px; border-radius: 20px;
+    font-size: 20px; font-weight: 600;
+    background: rgba(59, 130, 246, 0.15); color: var(--accent-blue);
+  }
+
+  .stat-box {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 16px; padding: 28px; text-align: center;
+  }
+
+  .terminal {
+    background: #0d1117; border-radius: 12px; padding: 24px;
+    font-family: 'JetBrains Mono', monospace; font-size: 18px;
+    line-height: 1.7; color: var(--text-secondary);
+  }
+
+  .tier-row {
+    display: flex; align-items: stretch; gap: 16px; margin-bottom: 16px;
+  }
+  .tier-card {
+    flex: 1; background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 16px; padding: 24px;
+  }
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1: COVER -->
+<div class="slide" style="background: linear-gradient(160deg, #0f172a 0%, #1a1a3e 50%, #0f172a 100%);">
+  <div class="slide-label">A Developer's Discovery</div>
+  <div class="cover-center">
+    <div style="font-size: 72px; margin-bottom: 32px;">&#128200;</div>
+    <div class="slide-title" style="font-size: 58px; line-height: 1.12;">
+      My AI Agent Can<br>
+      Finally See Inside<br>
+      <span class="highlight">the System It Builds.</span>
+    </div>
+    <div class="slide-subtitle" style="font-size: 22px;">
+      OpenTelemetry traces + an MCP control plane<br>
+      for the AI agent building my Rust product.
+    </div>
+    <div class="cover-tags">
+      <span class="tag">OpenTelemetry</span>
+      <span class="tag">MCP</span>
+      <span class="tag">Rust</span>
+      <span class="tag">AI Agents</span>
+      <span class="tag">Control Plane</span>
+    </div>
+  </div>
+  <div class="author-tag">Lim Chun Zhe</div>
+  <div class="slide-number">01 / 08</div>
+</div>
+
+<!-- SLIDE 2: THE PROBLEM -->
+<div class="slide">
+  <div class="slide-label">The Problem</div>
+  <div class="slide-title">
+    The Agent Builds It.<br>
+    <span class="highlight-red">But Can't See It.</span>
+  </div>
+  <div class="slide-subtitle" style="font-size: 22px; margin-bottom: 32px;">
+    I'm building an organizational memory system in Rust. An AI agent<br>
+    (Claude Code) writes the code, runs the tests, ships the commits.<br>
+    But when something is slow or broken, it's flying blind.
+  </div>
+
+  <div class="card" style="border-left: 4px solid var(--accent-red); padding: 28px;">
+    <div style="font-size: 15px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-red); margin-bottom: 16px;">What the agent couldn't answer</div>
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+      <div style="display: flex; align-items: flex-start; gap: 16px;">
+        <div style="font-size: 24px; flex-shrink: 0;">&#10060;</div>
+        <div>
+          <div style="font-size: 20px; font-weight: 700;">"Why is search taking 120ms?"</div>
+          <div style="font-size: 18px; color: var(--text-secondary); margin-top: 4px;">Is it embedding? Vector search? Both? No way to tell without manual profiling.</div>
+        </div>
+      </div>
+      <div style="display: flex; align-items: flex-start; gap: 16px;">
+        <div style="font-size: 24px; flex-shrink: 0;">&#10060;</div>
+        <div>
+          <div style="font-size: 20px; font-weight: 700;">"Are there stale sessions accumulating?"</div>
+          <div style="font-size: 18px; color: var(--text-secondary); margin-top: 4px;">Agent sessions can go orphaned. No visibility into lifecycle state.</div>
+        </div>
+      </div>
+      <div style="display: flex; align-items: flex-start; gap: 16px;">
+        <div style="font-size: 24px; flex-shrink: 0;">&#10060;</div>
+        <div>
+          <div style="font-size: 20px; font-weight: 700;">"How many entries are in the knowledge store?"</div>
+          <div style="font-size: 18px; color: var(--text-secondary); margin-top: 4px;">The agent writes to the system constantly. No dashboard, no counters.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight-box">
+    <p>The agent is both the builder and the first user. If it can't observe the system, it's debugging with println.</p>
+  </div>
+
+  <div class="flex-grow"></div>
+  <div class="author-tag">Lim Chun Zhe</div>
+  <div class="slide-number">02 / 08</div>
+</div>
+
+<!-- SLIDE 3: OBSERVABILITY — WHAT WE BUILT -->
+<div class="slide">
+  <div class="slide-label">Step 1: Observability</div>
+  <div class="slide-title">
+    OTEL Traces<br>
+    <span class="highlight-cyan">Across Every Operation</span>
+  </div>
+  <div class="slide-subtitle" style="font-size: 20px; margin-bottom: 28px;">
+    30 span constants across 7 subsystems. Every kernel operation<br>
+    instrumented at design time. Not bolted on after something broke.
+  </div>
+
+  <div class="terminal" style="margin-bottom: 24px;">
+    <div style="color: var(--accent-cyan); font-weight: 600; margin-bottom: 12px;">// corvia-telemetry span contracts</div>
+    <div><span style="color: var(--accent-purple);">pub const</span> <span style="color: var(--accent-green);">RAG_CONTEXT</span>: &amp;str = <span style="color: var(--accent-amber);">"corvia.rag.context"</span>;</div>
+    <div><span style="color: var(--accent-purple);">pub const</span> <span style="color: var(--accent-green);">ENTRY_EMBED</span>: &amp;str = <span style="color: var(--accent-amber);">"corvia.entry.embed"</span>;</div>
+    <div><span style="color: var(--accent-purple);">pub const</span> <span style="color: var(--accent-green);">STORE_SEARCH</span>: &amp;str = <span style="color: var(--accent-amber);">"corvia.store.search"</span>;</div>
+    <div><span style="color: var(--accent-purple);">pub const</span> <span style="color: var(--accent-green);">MERGE_PROCESS</span>: &amp;str = <span style="color: var(--accent-amber);">"corvia.merge.process"</span>;</div>
+    <div><span style="color: var(--accent-purple);">pub const</span> <span style="color: var(--accent-green);">GC_RUN</span>: &amp;str = <span style="color: var(--accent-amber);">"corvia.gc.run"</span>;</div>
+    <div style="color: var(--text-muted); margin-top: 8px;">// ... 25 more across agent, session, inference, hooks</div>
+  </div>
+
+  <div style="display: flex; gap: 16px;">
+    <div class="stat-box" style="flex: 1; border-top: 4px solid var(--accent-cyan);">
+      <div style="font-size: 48px; font-weight: 800; color: var(--accent-cyan);">30</div>
+      <div style="font-size: 18px; color: var(--text-secondary); margin-top: 8px;">Span constants</div>
+    </div>
+    <div class="stat-box" style="flex: 1; border-top: 4px solid var(--accent-green);">
+      <div style="font-size: 48px; font-weight: 800; color: var(--accent-green);">7</div>
+      <div style="font-size: 18px; color: var(--text-secondary); margin-top: 8px;">Subsystems traced</div>
+    </div>
+    <div class="stat-box" style="flex: 1; border-top: 4px solid var(--accent-purple);">
+      <div style="font-size: 48px; font-weight: 800; color: var(--accent-purple);">p50-99</div>
+      <div style="font-size: 18px; color: var(--text-secondary); margin-top: 8px;">Latency percentiles</div>
+    </div>
+  </div>
+
+  <div class="flex-grow"></div>
+  <div class="author-tag">Lim Chun Zhe</div>
+  <div class="slide-number">03 / 08</div>
+</div>
+
+<!-- SLIDE 4: LIVE DATA -->
+<div class="slide">
+  <div class="slide-label">Real Data</div>
+  <div class="slide-title" style="margin-bottom: 20px;">
+    From a<br>
+    <span class="highlight-green">Live Session</span>
+  </div>
+  <div class="slide-subtitle" style="font-size: 20px; margin-bottom: 24px;">
+    Real trace data from the running system. Every search, every embedding,<br>
+    every store operation. The agent reads these to understand performance.
+  </div>
+
+  <div class="terminal" style="margin-bottom: 20px; font-size: 18px; line-height: 1.8;">
+    <div style="color: var(--accent-cyan); font-weight: 600; margin-bottom: 12px;">GET /api/dashboard/traces</div>
+    <div><span style="color: var(--accent-green);">corvia.store.get</span>     <span style="color: var(--text-muted);">424 calls</span>  p50: <span style="color: var(--accent-amber);">0.65ms</span>  p99: <span style="color: var(--accent-amber);">1.10ms</span></div>
+    <div><span style="color: var(--accent-green);">corvia.store.search</span>  <span style="color: var(--text-muted);"> 23 calls</span>  p50: <span style="color: var(--accent-amber);">26ms</span>    p95: <span style="color: var(--accent-amber);">115ms</span></div>
+    <div><span style="color: var(--accent-green);">corvia.rag.context</span>   <span style="color: var(--text-muted);"> 23 calls</span>  p50: <span style="color: var(--accent-amber);">42ms</span>    p95: <span style="color: var(--accent-amber);">135ms</span></div>
+    <div><span style="color: var(--accent-green);">corvia.entry.embed</span>   <span style="color: var(--text-muted);"> 25 calls</span>  p50: <span style="color: var(--accent-amber);">14ms</span>    p95: <span style="color: var(--accent-amber);">36ms</span></div>
+    <div><span style="color: var(--accent-green);">corvia.entry.write</span>   <span style="color: var(--text-muted);">  2 calls</span>  avg: <span style="color: var(--accent-amber);">88ms</span></div>
+  </div>
+
+  <div class="terminal" style="font-size: 18px; line-height: 1.8;">
+    <div style="color: var(--accent-cyan); font-weight: 600; margin-bottom: 12px;">GET /api/dashboard/traces/recent (trace tree)</div>
+    <div><span style="color: var(--accent-blue);">corvia.rag.context</span> <span style="color: var(--text-muted);">42ms total, 3 spans</span></div>
+    <div style="padding-left: 24px;"><span style="color: var(--accent-purple);">&#9492;&#9472;</span> <span style="color: var(--accent-green);">corvia.entry.embed</span> <span style="color: var(--accent-amber);">14ms</span></div>
+    <div style="padding-left: 24px;"><span style="color: var(--accent-purple);">&#9492;&#9472;</span> <span style="color: var(--accent-green);">corvia.store.search</span> <span style="color: var(--accent-amber);">26ms</span> <span style="color: var(--accent-red);">&larr; 60-85% of time</span></div>
+  </div>
+
+  <div class="insight-box" style="margin-top: 20px;">
+    <p>Retrieval consistently takes 60-85% of RAG pipeline time. That insight redirected optimization from the embedding model to the vector search path.</p>
+  </div>
+
+  <div class="flex-grow"></div>
+  <div class="author-tag">Lim Chun Zhe</div>
+  <div class="slide-number">04 / 08</div>
+</div>
+
+<!-- SLIDE 5: THE GAP -->
+<div class="slide">
+  <div class="slide-label">The Next Question</div>
+  <div class="slide-title">
+    It Can See.<br>
+    <span class="highlight-amber">But Can It Act?</span>
+  </div>
+  <div class="slide-subtitle" style="font-size: 22px; margin-bottom: 28px;">
+    Observability showed the agent what was happening.<br>
+    But it had no way to change anything without running shell commands.
+  </div>
+
+  <div class="card" style="border-left: 4px solid var(--accent-amber); padding: 28px; margin-bottom: 20px;">
+    <div style="font-size: 15px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-amber); margin-bottom: 16px;">What I wanted to do but couldn't</div>
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+      <div style="display: flex; align-items: flex-start; gap: 16px;">
+        <div style="font-size: 24px; flex-shrink: 0;">&#128202;</div>
+        <div>
+          <div style="font-size: 20px; font-weight: 700;">Tune RAG parameters live</div>
+          <div style="font-size: 18px; color: var(--text-secondary); margin-top: 4px;">Change top_k, similarity cutoff, graph expansion depth. Hot-reload. See the impact on the next query.</div>
+        </div>
+      </div>
+      <div style="display: flex; align-items: flex-start; gap: 16px;">
+        <div style="font-size: 24px; flex-shrink: 0;">&#128295;</div>
+        <div>
+          <div style="font-size: 20px; font-weight: 700;">Rebuild the vector index</div>
+          <div style="font-size: 18px; color: var(--text-secondary); margin-top: 4px;">After a schema change or chunking update. No SSH, no CLI. Tell the agent to do it.</div>
+        </div>
+      </div>
+      <div style="display: flex; align-items: flex-start; gap: 16px;">
+        <div style="font-size: 24px; flex-shrink: 0;">&#128260;</div>
+        <div>
+          <div style="font-size: 20px; font-weight: 700;">Toggle features and A/B test</div>
+          <div style="font-size: 18px; color: var(--text-secondary); margin-top: 4px;">Enable skills, change chunking strategy, adjust merge thresholds. All hot-reloadable.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="warning-box">
+    <p>Observability without control is a dashboard with no buttons. I want to operate the system through the agent, with the same protocol it already speaks.</p>
+  </div>
+
+  <div class="flex-grow"></div>
+  <div class="author-tag">Lim Chun Zhe</div>
+  <div class="slide-number">05 / 08</div>
+</div>
+
+<!-- SLIDE 6: THE CONTROL PLANE -->
+<div class="slide">
+  <div class="slide-label">Step 2: Control Plane</div>
+  <div class="slide-title" style="margin-bottom: 20px;">
+    <span class="highlight">10 MCP Tools.</span><br>
+    3 Safety Tiers.
+  </div>
+  <div class="slide-subtitle" style="font-size: 20px; margin-bottom: 24px;">
+    Same MCP server. Same protocol the agent already uses for knowledge.<br>
+    Now it can also manage the system. With graduated trust.
+  </div>
+
+  <!-- Tier 1 -->
+  <div style="font-size: 15px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-green); margin-bottom: 12px;">Tier 1: Auto-Approved (5 tools)</div>
+  <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
+    <div style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; padding: 12px 18px; font-size: 16px; font-weight: 600; font-family: 'JetBrains Mono', monospace; color: var(--accent-green);">system_status</div>
+    <div style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; padding: 12px 18px; font-size: 16px; font-weight: 600; font-family: 'JetBrains Mono', monospace; color: var(--accent-green);">config_get</div>
+    <div style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; padding: 12px 18px; font-size: 16px; font-weight: 600; font-family: 'JetBrains Mono', monospace; color: var(--accent-green);">agents_list</div>
+    <div style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; padding: 12px 18px; font-size: 16px; font-weight: 600; font-family: 'JetBrains Mono', monospace; color: var(--accent-green);">adapters_list</div>
+    <div style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; padding: 12px 18px; font-size: 16px; font-weight: 600; font-family: 'JetBrains Mono', monospace; color: var(--accent-green);">merge_queue</div>
+  </div>
+
+  <!-- Tier 2 -->
+  <div style="font-size: 15px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-amber); margin-bottom: 12px;">Tier 2: Confirm First (3 tools)</div>
+  <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
+    <div style="background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 12px; padding: 12px 18px; font-size: 16px; font-weight: 600; font-family: 'JetBrains Mono', monospace; color: var(--accent-amber);">config_set</div>
+    <div style="background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 12px; padding: 12px 18px; font-size: 16px; font-weight: 600; font-family: 'JetBrains Mono', monospace; color: var(--accent-amber);">gc_run</div>
+    <div style="background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 12px; padding: 12px 18px; font-size: 16px; font-weight: 600; font-family: 'JetBrains Mono', monospace; color: var(--accent-amber);">rebuild_index</div>
+  </div>
+
+  <!-- Tier 3 -->
+  <div style="font-size: 15px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-red); margin-bottom: 12px;">Tier 3: Confirm + Dry-Run (2 tools)</div>
+  <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
+    <div style="background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 12px; padding: 12px 18px; font-size: 16px; font-weight: 600; font-family: 'JetBrains Mono', monospace; color: var(--accent-red);">agent_suspend</div>
+    <div style="background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 12px; padding: 12px 18px; font-size: 16px; font-weight: 600; font-family: 'JetBrains Mono', monospace; color: var(--accent-red);">merge_retry</div>
+  </div>
+
+  <div class="blue-box">
+    <p>Built on MCP's existing primitives (tool annotations, _meta). Read freely. Mutate with a preview. Destructive actions need both a dry-run and a confirmation.</p>
+  </div>
+
+  <div class="flex-grow"></div>
+  <div class="author-tag">Lim Chun Zhe</div>
+  <div class="slide-number">06 / 08</div>
+</div>
+
+<!-- SLIDE 7: WHAT THIS LEADS TO -->
+<div class="slide">
+  <div class="slide-label">What This Leads To</div>
+  <div class="slide-title" style="margin-bottom: 20px;">
+    The Product Becomes<br>
+    <span class="highlight-purple">A Lab Bench.</span>
+  </div>
+  <div class="slide-subtitle" style="font-size: 20px; margin-bottom: 24px;">
+    Observe, hypothesize, change, measure. All through MCP.<br>
+    All without leaving the conversation.
+  </div>
+
+  <!-- The loop -->
+  <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
+    <div class="card" style="border-left: 4px solid var(--accent-cyan); padding: 20px 24px;">
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <div style="font-size: 15px; font-weight: 800; color: var(--accent-cyan); min-width: 28px;">1</div>
+        <div>
+          <div style="font-size: 20px; font-weight: 700;">Observe</div>
+          <div style="font-size: 18px; color: var(--text-secondary); margin-top: 4px;">Traces show retrieval is 60-85% of RAG latency. Graph expansion adds significant cost.</div>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="border-left: 4px solid var(--accent-amber); padding: 20px 24px;">
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <div style="font-size: 15px; font-weight: 800; color: var(--accent-amber); min-width: 28px;">2</div>
+        <div>
+          <div style="font-size: 20px; font-weight: 700;">Hypothesize</div>
+          <div style="font-size: 18px; color: var(--text-secondary); margin-top: 4px;">"What if I disable graph expansion and increase top_k instead?"</div>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="border-left: 4px solid var(--accent-green); padding: 20px 24px;">
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <div style="font-size: 15px; font-weight: 800; color: var(--accent-green); min-width: 28px;">3</div>
+        <div>
+          <div style="font-size: 20px; font-weight: 700;">Act</div>
+          <div style="font-size: 18px; color: var(--text-secondary); margin-top: 4px;"><span style="font-family: 'JetBrains Mono', monospace; font-size: 16px; color: var(--accent-green);">config_set rag.graph_expansion_depth = 0</span>. Hot-reload. No restart.</div>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="border-left: 4px solid var(--accent-purple); padding: 20px 24px;">
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <div style="font-size: 15px; font-weight: 800; color: var(--accent-purple); min-width: 28px;">4</div>
+        <div>
+          <div style="font-size: 20px; font-weight: 700;">Measure</div>
+          <div style="font-size: 18px; color: var(--text-secondary); margin-top: 4px;">Run the same queries. Read the traces. Compare p50 and p95 before and after.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight-box">
+    <p>Same loop works for A/B testing skills, hot-swapping embedding models, changing chunking strategies. The agent is both the experimenter and the instrument.</p>
+  </div>
+
+
+  <div class="flex-grow"></div>
+  <div class="author-tag">Lim Chun Zhe</div>
+  <div class="slide-number">07 / 08</div>
+</div>
+
+<!-- SLIDE 8: TAKEAWAY -->
+<div class="slide" style="background: linear-gradient(160deg, #0f172a 0%, #1a2332 50%, #0f172a 100%);">
+  <div class="slide-label">Key Takeaways</div>
+  <div class="slide-title" style="margin-bottom: 40px;">
+    What I've<br>
+    <span class="highlight">Learned So Far</span>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 28px; margin-bottom: 40px;">
+    <div style="display: flex; align-items: flex-start; gap: 20px;">
+      <div style="font-size: 32px; flex-shrink: 0;">&#128161;</div>
+      <div>
+        <div style="font-size: 24px; font-weight: 700;">Instrument at design time, not after the fire</div>
+        <div style="font-size: 22px; color: var(--text-secondary); margin-top: 8px; line-height: 1.5;">Span contracts defined before the code existed. Every new feature gets traces automatically.</div>
+      </div>
+    </div>
+    <div style="display: flex; align-items: flex-start; gap: 20px;">
+      <div style="font-size: 32px; flex-shrink: 0;">&#128065;</div>
+      <div>
+        <div style="font-size: 24px; font-weight: 700;">Observability without control is a dashboard with no buttons</div>
+        <div style="font-size: 22px; color: var(--text-secondary); margin-top: 8px; line-height: 1.5;">The agent needs graduated permission to act on what it sees. Not just watch.</div>
+      </div>
+    </div>
+    <div style="display: flex; align-items: flex-start; gap: 20px;">
+      <div style="font-size: 32px; flex-shrink: 0;">&#128274;</div>
+      <div>
+        <div style="font-size: 24px; font-weight: 700;">Safety tiers are the agent equivalent of "are you sure?"</div>
+        <div style="font-size: 22px; color: var(--text-secondary); margin-top: 8px; line-height: 1.5;">Built on MCP's existing primitives. Read freely. Mutate with preview. Destructive ops need dry-run.</div>
+      </div>
+    </div>
+    <div style="display: flex; align-items: flex-start; gap: 20px;">
+      <div style="font-size: 32px; flex-shrink: 0;">&#127793;</div>
+      <div>
+        <div style="font-size: 24px; font-weight: 700;">I'm still early. The tools are shipped. The workflows are forming.</div>
+        <div style="font-size: 22px; color: var(--text-secondary); margin-top: 8px; line-height: 1.5;">MCP standardized tool access. Agent control planes are next. The patterns exist. Someone needs to make them plug-and-play.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div style="margin-top: 24px;">
+    <div style="font-size: 22px; font-weight: 600; color: var(--text-secondary); margin-bottom: 12px;">
+      What's the most interesting thing you've let an AI agent change in a running system? Or are you still keeping the keys?
+    </div>
+    <div style="font-size: 18px; color: var(--text-muted);">
+      Would love to hear what patterns others have landed on.
+    </div>
+  </div>
+
+  <div class="flex-grow"></div>
+  <div class="author-tag">Lim Chun Zhe</div>
+  <div class="slide-number">08 / 08</div>
+</div>
+
+</body>
+</html>

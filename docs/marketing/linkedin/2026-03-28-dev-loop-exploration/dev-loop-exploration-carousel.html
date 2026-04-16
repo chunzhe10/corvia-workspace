@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dev Loop Exploration - LinkedIn Carousel</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --bg-dark: #0f172a;
+    --bg-card: #1e293b;
+    --bg-card-alt: #334155;
+    --accent-blue: #3b82f6;
+    --accent-cyan: #06b6d4;
+    --accent-green: #10b981;
+    --accent-amber: #f59e0b;
+    --accent-red: #ef4444;
+    --accent-purple: #8b5cf6;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --border: #334155;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    padding: 40px;
+  }
+
+  .slide {
+    width: 1080px;
+    height: 1350px;
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    padding: 72px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+  }
+
+  @page { size: 1080px 1350px; margin: 0; }
+  @media print {
+    body { padding: 0; gap: 0; background: none; }
+    .slide { break-after: page; }
+  }
+
+  .slide::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .slide-number {
+    position: absolute; bottom: 48px; right: 72px;
+    font-size: 16px; font-weight: 600; color: var(--text-muted); letter-spacing: 2px;
+  }
+  .author-tag {
+    position: absolute; bottom: 48px; left: 72px;
+    font-size: 16px; font-weight: 500; color: var(--text-muted);
+  }
+  .slide-label {
+    font-size: 15px; font-weight: 700; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--accent-blue); margin-bottom: 24px;
+  }
+  .slide-title {
+    font-size: 58px; font-weight: 800; line-height: 1.15;
+    margin-bottom: 32px; letter-spacing: -1px;
+  }
+  .slide-subtitle {
+    font-size: 24px; font-weight: 500; line-height: 1.5;
+    color: var(--text-secondary); margin-bottom: 40px;
+  }
+
+  .highlight { color: var(--accent-blue); }
+  .highlight-green { color: var(--accent-green); }
+  .highlight-amber { color: var(--accent-amber); }
+  .highlight-red { color: var(--accent-red); }
+  .highlight-cyan { color: var(--accent-cyan); }
+  .highlight-purple { color: var(--accent-purple); }
+
+  .card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 16px; padding: 32px; margin-bottom: 20px;
+  }
+
+  .insight-box {
+    background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25);
+    border-radius: 16px; padding: 24px 28px; margin: 16px 0;
+  }
+  .insight-box p { font-size: 20px; font-weight: 500; color: var(--accent-green); line-height: 1.5; }
+
+  .warning-box {
+    background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.25);
+    border-radius: 16px; padding: 24px 28px; margin: 16px 0;
+  }
+  .warning-box p { font-size: 20px; font-weight: 500; color: var(--accent-amber); line-height: 1.5; }
+
+  .divider { height: 1px; background: var(--border); margin: 28px 0; }
+  .flex-grow { flex: 1; }
+  .cover-center { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  .cover-tags { margin-top: 40px; display: flex; flex-wrap: wrap; gap: 12px; }
+  .cover-tags .tag {
+    display: inline-block; padding: 10px 20px; border-radius: 20px;
+    font-size: 18px; font-weight: 600;
+    background: rgba(59, 130, 246, 0.15); color: var(--accent-blue);
+  }
+
+  .stat-box {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 16px; padding: 28px; text-align: center;
+  }
+
+  .flow-step {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px 20px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .flow-arrow {
+    font-size: 24px; color: var(--text-muted); text-align: center;
+    padding: 4px 0; flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1: COVER -->
+<div class="slide" style="background: linear-gradient(160deg, #0f172a 0%, #1a1a3e 50%, #0f172a 100%);">
+  <div class="slide-label">A Developer's Discovery</div>
+  <div class="cover-center">
+    <div style="font-size: 72px; margin-bottom: 32px;">&#128161;</div>
+    <div class="slide-title" style="line-height: 1.12;">
+      One Idea In.<br>
+      13 Merged PRs Out.<br>
+      <span class="highlight">Here's the System.</span>
+    </div>
+    <div class="slide-subtitle" style="font-size: 24px;">
+      How I use AI for the thinking before the code.<br>
+      Two layers. Creative exploration, then autonomous execution.
+    </div>
+    <div class="cover-tags">
+      <span class="tag">Claude Code</span>
+      <span class="tag">Dev Workflow</span>
+      <span class="tag">Design-First</span>
+      <span class="tag">Solo Dev</span>
+      <span class="tag">Rust</span>
+    </div>
+  </div>
+  <div class="author-tag">Lim Chun Zhe</div>
+  <div class="slide-number">01 / 09</div>
+</div>
+
+<!-- SLIDE 2: THE PROBLEM -->
+<div class="slide">
+  <div class="slide-label">The Problem</div>
+  <div class="slide-title">
+    Vague Ideas<br>
+    <span class="highlight-red">Don't Ship.</span>
+  </div>
+  <div class="slide-subtitle" style="font-size: 22px; margin-bottom: 28px;">
+    Starting points that aren't actionable yet.
+  </div>
+
+  <div class="card" style="border-left: 4px solid var(--accent-amber); padding: 28px; margin-bottom: 16px;">
+    <div style="font-size: 15px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-amber); margin-bottom: 16px;">Starting Points</div>
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+      <div style="display: flex; align-items: flex-start; gap: 16px;">
+        <div style="font-size: 24px; flex-shrink: 0;">&#129300;</div>
+        <div>
+          <div style="font-size: 20px; font-weight: 700;">"Search recall is 37.5%"</div>
+          <div style="font-size: 18px; color: var(--text-secondary); margin-top: 4px;">Exact identifiers and API names get lost in embedding space. But what's the fix?</div>
+        </div>
+      </div>
+      <div style="display: flex; align-items: flex-start; gap: 16px;">
+        <div style="font-size: 24px; flex-shrink: 0;">&#129300;</div>
+        <div>
+          <div style="font-size: 20px; font-weight: 700;">"Knowledge should have a lifecycle"</div>
+          <div style="font-size: 18px; color: var(--text-secondary); margin-top: 4px;">Entries shouldn't live forever at the same priority. But how should they decay?</div>
+        </div>
+      </div>
+      <div style="display: flex; align-items: flex-start; gap: 16px;">
+        <div style="font-size: 24px; flex-shrink: 0;">&#129300;</div>
+        <div>
+          <div style="font-size: 20px; font-weight: 700;">"The retriever is a monolith"</div>
+          <div style="font-size: 18px; color: var(--text-secondary); margin-top: 4px;">Can't swap components or benchmark alternatives without rewriting everything.</div>
+        </div>
+      </div>
+      <div style="display: flex; align-items: flex-start; gap: 16px;">
+        <div style="font-size: 24px; flex-shrink: 0;">&#129300;</div>
+        <div>
+          <div style="font-size: 20px; font-weight: 700;">"Agents need session history"</div>
+          <div style="font-size: 18px; color: var(--text-secondary); margin-top: 4px;">Conversations vanish after each session. But how do you store them without polluting the knowledge base?</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight-box">
+    <p>These are directions, not tasks. Jumping straight to code from here means rewriting things three times. The gap between "vague idea" and "actionable issue board" is where the real work happens.</p>
+  </div>
+
+  <div class="flex-grow"></div>
+  <div class="author-tag">Lim Chun Zhe</div>
+  <div class="slide-number">02 / 09</div>
+</div>
+
+<!-- SLIDE 3: LAYER 1 OVERVIEW -->
+<div class="slide">
+  <div class="slide-label" style="color: var(--accent-cyan);">Layer 1: The Creative Phase</div>
+  <div class="slide-title" style="margin-bottom: 20px;">
+    Explore. Design.<br>
+    <span class="highlight-cyan">Structure.</span>
+  </div>
+  <div class="slide-subtitle" style="font-size: 24px; margin-bottom: 28px;">
+    This is where I learn. Trade-offs, judgment calls, and decisions that Claude can't make alone.
+  </div>
+
+  <!-- Flow -->
+  <div style="display: flex; flex-direction: column; gap: 10px;">
+    <div class="flow-step" style="border-left: 4px solid var(--accent-amber);">
+      <div style="font-size: 28px;">&#129300;</div>
+      <div>
+        <div style="font-size: 20px; font-weight: 700;">Explore the Problem</div>
+        <div style="font-size: 17px; color: var(--text-secondary);">Brainstorm approaches with Claude. Pull in latest research. Compare alternatives.</div>
+      </div>
+    </div>
+    <div class="flow-arrow">&#8595;</div>
+    <div class="flow-step" style="border-left: 4px solid var(--accent-blue);">
+      <div style="font-size: 28px;">&#128196;</div>
+      <div>
+        <div style="font-size: 20px; font-weight: 700;">Write the RFC</div>
+        <div style="font-size: 17px; color: var(--text-secondary);">Document the chosen approach. Decisions, trade-offs, rejected alternatives.</div>
+      </div>
+    </div>
+    <div class="flow-arrow">&#8595;</div>
+    <div class="flow-step" style="border-left: 4px solid var(--accent-purple);">
+      <div style="font-size: 28px;">&#128269;</div>
+      <div>
+        <div style="font-size: 20px; font-weight: 700;">5-Persona Review on the Design</div>
+        <div style="font-size: 17px; color: var(--text-secondary);">SWE, PM, QA + dynamic reviewers validate the spec before any code.</div>
+      </div>
+    </div>
+    <div class="flow-arrow">&#8595;</div>
+    <div class="flow-step" style="border-left: 4px solid var(--accent-green);">
+      <div style="font-size: 28px;">&#9989;</div>
+      <div>
+        <div style="font-size: 20px; font-weight: 700;">Generate Structured Issues</div>
+        <div style="font-size: 17px; color: var(--text-secondary);">Dependency graphs, phases, acceptance criteria, tracking issues.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="warning-box" style="margin-top: 20px;">
+    <p>The AI landscape moves fast. Claude can surface approaches I hadn't considered and challenge assumptions I'd been carrying. Hard to do manually when the field shifts every few weeks.</p>
+  </div>
+
+  <div class="flex-grow"></div>
+  <div class="author-tag">Lim Chun Zhe</div>
+  <div class="slide-number">03 / 09</div>
+</div>
+
+<!-- SLIDE 4: REAL EXAMPLE - TIERED KNOWLEDGE -->
+<div class="slide">
+  <div class="slide-label" style="color: var(--accent-cyan);">Layer 1 in Action</div>
+  <div class="slide-title" style="font-size: 54px; margin-bottom: 20px;">
+    "Knowledge Should<br>
+    <span class="highlight-amber">Have a Lifecycle"</span>
+  </div>
+  <div class="slide-subtitle" style="font-size: 20px; margin-bottom: 24px;">
+    From a vague direction to a complete design.
+  </div>
+
+  <!-- Exploration cards -->
+  <div style="font-size: 15px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-cyan); margin-bottom: 16px;">Three Approaches Explored</div>
+
+  <div style="display: flex; gap: 16px; margin-bottom: 20px;">
+    <div style="flex: 1; background: var(--bg-card); border: 1px solid var(--border); border-top: 4px solid var(--text-muted); border-radius: 16px; padding: 20px;">
+      <div style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">A: Score-Based Decay</div>
+      <div style="font-size: 16px; color: var(--text-secondary); line-height: 1.6;">Fixed thresholds. Simple. But no way to promote knowledge that becomes relevant again.</div>
+      <div style="font-size: 15px; color: var(--accent-red); font-weight: 600; margin-top: 8px;">Rejected: too rigid</div>
+    </div>
+    <div style="flex: 1; background: var(--bg-card); border: 1px solid var(--border); border-top: 4px solid var(--text-muted); border-radius: 16px; padding: 20px;">
+      <div style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">B: Usage-Driven Tiering</div>
+      <div style="font-size: 16px; color: var(--text-secondary); line-height: 1.6;">Promotion paths based on access. Flexible. But no decay for unused entries.</div>
+      <div style="font-size: 15px; color: var(--accent-red); font-weight: 600; margin-top: 8px;">Rejected: no forgetting</div>
+    </div>
+    <div style="flex: 1; background: var(--bg-card); border: 1px solid var(--border); border-top: 4px solid var(--accent-green); border-radius: 16px; padding: 20px;">
+      <div style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">C: Hybrid + Policies</div>
+      <div style="font-size: 16px; color: var(--text-secondary); line-height: 1.6;">Composite scoring with configurable forgetting. Both decay and promotion.</div>
+      <div style="font-size: 15px; color: var(--accent-green); font-weight: 600; margin-top: 8px;">Selected: best of both</div>
+    </div>
+  </div>
+
+  <!-- What the design produced -->
+  <div class="card" style="border-left: 4px solid var(--accent-green); padding: 24px;">
+    <div style="font-size: 15px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-green); margin-bottom: 12px;">The RFC Defined</div>
+    <div style="font-size: 18px; color: var(--text-secondary); line-height: 1.8;">
+      &#8226; 5 memory types (Structural, Decisional, Episodic, Analytical, Procedural)<br>
+      &#8226; 4-tier lifecycle (Hot &rarr; Warm &rarr; Cold &rarr; Forgotten)<br>
+      &#8226; Composite retention scoring with hysteresis to prevent oscillation<br>
+      &#8226; Configurable forgetting policies per scope and type
+    </div>
+  </div>
+
+  <div class="flex-grow"></div>
+  <div class="author-tag">Lim Chun Zhe</div>
+  <div class="slide-number">04 / 09</div>
+</div>
+
+<!-- SLIDE 5: WHAT CAME OUT - ISSUE BOARD -->
+<div class="slide">
+  <div class="slide-label" style="color: var(--accent-cyan);">Layer 1 Output</div>
+  <div class="slide-title" style="font-size: 52px; margin-bottom: 20px;">
+    1 RFC Became<br>
+    <span class="highlight-green">13 Structured Issues</span>
+  </div>
+  <div class="slide-subtitle" style="font-size: 20px; margin-bottom: 24px;">
+    Not vague TODOs. Each issue has Rust trait definitions, acceptance criteria, and dependency links.
+  </div>
+
+  <!-- Dependency DAG visualization -->
+  <div style="background: #0d1117; border: 1px solid #30363d; border-radius: 12px; padding: 24px; font-family: 'JetBrains Mono', monospace; font-size: 16px; line-height: 1.8; margin-bottom: 20px;">
+    <div style="color: var(--accent-amber); font-weight: 700; margin-bottom: 8px;">Dependency Graph <span style="font-weight: 400; color: var(--text-muted);">(key dependencies)</span></div>
+    <div style="color: var(--text-secondary);">
+      <span style="color: var(--accent-green);">#14</span> Schema Foundation<br>
+      &nbsp;&nbsp;&#9492;&#9472; <span style="color: var(--accent-blue);">#15</span> Retention Scoring<br>
+      &nbsp;&nbsp;&#9492;&#9472; <span style="color: var(--accent-blue);">#16</span> Access Tracking &rarr; <span style="color: var(--accent-blue);">#22</span> Tier-Aware Retrieval<br>
+      &nbsp;&nbsp;&#9492;&#9472; <span style="color: var(--accent-red);">#17</span> ArcSwap HNSW <span style="color: var(--accent-red); font-size: 15px;">HIGH RISK</span> &rarr; <span style="color: var(--accent-blue);">#21</span> Cold Search<br>
+      &nbsp;&nbsp;&#9492;&#9472; <span style="color: var(--accent-blue);">#18</span> Forgetting Config<br>
+      &nbsp;&nbsp;&#9492;&#9472; <span style="color: var(--accent-blue);">#26</span> PostgresStore Migration<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#9492;&#9472; <span style="color: var(--accent-red);">#19</span> GC Worker <span style="color: var(--accent-red); font-size: 15px;">HIGH RISK</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#9492;&#9472; <span style="color: var(--accent-purple);">#20</span> GC Safeguards<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#9492;&#9472; <span style="color: var(--accent-purple);">#23</span> Observability &rarr; <span style="color: var(--accent-purple);">#24</span> <span style="color: var(--accent-purple);">#25</span>
+    </div>
+  </div>
+
+  <!-- Stats row -->
+  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+    <div class="stat-box" style="padding: 20px;">
+      <div style="font-size: 40px; font-weight: 800; color: var(--accent-green);">13</div>
+      <div style="font-size: 16px; color: var(--text-secondary); margin-top: 4px;">Issues created</div>
+    </div>
+    <div class="stat-box" style="padding: 20px;">
+      <div style="font-size: 40px; font-weight: 800; color: var(--accent-amber);">5</div>
+      <div style="font-size: 16px; color: var(--text-secondary); margin-top: 4px;">Phases</div>
+    </div>
+    <div class="stat-box" style="padding: 20px;">
+      <div style="font-size: 40px; font-weight: 800; color: var(--accent-red);">2</div>
+      <div style="font-size: 16px; color: var(--text-secondary); margin-top: 4px;">High-risk flagged</div>
+    </div>
+  </div>
+
+  <div class="insight-box">
+    <p>Every issue has a prompt with specific Rust types to implement, files to modify, and test expectations. The tracking issue has the full dependency graph. This came from the design review, not manual planning.</p>
+  </div>
+
+  <div class="flex-grow"></div>
+  <div class="author-tag">Lim Chun Zhe</div>
+  <div class="slide-number">05 / 09</div>
+</div>
+
+<!-- SLIDE 6: KNOWLEDGE PERSISTENCE -->
+<div class="slide">
+  <div class="slide-label" style="color: var(--accent-purple);">Research That Compounds</div>
+  <div class="slide-title" style="margin-bottom: 20px;">
+    Nothing Gets<br>
+    <span class="highlight-purple">Lost Between Sessions</span>
+  </div>
+  <div class="slide-subtitle" style="font-size: 20px; margin-bottom: 28px;">
+    Every brainstorm, every decision, every rejected alternative gets persisted. When I revisit a topic, I see what I explored before and what changed since.
+  </div>
+
+  <div style="display: flex; gap: 20px; margin-bottom: 20px;">
+    <div style="flex: 1; background: var(--bg-card); border: 1px solid var(--border); border-top: 4px solid var(--accent-red); border-radius: 16px; padding: 24px;">
+      <div style="font-size: 28px; margin-bottom: 10px;">&#10060;</div>
+      <div style="font-size: 20px; font-weight: 800; color: var(--accent-red); margin-bottom: 12px;">Without Persistence</div>
+      <div style="font-size: 17px; color: var(--text-secondary); line-height: 1.8;">
+        &#8226; Re-explore the same topic from scratch<br>
+        &#8226; Forget why an approach was rejected<br>
+        &#8226; Miss when the landscape changed<br>
+        &#8226; Knowledge evaporates between sessions
+      </div>
+    </div>
+    <div style="flex: 1; background: var(--bg-card); border: 1px solid var(--border); border-top: 4px solid var(--accent-green); border-radius: 16px; padding: 24px;">
+      <div style="font-size: 28px; margin-bottom: 10px;">&#9989;</div>
+      <div style="font-size: 20px; font-weight: 800; color: var(--accent-green); margin-bottom: 12px;">With Persistent Memory</div>
+      <div style="font-size: 17px; color: var(--text-secondary); line-height: 1.8;">
+        &#8226; See what was explored before<br>
+        &#8226; Understand why decisions were made<br>
+        &#8226; Track what changed since last visit<br>
+        &#8226; Knowledge compounds over time
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="border-left: 4px solid var(--accent-purple); padding: 24px;">
+    <div style="font-size: 15px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-purple); margin-bottom: 12px;">How It Works</div>
+    <div style="font-size: 18px; color: var(--text-secondary); line-height: 1.7;">
+      I use corvia (the project I'm building) to persist all research. Claude queries the knowledge base at the start of every session. Prior decisions, rejected alternatives, and design rationale are all searchable.
+    </div>
+  </div>
+
+  <div class="insight-box">
+    <p style="font-size: 18px;">When I revisited the retrieval pipeline three weeks after the initial design, corvia surfaced what I'd already explored and what had changed. The exploration picked up where it left off instead of starting from scratch.</p>
+  </div>
+
+  <div class="flex-grow"></div>
+  <div class="author-tag">Lim Chun Zhe</div>
+  <div class="slide-number">06 / 09</div>
+</div>
+
+<!-- SLIDE 7: LAYER 2 - DEV LOOP -->
+<div class="slide">
+  <div class="slide-label" style="color: var(--accent-green);">Layer 2: Autonomous Execution</div>
+  <div class="slide-title" style="font-size: 54px; margin-bottom: 20px;">
+    Issue In.<br>
+    <span class="highlight-green">Merged PR Out.</span>
+  </div>
+  <div class="slide-subtitle" style="font-size: 20px; margin-bottom: 16px;">
+    I type <span style="font-family: 'JetBrains Mono', monospace; background: #0d1117; padding: 4px 10px; border-radius: 6px; font-size: 18px; color: var(--accent-green);">/dev-loop 14</span> and it runs autonomously. The dev-loop is a skill file that Claude Code reads. It orchestrates the full pipeline.
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 8px;">
+    <div class="flow-step" style="border-left: 4px solid var(--accent-blue);">
+      <div style="font-size: 22px;">&#128196;</div>
+      <div style="flex: 1;">
+        <div style="font-size: 18px; font-weight: 700;">Fetch Issue + Context</div>
+        <div style="font-size: 16px; color: var(--text-secondary);">Pull GitHub issue, query knowledge base for prior decisions</div>
+      </div>
+    </div>
+    <div class="flow-arrow">&#8595;</div>
+    <div class="flow-step" style="border-left: 4px solid var(--accent-amber);">
+      <div style="font-size: 22px;">&#9989;</div>
+      <div style="flex: 1;">
+        <div style="font-size: 18px; font-weight: 700;">Validate Design</div>
+        <div style="font-size: 16px; color: var(--text-secondary);">Usually confirms "well-defined, proceeding." Acts as a safety gate.</div>
+      </div>
+    </div>
+    <div class="flow-arrow">&#8595;</div>
+    <div class="flow-step" style="border-left: 4px solid var(--accent-cyan);">
+      <div style="font-size: 22px;">&#128221;</div>
+      <div style="flex: 1;">
+        <div style="font-size: 18px; font-weight: 700;">Plan + Implement</div>
+        <div style="font-size: 16px; color: var(--text-secondary);">Break into tasks, implement with subagents, commit after each task</div>
+      </div>
+    </div>
+    <div class="flow-arrow">&#8595;</div>
+    <div class="flow-step" style="border-left: 4px solid var(--accent-purple);">
+      <div style="font-size: 22px;">&#128269;</div>
+      <div style="flex: 1;">
+        <div style="font-size: 18px; font-weight: 700;">5-Persona Review on Code</div>
+        <div style="font-size: 16px; color: var(--text-secondary);">Same review system from previous post. Fix loop until clean.</div>
+      </div>
+    </div>
+    <div class="flow-arrow">&#8595;</div>
+    <div class="flow-step" style="border-left: 4px solid var(--accent-green);">
+      <div style="font-size: 22px;">&#128640;</div>
+      <div style="flex: 1;">
+        <div style="font-size: 18px; font-weight: 700;">E2E Test + PR + Merge</div>
+        <div style="font-size: 16px; color: var(--text-secondary);">Integration tests, happy path, edge cases, then open and merge PR</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight-box" style="margin-top: 16px;">
+    <p>The skill file orchestrates other skills: brainstorming, plan writing, subagent-driven development. When Layer 1 is solid, the brainstorm phase becomes a quick validation, not a creative session.</p>
+  </div>
+
+  <div class="flex-grow"></div>
+  <div class="author-tag">Lim Chun Zhe</div>
+  <div class="slide-number">07 / 09</div>
+</div>
+
+<!-- SLIDE 8: THE RESULTS -->
+<div class="slide">
+  <div class="slide-label">The Results</div>
+  <div class="slide-title" style="margin-bottom: 20px;">
+    13 Issues.<br>
+    <span class="highlight-green">13 PRs Merged.</span>
+  </div>
+  <div class="slide-subtitle" style="font-size: 20px; margin-bottom: 24px;">
+    The tiered knowledge feature went from RFC to fully shipped through this two-layer system.
+  </div>
+
+  <!-- Stats -->
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px;">
+    <div class="stat-box">
+      <div style="font-size: 48px; font-weight: 800; color: var(--accent-blue);">1</div>
+      <div style="font-size: 18px; font-weight: 500; color: var(--text-secondary); margin-top: 8px;">RFC written</div>
+    </div>
+    <div class="stat-box">
+      <div style="font-size: 48px; font-weight: 800; color: var(--accent-amber);">13</div>
+      <div style="font-size: 18px; font-weight: 500; color: var(--text-secondary); margin-top: 8px;">Issues generated</div>
+    </div>
+    <div class="stat-box">
+      <div style="font-size: 48px; font-weight: 800; color: var(--accent-green);">13</div>
+      <div style="font-size: 18px; font-weight: 500; color: var(--text-secondary); margin-top: 8px;">PRs merged</div>
+    </div>
+    <div class="stat-box">
+      <div style="font-size: 48px; font-weight: 800; color: var(--accent-purple);">0</div>
+      <div style="font-size: 18px; font-weight: 500; color: var(--text-secondary); margin-top: 8px;">Design rewrites</div>
+    </div>
+  </div>
+
+  <!-- Second example -->
+  <div class="card" style="border-left: 4px solid var(--accent-cyan); padding: 24px;">
+    <div style="font-size: 15px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-cyan); margin-bottom: 12px;">Another Example: BM25 Hybrid Search</div>
+    <div style="font-size: 18px; color: var(--text-secondary); line-height: 1.7;">
+      "Recall is 37.5%" became 7 issues across 4 phases with measurable ship gates: Source Recall@5 > 50%, MRR > 0.60, p95 latency < 20ms. Parallel phases identified. Implementation not started yet. The board is ready.
+    </div>
+  </div>
+
+  <div class="insight-box">
+    <p>Zero rewrites because the design was validated before code existed. The 5-persona review caught flaws in the spec, not in the implementation.</p>
+  </div>
+
+  <div class="flex-grow"></div>
+  <div class="author-tag">Lim Chun Zhe</div>
+  <div class="slide-number">08 / 09</div>
+</div>
+
+<!-- SLIDE 9: TAKEAWAYS -->
+<div class="slide" style="background: linear-gradient(160deg, #0f172a 0%, #1a2332 50%, #0f172a 100%);">
+  <div class="slide-label">Key Takeaways</div>
+  <div class="slide-title" style="margin-bottom: 36px;">
+    What Actually<br>Matters
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 28px; margin-bottom: 40px;">
+    <div style="display: flex; align-items: flex-start; gap: 20px;">
+      <div style="font-size: 32px; flex-shrink: 0;">&#128161;</div>
+      <div>
+        <div style="font-size: 24px; font-weight: 700;">The thinking is the hard part</div>
+        <div style="font-size: 22px; color: var(--text-secondary); margin-top: 6px; line-height: 1.5;">
+          Layer 1 is where I learn. Exploring trade-offs, challenging assumptions, making judgment calls. The implementation is the easy part.
+        </div>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: flex-start; gap: 20px;">
+      <div style="font-size: 32px; flex-shrink: 0;">&#128200;</div>
+      <div>
+        <div style="font-size: 24px; font-weight: 700;">Design review prevents rewrites</div>
+        <div style="font-size: 22px; color: var(--text-secondary); margin-top: 6px; line-height: 1.5;">
+          Reviewing the RFC before coding is why 13 PRs merged with 0 rewrites. Catching a flaw in a spec costs minutes. In code, it costs hours.
+        </div>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: flex-start; gap: 20px;">
+      <div style="font-size: 32px; flex-shrink: 0;">&#128024;</div>
+      <div>
+        <div style="font-size: 24px; font-weight: 700;">Research compounds when persisted</div>
+        <div style="font-size: 22px; color: var(--text-secondary); margin-top: 6px; line-height: 1.5;">
+          Saving every brainstorm and rejected alternative means revisiting a topic is faster each time. Knowledge grows across sessions, not within them.
+        </div>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: flex-start; gap: 20px;">
+      <div style="font-size: 32px; flex-shrink: 0;">&#9889;</div>
+      <div>
+        <div style="font-size: 24px; font-weight: 700;">Well-defined issues execute themselves</div>
+        <div style="font-size: 22px; color: var(--text-secondary); margin-top: 6px; line-height: 1.5;">
+          When Layer 1 is thorough, Layer 2 is almost boring. The dev-loop validates, implements, reviews, and merges. That's the point.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div style="margin-top: 8px;">
+    <div style="font-size: 24px; font-weight: 600; color: var(--text-secondary);">
+      Do you have a structured exploration phase,<br>or do you jump straight to code?
+    </div>
+    <div style="font-size: 20px; color: var(--text-muted); margin-top: 8px;">
+      Genuinely curious how people structure the thinking before coding.
+    </div>
+  </div>
+
+  <div class="flex-grow"></div>
+  <div class="author-tag">Lim Chun Zhe</div>
+  <div class="slide-number">09 / 09</div>
+</div>
+
+</body>
+</html>

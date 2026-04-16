@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Carousel — Building Memory</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #1a1a2e;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    padding: 40px 20px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow-x: auto;
+  }
+
+  /* Scale down for narrow viewports (VS Code preview, small screens) */
+  @media (max-width: 1120px) {
+    .slide {
+      transform: scale(0.45);
+      transform-origin: top center;
+      margin-bottom: -740px; /* compensate for scaled whitespace */
+    }
+  }
+  @media (min-width: 1121px) and (max-width: 1400px) {
+    .slide {
+      transform: scale(0.7);
+      transform-origin: top center;
+      margin-bottom: -400px;
+    }
+  }
+
+  .slide {
+    width: 1080px;
+    height: 1350px;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .slide-inner {
+    width: 100%;
+    height: 100%;
+    padding: 72px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  :root {
+    --bg-dark:       #0f172a;
+    --bg-card:       #1e293b;
+    --bg-card-alt:   #334155;
+    --accent-blue:   #3b82f6;
+    --accent-cyan:   #06b6d4;
+    --accent-green:  #10b981;
+    --accent-amber:  #f59e0b;
+    --accent-red:    #ef4444;
+    --accent-purple: #8b5cf6;
+    --text-primary:  #f1f5f9;
+    --text-secondary:#94a3b8;
+    --text-muted:    #64748b;
+    --border:        #334155;
+  }
+
+  /* ── Shared ── */
+  .slide-label {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .slide-title {
+    font-size: 58px;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -1px;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+  }
+
+  .slide-subtitle {
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+  }
+
+  .hl-blue { color: var(--accent-blue); }
+  .hl-cyan { color: var(--accent-cyan); }
+  .hl-green { color: var(--accent-green); }
+  .hl-amber { color: var(--accent-amber); }
+  .hl-purple { color: var(--accent-purple); }
+  .hl-red { color: var(--accent-red); }
+
+  .footer {
+    position: absolute;
+    bottom: 48px;
+    left: 72px;
+    right: 72px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .tag {
+    display: inline-block;
+    font-size: 20px;
+    font-weight: 600;
+    padding: 8px 20px;
+    border-radius: 100px;
+    margin: 4px 6px 4px 0;
+  }
+
+  .card {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 32px;
+  }
+
+  .insight-box {
+    border-radius: 16px;
+    padding: 24px 28px;
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--text-primary);
+  }
+
+  .card-header {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .stat-value {
+    font-size: 56px;
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  .stat-label {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-top: 4px;
+  }
+
+  /* ════════════════════════════════════════════════════ */
+  /* SLIDE 1 — COVER                                    */
+  /* ════════════════════════════════════════════════════ */
+  .slide-1 {
+    background: linear-gradient(160deg, #0f172a 0%, #1a1a3e 50%, #0f172a 100%);
+  }
+  .slide-1 .slide-label { color: var(--accent-cyan); }
+  .slide-1 .cover-emoji { font-size: 80px; margin-bottom: 32px; }
+  .slide-1 .cover-title {
+    font-size: 66px;
+    font-weight: 800;
+    line-height: 1.12;
+    color: var(--text-primary);
+    margin-bottom: 28px;
+  }
+  .slide-1 .cover-subtitle {
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    margin-bottom: 40px;
+  }
+  .slide-1 .tags { display: flex; flex-wrap: wrap; gap: 10px; }
+  .slide-1 .tag-blue { background: rgba(59,130,246,0.15); color: var(--accent-blue); border: 1px solid rgba(59,130,246,0.3); }
+  .slide-1 .tag-cyan { background: rgba(6,182,212,0.15); color: var(--accent-cyan); border: 1px solid rgba(6,182,212,0.3); }
+  .slide-1 .tag-green { background: rgba(16,185,129,0.15); color: var(--accent-green); border: 1px solid rgba(16,185,129,0.3); }
+  .slide-1 .tag-amber { background: rgba(245,158,11,0.15); color: var(--accent-amber); border: 1px solid rgba(245,158,11,0.3); }
+  .slide-1 .tag-purple { background: rgba(139,92,246,0.15); color: var(--accent-purple); border: 1px solid rgba(139,92,246,0.3); }
+
+  /* ════════════════════════════════════════════════════ */
+  /* SLIDE 2 — THE WHY                                  */
+  /* ════════════════════════════════════════════════════ */
+  .slide-2 { background: var(--bg-dark); }
+  .slide-2 .slide-label { color: var(--accent-blue); }
+
+  .slide-2 .motivation-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 36px;
+  }
+  .slide-2 .motivation-item {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+  }
+  .slide-2 .motivation-item .m-icon { font-size: 32px; flex-shrink: 0; margin-top: 2px; }
+  .slide-2 .motivation-item .m-text {
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.5;
+  }
+
+  .slide-2 .distinction {
+    display: flex;
+    gap: 20px;
+  }
+  .slide-2 .distinction-card {
+    flex: 1;
+    min-width: 0;
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 32px;
+  }
+  .slide-2 .d-label {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .slide-2 .d-example {
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    font-style: italic;
+  }
+  .slide-2 .d-note {
+    font-size: 17px;
+    font-weight: 600;
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ════════════════════════════════════════════════════ */
+  /* SLIDE 3 — THE BOOTSTRAP                            */
+  /* ════════════════════════════════════════════════════ */
+  .slide-3 { background: var(--bg-dark); }
+  .slide-3 .slide-label { color: var(--accent-amber); }
+
+  .slide-3 .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 16px;
+  }
+  .slide-3 .timeline-item {
+    display: flex;
+    gap: 24px;
+    padding: 24px 0;
+  }
+  .slide-3 .timeline-marker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    width: 48px;
+  }
+  .slide-3 .timeline-dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .slide-3 .timeline-line {
+    width: 2px;
+    flex: 1;
+    min-height: 20px;
+    background: var(--border);
+  }
+  .slide-3 .timeline-content h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+  }
+  .slide-3 .timeline-content p {
+    font-size: 20px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  /* ════════════════════════════════════════════════════ */
+  /* SLIDE 4 — THE LOOP EVOLVED                         */
+  /* ════════════════════════════════════════════════════ */
+  .slide-4 { background: var(--bg-dark); }
+  .slide-4 .slide-label { color: var(--accent-green); }
+
+  .slide-4 .compare-cols {
+    display: flex;
+    gap: 28px;
+    margin-bottom: 24px;
+  }
+  .slide-4 .compare-col {
+    flex: 1;
+    min-width: 0;
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 36px 32px;
+  }
+  .slide-4 .compare-col h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 24px;
+  }
+  .slide-4 .step-item {
+    font-size: 22px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(51,65,85,0.5);
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  .slide-4 .step-item:last-child { border-bottom: none; }
+  .slide-4 .step-num {
+    font-size: 18px;
+    font-weight: 700;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: rgba(255,255,255,0.06);
+  }
+  .slide-4 .loop-insight {
+    background: rgba(16,185,129,0.08);
+    border: 1px solid rgba(16,185,129,0.25);
+    border-radius: 16px;
+    padding: 40px 40px;
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.6;
+  }
+
+  /* ════════════════════════════════════════════════════ */
+  /* SLIDE 5 — FIRST REAL TEST                          */
+  /* ════════════════════════════════════════════════════ */
+  .slide-5 { background: var(--bg-dark); }
+  .slide-5 .slide-label { color: var(--accent-purple); }
+
+  .slide-5 .story-content {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin-top: 16px;
+  }
+  .slide-5 .story-block {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 36px;
+    border-left: 4px solid;
+  }
+  .slide-5 .story-block h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+  }
+  .slide-5 .story-block p {
+    font-size: 22px;
+    color: var(--text-secondary);
+    line-height: 1.55;
+  }
+  .slide-5 .story-block .stat-inline {
+    font-size: 42px;
+    font-weight: 800;
+    margin: 16px 0 8px;
+  }
+
+  /* ════════════════════════════════════════════════════ */
+  /* SLIDE 6 — NUMBERS                                  */
+  /* ════════════════════════════════════════════════════ */
+  .slide-6 { background: var(--bg-dark); }
+  .slide-6 .slide-label { color: var(--accent-cyan); }
+
+  .slide-6 .stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    flex: 1;
+    align-content: center;
+  }
+  .slide-6 .stat-box {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 48px 28px;
+    text-align: center;
+  }
+
+  /* ════════════════════════════════════════════════════ */
+  /* SLIDE 7 — WHAT EXISTS TODAY (clean)                */
+  /* ════════════════════════════════════════════════════ */
+  .slide-7 { background: var(--bg-dark); }
+  .slide-7 .slide-label { color: var(--accent-green); }
+
+  .slide-7 .pillar-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 28px;
+  }
+  .slide-7 .pillar-card {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 32px;
+    border-top: 3px solid;
+  }
+  .slide-7 .pillar-card .p-icon { font-size: 32px; margin-bottom: 10px; }
+  .slide-7 .pillar-card h3 {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+  }
+  .slide-7 .pillar-card .p-features {
+    font-size: 18px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 14px;
+  }
+  .slide-7 .pillar-card .p-tagline {
+    font-size: 17px;
+    font-weight: 600;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    line-height: 1.4;
+  }
+
+  .slide-7 .arch-note {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 28px 32px;
+    display: flex;
+    gap: 32px;
+  }
+  .slide-7 .arch-item {
+    flex: 1;
+    min-width: 0;
+  }
+  .slide-7 .arch-item .arch-label {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  .slide-7 .arch-item .arch-desc {
+    font-size: 18px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  /* ════════════════════════════════════════════════════ */
+  /* SLIDE 8 — TAKEAWAY                                 */
+  /* ════════════════════════════════════════════════════ */
+  .slide-8 {
+    background: linear-gradient(160deg, #0f172a 0%, #1a2332 50%, #0f172a 100%);
+  }
+  .slide-8 .slide-label { color: var(--accent-amber); }
+
+  .slide-8 .takeaway-list {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    flex: 1;
+    justify-content: center;
+    padding: 16px 0;
+  }
+  .slide-8 .takeaway-item {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  .slide-8 .takeaway-item .tk-icon { font-size: 32px; flex-shrink: 0; margin-top: 2px; }
+  .slide-8 .takeaway-item h3 { font-size: 24px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
+  .slide-8 .takeaway-item p { font-size: 21px; font-weight: 400; color: var(--text-secondary); line-height: 1.5; }
+
+  .slide-8 .cta-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 12px 0 20px;
+  }
+  .slide-8 .cta { text-align: center; }
+  .slide-8 .cta p { font-size: 24px; font-weight: 600; color: var(--text-secondary); line-height: 1.5; }
+  .slide-8 .cta .small { font-size: 20px; font-weight: 500; color: var(--text-muted); margin-top: 8px; }
+
+  /* ════════════════════════════════════════════════════ */
+  /* SLIDE: THE GAP (inserted after slide 2)            */
+  /* ════════════════════════════════════════════════════ */
+  .slide-gap { background: var(--bg-dark); }
+  .slide-gap .slide-label { color: var(--accent-cyan); }
+
+  .slide-gap .gap-scenario {
+    display: flex;
+    gap: 28px;
+    margin-bottom: 28px;
+  }
+  .slide-gap .gap-card {
+    flex: 1;
+    min-width: 0;
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 32px;
+    border-top: 3px solid;
+  }
+  .slide-gap .gap-card h3 {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .slide-gap .gap-step {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(51,65,85,0.5);
+    font-size: 20px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+  .slide-gap .gap-step:last-child { border-bottom: none; }
+  .slide-gap .gap-step .gap-icon { font-size: 24px; flex-shrink: 0; }
+  .slide-gap .gap-insight {
+    background: rgba(6,182,212,0.08);
+    border: 1px solid rgba(6,182,212,0.25);
+    border-radius: 16px;
+    padding: 32px 36px;
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.6;
+  }
+
+  /* ════════════════════════════════════════════════════ */
+  /* SLIDE: STAYING ON EDGE (inserted after slide 5)    */
+  /* ════════════════════════════════════════════════════ */
+  .slide-wave { background: var(--bg-dark); }
+  .slide-wave .slide-label { color: var(--accent-amber); }
+
+  .slide-wave .wave-events {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 28px;
+  }
+  .slide-wave .wave-event {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 28px 32px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    border-left: 4px solid;
+  }
+  .slide-wave .wave-trigger {
+    flex: 1;
+    font-size: 19px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+  .slide-wave .wave-trigger strong {
+    color: var(--text-primary);
+    font-weight: 700;
+    display: block;
+    margin-bottom: 4px;
+    font-size: 21px;
+  }
+  .slide-wave .wave-arrow {
+    font-size: 28px;
+    flex-shrink: 0;
+  }
+  .slide-wave .wave-response {
+    flex: 1;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+  .slide-wave .wave-insight {
+    background: rgba(245,158,11,0.08);
+    border: 1px solid rgba(245,158,11,0.25);
+    border-radius: 16px;
+    padding: 32px 36px;
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 1 — COVER                                   -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide slide-1">
+  <div class="slide-inner">
+    <div class="slide-label">A Developer's Reflection</div>
+    <div class="cover-emoji">🪶</div>
+    <div class="cover-title">
+      I Built a Memory<br>
+      System for <span class="hl-cyan">AI Agents.</span><br>
+      It Started With<br>
+      <span class="hl-amber">Markdown Files.</span>
+    </div>
+    <div class="cover-subtitle">
+      30 days, 700+ commits, and the tool<br>
+      that learned to build itself.
+    </div>
+    <div class="tags">
+      <span class="tag tag-blue">Rust</span>
+      <span class="tag tag-cyan">Open Source</span>
+      <span class="tag tag-green">AI Memory</span>
+      <span class="tag tag-amber">MCP</span>
+      <span class="tag tag-purple">Building in Public</span>
+    </div>
+    <div class="footer">
+      <span>Lim Chun Zhe</span>
+      <span>1 / 10</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 2 — THE WHY                                 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide slide-2">
+  <div class="slide-inner">
+    <div class="slide-label">The Why</div>
+    <div class="slide-title">Why Build <span class="hl-blue">This</span>?</div>
+
+    <div class="motivation-list">
+      <div class="motivation-item">
+        <span class="m-icon">🧠</span>
+        <div class="m-text">Learn about generative AI firsthand. Not by reading. By building in it and feeling the impact directly.</div>
+      </div>
+      <div class="motivation-item">
+        <span class="m-icon">🧰</span>
+        <div class="m-text">Own my development tool. Every role change, I waste time rebuilding my environment. I wanted something portable.</div>
+      </div>
+      <div class="motivation-item">
+        <span class="m-icon">📂</span>
+        <div class="m-text">Build a portfolio that ships. Not a tutorial project. A real product I'd use every day.</div>
+      </div>
+    </div>
+
+    <div class="distinction">
+      <div class="distinction-card" style="border-top: 3px solid var(--text-muted);">
+        <div class="d-label" style="color: var(--text-muted);">Personal memory</div>
+        <div class="d-example">"use tabs not spaces in this project"</div>
+        <div class="d-note" style="color: var(--text-muted);">CLAUDE.md, Cursor rules, Copilot</div>
+      </div>
+      <div class="distinction-card" style="border-top: 3px solid var(--accent-cyan);">
+        <div class="d-label" style="color: var(--accent-cyan);">Organizational memory</div>
+        <div class="d-example">"auth was redesigned across 3 repos last month. Here are the trade-offs and what testing revealed."</div>
+        <div class="d-note" style="color: var(--accent-cyan);">corvia</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>Lim Chun Zhe</span>
+      <span>2 / 10</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 3 — THE GAP (illustrated)                   -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide slide-gap">
+  <div class="slide-inner">
+    <div class="slide-label">The Problem</div>
+    <div class="slide-title">What's <span class="hl-cyan">Missing</span></div>
+    <div class="slide-subtitle">Three agents. One codebase. Zero shared memory.</div>
+
+    <div class="gap-scenario">
+      <div class="gap-card" style="border-top-color: var(--text-muted);">
+        <h3 style="color: var(--text-muted);">Isolated</h3>
+        <div class="gap-step">
+          <span class="gap-icon">🤖</span>
+          <div>Agent A redesigns auth across 3 repos</div>
+        </div>
+        <div class="gap-step">
+          <span class="gap-icon">🤖</span>
+          <div>Agent B finds a side effect during testing</div>
+        </div>
+        <div class="gap-step">
+          <span class="gap-icon">❌</span>
+          <div><strong style="color: var(--text-primary);">Agent C starts next week. Knows nothing.</strong></div>
+        </div>
+      </div>
+      <div class="gap-card" style="border-top-color: var(--accent-cyan);">
+        <h3 style="color: var(--accent-cyan);">Connected</h3>
+        <div class="gap-step">
+          <span class="gap-icon">🤖</span>
+          <div>Agent A redesigns auth → <span class="hl-cyan">recorded</span></div>
+        </div>
+        <div class="gap-step">
+          <span class="gap-icon">🤖</span>
+          <div>Agent B finds side effect → <span class="hl-cyan">recorded</span></div>
+        </div>
+        <div class="gap-step">
+          <span class="gap-icon">✅</span>
+          <div><strong style="color: var(--text-primary);">Agent C queries first. Already knows both.</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="gap-insight">
+      That's the difference between personal memory and organizational memory. corvia builds the second layer.
+    </div>
+
+    <div class="footer">
+      <span>Lim Chun Zhe</span>
+      <span>3 / 10</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 4 — THE BOOTSTRAP                           -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide slide-3">
+  <div class="slide-inner">
+    <div class="slide-label">The Bootstrap</div>
+    <div class="slide-title">Day 1: <span class="hl-amber">No Tool Yet</span></div>
+    <div class="slide-subtitle">Building a memory system that can't remember anything. Yet.</div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-marker">
+          <div class="timeline-dot" style="background: var(--accent-amber);"></div>
+          <div class="timeline-line"></div>
+        </div>
+        <div class="timeline-content">
+          <h3>Markdown files</h3>
+          <p>Asked Claude to save every decision in a specific format. Brainstorms, trade-offs, architecture calls. All by hand. The plan: migrate it all once the tool is ready.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-marker">
+          <div class="timeline-dot" style="background: var(--accent-blue);"></div>
+          <div class="timeline-line"></div>
+        </div>
+        <div class="timeline-content">
+          <h3>Obra's superpowers plugin</h3>
+          <p>The brainstorming skill structured every design session. Explore, clarify, converge. This was the process from day 1. The rest came later.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-marker">
+          <div class="timeline-dot" style="background: var(--accent-green);"></div>
+          <div class="timeline-line"></div>
+        </div>
+        <div class="timeline-content">
+          <h3>First self-ingest</h3>
+          <p>corvia ingests its own decisions. The markdown files migrate in. Now the tool can search its own history. The loop starts forming.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-marker">
+          <div class="timeline-dot" style="background: var(--accent-purple);"></div>
+        </div>
+        <div class="timeline-content">
+          <h3>The loop gets better</h3>
+          <p>5-persona review, session history, agent coordination. The process and the product grew together.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>Lim Chun Zhe</span>
+      <span>4 / 10</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 4 — THE LOOP EVOLVED                        -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide slide-4">
+  <div class="slide-inner">
+    <div class="slide-label">The Process</div>
+    <div class="slide-title">The Loop <span class="hl-green">Evolved</span></div>
+    <div class="slide-subtitle">Day 1 vs. today.</div>
+
+    <div class="compare-cols">
+      <div class="compare-col" style="border-top: 3px solid var(--text-muted);">
+        <h3 style="color: var(--text-muted);">Week 1</h3>
+        <div class="step-item"><span class="step-num hl-amber">1</span> Brainstorm + Design</div>
+        <div class="step-item"><span class="step-num hl-amber">2</span> Build</div>
+        <div class="step-item"><span class="step-num hl-amber">3</span> Try to record decisions</div>
+        <div class="step-item" style="color: var(--text-muted); font-style: italic; border-bottom: none;">(some got missed)</div>
+      </div>
+      <div class="compare-col" style="border-top: 3px solid var(--accent-green);">
+        <h3 class="hl-green">Today</h3>
+        <div class="step-item"><span class="step-num hl-blue">1</span> Search what's decided</div>
+        <div class="step-item"><span class="step-num hl-purple">2</span> Brainstorm + Design</div>
+        <div class="step-item"><span class="step-num hl-amber">3</span> Build + Test</div>
+        <div class="step-item"><span class="step-num hl-green">4</span> 5-Persona Review</div>
+        <div class="step-item"><span class="step-num hl-cyan">5</span> Record into corvia</div>
+      </div>
+    </div>
+
+    <div class="loop-insight">
+      The process and the product co-evolved. Each capability added to corvia improved how the next one got built.
+    </div>
+
+    <div class="footer">
+      <span>Lim Chun Zhe</span>
+      <span>5 / 10</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 5 — FIRST REAL TEST + HONESTY               -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide slide-5">
+  <div class="slide-inner">
+    <div class="slide-label">The Real Test</div>
+    <div class="slide-title">Beyond <span class="hl-purple">Dogfooding</span></div>
+
+    <div class="story-content">
+      <div class="story-block" style="border-left-color: var(--accent-green);">
+        <h3>Interview take-home</h3>
+        <p>First time using corvia outside its own development. Structured decision recording. Querying past decisions before building. I didn't expect it to be ready.</p>
+        <div class="stat-inline hl-green">&lt; 24 hours</div>
+        <p>The methodology transferred. That was the moment it stopped being just a portfolio project.</p>
+      </div>
+
+      <div class="story-block" style="border-left-color: var(--accent-amber);">
+        <h3>The honest part</h3>
+        <p>Not everything shipped perfectly. A lot of recent features haven't been fully used yet. Agent teams, structural code intelligence, session history. Built and tested, but I'm still internalizing them.</p>
+        <p style="margin-top: 12px;">Getting hands-on with AI development is fundamentally different from reading about it. You have to feel it break, watch it recover, and build intuition from there.</p>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>Lim Chun Zhe</span>
+      <span>6 / 10</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 7 — STAYING ON EDGE                         -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide slide-wave">
+  <div class="slide-inner">
+    <div class="slide-label">The Mindset</div>
+    <div class="slide-title">Staying on <span class="hl-amber">Edge</span></div>
+    <div class="slide-subtitle">When the space moves, move with it.</div>
+
+    <div class="wave-events">
+      <div class="wave-event" style="border-left-color: var(--accent-green);">
+        <div class="wave-trigger"><strong>Claude ships memory, Agent Teams, session persistence</strong>Personal memory becomes table stakes.</div>
+        <div class="wave-arrow">→</div>
+        <div class="wave-response hl-green">Exciting, not threatening. The organizational layer is still open.</div>
+      </div>
+      <div class="wave-event" style="border-left-color: var(--accent-cyan);">
+        <div class="wave-trigger"><strong>Claude Agent Teams launches</strong>Teams of agents solving problems together.</div>
+        <div class="wave-arrow">→</div>
+        <div class="wave-response hl-cyan">Built an adapter. How can corvia capture what teams discover?</div>
+      </div>
+      <div class="wave-event" style="border-left-color: var(--accent-amber);">
+        <div class="wave-trigger"><strong>GitNexus shows structural intelligence</strong>Most codebases aren't started from scratch.</div>
+        <div class="wave-arrow">→</div>
+        <div class="wave-response hl-amber">Started building structural code analysis into corvia's adapter.</div>
+      </div>
+    </div>
+
+    <div class="wave-insight">
+      AI is moving fast. Grab every emerging capability and build on it. That's how you stay on edge.
+    </div>
+
+    <div class="footer">
+      <span>Lim Chun Zhe</span>
+      <span>7 / 10</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 8 — NUMBERS                                 -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide slide-6">
+  <div class="slide-inner">
+    <div class="slide-label">By the Numbers</div>
+    <div class="slide-title"><span class="hl-cyan">30 Days</span> of Building</div>
+    <div class="slide-subtitle">February 28 to March 29, 2026.</div>
+
+    <div class="stat-grid">
+      <div class="stat-box">
+        <div class="stat-value hl-blue">700+</div>
+        <div class="stat-label">Commits (both repos)</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value hl-green">12</div>
+        <div class="stat-label">Releases (v0.3.1 to v0.4.6)</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value hl-amber">1,100+</div>
+        <div class="stat-label">Tests passing</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value hl-purple">100+</div>
+        <div class="stat-label">Decisions recorded</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value hl-cyan">10</div>
+        <div class="stat-label">Rust crates in workspace</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value hl-red">21</div>
+        <div class="stat-label">MCP tools shipped</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>Lim Chun Zhe</span>
+      <span>8 / 10</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 7 — WHAT EXISTS TODAY (clean 4-pillar)      -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide slide-7">
+  <div class="slide-inner">
+    <div class="slide-label">Current State</div>
+    <div class="slide-title">What Exists <span class="hl-green">Today</span></div>
+    <div class="slide-subtitle">Four pillars. Sixteen capabilities.</div>
+
+    <div class="pillar-grid">
+      <div class="pillar-card" style="border-top-color: var(--accent-blue);">
+        <div class="p-icon">🔍</div>
+        <h3>Knowledge</h3>
+        <div class="p-features">Semantic search<br>Knowledge graph<br>Bi-temporal queries<br>Automated reasoning</div>
+        <div class="p-tagline hl-blue">What do we know? When did we know it?</div>
+      </div>
+      <div class="pillar-card" style="border-top-color: var(--accent-green);">
+        <div class="p-icon">🤝</div>
+        <h3>Agents</h3>
+        <div class="p-features">Multi-agent coordination<br>Crash recovery<br>Agent teams<br>Session history</div>
+        <div class="p-tagline hl-green">Multiple agents. No collisions. No data loss.</div>
+      </div>
+      <div class="pillar-card" style="border-top-color: var(--accent-amber);">
+        <div class="p-icon">⚡</div>
+        <h3>Infrastructure</h3>
+        <div class="p-features">GPU inference (CUDA + iGPU)<br>Built-in ONNX runtime<br>21 MCP tools<br>Adapter plugin system</div>
+        <div class="p-tagline hl-amber">Runs locally. Integrates via MCP.</div>
+      </div>
+      <div class="pillar-card" style="border-top-color: var(--accent-purple);">
+        <div class="p-icon">📊</div>
+        <h3>Observability</h3>
+        <div class="p-features">Web dashboard<br>OTEL traces<br>CLI metrics<br>Docs workflow</div>
+        <div class="p-tagline hl-purple">See what's happening inside.</div>
+      </div>
+    </div>
+
+    <div class="arch-note">
+      <div class="arch-item">
+        <div class="arch-label" style="color: var(--accent-cyan);">corvia</div>
+        <div class="arch-desc">The product. Kernel, server, CLI, adapters. 10 Rust crates.</div>
+      </div>
+      <div class="arch-item">
+        <div class="arch-label" style="color: var(--accent-amber);">corvia-workspace</div>
+        <div class="arch-desc">The lab. Wraps repos, holds the knowledge store, runs the devcontainer.</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>Lim Chun Zhe</span>
+      <span>9 / 10</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SLIDE 8 — TAKEAWAY                                -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="slide slide-8">
+  <div class="slide-inner">
+    <div class="slide-label">Key Takeaways</div>
+    <div class="slide-title">What I <span class="hl-amber">Learned</span></div>
+
+    <div class="takeaway-list">
+      <div class="takeaway-item">
+        <span class="tk-icon">🔁</span>
+        <div>
+          <h3>Dogfood as early as possible</h3>
+          <p>Race to self-host. The sooner the tool builds itself, the sooner the loop reveals what's actually needed.</p>
+        </div>
+      </div>
+      <div class="takeaway-item">
+        <span class="tk-icon">🖐️</span>
+        <div>
+          <h3>Hands-on beats reading</h3>
+          <p>You can't understand AI development from blog posts. You have to build, feel it break, and build intuition firsthand.</p>
+        </div>
+      </div>
+      <div class="takeaway-item">
+        <span class="tk-icon">🌊</span>
+        <div>
+          <h3>Grab every emerging capability</h3>
+          <p>Claude shipped Agent Teams. I built an adapter. GitNexus showed structural intelligence. I started building that too. AI moves fast. Ride the wave.</p>
+        </div>
+      </div>
+      <div class="takeaway-item">
+        <span class="tk-icon">🌐</span>
+        <div>
+          <h3>Personal memory is table stakes</h3>
+          <p>CLAUDE.md, Cursor rules, Copilot memory. What's still open is the organizational layer. Memory across repos, over time, between agents.</p>
+        </div>
+      </div>
+    </div>
+
+    <hr class="cta-divider">
+
+    <div class="cta">
+      <p>What's the messiest part of your AI development workflow?</p>
+      <p class="small">The part you'd fix if you had time.</p>
+      <p class="small" style="margin-top: 16px; color: var(--accent-cyan);">github.com/chunzhe10/corvia</p>
+    </div>
+
+    <div class="footer">
+      <span>Lim Chun Zhe</span>
+      <span>10 / 10</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

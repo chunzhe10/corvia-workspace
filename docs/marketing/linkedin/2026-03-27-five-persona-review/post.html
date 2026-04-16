@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LinkedIn Post - 5-Persona AI Code Review</title>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    max-width: 680px;
+    margin: 40px auto;
+    padding: 24px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #1a1a1a;
+    background: #fff;
+  }
+  .instructions {
+    background: #f0f4ff;
+    border: 1px solid #c0d0ff;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 24px;
+    font-size: 14px;
+    color: #445;
+  }
+  hr { border: none; border-top: 1px solid #ddd; margin: 24px 0; }
+  #post {
+    cursor: text;
+    white-space: pre-line;
+  }
+</style>
+</head>
+<body>
+
+<div class="instructions">
+  <strong>How to use:</strong> Select all text below the line, copy (Ctrl+C), and paste directly into LinkedIn's post editor. Line breaks will be preserved.
+</div>
+
+<hr>
+
+<div id="post">Six weeks ago I asked Claude to review its own code before committing. Just "review this diff." It caught some things. Missed others. The feedback was generic. The kind of review where everything is "looks good."
+
+So I gave it a role. Then split it into three independent subagents. Then five. Each iteration caught things the previous one couldn't.
+
+Here's where I've landed: every commit runs through five AI reviewers in parallel. Three are always present. A Senior SWE, a Product Manager, and a QA Engineer.
+
+The other two are created on the fly. Claude looks at which files changed, decides what expertise is needed, and spawns the right specialist reviewers. There's no fixed list. Touch auth code and you get a Security Engineer. Touch type definitions and you get a Rust Idiom reviewer. It invents the persona to match the domain.
+
+Each reviewer gets its own context window. They don't see each other's feedback. They cite specific file:line references with severity tags: Critical, Important, Low. The HNSW index rebuild review caught 2 criticals and 5 other issues in a single pass. The real output is on slide 6.
+
+The PM reviewer caught something no linter ever would: I'd fixed a blocking I/O problem in 2 of 7 call sites and was about to ship it as done. The PM flagged it as incomplete. That's not a code bug. That's a "you thought you were finished" bug.
+
+The reviews also run after the design phase, not just after code. A spec review caught that I was about to implement a feature in the wrong file entirely. Another generated 13 implementation issues from an RFC before any code existed. Slide 8 has the full breakdown.
+
+Out of 323 commits on this project, 42 are fixing things the reviewers caught. Roughly 1 in 8 commits exists because a reviewer flagged something I missed. It adds about 2 minutes to each commit. The system isn't perfect. Reviews are sometimes overcautious, and I cap it at three fix iterations. But the shift is real: the leverage isn't in writing code faster. It's in simulating the team dynamics that catch mistakes before they ship.
+
+What's the best bug your AI reviewer caught that you would have shipped? Curious what setups people have landed on.
+
+#AICodeReview #ClaudeCode #CodeQuality #DevWorkflow #SoloDev</div>
+
+</body>
+</html>
