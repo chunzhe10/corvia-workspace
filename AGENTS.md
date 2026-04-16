@@ -37,8 +37,8 @@ corvia workspace init-hooks      # Generate doc-placement hooks from config
 
 ## MCP Server (Dogfooding)
 
-This workspace uses corvia's own MCP server via **stdio** (not HTTP). It is
-configured in `.mcp.json` and started automatically by the devcontainer.
+This workspace uses corvia's own MCP server via **HTTP** (`http://127.0.0.1:8020/mcp`).
+It is configured in `.mcp.json` and auto-started by the devcontainer post-start sequence.
 
 Available MCP tools:
 - `corvia_search` — semantic search across ingested knowledge
@@ -305,5 +305,5 @@ For detailed build/test/architecture guidance, see:
 - **Language**: Rust workspace (cargo)
 - **Storage**: LiteStore (default, zero-Docker) — flat `.md` files in `.corvia/entries/`
 - **Embedding**: corvia-inference server at `http://127.0.0.1:8030` (default: nomic-embed-text-v1.5 768d; also supports all-MiniLM-L6-v2 384d)
-- **MCP transport**: stdio only (no HTTP server)
+- **MCP transport**: HTTP (`http://127.0.0.1:8020/mcp`), auto-started by devcontainer
 - **Config**: `corvia.toml` at workspace root

@@ -4,6 +4,7 @@ models/
 traces.jsonl
 version
 *.lock
+serve.log
 
 # Source-of-truth files are NOT ignored:
 # - corvia.toml (config)

@@ -31,21 +31,21 @@ fi
 # ── 3/5 ───────────────────────────────────────────────────────────────
 step "Starting corvia serve"
 if ! corvia serve --help >/dev/null 2>&1; then
-    fail_msg "corvia serve not supported by installed binary — skipping"
-elif bash -c 'echo > /dev/tcp/127.0.0.1/8020' 2>/dev/null; then
+    echo "    corvia serve: not supported by installed binary — skipping"
+elif bash -c ': > /dev/tcp/127.0.0.1/8020' 2>/dev/null; then
     echo "    already running on port 8020"
 else
     nohup corvia serve --port 8020 >> "$WORKSPACE_ROOT/.corvia/serve.log" 2>&1 &
+    _ready=0
     for i in 1 2 3 4 5; do
         sleep 1
-        if bash -c 'echo > /dev/tcp/127.0.0.1/8020' 2>/dev/null; then
-            done_msg
+        if bash -c ': > /dev/tcp/127.0.0.1/8020' 2>/dev/null; then
+            echo "    ready (${i}s)"
+            _ready=1
             break
         fi
     done
-    if ! bash -c 'echo > /dev/tcp/127.0.0.1/8020' 2>/dev/null; then
-        fail_msg "not responding after 5s — check .corvia/serve.log"
-    fi
+    [ "$_ready" -eq 0 ] && fail_msg "not responding after 5s — check .corvia/serve.log"
 fi
 
 # ── 4/5 ───────────────────────────────────────────────────────────────
