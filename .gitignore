@@ -1,17 +1,8 @@
 # Cloned repos (created by corvia workspace init)
 repos/corvia/
 
-# Derived data (rebuilt at runtime)
-.corvia/hnsw/
-.corvia/hnsw_index/
-.corvia/lite_store.redb
-.corvia/coordination.redb
-.corvia/coordination.redb.lock
-.corvia/staging/
-
-# Knowledge files are tracked — no source to re-ingest from
-# .corvia/knowledge/ is NOT ignored (except ephemeral scopes below)
-.corvia/knowledge/devcontainer-telemetry/
+# corvia data directory — derived data excluded via .corvia/.gitignore
+# entries/ and corvia.toml inside .corvia/ are trackable for team sharing.
 
 # Local working files (per-user, not shared)
 .local/
@@ -19,8 +10,6 @@ repos/corvia/
 .devcontainer/.task/
 .devcontainer/.task-telemetry/
 .devcontainer/docker-compose.override.yml
-.devcontainer/.port-manifest.json
-.devcontainer/.env
 
 # Claude Code local settings (session-specific permissions)
 .claude/settings.local.json

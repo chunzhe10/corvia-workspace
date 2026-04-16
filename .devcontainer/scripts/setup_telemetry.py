@@ -27,17 +27,6 @@ TELEMETRY_DIR = os.path.join(WORKSPACE, ".devcontainer/.task-telemetry")
 MAX_FILES = 20  # Retention: keep this many telemetry files
 
 
-def _mcp_url() -> str:
-    """Read API port from corvia.toml to support dynamic port mapping."""
-    try:
-        import tomllib
-        with open(os.path.join(WORKSPACE, "corvia.toml"), "rb") as f:
-            port = tomllib.load(f).get("server", {}).get("port", 8020)
-        return f"http://127.0.0.1:{port}/mcp"
-    except Exception:
-        return "http://127.0.0.1:8020/mcp"
-
-
 def _boot_id() -> str:
     try:
         with open("/proc/sys/kernel/random/boot_id") as f:
@@ -308,41 +297,15 @@ def _format_session_markdown(session: dict) -> str:
 
 
 def _mcp_write(content: str) -> bool:
-    """Write telemetry to corvia via MCP HTTP POST."""
-    payload = {
-        "jsonrpc": "2.0",
-        "id": 1,
-        "method": "tools/call",
-        "params": {
-            "name": "corvia_write",
-            "arguments": {
-                "content": content,
-                "scope_id": "devcontainer-telemetry",
-                "agent_id": "devcontainer-setup",
-                "content_role": "finding",
-                "source_origin": "workspace",
-            },
-        },
-    }
-
+    """Write telemetry to corvia via CLI subprocess."""
     try:
-        import urllib.request
-
-        req = urllib.request.Request(
-            _mcp_url(),
-            data=json.dumps(payload).encode(),
-            headers={"Content-Type": "application/json"},
-            method="POST",
+        result = subprocess.run(
+            ["corvia", "write", content, "--kind", "learning"],
+            capture_output=True, text=True, timeout=30,
+            cwd=os.environ.get("CORVIA_WORKSPACE", "/workspaces/corvia-workspace"),
         )
-        with urllib.request.urlopen(req, timeout=10) as resp:
-            body = json.loads(resp.read())
-            # Check for MCP error
-            if "error" in body:
-                print(f"    MCP error: {body['error']}", file=sys.stderr)
-                return False
-            return True
-    except Exception as e:
-        print(f"    MCP request failed: {e}", file=sys.stderr)
+        return result.returncode == 0
+    except (FileNotFoundError, subprocess.TimeoutExpired):
         return False
 
 
