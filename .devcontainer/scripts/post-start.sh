@@ -161,7 +161,7 @@ if [ ! -f "$SETTINGS_LOCAL" ] || ! python3 -c "import json; d=json.load(open('$S
 import json, os
 p = '$SETTINGS_LOCAL'
 d = json.load(open(p)) if os.path.exists(p) else {}
-d['enabledMcpjsonServers'] = ['corvia', 'playwright']
+d['enabledMcpjsonServers'] = ['corvia']
 json.dump(d, open(p, 'w'), indent=2)
 "
 else

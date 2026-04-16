@@ -223,7 +223,7 @@ tasks:
         import json, os
         p = '$SETTINGS_LOCAL'
         d = json.load(open(p)) if os.path.exists(p) else {}
-        d['enabledMcpjsonServers'] = ['corvia', 'playwright']
+        d['enabledMcpjsonServers'] = ['corvia']
         json.dump(d, open(p, 'w'), indent=2)
         "
         fi
