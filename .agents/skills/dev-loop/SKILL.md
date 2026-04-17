@@ -28,9 +28,9 @@ digraph dev_loop {
     plan [label="3. Plan\nsuperpowers:writing-plans\ntag [POC] tasks"];
     poc [label="4. POC [conditional]\n(subagent: sonnet)\nphases/POC.md"];
     implement [label="5. Implement (TDD)\nsuperpowers:subagent-driven-development\n+ superpowers:test-driven-development"];
-    review [label="6. Review (scaled)\n(subagent: sonnet)\nphases/REVIEW-DISPATCH.md"];
+    review [label="6. Review (scaled)\n(subagent: opus)\nphases/REVIEW-DISPATCH.md"];
     fix [label="7. Fix (debug-first)\nsuperpowers:systematic-debugging\n+ superpowers:receiving-code-review"];
-    e2e [label="8. E2E\n(subagent: sonnet)\nE2E-TESTER.md"];
+    e2e [label="8. E2E\n(subagent: opus)\nE2E-TESTER.md"];
     finish [label="9. Finish\nsuperpowers:finishing-a-development-branch"];
 
     intake -> brainstorm;
@@ -61,9 +61,9 @@ digraph dev_loop {
 | 3. Plan | `superpowers:writing-plans` | Main context | — |
 | 4. POC | `phases/POC.md` | Subagent (sonnet) | `finding` |
 | 5. Implement | `superpowers:subagent-driven-development` + `superpowers:test-driven-development` | Main context | `learning` |
-| 6. Review | `phases/REVIEW-DISPATCH.md` | Subagent (sonnet) | — |
+| 6. Review | `phases/REVIEW-DISPATCH.md` | Subagent (opus) | — |
 | 7. Fix | `superpowers:systematic-debugging` + `superpowers:receiving-code-review` | Main context | `learning` |
-| 8. E2E | `E2E-TESTER.md` + `superpowers:verification-before-completion` | Subagent (sonnet) | — |
+| 8. E2E | `E2E-TESTER.md` + `superpowers:verification-before-completion` | Subagent (opus) | — |
 | 9. Finish | `superpowers:finishing-a-development-branch` | Main context | `decision` |
 
 For knowledge store patterns and field values, see `phases/KNOWLEDGE.md`.
@@ -106,7 +106,7 @@ applies per task. Commit after each completed task.
 
 ### Phase 6: Review (Scaled)
 
-Dispatches a sonnet subagent using `phases/REVIEW-DISPATCH.md` which determines
+Dispatches an opus subagent using `phases/REVIEW-DISPATCH.md` which determines
 review tier by diff size:
 - < 50 lines → 2 reviewers (Senior SWE + QA)
 - 50-200 lines → 3 reviewers (+ PM)
