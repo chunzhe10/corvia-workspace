@@ -283,50 +283,9 @@ Best Known Methods for autonomous, long-running Claude Code sessions. Adapted fr
 10. Repeat or hand off
 ```
 
-### Multi-Persona Review Gate
-
-Every non-trivial change is reviewed through **five** independent lenses before commit.
-Three are standard; two are dynamic based on the task (see `dev-loop` skill for selection table):
-
-**Standard (always present):**
-- **Senior SWE**: Correctness, safety, idiomatic patterns, edge cases, performance
-- **Product Manager**: Goal alignment, UX coherence, milestone advancement, scope
-- **QA Engineer**: Test coverage, E2E verification, failure modes, regression risk
-
-**Dynamic (task-dependent, select two):**
-- Chosen based on issue labels and changed files (e.g., Security Engineer for auth work,
-  Performance Engineer for optimization, UX Designer for dashboard changes)
-
-Each reviewer MUST be a deep, independent subagent run — not a shallow one-liner.
-Reviews producing less than 10 lines of substantive feedback are invalid.
-
-### Error Recovery
-
-- **Never retry blindly** — diagnose root cause first
-- **Log every failure** in the session log with full context
-- **Fix forward** — address the underlying issue, not just the symptom
-- **Verify the fix** with a test that would have caught the original bug
-- **Record in corvia** so future sessions don't hit the same issue
-
 ### Parallelization
 
 - **Subagents for research** — delegate broad exploration to background agents
 - **Worktrees for isolation** — use git worktrees for parallel implementation work
 - **Max 3-4 concurrent** — quality over quantity
 - **Sequential phases produce files** — Research → Plan → Implement → Review → Verify
-
-### Context Guard
-
-- Delegate research to subagents (separate context windows)
-- Keep files modular (hundreds of lines, not thousands)
-- Compact proactively at ~70% context usage
-- Fresh sessions per unrelated task
-- Include only task-relevant context, not entire codebase docs
-
-### Safety Boundaries
-
-- Work on feature branches, never master directly
-- Auto-approve reads; confirm destructive writes
-- Run tests before AND after changes
-- Never force-push, never skip hooks
-- Use Docker for isolation when testing risky operations
