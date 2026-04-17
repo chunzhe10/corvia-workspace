@@ -61,20 +61,24 @@ tasks:
     cmds:
       - |
         source {{.SCRIPT_DIR}}/lib.sh
-        # 1. Capability guard — skip if binary doesn't support serve
+        # 1. Capability guard — fail loudly if binary lacks `serve`.
+        # Workspace requires HTTP MCP; stdio is deprecated here.
         if ! corvia serve --help >/dev/null 2>&1; then
-          logw services "corvia serve: not supported by installed binary — skipping"
-          exit 0
+          tag="$(cat /usr/local/share/corvia-release-tag 2>/dev/null || echo unknown)"
+          loge services "corvia serve: not supported by installed binary (tag=$tag)"
+          loge services "this workspace requires a serve-capable binary (corvia >= v1.0.2)"
+          loge services "remediation: task post-create:install-binary  (or rebuild devcontainer)"
+          exit 1
         fi
-        # 2. Already-running check — skip if port 8020 is already listening
+        # 2. Already-running check — idempotent: exit 0 if :8020 already listening.
         if bash -c ': > /dev/tcp/127.0.0.1/8020' 2>/dev/null; then
           logg services "corvia serve: already running on port 8020"
           exit 0
         fi
-        # 3. Start server in background
+        # 3. Start server in background.
         logg services "corvia serve: starting on port 8020"
         nohup corvia serve --port 8020 >> {{.WORKSPACE_ROOT}}/.corvia/serve.log 2>&1 &
-        # 4. Health probe — wait up to 5s for TCP connection
+        # 4. Health probe — 5s budget; hard-fail if TCP never opens.
         for i in 1 2 3 4 5; do
           sleep 1
           if bash -c ': > /dev/tcp/127.0.0.1/8020' 2>/dev/null; then
@@ -82,7 +86,8 @@ tasks:
             exit 0
           fi
         done
-        logw services "corvia serve: not responding after 5s — check .corvia/serve.log"
+        loge services "corvia serve: not responding after 5s — check .corvia/serve.log"
+        exit 1
 
   post-start:claude-integration:
     desc: "Install superpowers plugin"
