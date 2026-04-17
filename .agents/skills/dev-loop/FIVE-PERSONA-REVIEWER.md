@@ -1,4 +1,4 @@
-**Model:** sonnet
+**Model:** opus
 
 # {PERSONA_TITLE} Review
 

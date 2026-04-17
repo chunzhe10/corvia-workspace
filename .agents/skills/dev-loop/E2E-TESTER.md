@@ -1,4 +1,4 @@
-**Model:** sonnet
+**Model:** opus
 
 # E2E Integration Tester
 

@@ -1,6 +1,6 @@
 # Phase 6: Review Dispatch
 
-**Model:** sonnet
+**Model:** opus
 **Role:** Subagent — determine review tier, dispatch reviewers, collect results.
 
 ## Inputs
