@@ -22,6 +22,10 @@ logw() {
     local mod="$1"; shift
     printf '\033[33m[%s]\033[0m %s\n' "$mod" "$*"
 }
+loge() {
+    local mod="$1"; shift
+    printf '\033[31m[%s]\033[0m %s\n' "$mod" "$*" >&2
+}
 
 # Retry a command up to N times with exponential backoff.
 # Usage: retry <max_attempts> command args...
