@@ -31,7 +31,11 @@ fi
 # ── 3/5 ───────────────────────────────────────────────────────────────
 step "Starting corvia serve"
 if ! corvia serve --help >/dev/null 2>&1; then
-    echo "    corvia serve: not supported by installed binary — skipping"
+    _tag="$(cat /usr/local/share/corvia-release-tag 2>/dev/null || echo unknown)"
+    fail_msg "corvia serve: not supported by installed binary (tag=$_tag)"
+    fail_msg "this workspace requires a serve-capable binary (corvia >= v1.0.2)"
+    fail_msg "remediation: python3 .devcontainer/scripts/install_corvia.py  (or rebuild devcontainer)"
+    exit 1
 elif bash -c ': > /dev/tcp/127.0.0.1/8020' 2>/dev/null; then
     echo "    already running on port 8020"
 else
@@ -45,7 +49,10 @@ else
             break
         fi
     done
-    [ "$_ready" -eq 0 ] && fail_msg "not responding after 5s — check .corvia/serve.log"
+    if [ "$_ready" -eq 0 ]; then
+        fail_msg "corvia serve: not responding after 5s — check .corvia/serve.log"
+        exit 1
+    fi
 fi
 
 # ── 4/5 ───────────────────────────────────────────────────────────────
