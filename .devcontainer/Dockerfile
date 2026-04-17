@@ -127,8 +127,13 @@ RUN { curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg \
     && rm -rf /var/lib/apt/lists/*; } \
     || { rm -rf /var/lib/apt/lists/*; echo "WARNING: gh CLI install failed — will retry at runtime"; }
 
-RUN { npm install -g --silent @anthropic-ai/claude-code \
-    && npm install -g --silent @vscode/vsce; } \
+# Claude Code: native installer (npm path is deprecated upstream).
+# Installs to /root/.local/bin/claude with built-in auto-updates.
+RUN { curl -fsSL https://claude.ai/install.sh | bash; } \
+    || echo "WARNING: claude native install failed — will retry at runtime"
+ENV PATH="/root/.local/bin:${PATH}"
+
+RUN { npm install -g --silent @vscode/vsce; } \
     || echo "WARNING: npm global install failed — will retry at runtime"; \
     rm -rf /root/.npm
 
