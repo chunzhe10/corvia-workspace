@@ -229,7 +229,7 @@ New block (replace the whole block above with this):
         if ! corvia serve --help >/dev/null 2>&1; then
           tag="$(cat /usr/local/share/corvia-release-tag 2>/dev/null || echo unknown)"
           loge services "corvia serve: not supported by installed binary (tag=$tag)"
-          loge services "this workspace requires a serve-capable binary (corvia >= v1.0.2)"
+          loge services "this workspace requires a serve-capable binary (corvia >= v1.0.1)"
           loge services "remediation: task post-create:install-binary  (or rebuild devcontainer)"
           exit 1
         fi
@@ -272,7 +272,7 @@ cat /tmp/task.err
 
 Expected:
 - `exit=1`
-- stderr contains: `not supported by installed binary`, `requires a serve-capable binary (corvia >= v1.0.2)`, and `remediation:`.
+- stderr contains: `not supported by installed binary`, `requires a serve-capable binary (corvia >= v1.0.1)`, and `remediation:`.
 
 - [ ] **Step 5: Verify parse is clean**
 
@@ -352,7 +352,7 @@ step "Starting corvia serve"
 if ! corvia serve --help >/dev/null 2>&1; then
     _tag="$(cat /usr/local/share/corvia-release-tag 2>/dev/null || echo unknown)"
     fail_msg "corvia serve: not supported by installed binary (tag=$_tag)"
-    fail_msg "this workspace requires a serve-capable binary (corvia >= v1.0.2)"
+    fail_msg "this workspace requires a serve-capable binary (corvia >= v1.0.1)"
     fail_msg "remediation: python3 .devcontainer/scripts/install_corvia.py  (or rebuild devcontainer)"
     exit 1
 elif bash -c ': > /dev/tcp/127.0.0.1/8020' 2>/dev/null; then
@@ -412,7 +412,7 @@ WORKSPACE_ROOT=/tmp/fakews PATH="$TMPDIR:$PATH" bash -c '
   if ! corvia serve --help >/dev/null 2>&1; then
     _tag="$(cat /usr/local/share/corvia-release-tag 2>/dev/null || echo unknown)"
     fail_msg "corvia serve: not supported by installed binary (tag=$_tag)"
-    fail_msg "this workspace requires a serve-capable binary (corvia >= v1.0.2)"
+    fail_msg "this workspace requires a serve-capable binary (corvia >= v1.0.1)"
     fail_msg "remediation: python3 .devcontainer/scripts/install_corvia.py  (or rebuild devcontainer)"
     exit 1
   fi
@@ -423,7 +423,7 @@ cat /tmp/bash.err
 
 Expected:
 - `exit=1`
-- stderr contains: `not supported by installed binary`, `requires a serve-capable binary (corvia >= v1.0.2)`, and `remediation:`.
+- stderr contains: `not supported by installed binary`, `requires a serve-capable binary (corvia >= v1.0.1)`, and `remediation:`.
 
 - [ ] **Step 5: Commit**
 
@@ -562,10 +562,10 @@ esac
 EOF
 chmod +x "$TMPDIR/corvia"
 PATH="$TMPDIR:$PATH" task -t .devcontainer/Taskfile.yml post-start:corvia-serve 2>/tmp/final.err; echo "exit=$?"
-grep -E "v1.0.2|remediation" /tmp/final.err
+grep -E "v1.0.1|remediation" /tmp/final.err
 ```
 
-Expected: `exit=1` and the grep prints both the `v1.0.2` line and the `remediation:` line.
+Expected: `exit=1` and the grep prints both the `v1.0.1` line and the `remediation:` line.
 
 - [ ] **Step 5: Report branch state**
 
@@ -581,4 +581,4 @@ Expected: 4 new commits (Task 2, 3, 4, 5) plus the design-spec commit from brain
 ## Follow-ups (out of scope for this PR)
 
 - `README.md` contains the same stale `corvia workspace` references (lines 37, 38, 61, 67). Fix in a follow-up chore commit to keep this PR focused on the MCP access fix.
-- Cut corvia `v1.0.2` release so fresh devcontainer builds pick up a serve-capable binary (tracked by maintainer).
+- Cut corvia `v1.0.1` release so fresh devcontainer builds pick up a serve-capable binary (tracked by maintainer).

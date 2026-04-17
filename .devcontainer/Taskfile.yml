@@ -32,9 +32,11 @@ tasks:
       - cmd: "printf '\\033[1m=== Corvia Workspace: post-start ===\\033[0m\\n'"
       - task: post-start:auth
       - task: post-start:corvia-init
-      - task: post-start:corvia-serve
       - task: post-start:claude-integration
       - task: post-start:sweep
+      # corvia-serve runs last: hard-failure on missing `serve` subcommand
+      # must not prevent claude-integration + sweep from completing.
+      - task: post-start:corvia-serve
       - cmd: "printf '\\n\\033[1;32m✓ Ready.\\033[0m\\n'"
 
   post-start:auth:
@@ -66,27 +68,32 @@ tasks:
         if ! corvia serve --help >/dev/null 2>&1; then
           tag="$(cat /usr/local/share/corvia-release-tag 2>/dev/null || echo unknown)"
           loge services "corvia serve: not supported by installed binary (tag=$tag)"
-          loge services "this workspace requires a serve-capable binary (corvia >= v1.0.2)"
-          loge services "remediation: task post-create:install-binary  (or rebuild devcontainer)"
+          loge services "this workspace requires a serve-capable binary (corvia >= v1.0.1)"
+          loge services "remediation: python3 .devcontainer/scripts/install_corvia.py  (or rebuild devcontainer)"
           exit 1
         fi
-        # 2. Already-running check — idempotent: exit 0 if :8020 already listening.
-        if bash -c ': > /dev/tcp/127.0.0.1/8020' 2>/dev/null; then
+        # 2. Already-running check — probe /healthz, not raw TCP, so we confirm
+        # the running process is actually a healthy corvia serve.
+        if curl -sf --max-time 2 http://127.0.0.1:8020/healthz >/dev/null 2>&1; then
           logg services "corvia serve: already running on port 8020"
           exit 0
         fi
-        # 3. Start server in background.
+        # 3. Rotate log: keep one previous boot for post-mortem.
+        if [ -f {{.WORKSPACE_ROOT}}/.corvia/serve.log ]; then
+          mv -f {{.WORKSPACE_ROOT}}/.corvia/serve.log {{.WORKSPACE_ROOT}}/.corvia/serve.log.prev
+        fi
+        # 4. Start server in background.
         logg services "corvia serve: starting on port 8020"
-        nohup corvia serve --port 8020 >> {{.WORKSPACE_ROOT}}/.corvia/serve.log 2>&1 &
-        # 4. Health probe — 5s budget; hard-fail if TCP never opens.
+        nohup corvia serve --port 8020 > {{.WORKSPACE_ROOT}}/.corvia/serve.log 2>&1 &
+        # 5. Health probe — 5s budget; hard-fail if /healthz never answers.
         for i in 1 2 3 4 5; do
           sleep 1
-          if bash -c ': > /dev/tcp/127.0.0.1/8020' 2>/dev/null; then
+          if curl -sf --max-time 2 http://127.0.0.1:8020/healthz >/dev/null 2>&1; then
             logg services "corvia serve: ready (${i}s)"
             exit 0
           fi
         done
-        loge services "corvia serve: not responding after 5s — check .corvia/serve.log"
+        loge services "corvia serve: /healthz not responding after 5s — check .corvia/serve.log"
         exit 1
 
   post-start:claude-integration:
