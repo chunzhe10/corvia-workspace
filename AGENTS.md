@@ -27,12 +27,11 @@ corvia-workspace/
 ## Quick Reference
 
 ```bash
-corvia workspace status          # Check workspace + service health
+corvia status                   # Check indexed entries + recent traces
 corvia search "query"            # Search ingested knowledge
-corvia workspace ingest          # Index all repos
-corvia workspace ingest --fresh  # Re-index from scratch
+corvia ingest                   # Index the current workspace
+corvia ingest --fresh            # Re-index from scratch
 corvia serve &                   # Start server (auto-started by devcontainer)
-corvia workspace init-hooks      # Generate doc-placement hooks from config
 ```
 
 ## MCP Server (Dogfooding)
