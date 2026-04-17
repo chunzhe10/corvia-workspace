@@ -43,8 +43,8 @@ install_claude_plugin "https://github.com/obra/superpowers.git" superpowers clau
 # the steps above (superpowers install, cache sweep).
 step "Starting corvia serve"
 if ! corvia serve --help >/dev/null 2>&1; then
-    _tag="$(cat /usr/local/share/corvia-release-tag 2>/dev/null || echo unknown)"
-    fail_msg "corvia serve: not supported by installed binary (tag=$_tag)"
+    _tag="$(cat /usr/local/share/corvia-release-tag 2>/dev/null || true)"
+    fail_msg "corvia serve: not supported by installed binary (tag=${_tag:-unknown})"
     fail_msg "this workspace requires a serve-capable binary (corvia >= v1.0.1)"
     fail_msg "remediation: python3 .devcontainer/scripts/install_corvia.py  (or rebuild devcontainer)"
     exit 1
@@ -57,7 +57,8 @@ else
     fi
     nohup corvia serve --port 8020 > "$WORKSPACE_ROOT/.corvia/serve.log" 2>&1 &
     _ready=0
-    for i in 1 2 3 4 5; do
+    # 30s budget accommodates first-boot embedder download (~17s observed).
+    for i in $(seq 1 30); do
         sleep 1
         if curl -sf --max-time 2 http://127.0.0.1:8020/healthz >/dev/null 2>&1; then
             echo "    ready (${i}s)"
@@ -66,7 +67,7 @@ else
         fi
     done
     if [ "$_ready" -eq 0 ]; then
-        fail_msg "corvia serve: /healthz not responding after 5s — check .corvia/serve.log"
+        fail_msg "corvia serve: /healthz not responding after 30s — check .corvia/serve.log"
         exit 1
     fi
 fi

@@ -66,8 +66,8 @@ tasks:
         # 1. Capability guard — fail loudly if binary lacks `serve`.
         # Workspace requires HTTP MCP; stdio is deprecated here.
         if ! corvia serve --help >/dev/null 2>&1; then
-          tag="$(cat /usr/local/share/corvia-release-tag 2>/dev/null || echo unknown)"
-          loge services "corvia serve: not supported by installed binary (tag=$tag)"
+          tag="$(cat /usr/local/share/corvia-release-tag 2>/dev/null || true)"
+          loge services "corvia serve: not supported by installed binary (tag=${tag:-unknown})"
           loge services "this workspace requires a serve-capable binary (corvia >= v1.0.1)"
           loge services "remediation: python3 .devcontainer/scripts/install_corvia.py  (or rebuild devcontainer)"
           exit 1
@@ -85,15 +85,16 @@ tasks:
         # 4. Start server in background.
         logg services "corvia serve: starting on port 8020"
         nohup corvia serve --port 8020 > {{.WORKSPACE_ROOT}}/.corvia/serve.log 2>&1 &
-        # 5. Health probe — 5s budget; hard-fail if /healthz never answers.
-        for i in 1 2 3 4 5; do
+        # 5. Health probe — 30s budget accommodates first-boot embedder download
+        # (~17s observed for nomic-embed-text-v1.5). Hard-fail if /healthz never answers.
+        for i in $(seq 1 30); do
           sleep 1
           if curl -sf --max-time 2 http://127.0.0.1:8020/healthz >/dev/null 2>&1; then
             logg services "corvia serve: ready (${i}s)"
             exit 0
           fi
         done
-        loge services "corvia serve: /healthz not responding after 5s — check .corvia/serve.log"
+        loge services "corvia serve: /healthz not responding after 30s — check .corvia/serve.log"
         exit 1
 
   post-start:claude-integration:
