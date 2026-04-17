@@ -7,7 +7,7 @@
 > **Update (2026-04-17, post-review):** Corvia `v1.0.1` shipped during this work
 > — it already includes the `corvia serve` subcommand (PR #115) and a
 > `GET /healthz` endpoint (PR #116). Minimum required version is therefore
-> `v1.0.1`, not `v1.0.1`. The post-start probe uses `curl /healthz` instead
+> `v1.0.1`, not `v1.0.2` as originally planned. The post-start probe uses `curl /healthz` instead
 > of a raw TCP open for functional readiness. The `post-start:` task order
 > places `corvia-serve` last so a hard-failure on a pre-v1.0.1 binary does
 > not skip `claude-integration` or `sweep`.
