@@ -34,7 +34,6 @@ tasks:
       - task: post-start:corvia-init
       - task: post-start:corvia-serve
       - task: post-start:claude-integration
-      - task: post-start:ensure-extensions
       - task: post-start:sweep
       - cmd: "printf '\\n\\033[1;32m✓ Ready.\\033[0m\\n'"
 
@@ -94,26 +93,6 @@ tasks:
         install_claude_plugin "https://github.com/obra/superpowers.git" superpowers claude-plugins-official \
           || logw claude "superpowers: FAILED (check network)"
 
-  post-start:ensure-extensions:
-    desc: "Ensure VS Code extensions installed"
-    status:
-      - |
-        EXT_DIR="{{.WORKSPACE_ROOT}}/.devcontainer/extensions/corvia-services"
-        VERSION=$(python3 -c "import json; print(json.load(open('$EXT_DIR/package.json'))['version'])" 2>/dev/null || echo "0.0.0")
-        EXT_ID="corvia.corvia-services-$VERSION"
-        test -d "/root/.vscode-server/extensions/$EXT_ID" -o -d "/root/.vscode-server-insiders/extensions/$EXT_ID"
-    cmds:
-      - |
-        source {{.SCRIPT_DIR}}/lib.sh
-        EXT_DIR="{{.WORKSPACE_ROOT}}/.devcontainer/extensions/corvia-services"
-        VSIX=$(ls -t "$EXT_DIR"/*.vsix 2>/dev/null | head -1)
-        if [ -n "$VSIX" ]; then
-          logm vscode "extension: installing $(basename "$VSIX")"
-          install_vsix_direct "$VSIX"
-        else
-          logw vscode "extension: no .vsix found"
-        fi
-
   post-start:sweep:
     desc: "Sweep cargo cache if disk pressure"
     cmds:
@@ -131,7 +110,6 @@ tasks:
       - task: post-create:gh-auth
       - task: post-create:install-binary
       - task: post-create:corvia-init
-      - task: post-create:vscode-extensions
       - cmd: echo ""
       - cmd: 'echo "=== post-create complete ==="'
 
@@ -167,25 +145,3 @@ tasks:
       - cmd: 'source {{.SCRIPT_DIR}}/lib.sh && logg workspace "initializing"'
       - corvia init --yes
 
-  post-create:vscode-extensions:
-    desc: "Install VS Code extensions"
-    cmds:
-      - cmd: 'source {{.SCRIPT_DIR}}/lib.sh && logm vscode "installing extensions"'
-      - |
-        source {{.SCRIPT_DIR}}/lib.sh
-        EXT_DIR="{{.WORKSPACE_ROOT}}/.devcontainer/extensions/corvia-services"
-        VSIX="$EXT_DIR/corvia-services-$(python3 -c "import json; print(json.load(open('$EXT_DIR/package.json'))['version'])" 2>/dev/null || echo "0.0.0").vsix"
-        if [ -f "$VSIX" ]; then
-          install_vsix_direct "$VSIX"
-        elif [ -f "$EXT_DIR/package.json" ] && command -v vsce >/dev/null 2>&1; then
-          printf "    building extension"
-          if (cd "$EXT_DIR" && vsce package --no-dependencies) >/dev/null 2>&1; then
-            echo " done"
-            VSIX=$(ls -t "$EXT_DIR"/*.vsix 2>/dev/null | head -1)
-            [ -n "$VSIX" ] && install_vsix_direct "$VSIX"
-          else
-            echo " FAILED"
-          fi
-        else
-          echo "    no .vsix found — build with: cd $EXT_DIR && vsce package --no-dependencies"
-        fi
