@@ -34,9 +34,9 @@ pre-configured — services start automatically.
 ```bash
 git clone https://github.com/chunzhe10/corvia-workspace
 cd corvia-workspace
-corvia workspace init          # clones repos, sets up config
-corvia workspace ingest        # indexes all repos
-corvia serve &                 # start API + MCP server
+corvia init --yes              # initialize .corvia/ store
+corvia ingest                  # index the current workspace
+corvia serve &                 # start HTTP MCP server on :8020
 corvia search "how does chunking work"
 ```
 
@@ -58,11 +58,11 @@ no Ollama required.
 corvia search "IngestionAdapter"          # finds trait + implementation
 corvia search "how does embedding work"   # surfaces pipeline from kernel
 corvia search "tree-sitter chunking"      # finds adapter's AST parsing
-corvia workspace status                   # see workspace + service health
+corvia status                             # indexed entries + recent traces
 ```
 
 ## Fresh ingest
 
 ```bash
-corvia workspace ingest --fresh
+corvia ingest --fresh
 ```
