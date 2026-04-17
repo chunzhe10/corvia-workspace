@@ -24,7 +24,9 @@ For corvia usage patterns and the hybrid tool table, see AGENTS.md "Hybrid Tool 
 
 ## Known Workarounds
 
-**Server restart (corvia-dev):** Never use `corvia-dev restart` — orphans processes. Use: `corvia-dev down && sleep 3 && corvia-dev up --no-foreground`. Binary update: `cargo build` → down → `cp target/debug/corvia /usr/local/bin/corvia` → `echo "local-build" | sudo tee /usr/local/share/corvia-release-tag >/dev/null` → up.
+**Bricked by hooks:** If `corvia hooks run` fails and blocks all tools: `export CORVIA_HOOKS_DISABLED=1` (session bypass), or redownload: `gh release download --repo chunzhe10/corvia -p corvia-cli-linux-amd64 -D /tmp && cp /tmp/corvia-cli-linux-amd64 /usr/local/bin/corvia && chmod +x /usr/local/bin/corvia`.
+
+**Server restart (corvia-dev):** Never use `corvia-dev restart` — orphans processes. Use: `corvia-dev down && sleep 3 && pkill -9 -f "corvia serve" 2>/dev/null; corvia-dev up --no-foreground`. Binary update: `cargo build` → down → `cp target/debug/corvia /usr/local/bin/corvia` → `echo "local-build" | sudo tee /usr/local/share/corvia-release-tag >/dev/null` → up.
 
 **`corvia-dev rebuild`:** Triggers cmake/CUDA compilation — use `cargo build` (debug) + binary copy instead.
 
@@ -52,7 +54,7 @@ Default model: opus (set in `~/.claude/settings.json`).
 
 | Task type | Model |
 |-----------|-------|
-| Info gathering, corvia lookups, quick questions | `/model haiku` |
+| Standalone info queries, read-only exploration | `/model haiku` |
 | Routine coding, execution, refactoring | `/model sonnet` |
 | Design, review, debugging, E2E (default) | opus |
 
