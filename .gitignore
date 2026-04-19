@@ -4,6 +4,13 @@ repos/corvia/
 # corvia data directory — derived data excluded via .corvia/.gitignore
 # entries/ and corvia.toml inside .corvia/ are trackable for team sharing.
 
+# Stray .corvia/ stores created in subdirectories (defense-in-depth; the
+# trace-file path bug that spawned these was fixed in corvia CLI — see
+# crates/corvia-cli/src/main.rs:resolve_trace_path. These patterns keep any
+# future regression out of git until the root cause is caught again).
+.devcontainer/.corvia/
+tools/**/.corvia/
+
 # Local working files (per-user, not shared)
 .local/
 .devcontainer/.corvia-workspace-flags
